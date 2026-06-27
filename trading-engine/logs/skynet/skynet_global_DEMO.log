@@ -1,0 +1,1236 @@
+[2026-06-27 04:56:18] [1HZ10V] Authenticating to Deriv...
+[2026-06-27 04:56:19] [1HZ10V] Found Demo account: DOT92172514
+[2026-06-27 04:56:19] [1HZ10V] Connecting to authenticated WS...
+[2026-06-27 04:56:20] [1HZ10V] Connected.
+[2026-06-27 04:56:20] [1HZ10V] 🧠 Baixando buffer inicial de 1000 ticks...
+[2026-06-27 04:56:20] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 8, 7: 3, 8: 4, 9: 9}
+[2026-06-27 04:56:20] [1HZ10V] ✅ Buffer carregado.
+[2026-06-27 04:56:20] [1HZ10V] 📡 Oráculo Dinâmico (BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF) Online.
+[2026-06-27 04:56:20] [1HZ25V] Authenticating to Deriv...
+[2026-06-27 04:56:21] [1HZ25V] Found Demo account: DOT92172514
+[2026-06-27 04:56:21] [1HZ25V] Connecting to authenticated WS...
+[2026-06-27 04:56:22] [1HZ25V] Connected.
+[2026-06-27 04:56:22] [1HZ25V] 🧠 Baixando buffer inicial de 1000 ticks...
+[2026-06-27 04:56:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 4: 8, 5: 1, 9: 4}
+[2026-06-27 04:56:22] [1HZ25V] ✅ Buffer carregado.
+[2026-06-27 04:56:22] [1HZ25V] 📡 Oráculo Dinâmico (BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF) Online.
+[2026-06-27 04:56:22] [1HZ50V] Authenticating to Deriv...
+[2026-06-27 04:56:23] [1HZ50V] Found Demo account: DOT92172514
+[2026-06-27 04:56:23] [1HZ50V] Connecting to authenticated WS...
+[2026-06-27 04:56:24] [1HZ50V] Connected.
+[2026-06-27 04:56:24] [1HZ50V] 🧠 Baixando buffer inicial de 1000 ticks...
+[2026-06-27 04:56:24] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 3: 3, 4: 8, 5: 4, 6: 0, 8: 2}
+[2026-06-27 04:56:24] [1HZ50V] ✅ Buffer carregado.
+[2026-06-27 04:56:24] [1HZ50V] 📡 Oráculo Dinâmico (BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF) Online.
+[2026-06-27 04:56:24] [1HZ75V] Authenticating to Deriv...
+[2026-06-27 04:56:25] [1HZ75V] Found Demo account: DOT92172514
+[2026-06-27 04:56:25] [1HZ75V] Connecting to authenticated WS...
+[2026-06-27 04:56:26] [1HZ75V] Connected.
+[2026-06-27 04:56:26] [1HZ75V] 🧠 Baixando buffer inicial de 1000 ticks...
+[2026-06-27 04:56:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 5: 1, 6: 5, 7: 0, 8: 9, 9: 7}
+[2026-06-27 04:56:26] [1HZ75V] ✅ Buffer carregado.
+[2026-06-27 04:56:26] [1HZ75V] 📡 Oráculo Dinâmico (BOT_DEMO_1HZ75V_W1000_VL2_S3_DIGITDIFF) Online.
+[2026-06-27 04:56:26] [1HZ100V] Authenticating to Deriv...
+[2026-06-27 04:56:27] [1HZ100V] Found Demo account: DOT92172514
+[2026-06-27 04:56:27] [1HZ100V] Connecting to authenticated WS...
+[2026-06-27 04:56:27] [1HZ100V] Connected.
+[2026-06-27 04:56:27] [1HZ100V] 🧠 Baixando buffer inicial de 1000 ticks...
+[2026-06-27 04:56:28] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 6, 2: 9, 6: 5, 7: 6, 8: 9}
+[2026-06-27 04:56:28] [1HZ100V] ✅ Buffer carregado.
+[2026-06-27 04:56:28] [1HZ100V] 📡 Oráculo Dinâmico (BOT_DEMO_1HZ100V_W1000_VL2_S3_DIGITDIFF) Online.
+[2026-06-27 04:56:31] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 8, 7: 3, 8: 4, 9: 9}
+[2026-06-27 04:56:33] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 4: 8, 5: 1}
+[2026-06-27 04:56:35] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 4: 8, 5: 4, 6: 0, 8: 2}
+[2026-06-27 04:56:37] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 5: 1, 6: 5, 7: 0, 9: 7}
+[2026-06-27 04:56:39] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 6, 2: 9, 4: 1, 6: 5, 7: 6, 8: 9}
+[2026-06-27 04:56:41] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 8, 7: 3, 8: 4, 9: 9}
+[2026-06-27 04:56:44] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 4: 8, 5: 1}
+[2026-06-27 04:56:46] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:56:48] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 5: 1, 6: 5, 7: 0, 9: 7}
+[2026-06-27 04:56:50] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 6, 2: 9, 4: 1, 7: 6, 8: 9}
+[2026-06-27 04:56:52] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 4: 6, 5: 8, 7: 3, 8: 4, 9: 9}
+[2026-06-27 04:56:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 0, 3: 5, 4: 2, 5: 1}
+[2026-06-27 04:56:57] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:56:58] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 7}
+[2026-06-27 04:57:00] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 6, 2: 9, 4: 1, 7: 6, 8: 9}
+[2026-06-27 04:57:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 4: 6, 5: 8, 7: 3, 8: 4, 9: 3}
+[2026-06-27 04:57:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 0, 3: 5, 4: 2, 5: 1, 8: 7}
+[2026-06-27 04:57:07] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 9, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:57:09] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:57:11] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 6, 2: 9, 7: 6, 8: 9}
+[2026-06-27 04:57:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 1, 4: 6, 5: 8, 7: 3, 9: 3}
+[2026-06-27 04:57:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7}
+[2026-06-27 04:57:18] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 9, 4: 8, 5: 4}
+[2026-06-27 04:57:19] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 0}
+[2026-06-27 04:57:22] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 6, 2: 9, 7: 6, 8: 9}
+[2026-06-27 04:57:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 8, 4: 6, 5: 8, 7: 3, 9: 3}
+[2026-06-27 04:57:26] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7}
+[2026-06-27 04:57:28] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 9, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:57:29] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 0}
+[2026-06-27 04:57:33] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 6, 2: 9, 7: 6, 8: 9}
+[2026-06-27 04:57:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 4: 6, 5: 8, 7: 3, 9: 3}
+[2026-06-27 04:57:37] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7}
+[2026-06-27 04:57:39] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:57:40] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:57:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 6, 2: 9, 7: 6, 8: 9}
+[2026-06-27 04:57:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 4: 6, 5: 8, 7: 3, 9: 9}
+[2026-06-27 04:57:47] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7}
+[2026-06-27 04:57:49] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 04:57:49] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 4: 8, 5: 4, 6: 0}
+[2026-06-27 04:57:49] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3406058179
+[2026-06-27 04:57:50] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:57:51] [1HZ10V] ✅ WIN | Lucro: +$5.22 | PnL Total: $5.22 | WR: 100.00% | 🌍 PNL GLOBAL: $5.22
+[2026-06-27 04:57:51] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.22
+[2026-06-27 04:57:51] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 04:57:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 6, 2: 9, 4: 1, 7: 6, 8: 9}
+[2026-06-27 04:57:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 4: 6, 7: 3, 9: 9}
+[2026-06-27 04:57:58] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:57:59] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 5: 2, 6: 0, 8: 8}
+[2026-06-27 04:58:01] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:58:05] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 5: 8, 7: 6, 8: 9}
+[2026-06-27 04:58:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 6, 7: 3, 9: 9}
+[2026-06-27 04:58:08] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:58:10] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 4: 6, 5: 2, 6: 0, 8: 8}
+[2026-06-27 04:58:12] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 6, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:58:16] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 5: 8, 7: 6, 8: 9}
+[2026-06-27 04:58:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 9, 7: 3, 9: 9}
+[2026-06-27 04:58:18] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:58:21] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 4: 6, 5: 2, 6: 0, 8: 8}
+[2026-06-27 04:58:22] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:58:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 5: 8, 7: 6, 8: 9}
+[2026-06-27 04:58:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 9, 7: 3, 9: 9}
+[2026-06-27 04:58:29] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 6, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:58:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 4: 6, 5: 2, 6: 0}
+[2026-06-27 04:58:33] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 04:58:37] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 5: 8, 7: 6, 8: 9}
+[2026-06-27 04:58:38] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 8, 4: 9, 7: 3, 9: 9}
+[2026-06-27 04:58:40] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:58:41] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 5: 2, 6: 0}
+[2026-06-27 04:58:43] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:58:48] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 5: 8, 7: 6, 8: 9}
+[2026-06-27 04:58:49] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 7: 3, 9: 9}
+[2026-06-27 04:58:50] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:58:52] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 5: 2, 6: 0}
+[2026-06-27 04:58:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:58:56] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 04:58:56] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3406141979
+[2026-06-27 04:58:58] [1HZ75V] ✅ WIN | Lucro: +$5.79 | PnL Total: $5.79 | WR: 100.00% | 🌍 PNL GLOBAL: $11.01
+[2026-06-27 04:58:58] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 04:58:58] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 04:58:59] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 7: 6, 8: 9}
+[2026-06-27 04:59:00] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 7: 3, 9: 9}
+[2026-06-27 04:59:01] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:03] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 3, 2: 1, 3: 3, 5: 2, 6: 0, 7: 9, 9: 7}
+[2026-06-27 04:59:04] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:59:09] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 7: 6, 8: 9}
+[2026-06-27 04:59:11] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 6, 7: 3, 9: 9}
+[2026-06-27 04:59:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:14] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 3, 2: 1, 3: 3, 5: 2, 6: 0, 7: 9, 9: 7}
+[2026-06-27 04:59:15] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:59:20] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 7: 6, 8: 9}
+[2026-06-27 04:59:21] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 6, 6: 3, 7: 3, 9: 9}
+[2026-06-27 04:59:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:24] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 4: 6, 5: 2, 6: 0, 7: 9}
+[2026-06-27 04:59:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:59:30] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 4: 6, 7: 6, 8: 9}
+[2026-06-27 04:59:31] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 04:59:32] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:35] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 4: 6, 5: 2, 6: 0, 7: 9, 9: 4}
+[2026-06-27 04:59:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 5, 7: 0}
+[2026-06-27 04:59:41] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 9}
+[2026-06-27 04:59:42] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 04:59:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:46] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 4: 6, 5: 2, 6: 0, 7: 9, 9: 4}
+[2026-06-27 04:59:47] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 5, 7: 0, 9: 0}
+[2026-06-27 04:59:51] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 1}
+[2026-06-27 04:59:53] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 04:59:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 0, 3: 5, 4: 2, 5: 1, 8: 7, 9: 1}
+[2026-06-27 04:59:57] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 04:59:57] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 5, 7: 0, 9: 6}
+[2026-06-27 05:00:01] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 1}
+[2026-06-27 05:00:03] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 5, 5: 1, 8: 7, 9: 1}
+[2026-06-27 05:00:07] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:00:08] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 5, 5: 1, 6: 3, 7: 0, 9: 6}
+[2026-06-27 05:00:12] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 1}
+[2026-06-27 05:00:14] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 2, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 5, 5: 1, 8: 7, 9: 1}
+[2026-06-27 05:00:18] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 3, 4: 6, 5: 2, 9: 4}
+[2026-06-27 05:00:19] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 6}
+[2026-06-27 05:00:23] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:00:24] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 3: 8, 4: 2, 5: 8, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 5, 5: 1, 8: 7}
+[2026-06-27 05:00:28] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 3, 4: 6, 5: 2, 9: 4}
+[2026-06-27 05:00:28] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 05:00:28] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3406263599
+[2026-06-27 05:00:30] [1HZ75V] ✅ WIN | Lucro: +$6.35 | PnL Total: $12.14 | WR: 100.00% | 🌍 PNL GLOBAL: $17.36
+[2026-06-27 05:00:30] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+[2026-06-27 05:00:30] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:00:31] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 6}
+[2026-06-27 05:00:33] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:00:35] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 8, 4: 2, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 7}
+[2026-06-27 05:00:38] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 4: 6, 5: 2, 9: 4}
+[2026-06-27 05:00:42] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:00:44] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 6: 9, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:00:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 8, 4: 2, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:46] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 1}
+[2026-06-27 05:00:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:00:52] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 4: 0, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:00:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 3, 2: 7, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:00:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 8, 4: 2, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:00:57] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 1}
+[2026-06-27 05:00:58] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:02] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 4: 0, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:01:04] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 3, 2: 7, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 4: 2, 6: 3, 7: 3, 9: 9}
+[2026-06-27 05:01:07] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 1}
+[2026-06-27 05:01:09] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:13] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:01:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:17] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 1}
+[2026-06-27 05:01:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 1, 4: 2, 7: 3, 9: 9}
+[2026-06-27 05:01:20] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:23] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:01:25] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 1, 4: 2, 7: 3, 9: 9}
+[2026-06-27 05:01:28] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 8: 1, 9: 1}
+[2026-06-27 05:01:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:34] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:01:36] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:38] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 5: 1, 7: 8, 8: 1, 9: 1}
+[2026-06-27 05:01:39] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 3: 1, 4: 2, 7: 3, 9: 9}
+[2026-06-27 05:01:41] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:44] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:01:47] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:49] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 5: 1, 7: 8, 8: 1, 9: 1}
+[2026-06-27 05:01:50] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 4: 2, 7: 3, 9: 9}
+[2026-06-27 05:01:52] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 4: 6, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:01:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:01:57] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:01:59] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 5: 1, 7: 8}
+[2026-06-27 05:02:01] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 7: 3, 9: 9}
+[2026-06-27 05:02:02] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 2, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:05] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:02:07] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 6, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:02:10] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 5: 1, 7: 8, 8: 1}
+[2026-06-27 05:02:12] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 7: 3, 9: 9}
+[2026-06-27 05:02:12] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 2, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:16] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:02:17] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 6, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:02:21] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 5: 1, 8: 1}
+[2026-06-27 05:02:23] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 7: 3, 9: 9}
+[2026-06-27 05:02:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:02:28] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 6, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:02:32] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 4: 2, 5: 1, 8: 1}
+[2026-06-27 05:02:33] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 2, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:33] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 6: 2, 7: 3, 9: 9}
+[2026-06-27 05:02:37] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:02:38] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 6, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:02:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 4: 2, 5: 1, 8: 1}
+[2026-06-27 05:02:44] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 2, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:44] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 6: 2, 7: 3, 9: 9}
+[2026-06-27 05:02:48] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:02:48] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 1, 3: 5, 5: 1, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:02:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 4: 2, 5: 1, 6: 0, 8: 1}
+[2026-06-27 05:02:55] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:02:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 6: 2, 7: 3, 9: 9}
+[2026-06-27 05:02:58] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:02:59] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 6, 3: 3, 5: 2, 7: 9, 9: 4}
+[2026-06-27 05:03:05] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 4: 2, 5: 1, 6: 0, 7: 3, 8: 1}
+[2026-06-27 05:03:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:03:09] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:03:09] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 3, 5: 2, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:03:16] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:03:16] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 4: 2, 5: 1, 6: 7, 7: 3, 8: 1}
+[2026-06-27 05:03:17] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 05:03:17] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3406474019
+[2026-06-27 05:03:19] [1HZ50V] ❌ LOSS | Prejuízo: $-60.00 | PnL Total: $-60.00 | WR: 0.00% | 🌍 PNL GLOBAL: $-42.64
+[2026-06-27 05:03:19] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:03:19] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:03:20] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:20] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 6: 9, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:03:26] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 1, 5: 2, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:03:27] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 7: 0, 9: 9}
+[2026-06-27 05:03:27] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1}
+[2026-06-27 05:03:30] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 6: 9, 7: 4, 8: 9, 9: 3}
+[2026-06-27 05:03:30] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:36] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:03:37] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:03:38] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1, 9: 2}
+[2026-06-27 05:03:41] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:03:41] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:47] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:03:48] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 7: 0, 9: 9}
+[2026-06-27 05:03:49] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1}
+[2026-06-27 05:03:51] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:03:52] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 7}
+[2026-06-27 05:03:57] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 3: 1, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:03:59] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 0, 5: 8, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:00] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1}
+[2026-06-27 05:04:01] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 6: 9, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:04:02] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:04:07] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:04:09] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 0, 4: 7, 5: 8, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:10] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1}
+[2026-06-27 05:04:12] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 8, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:04:13] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 3: 5, 5: 5, 6: 3, 7: 0, 9: 0}
+[2026-06-27 05:04:17] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:04:20] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 0, 4: 7, 5: 8, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:21] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 7, 8: 1}
+[2026-06-27 05:04:22] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 5: 5, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:04:23] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 2, 2: 6, 3: 5, 5: 5, 6: 3, 9: 0}
+[2026-06-27 05:04:28] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:04:30] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 2: 0, 4: 7, 5: 9, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:32] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 0, 8: 1}
+[2026-06-27 05:04:33] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 5: 5, 7: 9, 8: 9, 9: 3}
+[2026-06-27 05:04:33] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 2, 2: 9, 3: 5, 5: 5, 6: 3, 9: 0}
+[2026-06-27 05:04:38] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:04:41] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 2: 0, 4: 7, 5: 9, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 0, 8: 1}
+[2026-06-27 05:04:44] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:04:44] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 8, 5: 8, 7: 9, 8: 9, 9: 3}
+[2026-06-27 05:04:49] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:04:52] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 2: 0, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:04:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:04:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 1, 6: 0, 8: 1}
+[2026-06-27 05:04:55] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 8, 5: 8, 7: 9, 8: 9, 9: 3}
+[2026-06-27 05:04:59] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 2: 0, 4: 7, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:05:04] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:05:04] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:05:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:05:04] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3406610479
+[2026-06-27 05:05:05] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 8, 5: 8, 7: 9, 8: 9, 9: 3}
+[2026-06-27 05:05:07] [1HZ50V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-54.21 | WR: 50.00% | 🌍 PNL GLOBAL: $-36.85
+[2026-06-27 05:05:07] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:05:07] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:05:10] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 5, 2: 0, 4: 7, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:05:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 0, 6: 0, 8: 1, 9: 1}
+[2026-06-27 05:05:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 8, 5: 8, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:05:15] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:05:21] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 9: 9}
+[2026-06-27 05:05:26] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 4: 2, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:05:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:05:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 4: 6, 5: 8, 6: 3, 7: 6, 8: 9, 9: 3}
+[2026-06-27 05:05:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 6, 5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:33] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 3, 9: 9}
+[2026-06-27 05:05:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:05:36] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 5: 8, 6: 3, 7: 6, 8: 9, 9: 4}
+[2026-06-27 05:05:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 9: 0}
+[2026-06-27 05:05:42] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:44] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 3, 9: 9}
+[2026-06-27 05:05:46] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:05:47] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 3: 3, 5: 8, 6: 3, 7: 6, 8: 9, 9: 4}
+[2026-06-27 05:05:47] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 8: 9, 9: 0}
+[2026-06-27 05:05:53] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:05:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 3, 9: 9}
+[2026-06-27 05:05:57] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 4, 3: 9, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:05:57] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 7: 7, 8: 9, 9: 0}
+[2026-06-27 05:05:58] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 3: 3, 5: 8, 6: 3, 7: 6, 8: 9, 9: 4}
+[2026-06-27 05:06:03] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {5: 2, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:06:05] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 3, 9: 9}
+[2026-06-27 05:06:07] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:06:08] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 5: 5, 6: 8, 7: 7, 9: 0}
+[2026-06-27 05:06:09] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 3: 3, 5: 8, 7: 6, 8: 9, 9: 4}
+[2026-06-27 05:06:12] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 05:06:12] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3406695099
+[2026-06-27 05:06:15] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 3, 9: 9}
+[2026-06-27 05:06:15] [1HZ50V] ✅ WIN | Lucro: +$6.35 | PnL Total: $-47.86 | WR: 66.67% | 🌍 PNL GLOBAL: $-30.50
+[2026-06-27 05:06:15] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+[2026-06-27 05:06:15] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:06:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:06:18] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 6: 8, 7: 7, 9: 0}
+[2026-06-27 05:06:18] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0}
+[2026-06-27 05:06:20] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 5: 8, 7: 6, 8: 9, 9: 4}
+[2026-06-27 05:06:21] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:06:21] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3406706659
+[2026-06-27 05:06:25] [1HZ100V] ❌ LOSS | Prejuízo: $-60.00 | PnL Total: $-60.00 | WR: 0.00% | 🌍 PNL GLOBAL: $-90.50
+[2026-06-27 05:06:25] [1HZ100V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:06:25] [1HZ100V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:06:26] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:06:27] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:06:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 6: 8, 7: 7, 9: 0}
+[2026-06-27 05:06:28] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0}
+[2026-06-27 05:06:30] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 5: 8, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:06:37] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 6: 2, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:06:37] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:06:38] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0, 9: 1}
+[2026-06-27 05:06:39] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 7: 7, 9: 0}
+[2026-06-27 05:06:41] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:06:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 8: 8, 9: 4}
+[2026-06-27 05:06:48] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 3, 2: 0, 4: 7, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:06:49] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 05:06:49] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0, 9: 1}
+[2026-06-27 05:06:49] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3406739319
+[2026-06-27 05:06:50] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 7: 7, 9: 0}
+[2026-06-27 05:06:52] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:06:53] [1HZ50V] ✅ WIN | Lucro: +$6.96 | PnL Total: $-40.90 | WR: 75.00% | 🌍 PNL GLOBAL: $-83.54
+[2026-06-27 05:06:53] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $79.10
+[2026-06-27 05:06:53] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:06:58] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 9: 4}
+[2026-06-27 05:06:58] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 3, 2: 0, 4: 7, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:07:00] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 6: 0, 8: 1}
+[2026-06-27 05:07:00] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 7: 7, 9: 0}
+[2026-06-27 05:07:02] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:07:09] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 2: 0, 4: 7, 6: 1, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:07:09] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 9: 4}
+[2026-06-27 05:07:10] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 05:07:10] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 4: 2, 5: 0, 8: 1}
+[2026-06-27 05:07:10] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3406766539
+[2026-06-27 05:07:12] [1HZ75V] ✅ WIN | Lucro: +$6.96 | PnL Total: $19.10 | WR: 100.00% | 🌍 PNL GLOBAL: $-76.58
+[2026-06-27 05:07:12] [1HZ75V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $79.10
+[2026-06-27 05:07:12] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:07:13] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 7: 7, 9: 0}
+[2026-06-27 05:07:13] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:07:19] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 3, 2: 0, 4: 7, 6: 1, 8: 6, 9: 3}
+[2026-06-27 05:07:19] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 7: 9, 9: 4}
+[2026-06-27 05:07:20] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 8: 1}
+[2026-06-27 05:07:23] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 7: 7, 9: 0}
+[2026-06-27 05:07:24] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:07:30] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:07:30] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 2: 0, 4: 7, 6: 1, 8: 6, 9: 3}
+[2026-06-27 05:07:31] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 8: 1}
+[2026-06-27 05:07:34] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:07:35] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 5, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:07:40] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 1, 7: 9, 9: 4}
+[2026-06-27 05:07:41] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:07:41] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 1, 8: 6, 9: 3}
+[2026-06-27 05:07:41] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $79.10 | ID: 3406816839
+[2026-06-27 05:07:42] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 9, 5: 0, 8: 1}
+[2026-06-27 05:07:44] [1HZ50V] ✅ WIN | Lucro: +$7.63 | PnL Total: $-33.27 | WR: 80.00% | 🌍 PNL GLOBAL: $-68.95
+[2026-06-27 05:07:44] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $60.00
+[2026-06-27 05:07:44] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:07:45] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:07:46] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 5: 5, 8: 9, 9: 4}
+[2026-06-27 05:07:51] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 1, 7: 9, 9: 4}
+[2026-06-27 05:07:51] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:07:53] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 2, 5: 0, 9: 4}
+[2026-06-27 05:07:56] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:07:56] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 5: 5, 8: 9, 9: 4}
+[2026-06-27 05:08:01] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:08:02] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 1, 7: 9, 9: 4}
+[2026-06-27 05:08:03] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 2, 5: 0, 9: 4}
+[2026-06-27 05:08:07] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:08:07] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 3: 0, 5: 5, 8: 9, 9: 4}
+[2026-06-27 05:08:12] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 3, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:08:12] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 1, 7: 9, 9: 4}
+[2026-06-27 05:08:14] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:08:17] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 8: 9, 9: 4}
+[2026-06-27 05:08:17] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:08:23] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 1, 7: 9, 9: 4}
+[2026-06-27 05:08:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 8: 6, 9: 3}
+[2026-06-27 05:08:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 2: 4, 3: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:08:27] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 8: 9, 9: 4}
+[2026-06-27 05:08:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:08:34] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:08:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 3, 8: 6, 9: 3}
+[2026-06-27 05:08:35] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 3: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:08:38] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:08:38] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:08:45] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:08:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 3, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:08:45] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 8, 3: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:08:48] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:08:49] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:08:55] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:08:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 3, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:08:56] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:08:59] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:08:59] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 3, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:09:06] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:06] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 7: 8, 8: 1}
+[2026-06-27 05:09:10] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:10] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 3: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:09:17] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 8: 1}
+[2026-06-27 05:09:17] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 1, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:09:20] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:20] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:09:27] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:27] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 6: 8}
+[2026-06-27 05:09:27] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 1, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:09:30] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:30] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:09:37] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:37] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:09:38] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 1, 7: 0, 8: 6, 9: 3}
+[2026-06-27 05:09:40] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:09:40] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:48] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 6: 8}
+[2026-06-27 05:09:49] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 3: 6, 4: 7, 6: 1, 7: 0, 8: 0, 9: 3}
+[2026-06-27 05:09:51] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:09:51] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:09:58] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {6: 7, 7: 9, 9: 4}
+[2026-06-27 05:09:59] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 7: 0, 8: 0, 9: 3}
+[2026-06-27 05:09:59] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 4: 2, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:01] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 4: 6, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:10:01] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:10:09] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 6: 7, 7: 9, 9: 4}
+[2026-06-27 05:10:09] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 2, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:10] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 7: 0, 8: 0, 9: 5}
+[2026-06-27 05:10:11] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:10:12] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 9, 3: 5, 4: 8, 7: 7, 9: 0}
+[2026-06-27 05:10:20] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 6: 7, 7: 9, 8: 9, 9: 8}
+[2026-06-27 05:10:20] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:20] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 7: 0, 8: 0, 9: 5}
+[2026-06-27 05:10:22] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 2: 9, 3: 5, 4: 8, 7: 7, 9: 0}
+[2026-06-27 05:10:22] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 4: 0, 5: 5, 7: 3, 8: 9, 9: 4}
+[2026-06-27 05:10:30] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:31] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 7: 0, 8: 0, 9: 5}
+[2026-06-27 05:10:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 2, 6: 7, 7: 9, 8: 9, 9: 8}
+[2026-06-27 05:10:33] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 4: 0, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:10:33] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 2, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:10:40] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:42] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:10:42] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:10:42] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:10:43] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407033259
+[2026-06-27 05:10:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 7, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:10:43] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 2, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:10:45] [1HZ25V] ✅ WIN | Lucro: +$5.79 | PnL Total: $5.79 | WR: 100.00% | 🌍 PNL GLOBAL: $-63.16
+[2026-06-27 05:10:45] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:10:45] [1HZ25V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:10:51] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 1, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:10:53] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:10:53] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 6: 1, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:10:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 2, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:10:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:10:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 05:11:00] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3407055019
+[2026-06-27 05:11:02] [1HZ25V] ❌ LOSS | Prejuízo: $-65.79 | PnL Total: $-60.00 | WR: 50.00% | 🌍 PNL GLOBAL: $-128.95
+[2026-06-27 05:11:02] [1HZ25V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:11:02] [1HZ25V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:11:02] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:11:03] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:11:04] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 6: 1, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:04] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:11:05] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:11:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:11:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 8: 6, 9: 5}
+[2026-06-27 05:11:14] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:11:15] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 6: 1, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:11:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 0, 3: 9, 5: 0, 6: 8, 7: 0}
+[2026-06-27 05:11:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:11:25] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:25] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:11:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:11:33] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:11:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:11:35] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 9, 3: 5, 4: 8, 6: 8, 7: 7, 9: 8}
+[2026-06-27 05:11:37] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 9, 9: 4}
+[2026-06-27 05:11:44] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 8, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:11:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:11:46] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 6, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:47] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:11:48] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:11:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 8, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:11:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:11:56] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:11:58] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:12:00] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 8, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:12:06] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:12:09] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 5, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:12:10] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:17] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:12:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 7, 8: 6, 9: 5}
+[2026-06-27 05:12:19] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 7: 7, 9: 8}
+[2026-06-27 05:12:21] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:28] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 7, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:12:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 7, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:12:30] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 8}
+[2026-06-27 05:12:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:38] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 4, 2: 4, 4: 3, 6: 1, 7: 9, 8: 9, 9: 4}
+[2026-06-27 05:12:38] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 6: 1, 8: 6, 9: 5}
+[2026-06-27 05:12:40] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7}
+[2026-06-27 05:12:42] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 05:12:43] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407176959
+[2026-06-27 05:12:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 05:12:44] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.22 | ID: 3407178119
+[2026-06-27 05:12:45] [1HZ50V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-27.48 | WR: 83.33% | 🌍 PNL GLOBAL: $-123.16
+[2026-06-27 05:12:45] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:12:45] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:12:46] [1HZ10V] ✅ WIN | Lucro: +$5.67 | PnL Total: $10.89 | WR: 100.00% | 🌍 PNL GLOBAL: $-117.49
+[2026-06-27 05:12:46] [1HZ10V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $70.89
+[2026-06-27 05:12:46] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:12:46] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 4, 2: 4, 4: 3, 6: 1, 7: 9, 8: 9}
+[2026-06-27 05:12:48] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 3: 2, 4: 7, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:12:50] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7}
+[2026-06-27 05:12:53] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:12:57] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:12:59] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 4, 4: 3, 6: 1, 7: 8, 8: 9}
+[2026-06-27 05:12:59] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 3: 2, 4: 7, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:00] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:13:01] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3407200979
+[2026-06-27 05:13:01] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 8: 6, 9: 0}
+[2026-06-27 05:13:03] [1HZ50V] ✅ WIN | Lucro: +$6.35 | PnL Total: $-21.13 | WR: 85.71% | 🌍 PNL GLOBAL: $-111.14
+[2026-06-27 05:13:03] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+[2026-06-27 05:13:03] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:13:03] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:13:08] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:13:09] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 3: 2, 4: 6, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:09] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:13:10] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:13:11] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $70.89 | ID: 3407213579
+[2026-06-27 05:13:12] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7}
+[2026-06-27 05:13:13] [1HZ10V] ✅ WIN | Lucro: +$6.16 | PnL Total: $17.05 | WR: 100.00% | 🌍 PNL GLOBAL: $-104.98
+[2026-06-27 05:13:13] [1HZ10V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $77.05
+[2026-06-27 05:13:13] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:13:14] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:13:19] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:13:19] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 3: 2, 4: 6, 5: 2, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:19] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 2, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:13:23] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7}
+[2026-06-27 05:13:25] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 9: 4}
+[2026-06-27 05:13:30] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:13:30] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:30] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:13:34] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:13:36] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 9: 4}
+[2026-06-27 05:13:40] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:40] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:13:40] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:13:44] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 5, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7}
+[2026-06-27 05:13:47] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 9: 4}
+[2026-06-27 05:13:50] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:13:51] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:13:51] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6, 9: 5}
+[2026-06-27 05:13:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 5, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:13:57] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:01] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:14:01] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:14:05] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 5, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:14:07] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:12] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:14:12] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 8: 9}
+[2026-06-27 05:14:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:15] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:14:18] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:22] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:14:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:22] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:14:25] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:14:29] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:32] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:14:32] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:14:32] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:14:40] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:43] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 4: 6, 6: 8, 8: 6}
+[2026-06-27 05:14:43] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:14:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:47] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 9, 3: 2, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:14:51] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 4}
+[2026-06-27 05:14:53] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:14:53] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 1: 3, 4: 6, 6: 8, 8: 6}
+[2026-06-27 05:14:53] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:14:58] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 9, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:01] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 9: 4}
+[2026-06-27 05:15:03] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:03] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0, 9: 3}
+[2026-06-27 05:15:08] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:12] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:15:13] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:14] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:15:19] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 2: 9, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:22] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:15:24] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:24] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 3, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:15:30] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:15:35] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:35] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0}
+[2026-06-27 05:15:40] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:42] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:15:45] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:45] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:15:46] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407396819
+[2026-06-27 05:15:46] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:48] [1HZ25V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-54.21 | WR: 66.67% | 🌍 PNL GLOBAL: $-99.19
+[2026-06-27 05:15:48] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:15:48] [1HZ25V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:15:48] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:15:50] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 5, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:15:51] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 05:15:52] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3407405579
+[2026-06-27 05:15:52] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 4}
+[2026-06-27 05:15:54] [1HZ50V] ❌ LOSS | Prejuízo: $-72.14 | PnL Total: $-93.27 | WR: 75.00% | 🌍 PNL GLOBAL: $-171.33
+[2026-06-27 05:15:54] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:15:54] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:15:55] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:15:57] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 2, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:15:58] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 9, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:16:00] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 6, 1: 0, 2: 9, 3: 5, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:16:03] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 8: 7, 9: 2}
+[2026-06-27 05:16:06] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:16:08] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 2, 4: 6, 5: 2, 6: 8, 8: 6}
+[2026-06-27 05:16:08] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:16:11] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 6: 1, 7: 7, 9: 0}
+[2026-06-27 05:16:14] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 8: 7}
+[2026-06-27 05:16:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:16:19] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 2, 4: 6, 5: 2, 8: 6}
+[2026-06-27 05:16:19] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:16:22] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 6: 1, 7: 7, 9: 8}
+[2026-06-27 05:16:24] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7, 9: 2}
+[2026-06-27 05:16:27] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:16:29] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 2, 8: 6}
+[2026-06-27 05:16:29] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:16:32] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 6: 1, 7: 7, 9: 8}
+[2026-06-27 05:16:34] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7}
+[2026-06-27 05:16:38] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:16:40] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:16:40] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 8: 6}
+[2026-06-27 05:16:42] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7}
+[2026-06-27 05:16:45] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3, 8: 7}
+[2026-06-27 05:16:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:16:51] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 2, 4: 6, 8: 0}
+[2026-06-27 05:16:51] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 4: 5, 5: 3, 6: 8, 9: 6}
+[2026-06-27 05:16:53] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6, 9: 1}
+[2026-06-27 05:16:55] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 6: 8, 7: 3}
+[2026-06-27 05:16:59] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:01] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5, 8: 0}
+[2026-06-27 05:17:01] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 4: 5, 5: 3, 6: 8, 7: 0, 9: 6}
+[2026-06-27 05:17:03] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6, 9: 1}
+[2026-06-27 05:17:06] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 9: 2}
+[2026-06-27 05:17:09] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:17:12] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:17:14] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6}
+[2026-06-27 05:17:17] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 6, 2: 5, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:17:20] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 4, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:22] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:17:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 2, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:17:24] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6}
+[2026-06-27 05:17:28] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 05:17:28] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 7: 3}
+[2026-06-27 05:17:29] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407530559
+[2026-06-27 05:17:31] [1HZ50V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-87.48 | WR: 77.78% | 🌍 PNL GLOBAL: $-165.54
+[2026-06-27 05:17:31] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:17:31] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:17:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 4, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:33] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:17:33] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:17:35] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6}
+[2026-06-27 05:17:39] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 9: 2}
+[2026-06-27 05:17:42] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 4, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 3, 6: 8, 8: 6}
+[2026-06-27 05:17:43] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:17:46] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 5, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6}
+[2026-06-27 05:17:49] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 9: 2}
+[2026-06-27 05:17:53] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:17:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 3, 6: 8, 8: 6}
+[2026-06-27 05:17:54] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:17:57] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 4: 8, 5: 9, 6: 1, 7: 7, 8: 6}
+[2026-06-27 05:18:00] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 5, 4: 6, 5: 5, 7: 3, 8: 3}
+[2026-06-27 05:18:03] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 3, 6: 8, 8: 6}
+[2026-06-27 05:18:05] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 5: 5}
+[2026-06-27 05:18:07] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 4: 8, 5: 9, 6: 1, 7: 7, 8: 4}
+[2026-06-27 05:18:11] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 5, 4: 6, 5: 5, 7: 3, 8: 3}
+[2026-06-27 05:18:14] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:15] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6}
+[2026-06-27 05:18:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 3, 6: 8, 8: 6}
+[2026-06-27 05:18:18] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 4: 8, 5: 9, 6: 1, 7: 7, 8: 4}
+[2026-06-27 05:18:21] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 5, 4: 6, 5: 5, 7: 3, 8: 3}
+[2026-06-27 05:18:24] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:25] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 3: 2, 4: 6, 6: 8}
+[2026-06-27 05:18:26] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:18:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 7, 8: 4}
+[2026-06-27 05:18:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 8: 3}
+[2026-06-27 05:18:34] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 4, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:36] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 4: 6, 5: 5, 6: 8, 9: 9}
+[2026-06-27 05:18:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 3, 6: 8}
+[2026-06-27 05:18:39] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 4: 8, 5: 9, 6: 1, 7: 7, 8: 4}
+[2026-06-27 05:18:42] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 4: 6, 5: 5, 8: 3}
+[2026-06-27 05:18:44] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:47] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 4: 6, 5: 5, 6: 8, 8: 6, 9: 9}
+[2026-06-27 05:18:47] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 8, 6: 8}
+[2026-06-27 05:18:49] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 7, 8: 4}
+[2026-06-27 05:18:52] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 5: 7, 8: 3}
+[2026-06-27 05:18:55] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:18:58] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 6: 8, 9: 9}
+[2026-06-27 05:18:58] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:00] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 7}
+[2026-06-27 05:19:03] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 5: 7, 7: 3, 8: 3}
+[2026-06-27 05:19:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:19:08] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:19:08] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:08] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 05:19:09] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $77.05 | ID: 3407676379
+[2026-06-27 05:19:11] [1HZ10V] ✅ WIN | Lucro: +$6.70 | PnL Total: $23.75 | WR: 100.00% | 🌍 PNL GLOBAL: $-158.84
+[2026-06-27 05:19:11] [1HZ10V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $60.00
+[2026-06-27 05:19:11] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:19:11] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 7}
+[2026-06-27 05:19:13] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 5: 7, 7: 3, 8: 3}
+[2026-06-27 05:19:15] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:19:19] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:19:19] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:21] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 9: 1}
+[2026-06-27 05:19:24] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 2: 5, 5: 7, 7: 3, 8: 3}
+[2026-06-27 05:19:26] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:19:30] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:19:30] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:32] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 9: 1}
+[2026-06-27 05:19:35] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 5, 4: 6, 5: 7, 7: 3, 8: 3}
+[2026-06-27 05:19:37] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 3: 2, 4: 3, 6: 1, 7: 8, 8: 9, 9: 9}
+[2026-06-27 05:19:41] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:19:41] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 2, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:42] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9}
+[2026-06-27 05:19:46] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 5: 7, 7: 3}
+[2026-06-27 05:19:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 5, 3: 2, 4: 3, 6: 1, 7: 8, 8: 4, 9: 9}
+[2026-06-27 05:19:49] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:19:50] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3407724379
+[2026-06-27 05:19:52] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:19:52] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 9: 1}
+[2026-06-27 05:19:52] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:19:53] [1HZ50V] ❌ LOSS | Prejuízo: $-65.79 | PnL Total: $-153.27 | WR: 70.00% | 🌍 PNL GLOBAL: $-224.63
+[2026-06-27 05:19:53] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:19:53] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:19:57] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 0, 5: 7, 7: 3}
+[2026-06-27 05:19:59] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 3, 3: 2, 4: 3, 6: 1, 7: 8, 8: 4}
+[2026-06-27 05:20:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:20:02] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5, 9: 1}
+[2026-06-27 05:20:03] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:08] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 0, 5: 7, 7: 3}
+[2026-06-27 05:20:10] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 3, 3: 2, 4: 2, 6: 1, 7: 8, 8: 4}
+[2026-06-27 05:20:11] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:20:12] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407752319
+[2026-06-27 05:20:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 3: 0, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:20:13] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5, 9: 1}
+[2026-06-27 05:20:14] [1HZ100V] ✅ WIN | Lucro: +$5.22 | PnL Total: $-54.78 | WR: 50.00% | 🌍 PNL GLOBAL: $-219.41
+[2026-06-27 05:20:14] [1HZ100V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.22
+[2026-06-27 05:20:14] [1HZ100V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:20:14] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:19] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 5, 4: 0, 5: 5, 7: 3}
+[2026-06-27 05:20:20] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 2, 4: 2, 6: 1, 7: 8, 8: 4, 9: 7}
+[2026-06-27 05:20:24] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 6, 6: 8, 9: 2}
+[2026-06-27 05:20:24] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:24] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5, 9: 8}
+[2026-06-27 05:20:29] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 0, 5: 5, 7: 3}
+[2026-06-27 05:20:31] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 2, 4: 2, 6: 1, 8: 9}
+[2026-06-27 05:20:34] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 3: 0, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:20:35] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5, 9: 1}
+[2026-06-27 05:20:39] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 1, 5: 5, 7: 3}
+[2026-06-27 05:20:41] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 2, 6: 1, 8: 9}
+[2026-06-27 05:20:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 1: 4, 2: 5, 3: 0, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:20:45] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:46] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5, 9: 8}
+[2026-06-27 05:20:49] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 6, 5: 5, 7: 3}
+[2026-06-27 05:20:51] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 2, 8: 9}
+[2026-06-27 05:20:56] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:20:56] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:20:56] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 0, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:20:59] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 5, 2: 5, 4: 1, 5: 5, 7: 3}
+[2026-06-27 05:21:01] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 2, 8: 4}
+[2026-06-27 05:21:06] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:06] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:21:07] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 6, 5: 5, 6: 8, 9: 2}
+[2026-06-27 05:21:10] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 7: 3, 9: 2}
+[2026-06-27 05:21:11] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 2, 8: 4}
+[2026-06-27 05:21:16] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:16] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:21:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 4: 6, 5: 5, 6: 8}
+[2026-06-27 05:21:21] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 7: 3, 9: 2}
+[2026-06-27 05:21:22] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 3, 7: 8, 8: 9}
+[2026-06-27 05:21:27] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:27] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:21:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 4: 6, 5: 5, 6: 8}
+[2026-06-27 05:21:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 7: 3, 9: 2}
+[2026-06-27 05:21:33] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 3, 8: 9}
+[2026-06-27 05:21:37] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:37] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:21:38] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 4: 6, 5: 5, 6: 8}
+[2026-06-27 05:21:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 2: 5, 4: 1, 5: 5, 7: 3}
+[2026-06-27 05:21:44] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 3, 8: 9}
+[2026-06-27 05:21:48] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:48] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 9, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:21:48] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 4: 6, 5: 5, 6: 8}
+[2026-06-27 05:21:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 7: 3}
+[2026-06-27 05:21:54] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 5, 3: 3, 4: 3, 8: 9}
+[2026-06-27 05:21:56] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 05:21:57] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3407886979
+[2026-06-27 05:21:59] [1HZ10V] ✅ WIN | Lucro: +$5.22 | PnL Total: $28.97 | WR: 100.00% | 🌍 PNL GLOBAL: $-214.19
+[2026-06-27 05:21:59] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.22
+[2026-06-27 05:21:59] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:21:59] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 1, 4: 5, 6: 8}
+[2026-06-27 05:21:59] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:21:59] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:22:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 3, 8: 4}
+[2026-06-27 05:22:05] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:22:09] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 1, 4: 6, 6: 8, 8: 8}
+[2026-06-27 05:22:10] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:22:10] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:22:15] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 4: 3, 8: 4}
+[2026-06-27 05:22:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:22:19] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 6, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:22:21] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:22:21] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 3: 2, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:22:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:22:26] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4}
+[2026-06-27 05:22:30] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 6, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:22:31] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 3: 2, 4: 8, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:22:32] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:22:36] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:22:36] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4}
+[2026-06-27 05:22:40] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:22:42] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 9, 8: 5}
+[2026-06-27 05:22:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:22:47] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4}
+[2026-06-27 05:22:47] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 4: 1, 5: 5, 6: 5, 7: 9, 9: 2}
+[2026-06-27 05:22:48] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:22:49] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $79.10 | ID: 3407954559
+[2026-06-27 05:22:50] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:22:52] [1HZ75V] ✅ WIN | Lucro: +$7.63 | PnL Total: $26.73 | WR: 100.00% | 🌍 PNL GLOBAL: $-206.56
+[2026-06-27 05:22:52] [1HZ75V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $60.00
+[2026-06-27 05:22:52] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:22:52] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 6: 1, 7: 5}
+[2026-06-27 05:22:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:22:57] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 0, 3: 3, 8: 4, 9: 4}
+[2026-06-27 05:22:57] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 1, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:23:00] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 0, 4: 5, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:03] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 5}
+[2026-06-27 05:23:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:04] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:23:05] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.22 | ID: 3407980999
+[2026-06-27 05:23:07] [1HZ10V] ✅ WIN | Lucro: +$5.67 | PnL Total: $34.64 | WR: 100.00% | 🌍 PNL GLOBAL: $-200.89
+[2026-06-27 05:23:07] [1HZ10V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $70.89
+[2026-06-27 05:23:07] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:23:07] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 0, 3: 3, 8: 4}
+[2026-06-27 05:23:07] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:23:11] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 4, 2: 5, 3: 1, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:13] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 5}
+[2026-06-27 05:23:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:18] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:23:18] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4}
+[2026-06-27 05:23:21] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 5, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:24] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 5}
+[2026-06-27 05:23:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:28] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3}
+[2026-06-27 05:23:29] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4, 9: 4}
+[2026-06-27 05:23:31] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:23:32] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3408020259
+[2026-06-27 05:23:32] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 5, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:35] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:35] [1HZ75V] ✅ WIN | Lucro: +$5.79 | PnL Total: $32.52 | WR: 100.00% | 🌍 PNL GLOBAL: $-195.10
+[2026-06-27 05:23:35] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:23:35] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:23:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 4: 8, 5: 9, 6: 1, 7: 5}
+[2026-06-27 05:23:39] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3}
+[2026-06-27 05:23:40] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 8: 4}
+[2026-06-27 05:23:42] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 5, 6: 8, 7: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:46] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:46] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 5}
+[2026-06-27 05:23:49] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3}
+[2026-06-27 05:23:50] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 7: 5, 8: 4}
+[2026-06-27 05:23:52] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 6, 6: 8, 7: 8, 8: 8, 9: 9}
+[2026-06-27 05:23:56] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:23:56] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 6: 1, 7: 5}
+[2026-06-27 05:24:00] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3}
+[2026-06-27 05:24:01] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 7: 5, 8: 4}
+[2026-06-27 05:24:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 6, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:24:07] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:24:07] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 6, 4: 8, 5: 9, 6: 1, 7: 5, 9: 8}
+[2026-06-27 05:24:10] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3}
+[2026-06-27 05:24:12] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 3: 3, 7: 5, 8: 4}
+[2026-06-27 05:24:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 5, 6: 8, 8: 8, 9: 9}
+[2026-06-27 05:24:18] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 8, 6: 1, 7: 5, 9: 8}
+[2026-06-27 05:24:18] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:24:21] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:24:22] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:24:23] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 5, 6: 8, 8: 8, 9: 6}
+[2026-06-27 05:24:23] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:24:24] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $70.89 | ID: 3408081139
+[2026-06-27 05:24:26] [1HZ10V] ✅ WIN | Lucro: +$6.16 | PnL Total: $40.80 | WR: 100.00% | 🌍 PNL GLOBAL: $-188.94
+[2026-06-27 05:24:26] [1HZ10V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $77.05
+[2026-06-27 05:24:26] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:24:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 8, 6: 1, 7: 5, 9: 8}
+[2026-06-27 05:24:28] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:24:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:24:33] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:24:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 6, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:24:34] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 05:24:35] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3408104619
+[2026-06-27 05:24:37] [1HZ75V] ✅ WIN | Lucro: +$6.35 | PnL Total: $38.87 | WR: 100.00% | 🌍 PNL GLOBAL: $-182.59
+[2026-06-27 05:24:37] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+[2026-06-27 05:24:37] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:24:39] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:24:39] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 8, 7: 5, 8: 3, 9: 8}
+[2026-06-27 05:24:43] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:24:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 5, 3: 7, 4: 6, 5: 5, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:24:44] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 4, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:24:49] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 8, 7: 5, 8: 3, 9: 8}
+[2026-06-27 05:24:50] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:24:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 5, 3: 7, 4: 6, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:24:54] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:24:55] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 4: 4, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:00] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 8, 5: 9, 7: 5, 8: 3}
+[2026-06-27 05:25:01] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:04] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 5: 3, 6: 5, 9: 2}
+[2026-06-27 05:25:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 7: 5, 8: 4}
+[2026-06-27 05:25:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 1, 4: 6, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:11] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 5: 9, 7: 5, 8: 3}
+[2026-06-27 05:25:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:25:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:25:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 1, 4: 6, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:22] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 7: 5, 8: 5}
+[2026-06-27 05:25:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:26] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:25:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:25:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:33] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:33] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 5: 3, 7: 5, 8: 5}
+[2026-06-27 05:25:36] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:25:37] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:25:39] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 6: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:44] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 7: 5, 8: 5}
+[2026-06-27 05:25:44] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:47] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 0, 3: 3, 7: 5, 8: 4}
+[2026-06-27 05:25:48] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:25:49] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 8: 8, 9: 6}
+[2026-06-27 05:25:54] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:25:54] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 7: 5, 8: 5}
+[2026-06-27 05:25:57] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 0, 3: 3, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:25:58] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:25:59] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 8: 8, 9: 6}
+[2026-06-27 05:26:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 5, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:26:04] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 7: 5, 8: 5}
+[2026-06-27 05:26:08] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 0, 3: 3, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:26:09] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:26:09] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 0, 8: 8, 9: 6}
+[2026-06-27 05:26:15] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:26:15] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 6: 1, 7: 5, 8: 5}
+[2026-06-27 05:26:19] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 1, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:26:19] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 3, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:26:20] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 0, 8: 8, 9: 6}
+[2026-06-27 05:26:25] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:26:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 7, 4: 8, 6: 1, 7: 5, 8: 5}
+[2026-06-27 05:26:29] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:26:30] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:26:31] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 0, 8: 8, 9: 6}
+[2026-06-27 05:26:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 7, 4: 8, 6: 1, 7: 5, 8: 5}
+[2026-06-27 05:26:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 1, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 8: 3, 9: 2}
+[2026-06-27 05:26:39] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 6, 6: 5, 7: 3, 8: 5, 9: 2}
+[2026-06-27 05:26:40] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:26:42] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:26:47] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 8: 3, 9: 2}
+[2026-06-27 05:26:47] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 7, 4: 8, 5: 3, 7: 5, 8: 5}
+[2026-06-27 05:26:49] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 6, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:26:51] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:26:52] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 05:26:53] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3408297639
+[2026-06-27 05:26:53] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:26:55] [1HZ50V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-147.48 | WR: 72.73% | 🌍 PNL GLOBAL: $-176.80
+[2026-06-27 05:26:55] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:26:55] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:26:57] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 05:26:57] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:26:58] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3408302899
+[2026-06-27 05:26:58] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $77.05 | ID: 3408303019
+[2026-06-27 05:26:58] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 8: 3, 9: 2}
+[2026-06-27 05:26:58] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 7, 4: 8, 5: 3, 7: 5, 8: 5}
+[2026-06-27 05:27:00] [1HZ50V] ❌ LOSS | Prejuízo: $-65.79 | PnL Total: $-213.27 | WR: 66.67% | 🌍 PNL GLOBAL: $-242.59
+[2026-06-27 05:27:00] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:27:00] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:27:00] [1HZ10V] ✅ WIN | Lucro: +$6.70 | PnL Total: $47.50 | WR: 100.00% | 🌍 PNL GLOBAL: $-235.89
+[2026-06-27 05:27:00] [1HZ10V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $60.00
+[2026-06-27 05:27:00] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:27:00] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:02] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:03] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 4, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:27:08] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:27:08] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 3: 7, 4: 8, 5: 3, 7: 5, 8: 5}
+[2026-06-27 05:27:11] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:13] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:14] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:27:18] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 3: 7, 4: 8, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:27:18] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:27:22] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:23] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:24] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:27:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 3: 7, 4: 8, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:27:28] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:27:32] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:33] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 05:27:34] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3408349899
+[2026-06-27 05:27:34] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 2: 9, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:35] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:27:36] [1HZ75V] ❌ LOSS | Prejuízo: $-72.14 | PnL Total: $-33.27 | WR: 85.71% | 🌍 PNL GLOBAL: $-308.03
+[2026-06-27 05:27:36] [1HZ75V] ⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+[2026-06-27 05:27:36] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:27:39] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:27:39] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 3: 7, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:27:43] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:45] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 8: 8, 9: 9}
+[2026-06-27 05:27:50] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:27:50] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:27:51] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 05:27:52] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3408370959
+[2026-06-27 05:27:54] [1HZ25V] ✅ WIN | Lucro: +$6.35 | PnL Total: $-47.86 | WR: 75.00% | 🌍 PNL GLOBAL: $-301.68
+[2026-06-27 05:27:54] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+[2026-06-27 05:27:54] [1HZ25V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:27:54] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 7, 4: 1, 5: 3, 6: 5, 7: 3, 9: 2}
+[2026-06-27 05:27:55] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4}
+[2026-06-27 05:27:56] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 5, 3: 1, 5: 8, 8: 8, 9: 9}
+[2026-06-27 05:27:59] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:28:00] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3408381019
+[2026-06-27 05:28:01] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:01] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:02] [1HZ10V] ✅ WIN | Lucro: +$5.22 | PnL Total: $52.72 | WR: 100.00% | 🌍 PNL GLOBAL: $-296.46
+[2026-06-27 05:28:02] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.22
+[2026-06-27 05:28:02] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:28:04] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 7, 4: 1, 5: 3, 6: 5, 9: 2}
+[2026-06-27 05:28:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 2, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:28:06] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 1: 0, 2: 5, 3: 1, 5: 8, 8: 8, 9: 9}
+[2026-06-27 05:28:12] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 4: 7, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:12] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:15] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:28:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 2, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:28:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 1: 0, 2: 5, 3: 1, 5: 8, 8: 8, 9: 9}
+[2026-06-27 05:28:22] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:23] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:25] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:28:27] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 2, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:28:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 1: 0, 2: 5, 3: 1, 5: 8, 8: 8, 9: 6}
+[2026-06-27 05:28:33] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:33] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:35] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:28:37] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 2, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:28:38] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 2: 5, 3: 1, 5: 8, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:28:43] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 4: 7, 5: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:43] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:46] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:28:47] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 2, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:28:50] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 2: 5, 3: 1, 5: 8, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:28:53] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 7: 9, 9: 2}
+[2026-06-27 05:28:53] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:28:57] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:28:58] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 3, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:29:00] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 1: 5, 2: 5, 3: 1, 5: 8, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:29:04] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 4: 9, 7: 5, 8: 5}
+[2026-06-27 05:29:04] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 7: 9, 9: 2}
+[2026-06-27 05:29:07] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 9, 1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:29:08] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 8, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:29:11] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 2: 5, 3: 1, 5: 8, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:29:14] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:29:15] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5}
+[2026-06-27 05:29:18] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:29:19] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 8, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:29:22] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 1, 2: 5, 3: 1, 5: 8, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:29:24] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9, 9: 2}
+[2026-06-27 05:29:26] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5}
+[2026-06-27 05:29:28] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:29:29] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3408496179
+[2026-06-27 05:29:29] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 4: 8, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:29:29] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 2}
+[2026-06-27 05:29:31] [1HZ75V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-27.48 | WR: 87.50% | 🌍 PNL GLOBAL: $-290.67
+[2026-06-27 05:29:31] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:29:31] [1HZ75V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:29:32] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 8, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:29:35] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9}
+[2026-06-27 05:29:36] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:29:40] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:29:40] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 8: 6, 9: 2}
+[2026-06-27 05:29:42] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 8, 6: 3, 7: 5, 8: 8, 9: 6}
+[2026-06-27 05:29:45] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 5: 8, 6: 8, 7: 9, 9: 7}
+[2026-06-27 05:29:46] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:29:50] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:29:51] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 9: 3}
+[2026-06-27 05:29:52] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 8, 6: 3, 7: 5, 8: 8, 9: 6}
+[2026-06-27 05:29:55] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 3, 5: 8, 6: 8, 7: 9, 8: 3}
+[2026-06-27 05:29:56] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:30:00] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:30:02] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 9: 3}
+[2026-06-27 05:30:02] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 8, 6: 3, 7: 5, 8: 8, 9: 6}
+[2026-06-27 05:30:06] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9, 8: 3, 9: 7}
+[2026-06-27 05:30:07] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:30:11] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:30:12] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 9: 3}
+[2026-06-27 05:30:13] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 8, 6: 3, 7: 5, 8: 8, 9: 6}
+[2026-06-27 05:30:16] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 6: 8, 7: 9, 8: 3, 9: 8}
+[2026-06-27 05:30:17] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 7: 5, 8: 3, 9: 9}
+[2026-06-27 05:30:22] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:30:23] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:30:24] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 3: 1, 6: 3, 7: 5, 8: 8, 9: 6}
+[2026-06-27 05:30:26] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 7: 9, 8: 3}
+[2026-06-27 05:30:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 05:30:28] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3408563719
+[2026-06-27 05:30:28] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:30:29] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 05:30:30] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.22 | ID: 3408566179
+[2026-06-27 05:30:30] [1HZ25V] ✅ WIN | Lucro: +$6.96 | PnL Total: $-40.90 | WR: 80.00% | 🌍 PNL GLOBAL: $-283.71
+[2026-06-27 05:30:30] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $79.10
+[2026-06-27 05:30:30] [1HZ25V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:30:32] [1HZ10V] ✅ WIN | Lucro: +$5.67 | PnL Total: $58.39 | WR: 100.00% | 🌍 PNL GLOBAL: $-278.04
+[2026-06-27 05:30:32] [1HZ10V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $70.89
+[2026-06-27 05:30:32] [1HZ10V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:30:33] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 4}
+[2026-06-27 05:30:34] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:30:34] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 9, 6: 3, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:30:36] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 3, 5: 8, 7: 9, 9: 8}
+[2026-06-27 05:30:38] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:30:44] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:30:44] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 8: 1, 9: 3}
+[2026-06-27 05:30:45] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 9, 7: 3, 8: 8}
+[2026-06-27 05:30:47] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 8, 2: 6, 3: 3, 5: 8, 7: 9, 8: 3, 9: 8}
+[2026-06-27 05:30:48] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:30:48] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 05:30:49] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3408589839
+[2026-06-27 05:30:51] [1HZ50V] ✅ WIN | Lucro: +$5.79 | PnL Total: $-207.48 | WR: 69.23% | 🌍 PNL GLOBAL: $-272.25
+[2026-06-27 05:30:51] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+[2026-06-27 05:30:51] [1HZ50V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:30:54] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:30:55] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 8: 1, 9: 8}
+[2026-06-27 05:30:56] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 9, 7: 3, 8: 8}
+[2026-06-27 05:30:58] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 8, 2: 6, 3: 1, 5: 8, 7: 9, 9: 8}
+[2026-06-27 05:30:59] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 6: 8, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:31:05] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 6: 5, 7: 6, 8: 1, 9: 8}
+[2026-06-27 05:31:05] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 1, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:31:07] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 9, 7: 3, 8: 8}
+[2026-06-27 05:31:09] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 5, 2: 6, 3: 1, 5: 8, 7: 9, 8: 3, 9: 8}
+[2026-06-27 05:31:09] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 6: 8, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:31:16] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 7: 6, 8: 1, 9: 8}
+[2026-06-27 05:31:16] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 0, 7: 5, 8: 4, 9: 8}
+[2026-06-27 05:31:17] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 9, 7: 3, 8: 8}
+[2026-06-27 05:31:20] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 0, 9: 9}
+[2026-06-27 05:31:20] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 8, 2: 6, 3: 1, 5: 8, 7: 9, 8: 3, 9: 8}
+[2026-06-27 05:31:26] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 1: 0, 3: 3, 5: 0, 7: 5, 8: 4}
+[2026-06-27 05:31:26] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 7: 6, 8: 1, 9: 8}
+[2026-06-27 05:31:28] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {3: 1, 5: 9, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:31:31] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 8, 2: 6, 3: 1, 5: 6, 7: 9, 9: 8}
+[2026-06-27 05:31:31] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 5: 7, 7: 5, 8: 5, 9: 9}
+[2026-06-27 05:31:37] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 7: 6, 8: 1, 9: 8}
+[2026-06-27 05:31:37] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 05:31:37] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 3, 5: 0, 6: 6, 7: 5, 8: 4}
+[2026-06-27 05:31:38] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $65.22 | ID: 3408646459
+[2026-06-27 05:31:39] [1HZ10V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 5, 3: 1, 5: 9, 7: 3, 8: 8, 9: 6}
+[2026-06-27 05:31:41] [1HZ100V] ✅ WIN | Lucro: +$5.67 | PnL Total: $-49.11 | WR: 66.67% | 🌍 PNL GLOBAL: $-266.58
+[2026-06-27 05:31:41] [1HZ100V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $70.89
+[2026-06-27 05:31:41] [1HZ100V] ⏳ Retornando à fase de espreita...
+[2026-06-27 05:31:41] [1HZ75V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 6, 4: 9, 7: 5, 8: 5}
+[2026-06-27 05:31:42] [1HZ25V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 8, 2: 6, 3: 1, 5: 6, 7: 9, 9: 8}
+[2026-06-27 05:31:48] [1HZ100V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 1, 3: 7, 4: 1, 7: 6, 9: 3}
+[2026-06-27 05:31:48] [1HZ50V] 🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 9, 3: 3, 5: 0, 6: 6, 7: 5, 8: 4}

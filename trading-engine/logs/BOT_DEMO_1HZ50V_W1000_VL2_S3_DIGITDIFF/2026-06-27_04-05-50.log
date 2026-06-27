@@ -159,3 +159,119 @@
 2026-06-27 04:28:25,170 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
 2026-06-27 04:28:25,170 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
 2026-06-27 04:28:27,393 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 6: 0, 8: 1}
+2026-06-27 04:28:37,418 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 6: 0, 8: 1}
+2026-06-27 04:28:47,428 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 6: 0, 8: 1}
+2026-06-27 04:28:57,440 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 6: 0, 8: 1}
+2026-06-27 04:29:08,421 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 6: 0, 8: 1}
+2026-06-27 04:29:19,346 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0}
+2026-06-27 04:29:29,471 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0, 8: 1}
+2026-06-27 04:29:40,469 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0, 8: 1}
+2026-06-27 04:29:51,350 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0, 8: 1}
+2026-06-27 04:30:01,470 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 4, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0, 8: 1}
+2026-06-27 04:30:12,401 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 4: 6, 5: 5, 6: 0}
+2026-06-27 04:30:22,298 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+2026-06-27 04:30:22,787 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3404122539
+2026-06-27 04:30:25,133 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:ERROR:❌ LOSS | Prejuízo: $-65.79 | PnL Total: $-33.27 | WR: 83.33%
+2026-06-27 04:30:25,134 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:WARNING:⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+2026-06-27 04:30:25,134 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 04:30:25,351 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 4: 6, 5: 5}
+2026-06-27 04:30:35,434 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 4: 6, 5: 5}
+2026-06-27 04:30:45,563 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 4: 6, 5: 5, 7: 0}
+2026-06-27 04:30:56,328 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 4: 6, 5: 5, 7: 0}
+2026-06-27 04:31:07,378 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 2, 2: 8, 3: 2, 5: 5, 7: 0}
+2026-06-27 04:31:18,279 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 8, 4: 8, 5: 5, 7: 0}
+2026-06-27 04:31:28,310 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0}
+2026-06-27 04:31:39,329 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5}
+2026-06-27 04:31:50,312 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5}
+2026-06-27 04:32:01,339 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 5: 5, 7: 0}
+2026-06-27 04:32:12,278 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:32:22,313 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:32:33,288 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:32:43,293 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 5: 5, 9: 8}
+2026-06-27 04:32:53,299 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 5: 5}
+2026-06-27 04:32:54,309 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+2026-06-27 04:32:54,680 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $60.00 | ID: 3404297939
+2026-06-27 04:32:57,027 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:✅ WIN | Lucro: +$5.79 | PnL Total: $-27.48 | WR: 85.71%
+2026-06-27 04:32:57,027 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $65.79
+2026-06-27 04:32:57,027 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 04:33:03,324 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5}
+2026-06-27 04:33:13,389 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 4: 6, 5: 5, 7: 0}
+2026-06-27 04:33:24,298 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5}
+2026-06-27 04:33:35,334 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5}
+2026-06-27 04:33:46,270 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0}
+2026-06-27 04:33:56,270 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0}
+2026-06-27 04:34:06,300 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0}
+2026-06-27 04:34:17,300 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0}
+2026-06-27 04:34:27,316 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0, 8: 3}
+2026-06-27 04:34:37,384 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0, 8: 3}
+2026-06-27 04:34:48,281 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0}
+2026-06-27 04:34:58,283 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0}
+2026-06-27 04:35:09,311 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0}
+2026-06-27 04:35:19,326 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 5}
+2026-06-27 04:35:29,327 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 3}
+2026-06-27 04:35:39,381 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:35:50,259 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:36:00,273 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:36:10,352 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:36:21,290 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:36:32,275 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 7: 0, 8: 3, 9: 8}
+2026-06-27 04:36:43,288 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 7: 0, 8: 5}
+2026-06-27 04:36:53,367 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 6: 3, 7: 0, 8: 5}
+2026-06-27 04:37:04,253 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:37:15,274 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 6: 3, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:37:23,370 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+2026-06-27 04:37:23,766 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $65.79 | ID: 3404605359
+2026-06-27 04:37:26,182 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:✅ WIN | Lucro: +$6.35 | PnL Total: $-21.13 | WR: 87.50%
+2026-06-27 04:37:26,187 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $72.14
+2026-06-27 04:37:26,187 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 04:37:26,258 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:37:36,294 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:37:47,372 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:37:58,396 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:38:08,402 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 6: 3, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:38:19,266 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 6: 3, 7: 0, 9: 8}
+2026-06-27 04:38:30,331 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 7: 0, 8: 5, 9: 8}
+2026-06-27 04:38:41,278 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 5: 5, 7: 0, 9: 8}
+2026-06-27 04:38:52,335 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:39:03,263 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:39:14,278 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:39:25,292 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:39:35,301 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:39:46,288 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:39:57,311 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:07,373 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:17,477 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:28,254 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:38,256 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 3, 2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:48,260 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:40:58,289 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 3: 3, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:41:09,307 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 3: 3, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:41:19,339 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 3: 3, 4: 6, 7: 0, 8: 5, 9: 4}
+2026-06-27 04:41:30,211 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 3: 3, 4: 6, 7: 0, 9: 4}
+2026-06-27 04:41:40,234 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 2: 1, 4: 6, 7: 0, 9: 4}
+2026-06-27 04:41:51,221 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 4: 6, 7: 0, 9: 4}
+2026-06-27 04:42:01,339 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0, 9: 4}
+2026-06-27 04:42:12,203 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {4: 6, 7: 0, 9: 4}
+2026-06-27 04:42:22,306 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 4: 6, 7: 0, 9: 4}
+2026-06-27 04:42:33,242 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 1, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:42:43,310 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 1, 4: 6, 7: 0, 9: 8}
+2026-06-27 04:42:54,209 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 7: 0, 9: 1}
+2026-06-27 04:43:05,232 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 7: 0, 9: 1}
+2026-06-27 04:43:09,238 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+2026-06-27 04:43:09,654 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $72.14 | ID: 3404993399
+2026-06-27 04:43:12,107 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:ERROR:❌ LOSS | Prejuízo: $-72.14 | PnL Total: $-93.27 | WR: 77.78%
+2026-06-27 04:43:12,107 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:WARNING:⚠️ SOROS QUEBRADO. Resetando stake para $60.00
+2026-06-27 04:43:12,107 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 04:43:16,207 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 9: 1}
+2026-06-27 04:43:27,248 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 6: 3, 9: 1}
+2026-06-27 04:43:38,222 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 8: 0, 9: 1}
+2026-06-27 04:43:49,249 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 8: 0, 9: 1}
+2026-06-27 04:43:59,304 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 8: 0, 9: 1}
+2026-06-27 04:44:10,195 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:44:20,202 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:44:30,226 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 4: 3, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:44:40,235 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 4: 3, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:44:51,247 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 5, 4: 3, 5: 6, 7: 2, 8: 0, 9: 1}
+2026-06-27 04:45:01,397 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 5, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:45:12,193 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 5, 3: 8, 4: 7, 5: 6, 8: 0, 9: 1}
+2026-06-27 04:45:22,218 - BOT_DEMO_1HZ50V_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 2: 5, 4: 7, 5: 6, 7: 2, 8: 0, 9: 8}
