@@ -1,0 +1,5 @@
+- `[x]` Modificar `oracle_diff_bot_6.py` para suportar o estado `is_freerolling` e `rescue_profit`.
+- `[x]` Atualizar a lógica Pós-Vitória (Win) para realizar o breakeven e a divisão 75/25.
+- `[x]` Atualizar a lógica Pós-Derrota (Loss) para resetar para a Stake Inicial.
+- `[x]` Atualizar `multi_market_orchestrator.py` para setar `--stake 10.00` e desativar `--soros` padrão se aplicável.
+- `[/]` Executar o teste de orquestração do novo modelo em DEMO.

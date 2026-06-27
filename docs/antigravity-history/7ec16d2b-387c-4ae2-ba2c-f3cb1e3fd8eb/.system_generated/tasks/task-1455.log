@@ -1,0 +1,16 @@
+WARNING: git-filter-branch has a glut of gotchas generating mangled history
+	 rewrites.  Hit Ctrl-C before proceeding to abort, then use an
+	 alternative filtering tool such as 'git filter-repo'
+	 (https://github.com/newren/git-filter-repo/) instead.  See the
+	 filter-branch manual page for more details; to squelch this warning,
+	 set FILTER_BRANCH_SQUELCH_WARNING=1.
+Proceeding with filter-branch...
+
+Rewrite 11d16e75d94060906add711fe4d1657b78156784 (1/19) (0 seconds passed, remaining 0 predicted)    Rewrite 784b7190dda8b83c1eb3e2e46621328975c656fc (2/19) (0 seconds passed, remaining 0 predicted)    Rewrite 6b7754ef4ba49f4fe6d2a149dda596872ab5d4d4 (3/19) (0 seconds passed, remaining 0 predicted)    Rewrite ca8cbd4c84bf1e644ba3a4dd2e20afd957f4aef9 (4/19) (0 seconds passed, remaining 0 predicted)    Rewrite 5de47de92599d9cf359f739fa61640ceb872a6ef (5/19) (0 seconds passed, remaining 0 predicted)    Rewrite 280115fe930957aef5b35154db81b957c89cd2e1 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite b6a4592ff21b945a6f46559edd9fde0ac789bb85 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite 8a0a6173506221a9de49a667f8df764c5e85f950 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite b6aa388c7af8fdbf4d79674324e4b92213fe3215 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite d63153709d69a6a76b8236f8328d83ff60827fc8 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite 5f43e4c691c8e34952f903f2678691ff05d008ca (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite 9d35ab35e1fc7400169a2344c2b5d832a73ce638 (6/19) (1 seconds passed, remaining 2 predicted)    Rewrite 42ecdbbbfc24f1b3e8b823822e22d4774aa8d7f1 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite c48155117bfc1796495c9183c66436788cf6e238 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite ff922bebd064032d6f45408c900b7fc8e8b234e4 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite 57ffff0f126cfa25c0244c1ad2f5bb203432b881 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite 8c8861f60175253132d1dd82d6472caa166c8b57 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite 1495781fcb3b3dda7b1d0fdaa9635d5f47b578a1 (13/19) (1 seconds passed, remaining 0 predicted)    Rewrite d5ca5c3e4e4bc474fed10492dfab9643b1f1de75 (13/19) (1 seconds passed, remaining 0 predicted)    
+Ref 'refs/heads/feat/high-volume-diff' was rewritten
+Ref 'refs/heads/feat/sniper-lenta' was rewritten
+Ref 'refs/heads/main' was rewritten
+To https://github.com/Vitorhrds2/deriv_trade.git
+ + b6a4592...36888b4 feat/high-volume-diff -> feat/high-volume-diff (forced update)
+ + d5ca5c3...18052eb feat/sniper-lenta -> feat/sniper-lenta (forced update)
+ + b6aa388...73e3f5d main -> main (forced update)

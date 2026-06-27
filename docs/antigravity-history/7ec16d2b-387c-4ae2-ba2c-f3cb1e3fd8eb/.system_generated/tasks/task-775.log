@@ -1,0 +1,416 @@
+🌐 Iniciando a Skynet HFT DEMO (Orquestração Multi-Mercado)...
+🚀 Lançando Skynet Node [DEMO - 1HZ10V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ10V --stake 1.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ25V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ25V --stake 1.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ50V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ50V --stake 1.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ75V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ75V --stake 1.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ100V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ100V --stake 1.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+✅ Skynet DEMO Online. Acompanhamento Global Ativo. Aposta base: $1.0
+==========================================================================================
+[2026-06-27 05:53:27] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:53:28] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410426919
+[2026-06-27 05:53:30] [1HZ75V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.09 | WR: 100.00% | 🌍 PNL GLOBAL: $0.09
+[2026-06-27 05:53:30] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:53:31] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:53:32] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410432279
+[2026-06-27 05:53:34] [1HZ75V] ✅ WIN | Lucro: +$0.10 | PnL Total: $0.19 | WR: 100.00% | 🌍 PNL GLOBAL: $0.19
+[2026-06-27 05:53:34] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:53:50] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 05:53:51] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410458319
+[2026-06-27 05:53:53] [1HZ75V] ❌ LOSS | Prejuízo: $-1.19 | PnL Total: $-1.00 | WR: 66.67% | 🌍 PNL GLOBAL: $-1.00
+[2026-06-27 05:53:53] [1HZ75V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:54:33] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:54:34] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410513099
+[2026-06-27 05:54:36] [1HZ100V] ❌ LOSS | Prejuízo: $-1.00 | PnL Total: $-1.00 | WR: 0.00% | 🌍 PNL GLOBAL: $-2.00
+[2026-06-27 05:54:36] [1HZ100V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:54:36] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:54:37] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410516159
+[2026-06-27 05:54:39] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.91 | WR: 50.00% | 🌍 PNL GLOBAL: $-1.91
+[2026-06-27 05:54:39] [1HZ100V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:54:41] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:54:42] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410521519
+[2026-06-27 05:54:44] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.82 | WR: 66.67% | 🌍 PNL GLOBAL: $-1.82
+[2026-06-27 05:54:44] [1HZ100V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.18
+[2026-06-27 05:54:50] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:54:51] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.18 | ID: 3410534539
+[2026-06-27 05:54:54] [1HZ100V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.72 | WR: 75.00% | 🌍 PNL GLOBAL: $-1.72
+[2026-06-27 05:54:54] [1HZ100V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.28
+[2026-06-27 05:54:56] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:54:57] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.28 | ID: 3410541619
+[2026-06-27 05:55:00] [1HZ100V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.61 | WR: 80.00% | 🌍 PNL GLOBAL: $-1.61
+[2026-06-27 05:55:00] [1HZ100V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:55:10] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:11] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410562419
+[2026-06-27 05:55:13] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.09 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.52
+[2026-06-27 05:55:13] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:55:23] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:24] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410576739
+[2026-06-27 05:55:26] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $0.19 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.42
+[2026-06-27 05:55:26] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:55:33] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:34] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410588239
+[2026-06-27 05:55:36] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $0.30 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.31
+[2026-06-27 05:55:36] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:55:38] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:39] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410595839
+[2026-06-27 05:55:41] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $0.42 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.19
+[2026-06-27 05:55:41] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:55:47] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:55:48] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410606439
+[2026-06-27 05:55:48] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:55:49] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410608619
+[2026-06-27 05:55:50] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.52 | WR: 83.33% | 🌍 PNL GLOBAL: $-1.10
+[2026-06-27 05:55:50] [1HZ100V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:55:51] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.09 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.01
+[2026-06-27 05:55:51] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:55:51] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:52] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410613519
+[2026-06-27 05:55:54] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:55:55] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410617999
+[2026-06-27 05:55:55] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.51 | WR: 100.00% | 🌍 PNL GLOBAL: $-0.92
+[2026-06-27 05:55:55] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:55:55] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:55:55] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:55:56] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410618899
+[2026-06-27 05:55:56] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410618979
+[2026-06-27 05:55:57] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.43 | WR: 85.71% | 🌍 PNL GLOBAL: $-0.83
+[2026-06-27 05:55:57] [1HZ100V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.18
+[2026-06-27 05:55:58] [1HZ10V] ❌ LOSS | Prejuízo: $-1.09 | PnL Total: $-1.00 | WR: 50.00% | 🌍 PNL GLOBAL: $-1.92
+[2026-06-27 05:55:58] [1HZ10V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:55:59] [1HZ50V] ❌ LOSS | Prejuízo: $-1.09 | PnL Total: $-0.58 | WR: 83.33% | 🌍 PNL GLOBAL: $-3.01
+[2026-06-27 05:55:59] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:56:08] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:09] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410636339
+[2026-06-27 05:56:11] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.91 | WR: 66.67% | 🌍 PNL GLOBAL: $-2.92
+[2026-06-27 05:56:11] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:56:12] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:13] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.18 | ID: 3410641219
+[2026-06-27 05:56:13] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:14] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410642439
+[2026-06-27 05:56:15] [1HZ100V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.33 | WR: 87.50% | 🌍 PNL GLOBAL: $-2.82
+[2026-06-27 05:56:15] [1HZ100V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.28
+[2026-06-27 05:56:16] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.82 | WR: 75.00% | 🌍 PNL GLOBAL: $-2.73
+[2026-06-27 05:56:16] [1HZ10V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.18
+[2026-06-27 05:56:16] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:17] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.28 | ID: 3410645639
+[2026-06-27 05:56:19] [1HZ100V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.22 | WR: 88.89% | 🌍 PNL GLOBAL: $-2.62
+[2026-06-27 05:56:19] [1HZ100V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:56:19] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:20] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410649919
+[2026-06-27 05:56:20] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:56:21] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410650879
+[2026-06-27 05:56:22] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.13 | WR: 90.00% | 🌍 PNL GLOBAL: $-2.53
+[2026-06-27 05:56:22] [1HZ100V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:56:23] [1HZ50V] ❌ LOSS | Prejuízo: $-1.00 | PnL Total: $-1.58 | WR: 71.43% | 🌍 PNL GLOBAL: $-3.53
+[2026-06-27 05:56:23] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:56:23] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:23] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:24] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410654439
+[2026-06-27 05:56:24] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.18 | ID: 3410654459
+[2026-06-27 05:56:26] [1HZ10V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.72 | WR: 80.00% | 🌍 PNL GLOBAL: $-3.43
+[2026-06-27 05:56:26] [1HZ10V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.28
+[2026-06-27 05:56:26] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:27] [1HZ100V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.04 | WR: 90.91% | 🌍 PNL GLOBAL: $-3.34
+[2026-06-27 05:56:27] [1HZ100V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.18
+[2026-06-27 05:56:27] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.28 | ID: 3410660499
+[2026-06-27 05:56:27] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:28] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.18 | ID: 3410661179
+[2026-06-27 05:56:29] [1HZ10V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.61 | WR: 83.33% | 🌍 PNL GLOBAL: $-3.23
+[2026-06-27 05:56:29] [1HZ10V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:56:31] [1HZ100V] ✅ WIN | Lucro: +$0.10 | PnL Total: $0.06 | WR: 91.67% | 🌍 PNL GLOBAL: $-3.13
+[2026-06-27 05:56:31] [1HZ100V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.28
+[2026-06-27 05:56:35] [1HZ100V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 05:56:35] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:56:36] [1HZ100V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.28 | ID: 3410670379
+[2026-06-27 05:56:36] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410670439
+[2026-06-27 05:56:38] [1HZ100V] ✅ WIN | Lucro: +$0.11 | PnL Total: $0.17 | WR: 92.31% | 🌍 PNL GLOBAL: $-3.02
+[2026-06-27 05:56:38] [1HZ100V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:56:38] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.49 | WR: 75.00% | 🌍 PNL GLOBAL: $-2.93
+[2026-06-27 05:56:38] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:56:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:44] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410679839
+[2026-06-27 05:56:46] [1HZ10V] ❌ LOSS | Prejuízo: $-1.00 | PnL Total: $-1.61 | WR: 71.43% | 🌍 PNL GLOBAL: $-3.93
+[2026-06-27 05:56:46] [1HZ10V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:56:47] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:56:48] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410686539
+[2026-06-27 05:56:50] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-1.39 | WR: 77.78% | 🌍 PNL GLOBAL: $-3.83
+[2026-06-27 05:56:50] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:56:51] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:52] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410693919
+[2026-06-27 05:56:54] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.52 | WR: 75.00% | 🌍 PNL GLOBAL: $-3.74
+[2026-06-27 05:56:54] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:56:56] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:56:57] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410700999
+[2026-06-27 05:56:59] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.43 | WR: 77.78% | 🌍 PNL GLOBAL: $-3.65
+[2026-06-27 05:56:59] [1HZ10V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.18
+[2026-06-27 05:57:03] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:57:04] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410713759
+[2026-06-27 05:57:07] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-1.28 | WR: 80.00% | 🌍 PNL GLOBAL: $-3.54
+[2026-06-27 05:57:07] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:57:19] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:57:20] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410732839
+[2026-06-27 05:57:22] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-1.16 | WR: 81.82% | 🌍 PNL GLOBAL: $-3.42
+[2026-06-27 05:57:22] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:57:25] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:57:26] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410740259
+[2026-06-27 05:57:28] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.07 | WR: 83.33% | 🌍 PNL GLOBAL: $-3.33
+[2026-06-27 05:57:28] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:57:29] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:57:30] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.18 | ID: 3410746019
+[2026-06-27 05:57:32] [1HZ10V] ❌ LOSS | Prejuízo: $-1.18 | PnL Total: $-2.61 | WR: 70.00% | 🌍 PNL GLOBAL: $-4.51
+[2026-06-27 05:57:32] [1HZ10V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:57:32] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:57:33] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410750639
+[2026-06-27 05:57:35] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.97 | WR: 84.62% | 🌍 PNL GLOBAL: $-4.41
+[2026-06-27 05:57:35] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:57:42] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:57:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:57:43] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410767379
+[2026-06-27 05:57:43] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410767519
+[2026-06-27 05:57:45] [1HZ10V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-2.52 | WR: 72.73% | 🌍 PNL GLOBAL: $-4.32
+[2026-06-27 05:57:45] [1HZ10V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:57:46] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.09 | WR: 100.00% | 🌍 PNL GLOBAL: $-4.23
+[2026-06-27 05:57:46] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:57:46] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:57:47] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410773919
+[2026-06-27 05:57:49] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.86 | WR: 85.71% | 🌍 PNL GLOBAL: $-4.12
+[2026-06-27 05:57:49] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:57:51] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:57:52] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410780839
+[2026-06-27 05:57:54] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $0.19 | WR: 100.00% | 🌍 PNL GLOBAL: $-4.02
+[2026-06-27 05:57:54] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:58:04] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:58:05] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410798359
+[2026-06-27 05:58:07] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $0.30 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.91
+[2026-06-27 05:58:07] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:58:08] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:58:09] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410803499
+[2026-06-27 05:58:11] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $0.42 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.79
+[2026-06-27 05:58:11] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:58:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:58:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410813159
+[2026-06-27 05:58:18] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.51 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.70
+[2026-06-27 05:58:18] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:58:22] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:58:23] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410821459
+[2026-06-27 05:58:24] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:58:25] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410824619
+[2026-06-27 05:58:25] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $0.61 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.60
+[2026-06-27 05:58:25] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:58:28] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-0.74 | WR: 86.67% | 🌍 PNL GLOBAL: $-3.48
+[2026-06-27 05:58:28] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:58:29] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:58:30] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410831299
+[2026-06-27 05:58:33] [1HZ50V] ❌ LOSS | Prejuízo: $-1.00 | PnL Total: $-1.74 | WR: 81.25% | 🌍 PNL GLOBAL: $-4.48
+[2026-06-27 05:58:33] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 05:58:54] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:58:55] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410862979
+[2026-06-27 05:58:55] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:58:56] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410864299
+[2026-06-27 05:58:58] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $0.72 | WR: 100.00% | 🌍 PNL GLOBAL: $-4.37
+[2026-06-27 05:58:58] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:58:58] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.65 | WR: 82.35% | 🌍 PNL GLOBAL: $-4.28
+[2026-06-27 05:58:58] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:59:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:59:10] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410881039
+[2026-06-27 05:59:13] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $0.84 | WR: 100.00% | 🌍 PNL GLOBAL: $-4.16
+[2026-06-27 05:59:13] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 05:59:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:59:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410890859
+[2026-06-27 05:59:18] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $0.93 | WR: 100.00% | 🌍 PNL GLOBAL: $-4.07
+[2026-06-27 05:59:18] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 05:59:20] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:59:21] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410897159
+[2026-06-27 05:59:23] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-1.55 | WR: 83.33% | 🌍 PNL GLOBAL: $-3.97
+[2026-06-27 05:59:23] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:59:35] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:59:36] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410916839
+[2026-06-27 05:59:38] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $1.03 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.87
+[2026-06-27 05:59:38] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 05:59:41] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:59:42] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410922719
+[2026-06-27 05:59:44] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-1.44 | WR: 84.21% | 🌍 PNL GLOBAL: $-3.76
+[2026-06-27 05:59:44] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:59:45] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:59:46] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410927179
+[2026-06-27 05:59:48] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $1.14 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.65
+[2026-06-27 05:59:48] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 05:59:55] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 05:59:56] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410937519
+[2026-06-27 05:59:56] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 05:59:57] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410938639
+[2026-06-27 05:59:59] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $1.26 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.53
+[2026-06-27 05:59:59] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:00:00] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-1.32 | WR: 85.00% | 🌍 PNL GLOBAL: $-3.41
+[2026-06-27 06:00:00] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:00:05] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:00:06] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410949639
+[2026-06-27 06:00:08] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.23 | WR: 85.71% | 🌍 PNL GLOBAL: $-3.32
+[2026-06-27 06:00:08] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:00:11] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:00:12] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410956859
+[2026-06-27 06:00:14] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $1.35 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.23
+[2026-06-27 06:00:14] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:00:16] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:00:17] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410965319
+[2026-06-27 06:00:17] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:00:18] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3410966739
+[2026-06-27 06:00:19] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-1.13 | WR: 86.36% | 🌍 PNL GLOBAL: $-3.13
+[2026-06-27 06:00:19] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:00:20] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $1.45 | WR: 100.00% | 🌍 PNL GLOBAL: $-3.03
+[2026-06-27 06:00:20] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:00:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:00:28] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410978659
+[2026-06-27 06:00:28] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:00:29] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3410979759
+[2026-06-27 06:00:30] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $1.56 | WR: 100.00% | 🌍 PNL GLOBAL: $-2.92
+[2026-06-27 06:00:30] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:00:31] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-1.02 | WR: 86.96% | 🌍 PNL GLOBAL: $-2.81
+[2026-06-27 06:00:31] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:00:31] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:00:32] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410983239
+[2026-06-27 06:00:34] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-0.90 | WR: 87.50% | 🌍 PNL GLOBAL: $-2.69
+[2026-06-27 06:00:34] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:00:39] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:00:40] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3410992159
+[2026-06-27 06:00:42] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:00:43] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3410995719
+[2026-06-27 06:00:43] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.81 | WR: 88.00% | 🌍 PNL GLOBAL: $-2.60
+[2026-06-27 06:00:43] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:00:45] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $1.68 | WR: 100.00% | 🌍 PNL GLOBAL: $-2.48
+[2026-06-27 06:00:45] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:00:58] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:00:59] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411016119
+[2026-06-27 06:00:59] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:00] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411017439
+[2026-06-27 06:01:02] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.71 | WR: 88.46% | 🌍 PNL GLOBAL: $-2.38
+[2026-06-27 06:01:02] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:01:02] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $1.77 | WR: 100.00% | 🌍 PNL GLOBAL: $-2.29
+[2026-06-27 06:01:02] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:01:07] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:08] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411029879
+[2026-06-27 06:01:11] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.60 | WR: 88.89% | 🌍 PNL GLOBAL: $-2.18
+[2026-06-27 06:01:11] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:01:16] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:17] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411040599
+[2026-06-27 06:01:20] [1HZ50V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-0.48 | WR: 89.29% | 🌍 PNL GLOBAL: $-2.06
+[2026-06-27 06:01:20] [1HZ50V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:01:37] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:38] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411073219
+[2026-06-27 06:01:41] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.39 | WR: 89.66% | 🌍 PNL GLOBAL: $-1.97
+[2026-06-27 06:01:41] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:01:44] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:45] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411080799
+[2026-06-27 06:01:47] [1HZ50V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.29 | WR: 90.00% | 🌍 PNL GLOBAL: $-1.87
+[2026-06-27 06:01:47] [1HZ50V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:01:52] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:01:53] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411089699
+[2026-06-27 06:01:55] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $1.87 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.77
+[2026-06-27 06:01:55] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:01:58] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:01:58] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411096219
+[2026-06-27 06:01:58] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:01:59] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411096759
+[2026-06-27 06:02:00] [1HZ50V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.18 | WR: 90.32% | 🌍 PNL GLOBAL: $-1.66
+[2026-06-27 06:02:00] [1HZ50V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:02:02] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $1.98 | WR: 100.00% | 🌍 PNL GLOBAL: $-1.55
+[2026-06-27 06:02:02] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:02:02] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:02:03] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411102939
+[2026-06-27 06:02:05] [1HZ50V] ❌ LOSS | Prejuízo: $-1.30 | PnL Total: $-1.48 | WR: 87.50% | 🌍 PNL GLOBAL: $-2.85
+[2026-06-27 06:02:05] [1HZ50V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 06:02:06] [1HZ50V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:02:07] [1HZ50V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411107059
+[2026-06-27 06:02:07] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:02:08] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411108339
+[2026-06-27 06:02:09] [1HZ50V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.39 | WR: 87.88% | 🌍 PNL GLOBAL: $-2.76
+[2026-06-27 06:02:09] [1HZ50V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:02:10] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $2.10 | WR: 100.00% | 🌍 PNL GLOBAL: $-2.64
+[2026-06-27 06:02:10] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:02:23] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:02:24] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411130119
+[2026-06-27 06:02:26] [1HZ25V] ❌ LOSS | Prejuízo: $-1.00 | PnL Total: $1.10 | WR: 95.24% | 🌍 PNL GLOBAL: $-3.64
+[2026-06-27 06:02:26] [1HZ25V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 06:02:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:02:28] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411134599
+[2026-06-27 06:02:30] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $1.19 | WR: 95.45% | 🌍 PNL GLOBAL: $-3.55
+[2026-06-27 06:02:30] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:02:41] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:02:42] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411150359
+[2026-06-27 06:02:44] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $1.29 | WR: 95.65% | 🌍 PNL GLOBAL: $-3.45
+[2026-06-27 06:02:44] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:02:50] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:02:51] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411162059
+[2026-06-27 06:02:53] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $1.40 | WR: 95.83% | 🌍 PNL GLOBAL: $-3.34
+[2026-06-27 06:02:53] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:03:02] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:03:03] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411178539
+[2026-06-27 06:03:05] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $1.52 | WR: 96.00% | 🌍 PNL GLOBAL: $-3.22
+[2026-06-27 06:03:05] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:03:17] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:03:18] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411196819
+[2026-06-27 06:03:20] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $1.61 | WR: 96.15% | 🌍 PNL GLOBAL: $-3.13
+[2026-06-27 06:03:20] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:03:33] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:03:34] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411217599
+[2026-06-27 06:03:36] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $1.71 | WR: 96.30% | 🌍 PNL GLOBAL: $-3.03
+[2026-06-27 06:03:36] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:03:57] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:03:58] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411249159
+[2026-06-27 06:04:00] [1HZ25V] ✅ WIN | Lucro: +$0.11 | PnL Total: $1.82 | WR: 96.43% | 🌍 PNL GLOBAL: $-2.92
+[2026-06-27 06:04:00] [1HZ25V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:04:04] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:04:05] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411257499
+[2026-06-27 06:04:07] [1HZ25V] ✅ WIN | Lucro: +$0.12 | PnL Total: $1.94 | WR: 96.55% | 🌍 PNL GLOBAL: $-2.80
+[2026-06-27 06:04:07] [1HZ25V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:04:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:04:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411269639
+[2026-06-27 06:04:19] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $2.03 | WR: 96.67% | 🌍 PNL GLOBAL: $-2.71
+[2026-06-27 06:04:19] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:04:22] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:04:23] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411276419
+[2026-06-27 06:04:25] [1HZ75V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.91 | WR: 75.00% | 🌍 PNL GLOBAL: $-2.62
+[2026-06-27 06:04:25] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:04:28] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:04:29] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411286099
+[2026-06-27 06:04:30] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:04:31] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411288619
+[2026-06-27 06:04:31] [1HZ75V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.81 | WR: 80.00% | 🌍 PNL GLOBAL: $-2.52
+[2026-06-27 06:04:31] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:04:34] [1HZ25V] ✅ WIN | Lucro: +$0.10 | PnL Total: $2.13 | WR: 96.77% | 🌍 PNL GLOBAL: $-2.42
+[2026-06-27 06:04:34] [1HZ25V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:04:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:04:35] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411293839
+[2026-06-27 06:04:37] [1HZ25V] ❌ LOSS | Prejuízo: $-1.19 | PnL Total: $0.94 | WR: 93.75% | 🌍 PNL GLOBAL: $-3.61
+[2026-06-27 06:04:37] [1HZ25V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 06:04:39] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 06:04:40] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411299079
+[2026-06-27 06:04:42] [1HZ25V] ✅ WIN | Lucro: +$0.09 | PnL Total: $1.03 | WR: 93.94% | 🌍 PNL GLOBAL: $-3.52
+[2026-06-27 06:04:42] [1HZ25V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:04:46] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:04:47] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411307139
+[2026-06-27 06:04:49] [1HZ75V] ✅ WIN | Lucro: +$0.11 | PnL Total: $-0.70 | WR: 83.33% | 🌍 PNL GLOBAL: $-3.41
+[2026-06-27 06:04:49] [1HZ75V] 📈 SOROS ATIVADO (Nível 3/3). Nova Stake para próximo tiro: $1.30
+[2026-06-27 06:05:00] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:00] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.30 | ID: 3411323239
+[2026-06-27 06:05:02] [1HZ75V] ✅ WIN | Lucro: +$0.12 | PnL Total: $-0.58 | WR: 85.71% | 🌍 PNL GLOBAL: $-3.29
+[2026-06-27 06:05:02] [1HZ75V] 🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para $1.00
+[2026-06-27 06:05:07] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:08] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411335979
+[2026-06-27 06:05:10] [1HZ75V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-0.49 | WR: 87.50% | 🌍 PNL GLOBAL: $-3.20
+[2026-06-27 06:05:10] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:05:22] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:23] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411363159
+[2026-06-27 06:05:25] [1HZ75V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-0.39 | WR: 88.89% | 🌍 PNL GLOBAL: $-3.10
+[2026-06-27 06:05:25] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19
+[2026-06-27 06:05:25] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:26] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.19 | ID: 3411366799
+[2026-06-27 06:05:28] [1HZ75V] ❌ LOSS | Prejuízo: $-1.19 | PnL Total: $-1.58 | WR: 80.00% | 🌍 PNL GLOBAL: $-4.29
+[2026-06-27 06:05:28] [1HZ75V] ⚠️ SOROS QUEBRADO. Resetando stake para $1.00
+[2026-06-27 06:05:32] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:33] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.00 | ID: 3411376899
+[2026-06-27 06:05:36] [1HZ75V] ✅ WIN | Lucro: +$0.09 | PnL Total: $-1.49 | WR: 81.82% | 🌍 PNL GLOBAL: $-4.20
+[2026-06-27 06:05:36] [1HZ75V] 📈 SOROS ATIVADO (Nível 1/3). Nova Stake para próximo tiro: $1.09
+[2026-06-27 06:05:54] [1HZ75V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 06:05:55] [1HZ75V] 🔫 [SNIPER] Disparo Efetuado! Stake: $1.09 | ID: 3411403139
+[2026-06-27 06:05:57] [1HZ75V] ✅ WIN | Lucro: +$0.10 | PnL Total: $-1.39 | WR: 83.33% | 🌍 PNL GLOBAL: $-4.10
+[2026-06-27 06:05:57] [1HZ75V] 📈 SOROS ATIVADO (Nível 2/3). Nova Stake para próximo tiro: $1.19

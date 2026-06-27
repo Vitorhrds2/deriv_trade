@@ -1,0 +1,10 @@
+Successfully scheduled one-shot timer.
+Expected to fire at: 2026-06-27T01:43:02-03:00
+Prompt: Os bots já rodaram por 3 minutos. Por favor, analise os logs do bot 1 e do bot 2 para ver qual performou melhor (olhe o PnL Total mais recente de cada um) e gere a conclusão solicitada pelo usuário.
+
+[2026-06-27T01:40:32-03:00] Still waiting. Remaining time: 2m30s
+[2026-06-27T01:41:02-03:00] Still waiting. Remaining time: 2m0s
+[2026-06-27T01:41:32-03:00] Still waiting. Remaining time: 1m30s
+[2026-06-27T01:42:02-03:00] Still waiting. Remaining time: 1m0s
+[2026-06-27T01:42:32-03:00] Still waiting. Remaining time: 30s
+[2026-06-27T01:43:02-03:00] Timer fired.

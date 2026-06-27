@@ -1,0 +1,6 @@
+Successfully scheduled cron job.
+Cron Expression: 0 18,23 * * *
+Next fire time: 2026-06-27T18:00:00-03:00
+Prompt: Acorde e faça uma varredura completa de longo prazo (5 horas e 10 horas) nos logs de performance dos Esquadrões 4, 5, 6 e 7. Avalie o estado do Drawdown e quais taxas de juros (0%, 5%, 25%, 50%) se mantiveram no lucro ou quebraram. Reporte o Status atualizado ao usuário e grave as descobertas de longo prazo no relatório técnico.
+
+[2026-06-27T10:10:10-03:00] Cron schedule cancelled after 0 iterations.
