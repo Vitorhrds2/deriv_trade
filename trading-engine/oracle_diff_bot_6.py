@@ -13,6 +13,7 @@ parser.add_argument("--window", type=int, default=1000, help="Tamanho da Rolling
 parser.add_argument("--vl", type=int, default=1, help="Número de Virtual Losses antes de atirar")
 parser.add_argument("--contract", type=str, default="DIGITDIFF", choices=["DIGITDIFF", "DIGITMATCH"], help="Tipo de Contrato")
 parser.add_argument("--soros", type=int, default=0, help="Níveis de Soros (Reinvestimento)")
+parser.add_argument("--compound", type=float, default=0.25, help="Taxa de Juros Compostos da Fase 1")
 parser.add_argument("--symbol", type=str, default="1HZ100V", help="Símbolo do Mercado (ex: 1HZ10V, R_100)")
 parser.add_argument("--stake", type=float, default=10.0, help="Aposta base em USD")
 parser.add_argument("--mode", type=str, default="DEMO", help="Prefixo para logs (DEMO ou REAL)")
@@ -48,11 +49,13 @@ class DynamicOracleBot:
         self.total_trades = 0
         self.total_wins = 0
         
+        # Smart Freeroll State
+        self.is_freerolling = False
+        self.rescue_profit = 0.0
+        
         self.armed_target = None
         self.current_vl_count = 0
         self.last_anomaly_log = 0
-        self.current_soros = 0
-        self.freeroll_active = False
 
     def extract_last_digit(self, price):
         return int(round(price * 100)) % 10
@@ -165,38 +168,40 @@ class DynamicOracleBot:
             
             if profit > 0:
                 self.total_wins += 1
+                losses = self.total_trades - self.total_wins
                 wr = (self.total_wins / self.total_trades) * 100
-                logger.info(f"✅ WIN | Lucro: +${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | WR: {wr:.2f}%")
                 
-                # Lógica Soros
-                if SOROS_LEVELS > 0:
-                    if self.current_soros < SOROS_LEVELS:
-                        self.current_soros += 1
-                        self.current_stake += profit
-                        
-                        # VERIFICAÇÃO FREE ROLL
-                        if getattr(args, "freeroll", False) and not self.freeroll_active:
-                            lucro_nesta_corrida = self.current_stake - BASE_STAKE
-                            if lucro_nesta_corrida >= BASE_STAKE:
-                                logger.info(f"🛡️ FREE ROLL ATINGIDO! Retirando risco inicial (${BASE_STAKE:.2f}) da mesa.")
-                                self.freeroll_active = True
-                                self.current_stake -= BASE_STAKE
-                                
-                        logger.info(f"📈 SOROS ATIVADO (Nível {self.current_soros}/{SOROS_LEVELS}). Nova Stake para próximo tiro: ${self.current_stake:.2f}")
-                    else:
-                        logger.info(f"🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para ${BASE_STAKE:.2f}")
-                        self.current_soros = 0
-                        self.current_stake = BASE_STAKE
-                        self.freeroll_active = False
+                # Smart Freeroll Logic
+                if not self.is_freerolling:
+                    self.current_stake += (profit * args.compound)
+                    self.current_stake = round(self.current_stake, 2)
+                    if self.pnl_acumulado >= BASE_STAKE:
+                        self.is_freerolling = True
+                        self.current_stake = self.pnl_acumulado
+                        logger.info(f"🛡️ SMART FREEROLL ATIVADO! Risco inicial (${BASE_STAKE:.2f}) protegido. Nova Stake base (100% lucro): ${self.current_stake:.2f}")
+                else:
+                    resgate = profit * 0.25
+                    reinvestimento = profit * 0.75
+                    self.rescue_profit += resgate
+                    self.current_stake += reinvestimento
+                    self.current_stake = round(self.current_stake, 2)
+                estado_fase = "Freeroll (Fase 2)" if self.is_freerolling else "Breakeven (Fase 1)"
+                logger.info(f"✅ WIN ({self.total_wins}W - {losses}L) | Lucro: +${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | Resgate Total: ${self.rescue_profit:.2f} | Prox. Stake: ${self.current_stake:.2f} | WR: {wr:.2f}%")
+                logger.info(f"🎯 ESTADO: {estado_fase} | CONTA: {args.mode}")
             else:
+                losses = self.total_trades - self.total_wins
                 wr = (self.total_wins / self.total_trades) * 100
-                logger.error(f"❌ LOSS | Prejuízo: ${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | WR: {wr:.2f}%")
-                if getattr(args, "freeroll", False) and self.freeroll_active:
-                    logger.warning(f"⚠️ FREE ROLL PERDIDO. Caixa inicial preservado. Reiniciando ciclo de risco.")
-                elif SOROS_LEVELS > 0:
-                    logger.warning(f"⚠️ SOROS QUEBRADO. Resetando stake para ${BASE_STAKE:.2f}")
-                self.current_soros = 0
-                self.current_stake = BASE_STAKE
+                estado_fase = "Freeroll (Fase 2)" if self.is_freerolling else "Breakeven (Fase 1)"
+                logger.error(f"❌ LOSS ({self.total_wins}W - {losses}L) | Prejuízo: ${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | Resgate Total: ${self.rescue_profit:.2f} | Stake Perdida | WR: {wr:.2f}%")
+                logger.info(f"🎯 ESTADO: {estado_fase} | CONTA: {args.mode}")
+                
+                if self.is_freerolling:
+                    logger.warning(f"⚠️ FREEROLL ROMPIDO. Dinheiro do cassino devolvido. Resgate Salvo: ${self.rescue_profit:.2f}. Reiniciando Fase 1 com Stake Inicial de ${BASE_STAKE:.2f}.")
+                    self.is_freerolling = False
+                    self.current_stake = BASE_STAKE
+                else:
+                    logger.warning(f"⚠️ LOSS na Fase 1. Retomando com Stake Base: ${BASE_STAKE:.2f}")
+                    self.current_stake = BASE_STAKE
                 self.freeroll_active = False
                     
         except Exception as e:
