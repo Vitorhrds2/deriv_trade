@@ -79,3 +79,804 @@
 2026-06-27 03:39:52,383 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3400936159
 2026-06-27 03:39:52,565 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $7.20 | Lucro: $-2.80 | Direção: UP
 2026-06-27 03:39:52,566 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-27 06:07:52,892 - HFT_SNIPER:ERROR:Error in listen loop: no close frame received or sent
+2026-06-27 06:07:58,855 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:07:58,861 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:03,863 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:03,863 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:08,866 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:08,868 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:13,871 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:13,871 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:18,873 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:18,873 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:23,875 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:23,876 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:28,877 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:28,878 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:33,880 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:33,885 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:38,887 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:38,887 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:43,889 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:43,890 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:48,893 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:48,893 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:53,895 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:53,896 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:08:58,903 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:08:58,904 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:03,906 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:03,907 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:08,909 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:08,909 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:13,911 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:13,911 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:18,912 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:18,913 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:24,022 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:24,022 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:29,024 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:29,024 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:34,025 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:34,026 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:39,027 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:39,027 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:44,029 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:44,030 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:49,036 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:49,036 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:54,086 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:54,087 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:09:59,088 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:09:59,089 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:04,089 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:04,090 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:09,091 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:09,091 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:14,093 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:14,094 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:19,095 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:19,096 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:24,099 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:24,100 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:29,100 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:29,101 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:34,157 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:34,157 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:39,158 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:39,158 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:44,163 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:44,173 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:49,178 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:49,178 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:54,180 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:54,181 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:10:59,184 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:10:59,184 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:04,188 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:04,189 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:09,190 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:09,190 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:14,192 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:14,193 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:19,195 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:19,196 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:24,197 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:24,198 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:29,201 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:29,204 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:34,206 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:34,206 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:39,208 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:39,208 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:44,213 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:44,213 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:49,215 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:49,215 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:54,217 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:54,218 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:11:59,222 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:11:59,223 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:04,223 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:04,224 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:09,225 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:09,226 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:14,229 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:14,230 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:19,231 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:19,232 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:24,233 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:24,236 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:29,241 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:29,241 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:34,242 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:34,242 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:39,243 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:39,243 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:44,245 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:44,246 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:49,344 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:49,345 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:54,347 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:54,348 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:12:59,350 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:12:59,350 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:04,358 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:04,358 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:09,360 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:09,360 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:14,362 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:14,362 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:19,364 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:19,365 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:24,367 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:24,367 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:29,372 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:29,373 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:34,373 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:34,374 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:39,376 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:39,376 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:44,377 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:44,377 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:49,379 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:49,379 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:54,381 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:54,382 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:13:59,384 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:13:59,384 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:04,395 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:04,396 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:09,398 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:09,398 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:14,399 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:14,399 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:19,400 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:19,400 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:24,403 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:24,411 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:29,413 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:29,414 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:34,415 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:34,416 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:39,503 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:39,508 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:44,509 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:44,509 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:49,510 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:49,512 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:54,514 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:54,515 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:14:59,518 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:14:59,519 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:04,521 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:04,522 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:09,526 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:09,527 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:14,557 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:14,558 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:19,568 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:19,573 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:24,603 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:24,605 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:29,609 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:29,613 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:34,616 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:34,617 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:39,623 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:39,624 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:44,627 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:44,627 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:49,630 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:49,636 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:54,661 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:54,675 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:15:59,677 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:15:59,677 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:05,043 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:05,046 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:10,663 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:10,666 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:15,669 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:15,670 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:20,671 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:20,672 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:25,673 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:25,674 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:30,677 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:30,683 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:35,691 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:35,691 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:40,696 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:40,883 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:45,886 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:45,887 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:50,892 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:50,892 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:16:55,913 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:16:55,920 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:00,968 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:00,969 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:05,972 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:05,973 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:10,974 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:10,977 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:15,981 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:15,985 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:21,109 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:21,110 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:26,130 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:26,130 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:31,133 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:31,133 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:36,135 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:36,140 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:41,142 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:41,142 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:46,149 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:46,150 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:51,180 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:51,181 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:17:56,298 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:17:56,300 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:01,304 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:01,306 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:06,316 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:06,316 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:11,319 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:11,320 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:16,325 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:16,329 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:21,330 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:21,331 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:26,332 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:26,334 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:31,339 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:31,339 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:36,341 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:36,342 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:41,413 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:41,413 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:46,418 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:46,422 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:51,499 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:51,500 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:18:56,501 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:18:56,501 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:01,758 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:01,760 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:06,769 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:06,770 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:11,895 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:11,900 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:16,905 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:16,905 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:21,912 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:21,914 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:26,916 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:26,917 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:32,013 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:32,035 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:37,036 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:37,036 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:42,037 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:42,038 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:47,039 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:47,039 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:52,042 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:52,045 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:19:57,047 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:19:57,048 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:02,089 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:02,093 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:07,100 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:07,101 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:12,117 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:12,119 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:17,122 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:17,122 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:22,124 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:22,124 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:27,129 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:27,129 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:32,131 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:32,131 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:37,146 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:37,146 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:42,161 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:42,163 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:47,216 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:47,216 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:52,219 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:52,220 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:20:57,252 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:20:57,252 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:02,256 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:02,261 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:07,267 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:07,268 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:12,271 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:12,273 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:17,275 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:17,275 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:22,315 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:22,316 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:27,320 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:27,322 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:32,326 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:32,327 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:37,364 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:37,366 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:42,368 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:42,369 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:47,385 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:47,385 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:52,387 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:52,387 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:21:57,331 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:21:57,333 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:02,470 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:02,472 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:07,475 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:07,475 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:12,478 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:12,478 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:17,480 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:17,480 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:22,481 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:22,482 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:27,483 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:27,484 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:32,489 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:32,489 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:37,495 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:37,495 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:42,499 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:42,501 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:47,502 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:47,503 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:52,645 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:52,646 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:22:57,650 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:22:57,651 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:02,657 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:02,658 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:07,660 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:07,661 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:12,708 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:12,710 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:17,714 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:17,715 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:22,721 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:22,722 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:27,724 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:27,726 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:32,792 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:32,792 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:37,793 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:37,794 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:42,830 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:42,845 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:47,848 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:47,870 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:52,883 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:52,883 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:23:57,885 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:23:57,886 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:02,888 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:02,889 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:08,016 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:08,018 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:13,026 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:13,028 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:18,068 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:18,150 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:23,158 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:23,161 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:28,172 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:28,173 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:33,180 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:33,181 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:38,194 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:38,195 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:43,202 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:43,205 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:48,277 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:48,284 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:53,292 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:53,293 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:24:58,340 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:24:58,341 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:03,344 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:03,345 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:08,427 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:08,427 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:13,430 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:13,430 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:18,432 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:18,433 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:23,561 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:23,566 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:28,591 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:28,594 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:33,597 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:33,597 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:38,625 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:38,627 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:43,633 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:43,634 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:48,634 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:48,636 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:53,638 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:53,639 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:25:58,640 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:25:58,641 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:03,643 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:03,644 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:08,644 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:08,645 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:13,646 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:13,646 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:18,649 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:18,649 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:23,651 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:23,652 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:28,654 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:28,654 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:33,656 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:33,658 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:38,666 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:38,667 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:43,669 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:43,669 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:48,671 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:48,671 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:53,679 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:53,680 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:26:58,684 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:26:58,685 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:03,688 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:03,689 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:08,691 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:08,693 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:13,696 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:13,697 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:18,699 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:18,700 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:23,773 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:23,773 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:28,780 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:28,804 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:33,973 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:33,981 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:39,007 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:39,007 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:44,017 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:44,018 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:49,021 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:49,022 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:54,030 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:54,031 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:27:59,037 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:27:59,038 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:04,039 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:04,039 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:09,079 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:09,090 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:14,107 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:14,107 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:19,118 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:19,119 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:24,121 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:24,121 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:29,124 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:29,130 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:34,216 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:34,216 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:39,223 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:39,223 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:44,225 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:44,225 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:49,228 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:49,228 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:54,229 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:54,232 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:28:59,235 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:28:59,235 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:04,296 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:04,297 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:09,407 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:09,512 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:14,514 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:14,514 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:19,516 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:19,517 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:24,521 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:24,522 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:29,523 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:29,525 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:34,532 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:34,532 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:39,535 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:39,536 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:44,621 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:44,621 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:49,626 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:49,627 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:54,632 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:54,633 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:29:59,653 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:29:59,653 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:04,656 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:04,656 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:09,657 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:09,658 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:14,681 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:14,681 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:19,685 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:19,685 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:24,687 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:24,688 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:29,690 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:29,690 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:34,714 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:34,714 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:39,716 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:39,718 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:44,721 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:44,722 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:49,724 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:49,724 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:54,726 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:54,726 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:30:59,729 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:30:59,730 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:04,731 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:04,733 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:09,785 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:09,786 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:14,790 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:14,791 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:19,797 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:19,798 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:24,799 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:24,800 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:29,803 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:29,803 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:34,809 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:34,810 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:39,812 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:39,813 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:44,815 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:44,815 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:49,817 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:49,820 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:54,823 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:54,824 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:31:59,825 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:31:59,826 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:04,832 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:04,833 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:09,836 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:09,840 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:14,841 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:14,842 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:19,845 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:19,845 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:24,851 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:24,851 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:29,856 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:29,861 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:34,865 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:34,866 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:39,868 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:39,869 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:44,859 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:44,860 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:49,856 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:49,856 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:54,917 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:54,923 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:32:59,920 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:32:59,920 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:04,919 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:04,923 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:09,927 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:09,930 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:14,970 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:14,971 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:19,971 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:19,972 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:24,977 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:24,978 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:29,980 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:29,981 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:34,983 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:34,986 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:39,988 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:39,988 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:44,990 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:44,991 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:49,995 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:50,251 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:33:56,060 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:33:56,066 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:01,071 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:01,071 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:06,073 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:06,074 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:11,076 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:11,083 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:16,192 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:16,193 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:21,304 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:21,306 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:26,459 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:26,469 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:31,482 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:31,482 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:36,484 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:36,485 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:41,489 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:41,490 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:46,492 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:46,492 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:51,494 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:51,494 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:34:56,532 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:34:56,532 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:01,534 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:01,534 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:06,547 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:06,549 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:11,551 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:11,551 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:16,553 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:16,555 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:21,564 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:21,565 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:26,566 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:26,566 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:31,569 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:31,569 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:36,570 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:36,572 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:41,573 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:41,574 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:46,576 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:46,576 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:51,577 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:51,577 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:35:56,578 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:35:56,579 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:01,580 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:01,580 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:06,581 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:06,584 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:11,585 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:11,585 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:16,591 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:16,592 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:21,594 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:21,594 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:26,596 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:26,596 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:31,742 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:31,745 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:36,746 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:36,746 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:41,761 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:41,762 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:46,763 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:46,764 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:51,765 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:51,765 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:36:56,766 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:36:56,766 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:01,768 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:01,768 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:06,771 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:06,771 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:11,773 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:11,774 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:16,776 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:16,776 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:21,778 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:21,779 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:26,780 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:26,781 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:31,782 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:31,783 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:36,785 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:36,785 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:41,786 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:41,787 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:46,789 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:46,792 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:51,796 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:51,796 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:37:56,798 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:37:56,798 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:01,800 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:01,800 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:06,803 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:06,803 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:11,811 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:11,811 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:16,812 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:16,812 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:21,813 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:21,814 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:26,816 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:26,816 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:31,818 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:31,818 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:36,821 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:36,821 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:41,828 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:41,828 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:46,829 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:46,830 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:51,831 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:51,831 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:38:56,833 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:38:56,833 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:01,834 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:01,834 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:06,836 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:06,836 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:11,838 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:11,842 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:16,843 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:16,844 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:21,845 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:21,845 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:26,846 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:26,846 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:31,848 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:31,848 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:36,850 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:36,851 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:41,852 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:41,853 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:46,855 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:46,856 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:51,858 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:51,859 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:39:56,860 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:39:56,861 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:01,863 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:01,864 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:06,866 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:06,867 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:11,868 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:11,869 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:16,870 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:16,870 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:21,872 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:21,872 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:26,877 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:26,878 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:31,879 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:31,880 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:36,882 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:36,882 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:41,883 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:41,883 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:46,885 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:46,886 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:51,887 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:51,888 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:40:56,890 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:40:56,890 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:41:01,895 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:41:01,895 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:41:06,899 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:41:06,899 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:41:11,902 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:41:11,903 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:41:16,904 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:41:16,904 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
+2026-06-27 06:41:21,906 - HFT_SNIPER:ERROR:Erro ao reciclar proposals: no close frame received or sent
+2026-06-27 06:41:21,906 - HFT_SNIPER:ERROR:Erro ao tentar reconectar DerivClient: 'ClientConnection' object has no attribute 'closed'
