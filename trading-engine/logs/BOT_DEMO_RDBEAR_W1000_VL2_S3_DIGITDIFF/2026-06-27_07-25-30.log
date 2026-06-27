@@ -2928,3 +2928,54 @@
 2026-06-27 15:35:54,182 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 9: 5}
 2026-06-27 15:36:04,200 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 9: 5}
 2026-06-27 15:36:14,237 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 9: 5}
+2026-06-27 15:36:26,160 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5}
+2026-06-27 15:36:36,248 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5}
+2026-06-27 15:36:48,226 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5}
+2026-06-27 15:37:00,171 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5}
+2026-06-27 15:37:12,231 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5}
+2026-06-27 15:37:24,168 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:37:34,176 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:37:44,248 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:37:56,206 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:38:08,202 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:38:20,167 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:38:30,223 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 8: 9}
+2026-06-27 15:38:40,265 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:38:52,191 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:39:02,270 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:39:14,289 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 4, 3: 7, 5: 9, 7: 5, 8: 9, 9: 5}
+2026-06-27 15:39:26,231 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9, 9: 5}
+2026-06-27 15:39:38,156 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9, 9: 5}
+2026-06-27 15:39:48,257 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9, 9: 5}
+2026-06-27 15:40:00,231 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9, 9: 5}
+2026-06-27 15:40:10,269 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:40:22,246 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:40:34,198 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:40:46,168 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:40:56,245 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:41:08,232 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:41:20,206 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:41:30,243 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 9}
+2026-06-27 15:41:42,223 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:41:54,204 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:42:06,184 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:42:16,228 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:42:26,259 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:42:38,136 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:42:48,272 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:00,260 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:12,165 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:24,216 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:34,249 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:46,140 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:43:56,173 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:44:06,199 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:44:16,236 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:44:28,215 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:44:40,197 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:44:52,171 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:45:02,319 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:45:14,192 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:45:24,237 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 7, 1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5}
+2026-06-27 15:45:36,149 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 3: 7, 5: 9, 7: 5, 8: 5, 9: 1}
+2026-06-27 15:45:48,141 - BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 1, 2: 7, 5: 3, 7: 5, 8: 5, 9: 1}
