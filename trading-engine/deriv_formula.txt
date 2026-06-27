@@ -1,0 +1,2 @@
+Deriv = 0.3874*Binance + 0.5338*Coinbase + 0.0266*Kraken + 3152.8267
+R2: 0.928462
