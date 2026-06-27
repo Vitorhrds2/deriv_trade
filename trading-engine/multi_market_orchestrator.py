@@ -20,9 +20,9 @@ FREEROLL = True
 markets = [
     "1HZ10V",   # Volatility 10 (1s) Index
     "1HZ25V",   # Volatility 25 (1s) Index
-    "1HZ50V",   # Volatility 50 (1s) Index
-    "1HZ75V",   # Volatility 75 (1s) Index
-    "1HZ100V"   # Volatility 100 (1s) Index
+    "R_10",     # Volatility 10 Index (2s)
+    "RDBEAR",   # Bear Market Index
+    "RDBULL"    # Bull Market Index
 ]
 
 global_pnl = 0.0
