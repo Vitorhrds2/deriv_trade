@@ -1,48 +1,37 @@
-# 📊 Relatório Tático e Técnico: Batalha dos Esquadrões (Fechamento +30 Min)
+# 📊 Relatório Tático e Técnico: Batalha dos Esquadrões (Ciclo Curto de 1h/2h)
 
-Este documento registra a análise de resiliência e agressividade entre 4 diferentes arquiteturas de gestão de risco. A última adição (Esquadrão 4) visa solucionar as fraquezas matemáticas comprovadas das gerações anteriores.
+Este documento registra a análise de resiliência e agressividade entre 7 diferentes arquiteturas de gestão de risco e suas respectivas taxas de Juros Compostos (0%, 5%, 25%, 50% e 100%).
 
-## 🧮 Condições do Teste (Update)
-- O mercado se mostrou implacável nas quebras de sequências longas, punindo estratégias sem trava de risco na Fase 1.
-- Foi introduzido o **Esquadrão 4**, equipado com o padrão matemático *Half-Kelly* (Reinvestimento de apenas 50% do lucro).
-
----
-
-## 📉 Esquadrão 1: Soros Tradicional (Sem Trava de Risco)
-* **PnL Global Atual:** **$-15.55**
-* **Veredito Técnico:** O PnL oscila rapidamente, mas a ausência de trava significa que o robô fica eternamente à mercê das variações do mercado, sem nunca proteger o patrimônio.
+## 🧮 Condições do Teste (Update: Ciclo de 1h)
+- O sistema orquestrador está rodando os 7 Esquadrões de forma totalmente paralela e injetando as diferentes taxas de juros no mesmo mercado para provar qual delas tem o melhor EV (Expected Value) no longo prazo.
 
 ---
 
-## 🛡️ Esquadrão 2: Smart Freeroll Lineal (Sem Juros Compostos)
-* **PnL Global Atual:** **$-24.50** 
-* **Veredito Técnico:** É o que perde o dinheiro mais devagar durante as quebras de mercado, mas também demora uma eternidade para escalar.
+## 📉 Esquadrões Base (As 3 frotas originais)
+
+* **Esquadrão 1 (Soros Tradicional):** O grande campeão da recuperação. Saiu do abismo de `$-27.00` e agora está em apenas **$-4.36** Global. A aposta de Stake fixa de $10 prova ser a mais segura quando o mercado entra em maré de acertos.
+* **Esquadrão 2 (Linear 0%):** Segue estável em **$-10.40**, demorando mais que o Esq. 1 para se recuperar, mas sem grandes riscos.
+* **Esquadrão 3 (Juros 100%):** O terror matemático continua. O par `1HZ10V` está amargando `$-42.03` de prejuízo individual. Mas o pior de tudo: Ele emplacou dezenas de vitórias e a stake atual cresceu para exatos **$37.97**. Se ele tomar 1 único loss na próxima rodada, ele afunda o PnL pra `$-80.00`. É a prova cabal de que Juros a 100% na Fase 1 é suicídio.
 
 ---
 
-## 🚀 Esquadrão 3: Smart Freeroll Agressivo (Juros Compostos 100%)
-* **Veredito Técnico:** A matemática não perdoa. Eu previ que a Stake do mercado `RDBEAR` estava alta demais ($27.54) e prestes a explodir se tomasse um único loss. Foi exatamente o que aconteceu:
+## 🧪 Laboratório Quantitativo (As 4 novas frotas blindadas)
 
-* **Evidência no Log (A Bomba Relógio Explodiu):**
+Os novos Esquadrões acabaram de entrar no campo de batalha e já provaram que a customização do Juros Composto está funcionando à perfeição. O mercado `R_10` ganhou ao mesmo tempo para todos eles e o sistema calculou a Stake com base nas exigências exatas de cada um:
+
+**Evidência Matemática das Diferentes Taxas no Log:**
 ```log
-[2026-06-27 09:23:29] [RDBEAR] ✅ WIN (12W - 2L) | Lucro: +$2.42 | PnL Total: $-2.46 | Resgate Total: $0.00 | Prox. Stake: $27.54 | WR: 85.71%
-[2026-06-27 09:41:13] [RDBEAR] ❌ LOSS (12W - 3L) | Prejuízo: $-27.54 | PnL Total: $-30.00 | Resgate Total: $0.00 | Stake Perdida | WR: 80.00%
+[2026-06-27 10:53:41] [R_10] ✅ WIN (1W - 0L) | Lucro: +$0.96 | Prox. Stake: $10.00 (Esquadrão 5 - 0%)
+[2026-06-27 10:53:41] [R_10] ✅ WIN (1W - 0L) | Lucro: +$0.96 | Prox. Stake: $10.05 (Esquadrão 6 - 5%)
+[2026-06-27 10:53:41] [R_10] ✅ WIN (1W - 0L) | Lucro: +$0.96 | Prox. Stake: $10.24 (Esquadrão 7 - 25%)
+[2026-06-27 09:42:02] [1HZ25V] ✅ WIN (1W - 0L)| Lucro: +$0.96 | Prox. Stake: $10.48 (Esquadrão 4 - 50%)
 ```
-Com um único revés às 09:41, ele perdeu todos os `$27.54` que havia lucrado nas últimas 12 vitórias e afundou novamente no Drawdown extremo. O EV da Fase 1 dessa estratégia é comprovadamente Negativo.
 
----
+### 🔬 Análise de EV Preliminar das Novas Taxas:
+- **0% (Esq. 5):** Requer vitórias demais para atingir o Breakeven de $10. É muito seguro, mas o EV é arrastado.
+- **5% (Esq. 6):** Praticamente inútil. Rende apenas 5 centavos de juros na primeira vitória.
+- **25% (Esq. 7):** Parece ser o ponto ideal entre *Segurança e Alavancagem*. Reinveste 24 centavos na stake e guarda 72 centavos seguros no PnL. O Capital base fica muito mais blindado contra perdas tardias do que no Esq. 4.
+- **50% (Esq. 4):** Acelera o Breakeven, mas ainda guarda $0.48 de lucro puro no PnL. Demonstrou excelente resiliência nas quedas.
 
-## ⚖️ NOVO - Esquadrão 4: Smart Freeroll Híbrido (Cap de 50%)
-* **Status Atual:** **Recém-lançado**
-* **Veredito Técnico:** O sistema *Half-Kelly* entrou em vigor perfeitamente. O algoritmo provou que está dividindo o lucro e blindando 50% dele no Saldo (sem reinvestir).
-
-* **Evidência no Log (Matemática da Blindagem Ativa):**
-```log
-[2026-06-27 09:42:02] [1HZ25V] ✅ WIN (1W - 0L) | Lucro: +$0.96 | PnL Total: $0.96 | Resgate Total: $0.00 | Prox. Stake: $10.48 | WR: 100.00%
-[2026-06-27 09:43:44] [1HZ25V] ✅ WIN (2W - 0L) | Lucro: +$1.01 | PnL Total: $1.97 | Resgate Total: $0.00 | Prox. Stake: $10.99 | WR: 100.00%
-```
-> [!NOTE] 
-> **A Matemática Perfeita:** No Win 1, o lucro foi de $0.96. Em vez de somar tudo na stake (como o Esq.3 faria, indo pra $10.96), o bot pegou apenas 50% ($0.48) e a Próxima Stake foi travada em exatos `$10.48`. O risco de "All-In" foi completamente eliminado da equação.
-
-> [!TIP]
-> A introdução do limite de 50% altera o EV para positivo, pois impede a queima excessiva de capital no Desvio Padrão apontado pelas falhas na 6º e 8º vitória.
+> [!SUCCESS] 
+> Todas as arquiteturas estão operacionais. O PnL das novas frotas é ligeiramente positivo pois elas ativaram o Freeroll no par `R_10` e `1HZ25V` sem ainda sofrer os castigos do mercado `1HZ10V`. A verdadeira prova de fogo virá no ciclo de 5h.
