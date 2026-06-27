@@ -4,9 +4,15 @@ import os
 import threading
 import re
 import sys
+import argparse
 from datetime import datetime
 
+parser = argparse.ArgumentParser(description="Orquestrador Skynet")
+parser.add_argument("--compound", type=float, default=0.25, help="Taxa de juros compostos da Fase 1")
+args = parser.parse_args()
+
 print("🌐 Iniciando a Skynet HFT DEMO (Orquestração Multi-Mercado)...")
+print(f"📊 Taxa de Juros (Fase 1): {args.compound * 100}%")
 
 os.makedirs('logs/skynet', exist_ok=True)
 
@@ -85,7 +91,7 @@ threads = []
 freeroll_flag = "--freeroll" if FREEROLL else ""
 
 for symbol in markets:
-    cmd = f".venv/bin/python oracle_diff_bot_6.py --symbol {symbol} --stake {STAKE} --window {WINDOW} --vl {VL} --soros {SOROS} --mode {MODE} --envfile .env {freeroll_flag}"
+    cmd = f".venv/bin/python oracle_diff_bot_6.py --symbol {symbol} --stake {STAKE} --window {WINDOW} --vl {VL} --soros {SOROS} --compound {args.compound} --mode {MODE} --envfile .env {freeroll_flag}"
     print(f"🚀 Lançando Skynet Node [{MODE} - {symbol}]: {cmd}")
     
     p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
