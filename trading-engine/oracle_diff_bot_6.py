@@ -217,23 +217,32 @@ class DynamicOracleBot:
         if self.is_trading: return
         self.recalculate_anomalies()
         
+        # Modo Rajada: Desarmar apenas se a anomalia sumir da janela
+        if self.armed_target is not None and self.armed_target not in self.anomalies.values():
+            self.armed_target = None
+            self.current_vl_count = 0
+            
         if self.armed_target is not None:
             if last_digit == self.armed_target:
                 self.current_vl_count += 1
-                if self.current_vl_count == TARGET_VL:
+                if self.current_vl_count >= TARGET_VL:
                     self.is_trading = True
                     asyncio.create_task(self.execute_trade(self.armed_target))
+            else:
+                # Se ainda não bateu a meta do VL, reseta a contagem
+                if self.current_vl_count < TARGET_VL:
                     self.armed_target = None
                     self.current_vl_count = 0
-            else:
-                self.armed_target = None
-                self.current_vl_count = 0
             return
 
         if last_digit in self.anomalies:
             self.armed_target = self.anomalies[last_digit]
             self.current_vl_count = 0
-            # logger.info(f"🎯 [MIRA] Gatilho {last_digit} ativado. Esperando {TARGET_VL}x a anomalia {self.armed_target}...")
+            
+            if TARGET_VL == 0:
+                self.is_trading = True
+                asyncio.create_task(self.execute_trade(self.armed_target))
+                self.armed_target = None
 
     async def start(self):
         if not API_TOKEN or not APP_ID: return

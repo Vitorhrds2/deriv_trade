@@ -10,7 +10,7 @@ print("🌐 Iniciando a Skynet HFT DEMO (Orquestração Multi-Mercado)...")
 
 os.makedirs('logs/skynet', exist_ok=True)
 
-STAKE = 60.00
+STAKE = 1.00
 WINDOW = 1000
 VL = 2
 SOROS = 3
