@@ -1,0 +1,81 @@
+2026-06-26 15:50:26,399 - HFT_SNIPER:INFO:🚀 INICIANDO BOT HFT - ARBITRAGEM DE LATÊNCIA
+2026-06-26 15:50:26,402 - HFT_SNIPER:INFO:Authenticating to Deriv...
+2026-06-26 15:50:26,844 - HFT_SNIPER:INFO:Found Demo account: DOT92172514
+2026-06-26 15:50:27,191 - HFT_SNIPER:INFO:Connecting to authenticated WS...
+2026-06-26 15:50:27,918 - HFT_SNIPER:INFO:Connected.
+2026-06-26 15:50:28,475 - HFT_SNIPER:INFO:⏱️ Deriv Tick Sync conectado (Raw WS)...
+2026-06-26 15:50:29,919 - HFT_SNIPER:INFO:Conectando à Binance: wss://stream.binance.com:9443/ws/btcusdt@bookTicker
+2026-06-26 15:50:31,112 - HFT_SNIPER:INFO:Binance Conectado! Vigiando Price Shocks na Janela de Ouro...
+2026-06-26 16:16:21,279 - HFT_SNIPER:ERROR:Erro Binance WS: sent 1011 (internal error) keepalive ping timeout; no close frame received. Reconectando em 2s...
+2026-06-26 16:16:24,254 - HFT_SNIPER:INFO:Binance Conectado! Vigiando Price Shocks na Janela de Ouro...
+2026-06-26 17:00:04,974 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de -50.38. Disparando imediatamente!
+2026-06-26 17:00:04,976 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: DOWN | Salto: -50.38 em 0ms
+2026-06-26 17:00:05,463 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3367830199 | Execution Time: 487ms | Stake: $10.00
+2026-06-26 17:00:05,464 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-26 17:00:07,465 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-26 17:00:07,466 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3367830199
+2026-06-26 17:00:07,684 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $3.20 | Lucro: $-6.80 | Direção: DOWN
+2026-06-26 17:00:07,684 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-26 17:00:08,387 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de -51.95. Disparando imediatamente!
+2026-06-26 17:00:08,387 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: DOWN | Salto: -51.95 em 0ms
+2026-06-26 17:00:08,537 - HFT_SNIPER:WARNING:❌ Ordem rejeitada: Unknown contract proposal
+2026-06-26 17:36:30,905 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de -54.23. Disparando imediatamente!
+2026-06-26 17:36:30,907 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: DOWN | Salto: -54.23 em 0ms
+2026-06-26 17:36:31,135 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3370938699 | Execution Time: 228ms | Stake: $10.00
+2026-06-26 17:36:31,136 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-26 17:36:33,137 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-26 17:36:33,138 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3370938699
+2026-06-26 17:36:33,345 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $6.88 | Lucro: $-3.12 | Direção: DOWN
+2026-06-26 17:36:33,346 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-26 17:40:34,842 - HFT_SNIPER:ERROR:Erro Binance WS: sent 1011 (internal error) keepalive ping timeout; no close frame received. Reconectando em 2s...
+2026-06-26 17:40:38,250 - HFT_SNIPER:INFO:Binance Conectado! Vigiando Price Shocks na Janela de Ouro...
+2026-06-26 19:26:03,339 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de 50.66. Disparando imediatamente!
+2026-06-26 19:26:03,341 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: UP | Salto: 50.66 em 0ms
+2026-06-26 19:26:03,647 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3378582739 | Execution Time: 305ms | Stake: $10.00
+2026-06-26 19:26:03,648 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-26 19:26:05,649 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-26 19:26:05,650 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3378582739
+2026-06-26 19:26:05,831 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $7.10 | Lucro: $-2.90 | Direção: UP
+2026-06-26 19:26:05,831 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-26 19:34:17,289 - HFT_SNIPER:ERROR:Erro no Tick Sync WS: no close frame received or sent
+2026-06-26 19:34:19,769 - HFT_SNIPER:INFO:⏱️ Deriv Tick Sync conectado (Raw WS)...
+2026-06-26 19:38:12,259 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de 50.54. Disparando imediatamente!
+2026-06-26 19:38:12,260 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: UP | Salto: 50.54 em 0ms
+2026-06-26 19:38:12,450 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3379291599 | Execution Time: 190ms | Stake: $10.00
+2026-06-26 19:38:12,451 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-26 19:38:14,452 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-26 19:38:14,453 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3379291599
+2026-06-26 19:38:14,650 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $7.28 | Lucro: $-2.72 | Direção: UP
+2026-06-26 19:38:14,650 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-26 19:54:39,912 - HFT_SNIPER:INFO:🚀 INICIANDO BOT HFT - ARBITRAGEM DE LATÊNCIA
+2026-06-26 19:54:39,913 - HFT_SNIPER:INFO:Authenticating to Deriv...
+2026-06-26 19:54:40,728 - HFT_SNIPER:INFO:Found Demo account: DOT92172514
+2026-06-26 19:54:41,135 - HFT_SNIPER:INFO:Connecting to authenticated WS...
+2026-06-26 19:54:41,657 - HFT_SNIPER:INFO:Connected.
+2026-06-26 19:54:42,159 - HFT_SNIPER:INFO:⏱️ Deriv Tick Sync conectado (Raw WS)...
+2026-06-26 19:54:43,659 - HFT_SNIPER:INFO:Conectando à Binance: wss://stream.binance.com:9443/ws/btcusdt@bookTicker
+2026-06-26 19:54:44,842 - HFT_SNIPER:INFO:Binance Conectado! Vigiando Price Shocks na Janela de Ouro...
+2026-06-26 20:03:09,628 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de 50.49. Disparando imediatamente!
+2026-06-26 20:03:09,629 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: UP | Salto: 50.49 em 0ms
+2026-06-26 20:03:09,816 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3380715699 | Execution Time: 186ms | Stake: $10.00
+2026-06-26 20:03:09,817 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-26 20:03:11,819 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-26 20:03:11,819 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3380715699
+2026-06-26 20:03:11,993 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $7.66 | Lucro: $-2.34 | Direção: UP
+2026-06-26 20:03:11,994 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-27 00:02:14,410 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de 50.24. Disparando imediatamente!
+2026-06-27 00:02:14,413 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: UP | Salto: 50.24 em 0ms
+2026-06-27 00:02:14,625 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3390588599 | Execution Time: 210ms | Stake: $10.00
+2026-06-27 00:02:14,627 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-27 00:02:16,628 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-27 00:02:16,628 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3390588599
+2026-06-27 00:02:16,798 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $8.34 | Lucro: $-1.66 | Direção: UP
+2026-06-27 00:02:16,799 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.
+2026-06-27 03:39:50,074 - HFT_SNIPER:INFO:🎯 FASE ALINHADA! Pulo de 94.84. Disparando imediatamente!
+2026-06-27 03:39:50,077 - HFT_SNIPER:INFO:⚡ GATILHO ACIONADO! Direção: UP | Salto: 94.84 em 0ms
+2026-06-27 03:39:50,381 - HFT_SNIPER:INFO:✅ ORDEM EXECUTADA! ID: 3400936159 | Execution Time: 303ms | Stake: $10.00
+2026-06-27 03:39:50,382 - HFT_SNIPER:INFO:⏳ Aguardando a ruptura estrutural de 2 segundos...
+2026-06-27 03:39:52,383 - HFT_SNIPER:INFO:⏳ Liquidando agressivamente o contrato... (Polling por entry_tick)
+2026-06-27 03:39:52,383 - HFT_SNIPER:INFO:💥 ENVIANDO ORDEM DE FECHAMENTO (SELL) - 3400936159
+2026-06-27 03:39:52,565 - HFT_SNIPER:INFO:✅ TRADE ENCERRADO! Retorno: $7.20 | Lucro: $-2.80 | Direção: UP
+2026-06-27 03:39:52,566 - HFT_SNIPER:INFO:🤖 Sniper recarregado e pronto para o próximo tiro.

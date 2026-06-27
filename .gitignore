@@ -3,6 +3,4 @@ __pycache__/
 .env
 *.db
 *.csv
-*.log
-logs/
 .DS_Store

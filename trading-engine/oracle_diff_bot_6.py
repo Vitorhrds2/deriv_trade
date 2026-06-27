@@ -12,26 +12,34 @@ parser = argparse.ArgumentParser(description="Oráculo Dinâmico HFT")
 parser.add_argument("--window", type=int, default=1000, help="Tamanho da Rolling Window (ticks)")
 parser.add_argument("--vl", type=int, default=1, help="Número de Virtual Losses antes de atirar")
 parser.add_argument("--contract", type=str, default="DIGITDIFF", choices=["DIGITDIFF", "DIGITMATCH"], help="Tipo de Contrato")
+parser.add_argument("--soros", type=int, default=0, help="Níveis de Soros (Reinvestimento)")
+parser.add_argument("--symbol", type=str, default="1HZ100V", help="Símbolo do Mercado (ex: 1HZ10V, R_100)")
+parser.add_argument("--stake", type=float, default=10.0, help="Aposta base em USD")
+parser.add_argument("--mode", type=str, default="DEMO", help="Prefixo para logs (DEMO ou REAL)")
+parser.add_argument("--envfile", type=str, default=".env", help="Arquivo de variáveis de ambiente")
+parser.add_argument("--freeroll", action="store_true", help="Ativa o modo de Risco Zero (House Money)")
 args = parser.parse_args()
 
-bot_id = f"BOT6_W{args.window}_VL{args.vl}_{args.contract}"
+bot_id = f"BOT_{args.mode}_{args.symbol}_W{args.window}_VL{args.vl}_S{args.soros}_{args.contract}"
 os.makedirs(f'logs/{bot_id}', exist_ok=True)
 logging.basicConfig(level=logging.INFO, format=f'%(asctime)s - {bot_id}:%(levelname)s:%(message)s', handlers=[logging.FileHandler(f'logs/{bot_id}/{time.strftime("%Y-%m-%d_%H-%M-%S")}.log'), logging.StreamHandler()])
 logger = logging.getLogger(bot_id)
 
-load_dotenv()
+load_dotenv(args.envfile)
 API_TOKEN = os.getenv("DERIV_API_TOKEN")
 APP_ID = os.getenv("DERIV_APP_ID")
-SYMBOL = "1HZ10V"
+SYMBOL = args.symbol
 
-BASE_STAKE = 10.00
+BASE_STAKE = args.stake
 ROLLING_WINDOW_SIZE = args.window
 TARGET_VL = args.vl
 CONTRACT_TYPE = args.contract
+SOROS_LEVELS = args.soros
 
 class DynamicOracleBot:
     def __init__(self):
-        self.client = DerivClient(app_id=APP_ID, api_token=API_TOKEN, use_demo=True)
+        is_demo = (args.mode != "REAL")
+        self.client = DerivClient(app_id=APP_ID, api_token=API_TOKEN, use_demo=is_demo)
         self.tick_buffer = deque(maxlen=ROLLING_WINDOW_SIZE)
         self.anomalies = {}
         self.is_trading = False
@@ -43,6 +51,8 @@ class DynamicOracleBot:
         self.armed_target = None
         self.current_vl_count = 0
         self.last_anomaly_log = 0
+        self.current_soros = 0
+        self.freeroll_active = False
 
     def extract_last_digit(self, price):
         return int(round(price * 100)) % 10
@@ -157,9 +167,37 @@ class DynamicOracleBot:
                 self.total_wins += 1
                 wr = (self.total_wins / self.total_trades) * 100
                 logger.info(f"✅ WIN | Lucro: +${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | WR: {wr:.2f}%")
+                
+                # Lógica Soros
+                if SOROS_LEVELS > 0:
+                    if self.current_soros < SOROS_LEVELS:
+                        self.current_soros += 1
+                        self.current_stake += profit
+                        
+                        # VERIFICAÇÃO FREE ROLL
+                        if getattr(args, "freeroll", False) and not self.freeroll_active:
+                            lucro_nesta_corrida = self.current_stake - BASE_STAKE
+                            if lucro_nesta_corrida >= BASE_STAKE:
+                                logger.info(f"🛡️ FREE ROLL ATINGIDO! Retirando risco inicial (${BASE_STAKE:.2f}) da mesa.")
+                                self.freeroll_active = True
+                                self.current_stake -= BASE_STAKE
+                                
+                        logger.info(f"📈 SOROS ATIVADO (Nível {self.current_soros}/{SOROS_LEVELS}). Nova Stake para próximo tiro: ${self.current_stake:.2f}")
+                    else:
+                        logger.info(f"🎯 CICLO SOROS CONCLUÍDO! Lucro retido. Resetando stake para ${BASE_STAKE:.2f}")
+                        self.current_soros = 0
+                        self.current_stake = BASE_STAKE
+                        self.freeroll_active = False
             else:
                 wr = (self.total_wins / self.total_trades) * 100
                 logger.error(f"❌ LOSS | Prejuízo: ${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | WR: {wr:.2f}%")
+                if getattr(args, "freeroll", False) and self.freeroll_active:
+                    logger.warning(f"⚠️ FREE ROLL PERDIDO. Caixa inicial preservado. Reiniciando ciclo de risco.")
+                elif SOROS_LEVELS > 0:
+                    logger.warning(f"⚠️ SOROS QUEBRADO. Resetando stake para ${BASE_STAKE:.2f}")
+                self.current_soros = 0
+                self.current_stake = BASE_STAKE
+                self.freeroll_active = False
                     
         except Exception as e:
             logger.error(f"Erro na execução: {e}")

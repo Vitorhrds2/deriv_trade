@@ -1,0 +1,115 @@
+2026-06-27 02:29:51,816 - MATCH_BOT_4:INFO:Authenticating to Deriv...
+2026-06-27 02:29:53,283 - MATCH_BOT_4:INFO:Found Demo account: DOT92172514
+2026-06-27 02:29:53,883 - MATCH_BOT_4:INFO:Connecting to authenticated WS...
+2026-06-27 02:29:56,632 - MATCH_BOT_4:INFO:Connected.
+2026-06-27 02:29:56,633 - MATCH_BOT_4:INFO:🧠 [ORÁCULO] Extraindo 5000 ticks para mapear os Clusters de Anomalia...
+2026-06-27 02:29:56,926 - MATCH_BOT_4:INFO:🧠 [ORÁCULO] Mapeando anomalias no Pseudo-RNG...
+2026-06-27 02:29:56,927 - MATCH_BOT_4:INFO:   -> Anomalia: 1 seguido de 2 (4.12%). Apostaremos no Cluster!
+2026-06-27 02:29:56,927 - MATCH_BOT_4:INFO:   -> Anomalia: 2 seguido de 0 (5.75%). Apostaremos no Cluster!
+2026-06-27 02:29:56,927 - MATCH_BOT_4:INFO:   -> Anomalia: 4 seguido de 1 (3.85%). Apostaremos no Cluster!
+2026-06-27 02:29:56,928 - MATCH_BOT_4:INFO:   -> Anomalia: 5 seguido de 8 (4.42%). Apostaremos no Cluster!
+2026-06-27 02:29:56,928 - MATCH_BOT_4:INFO:   -> Anomalia: 6 seguido de 7 (4.04%). Apostaremos no Cluster!
+2026-06-27 02:29:56,928 - MATCH_BOT_4:INFO:   -> Anomalia: 7 seguido de 7 (5.94%). Apostaremos no Cluster!
+2026-06-27 02:29:56,928 - MATCH_BOT_4:INFO:   -> Anomalia: 8 seguido de 1 (5.75%). Apostaremos no Cluster!
+2026-06-27 02:29:56,929 - MATCH_BOT_4:INFO:   -> Anomalia: 9 seguido de 0 (5.43%). Apostaremos no Cluster!
+2026-06-27 02:29:56,929 - MATCH_BOT_4:INFO:📡 Tese B (O Caçador de Cisnes) online. Buscando aglomerações matemáticas (DIGITMATCH)...
+2026-06-27 02:30:23,136 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:30:23,540 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396775799
+2026-06-27 02:30:25,905 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-10.00 | WR: 0.00%
+2026-06-27 02:30:25,905 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:30:27,110 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:30:27,499 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396779319
+2026-06-27 02:30:29,841 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-20.00 | WR: 0.00%
+2026-06-27 02:30:29,842 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:30:31,208 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 1!
+2026-06-27 02:30:31,702 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396782999
+2026-06-27 02:30:35,201 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-30.00 | WR: 0.00%
+2026-06-27 02:30:35,201 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:30:37,115 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:30:37,477 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396788419
+2026-06-27 02:30:39,817 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-40.00 | WR: 0.00%
+2026-06-27 02:30:39,817 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:30:47,112 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:30:47,496 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396796179
+2026-06-27 02:30:51,017 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-50.00 | WR: 0.00%
+2026-06-27 02:30:51,017 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:31:12,149 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:31:12,559 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396817799
+2026-06-27 02:31:16,051 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-60.00 | WR: 0.00%
+2026-06-27 02:31:16,052 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:31:45,120 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:31:45,487 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396847299
+2026-06-27 02:31:47,813 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-70.00 | WR: 0.00%
+2026-06-27 02:31:47,813 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:32:34,121 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 2!
+2026-06-27 02:32:34,498 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396896439
+2026-06-27 02:32:36,830 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-80.00 | WR: 0.00%
+2026-06-27 02:32:36,830 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:32:54,119 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 1!
+2026-06-27 02:32:54,513 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396912319
+2026-06-27 02:32:56,853 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-90.00 | WR: 0.00%
+2026-06-27 02:32:56,853 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:33:02,147 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:33:02,583 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396919119
+2026-06-27 02:33:04,922 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-100.00 | WR: 0.00%
+2026-06-27 02:33:04,922 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:33:06,131 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 2!
+2026-06-27 02:33:06,519 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396922119
+2026-06-27 02:33:08,863 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-110.00 | WR: 0.00%
+2026-06-27 02:33:08,863 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:33:17,115 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 1!
+2026-06-27 02:33:17,608 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396931019
+2026-06-27 02:33:19,933 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-120.00 | WR: 0.00%
+2026-06-27 02:33:19,934 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:34:12,182 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:34:12,553 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3396979439
+2026-06-27 02:34:14,881 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-130.00 | WR: 0.00%
+2026-06-27 02:34:14,882 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:35:38,124 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 8!
+2026-06-27 02:35:38,492 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397053859
+2026-06-27 02:35:40,827 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-140.00 | WR: 0.00%
+2026-06-27 02:35:40,827 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:35:42,181 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 2!
+2026-06-27 02:35:42,568 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397057359
+2026-06-27 02:35:44,905 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-150.00 | WR: 0.00%
+2026-06-27 02:35:44,906 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:35:50,128 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:35:50,514 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397063459
+2026-06-27 02:35:52,977 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-160.00 | WR: 0.00%
+2026-06-27 02:35:52,978 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:36:16,178 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:36:16,613 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397085719
+2026-06-27 02:36:18,946 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-170.00 | WR: 0.00%
+2026-06-27 02:36:18,946 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:36:28,135 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 1!
+2026-06-27 02:36:28,495 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397094559
+2026-06-27 02:36:30,828 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-180.00 | WR: 0.00%
+2026-06-27 02:36:30,829 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:37:02,184 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 2!
+2026-06-27 02:37:02,746 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397124899
+2026-06-27 02:37:05,074 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-190.00 | WR: 0.00%
+2026-06-27 02:37:05,074 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:37:09,127 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:37:09,504 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397131399
+2026-06-27 02:37:11,843 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-200.00 | WR: 0.00%
+2026-06-27 02:37:11,844 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:37:28,144 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 1!
+2026-06-27 02:37:28,525 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397147179
+2026-06-27 02:37:30,852 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-210.00 | WR: 0.00%
+2026-06-27 02:37:30,852 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:38:07,198 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:38:07,571 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397180779
+2026-06-27 02:38:09,917 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-220.00 | WR: 0.00%
+2026-06-27 02:38:09,918 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:38:11,128 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 2!
+2026-06-27 02:38:11,501 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397184839
+2026-06-27 02:38:13,848 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-230.00 | WR: 0.00%
+2026-06-27 02:38:13,848 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:38:51,227 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 7!
+2026-06-27 02:38:51,606 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397220199
+2026-06-27 02:38:53,949 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-240.00 | WR: 0.00%
+2026-06-27 02:38:53,949 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...
+2026-06-27 02:39:37,152 - MATCH_BOT_4:INFO:🔥 [SWAN HUNTER] O Cluster se iniciou (Anomalia validada). Entrando em DIGITMATCH para o dígito 0!
+2026-06-27 02:39:37,505 - MATCH_BOT_4:INFO:🔫 [SWAN HUNTER] Disparo Efetuado! Stake: $10.00 | ID: 3397260199
+2026-06-27 02:39:39,848 - MATCH_BOT_4:ERROR:❌ LOSS Normal | Prejuízo: $-10.00 | PnL Total: $-250.00 | WR: 0.00%
+2026-06-27 02:39:39,848 - MATCH_BOT_4:INFO:⏳ Caçador desarmado. Aguardando a próxima anomalia...

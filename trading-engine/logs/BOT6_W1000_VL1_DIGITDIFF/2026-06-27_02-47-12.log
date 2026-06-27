@@ -1,0 +1,161 @@
+2026-06-27 02:47:12,319 - BOT6_W1000_VL1_DIGITDIFF:INFO:Authenticating to Deriv...
+2026-06-27 02:47:13,221 - BOT6_W1000_VL1_DIGITDIFF:INFO:Found Demo account: DOT92172514
+2026-06-27 02:47:13,812 - BOT6_W1000_VL1_DIGITDIFF:INFO:Connecting to authenticated WS...
+2026-06-27 02:47:14,379 - BOT6_W1000_VL1_DIGITDIFF:INFO:Connected.
+2026-06-27 02:47:14,385 - BOT6_W1000_VL1_DIGITDIFF:INFO:🧠 Baixando buffer inicial de 1000 ticks...
+2026-06-27 02:47:14,641 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 5: 3, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:47:14,642 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ Buffer carregado.
+2026-06-27 02:47:14,642 - BOT6_W1000_VL1_DIGITDIFF:INFO:📡 Oráculo Dinâmico (BOT6_W1000_VL1_DIGITDIFF) Online.
+2026-06-27 02:47:25,128 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 5: 3, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:47:36,146 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 5: 3, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:47:46,154 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 5: 3, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:47:57,133 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:07,140 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:17,143 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 7, 5: 3, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:28,147 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 7, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:34,157 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:48:34,547 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397770399
+2026-06-27 02:48:36,890 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $0.87 | WR: 100.00%
+2026-06-27 02:48:36,890 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:48:38,279 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 4: 7, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:47,192 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 7!
+2026-06-27 02:48:47,581 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397783459
+2026-06-27 02:48:49,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $1.74 | WR: 100.00%
+2026-06-27 02:48:49,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:48:50,139 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:48:59,156 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:48:59,546 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397796079
+2026-06-27 02:49:02,079 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $2.61 | WR: 100.00%
+2026-06-27 02:49:02,079 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:49:02,154 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:49:13,139 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:49:24,147 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:49:34,176 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 6: 2, 8: 4, 9: 7}
+2026-06-27 02:49:45,137 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:49:55,188 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:50:05,223 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:50:15,145 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 2!
+2026-06-27 02:50:15,525 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397866079
+2026-06-27 02:50:17,864 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $3.48 | WR: 100.00%
+2026-06-27 02:50:17,865 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:50:18,148 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:50:28,163 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 2, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:50:29,131 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 2!
+2026-06-27 02:50:29,508 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397878259
+2026-06-27 02:50:31,847 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $4.35 | WR: 100.00%
+2026-06-27 02:50:31,848 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:50:37,140 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:50:37,530 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397885699
+2026-06-27 02:50:39,913 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $5.22 | WR: 100.00%
+2026-06-27 02:50:39,913 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:50:40,140 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:50:50,276 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:01,135 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:12,145 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:22,147 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:32,159 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:43,149 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:51:54,180 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:52:04,189 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 4, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:52:09,140 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 5!
+2026-06-27 02:52:09,536 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3397994939
+2026-06-27 02:52:11,900 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $6.09 | WR: 100.00%
+2026-06-27 02:52:11,900 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:52:15,161 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 5, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:52:17,142 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 7!
+2026-06-27 02:52:17,524 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398003099
+2026-06-27 02:52:19,868 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $6.96 | WR: 100.00%
+2026-06-27 02:52:19,868 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:52:26,143 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 4, 2: 5, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:52:29,197 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:52:29,577 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398013759
+2026-06-27 02:52:31,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $7.83 | WR: 100.00%
+2026-06-27 02:52:31,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:52:36,149 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 4, 8: 4, 9: 7}
+2026-06-27 02:52:42,193 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:52:42,584 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398026219
+2026-06-27 02:52:44,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $8.70 | WR: 100.00%
+2026-06-27 02:52:44,927 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:52:47,145 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:52:51,151 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 7!
+2026-06-27 02:52:51,538 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398036019
+2026-06-27 02:52:53,889 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $9.57 | WR: 100.00%
+2026-06-27 02:52:53,894 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:52:58,161 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:53:08,212 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 5, 8: 4, 9: 7}
+2026-06-27 02:53:16,152 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 7!
+2026-06-27 02:53:16,569 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398065379
+2026-06-27 02:53:18,926 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $10.44 | WR: 100.00%
+2026-06-27 02:53:18,926 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:53:19,142 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 5, 8: 4}
+2026-06-27 02:53:30,151 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 4, 8: 4}
+2026-06-27 02:53:41,155 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 5, 4: 4, 8: 4}
+2026-06-27 02:53:52,148 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 5, 4: 4, 8: 4}
+2026-06-27 02:54:02,460 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 5, 4: 4, 8: 4}
+2026-06-27 02:54:11,109 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 5!
+2026-06-27 02:54:11,491 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398119839
+2026-06-27 02:54:13,854 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $11.31 | WR: 100.00%
+2026-06-27 02:54:13,855 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:54:14,139 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:54:24,206 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:54:35,126 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:54:40,157 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 0!
+2026-06-27 02:54:40,554 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398147019
+2026-06-27 02:54:42,951 - BOT6_W1000_VL1_DIGITDIFF:ERROR:❌ LOSS | Prejuízo: $-10.00 | PnL Total: $1.31 | WR: 92.86%
+2026-06-27 02:54:42,951 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:54:45,184 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:54:56,225 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:55:07,177 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:55:09,126 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 8!
+2026-06-27 02:55:09,523 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398175819
+2026-06-27 02:55:11,868 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $2.18 | WR: 93.33%
+2026-06-27 02:55:11,869 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:55:17,212 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:55:26,119 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 2!
+2026-06-27 02:55:26,511 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398193699
+2026-06-27 02:55:28,869 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $3.05 | WR: 93.75%
+2026-06-27 02:55:28,870 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:55:29,123 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:55:35,127 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 0!
+2026-06-27 02:55:35,504 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398201779
+2026-06-27 02:55:37,845 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $3.92 | WR: 94.12%
+2026-06-27 02:55:37,845 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:55:39,146 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:55:48,126 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 9!
+2026-06-27 02:55:48,509 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398215879
+2026-06-27 02:55:50,867 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $4.79 | WR: 94.44%
+2026-06-27 02:55:50,867 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:55:51,138 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 4, 9: 2}
+2026-06-27 02:56:02,174 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 4}
+2026-06-27 02:56:13,138 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 9, 4: 4, 8: 4}
+2026-06-27 02:56:17,127 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 2!
+2026-06-27 02:56:17,520 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398243619
+2026-06-27 02:56:19,857 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $5.66 | WR: 94.74%
+2026-06-27 02:56:19,857 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:56:21,128 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:56:21,523 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398247039
+2026-06-27 02:56:23,863 - BOT6_W1000_VL1_DIGITDIFF:ERROR:❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-4.34 | WR: 90.00%
+2026-06-27 02:56:23,864 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:56:24,154 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4, 8: 5}
+2026-06-27 02:56:25,112 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 5!
+2026-06-27 02:56:25,483 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398250699
+2026-06-27 02:56:27,840 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $-3.47 | WR: 90.48%
+2026-06-27 02:56:27,840 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:56:34,137 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:56:34,678 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398260579
+2026-06-27 02:56:37,013 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $-2.60 | WR: 90.91%
+2026-06-27 02:56:37,013 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:56:37,120 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 3: 9, 4: 4}
+2026-06-27 02:56:47,123 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 9, 4: 4}
+2026-06-27 02:56:57,128 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {1: 0, 2: 4, 3: 9, 4: 4}
+2026-06-27 02:57:08,189 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 4, 3: 9, 4: 4}
+2026-06-27 02:57:19,123 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 4, 3: 9, 4: 4}
+2026-06-27 02:57:24,132 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 0!
+2026-06-27 02:57:24,524 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398313499
+2026-06-27 02:57:26,874 - BOT6_W1000_VL1_DIGITDIFF:ERROR:❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-12.60 | WR: 86.96%
+2026-06-27 02:57:26,874 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
+2026-06-27 02:57:29,127 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔄 Oráculo Atualizado [Últimos 1000 Ticks]: Anomalias -> {0: 8, 1: 0, 2: 4, 3: 9, 4: 4, 5: 2}
+2026-06-27 02:57:35,128 - BOT6_W1000_VL1_DIGITDIFF:INFO:💥 [GATILHO ALCANÇADO] 1 VLs atingidos! Atirando DIGITDIFF contra 4!
+2026-06-27 02:57:35,515 - BOT6_W1000_VL1_DIGITDIFF:INFO:🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3398323339
+2026-06-27 02:57:37,871 - BOT6_W1000_VL1_DIGITDIFF:INFO:✅ WIN | Lucro: +$0.87 | PnL Total: $-11.73 | WR: 87.50%
+2026-06-27 02:57:37,871 - BOT6_W1000_VL1_DIGITDIFF:INFO:⏳ Retornando à fase de espreita...
