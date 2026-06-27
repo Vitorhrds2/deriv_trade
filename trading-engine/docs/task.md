@@ -1,0 +1,2 @@
+- `[x]` Implementar lógica de Free Roll no `oracle_diff_bot_6.py`
+- `[x]` Configurar o `real_market_orchestrator.py` para injetar a flag `--freeroll`
