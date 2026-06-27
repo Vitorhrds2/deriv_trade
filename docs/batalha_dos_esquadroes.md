@@ -1,46 +1,39 @@
-# 📊 Relatório Tático e Técnico: Batalha dos Esquadrões (Snapshot de 30 Minutos)
+# 📊 Relatório Tático e Técnico: Batalha dos Esquadrões (Fechamento 2 Horas)
 
-Este documento registra a análise comparativa de resiliência e agressividade entre 3 diferentes arquiteturas de gestão de risco em ambiente de teste real (Deriv DEMO).
+Este documento registra a análise de resiliência e agressividade entre 3 diferentes arquiteturas de gestão de risco, acompanhadas continuamente durante as primeiras 2 horas de combate em ambiente de teste real.
 
-## 🧮 Variáveis e Condições do Teste
-- **Alvo:** 5 Mercados de Índices Voláteis Sintéticos da Deriv.
-- **Oráculo:** Skynet Lenta (VL=2 para Disparo).
-- **Tempo de Exposição Analisado:** 30 Minutos.
-- **Eventos Exógenos (Drawdown):** Todos os três esquadrões sofreram perdas idênticas devido a flutuações de mercado que acionaram o Loss em momentos específicos (`1HZ25V` e `RDBEAR`).
+## 🧮 Condições do Teste (Update)
+- **Fato Marcante:** O mercado teve um viés extremamente favorável na última hora. As 3 instâncias emplacaram sequências agressivas de vitórias quase ininterruptas em 4 dos 5 pares.
 
 ---
 
 ## 📉 Esquadrão 1: Soros Tradicional (Sem Trava de Risco)
-* **Arquitetura Matemática:** `Stake(t+1) = Stake Base = $10.00`
-* **Dinâmica de Recuperação:** Fixa e Linear. Cada Win injeta lucro marginal de `+$0.96`.
-* **Impacto do Drawdown:** O impacto de 1 Loss de `$-10.00` requer aproximadamente `10.4` Wins para ser matematicamente zerado.
-* **PnL Global Atual:** **$-23.39**
-* **Veredito Técnico:** Extremamente letárgico no *Recovery Rate*. Uma taxa de acerto (Win Rate) alta não é suficiente para neutralizar os danos quando o retorno sobre o risco (R:R) é inferior a 1:1, fazendo a curva de capital afundar a cada colapso.
+* **PnL Global Atual:** **$-9.39** *(Chegou a estar em $-27.23)*
+* **Veredito Técnico:** Uma recuperação magistral impulsionada pelo absurdo Win Rate (que chegou a >90% na maioria dos pares). Provou que em condições de calmaria estendida, a stake linear de $10.0 consegue tirar a conta do buraco com segurança.
 
 ---
 
 ## 🛡️ Esquadrão 2: Smart Freeroll Lineal (Sem Juros Compostos)
-* **Arquitetura Matemática:** Fase 1 com `Stake(t) = 10.00`. O PnL é isolado para tentar atingir o threshold de `$10.00`.
-* **Impacto do Drawdown:** Absorveu o impacto isoladamente sem comprometer a integridade de longo prazo. Após cair para o negativo, iniciou um ciclo linear de recuperação similar ao Esquadrão 1, porém segmentado.
-* **PnL Global Atual:** **$-2.52**
-* **Veredito Técnico:** Alta segurança contra ruínas totais (Risco engessado na Fase 1), mas falha no quesito *Time-to-Breakeven* (TTB). Com um TTB alto, o sistema passa tempo demais exposto ao risco original ($10) antes de ejetar o capital.
+* **PnL Global Atual:** **$-4.00** *(A arquitetura de menor Drawdown global)*
+* **Veredito Técnico:** O grande azarão da corrida! Por sofrer perdas minúsculas (limitadas a $10), sobreviveu ao abismo do mercado `1HZ10V` muito melhor que os outros. Graças à maré de vitórias recente, ele se tornou a primeira arquitetura não-composta a ultrapassar a Fase 1: O par **R_10 bateu +$10.56 e ativou o Freeroll às 09:00:41**!
 
 ---
 
 ## 🚀 Esquadrão 3: Smart Freeroll Agressivo (Juros Compostos 100%)
-* **Arquitetura Matemática (Fase 1):** `Stake(t+1) = Stake Base + PnL_Total` até `PnL_Total >= Stake Base`.
-* **Mecânica de Recovery:** Exponencial. Quando ocorre uma perda, o lucro retido é pulverizado (o PnL cai no abismo do Loss), mas a reinicialização da stake aos `$10.00` imediatos, aliada à incorporação do lucro nas rodadas subsequentes, gera uma **Escalada Logarítmica** de recuperação.
-* **PnL Global Atual:** **+$1.47 (Conta no Verde)**
-* **Veredito Técnico:** É o modelo definitivo de sobrevivência em martingales invertidos (Soros). Ele sacrifica o "lucro seguro inicial" (que era minúsculo) em troca de um *Recovery Rate* brutal. Absorveu os exatos mesmos losses que o Esquadrão 1, mas recuperou o estrago na metade do tempo.
+* **PnL Global Atual:** **$-17.97** *(Caiu para a última colocação)*
+* **Veredito Técnico:** O "Calcanhar de Aquiles" matemático se consolidou. O *Loss* seguido que ele tomou com a Stake Alta (quando o juros estava máximo no par 1HZ10V) custou caríssimo (-$28.18 apenas nesse par). O prejuízo gigantesco ofuscou a maior conquista de todas as frotas: **Dois Pares na Fase 2 Simultaneamente**.
 
 ### 🔬 Telemetria dos Nodes (Esquadrão 3)
-| Mercado | Win Rate | Sequência Atual | PnL Acumulado | Stake Turbinada | Status do Breakeven |
-|---------|----------|-----------------|---------------|-----------------|---------------------|
-| `RDBULL` | 100.0% | 6W - 0L | +$7.37 | $17.37 | Faltam ~$2.63 |
-| `R_10` | 100.0% | 4W - 0L | +$4.45 | $14.45 | Faltam ~$5.55 |
-| `1HZ10V` | 100.0% | 3W - 0L | +$2.85 | $12.85 | Faltam ~$7.15 |
-| `1HZ25V` | 87.5% | 7W - 1L | -$4.16 | $15.84 | Recuperando Loss |
-| `RDBEAR` | 50.0% | 1W - 1L | -$9.04 | $10.96 | Recuperando Loss |
+| Mercado | Win Rate | Sequência | PnL Acumulado | Status do Breakeven |
+|---------|----------|-----------|---------------|---------------------|
+| `R_10` | 100.0% | 9W - 0L | **+$11.94** | **FASE 2 (FREEROLL)** 🔓 |
+| `RDBULL` | 100.0% | 9W - 0L | **+$11.94** | **FASE 2 (FREEROLL)** 🔓 |
+| `1HZ25V` | 90.0% | 9W - 1L | -$2.72 | Recuperando Loss |
+| `RDBEAR` | 80.0% | 8W - 2L | -$10.95 | Em Recuperação |
+| `1HZ10V` | 81.2% | 13W - 3L | -$28.18 | Danificado pelo "All-In" |
 
-> [!NOTE] 
-> O `RDBULL` é o candidato mais forte a invadir a **Fase 2** nas próximas execuções. Ao bater +$10.00, o modelo realizará a extração e entrará no módulo 25/75 (Resgate vs Stake).
+> [!SUCCESS] 
+> **EXPANSÃO DA FASE 2:** O par `RDBULL` alcançou o `R_10`! Agora o Esquadrão 3 possui 2 impressoras de dinheiro blindadas. Ambas já realizaram saques de lucros direto para o usuário ($0.26 em cada).
+
+> [!WARNING]
+> Apesar do sucesso absoluto na Fase 2, o Esquadrão 3 perdeu a corrida no quesito "Saldo Global" para o Esquadrão 2. O excesso de agressividade na Fase 1 não vale a pena se um único loss apagar o progresso de 10 vitórias seguidas.
