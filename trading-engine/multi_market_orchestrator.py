@@ -23,7 +23,7 @@ print(f"📊 Taxa de Juros (Fase 1): {args.compound * 100}%")
 
 os.makedirs('logs/skynet', exist_ok=True)
 
-STAKE = 10.00
+STAKE = 1.00
 WINDOW = 1000
 VL = 2
 SOROS = 3
