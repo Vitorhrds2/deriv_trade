@@ -377,21 +377,29 @@ class Monitor:
             pass
 
     async def _load_pips(self):
+        # active_symbols (API options) usa 'underlying_symbol' e 'pip_size' — NAO
+        # 'symbol'/'pip'. Errar a chave faz cair na inferencia (pip errado = digito
+        # errado = exatamente o bug do relatorio de edge).
         try:
             res = await self.client.send_request({"active_symbols": "full"})
         except Exception:
             res = {}
-        pips = {s.get("symbol"): s.get("pip") for s in res.get("active_symbols", []) if s.get("pip")}
+        pips = {s.get("underlying_symbol"): s.get("pip_size")
+                for s in res.get("active_symbols", []) if s.get("pip_size")}
         for sym, st in self.states.items():
             if pips.get(sym):
                 st.set_pip(float(pips[sym]))
                 print(f"  pip[{sym}] = {st.pip} (API)")
+            else:
+                print(f"  AVISO pip[{sym}]: nao veio da API; usara inferencia ao acumular ticks")
 
     def _ensure_pips(self):
+        # Fallback so se a API falhar: exige amostra grande, senao a granularidade
+        # observada engana (ex.: 1HZ25V inferido como pip=1 em poucos ticks).
         for st in self.states.values():
-            if st.pip is None and len(st.prices) >= 64:
+            if st.pip is None and len(st.prices) >= 512:
                 st.set_pip(infer_pip(list(st.prices)))
-                print(f"  pip[{st.symbol}] = {st.pip} (inferido)")
+                print(f"  pip[{st.symbol}] = {st.pip} (inferido, fallback)")
 
     def _heartbeat(self):
         parts = []
