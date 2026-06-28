@@ -1,0 +1,633 @@
+🌐 Iniciando a Skynet HFT DEMO (Orquestração Multi-Mercado)...
+🚀 Lançando Skynet Node [DEMO - 1HZ10V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ10V --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ25V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ25V --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - R_10]: .venv/bin/python oracle_diff_bot_6.py --symbol R_10 --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - RDBEAR]: .venv/bin/python oracle_diff_bot_6.py --symbol RDBEAR --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - RDBULL]: .venv/bin/python oracle_diff_bot_6.py --symbol RDBULL --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+✅ Skynet DEMO Online. Acompanhamento Global Ativo. Aposta base: $10.0
+==========================================================================================
+[2026-06-27 07:00:38] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:00:38] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3415707319
+[2026-06-27 07:00:42] [R_10] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-10.00 | WR: 0.00% | 🌍 PNL GLOBAL: $-10.00
+[2026-06-27 07:00:42] [R_10] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:02:08] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:02:08] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3415834919
+[2026-06-27 07:02:13] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-10.00 | WR: 0.00% | 🌍 PNL GLOBAL: $-20.00
+[2026-06-27 07:02:13] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:07:11] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 07:07:11] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416223359
+[2026-06-27 07:07:13] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.96 | WR: 100.00% | 🌍 PNL GLOBAL: $-19.04
+[2026-06-27 07:10:23] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:10:23] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416480379
+[2026-06-27 07:10:26] [1HZ10V] ✅ WIN | Lucro: +$0.87 | PnL Total: $0.87 | WR: 100.00% | 🌍 PNL GLOBAL: $-18.17
+[2026-06-27 07:11:37] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 07:11:37] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416588859
+[2026-06-27 07:11:39] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.92 | WR: 100.00% | 🌍 PNL GLOBAL: $-17.21
+[2026-06-27 07:12:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:12:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416645459
+[2026-06-27 07:12:21] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:12:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.96 | WR: 100.00% | 🌍 PNL GLOBAL: $-16.25
+[2026-06-27 07:12:21] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416652059
+[2026-06-27 07:12:23] [1HZ10V] ✅ WIN | Lucro: +$0.87 | PnL Total: $1.74 | WR: 100.00% | 🌍 PNL GLOBAL: $-15.38
+[2026-06-27 07:14:13] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:14:13] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416812239
+[2026-06-27 07:14:16] [1HZ10V] ✅ WIN | Lucro: +$0.87 | PnL Total: $2.61 | WR: 100.00% | 🌍 PNL GLOBAL: $-14.51
+[2026-06-27 07:15:16] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:15:16] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3416899199
+[2026-06-27 07:15:21] [R_10] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.04 | WR: 50.00% | 🌍 PNL GLOBAL: $-13.55
+[2026-06-27 07:17:10] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:17:10] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417064899
+[2026-06-27 07:17:12] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.88 | WR: 100.00% | 🌍 PNL GLOBAL: $-12.59
+[2026-06-27 07:18:52] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:18:52] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417205479
+[2026-06-27 07:18:57] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.04 | WR: 50.00% | 🌍 PNL GLOBAL: $-11.63
+[2026-06-27 07:19:14] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:19:14] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417240539
+[2026-06-27 07:19:18] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.92 | WR: 100.00% | 🌍 PNL GLOBAL: $-10.67
+[2026-06-27 07:22:54] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:22:54] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417558819
+[2026-06-27 07:22:57] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:22:57] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417563239
+[2026-06-27 07:22:59] [R_10] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.08 | WR: 66.67% | 🌍 PNL GLOBAL: $-9.71
+[2026-06-27 07:22:59] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $3.84 | WR: 100.00% | 🌍 PNL GLOBAL: $-8.75
+[2026-06-27 07:31:11] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 07:31:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418239119
+[2026-06-27 07:31:17] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.08 | WR: 66.67% | 🌍 PNL GLOBAL: $-7.79
+[2026-06-27 07:33:26] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:33:27] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418420219
+[2026-06-27 07:33:29] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.80 | WR: 100.00% | 🌍 PNL GLOBAL: $-6.83
+[2026-06-27 07:33:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 07:33:32] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418426619
+[2026-06-27 07:33:34] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $5.76 | WR: 100.00% | 🌍 PNL GLOBAL: $-5.87
+[2026-06-27 07:33:35] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 07:33:36] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418431799
+[2026-06-27 07:33:41] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.12 | WR: 75.00% | 🌍 PNL GLOBAL: $-4.91
+[2026-06-27 07:37:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:37:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418699319
+[2026-06-27 07:37:18] [1HZ25V] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-4.24 | WR: 85.71% | 🌍 PNL GLOBAL: $-14.91
+[2026-06-27 07:37:18] [1HZ25V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:41:05] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:41:06] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418968879
+[2026-06-27 07:41:08] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.28 | WR: 87.50% | 🌍 PNL GLOBAL: $-13.95
+[2026-06-27 07:43:25] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:43:26] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419132719
+[2026-06-27 07:43:28] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.32 | WR: 88.89% | 🌍 PNL GLOBAL: $-12.99
+[2026-06-27 07:43:45] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:43:46] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419156379
+[2026-06-27 07:43:51] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.16 | WR: 80.00% | 🌍 PNL GLOBAL: $-12.03
+[2026-06-27 07:44:25] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 07:44:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419208079
+[2026-06-27 07:44:31] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-8.08 | WR: 66.67% | 🌍 PNL GLOBAL: $-22.03
+[2026-06-27 07:44:31] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:44:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:44:32] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419216359
+[2026-06-27 07:44:34] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.36 | WR: 90.00% | 🌍 PNL GLOBAL: $-21.07
+[2026-06-27 07:45:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 07:45:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419269719
+[2026-06-27 07:45:18] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.40 | WR: 90.91% | 🌍 PNL GLOBAL: $-20.11
+[2026-06-27 07:46:58] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:46:59] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419392779
+[2026-06-27 07:47:01] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.56 | WR: 91.67% | 🌍 PNL GLOBAL: $-19.15
+[2026-06-27 07:47:33] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:47:34] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419435019
+[2026-06-27 07:47:39] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.20 | WR: 83.33% | 🌍 PNL GLOBAL: $-18.19
+[2026-06-27 07:50:08] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 07:50:09] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419621959
+[2026-06-27 07:50:11] [1HZ25V] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-9.44 | WR: 84.62% | 🌍 PNL GLOBAL: $-28.19
+[2026-06-27 07:50:11] [1HZ25V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:50:24] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:50:25] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419642099
+[2026-06-27 07:50:27] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.48 | WR: 85.71% | 🌍 PNL GLOBAL: $-27.23
+[2026-06-27 07:53:55] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:53:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419892419
+[2026-06-27 07:54:01] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.24 | WR: 85.71% | 🌍 PNL GLOBAL: $-26.27
+[2026-06-27 07:55:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:55:16] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419984539
+[2026-06-27 07:55:21] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.28 | WR: 87.50% | 🌍 PNL GLOBAL: $-25.31
+[2026-06-27 07:55:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:55:27] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419997199
+[2026-06-27 07:55:29] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.52 | WR: 86.67% | 🌍 PNL GLOBAL: $-24.35
+[2026-06-27 07:56:22] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:56:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3420071139
+[2026-06-27 07:56:27] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.12 | WR: 75.00% | 🌍 PNL GLOBAL: $-23.39
+[2026-06-27 07:59:53] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 07:59:53] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3420320479
+[2026-06-27 07:59:56] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.56 | WR: 87.50% | 🌍 PNL GLOBAL: $-22.43
+[2026-06-27 08:02:05] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 08:02:05] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3420475679
+[2026-06-27 08:02:07] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.60 | WR: 88.24% | 🌍 PNL GLOBAL: $-21.47
+[2026-06-27 08:10:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:10:15] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421075659
+[2026-06-27 08:10:19] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.64 | WR: 88.89% | 🌍 PNL GLOBAL: $-20.51
+[2026-06-27 08:12:08] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:12:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421204839
+[2026-06-27 08:12:13] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-17.12 | WR: 60.00% | 🌍 PNL GLOBAL: $-30.51
+[2026-06-27 08:12:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 08:17:56] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:17:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421718419
+[2026-06-27 08:18:00] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 08:18:00] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421725239
+[2026-06-27 08:18:01] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.32 | WR: 88.89% | 🌍 PNL GLOBAL: $-29.55
+[2026-06-27 08:18:02] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.68 | WR: 89.47% | 🌍 PNL GLOBAL: $-28.59
+[2026-06-27 08:20:24] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:20:24] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421958719
+[2026-06-27 08:20:29] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-16.16 | WR: 66.67% | 🌍 PNL GLOBAL: $-27.63
+[2026-06-27 08:22:04] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 08:22:05] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422100479
+[2026-06-27 08:22:07] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.72 | WR: 90.00% | 🌍 PNL GLOBAL: $-26.67
+[2026-06-27 08:25:15] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 08:25:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422382799
+[2026-06-27 08:25:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-15.20 | WR: 71.43% | 🌍 PNL GLOBAL: $-25.71
+[2026-06-27 08:26:55] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:26:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422531759
+[2026-06-27 08:27:01] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.36 | WR: 90.00% | 🌍 PNL GLOBAL: $-24.75
+[2026-06-27 08:28:41] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 08:28:42] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422678179
+[2026-06-27 08:28:44] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.76 | WR: 90.48% | 🌍 PNL GLOBAL: $-23.79
+[2026-06-27 08:29:40] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 08:29:41] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422765679
+[2026-06-27 08:29:43] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.80 | WR: 90.91% | 🌍 PNL GLOBAL: $-22.83
+[2026-06-27 08:37:02] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:37:02] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3423358999
+[2026-06-27 08:37:07] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.40 | WR: 90.91% | 🌍 PNL GLOBAL: $-21.87
+[2026-06-27 08:37:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:37:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3423369879
+[2026-06-27 08:37:17] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.56 | WR: 91.67% | 🌍 PNL GLOBAL: $-20.91
+[2026-06-27 08:37:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:37:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3423414639
+[2026-06-27 08:37:51] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-14.24 | WR: 75.00% | 🌍 PNL GLOBAL: $-19.95
+[2026-06-27 08:38:53] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:38:53] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3423506519
+[2026-06-27 08:38:55] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.16 | WR: 91.30% | 🌍 PNL GLOBAL: $-18.99
+[2026-06-27 08:44:42] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:44:42] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424010759
+[2026-06-27 08:44:47] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.52 | WR: 92.31% | 🌍 PNL GLOBAL: $-18.03
+[2026-06-27 08:44:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 08:44:59] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424033539
+[2026-06-27 08:45:01] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.12 | WR: 91.67% | 🌍 PNL GLOBAL: $-17.07
+[2026-06-27 08:47:26] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:47:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424250799
+[2026-06-27 08:47:31] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-13.28 | WR: 77.78% | 🌍 PNL GLOBAL: $-16.11
+[2026-06-27 08:50:35] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 08:50:35] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424507619
+[2026-06-27 08:50:38] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.08 | WR: 92.00% | 🌍 PNL GLOBAL: $-15.15
+[2026-06-27 08:52:01] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:52:01] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424624579
+[2026-06-27 08:52:04] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $3.04 | WR: 92.31% | 🌍 PNL GLOBAL: $-14.19
+[2026-06-27 08:52:51] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 08:52:51] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424692979
+[2026-06-27 08:52:54] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.00 | WR: 92.59% | 🌍 PNL GLOBAL: $-13.23
+[2026-06-27 08:53:22] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 08:53:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3424731819
+[2026-06-27 08:53:27] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-12.32 | WR: 80.00% | 🌍 PNL GLOBAL: $-12.27
+[2026-06-27 08:59:58] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:59:58] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3425231659
+[2026-06-27 09:00:04] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-11.36 | WR: 81.82% | 🌍 PNL GLOBAL: $-11.31
+[2026-06-27 09:00:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:00:41] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3425285139
+[2026-06-27 09:00:44] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.48 | WR: 92.86% | 🌍 PNL GLOBAL: $-10.35
+[2026-06-27 09:01:30] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:01:30] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3425347739
+[2026-06-27 09:01:32] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.96 | WR: 92.86% | 🌍 PNL GLOBAL: $-9.39
+[2026-06-27 09:08:03] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:08:04] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3425889559
+[2026-06-27 09:08:09] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-10.40 | WR: 83.33% | 🌍 PNL GLOBAL: $-8.43
+[2026-06-27 09:09:35] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:09:36] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426026839
+[2026-06-27 09:09:41] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.44 | WR: 84.62% | 🌍 PNL GLOBAL: $-7.47
+[2026-06-27 09:10:31] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:10:32] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426108639
+[2026-06-27 09:10:37] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $3.44 | WR: 93.33% | 🌍 PNL GLOBAL: $-6.51
+[2026-06-27 09:14:43] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:14:44] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426462079
+[2026-06-27 09:14:47] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-6.56 | WR: 87.50% | 🌍 PNL GLOBAL: $-16.51
+[2026-06-27 09:14:47] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:16:37] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 09:16:38] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426608299
+[2026-06-27 09:16:43] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.48 | WR: 85.71% | 🌍 PNL GLOBAL: $-15.55
+[2026-06-27 09:22:57] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:22:58] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427106539
+[2026-06-27 09:23:03] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.60 | WR: 88.24% | 🌍 PNL GLOBAL: $-14.59
+[2026-06-27 09:23:23] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:23:24] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427139799
+[2026-06-27 09:23:29] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.52 | WR: 86.67% | 🌍 PNL GLOBAL: $-13.63
+[2026-06-27 09:27:51] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:27:52] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427477739
+[2026-06-27 09:27:57] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.64 | WR: 88.89% | 🌍 PNL GLOBAL: $-12.67
+[2026-06-27 09:28:04] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:28:05] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427492879
+[2026-06-27 09:28:07] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $5.92 | WR: 93.10% | 🌍 PNL GLOBAL: $-11.71
+[2026-06-27 09:28:17] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:28:18] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427509319
+[2026-06-27 09:28:22] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $6.88 | WR: 93.33% | 🌍 PNL GLOBAL: $-10.75
+[2026-06-27 09:31:32] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:31:33] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427747339
+[2026-06-27 09:31:35] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $7.84 | WR: 93.55% | 🌍 PNL GLOBAL: $-9.79
+[2026-06-27 09:32:35] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 09:32:36] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427827559
+[2026-06-27 09:32:38] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $8.80 | WR: 93.75% | 🌍 PNL GLOBAL: $-8.83
+[2026-06-27 09:32:48] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:32:49] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427844339
+[2026-06-27 09:32:51] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $9.76 | WR: 93.94% | 🌍 PNL GLOBAL: $-7.87
+[2026-06-27 09:33:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:33:10] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3427870379
+[2026-06-27 09:33:12] [1HZ25V] ✅ WIN | Lucro: +$0.96 | PnL Total: $10.72 | WR: 94.12% | 🌍 PNL GLOBAL: $-6.91
+[2026-06-27 09:33:12] [1HZ25V] 🛡️ SMART FREEROLL ATIVADO! Risco inicial ($10.00) protegido. Nova Stake base (100% lucro): $10.72
+[2026-06-27 09:33:35] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:33:36] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.72 | ID: 3427904199
+[2026-06-27 09:33:39] [1HZ25V] ✅ WIN | Lucro: +$1.03 | PnL Total: $11.75 | WR: 94.29% | 🌍 PNL GLOBAL: $-5.88
+[2026-06-27 09:33:39] [1HZ25V] 📈 [FREEROLL] Divisão de Lucro: $0.26 (Resgate Seguro) / $0.77 (Adicionado à Stake). Nova Stake: $11.49 | Resgate Total: $0.26
+[2026-06-27 09:35:33] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 09:41:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:41:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3428512479
+[2026-06-27 09:41:13] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-17.52 | WR: 81.25% | 🌍 PNL GLOBAL: $-15.88
+[2026-06-27 09:41:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:41:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:43:41] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:44:26] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:45:21] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:45:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3428872619
+[2026-06-27 09:45:27] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-16.56 | WR: 82.35% | 🌍 PNL GLOBAL: $-14.92
+[2026-06-27 09:47:30] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:47:37] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:49:08] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 09:49:30] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:51:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:51:10] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3429324599
+[2026-06-27 09:51:15] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.68 | WR: 89.47% | 🌍 PNL GLOBAL: $-13.96
+[2026-06-27 09:52:21] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:52:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3429420359
+[2026-06-27 09:52:27] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-15.60 | WR: 83.33% | 🌍 PNL GLOBAL: $-13.00
+[2026-06-27 09:56:15] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:56:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3429727259
+[2026-06-27 09:56:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-14.64 | WR: 84.21% | 🌍 PNL GLOBAL: $-12.04
+[2026-06-27 09:56:56] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:00:11] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 10:02:26] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 10:03:44] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 10:03:44] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3430315459
+[2026-06-27 10:03:49] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.72 | WR: 90.00% | 🌍 PNL GLOBAL: $-11.08
+[2026-06-27 10:07:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:08:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 10:10:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:10:40] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3430886759
+[2026-06-27 10:10:45] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.76 | WR: 90.48% | 🌍 PNL GLOBAL: $-10.12
+[2026-06-27 10:13:44] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 10:18:54] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:18:54] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3431550459
+[2026-06-27 10:18:59] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-13.68 | WR: 85.00% | 🌍 PNL GLOBAL: $-9.16
+[2026-06-27 10:22:13] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 10:25:17] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:25:18] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3432060139
+[2026-06-27 10:25:23] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.80 | WR: 90.91% | 🌍 PNL GLOBAL: $-8.20
+[2026-06-27 10:25:43] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 10:31:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:34:52] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 10:35:13] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:35:32] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 10:35:32] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3432860339
+[2026-06-27 10:35:37] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-12.72 | WR: 85.71% | 🌍 PNL GLOBAL: $-7.24
+[2026-06-27 10:39:55] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 10:43:57] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 10:51:00] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:51:00] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3434311559
+[2026-06-27 10:51:05] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.16 | WR: 91.30% | 🌍 PNL GLOBAL: $-6.28
+[2026-06-27 10:51:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:55:13] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 10:56:18] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:56:18] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3434785739
+[2026-06-27 10:56:23] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.12 | WR: 91.67% | 🌍 PNL GLOBAL: $-5.32
+[2026-06-27 10:58:22] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:58:22] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3434984019
+[2026-06-27 10:58:27] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.08 | WR: 92.00% | 🌍 PNL GLOBAL: $-4.36
+[2026-06-27 11:05:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 11:08:53] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:08:54] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3435874619
+[2026-06-27 11:08:58] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:08:59] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $3.04 | WR: 92.31% | 🌍 PNL GLOBAL: $-3.40
+[2026-06-27 11:09:24] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 11:09:37] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:09:38] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3435936999
+[2026-06-27 11:09:43] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-11.76 | WR: 86.36% | 🌍 PNL GLOBAL: $-2.44
+[2026-06-27 11:10:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:10:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3435977539
+[2026-06-27 11:10:13] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-10.80 | WR: 86.96% | 🌍 PNL GLOBAL: $-1.48
+[2026-06-27 11:15:39] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:15:40] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3436439779
+[2026-06-27 11:15:45] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.00 | WR: 92.59% | 🌍 PNL GLOBAL: $-0.52
+[2026-06-27 11:15:45] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:15:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3436447419
+[2026-06-27 11:15:51] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.84 | WR: 87.50% | 🌍 PNL GLOBAL: $0.44
+[2026-06-27 11:18:57] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:22:23] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:22:24] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3436967239
+[2026-06-27 11:22:29] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.96 | WR: 92.86% | 🌍 PNL GLOBAL: $1.40
+[2026-06-27 11:25:41] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:25:43] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3437230399
+[2026-06-27 11:25:46] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $5.92 | WR: 93.10% | 🌍 PNL GLOBAL: $2.36
+[2026-06-27 11:25:56] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:27:25] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:27:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3437370379
+[2026-06-27 11:27:31] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.88 | WR: 88.00% | 🌍 PNL GLOBAL: $3.32
+[2026-06-27 11:33:00] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:33:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:35:27] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:35:28] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3438069399
+[2026-06-27 11:35:31] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $6.88 | WR: 93.33% | 🌍 PNL GLOBAL: $4.28
+[2026-06-27 11:36:21] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:36:22] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3438149079
+[2026-06-27 11:36:25] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $7.84 | WR: 93.55% | 🌍 PNL GLOBAL: $5.24
+[2026-06-27 11:38:03] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:40:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 11:46:32] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:46:32] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3439071379
+[2026-06-27 11:46:37] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $8.80 | WR: 93.75% | 🌍 PNL GLOBAL: $6.20
+[2026-06-27 11:47:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:47:38] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3439160159
+[2026-06-27 11:47:43] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-1.20 | WR: 90.91% | 🌍 PNL GLOBAL: $-3.80
+[2026-06-27 11:47:43] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 11:48:26] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:48:26] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3439220759
+[2026-06-27 11:48:31] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.24 | WR: 91.18% | 🌍 PNL GLOBAL: $-2.84
+[2026-06-27 11:49:11] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:50:54] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:53:53] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:54:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:54:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3439695179
+[2026-06-27 11:54:17] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-10.24 | WR: 88.57% | 🌍 PNL GLOBAL: $-12.84
+[2026-06-27 11:54:17] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 11:57:08] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:58:56] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:59:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:59:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3440139319
+[2026-06-27 11:59:35] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:59:38] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.92 | WR: 88.46% | 🌍 PNL GLOBAL: $-11.88
+[2026-06-27 12:01:12] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:01:12] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3440283599
+[2026-06-27 12:01:17] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.96 | WR: 88.89% | 🌍 PNL GLOBAL: $-10.92
+[2026-06-27 12:02:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:02:14] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3440372879
+[2026-06-27 12:02:19] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.28 | WR: 88.89% | 🌍 PNL GLOBAL: $-9.96
+[2026-06-27 12:02:40] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:02:47] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:09:32] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:09:32] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3440996719
+[2026-06-27 12:09:37] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.00 | WR: 89.29% | 🌍 PNL GLOBAL: $-9.00
+[2026-06-27 12:10:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:10:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:10:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3441081279
+[2026-06-27 12:10:39] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.04 | WR: 89.66% | 🌍 PNL GLOBAL: $-8.04
+[2026-06-27 12:11:43] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:20:36] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 12:20:36] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3441963779
+[2026-06-27 12:20:41] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.32 | WR: 89.19% | 🌍 PNL GLOBAL: $-7.08
+[2026-06-27 12:21:42] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:24:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:24:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3442272239
+[2026-06-27 12:24:13] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-15.04 | WR: 86.67% | 🌍 PNL GLOBAL: $-17.08
+[2026-06-27 12:24:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 12:24:48] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:27:39] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:27:40] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3442567359
+[2026-06-27 12:27:45] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.36 | WR: 89.47% | 🌍 PNL GLOBAL: $-16.12
+[2026-06-27 12:28:47] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:28:48] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3442658099
+[2026-06-27 12:28:53] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-14.08 | WR: 87.10% | 🌍 PNL GLOBAL: $-15.16
+[2026-06-27 12:30:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:33:57] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:33:58] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3443075519
+[2026-06-27 12:34:02] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:34:03] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.40 | WR: 89.74% | 🌍 PNL GLOBAL: $-14.20
+[2026-06-27 12:35:04] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:35:04] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3443177899
+[2026-06-27 12:35:09] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.44 | WR: 90.00% | 🌍 PNL GLOBAL: $-13.24
+[2026-06-27 12:41:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:41:16] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3443655539
+[2026-06-27 12:41:20] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.48 | WR: 90.24% | 🌍 PNL GLOBAL: $-12.28
+[2026-06-27 12:43:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:43:10] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3443804719
+[2026-06-27 12:43:14] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.52 | WR: 90.48% | 🌍 PNL GLOBAL: $-11.32
+[2026-06-27 12:49:26] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 12:50:13] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:50:14] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:50:14] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444332439
+[2026-06-27 12:50:19] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-13.12 | WR: 87.50% | 🌍 PNL GLOBAL: $-10.36
+[2026-06-27 12:51:04] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 12:51:04] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444392479
+[2026-06-27 12:51:09] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.56 | WR: 90.70% | 🌍 PNL GLOBAL: $-9.40
+[2026-06-27 12:51:18] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:51:18] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444410399
+[2026-06-27 12:51:23] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-12.16 | WR: 87.88% | 🌍 PNL GLOBAL: $-8.44
+[2026-06-27 12:52:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:52:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444480939
+[2026-06-27 12:52:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-11.20 | WR: 88.24% | 🌍 PNL GLOBAL: $-7.48
+[2026-06-27 12:52:44] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:52:44] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444514979
+[2026-06-27 12:52:49] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.60 | WR: 90.91% | 🌍 PNL GLOBAL: $-6.52
+[2026-06-27 12:53:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:54:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:54:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3444645719
+[2026-06-27 12:54:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-10.24 | WR: 88.57% | 🌍 PNL GLOBAL: $-5.56
+[2026-06-27 12:56:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:59:42] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:01:04] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:02:18] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 13:02:27] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:03:42] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:03:42] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3445424599
+[2026-06-27 13:03:47] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.28 | WR: 88.89% | 🌍 PNL GLOBAL: $-4.60
+[2026-06-27 13:04:34] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:06:00] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:06:00] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3445613079
+[2026-06-27 13:06:05] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-19.28 | WR: 86.49% | 🌍 PNL GLOBAL: $-14.60
+[2026-06-27 13:06:05] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:06:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:06:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3445634519
+[2026-06-27 13:06:21] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-29.28 | WR: 84.21% | 🌍 PNL GLOBAL: $-24.60
+[2026-06-27 13:06:21] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:13:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:13:46] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3446193259
+[2026-06-27 13:13:51] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.64 | WR: 91.11% | 🌍 PNL GLOBAL: $-23.64
+[2026-06-27 13:15:05] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:16:33] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:17:42] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:17:42] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3446480259
+[2026-06-27 13:17:47] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.32 | WR: 91.30% | 🌍 PNL GLOBAL: $-22.68
+[2026-06-27 13:24:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:24:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447038299
+[2026-06-27 13:24:55] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-28.32 | WR: 84.62% | 🌍 PNL GLOBAL: $-21.72
+[2026-06-27 13:26:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:27:25] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:29:04] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:29:04] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447356539
+[2026-06-27 13:29:09] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-27.36 | WR: 85.00% | 🌍 PNL GLOBAL: $-20.76
+[2026-06-27 13:29:26] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 13:29:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447380359
+[2026-06-27 13:29:31] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-26.40 | WR: 85.37% | 🌍 PNL GLOBAL: $-19.80
+[2026-06-27 13:32:55] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:35:12] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:36:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 13:36:16] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447854919
+[2026-06-27 13:36:21] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.28 | WR: 91.49% | 🌍 PNL GLOBAL: $-18.84
+[2026-06-27 13:40:24] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:46:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:46:58] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3448687479
+[2026-06-27 13:47:03] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.24 | WR: 91.67% | 🌍 PNL GLOBAL: $-17.88
+[2026-06-27 13:47:07] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 13:47:48] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 13:47:48] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3448750319
+[2026-06-27 13:47:53] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-25.44 | WR: 85.71% | 🌍 PNL GLOBAL: $-16.92
+[2026-06-27 13:48:18] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:49:26] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 13:49:26] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3448876939
+[2026-06-27 13:49:31] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $3.20 | WR: 91.84% | 🌍 PNL GLOBAL: $-15.96
+[2026-06-27 13:51:51] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:52:18] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 13:59:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:59:46] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3449621599
+[2026-06-27 13:59:51] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $4.16 | WR: 92.00% | 🌍 PNL GLOBAL: $-15.00
+[2026-06-27 14:00:29] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:01:40] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:02:59] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:05:36] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:07:56] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:08:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 14:08:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3450341019
+[2026-06-27 14:08:55] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-24.48 | WR: 86.05% | 🌍 PNL GLOBAL: $-14.04
+[2026-06-27 14:11:06] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:11:06] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3450519019
+[2026-06-27 14:11:11] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-5.84 | WR: 90.20% | 🌍 PNL GLOBAL: $-24.04
+[2026-06-27 14:11:11] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:11:36] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:11:36] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3450554559
+[2026-06-27 14:11:41] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.88 | WR: 90.38% | 🌍 PNL GLOBAL: $-23.08
+[2026-06-27 14:14:48] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:14:48] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3450809319
+[2026-06-27 14:14:53] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.92 | WR: 90.57% | 🌍 PNL GLOBAL: $-22.12
+[2026-06-27 14:18:13] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:18:32] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:20:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:21:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:21:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451335559
+[2026-06-27 14:21:17] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.96 | WR: 90.74% | 🌍 PNL GLOBAL: $-21.16
+[2026-06-27 14:21:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:21:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451364059
+[2026-06-27 14:21:38] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-34.48 | WR: 84.09% | 🌍 PNL GLOBAL: $-31.16
+[2026-06-27 14:21:38] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:22:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:22:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451414859
+[2026-06-27 14:22:17] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.00 | WR: 90.91% | 🌍 PNL GLOBAL: $-30.20
+[2026-06-27 14:24:56] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:24:56] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451663539
+[2026-06-27 14:25:01] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-44.48 | WR: 82.22% | 🌍 PNL GLOBAL: $-40.20
+[2026-06-27 14:25:01] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:25:14] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:27:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:27:38] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451898019
+[2026-06-27 14:27:42] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.04 | WR: 91.07% | 🌍 PNL GLOBAL: $-39.24
+[2026-06-27 14:30:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:30:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452156959
+[2026-06-27 14:30:35] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-43.52 | WR: 82.61% | 🌍 PNL GLOBAL: $-38.28
+[2026-06-27 14:32:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:32:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452370279
+[2026-06-27 14:32:50] [RDBEAR] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-53.52 | WR: 80.85% | 🌍 PNL GLOBAL: $-48.28
+[2026-06-27 14:32:50] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:33:42] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:33:42] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452455539
+[2026-06-27 14:33:47] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-52.56 | WR: 81.25% | 🌍 PNL GLOBAL: $-47.32
+[2026-06-27 14:35:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:35:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452603479
+[2026-06-27 14:35:21] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-51.60 | WR: 81.63% | 🌍 PNL GLOBAL: $-46.36
+[2026-06-27 14:36:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:36:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452710239
+[2026-06-27 14:36:35] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-50.64 | WR: 82.00% | 🌍 PNL GLOBAL: $-45.40
+[2026-06-27 14:37:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:37:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452798419
+[2026-06-27 14:37:35] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-49.68 | WR: 82.35% | 🌍 PNL GLOBAL: $-44.44
+[2026-06-27 14:38:54] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:38:55] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452925379
+[2026-06-27 14:38:58] [RDBULL] ❌ LOSS | Prejuízo: $-10.00 | PnL Total: $-11.04 | WR: 89.47% | 🌍 PNL GLOBAL: $-54.44
+[2026-06-27 14:38:58] [RDBULL] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:39:21] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:39:25] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:40:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:40:46] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453081999
+[2026-06-27 14:40:51] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-10.08 | WR: 89.66% | 🌍 PNL GLOBAL: $-53.48
+[2026-06-27 14:42:08] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:42:08] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453186339
+[2026-06-27 14:42:13] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-9.12 | WR: 89.83% | 🌍 PNL GLOBAL: $-52.52
+[2026-06-27 14:42:22] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:42:22] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453206399
+[2026-06-27 14:42:27] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-8.16 | WR: 90.00% | 🌍 PNL GLOBAL: $-51.56
+[2026-06-27 14:42:32] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:42:32] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453218739
+[2026-06-27 14:42:37] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-7.20 | WR: 90.16% | 🌍 PNL GLOBAL: $-50.60
+[2026-06-27 14:42:52] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:45:32] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:45:54] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:45:54] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453478059
+[2026-06-27 14:45:59] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-48.72 | WR: 82.69% | 🌍 PNL GLOBAL: $-49.64
+[2026-06-27 14:47:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:47:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453634199
+[2026-06-27 14:47:55] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-47.76 | WR: 83.02% | 🌍 PNL GLOBAL: $-48.68
+[2026-06-27 14:49:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:49:58] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453816879
+[2026-06-27 14:50:03] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-6.24 | WR: 90.32% | 🌍 PNL GLOBAL: $-47.72
+[2026-06-27 14:50:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:50:14] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453841019
+[2026-06-27 14:50:19] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-5.28 | WR: 90.48% | 🌍 PNL GLOBAL: $-46.76
+[2026-06-27 14:50:54] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:50:54] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3453895519
+[2026-06-27 14:50:59] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-4.32 | WR: 90.62% | 🌍 PNL GLOBAL: $-45.80
+[2026-06-27 14:51:05] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:52:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:54:11] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:55:41] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:56:06] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:56:06] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3454318819
+[2026-06-27 14:56:11] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-46.80 | WR: 83.33% | 🌍 PNL GLOBAL: $-44.84
+[2026-06-27 14:58:12] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:58:12] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3454493459
+[2026-06-27 14:58:16] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-45.84 | WR: 83.64% | 🌍 PNL GLOBAL: $-43.88
+[2026-06-27 15:00:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 15:00:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3454702359
+[2026-06-27 15:00:51] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-44.88 | WR: 83.93% | 🌍 PNL GLOBAL: $-42.92
+[2026-06-27 15:02:09] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:03:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:03:14] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3454903179
+[2026-06-27 15:03:19] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-3.36 | WR: 90.77% | 🌍 PNL GLOBAL: $-41.96
+[2026-06-27 15:07:40] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 15:07:40] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3455276859
+[2026-06-27 15:07:44] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-43.92 | WR: 84.21% | 🌍 PNL GLOBAL: $-41.00
+[2026-06-27 15:10:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:10:40] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3455538439
+[2026-06-27 15:10:45] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-2.40 | WR: 90.91% | 🌍 PNL GLOBAL: $-40.04
+[2026-06-27 15:12:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:12:40] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3455709559
+[2026-06-27 15:12:44] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-1.44 | WR: 91.04% | 🌍 PNL GLOBAL: $-39.08
+[2026-06-27 15:12:48] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:13:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:16:50] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 15:16:50] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3456071899
+[2026-06-27 15:16:55] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $-0.48 | WR: 91.18% | 🌍 PNL GLOBAL: $-38.12
+[2026-06-27 15:19:01] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 15:20:19] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:24:47] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:25:10] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 15:28:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 15:28:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:28:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3457148199
+[2026-06-27 15:28:51] [RDBEAR] ✅ WIN | Lucro: +$0.96 | PnL Total: $-42.96 | WR: 84.48% | 🌍 PNL GLOBAL: $-37.16
+[2026-06-27 15:29:54] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 15:32:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:32:10] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3457430519
+[2026-06-27 15:32:14] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $0.48 | WR: 91.30% | 🌍 PNL GLOBAL: $-36.20
+[2026-06-27 15:33:01] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 15:33:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:33:38] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3457551279
+[2026-06-27 15:33:43] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $1.44 | WR: 91.43% | 🌍 PNL GLOBAL: $-35.24
+[2026-06-27 15:37:20] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 15:43:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 15:43:58] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3458383379
+[2026-06-27 15:44:03] [RDBULL] ✅ WIN | Lucro: +$0.96 | PnL Total: $2.40 | WR: 91.55% | 🌍 PNL GLOBAL: $-34.28
+[2026-06-27 15:44:06] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!

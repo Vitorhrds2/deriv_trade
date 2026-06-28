@@ -1,0 +1,39 @@
+[feat/sniper-lenta 8c8861f] docs/fix: Conclusao da Fase 1, correcao de casas decimais na stake e preparacao para Intervencao Militar
+ 38 files changed, 156168 insertions(+), 31 deletions(-)
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-00-09.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-15-02.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-25-24.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_09-39-31.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-27.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-47.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ10V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-04-13.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-00-10.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-15-04.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-25-26.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_09-39-33.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-28.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-49.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_1HZ25V_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-04-15.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-00-14.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-15-08.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-25-30.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_09-39-37.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-32.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-54.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBEAR_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-04-19.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-00-16.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-15-10.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-25-32.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_09-39-39.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-34.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-56.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_RDBULL_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-04-21.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-00-12.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-15-06.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_07-25-28.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_09-39-35.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-30.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-03-51.log
+ create mode 100644 trading-engine/logs/BOT_DEMO_R_10_W1000_VL2_S3_DIGITDIFF/2026-06-27_10-04-17.log
+To https://github.com/Vitorhrds2/deriv_trade.git
+   57ffff0..8c8861f  feat/sniper-lenta -> feat/sniper-lenta

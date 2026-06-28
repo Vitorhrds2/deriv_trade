@@ -1,0 +1,721 @@
+🌐 Iniciando a Skynet HFT DEMO (Orquestração Multi-Mercado)...
+🚀 Lançando Skynet Node [DEMO - 1HZ10V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ10V --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - 1HZ25V]: .venv/bin/python oracle_diff_bot_6.py --symbol 1HZ25V --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - R_10]: .venv/bin/python oracle_diff_bot_6.py --symbol R_10 --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - RDBEAR]: .venv/bin/python oracle_diff_bot_6.py --symbol RDBEAR --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+🚀 Lançando Skynet Node [DEMO - RDBULL]: .venv/bin/python oracle_diff_bot_6.py --symbol RDBULL --stake 10.0 --window 1000 --vl 2 --soros 3 --mode DEMO --envfile .env --freeroll
+✅ Skynet DEMO Online. Acompanhamento Global Ativo. Aposta base: $10.0
+==========================================================================================
+[2026-06-27 07:25:54] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 07:25:54] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417807239
+[2026-06-27 07:25:56] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:27:06] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 07:27:06] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3417909199
+[2026-06-27 07:27:11] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:28:02] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 07:28:02] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3417985839
+[2026-06-27 07:28:06] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:31:09] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:31:10] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3418236559
+[2026-06-27 07:31:11] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 07:31:12] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418238459
+[2026-06-27 07:31:12] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:31:16] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:33:26] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:33:27] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418420459
+[2026-06-27 07:33:29] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:33:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 07:33:32] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3418426839
+[2026-06-27 07:33:34] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:33:35] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 07:33:36] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3418431779
+[2026-06-27 07:33:41] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:37:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:37:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3418699539
+[2026-06-27 07:37:18] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:37:18] [1HZ25V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:41:05] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:41:06] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3418968799
+[2026-06-27 07:41:08] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:43:25] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:43:26] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3419132879
+[2026-06-27 07:43:28] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:43:45] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:43:46] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3419156399
+[2026-06-27 07:43:51] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:43:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 07:43:54] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3419165619
+[2026-06-27 07:43:56] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:43:59] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:44:00] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3419174859
+[2026-06-27 07:44:05] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:44:25] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 07:44:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3419207639
+[2026-06-27 07:44:31] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:44:31] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 07:44:31] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 07:44:32] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3419216579
+[2026-06-27 07:44:34] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:45:15] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 07:45:16] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3419269999
+[2026-06-27 07:45:18] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:46:58] [1HZ25V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:46:59] [1HZ25V] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3419393079
+[2026-06-27 07:47:01] [1HZ25V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:47:33] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 07:47:34] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3419434859
+[2026-06-27 07:47:39] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:53:55] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 07:53:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3419892319
+[2026-06-27 07:54:00] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:55:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:55:16] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3419984359
+[2026-06-27 07:55:21] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:56:22] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 07:56:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3420070719
+[2026-06-27 07:56:27] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 07:58:50] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 07:58:50] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3420243699
+[2026-06-27 07:58:55] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:00:20] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:00:20] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3420354739
+[2026-06-27 08:00:23] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:03:32] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:03:32] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3420576819
+[2026-06-27 08:03:37] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:09:08] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:09:08] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3420999199
+[2026-06-27 08:09:13] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:10:30] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:10:30] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3421090959
+[2026-06-27 08:10:35] [R_10] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:12:08] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:12:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3421204439
+[2026-06-27 08:12:13] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:12:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 08:16:16] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 08:16:16] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.05 | ID: 3421553599
+[2026-06-27 08:16:21] [R_10] 🛡️ SMART FREEROLL ATIVADO! Risco inicial ($10.00) protegido. Nova Stake base (100% lucro): $10.89
+[2026-06-27 08:16:21] [R_10] 🎯 ESTADO: Freeroll (Fase 2) | CONTA: DEMO
+[2026-06-27 08:17:52] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:17:52] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3421707559
+[2026-06-27 08:17:54] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:17:54] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 08:17:56] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:17:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3421718339
+[2026-06-27 08:18:01] [RDBULL] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:19:17] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 08:19:17] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421848899
+[2026-06-27 08:19:20] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:20:24] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:20:24] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3421958699
+[2026-06-27 08:20:29] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:21:45] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 08:21:45] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3422073739
+[2026-06-27 08:21:47] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:24:49] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:24:50] [R_10] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.89 | ID: 3422351839
+[2026-06-27 08:24:55] [R_10] 🎯 ESTADO: Freeroll (Fase 2) | CONTA: DEMO
+[2026-06-27 08:25:15] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 08:25:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3422382419
+[2026-06-27 08:25:20] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:26:45] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 08:26:46] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3422519479
+[2026-06-27 08:26:49] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:26:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 08:26:54] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3422530179
+[2026-06-27 08:26:55] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:26:56] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.05 | ID: 3422531639
+[2026-06-27 08:26:57] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:27:01] [RDBULL] 🛡️ SMART FREEROLL ATIVADO! Risco inicial ($10.00) protegido. Nova Stake base (100% lucro): $10.89
+[2026-06-27 08:27:01] [RDBULL] 🎯 ESTADO: Freeroll (Fase 2) | CONTA: DEMO
+[2026-06-27 08:30:04] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:30:05] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3422808399
+[2026-06-27 08:30:07] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:30:21] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:30:22] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3422828599
+[2026-06-27 08:30:25] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:31:31] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 08:31:32] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3422928459
+[2026-06-27 08:31:34] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:31:34] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 08:31:44] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:31:45] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3422946799
+[2026-06-27 08:31:47] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:33:06] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:33:07] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3423060719
+[2026-06-27 08:33:09] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:33:09] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 08:37:02] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 08:37:02] [RDBULL] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.89 | ID: 3423359219
+[2026-06-27 08:37:07] [RDBULL] 🎯 ESTADO: Freeroll (Fase 2) | CONTA: DEMO
+[2026-06-27 08:37:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:37:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:37:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3423414379
+[2026-06-27 08:37:51] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:39:57] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:39:57] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3423592599
+[2026-06-27 08:40:00] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:44:42] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 08:47:26] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 08:47:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3424250839
+[2026-06-27 08:47:31] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:51:15] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 08:51:15] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3424561279
+[2026-06-27 08:51:19] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:53:22] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 08:53:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3424731739
+[2026-06-27 08:53:27] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 08:59:58] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 08:59:58] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3425231159
+[2026-06-27 09:00:04] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:00:08] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:00:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3425246479
+[2026-06-27 09:00:13] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:00:36] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:00:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:08:03] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:08:04] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.05 | ID: 3425889439
+[2026-06-27 09:08:08] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:09:31] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 09:09:32] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3426019599
+[2026-06-27 09:09:34] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:09:35] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:09:37] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $20.89 | ID: 3426031139
+[2026-06-27 09:09:41] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:10:31] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:10:38] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 09:10:39] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3426116779
+[2026-06-27 09:10:42] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:10:42] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:12:29] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 09:14:10] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:14:11] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426418939
+[2026-06-27 09:14:14] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:14:43] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:16:37] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 09:16:38] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $22.91 | ID: 3426608219
+[2026-06-27 09:16:43] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:16:55] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:16:56] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3426631959
+[2026-06-27 09:16:59] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:17:40] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 09:17:41] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3426688139
+[2026-06-27 09:17:43] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:18:10] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:18:11] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3426725059
+[2026-06-27 09:18:13] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:19:27] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:19:28] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3426821379
+[2026-06-27 09:19:30] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:19:30] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:20:31] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:21:15] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 09:21:16] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3426981339
+[2026-06-27 09:21:19] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:22:13] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:22:14] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3427053419
+[2026-06-27 09:22:17] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:22:57] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:23:23] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:23:24] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $25.12 | ID: 3427139819
+[2026-06-27 09:23:29] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:23:56] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:27:28] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:27:29] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3427446839
+[2026-06-27 09:27:32] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:27:51] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 09:31:15] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:35:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:35:44] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3428066119
+[2026-06-27 09:35:46] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:35:46] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:41:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:41:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $27.54 | ID: 3428512419
+[2026-06-27 09:41:13] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:41:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 09:41:22] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:41:23] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3428537159
+[2026-06-27 09:41:25] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:41:51] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:41:52] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3428576059
+[2026-06-27 09:41:54] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:45:21] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 09:45:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3428872579
+[2026-06-27 09:45:27] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:46:16] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:46:17] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3428943899
+[2026-06-27 09:46:19] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:48:36] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:50:03] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:50:19] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:50:34] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 09:50:34] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3429282019
+[2026-06-27 09:50:36] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:51:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 09:52:21] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 09:52:22] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3429420239
+[2026-06-27 09:52:27] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:56:07] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 09:56:15] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:56:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3429726959
+[2026-06-27 09:56:21] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 09:59:00] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 09:59:00] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3429929879
+[2026-06-27 09:59:03] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:00:30] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:00:30] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3430045319
+[2026-06-27 10:00:32] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:00:32] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 10:01:05] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:01:05] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3430092759
+[2026-06-27 10:01:07] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:03:40] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 10:03:40] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3430309979
+[2026-06-27 10:03:42] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:03:44] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 10:04:45] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:04:45] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3430397019
+[2026-06-27 10:04:47] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:05:22] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:05:22] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3430449319
+[2026-06-27 10:05:25] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:06:19] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:06:19] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3430530379
+[2026-06-27 10:06:21] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:06:36] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:06:36] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3430551439
+[2026-06-27 10:06:39] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:10:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:11:16] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:11:16] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3430929079
+[2026-06-27 10:11:18] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:17:58] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:17:58] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.93 | ID: 3431467259
+[2026-06-27 10:18:01] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:18:54] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:18:54] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3431550079
+[2026-06-27 10:18:59] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:25:18] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:27:19] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 10:27:20] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.49 | ID: 3432218019
+[2026-06-27 10:27:22] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:28:34] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 10:28:35] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $21.18 | ID: 3432317759
+[2026-06-27 10:28:37] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:35:31] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 10:35:32] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3432860119
+[2026-06-27 10:35:37] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:37:02] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 10:37:02] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $23.02 | ID: 3432987379
+[2026-06-27 10:37:05] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:47:00] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:47:00] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $25.02 | ID: 3433926839
+[2026-06-27 10:47:03] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:50:10] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:50:10] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $27.20 | ID: 3434240199
+[2026-06-27 10:50:12] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:51:00] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 10:53:36] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 10:54:25] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:54:25] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $29.57 | ID: 3434611859
+[2026-06-27 10:54:28] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:56:18] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 10:57:09] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 10:57:09] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $32.14 | ID: 3434871619
+[2026-06-27 10:57:11] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 10:58:22] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 10:59:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 10:59:53] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $34.93 | ID: 3435095259
+[2026-06-27 10:59:55] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:01:20] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:04:01] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:04:01] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $37.97 | ID: 3435450619
+[2026-06-27 11:04:04] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:06:58] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:06:59] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $41.27 | ID: 3435704999
+[2026-06-27 11:07:01] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:07:47] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:07:48] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $44.86 | ID: 3435774179
+[2026-06-27 11:07:50] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:08:53] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:09:17] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:09:37] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:09:38] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3435937099
+[2026-06-27 11:09:43] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:10:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:10:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3435977519
+[2026-06-27 11:10:13] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:10:45] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:10:46] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $48.76 | ID: 3436030139
+[2026-06-27 11:10:48] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:11:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 11:11:54] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $53.00 | ID: 3436126739
+[2026-06-27 11:11:56] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:12:19] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:15:39] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:15:45] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:15:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.05 | ID: 3436447099
+[2026-06-27 11:15:51] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:17:39] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:22:01] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:22:02] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $57.61 | ID: 3436937919
+[2026-06-27 11:22:04] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:22:23] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:22:31] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 11:23:01] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 11:25:41] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:27:25] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:27:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $20.89 | ID: 3437370099
+[2026-06-27 11:27:30] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:35:27] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:35:57] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 11:36:21] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:44:41] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 11:44:41] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $62.62 | ID: 3438911819
+[2026-06-27 11:44:43] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:46:32] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:47:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:48:04] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 11:48:04] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $68.07 | ID: 3439193999
+[2026-06-27 11:48:06] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:48:06] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 11:48:26] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 11:49:04] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:51:28] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:53:03] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 11:53:03] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3439602399
+[2026-06-27 11:53:05] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:54:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:54:26] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:54:26] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3439711059
+[2026-06-27 11:54:28] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:54:52] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 11:54:52] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3439748599
+[2026-06-27 11:54:55] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:54:58] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 11:54:58] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3439759919
+[2026-06-27 11:55:00] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:57:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:57:53] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3440000179
+[2026-06-27 11:57:55] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 11:59:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 11:59:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $22.91 | ID: 3440138999
+[2026-06-27 11:59:39] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:01:12] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:01:12] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $25.12 | ID: 3440283479
+[2026-06-27 12:01:17] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:02:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:03:24] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:03:25] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3440468839
+[2026-06-27 12:03:27] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:04:41] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:04:41] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3440576059
+[2026-06-27 12:04:43] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:07:54] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:08:25] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:08:25] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.93 | ID: 3440902179
+[2026-06-27 12:08:27] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:08:34] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:08:34] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.49 | ID: 3440913399
+[2026-06-27 12:08:36] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:08:36] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 12:09:32] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:09:32] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $27.54 | ID: 3440996419
+[2026-06-27 12:09:37] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:10:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:10:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $30.20 | ID: 3441081119
+[2026-06-27 12:10:39] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:16:34] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:20:10] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:20:36] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 12:23:06] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 12:23:06] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:23:06] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3442188719
+[2026-06-27 12:23:08] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:24:07] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:24:08] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $33.11 | ID: 3442271979
+[2026-06-27 12:24:13] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:24:13] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 12:24:19] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 12:25:09] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 12:25:10] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3442357079
+[2026-06-27 12:25:12] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:26:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:26:44] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3442490919
+[2026-06-27 12:26:46] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:27:34] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:27:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:28:47] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:28:48] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3442657879
+[2026-06-27 12:28:53] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:33:47] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:33:48] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3443060839
+[2026-06-27 12:33:50] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:33:50] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 12:33:57] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:35:04] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:36:10] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:38:22] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:38:23] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3443436139
+[2026-06-27 12:38:25] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:41:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:42:04] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:42:04] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3443719659
+[2026-06-27 12:42:06] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:43:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 12:46:31] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:46:31] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3444049299
+[2026-06-27 12:46:33] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:46:39] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:46:39] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3444057519
+[2026-06-27 12:46:41] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:48:23] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:48:24] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3444187139
+[2026-06-27 12:48:26] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:50:14] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:50:14] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3444332279
+[2026-06-27 12:50:19] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:51:04] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 12:51:18] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:51:18] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3444410259
+[2026-06-27 12:51:23] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:52:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 12:52:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3444480399
+[2026-06-27 12:52:21] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:52:44] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:54:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 12:54:16] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 12:54:16] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3444645659
+[2026-06-27 12:54:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3444645679
+[2026-06-27 12:54:19] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:54:21] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:56:37] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 12:56:37] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3444849219
+[2026-06-27 12:56:39] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 12:59:58] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 12:59:58] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.93 | ID: 3445122419
+[2026-06-27 13:00:01] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:00:02] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:03:42] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:03:42] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3445424139
+[2026-06-27 13:03:47] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:03:48] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:06:00] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 13:06:00] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3445612539
+[2026-06-27 13:06:04] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:06:04] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:06:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:06:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3445634119
+[2026-06-27 13:06:21] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:06:21] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:13:30] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 13:13:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:17:42] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:18:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:18:53] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.49 | ID: 3446564639
+[2026-06-27 13:18:55] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:23:47] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:23:47] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $21.18 | ID: 3446955979
+[2026-06-27 13:23:49] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:23:49] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:24:15] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 13:24:15] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3446991499
+[2026-06-27 13:24:17] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:24:17] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:24:20] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:24:20] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3446999779
+[2026-06-27 13:24:22] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:24:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:24:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447038419
+[2026-06-27 13:24:55] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:26:19] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:26:19] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3447152759
+[2026-06-27 13:26:21] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:26:21] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 13:29:04] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:29:04] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3447356279
+[2026-06-27 13:29:09] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:29:26] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 13:29:26] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3447380279
+[2026-06-27 13:29:31] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:29:46] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 13:29:46] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3447404059
+[2026-06-27 13:29:48] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:36:16] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 13:39:23] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 13:39:23] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3448100019
+[2026-06-27 13:39:25] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:41:31] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 13:41:31] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3448273359
+[2026-06-27 13:41:33] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:46:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 13:47:48] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 13:47:48] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3448750059
+[2026-06-27 13:47:53] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:49:26] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 13:49:57] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 13:49:57] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3448911839
+[2026-06-27 13:50:00] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:56:36] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 13:56:36] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3449394239
+[2026-06-27 13:56:38] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 13:59:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:02:05] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:02:05] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3449814219
+[2026-06-27 14:02:07] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:04:21] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 14:04:21] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3449991319
+[2026-06-27 14:04:23] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:05:20] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:05:20] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.93 | ID: 3450066679
+[2026-06-27 14:05:22] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:08:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 14:08:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3450340639
+[2026-06-27 14:08:55] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:09:25] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:09:25] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.49 | ID: 3450384979
+[2026-06-27 14:09:27] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:11:06] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:11:13] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:11:13] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $21.18 | ID: 3450527479
+[2026-06-27 14:11:15] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:11:15] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:11:36] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:14:18] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:14:18] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3450771119
+[2026-06-27 14:14:21] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:14:48] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:17:59] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:17:59] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3451077699
+[2026-06-27 14:18:03] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:19:07] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:19:07] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3451168459
+[2026-06-27 14:19:09] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:21:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:21:26] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:21:34] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:21:34] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3451363999
+[2026-06-27 14:21:38] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:21:38] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:22:12] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:24:13] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:24:13] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3451605419
+[2026-06-27 14:24:15] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:24:15] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:24:40] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 14:24:40] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451641299
+[2026-06-27 14:24:43] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:24:56] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:24:56] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3451663619
+[2026-06-27 14:25:01] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:25:01] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:27:24] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:27:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:30:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:30:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452156919
+[2026-06-27 14:30:31] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:30:31] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3452159559
+[2026-06-27 14:30:33] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:30:33] [1HZ10V] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:30:35] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:32:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:32:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3452370219
+[2026-06-27 14:32:51] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:32:51] [RDBEAR] ⚠️ LOSS na Fase 1. Retomando com Stake Base: $10.00
+[2026-06-27 14:33:42] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:33:42] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452455659
+[2026-06-27 14:33:46] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:35:16] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:35:16] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.96 | ID: 3452603619
+[2026-06-27 14:35:21] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:35:27] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:35:27] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.00 | ID: 3452620439
+[2026-06-27 14:35:31] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:36:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 14:36:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.02 | ID: 3452710259
+[2026-06-27 14:36:35] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:37:24] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:37:24] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $10.87 | ID: 3452790379
+[2026-06-27 14:37:28] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:37:30] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:37:30] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.18 | ID: 3452798119
+[2026-06-27 14:37:35] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:38:54] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:40:46] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:42:08] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:42:22] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:43:26] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:44:06] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:44:06] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $11.82 | ID: 3453346259
+[2026-06-27 14:44:10] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:45:54] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:45:54] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $14.45 | ID: 3453478359
+[2026-06-27 14:45:59] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:47:16] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:47:16] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $12.85 | ID: 3453589619
+[2026-06-27 14:47:18] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:47:50] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 14:47:50] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.84 | ID: 3453634119
+[2026-06-27 14:47:55] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:49:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 14:50:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 14:50:54] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!
+[2026-06-27 14:50:57] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:50:57] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $13.97 | ID: 3453900659
+[2026-06-27 14:51:00] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:51:36] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:51:36] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $15.18 | ID: 3453949499
+[2026-06-27 14:51:38] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:55:46] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 14:56:00] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 14:56:06] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 14:56:06] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.37 | ID: 3454318759
+[2026-06-27 14:56:11] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 14:58:12] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 14:58:12] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.05 | ID: 3454493399
+[2026-06-27 14:58:17] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:00:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 15:00:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $20.89 | ID: 3454702119
+[2026-06-27 15:00:51] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:03:14] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:07:40] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 6!
+[2026-06-27 15:07:40] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $22.91 | ID: 3455276959
+[2026-06-27 15:07:44] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:10:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:12:40] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:13:47] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:13:47] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $16.50 | ID: 3455804399
+[2026-06-27 15:13:50] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:13:53] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 15:13:53] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $17.93 | ID: 3455812219
+[2026-06-27 15:13:55] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:16:50] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 15:19:43] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:19:43] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $19.49 | ID: 3456336359
+[2026-06-27 15:19:45] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:20:18] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 3!
+[2026-06-27 15:20:18] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $21.18 | ID: 3456390499
+[2026-06-27 15:20:20] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:24:15] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 15:24:15] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $23.02 | ID: 3456733099
+[2026-06-27 15:24:17] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:24:48] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 4!
+[2026-06-27 15:26:41] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 5!
+[2026-06-27 15:26:41] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $25.02 | ID: 3456964199
+[2026-06-27 15:26:43] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:27:58] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 1!
+[2026-06-27 15:28:46] [RDBEAR] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:28:46] [RDBEAR] 🔫 [SNIPER] Disparo Efetuado! Stake: $25.12 | ID: 3457148159
+[2026-06-27 15:28:51] [RDBEAR] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:28:56] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:28:56] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $27.20 | ID: 3457161899
+[2026-06-27 15:28:58] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:31:08] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 0!
+[2026-06-27 15:32:10] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 8!
+[2026-06-27 15:33:38] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:37:46] [R_10] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 7!
+[2026-06-27 15:39:25] [1HZ10V] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 2!
+[2026-06-27 15:39:25] [1HZ10V] 🔫 [SNIPER] Disparo Efetuado! Stake: $29.57 | ID: 3458011299
+[2026-06-27 15:39:27] [1HZ10V] 🎯 ESTADO: Breakeven (Fase 1) | CONTA: DEMO
+[2026-06-27 15:43:58] [RDBULL] 💥 [GATILHO ALCANÇADO] 2 VLs atingidos! Atirando DIGITDIFF contra 9!

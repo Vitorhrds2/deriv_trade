@@ -1,0 +1,144 @@
+
+>>> Baixando 1HZ10V (40 x 5000 ticks)...
+  1HZ10V: 10/40 -> 10,000 ticks
+  1HZ10V: 20/40 -> 20,000 ticks
+  1HZ10V: 30/40 -> 30,000 ticks
+  1HZ10V: 40/40 -> 40,000 ticks
+
+========================================================================
+  REAL 1HZ10V  | ticks=40,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [4065, 4056, 3995, 3994, 3981, 3947, 3985, 4087, 3960, 3930]
+Chi-quadrado vs uniforme (df=9): 6.22  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 149
+WIN / LOSS              : 129 / 20
+WIN RATE pos-sinal      : 86.58%   IC95% Wilson: [80.18%, 91.14%]
+P[alvo aparecer]        : 13.42%   (aleatorio = 10.00%)
+Max perdas consecutivas : 2
+Controle barreira aleat.: WR 91.95%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = -0.0589  | break-even WR = 92.00%  -> PERDE
+  payout   9.3%  EV/$1 = -0.0537  | break-even WR = 91.49%  -> PERDE
+  payout  10.0%  EV/$1 = -0.0477  | break-even WR = 90.91%  -> PERDE
+
+>>> Baixando 1HZ25V (40 x 5000 ticks)...
+  1HZ25V: 10/40 -> 10,000 ticks
+  1HZ25V: 20/40 -> 20,000 ticks
+  1HZ25V: 30/40 -> 30,000 ticks
+  1HZ25V: 40/40 -> 40,000 ticks
+
+========================================================================
+  REAL 1HZ25V  | ticks=40,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [4066, 4046, 4028, 3946, 4001, 3979, 3977, 4051, 3923, 3983]
+Chi-quadrado vs uniforme (df=9): 4.99  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 152
+WIN / LOSS              : 135 / 17
+WIN RATE pos-sinal      : 88.82%   IC95% Wilson: [82.82%, 92.90%]
+P[alvo aparecer]        : 11.18%   (aleatorio = 10.00%)
+Max perdas consecutivas : 3
+Controle barreira aleat.: WR 93.42%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = -0.0346  | break-even WR = 92.00%  -> PERDE
+  payout   9.3%  EV/$1 = -0.0292  | break-even WR = 91.49%  -> PERDE
+  payout  10.0%  EV/$1 = -0.0230  | break-even WR = 90.91%  -> PERDE
+
+>>> Baixando 1HZ50V (40 x 5000 ticks)...
+  1HZ50V: 10/40 -> 10,000 ticks
+  1HZ50V: 20/40 -> 20,000 ticks
+  1HZ50V: 30/40 -> 30,000 ticks
+  1HZ50V: 40/40 -> 40,000 ticks
+
+========================================================================
+  REAL 1HZ50V  | ticks=40,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [4000, 3989, 3940, 3950, 4006, 4006, 3974, 4069, 4036, 4030]
+Chi-quadrado vs uniforme (df=9): 3.48  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 161
+WIN / LOSS              : 142 / 19
+WIN RATE pos-sinal      : 88.20%   IC95% Wilson: [82.30%, 92.31%]
+P[alvo aparecer]        : 11.80%   (aleatorio = 10.00%)
+Max perdas consecutivas : 2
+Controle barreira aleat.: WR 88.82%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = -0.0413  | break-even WR = 92.00%  -> PERDE
+  payout   9.3%  EV/$1 = -0.0360  | break-even WR = 91.49%  -> PERDE
+  payout  10.0%  EV/$1 = -0.0298  | break-even WR = 90.91%  -> PERDE
+
+>>> Baixando 1HZ75V (40 x 5000 ticks)...
+  1HZ75V: 10/40 -> 10,000 ticks
+  1HZ75V: 20/40 -> 20,000 ticks
+  1HZ75V: 30/40 -> 30,000 ticks
+  1HZ75V: 40/40 -> 40,000 ticks
+
+========================================================================
+  REAL 1HZ75V  | ticks=40,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [3998, 4014, 3983, 4053, 4016, 4076, 4037, 3948, 3972, 3903]
+Chi-quadrado vs uniforme (df=9): 5.90  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 147
+WIN / LOSS              : 138 / 9
+WIN RATE pos-sinal      : 93.88%   IC95% Wilson: [88.77%, 96.75%]
+P[alvo aparecer]        : 6.12%   (aleatorio = 10.00%)
+Max perdas consecutivas : 3
+Controle barreira aleat.: WR 87.07%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = +0.0204  | break-even WR = 92.00%  -> LUCRA
+  payout   9.3%  EV/$1 = +0.0261  | break-even WR = 91.49%  -> LUCRA
+  payout  10.0%  EV/$1 = +0.0327  | break-even WR = 90.91%  -> LUCRA
+
+>>> Baixando 1HZ100V (40 x 5000 ticks)...
+  1HZ100V: 10/40 -> 10,000 ticks
+  1HZ100V: 20/40 -> 20,000 ticks
+  1HZ100V: 30/40 -> 30,000 ticks
+  1HZ100V: 40/40 -> 40,000 ticks
+
+========================================================================
+  REAL 1HZ100V  | ticks=40,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [3979, 4028, 3851, 4007, 4056, 4056, 3955, 3984, 4040, 4044]
+Chi-quadrado vs uniforme (df=9): 8.89  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 130
+WIN / LOSS              : 112 / 18
+WIN RATE pos-sinal      : 86.15%   IC95% Wilson: [79.17%, 91.06%]
+P[alvo aparecer]        : 13.85%   (aleatorio = 10.00%)
+Max perdas consecutivas : 2
+Controle barreira aleat.: WR 89.23%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = -0.0635  | break-even WR = 92.00%  -> PERDE
+  payout   9.3%  EV/$1 = -0.0583  | break-even WR = 91.49%  -> PERDE
+  payout  10.0%  EV/$1 = -0.0523  | break-even WR = 90.91%  -> PERDE
+
+########################################################################
+  RESULTADO COMBINADO (todos os simbolos reais)
+########################################################################
+Disparos: 739 | WIN 656 | LOSS 83
+WIN RATE: 88.77%  IC95% Wilson: [86.29%, 90.85%]
+P[alvo aparece]: 11.23% (aleatorio 10.00%)  | max perdas seguidas: 3
+  break-even @ payout 8.7% = 92.00%  -> PERDE (IC todo abaixo do break-even)
+  break-even @ payout 9.3% = 91.49%  -> PERDE (IC todo abaixo do break-even)
+  break-even @ payout 10.0% = 90.91%  -> PERDE (IC todo abaixo do break-even)
+
+>>> Baseline sintetico (RNG uniforme, 400k) para comparacao direta:
+
+========================================================================
+  SINTETICO (RNG uniforme)  | ticks=400,000 window=1000 vl=2
+========================================================================
+Distribuicao de digitos : [40003, 40142, 40136, 39907, 39879, 40141, 39830, 40077, 40130, 39755]
+Chi-quadrado vs uniforme (df=9): 4.84  (critico 0.05 = 16.92)  -> UNIFORME (sem estrutura exploravel)
+
+Disparos do Oraculo     : 1,511
+WIN / LOSS              : 1,356 / 155
+WIN RATE pos-sinal      : 89.74%   IC95% Wilson: [88.11%, 91.17%]
+P[alvo aparecer]        : 10.26%   (aleatorio = 10.00%)
+Max perdas consecutivas : 3
+Controle barreira aleat.: WR 90.01%  (mesmos pontos, alvo sorteado)
+EV por $1 e break-even (varios payouts do DIGITDIFF):
+  payout   8.7%  EV/$1 = -0.0245  | break-even WR = 92.00%  -> PERDE
+  payout   9.3%  EV/$1 = -0.0191  | break-even WR = 91.49%  -> PERDE
+  payout  10.0%  EV/$1 = -0.0128  | break-even WR = 90.91%  -> PERDE

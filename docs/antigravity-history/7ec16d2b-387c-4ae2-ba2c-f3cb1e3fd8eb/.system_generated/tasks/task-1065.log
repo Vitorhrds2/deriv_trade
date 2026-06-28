@@ -1,0 +1,19 @@
+Successfully scheduled one-shot timer.
+Expected to fire at: 2026-06-27T07:58:50-03:00
+Prompt: Faça uma varredura profunda no log skynet_global_DEMO.log dos últimos 30 minutos. Calcule e sumarize o PnL Global atual de cada uma das 3 execuções. Analise se o Esquadrão 3 já atingiu a Fase 2 (Breakeven/Freeroll) e quantos saques de 25% ele já realizou. Reporte um relatório detalhado de status ao usuário.
+
+[2026-06-27T07:44:50-03:00] Still waiting. Remaining time: 14m0s
+[2026-06-27T07:45:50-03:00] Still waiting. Remaining time: 13m0s
+[2026-06-27T07:46:50-03:00] Still waiting. Remaining time: 12m0s
+[2026-06-27T07:47:50-03:00] Still waiting. Remaining time: 11m0s
+[2026-06-27T07:48:50-03:00] Still waiting. Remaining time: 10m0s
+[2026-06-27T07:49:50-03:00] Still waiting. Remaining time: 9m0s
+[2026-06-27T07:50:50-03:00] Still waiting. Remaining time: 8m0s
+[2026-06-27T07:51:50-03:00] Still waiting. Remaining time: 7m0s
+[2026-06-27T07:52:49-03:00] Still waiting. Remaining time: 6m0s
+[2026-06-27T07:53:49-03:00] Still waiting. Remaining time: 5m0s
+[2026-06-27T07:54:50-03:00] Still waiting. Remaining time: 4m0s
+[2026-06-27T07:55:50-03:00] Still waiting. Remaining time: 3m0s
+[2026-06-27T07:56:50-03:00] Still waiting. Remaining time: 2m0s
+[2026-06-27T07:57:50-03:00] Still waiting. Remaining time: 1m0s
+[2026-06-27T07:58:50-03:00] Timer fired.

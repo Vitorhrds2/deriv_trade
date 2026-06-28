@@ -1,0 +1,7 @@
+Successfully scheduled one-shot timer.
+Expected to fire at: 2026-06-27T07:42:44-03:00
+Prompt: Leia as últimas linhas do arquivo skynet_global_DEMO.log para extrair apenas as atualizações críticas (disparos, wins, losses, e mudança de PnL) e reporte ao usuário. Em seguida, agende-se novamente para daqui a 30 segundos se o usuário quiser continuar monitorando.
+
+[2026-06-27T07:42:24-03:00] Still waiting. Remaining time: 20s
+[2026-06-27T07:42:34-03:00] Still waiting. Remaining time: 10s
+[2026-06-27T07:42:44-03:00] Timer fired.
