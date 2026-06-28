@@ -1,0 +1,28 @@
+Capturando 60s ao vivo (Binance BTCUSDT + Deriv cryBTCUSD)...
+
+================================================================================
+Binance: 266 ticks | 4.5/s | preco medio 60010.45
+Deriv:   69 ticks | 1.01/s | preco medio 59982.77
+================================================================================
+
+   LAG(ms)    CORR
+  ------------------
+      -600  -0.000
+      -500  -0.000
+      -400  -0.000
+      -300  -0.000
+      -200  -0.000
+      -100  -0.000
+         0   0.038 (lag0)
+       100  -0.000
+       200  -0.008
+       300   0.010
+       400   0.507  <== max
+       500   0.128
+       600  -0.000
+  ------------------
+
+Correlacao em lag 0: 0.038 | maxima: 0.507 em lag +400ms
+(lag>0 = Deriv reflete o movimento DEPOIS da Binance, ou seja, ATRASA)
+
+>>> SINAL: Deriv ATRASA a Binance ~400ms (corr 0.51). Passo 2: testar execucao ao vivo (ordem demo no preco defasado).
