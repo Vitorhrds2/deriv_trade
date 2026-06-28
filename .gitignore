@@ -6,3 +6,6 @@ __pycache__/
 *.db
 *.csv
 .DS_Store
+
+# Evidencia de runtime do monitor de anomalias (gerada ao vivo, nao versionar)
+trading-engine/logs/anomaly_monitor/
