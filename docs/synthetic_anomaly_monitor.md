@@ -2,7 +2,7 @@
 
 **Branch:** `feat/synthetic-anomaly-monitor` · **Status:** instrumento ativo (deteccao, sem operar)
 **Codigo:** `trading-engine/synthetic_anomaly_monitor.py`, `trading-engine/anomaly_stats.py`
-**Testes:** `trading-engine/test_anomaly_stats.py` (9/9), `--selftest` (5/5)
+**Testes:** `trading-engine/test_anomaly_stats.py` (10/10), `--selftest` (7/7)
 
 ## Por que (TL;DR)
 
@@ -23,13 +23,20 @@ especificacao. Mesma filosofia que matou o Oraculo, agora apontada para o transi
 - **`RNG_RUNS`:** teste de corridas no up/down (memoria/reversao).
 - **`FEED_FREEZE` / `FEED_TIMING`:** ticks identicos consecutivos (alerta imediato) e
   intervalo medio fora do esperado (~1s para `1HZ*`, ~2s para `R_*`).
+- **`SPIKE_TIMING` (Boom/Crash):** cadencia dos spikes vs. especificacao. Cada tick e
+  Bernoulli(`p=1/N`) com `N` do nome (`BOOM1000`->1000); testa o gap medio entre spikes
+  contra `N` (modelo geometrico). Spike = retorno na direcao do indice acima de
+  `SPIKE_MULT`x a mediana do drift. So avalia apos `--min-spikes` spikes.
 
 ## Gates anti-variancia (inegociaveis)
 
 - **Persistencia:** anomalia (exceto freeze) so confirma apos `--persistence` ciclos seguidos.
   Blip de 1 ciclo nunca confirma; mispricing real de horas/dias confirma rapido.
-- **Amostra minima:** `--min-samples` antes de qualquer veredito.
+- **Amostra minima:** `--min-samples` antes de qualquer veredito; `--min-spikes` para `SPIKE_TIMING`.
 - **Pessimismo:** EV usa o piso do IC, nao a media.
+- **Sem cegueira de aquecimento:** `--prime N` pre-carrega as janelas com `N` ticks de
+  `ticks_history` no startup, entao os detectores ja avaliam no 1o ciclo (em vez de
+  esperar ~`min_samples` ticks ao vivo). `prime=0` usa o valor de `--window`.
 - **Evidencia:** todo alerta confirmado vai para `logs/anomaly_monitor/anomalies.jsonl`
   (timestamp ISO + stats) — auditavel, gitignored.
 
@@ -40,10 +47,13 @@ especificacao. Mesma filosofia que matou o Oraculo, agora apontada para o transi
 python synthetic_anomaly_monitor.py --selftest
 python test_anomaly_stats.py
 
-# Ao vivo (DERIV_APP_ID no .env; EV exige DERIV_API_TOKEN):
+# Ao vivo (DERIV_APP_ID no .env; EV exige DERIV_API_TOKEN), com priming:
 python synthetic_anomaly_monitor.py \
   --symbols 1HZ10V,1HZ25V,1HZ50V,1HZ75V,1HZ100V,R_10 \
-  --contracts DIGITEVEN,DIGITODD,CALL,PUT,DIGITDIFF:0
+  --contracts DIGITEVEN,DIGITODD,CALL,PUT,DIGITDIFF:0 --prime 5000
+
+# Cadencia de spikes Boom/Crash (precisa horizonte longo p/ acumular spikes):
+python synthetic_anomaly_monitor.py --symbols BOOM1000,CRASH1000,BOOM500 --prime 20000
 
 # So integridade de RNG/feed (sem token, dados publicos):
 python synthetic_anomaly_monitor.py --no-token
@@ -62,6 +72,13 @@ So entao se desenha o executor — em conta demo primeiro, com limite de perda.
 
 ## Limites
 
-- `ticks_history` entrega no maximo 1000 ticks/request (a janela enche ao vivo via stream).
-- `pip_size` correto vem de `active_symbols full` (evita o bug `*100` do relatorio); fallback inferido.
+- `ticks_history` entrega no maximo 1000 ticks/request; o priming pagina para tras pelo tempo.
+- `pip_size` correto vem de `active_symbols full` via chave `underlying_symbol`/`pip_size`
+  (evita o bug do relatorio); fallback infere de amostra grande.
+- **`SPIKE_TIMING` precisa de calibracao antes de capital:** o limiar de spike
+  (`SPIKE_MULT=8`x mediana) e generico. Antes de confiar num alarme, valide a contagem
+  de spikes contra a frequencia conhecida do indice (em janela longa o gap medio deve
+  convergir para `N`); um detector que super-conta enviesa o gap para baixo.
+- `SPIKE_TIMING` so e estatisticamente util em horizonte longo: `BOOM1000` rende ~1 spike
+  por 1000 ticks, entao `--min-spikes 25` exige dezenas de milhares de ticks (priming ajuda).
 - Rate limit da Deriv: ajuste `--ev-interval` e o conjunto de contratos se levar erro.

@@ -17,6 +17,7 @@ from anomaly_stats import (
     ev_per_unit,
     implied_prob,
     runs_test_z,
+    spike_timing_z,
     wilson_interval,
 )
 
@@ -64,6 +65,18 @@ def test_runs_test_directions():
     rng = random.Random(12345)
     rand = [rng.randrange(2) for _ in range(2000)]
     assert abs(runs_test_z(rand)) < 3.0
+
+
+def test_spike_timing_z():
+    # Gaps na media do spec -> z pequeno (cadencia normal).
+    assert abs(spike_timing_z([1000] * 50, 1000)) < 1.0
+    # Gaps sistematicamente na metade -> spikes acelerados -> z bem negativo.
+    assert spike_timing_z([500] * 50, 1000) < -3.0
+    # Gaps ao dobro -> spikes atrasados -> z bem positivo.
+    assert spike_timing_z([2000] * 50, 1000) > 3.0
+    # Amostra insuficiente ou spec invalido -> 0.
+    assert spike_timing_z([1000], 1000) == 0.0
+    assert spike_timing_z([1000] * 50, 0) == 0.0
 
 
 def test_autocorr_lag1_bounds():

@@ -36,11 +36,13 @@ import json
 import math
 import os
 import random
+import re
 import sys
 import time
 from collections import deque
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from statistics import median
 from typing import Optional
 
 from anomaly_stats import (
@@ -51,6 +53,7 @@ from anomaly_stats import (
     ev_bounds,
     implied_prob,
     runs_test_z,
+    spike_timing_z,
     wilson_interval,
 )
 
@@ -62,6 +65,11 @@ except Exception:
 
 _BARRIER_CONTRACTS = ("DIGITOVER", "DIGITUNDER", "DIGITDIFF", "DIGITMATCH")
 _DEFAULT_BARRIER = {"DIGITOVER": 0, "DIGITUNDER": 9, "DIGITDIFF": 0, "DIGITMATCH": 0}
+
+# Deteccao de spike (Boom/Crash): um spike e um retorno na direcao do indice cujo
+# modulo excede SPIKE_MULT x a mediana do |retorno| recente (o drift normal).
+SPIKE_MULT = 8.0
+SPIKE_MIN_SCALE = 50  # |retornos| recentes minimos antes de estimar a escala
 
 
 # --------------------------------------------------------------------------- #
@@ -80,6 +88,8 @@ class Config:
     contracts: list = field(default_factory=list)
     window: int = 2000
     min_samples: int = 500
+    min_spikes: int = 25
+    prime: int = 0
     cycle: float = 5.0
     ev_interval: float = 8.0
     ev_gap: float = 0.25
@@ -149,6 +159,23 @@ def expected_interval(symbol):
     return None
 
 
+def parse_spike_index(symbol):
+    """(direcao, N) para indices Boom/Crash; (0, 0) caso contrario.
+
+    Boom sobe num spike raro (direcao +1); Crash cai (direcao -1). N = media de
+    ticks por spike, extraida do nome (BOOM1000->1000, CRASH300N->300).
+    """
+    s = (symbol or "").upper()
+    if s.startswith("BOOM"):
+        direction = 1
+    elif s.startswith("CRASH"):
+        direction = -1
+    else:
+        return 0, 0
+    m = re.search(r"(\d+)", s)
+    return direction, (int(m.group(1)) if m else 0)
+
+
 async def get_gross_return(client, symbol, spec, stake, duration, dunit):
     payload = {
         "proposal": 1, "amount": stake, "basis": "stake",
@@ -183,6 +210,13 @@ class SymbolState:
         self.last_epoch = None
         self.dup_run = 0
         self.tick_count = 0
+        # Estado de spike (so usado em Boom/Crash).
+        self.spike_dir, self.spike_n = parse_spike_index(symbol)
+        self.abs_returns = deque(maxlen=512)
+        self.spike_gaps = deque(maxlen=400)
+        self.ticks_since_spike = 0
+        self.spike_count = 0
+        self.spike_seen = False
 
     def on_tick(self, epoch, price):
         self.tick_count += 1
@@ -199,11 +233,32 @@ class SymbolState:
                 self.dup_run = 0
             else:
                 self.dup_run += 1
+            self._track_spike(price - self.last_price)
         self.prices.append(price)
         if self.pip:
             self.digits.append(last_digit(price, self.pip))
         self.last_price = price
         self.last_epoch = epoch
+
+    def _track_spike(self, r):
+        # So Boom/Crash. Spike = retorno grande na direcao do indice; entre spikes
+        # o preco faz um drift pequeno no sentido oposto.
+        if not self.spike_dir:
+            return
+        if len(self.abs_returns) >= SPIKE_MIN_SCALE:
+            thr = median(self.abs_returns) * SPIKE_MULT
+            is_spike = thr > 0 and abs(r) > thr and ((r > 0) == (self.spike_dir > 0))
+            if is_spike:
+                if self.spike_seen:  # descarta o 1o gap (medido desde o inicio)
+                    self.spike_gaps.append(self.ticks_since_spike + 1)
+                self.spike_seen = True
+                self.ticks_since_spike = 0
+                self.spike_count += 1
+            else:
+                self.ticks_since_spike += 1
+        else:
+            self.ticks_since_spike += 1
+        self.abs_returns.append(abs(r))
 
     def set_pip(self, pip):
         self.pip = pip
@@ -324,6 +379,26 @@ def detect_ev(state, gross_returns, cfg):
     return out
 
 
+def detect_spike_timing(state, cfg):
+    # Cadencia de spikes Boom/Crash vs. especificacao (~1 spike a cada N ticks).
+    # Um desvio persistente = bug/mispricing no gerador (anomalia operacional).
+    if not state.spike_dir or state.spike_n <= 0:
+        return []
+    gaps = list(state.spike_gaps)
+    if len(gaps) < cfg.min_spikes:
+        return []
+    z = spike_timing_z(gaps, state.spike_n)
+    if abs(z) < cfg.z_crit:
+        return []
+    mean_gap = sum(gaps) / len(gaps)
+    desc = ("spikes ACELERADOS (mais frequentes que o spec)" if mean_gap < state.spike_n
+            else "spikes ATRASADOS (mais raros que o spec)")
+    msg = (f"cadencia de spikes fora do spec: gap medio {mean_gap:.0f} vs "
+           f"{state.spike_n} ticks (z={z:+.2f}, {len(gaps)} spikes) -> {desc}")
+    return [_anomaly(state.symbol, "SPIKE_TIMING", "cadence", "HIGH", msg,
+                     mean_gap=mean_gap, expected_gap=state.spike_n, z=z, spikes=len(gaps))]
+
+
 # --------------------------------------------------------------------------- #
 # Logger de evidencias
 # --------------------------------------------------------------------------- #
@@ -401,6 +476,52 @@ class Monitor:
                 st.set_pip(infer_pip(list(st.prices)))
                 print(f"  pip[{st.symbol}] = {st.pip} (inferido, fallback)")
 
+    async def _fetch_history(self, symbol, count):
+        # ticks_history entrega <=1000 ticks/request; pagina para tras pelo tempo.
+        times, prices = [], []
+        end = "latest"
+        remaining = int(count)
+        while remaining > 0:
+            c = min(1000, remaining)
+            res = await self.client.send_request({
+                "ticks_history": symbol, "end": end, "count": c, "style": "ticks",
+            })
+            hist = res.get("history") or {}
+            ps, ts = hist.get("prices") or [], hist.get("times") or []
+            if not ps:
+                break
+            times = list(ts) + times
+            prices = list(ps) + prices
+            remaining -= len(ps)
+            if len(ps) < c:
+                break
+            end = int(ts[0]) - 1
+        return times, prices
+
+    async def _prime_from_history(self):
+        # Pre-carrega as janelas com historico real -> detectores ativos no 1o ciclo
+        # (sem cegueira de aquecimento) e pip confiavel por amostra grande.
+        if self.cfg.prime <= 0:
+            return
+        for sym, st in self.states.items():
+            try:
+                times, prices = await self._fetch_history(sym, self.cfg.prime)
+            except Exception as e:
+                print(f"  AVISO priming[{sym}] falhou: {e}")
+                continue
+            if not prices:
+                continue
+            if st.pip is None and len(prices) >= 64:
+                st.set_pip(infer_pip(prices))
+                print(f"  pip[{sym}] = {st.pip} (inferido do historico)")
+            for ep, px in zip(times, prices):
+                try:
+                    st.on_tick(int(ep), float(px))
+                except (ValueError, TypeError):
+                    pass
+            extra = f", spikes={st.spike_count}" if st.spike_dir else ""
+            print(f"  priming[{sym}]: {len(prices)} ticks (n={st.tick_count}{extra})")
+
     def _heartbeat(self):
         parts = []
         for sym, st in self.states.items():
@@ -421,7 +542,11 @@ class Monitor:
                     best_ev = (ev_lo, spec.label)
             if best_ev:
                 best = f" bestEV_lo={best_ev[0]:+.3f}({best_ev[1]})"
-            parts.append(f"{sym}:n={st.tick_count},chi2={chi:.1f},dup={st.dup_run}{best}")
+            spk = ""
+            if st.spike_dir:
+                g = (sum(st.spike_gaps) / len(st.spike_gaps)) if st.spike_gaps else 0.0
+                spk = f" spk={st.spike_count},gap~{g:.0f}/{st.spike_n}"
+            parts.append(f"{sym}:n={st.tick_count},chi2={chi:.1f},dup={st.dup_run}{best}{spk}")
         print(f"  . {datetime.now().strftime('%H:%M:%S')} | " + " | ".join(parts), flush=True)
 
     async def _detector_loop(self):
@@ -438,6 +563,7 @@ class Monitor:
                 cands += detect_runs(st, cfg)
                 cands += detect_feed(st, cfg)
                 cands += detect_ev(st, self.gross_returns.get(sym, {}), cfg)
+                cands += detect_spike_timing(st, cfg)
                 for a in cands:
                     if a.get("immediate"):
                         self.logger.emit(a)
@@ -474,6 +600,7 @@ class Monitor:
     async def run(self):
         print(f">>> Monitor de anomalias sinteticas | simbolos={','.join(self.cfg.symbols)}")
         print(f"    janela={self.cfg.window} min_amostras={self.cfg.min_samples} "
+              f"min_spikes={self.cfg.min_spikes} prime={self.cfg.prime} "
               f"persistencia={self.cfg.persistence} chi2_crit={self.cfg.chi2_crit:.1f} "
               f"margem_custo={self.cfg.cost_margin:+.3f}")
         print(f"    EV/mispricing: {'ON' if self._ev_enabled else 'OFF (sem DERIV_API_TOKEN)'} | "
@@ -481,6 +608,7 @@ class Monitor:
         print(f"    evidencia -> {self.cfg.evidence_path or '(stdout)'} | DETECCAO APENAS (nao opera)")
         await self.client.connect()
         await self._load_pips()
+        await self._prime_from_history()
         for sym in self.cfg.symbols:
             await self.client.subscribe_ticks(sym, self.on_tick)
         tasks = [asyncio.create_task(self._detector_loop())]
@@ -506,9 +634,22 @@ def _feed_digits(state, digit_seq, pip=0.01, base=100.0, start_epoch=1_700_000_0
         state.on_tick(ep, round(base + d * pip, 10))
 
 
+def _feed_spikes(state, n_spikes, period, base=10000.0, start_epoch=1_700_000_000):
+    """Alimenta um Boom/Crash: drift pequeno (1) no sentido oposto + spike grande
+    (50) na direcao do indice a cada `period` ticks. Gaps observados ~= period."""
+    ep = start_epoch
+    price = base
+    d = state.spike_dir or 1
+    total = n_spikes * period + SPIKE_MIN_SCALE + 5
+    for i in range(1, total + 1):
+        ep += 1
+        price += (50.0 * d) if (i % period == 0) else (-1.0 * d)
+        state.on_tick(ep, round(price, 4))
+
+
 def run_selftest():
     cfg = Config(window=1500, min_samples=400, persistence=3, cost_margin=0.01,
-                 chi2_level=0.001, contracts=parse_contracts("CALL,DIGITEVEN"))
+                 chi2_level=0.001, min_spikes=25, contracts=parse_contracts("CALL,DIGITEVEN"))
     rng = random.Random(20240628)
     failures = []
 
@@ -556,6 +697,17 @@ def run_selftest():
     feed = detect_feed(st, cfg)
     check(any(x["klass"] == "FEED_FREEZE" for x in feed), "feed congelado -> FEED_FREEZE imediato")
 
+    # 6) SPIKE CONTROLE: Boom com spikes na cadencia do spec (N=300) NAO dispara.
+    st = SymbolState("BOOM300N", cfg.window)
+    _feed_spikes(st, n_spikes=30, period=300)
+    check(not detect_spike_timing(st, cfg), "spike controle (cadencia=spec) -> sem alarme")
+
+    # 7) SPIKE INJECAO: spikes 3x mais rapidos (cada 100 vs 300) -> SPIKE_TIMING.
+    st = SymbolState("BOOM300N", cfg.window)
+    _feed_spikes(st, n_spikes=30, period=100)
+    sp = detect_spike_timing(st, cfg)
+    check(bool(sp) and sp[0]["stats"]["z"] < 0, "spike injecao 3x acelerado -> SPIKE_TIMING (z<0)")
+
     print(f"\n{'TODOS OS TESTES PASSARAM' if not failures else 'FALHAS: ' + ', '.join(failures)}")
     return 1 if failures else 0
 
@@ -579,6 +731,7 @@ def build_config(args):
         ev_interval=args.ev_interval, persistence=args.persistence,
         chi2_level=args.chi2_level, z_level=args.z_level, cost_margin=args.cost_margin,
         freeze_ticks=args.freeze_ticks, stake=args.stake, duration=args.duration,
+        min_spikes=args.min_spikes, prime=(args.prime or args.window),
         use_demo=not args.real, app_id=app_id, api_token=api_token,
         evidence_path=evidence, max_runtime=args.max_runtime,
     )
@@ -590,6 +743,10 @@ def main():
     ap.add_argument("--contracts", default="DIGITEVEN,DIGITODD,CALL,PUT,DIGITDIFF:0")
     ap.add_argument("--window", type=int, default=2000)
     ap.add_argument("--min-samples", type=int, default=500, dest="min_samples")
+    ap.add_argument("--min-spikes", type=int, default=25, dest="min_spikes",
+                    help="min de spikes Boom/Crash antes de avaliar a cadencia")
+    ap.add_argument("--prime", type=int, default=0,
+                    help="ticks de historico para pre-carregar (0 = usar --window)")
     ap.add_argument("--cycle", type=float, default=5.0)
     ap.add_argument("--ev-interval", type=float, default=8.0, dest="ev_interval")
     ap.add_argument("--persistence", type=int, default=3)

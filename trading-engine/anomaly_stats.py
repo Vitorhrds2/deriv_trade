@@ -115,3 +115,22 @@ def ev_bounds(p_lo, p_hi, gross_return):
     COM confianca estatistica (mispricing transiente candidato).
     """
     return (ev_per_unit(p_lo, gross_return), ev_per_unit(p_hi, gross_return))
+
+
+def spike_timing_z(gaps, expected_gap):
+    """z-score do gap medio entre spikes vs. a especificacao (modelo geometrico).
+
+    Indices Boom/Crash sobem/caem com um "spike" raro a cada ~N ticks. Modelando
+    cada tick como Bernoulli(p=1/N), o gap (ticks entre spikes) e ~geometrico com
+    media N e desvio ~N. Para M gaps, SE(media) ~= N / sqrt(M). Usar N como desvio
+    e levemente conservador (o desvio real e N*sqrt(1-1/N) < N), o que reduz falso
+    positivo. z<0 => spikes mais FREQUENTES que o spec; z>0 => mais RAROS.
+    """
+    m = len(gaps)
+    if m < 2 or expected_gap <= 0:
+        return 0.0
+    mean_gap = sum(gaps) / m
+    se = expected_gap / math.sqrt(m)
+    if se == 0:
+        return 0.0
+    return (mean_gap - expected_gap) / se
