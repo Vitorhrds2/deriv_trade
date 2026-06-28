@@ -1,11 +1,20 @@
 import asyncio
 import logging
 import os
+import sys
 import time
 import argparse
 from collections import defaultdict, deque
 from dotenv import load_dotenv
 from deriv_client import DerivClient
+from strategy_utils import sanitize_stake, apply_compound, apply_freeroll_split
+
+# Migracao Windows: garantir UTF-8 nos logs com emoji (no Windows o default e cp1252).
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 # Configuração de Argparse
 parser = argparse.ArgumentParser(description="Oráculo Dinâmico HFT")
@@ -21,9 +30,10 @@ parser.add_argument("--envfile", type=str, default=".env", help="Arquivo de vari
 parser.add_argument("--freeroll", action="store_true", help="Ativa o modo de Risco Zero (House Money)")
 args = parser.parse_args()
 
-bot_id = f"BOT_{args.mode}_{args.symbol}_W{args.window}_VL{args.vl}_S{args.soros}_{args.contract}"
+compound_tag = f"C{int(round(args.compound * 100))}"
+bot_id = f"BOT_{args.mode}_{args.symbol}_W{args.window}_VL{args.vl}_S{args.soros}_{compound_tag}_{args.contract}"
 os.makedirs(f'logs/{bot_id}', exist_ok=True)
-logging.basicConfig(level=logging.INFO, format=f'%(asctime)s - {bot_id}:%(levelname)s:%(message)s', handlers=[logging.FileHandler(f'logs/{bot_id}/{time.strftime("%Y-%m-%d_%H-%M-%S")}.log'), logging.StreamHandler()])
+logging.basicConfig(level=logging.INFO, format=f'%(asctime)s - {bot_id}:%(levelname)s:%(message)s', handlers=[logging.FileHandler(f'logs/{bot_id}/{time.strftime("%Y-%m-%d_%H-%M-%S")}.log', encoding="utf-8"), logging.StreamHandler()])
 logger = logging.getLogger(bot_id)
 
 load_dotenv(args.envfile)
@@ -120,7 +130,7 @@ class DynamicOracleBot:
     async def get_proposal(self, barrier_digit):
         return await self.client.send_request({
             "proposal": 1,
-            "amount": self.current_stake,
+            "amount": sanitize_stake(self.current_stake),
             "basis": "stake",
             "contract_type": CONTRACT_TYPE,
             "currency": "USD",
@@ -154,7 +164,7 @@ class DynamicOracleBot:
                 
             proposal_id = res_prop["proposal"]["id"]
             
-            res_buy = await self.client.buy_contract(proposal_id, price=self.current_stake)
+            res_buy = await self.client.buy_contract(proposal_id, price=sanitize_stake(self.current_stake))
             if "error" in res_buy:
                 logger.error(f"Erro na compra: {res_buy['error']['message']}")
                 return
@@ -173,18 +183,14 @@ class DynamicOracleBot:
                 
                 # Smart Freeroll Logic
                 if not self.is_freerolling:
-                    self.current_stake += (profit * args.compound)
-                    self.current_stake = round(self.current_stake, 2)
+                    self.current_stake = apply_compound(self.current_stake, profit, args.compound)
                     if self.pnl_acumulado >= BASE_STAKE:
                         self.is_freerolling = True
-                        self.current_stake = self.pnl_acumulado
+                        self.current_stake = sanitize_stake(self.pnl_acumulado)
                         logger.info(f"🛡️ SMART FREEROLL ATIVADO! Risco inicial (${BASE_STAKE:.2f}) protegido. Nova Stake base (100% lucro): ${self.current_stake:.2f}")
                 else:
-                    resgate = profit * 0.25
-                    reinvestimento = profit * 0.75
-                    self.rescue_profit += resgate
-                    self.current_stake += reinvestimento
-                    self.current_stake = round(self.current_stake, 2)
+                    self.current_stake, resgate = apply_freeroll_split(self.current_stake, profit, reinvest=0.75)
+                    self.rescue_profit = sanitize_stake(self.rescue_profit + resgate)
                 estado_fase = "Freeroll (Fase 2)" if self.is_freerolling else "Breakeven (Fase 1)"
                 logger.info(f"✅ WIN ({self.total_wins}W - {losses}L) | Lucro: +${profit:.2f} | PnL Total: ${self.pnl_acumulado:.2f} | Resgate Total: ${self.rescue_profit:.2f} | Prox. Stake: ${self.current_stake:.2f} | WR: {wr:.2f}%")
                 logger.info(f"🎯 ESTADO: {estado_fase} | CONTA: {args.mode}")
@@ -202,7 +208,6 @@ class DynamicOracleBot:
                 else:
                     logger.warning(f"⚠️ LOSS na Fase 1. Retomando com Stake Base: ${BASE_STAKE:.2f}")
                     self.current_stake = BASE_STAKE
-                self.freeroll_active = False
                     
         except Exception as e:
             logger.error(f"Erro na execução: {e}")

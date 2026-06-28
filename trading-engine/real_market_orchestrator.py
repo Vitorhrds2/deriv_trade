@@ -5,6 +5,13 @@ import threading
 import re
 import sys
 from datetime import datetime
+from strategy_utils import WIN_PATTERN, LOSS_PATTERN
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 print("🌐 Iniciando a Skynet HFT REAL (Orquestração Multi-Mercado em Conta Real)...")
 
@@ -40,9 +47,8 @@ def log_global(line, is_important=False):
 
 def monitor_bot(process, symbol):
     global global_pnl
-    # Capturar lucro ou prejuízo
-    win_pattern = re.compile(r"✅ WIN \| Lucro: \+\$([\d\.]+)")
-    loss_pattern = re.compile(r"❌ LOSS \| Prejuízo: \$\-?([\d\.]+)")
+    win_pattern = WIN_PATTERN
+    loss_pattern = LOSS_PATTERN
 
     for line in iter(process.stdout.readline, b''):
         decoded_line = line.decode('utf-8').strip()
@@ -82,13 +88,17 @@ def monitor_bot(process, symbol):
 processes = []
 threads = []
 
-freeroll_flag = "--freeroll" if FREEROLL else ""
+child_env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
 
 for symbol in markets:
-    cmd = f".venv/bin/python oracle_diff_bot_6.py --symbol {symbol} --stake {STAKE} --window {WINDOW} --vl {VL} --soros {SOROS} --mode {MODE} --envfile .env {freeroll_flag}"
-    print(f"🚀 Lançando Skynet Node [{MODE} - {symbol}]: {cmd}")
+    cmd = [sys.executable, "oracle_diff_bot_6.py", "--symbol", symbol,
+           "--stake", str(STAKE), "--window", str(WINDOW), "--vl", str(VL),
+           "--soros", str(SOROS), "--mode", MODE, "--envfile", ".env"]
+    if FREEROLL:
+        cmd.append("--freeroll")
+    print(f"🚀 Lançando Skynet Node [{MODE} - {symbol}]")
     
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=child_env)
     processes.append(p)
     
     t = threading.Thread(target=monitor_bot, args=(p, symbol), daemon=True)

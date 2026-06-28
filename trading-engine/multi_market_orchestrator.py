@@ -6,6 +6,13 @@ import re
 import sys
 import argparse
 from datetime import datetime
+from strategy_utils import WIN_PATTERN, LOSS_PATTERN
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
 
 parser = argparse.ArgumentParser(description="Orquestrador Skynet")
 parser.add_argument("--compound", type=float, default=0.25, help="Taxa de juros compostos da Fase 1")
@@ -22,6 +29,7 @@ VL = 2
 SOROS = 3
 MODE = "DEMO"
 FREEROLL = True
+SQUAD = f"C{int(round(args.compound * 100))}"
 
 markets = [
     "1HZ10V",   # Volatility 10 (1s) Index
@@ -33,7 +41,7 @@ markets = [
 
 global_pnl = 0.0
 pnl_lock = threading.Lock()
-log_file = open(f'logs/skynet/skynet_global_{MODE}.log', 'a', encoding='utf-8')
+log_file = open(f'logs/skynet/skynet_global_{MODE}_{SQUAD}.log', 'a', encoding='utf-8')
 
 def log_global(line, is_important=False):
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -46,9 +54,9 @@ def log_global(line, is_important=False):
 
 def monitor_bot(process, symbol):
     global global_pnl
-    # Capturar lucro ou prejuízo
-    win_pattern = re.compile(r"✅ WIN \| Lucro: \+\$([\d\.]+)")
-    loss_pattern = re.compile(r"❌ LOSS \| Prejuízo: \$\-?([\d\.]+)")
+    # Padroes de PnL centralizados em strategy_utils (toleram formato antigo e novo)
+    win_pattern = WIN_PATTERN
+    loss_pattern = LOSS_PATTERN
 
     for line in iter(process.stdout.readline, b''):
         decoded_line = line.decode('utf-8').strip()
@@ -88,13 +96,18 @@ def monitor_bot(process, symbol):
 processes = []
 threads = []
 
-freeroll_flag = "--freeroll" if FREEROLL else ""
+child_env = {**os.environ, "PYTHONUTF8": "1", "PYTHONIOENCODING": "utf-8"}
 
 for symbol in markets:
-    cmd = f".venv/bin/python oracle_diff_bot_6.py --symbol {symbol} --stake {STAKE} --window {WINDOW} --vl {VL} --soros {SOROS} --compound {args.compound} --mode {MODE} --envfile .env {freeroll_flag}"
-    print(f"🚀 Lançando Skynet Node [{MODE} - {symbol}]: {cmd}")
+    cmd = [sys.executable, "oracle_diff_bot_6.py", "--symbol", symbol,
+           "--stake", str(STAKE), "--window", str(WINDOW), "--vl", str(VL),
+           "--soros", str(SOROS), "--compound", str(args.compound),
+           "--mode", MODE, "--envfile", ".env"]
+    if FREEROLL:
+        cmd.append("--freeroll")
+    print(f"🚀 Lançando Skynet Node [{MODE} {SQUAD} - {symbol}]")
     
-    p = subprocess.Popen(cmd.split(), stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, env=child_env)
     processes.append(p)
     
     t = threading.Thread(target=monitor_bot, args=(p, symbol), daemon=True)
@@ -103,7 +116,7 @@ for symbol in markets:
     
     time.sleep(2)
 
-print(f"✅ Skynet {MODE} Online. Acompanhamento Global Ativo. Aposta base: ${STAKE}")
+print(f"✅ Skynet {MODE} Esquadrão {SQUAD} Online. Acompanhamento Global Ativo. Aposta base: ${STAKE}")
 print("==========================================================================================")
 
 try:
