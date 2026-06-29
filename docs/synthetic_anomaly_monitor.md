@@ -2,7 +2,7 @@
 
 **Branch:** `feat/synthetic-anomaly-monitor` · **Status:** instrumento ativo (deteccao, sem operar)
 **Codigo:** `trading-engine/synthetic_anomaly_monitor.py`, `trading-engine/anomaly_stats.py`
-**Testes:** `trading-engine/test_anomaly_stats.py` (10/10), `--selftest` (8/8)
+**Testes:** `trading-engine/test_anomaly_stats.py` (10/10), `--selftest` (9/9)
 
 ## Por que (TL;DR)
 
@@ -33,8 +33,12 @@ especificacao. Mesma filosofia que matou o Oraculo, agora apontada para o transi
 
 ## Gates anti-variancia (inegociaveis)
 
-- **Persistencia:** anomalia (exceto freeze) so confirma apos `--persistence` ciclos seguidos.
-  Blip de 1 ciclo nunca confirma; mispricing real de horas/dias confirma rapido.
+- **Persistencia por VIRADA DE JANELA:** anomalia (exceto freeze) so confirma se, desde que
+  comecou a aparecer, entrou `--persist-turnover` (default 50%) da janela em ticks NOVOS — e
+  emite **1x por episodio**. Contar ciclos seguidos sobre a MESMA janela parada NAO basta:
+  foi o que gerou 36 falsos `R_50/DIGITUNDER:4` (a janela de 2000, a ~1 tick/2s, mal mudava
+  em 15s, entao uma flutuacao amostral "persistia" trivialmente). `--persistence` vira piso
+  secundario de ciclos. Mispricing real de horas/dias passa folgado; blip de minutos morre.
 - **Amostra minima:** `--min-samples` antes de qualquer veredito; `--min-spikes` para `SPIKE_TIMING`.
 - **Pessimismo:** EV usa o piso do IC, nao a media.
 - **Sem cegueira de aquecimento:** `--prime N` pre-carrega as janelas com `N` ticks de

@@ -96,6 +96,7 @@ class Config:
     chi2_level: float = 0.001
     z_level: float = 0.001
     persistence: int = 3
+    persist_turnover: float = 0.5
     cost_margin: float = 0.01
     freeze_ticks: int = 5
     stall_timeout: float = 30.0
@@ -425,6 +426,28 @@ class AnomalyLogger:
                   flush=True)
 
 
+def streak_confirm(ss, tick_count, persistence, need_fresh):
+    """Gate de persistencia por VIRADA DE JANELA (mata falso-positivo de variancia).
+
+    O gate antigo (N ciclos seguidos) era enganado por janelas de turnover lento: ex.
+    R_50 ticka ~1/2s, entao em 15s (3 ciclos) a janela de 2000 mal muda e uma flutuacao
+    amostral "persiste" trivialmente (foi o que gerou 36 falsos R_50/DIGITUNDER:4). Aqui
+    so confirma se, desde que a anomalia comecou a aparecer, entraram >= need_fresh ticks
+    NOVOS (dado fresco de verdade), e no maximo 1x por episodio. `ss` e o estado por chave
+    (None p/ iniciar). Retorna (ss, confirma_agora, fresh_ticks).
+    """
+    if ss is None:
+        ss = {"cycles": 0, "start_count": tick_count, "emitted": False}
+    ss["cycles"] += 1
+    fresh = tick_count - ss["start_count"]
+    confirm_now = (not ss["emitted"]
+                   and ss["cycles"] >= persistence
+                   and fresh >= need_fresh)
+    if confirm_now:
+        ss["emitted"] = True
+    return ss, confirm_now, fresh
+
+
 # --------------------------------------------------------------------------- #
 # Orquestrador ao vivo
 # --------------------------------------------------------------------------- #
@@ -436,7 +459,7 @@ class Monitor:
         self.states = {s: SymbolState(s, cfg.window) for s in cfg.symbols}
         self.gross_returns = {s: {} for s in cfg.symbols}
         self.logger = AnomalyLogger(cfg.evidence_path)
-        self.streaks = {}
+        self.streak_state = {}
         self.last_wall = {}
         self._stalled = set()
         self._stop = asyncio.Event()
@@ -578,15 +601,23 @@ class Monitor:
                         if a.get("immediate"):
                             self.logger.emit(a)
                             continue
-                        key = (a["symbol"], a["klass"], a["key"])
+                        sym_a = a["symbol"]
+                        key = (sym_a, a["klass"], a["key"])
                         active.add(key)
-                        self.streaks[key] = self.streaks.get(key, 0) + 1
-                        if self.streaks[key] >= cfg.persistence:
-                            a["streak"] = self.streaks[key]
+                        st_a = self.states[sym_a]
+                        need = int(cfg.persist_turnover * st_a.window)
+                        ss, confirm_now, fresh = streak_confirm(
+                            self.streak_state.get(key), st_a.tick_count,
+                            cfg.persistence, need)
+                        self.streak_state[key] = ss
+                        if confirm_now:
+                            a["streak"] = ss["cycles"]
+                            a["stats"]["fresh_ticks"] = fresh
+                            a["stats"]["turnover"] = round(fresh / st_a.window, 3)
                             self.logger.emit(a)
-                for key in list(self.streaks):
+                for key in list(self.streak_state):
                     if key not in active:
-                        self.streaks[key] = 0
+                        del self.streak_state[key]
                 cycles += 1
                 self._heartbeat()
             except Exception as e:
@@ -652,7 +683,8 @@ class Monitor:
         print(f">>> Monitor de anomalias sinteticas | simbolos={','.join(self.cfg.symbols)}")
         print(f"    janela={self.cfg.window} min_amostras={self.cfg.min_samples} "
               f"min_spikes={self.cfg.min_spikes} prime={self.cfg.prime} "
-              f"persistencia={self.cfg.persistence} chi2_crit={self.cfg.chi2_crit:.1f} "
+              f"persistencia={self.cfg.persistence}c+turnover>={self.cfg.persist_turnover:.0%} "
+              f"chi2_crit={self.cfg.chi2_crit:.1f} "
               f"margem_custo={self.cfg.cost_margin:+.3f} stall={self.cfg.stall_timeout:.0f}s")
         print(f"    EV/mispricing: {'ON' if self._ev_enabled else 'OFF (sem DERIV_API_TOKEN)'} | "
               f"contratos={[s.label for s in self.cfg.contracts] or '-'}")
@@ -769,6 +801,20 @@ def run_selftest():
     check("1HZ10V" in ns and "R_10" not in ns and not no_realarm and "1HZ10V" in rec,
           "feed stall: alarme no silencio, sem realarme, recovery ao retomar")
 
+    # 9) PERSISTENCIA POR TURNOVER (mata o falso-positivo tipo R_50/DIGITUNDER:4): a MESMA
+    #    janela parada nao confirma por mais ciclos que passem; so confirma quando entra
+    #    dado fresco suficiente, e no maximo 1x por episodio.
+    need = int(0.5 * 2000)
+    ss = None
+    stale_never = True
+    for _ in range(50):  # 50 ciclos sem nenhum tick novo (tick_count fixo)
+        ss, conf, _ = streak_confirm(ss, 10_000, 3, need)
+        stale_never = stale_never and not conf
+    ss, conf_fresh, _ = streak_confirm(ss, 10_000 + need, 3, need)        # entrou dado fresco
+    ss, conf_again, _ = streak_confirm(ss, 10_000 + need + 500, 3, need)  # nao re-emite
+    check(stale_never and conf_fresh and not conf_again,
+          "persistencia por turnover: janela parada nao confirma; dado fresco confirma 1x")
+
     print(f"\n{'TODOS OS TESTES PASSARAM' if not failures else 'FALHAS: ' + ', '.join(failures)}")
     return 1 if failures else 0
 
@@ -790,6 +836,7 @@ def build_config(args):
         contracts=parse_contracts(args.contracts),
         window=args.window, min_samples=args.min_samples, cycle=args.cycle,
         ev_interval=args.ev_interval, persistence=args.persistence,
+        persist_turnover=args.persist_turnover,
         chi2_level=args.chi2_level, z_level=args.z_level, cost_margin=args.cost_margin,
         freeze_ticks=args.freeze_ticks, stall_timeout=args.stall_timeout,
         stake=args.stake, duration=args.duration,
@@ -811,7 +858,10 @@ def main():
                     help="ticks de historico para pre-carregar (0 = usar --window)")
     ap.add_argument("--cycle", type=float, default=5.0)
     ap.add_argument("--ev-interval", type=float, default=8.0, dest="ev_interval")
-    ap.add_argument("--persistence", type=int, default=3)
+    ap.add_argument("--persistence", type=int, default=3,
+                    help="piso de ciclos seguidos (gate secundario; o principal e --persist-turnover)")
+    ap.add_argument("--persist-turnover", type=float, default=0.5, dest="persist_turnover",
+                    help="fracao da janela que precisa ser de ticks NOVOS p/ confirmar (mata variancia de janela parada)")
     ap.add_argument("--chi2-level", type=float, default=0.001, dest="chi2_level",
                     choices=[0.05, 0.01, 0.001])
     ap.add_argument("--z-level", type=float, default=0.001, dest="z_level",
