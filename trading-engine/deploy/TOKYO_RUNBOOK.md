@@ -12,6 +12,35 @@ claramente **acima** do de casa (`+0.0041`). Senão → H3 morto mesmo co-locado
 
 ---
 
+## RESULTADO (executado em jun/2026) — H3 REFUTADA, mesmo co-locada
+
+Teste rodado de verdade numa `t3.micro` em `ap-northeast-1` (custo ~US$0.02; instância,
+security group e key pair já **destruídos** via `teardown_tokyo.ps1`). Logs crus em
+`logs/tokyo_*.out`; análise estatística completa em `docs/h3_latency_arb_report.md`.
+
+**Latência medida da VM (vs. casa):**
+
+| Perna | Casa | Tóquio |
+|---|---|---|
+| Sinal Binance | ~275 ms | **2.6 ms** (co-locação confirmada) |
+| Leg de ordem Deriv (`proposal`) | ~178 ms | **~216 ms** (PIOR — a origem atrás da Cloudflare é ainda mais distante de Tóquio) |
+| Reação total (move → fill) | ~450 ms | **~217 ms** |
+
+**Teste de fill — 41 ordens demo, aligned vs anti (`--lookback-ms 200 --hold-s 1.2`):**
+
+- `aligned`: n=18, WR 0%, P&L médio **−$0.0294**
+- `anti`: n=23, WR 0%, P&L médio **−$0.0296**
+- `aligned − anti = +$0.0001/trade` — IC95% **[−0.0017, +0.0020]** (cruza zero, sem edge comprovado)
+- captura de lag ~$0.0001/trade vs custo ~$0.0295/trade → **custo ~489× a captura**
+
+**Veredito:** reagir ~233 ms mais rápido capturou **MENOS** edge (+0.0001 vs +0.0041 de
+casa) — o **oposto** do esperado de uma janela "stale". A Deriv reprecifica o fill
+**fresco**; o gargalo é o leg de ordem (~216 ms, *location-independent*, CF→origem), então
+a ordem **sempre chega depois** da reprecificação. Arbitragem de latência não existe para o
+varejo via API pública da Deriv — mesmo padrão das outras hipóteses: micro-edge real, **sub-custo**.
+
+---
+
 ## 0. Pré-requisitos (no seu PC Windows)
 - **AWS CLI** instalada e configurada (`aws configure`).
 - **OpenSSH** (já vem no Windows 10/11: `ssh`, `scp`).
