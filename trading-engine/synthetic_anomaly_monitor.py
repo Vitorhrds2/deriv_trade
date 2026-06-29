@@ -98,6 +98,7 @@ class Config:
     persistence: int = 3
     cost_margin: float = 0.01
     freeze_ticks: int = 5
+    stall_timeout: float = 30.0
     interval_tol_lo: float = 0.5
     interval_tol_hi: float = 2.0
     stake: float = 1.0
@@ -436,6 +437,8 @@ class Monitor:
         self.gross_returns = {s: {} for s in cfg.symbols}
         self.logger = AnomalyLogger(cfg.evidence_path)
         self.streaks = {}
+        self.last_wall = {}
+        self._stalled = set()
         self._stop = asyncio.Event()
         self._ev_enabled = bool(cfg.api_token) and bool(cfg.contracts)
 
@@ -443,9 +446,11 @@ class Monitor:
         t = data.get("tick")
         if not t:
             return
-        st = self.states.get(t.get("symbol"))
+        sym = t.get("symbol")
+        st = self.states.get(sym)
         if st is None:
             return
+        self.last_wall[sym] = time.monotonic()
         try:
             st.on_tick(int(t["epoch"]), float(t["quote"]))
         except (KeyError, ValueError, TypeError):
@@ -547,7 +552,9 @@ class Monitor:
                 g = (sum(st.spike_gaps) / len(st.spike_gaps)) if st.spike_gaps else 0.0
                 spk = f" spk={st.spike_count},gap~{g:.0f}/{st.spike_n}"
             parts.append(f"{sym}:n={st.tick_count},chi2={chi:.1f},dup={st.dup_run}{best}{spk}")
-        print(f"  . {datetime.now().strftime('%H:%M:%S')} | " + " | ".join(parts), flush=True)
+        rc = getattr(self.client, "_reconnects", 0)
+        tail = f" | rc={rc}" if rc else ""
+        print(f"  . {datetime.now().strftime('%H:%M:%S')} | " + " | ".join(parts) + tail, flush=True)
 
     async def _detector_loop(self):
         cfg = self.cfg
@@ -597,12 +604,48 @@ class Monitor:
                     await asyncio.sleep(cfg.ev_gap)
             await asyncio.sleep(cfg.ev_interval)
 
+    def _eval_stalls(self, silent_by_sym):
+        # Latch: marca stall UMA vez por episodio e limpa ao retomar (evita spam).
+        new_stall, recovered = [], []
+        for sym, silent in silent_by_sym.items():
+            if silent >= self.cfg.stall_timeout:
+                if sym not in self._stalled:
+                    self._stalled.add(sym)
+                    new_stall.append(sym)
+            elif sym in self._stalled:
+                self._stalled.discard(sym)
+                recovered.append(sym)
+        return new_stall, recovered
+
+    async def _watchdog_loop(self):
+        # Vigia a SAUDE do feed: se um simbolo fica em silencio (sem ticks) alem do
+        # limite, alarma FEED_STALL. O bug real (WS 1011 ping timeout) deixava o monitor
+        # "vivo" mas cego — isto torna a falha VISIVEL. A reconexao em si e do cliente
+        # (auto-reconnect com backoff); aqui so observamos e registramos evidencia.
+        cfg = self.cfg
+        started = time.monotonic()
+        interval = max(2.0, min(cfg.stall_timeout / 2.0, 10.0))
+        while not self._stop.is_set():
+            await asyncio.sleep(interval)
+            now = time.monotonic()
+            silent = {sym: now - self.last_wall.get(sym, started) for sym in cfg.symbols}
+            new_stall, recovered = self._eval_stalls(silent)
+            rc = getattr(self.client, "_reconnects", 0)
+            for sym in new_stall:
+                self.logger.emit(_anomaly(
+                    sym, "FEED_STALL", "stall", "HIGH",
+                    f"sem ticks ha {silent[sym]:.0f}s (limite {cfg.stall_timeout:.0f}s); "
+                    f"WS caiu? auto-reconnect do cliente em curso (reconexoes={rc})",
+                    immediate=True, silent_s=round(silent[sym], 1), reconnects=rc))
+            for sym in recovered:
+                print(f"  [feed] {sym} retomou ticks (reconexoes={rc})", flush=True)
+
     async def run(self):
         print(f">>> Monitor de anomalias sinteticas | simbolos={','.join(self.cfg.symbols)}")
         print(f"    janela={self.cfg.window} min_amostras={self.cfg.min_samples} "
               f"min_spikes={self.cfg.min_spikes} prime={self.cfg.prime} "
               f"persistencia={self.cfg.persistence} chi2_crit={self.cfg.chi2_crit:.1f} "
-              f"margem_custo={self.cfg.cost_margin:+.3f}")
+              f"margem_custo={self.cfg.cost_margin:+.3f} stall={self.cfg.stall_timeout:.0f}s")
         print(f"    EV/mispricing: {'ON' if self._ev_enabled else 'OFF (sem DERIV_API_TOKEN)'} | "
               f"contratos={[s.label for s in self.cfg.contracts] or '-'}")
         print(f"    evidencia -> {self.cfg.evidence_path or '(stdout)'} | DETECCAO APENAS (nao opera)")
@@ -611,7 +654,8 @@ class Monitor:
         await self._prime_from_history()
         for sym in self.cfg.symbols:
             await self.client.subscribe_ticks(sym, self.on_tick)
-        tasks = [asyncio.create_task(self._detector_loop())]
+        tasks = [asyncio.create_task(self._detector_loop()),
+                 asyncio.create_task(self._watchdog_loop())]
         if self._ev_enabled:
             tasks.append(asyncio.create_task(self._ev_probe_loop()))
         try:
@@ -649,7 +693,8 @@ def _feed_spikes(state, n_spikes, period, base=10000.0, start_epoch=1_700_000_00
 
 def run_selftest():
     cfg = Config(window=1500, min_samples=400, persistence=3, cost_margin=0.01,
-                 chi2_level=0.001, min_spikes=25, contracts=parse_contracts("CALL,DIGITEVEN"))
+                 chi2_level=0.001, min_spikes=25, stall_timeout=30.0,
+                 contracts=parse_contracts("CALL,DIGITEVEN"))
     rng = random.Random(20240628)
     failures = []
 
@@ -708,6 +753,14 @@ def run_selftest():
     sp = detect_spike_timing(st, cfg)
     check(bool(sp) and sp[0]["stats"]["z"] < 0, "spike injecao 3x acelerado -> SPIKE_TIMING (z<0)")
 
+    # 8) FEED STALL: watchdog marca stall apos silencio e limpa ao retomar (latch).
+    m = Monitor(Config(symbols=["1HZ10V", "R_10"], stall_timeout=30.0))
+    ns, _ = m._eval_stalls({"1HZ10V": 45.0, "R_10": 3.0})
+    no_realarm, _ = m._eval_stalls({"1HZ10V": 50.0, "R_10": 3.0})
+    _, rec = m._eval_stalls({"1HZ10V": 2.0, "R_10": 3.0})
+    check("1HZ10V" in ns and "R_10" not in ns and not no_realarm and "1HZ10V" in rec,
+          "feed stall: alarme no silencio, sem realarme, recovery ao retomar")
+
     print(f"\n{'TODOS OS TESTES PASSARAM' if not failures else 'FALHAS: ' + ', '.join(failures)}")
     return 1 if failures else 0
 
@@ -730,7 +783,8 @@ def build_config(args):
         window=args.window, min_samples=args.min_samples, cycle=args.cycle,
         ev_interval=args.ev_interval, persistence=args.persistence,
         chi2_level=args.chi2_level, z_level=args.z_level, cost_margin=args.cost_margin,
-        freeze_ticks=args.freeze_ticks, stake=args.stake, duration=args.duration,
+        freeze_ticks=args.freeze_ticks, stall_timeout=args.stall_timeout,
+        stake=args.stake, duration=args.duration,
         min_spikes=args.min_spikes, prime=(args.prime or args.window),
         use_demo=not args.real, app_id=app_id, api_token=api_token,
         evidence_path=evidence, max_runtime=args.max_runtime,
@@ -756,6 +810,8 @@ def main():
                     choices=[0.05, 0.01, 0.001])
     ap.add_argument("--cost-margin", type=float, default=0.01, dest="cost_margin")
     ap.add_argument("--freeze-ticks", type=int, default=5, dest="freeze_ticks")
+    ap.add_argument("--stall-timeout", type=float, default=30.0, dest="stall_timeout",
+                    help="segundos sem ticks por simbolo antes de alarmar FEED_STALL")
     ap.add_argument("--stake", type=float, default=1.0)
     ap.add_argument("--duration", type=int, default=1)
     ap.add_argument("--max-runtime", type=float, default=0.0, dest="max_runtime")

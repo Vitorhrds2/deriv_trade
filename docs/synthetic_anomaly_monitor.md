@@ -2,7 +2,7 @@
 
 **Branch:** `feat/synthetic-anomaly-monitor` · **Status:** instrumento ativo (deteccao, sem operar)
 **Codigo:** `trading-engine/synthetic_anomaly_monitor.py`, `trading-engine/anomaly_stats.py`
-**Testes:** `trading-engine/test_anomaly_stats.py` (10/10), `--selftest` (7/7)
+**Testes:** `trading-engine/test_anomaly_stats.py` (10/10), `--selftest` (8/8)
 
 ## Por que (TL;DR)
 
@@ -21,8 +21,11 @@ especificacao. Mesma filosofia que matou o Oraculo, agora apontada para o transi
   pagando demais com confianca estatistica.
 - **`RNG_BIAS`:** qui-quadrado dos digitos vs. uniforme (df=9). Nomeia o digito anomalo por z-score.
 - **`RNG_RUNS`:** teste de corridas no up/down (memoria/reversao).
-- **`FEED_FREEZE` / `FEED_TIMING`:** ticks identicos consecutivos (alerta imediato) e
-  intervalo medio fora do esperado (~1s para `1HZ*`, ~2s para `R_*`).
+- **`FEED_FREEZE` / `FEED_TIMING` / `FEED_STALL`:** ticks identicos consecutivos (alerta
+  imediato); intervalo medio fora do esperado (~1s para `1HZ*`, ~2s para `R_*`); e
+  **silencio total** — nenhum tick por `--stall-timeout`s (default 30s), que delata um WS
+  caido. `FEED_STALL` torna VISIVEL a falha que antes deixava o monitor "vivo porem cego"
+  (o WS caia com 1011 ping timeout e o monitor seguia batendo heartbeat sem ingerir nada).
 - **`SPIKE_TIMING` (Boom/Crash):** cadencia dos spikes vs. especificacao. Cada tick e
   Bernoulli(`p=1/N`) com `N` do nome (`BOOM1000`->1000); testa o gap medio entre spikes
   contra `N` (modelo geometrico). Spike = retorno na direcao do indice acima de
@@ -39,6 +42,10 @@ especificacao. Mesma filosofia que matou o Oraculo, agora apontada para o transi
   esperar ~`min_samples` ticks ao vivo). `prime=0` usa o valor de `--window`.
 - **Evidencia:** todo alerta confirmado vai para `logs/anomaly_monitor/anomalies.jsonl`
   (timestamp ISO + stats) — auditavel, gitignored.
+- **Resiliencia de conexao:** o `DerivClient` reconecta sozinho (backoff ate 30s, OTP novo,
+  resubscreve os ticks) quando o WS cai; requests pendentes falham rapido em vez de travar.
+  O heartbeat mostra `rc=N` (reconexoes) e o watchdog registra `FEED_STALL` uma vez por
+  episodio (e avisa no console quando o feed retoma).
 
 ## Como rodar
 
@@ -82,3 +89,6 @@ So entao se desenha o executor — em conta demo primeiro, com limite de perda.
 - `SPIKE_TIMING` so e estatisticamente util em horizonte longo: `BOOM1000` rende ~1 spike
   por 1000 ticks, entao `--min-spikes 25` exige dezenas de milhares de ticks (priming ajuda).
 - Rate limit da Deriv: ajuste `--ev-interval` e o conjunto de contratos se levar erro.
+- A reconexao automatica cobre quedas de WS (o caso observado: 1011 ping timeout). Se o
+  socket ficar half-open mas "vivo" (pongs ok, sem ticks), o `FEED_STALL` alarma mas a
+  recuperacao depende do `ping_timeout` (45s) derrubar a conexao; em ultimo caso, reinicie.
