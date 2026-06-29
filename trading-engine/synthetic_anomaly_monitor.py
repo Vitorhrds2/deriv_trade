@@ -110,6 +110,7 @@ class Config:
     api_token: str = ""
     evidence_path: str = ""
     max_runtime: float = 0.0
+    vet_sample: int = 30000
     chi2_crit: float = 0.0
     z_crit: float = 0.0
 
@@ -381,6 +382,30 @@ def detect_ev(state, gross_returns, cfg):
     return out
 
 
+def vet_ev_on_prices(symbol, prices, pip, spec, gross, cfg):
+    """Re-mede o EV de um contrato numa amostra grande e INDEPENDENTE da janela deslizante.
+    Mata o falso-positivo de variancia: o R_50/DIGITUNDER:4 deu p_win~43.7% em 2000 ticks,
+    mas 39.98% (o valor justo) em 40k. Retorna dict (survived/ev_lo/ev_hi/p_lo/p_hi/n) ou
+    None se a amostra for insuficiente para um veredito confiavel."""
+    if not prices or pip is None:
+        return None
+    st = SymbolState(symbol, len(prices) + 1, pip=pip)
+    ep = 1_700_000_000
+    for px in prices:
+        ep += 1
+        try:
+            st.on_tick(ep, float(px))
+        except (ValueError, TypeError):
+            pass
+    s, n = contract_success_count(st, spec)
+    if n < max(cfg.min_samples, 2000):
+        return None
+    p_lo, p_hi = wilson_interval(s, n)
+    ev_lo, ev_hi = ev_bounds(p_lo, p_hi, gross)
+    return {"survived": bool(ev_lo > cfg.cost_margin), "ev_lo": ev_lo, "ev_hi": ev_hi,
+            "p_lo": p_lo, "p_hi": p_hi, "n": n}
+
+
 def detect_spike_timing(state, cfg):
     # Cadencia de spikes Boom/Crash vs. especificacao (~1 spike a cada N ticks).
     # Um desvio persistente = bug/mispricing no gerador (anomalia operacional).
@@ -526,6 +551,50 @@ class Monitor:
             end = int(ts[0]) - 1
         return times, prices
 
+    async def _vet_ev_edge(self, symbol, spec, gross):
+        """Puxa uma amostra FRESCA e grande (cfg.vet_sample) e re-mede o EV do contrato,
+        independente da janela deslizante. Um blip de variancia (ex.: DIGITUNDER:4 a 43.7%
+        em 2000 ticks) regride ao valor justo (~40%) numa amostra grande e e rejeitado."""
+        st = self.states.get(symbol)
+        pip = st.pip if st else None
+        try:
+            _, prices = await self._fetch_history(symbol, self.cfg.vet_sample)
+        except Exception as e:
+            return {"survived": True, "inconclusive": True, "note": f"fetch falhou: {e}"}
+        prices = [float(p) for p in prices]
+        if pip is None and prices:
+            pip = infer_pip(prices)
+        res = vet_ev_on_prices(symbol, prices, pip, spec, gross, self.cfg)
+        if res is None:
+            return {"survived": True, "inconclusive": True, "note": f"amostra insuficiente (n={len(prices)})"}
+        return res
+
+    async def _confirm_or_reject_ev(self, a, symbol):
+        """Vet de amostra fresca ANTES de escalar um EV_EDGE para CRITICAL. Sobreviveu ->
+        emite com a prova. Nao sobreviveu -> rebaixa para EV_EDGE_REJECTED (blip auditavel)."""
+        spec = next((s for s in self.cfg.contracts if s.label == a["key"]), None)
+        gross = a["stats"].get("gross_return")
+        if spec is None or not gross:
+            self.logger.emit(a)
+            return
+        vet = await self._vet_ev_edge(symbol, spec, gross)
+        a["stats"]["vet"] = vet
+        if vet.get("survived"):
+            if vet.get("inconclusive"):
+                a["message"] += f" | VET INCONCLUSIVO ({vet.get('note', '')}) -> emitido com ressalva"
+            else:
+                a["message"] += (f" | VET OK em amostra fresca n={vet['n']}: "
+                                 f"EV_lo={vet['ev_lo']:+.4f}, p in [{vet['p_lo'] * 100:.2f}%, {vet['p_hi'] * 100:.2f}%]")
+            self.logger.emit(a)
+        else:
+            a["klass"] = "EV_EDGE_REJECTED"
+            a["severity"] = "INFO"
+            a["message"] = (f"{a['key']}: REJEITADO pelo vet de amostra fresca (blip de variancia). "
+                            f"Janela dizia EV_lo={a['stats'].get('ev_lo', 0.0):+.4f}; amostra fresca n={vet['n']} "
+                            f"da EV_lo={vet['ev_lo']:+.4f} (p in [{vet['p_lo'] * 100:.2f}%, {vet['p_hi'] * 100:.2f}%], "
+                            f"margem {self.cfg.cost_margin:+.3f})")
+            self.logger.emit(a)
+
     async def _prime_from_history(self):
         # Pre-carrega as janelas com historico real -> detectores ativos no 1o ciclo
         # (sem cegueira de aquecimento) e pip confiavel por amostra grande.
@@ -614,7 +683,10 @@ class Monitor:
                             a["streak"] = ss["cycles"]
                             a["stats"]["fresh_ticks"] = fresh
                             a["stats"]["turnover"] = round(fresh / st_a.window, 3)
-                            self.logger.emit(a)
+                            if a["klass"] == "EV_EDGE" and cfg.vet_sample > 0:
+                                await self._confirm_or_reject_ev(a, sym_a)
+                            else:
+                                self.logger.emit(a)
                 for key in list(self.streak_state):
                     if key not in active:
                         del self.streak_state[key]
@@ -815,6 +887,23 @@ def run_selftest():
     check(stale_never and conf_fresh and not conf_again,
           "persistencia por turnover: janela parada nao confirma; dado fresco confirma 1x")
 
+    # 10) AUTO-VET de amostra fresca (mata o blip tipo R_50/DIGITUNDER:4): re-medido numa
+    #     amostra grande UNIFORME o "edge" some (REJEITADO); num vies de digito REAL sobrevive.
+    spec_u4 = parse_contracts("DIGITUNDER:4")[0]
+    rng2 = random.Random(99)
+    fair = [round(100.0 + rng2.randrange(10) * 0.01, 10) for _ in range(30000)]
+    vet_fair = vet_ev_on_prices("R_50", fair, 0.01, spec_u4, 2.43, cfg)
+    biased_px = []
+    for _ in range(30000):
+        d = rng2.randrange(10)
+        if d >= 4 and rng2.random() < 0.30:
+            d = rng2.randrange(4)
+        biased_px.append(round(100.0 + d * 0.01, 10))
+    vet_biased = vet_ev_on_prices("R_50", biased_px, 0.01, spec_u4, 2.43, cfg)
+    check(vet_fair is not None and not vet_fair["survived"]
+          and vet_biased is not None and vet_biased["survived"],
+          "auto-vet: blip uniforme REJEITADO; vies real SOBREVIVE")
+
     print(f"\n{'TODOS OS TESTES PASSARAM' if not failures else 'FALHAS: ' + ', '.join(failures)}")
     return 1 if failures else 0
 
@@ -842,7 +931,7 @@ def build_config(args):
         stake=args.stake, duration=args.duration,
         min_spikes=args.min_spikes, prime=(args.prime or args.window),
         use_demo=not args.real, app_id=app_id, api_token=api_token,
-        evidence_path=evidence, max_runtime=args.max_runtime,
+        evidence_path=evidence, max_runtime=args.max_runtime, vet_sample=args.vet_sample,
     )
 
 
@@ -873,6 +962,8 @@ def main():
     ap.add_argument("--stake", type=float, default=1.0)
     ap.add_argument("--duration", type=int, default=1)
     ap.add_argument("--max-runtime", type=float, default=0.0, dest="max_runtime")
+    ap.add_argument("--vet-sample", type=int, default=30000, dest="vet_sample",
+                    help="ticks frescos p/ revalidar um EV_EDGE antes de escalar a CRITICAL (0 desliga)")
     ap.add_argument("--evidence", default="")
     ap.add_argument("--real", action="store_true", help="usa conta real (padrao: demo)")
     ap.add_argument("--no-token", action="store_true", dest="no_token",
