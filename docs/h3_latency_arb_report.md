@@ -40,18 +40,27 @@ preço que é reprecificado fresco no fill". Só o **teste de fill** decide.
 - **Pipeline validado:** trava de conta (confirma DEMO `DOT92172514`, recusa real
   `ROT91014561`), `--live` obrigatório, stake $1, tetos de trades/tempo, fecha posição.
 - **Run 1 (5h UTC, mercado morto):** 12 ordens, **0 aligned** (sem movimentos de $20).
-  Todos "control" aleatórios: **WR 0%, −$0.0267/trade**, total −$0.32.
-- **Confirmação de custo:** em mercado parado, cada round-trip perde **exatamente a
-  comissão** (~$0.026 no nocional de $100) — bate com o probe de custo do H1.
-- **Inconclusivo para a arb:** sem volatilidade, não há nada defasado para explorar.
+  Inconclusivo (sem volatilidade). Confirmou custo: round-trip ≈ comissão (~$0.026).
+- **Run 2 (3h UTC, mercado ativo, 60 trades, coin-flip aligned/anti):**
+  - aligned: n=34, **WR 0%**, P&L médio **−$0.0259**.
+  - anti: n=26, **WR 0%**, P&L médio **−$0.0300**.
+  - `aligned − anti = +$0.0041/trade`, IC95% **[+0.0000, +0.0082]** (limite inferior encostando em zero → marginal).
+  - Decomposição: **captura de lag ≈ $0.002/trade (bruto)** vs **custo ≈ $0.028/trade**.
+  - `entry` ≈ Binance − basis (~$26) = **preço de fill FRESCO**, não defasado.
 
-## Estado atual
+## VEREDITO FINAL — H3 REFUTADA como estratégia lucrativa
 
-- **Confirmado:** pipeline de ordem demo funciona; trava de conta segura; custo real
-  por round-trip ≈ comissão; feed da Deriv atrasa a Binance ~1s (mas confundido com
-  amostragem 1/s).
-- **Falta (bloqueador = mercado):** o teste de fill decisivo precisa de **janela
-  volátil** (movimentos reais na Binance) para disparar trades `aligned`.
+O teste de fill decisivo (60 ordens demo, coin-flip aligned/anti) mostra que:
+
+- **O "lag de ~1s" do feed era o artefato de amostragem 1/s.** O preço de **execução
+  (entry_spot) é fresco** (segue a Binance ao vivo − basis). Quando reajo a um
+  movimento (~1s: detecção + envio da ordem), a Deriv já reprecificou.
+- **Existe um micro-edge direcional residual (~$0.002/trade, ~0.002%)**, mas é
+  **marginal** (IC95% encosta em zero) e **~14× MENOR que o custo** (~0.028%/round-trip).
+- **Todo trade perdeu** (WR 0% nos dois grupos). "aligned > anti" só significa perder
+  um pouco menos.
+
+**Mesmo padrão de H1:** micro-sinal real, **sub-custo** → não explorável.
 
 ## Harness pronto (melhorado)
 
@@ -67,9 +76,12 @@ python arb_order_test.py --live --stake 1 --mult 100 --hold-s 2 \
 Dry-run (valida conta/fluxo sem ordens): omitir `--live`.
 
 ## Próximos passos
-1. Rodar o Passo 3 melhorado em janela volátil (amostra ≥ 30 trades).
-2. Se `aligned − anti > 0` com significância → confirmar com hold/threshold variados.
-3. Só então considerar capital real — e mesmo assim, edge limitado pela barra de custo.
+- **Não prosseguir com capital real** nesta forma: edge sub-custo.
+- O harness fica disponível p/ re-teste em **alta volatilidade extrema** (moves
+  $50-100+ frequentes), onde a captura *poderia* superar o custo — mas a barreira
+  estrutural (latência de reação ~1s ≈ a defasagem) torna isso improvável.
+- Pivotar para a outra frente: **monitor de anomalia transitória no sintético**
+  (a tese do usuário: explorar mispricing efêmero antes do patch da Deriv).
 
 ## Segurança
 - Token do `.env` acessa **demo (DOT) e real (ROT)**. `use_demo=True` + a trava

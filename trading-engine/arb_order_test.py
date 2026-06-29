@@ -85,6 +85,15 @@ def wilson(k, n, z=1.96):
     return ((c - h) / d, (c + h) / d)
 
 
+def boot_diff_ci(al, an, n_boot=20000, seed=42):
+    """IC95% bootstrap da diferenca de medias (aligned - anti). Cancela custo/basis."""
+    rng = random.Random(seed)
+    la, ln = len(al), len(an)
+    diffs = sorted((sum(rng.choices(al, k=la)) / la) - (sum(rng.choices(an, k=ln)) / ln)
+                   for _ in range(n_boot))
+    return diffs[int(0.025 * n_boot)], diffs[int(0.975 * n_boot)]
+
+
 async def validate_demo(client):
     # Autoritativo: confirma pela API que a conta conectada e account_type=demo (e NAO real).
     import urllib.request as _u
@@ -179,7 +188,7 @@ async def main():
     ap.add_argument("--hold-s", type=float, default=2.0)
     ap.add_argument("--threshold", type=float, default=30.0, help="$ do movimento Binance gatilho")
     ap.add_argument("--lookback-ms", type=int, default=600)
-    ap.add_argument("--cooldown-s", type=float, default=3.0)
+    ap.add_argument("--cooldown-s", type=float, default=1.5)
     ap.add_argument("--max-trades", type=int, default=12)
     ap.add_argument("--max-seconds", type=int, default=360)
     args = ap.parse_args()
@@ -267,12 +276,23 @@ async def main():
     if al and an:
         ma, mn = sum(al) / len(al), sum(an) / len(an)
         edge = ma - mn
-        print(f">>> aligned - anti = ${edge:+.4f}/trade (edge direcional do lag, ja liquido de custo).")
-        if ma > 0 and edge > 0:
-            print("    SINAL DE ARB: aligned lucra E supera anti. Aumentar amostra p/ significancia "
-                  "antes de qualquer capital real.")
+        capture = edge / 2.0          # captura bruta do lag por trade
+        comm = -(ma + mn) / 2.0       # custo (comissao+spread) por trade
+        print(f">>> aligned={ma:+.4f} | anti={mn:+.4f} | aligned-anti=${edge:+.4f}/trade")
+        print(f"    captura de lag (bruta) ~${capture:+.4f}/trade  vs  custo ~${comm:.4f}/trade")
+        if len(al) >= 5 and len(an) >= 5:
+            lo, hi = boot_diff_ci(al, an)
+            detected = "edge direcional detectado" if lo > 0 else (
+                "aligned PIOR" if hi < 0 else "cruza zero (sem edge comprovado)")
+            print(f"    IC95% da diferenca: [{lo:+.4f}, {hi:+.4f}] -> {detected}")
+        # LUCRATIVO exige aligned liquido > 0 (a diferenca cancela o custo; nao basta ser >0)
+        if ma > 0:
+            print("    >>> LUCRATIVO no fill: aligned liquido > 0. Confirmar com amostra maior "
+                  "(hold/threshold variados) antes de QUALQUER capital real.")
         else:
-            print("    SEM ARB no fill: aligned nao supera anti -> o lag do feed nao e explor\u00e1vel na execucao.")
+            ratio = (comm / capture) if capture > 0 else float("inf")
+            print(f"    >>> NAO LUCRATIVO: aligned perde ${ma:.4f}/trade. Custo ~{ratio:.0f}x a captura do lag "
+                  "-> lag real mas SUB-CUSTO, nao explor\u00e1vel (mesmo padrao de H1).")
     elif al:
         print(f">>> so aligned (n={len(al)}): P&L medio ${sum(al)/len(al):+.4f}. Faltam trades 'anti' p/ comparar.")
     print("=" * 84)
