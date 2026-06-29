@@ -244,6 +244,71 @@ def run_sweep(days_data, args):
     print("=" * 100)
 
 
+def run_long_horizon(days_data, args):
+    """T4 - PREMISSA PURA do horizonte longo: apos um choque, existe vies direcional
+    (continuacao OU reversao) ao longo de minutos? Trades NAO-sobrepostos
+    (cooldown=hold) para nao inflar a significancia por autocorrelacao. Mede o retorno
+    BRUTO (sem custo/multiplier): se nem o bruto bate o nulo com IC95%>0, T4 morre
+    antes de discutir instrumento/liquidacao."""
+    thresholds = [float(x) for x in args.lh_thresholds.split(",") if x.strip()]
+    holds_s = [float(x) for x in args.lh_holds.split(",") if x.strip()]
+    lat = args.latency_ms
+    be = (args.commission_frac / args.multiplier) * 100.0  # break-even %/trade (~1 perna)
+    print("=" * 100)
+    print(f"T4 LONG-HORIZON (premissa pura) | {args.symbol} | {len(days_data)} dia(s) | "
+          f"choque em {args.window_ms:.0f}ms | break-even ~{be:.4f}%/trade")
+    print("trades NAO-sobrepostos (cooldown=hold); retorno BRUTO; mom/fade vs nulo aleatorio")
+    print("=" * 100)
+    any_edge = []
+    for th in thresholds:
+        for hs in holds_s:
+            hold_ms = hs * 1000.0
+            mom, fade, rnd = [], [], []
+            rng = np.random.default_rng(123)
+            for (_, t, p) in days_data:
+                n = len(t)
+                for (r, d) in find_triggers(t, p, th, args.window_ms, hold_ms):
+                    e = np.searchsorted(t, t[r] + lat, side="left")
+                    if e >= n:
+                        continue
+                    x = np.searchsorted(t, t[e] + hold_ms, side="left")
+                    if x >= n:
+                        continue
+                    fr = (p[x] - p[e]) / p[e]
+                    mom.append(d * fr)
+                    fade.append(-d * fr)
+                    rnd.append((1 if rng.random() < 0.5 else -1) * fr)
+            if len(mom) < 10:
+                print(f"  thr={th:.0f} hold={hs:.0f}s: poucos trades ({len(mom)})")
+                continue
+            mom = np.array(mom) * 100.0
+            fade = np.array(fade) * 100.0
+            rnd = np.array(rnd) * 100.0
+            mlo, mhi = bootstrap_mean_ci(mom, rng=np.random.default_rng(7))
+            flo, fhi = bootstrap_mean_ci(fade, rng=np.random.default_rng(7))
+            hl = f"{hs:.0f}s" if hs < 120 else f"{hs/60:.0f}min"
+            mf = " EDGE" if mlo > 0 else ""
+            ff = " EDGE" if flo > 0 else ""
+            if mlo > 0:
+                any_edge.append(("MOM", th, hs, mom.mean(), mlo, be))
+            if flo > 0:
+                any_edge.append(("FADE", th, hs, fade.mean(), flo, be))
+            print(f"  thr={th:4.0f} hold={hl:>5} N={len(mom):4d} | "
+                  f"mom={mom.mean():+.4f}%[{mlo:+.4f},{mhi:+.4f}]{mf} | "
+                  f"fade={fade.mean():+.4f}%[{flo:+.4f},{fhi:+.4f}]{ff} | rnd={rnd.mean():+.4f}%")
+    print("-" * 100)
+    if any_edge:
+        print(f">>> {len(any_edge)} celula(s) com IC95%>0 (vies direcional bruto):")
+        for kind, th, hs, mn, lo, be_ in any_edge:
+            verdict = ">CUSTO (promissor)" if lo > be_ else "mas SUB-CUSTO"
+            print(f"    {kind} thr={th:.0f} hold={hs:.0f}s: {mn:+.4f}% (IC_lo {lo:+.4f}) vs be {be_:.4f}% -> {verdict}")
+        print(">>> Vies de multiplos testes! OBRIGATORIO validar OOS (dias diferentes) + custo + liquidacao por multiplier.")
+    else:
+        print(">>> SEM vies direcional: nenhuma celula (mom nem fade) tem IC95%>0.")
+        print(">>> Pos-choque em horizonte longo = ruido. T4 sem premissa (como H1, agora no horizonte certo).")
+    print("=" * 100)
+
+
 def main():
     ap = argparse.ArgumentParser(description="H1 momentum pos-choque (Binance BTC, sim fiel)")
     ap.add_argument("--symbol", default="BTCUSDT")
@@ -259,6 +324,9 @@ def main():
     ap.add_argument("--commission-frac", type=float, default=0.24, help="comissao como fracao do stake")
     ap.add_argument("--slippage-bps", type=float, default=1.0, help="slippage por perna (bps)")
     ap.add_argument("--sweep", action="store_true", help="varre grade de parametros (usa cache)")
+    ap.add_argument("--longsweep", action="store_true", help="T4: premissa pura de horizonte longo (min)")
+    ap.add_argument("--lh-holds", default="30,60,180,300,900", dest="lh_holds", help="holds em segundos")
+    ap.add_argument("--lh-thresholds", default="30,50,100", dest="lh_thresholds")
     args = ap.parse_args()
 
     start = datetime.strptime(args.start, "%Y-%m-%d")
@@ -279,6 +347,10 @@ def main():
 
     if args.sweep:
         run_sweep(days_data, args)
+        return
+
+    if args.longsweep:
+        run_long_horizon(days_data, args)
         return
 
     rng = np.random.default_rng(123)
