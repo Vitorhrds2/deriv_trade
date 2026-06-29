@@ -9,6 +9,13 @@ if (-not (Test-Path $STATE)) { throw "Estado nao encontrado: $STATE" }
 $st = Get-Content $STATE -Raw | ConvertFrom-Json
 $IP = $st.ip; $KEY = $st.keyPath; $IID = $st.instanceId; $SG = $st.securityGroupId; $KEYNAME = $st.keyName; $REGION = $st.region
 
+Write-Host "== 0a. Reautorizando SSH do seu IP atual (residencial muda) ==" -ForegroundColor Cyan
+try {
+  $myip = (Invoke-WebRequest -UseBasicParsing https://checkip.amazonaws.com).Content.Trim()
+  aws ec2 authorize-security-group-ingress --region $REGION --group-id $SG --protocol tcp --port 22 --cidr "$myip/32" 2>$null | Out-Null
+  Write-Host "  SSH liberado p/ $myip/32"
+} catch { Write-Host "  (aviso) nao consegui reautorizar IP: $_" -ForegroundColor Yellow }
+
 Write-Host "== 0. Estado da instancia ==" -ForegroundColor Cyan
 $state = aws ec2 describe-instances --region $REGION --instance-ids $IID --query "Reservations[0].Instances[0].State.Name" --output text
 Write-Host "  $IID = $state"
