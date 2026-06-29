@@ -562,30 +562,35 @@ class Monitor:
         cycles = 0
         while not self._stop.is_set():
             await asyncio.sleep(cfg.cycle)
-            self._ensure_pips()
-            active = set()
-            for sym, st in self.states.items():
-                cands = []
-                cands += detect_rng_bias(st, cfg)
-                cands += detect_runs(st, cfg)
-                cands += detect_feed(st, cfg)
-                cands += detect_ev(st, self.gross_returns.get(sym, {}), cfg)
-                cands += detect_spike_timing(st, cfg)
-                for a in cands:
-                    if a.get("immediate"):
-                        self.logger.emit(a)
-                        continue
-                    key = (a["symbol"], a["klass"], a["key"])
-                    active.add(key)
-                    self.streaks[key] = self.streaks.get(key, 0) + 1
-                    if self.streaks[key] >= cfg.persistence:
-                        a["streak"] = self.streaks[key]
-                        self.logger.emit(a)
-            for key in list(self.streaks):
-                if key not in active:
-                    self.streaks[key] = 0
-            cycles += 1
-            self._heartbeat()
+            # Blindagem: um erro inesperado num ciclo NAO pode encerrar uma vigilia de
+            # dias/semanas. Loga e segue (CancelledError nao e Exception -> cancela ok).
+            try:
+                self._ensure_pips()
+                active = set()
+                for sym, st in self.states.items():
+                    cands = []
+                    cands += detect_rng_bias(st, cfg)
+                    cands += detect_runs(st, cfg)
+                    cands += detect_feed(st, cfg)
+                    cands += detect_ev(st, self.gross_returns.get(sym, {}), cfg)
+                    cands += detect_spike_timing(st, cfg)
+                    for a in cands:
+                        if a.get("immediate"):
+                            self.logger.emit(a)
+                            continue
+                        key = (a["symbol"], a["klass"], a["key"])
+                        active.add(key)
+                        self.streaks[key] = self.streaks.get(key, 0) + 1
+                        if self.streaks[key] >= cfg.persistence:
+                            a["streak"] = self.streaks[key]
+                            self.logger.emit(a)
+                for key in list(self.streaks):
+                    if key not in active:
+                        self.streaks[key] = 0
+                cycles += 1
+                self._heartbeat()
+            except Exception as e:
+                print(f"  [detector] erro no ciclo (ignorado p/ manter a vigilia): {e}", flush=True)
             if cfg.max_runtime and (time.time() - start) >= cfg.max_runtime:
                 self._stop.set()
 
@@ -627,18 +632,21 @@ class Monitor:
         interval = max(2.0, min(cfg.stall_timeout / 2.0, 10.0))
         while not self._stop.is_set():
             await asyncio.sleep(interval)
-            now = time.monotonic()
-            silent = {sym: now - self.last_wall.get(sym, started) for sym in cfg.symbols}
-            new_stall, recovered = self._eval_stalls(silent)
-            rc = getattr(self.client, "_reconnects", 0)
-            for sym in new_stall:
-                self.logger.emit(_anomaly(
-                    sym, "FEED_STALL", "stall", "HIGH",
-                    f"sem ticks ha {silent[sym]:.0f}s (limite {cfg.stall_timeout:.0f}s); "
-                    f"WS caiu? auto-reconnect do cliente em curso (reconexoes={rc})",
-                    immediate=True, silent_s=round(silent[sym], 1), reconnects=rc))
-            for sym in recovered:
-                print(f"  [feed] {sym} retomou ticks (reconexoes={rc})", flush=True)
+            try:
+                now = time.monotonic()
+                silent = {sym: now - self.last_wall.get(sym, started) for sym in cfg.symbols}
+                new_stall, recovered = self._eval_stalls(silent)
+                rc = getattr(self.client, "_reconnects", 0)
+                for sym in new_stall:
+                    self.logger.emit(_anomaly(
+                        sym, "FEED_STALL", "stall", "HIGH",
+                        f"sem ticks ha {silent[sym]:.0f}s (limite {cfg.stall_timeout:.0f}s); "
+                        f"WS caiu? auto-reconnect do cliente em curso (reconexoes={rc})",
+                        immediate=True, silent_s=round(silent[sym], 1), reconnects=rc))
+                for sym in recovered:
+                    print(f"  [feed] {sym} retomou ticks (reconexoes={rc})", flush=True)
+            except Exception as e:
+                print(f"  [watchdog] erro (ignorado): {e}", flush=True)
 
     async def run(self):
         print(f">>> Monitor de anomalias sinteticas | simbolos={','.join(self.cfg.symbols)}")
