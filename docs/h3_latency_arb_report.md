@@ -110,6 +110,35 @@ ainda há o **muro da comissão** (~$31/round-trip em $60k) a vencer dentro da j
 e re-rodar os 60 trades de lá. `aligned_net > 0` ⇒ edge destravado pela latência;
 senão H3 morto mesmo co-locado.
 
+## Veredito co-locado (AWS Tóquio, ap-northeast-1) — DEFINITIVO
+
+Executado de verdade numa `t3.micro` em Tóquio (scripts em `deploy/provision_tokyo.ps1`,
+`transfer_setup_tokyo.ps1`, `teardown_tokyo.ps1`; logs em `logs/tokyo_*.out`).
+
+Latência medida **da VM**:
+- **Binance (sinal): 2.6 ms** (era ~275 ms de casa) — co-locação confirmada.
+- **Deriv ping ~186 ms | proposal (leg de ordem) ~216 ms** — **PIOR** que de casa (~178 ms):
+  a origem da Deriv (atrás de Cloudflare) é ainda mais distante de Tóquio. Reação total
+  **~217 ms** (vs ~450 ms de casa).
+
+Teste de fill (41 trades demo, aligned vs anti, `--lookback-ms 200 --hold-s 1.2`):
+- aligned: n=18, WR 0%, **P&L médio −$0.0294**
+- anti: n=23, WR 0%, P&L médio −$0.0296
+- **aligned − anti = +$0.0001/trade** | IC95% **[−0.0017, +0.0020] (cruza zero)**
+- captura de lag ~$0.0001 vs custo ~$0.0295 → **custo ~489× a captura**
+
+| | Reação | aligned−anti | IC95% |
+|---|---|---|---|
+| Casa | ~450 ms | +$0.0041 | [+0.0000, +0.0082] (marginal) |
+| Tóquio | ~217 ms | +$0.0001 | [−0.0017, +0.0020] (zero) |
+
+**Conclusão:** reagir mais rápido capturou **MENOS** edge, não mais — o oposto de uma
+janela stale. A Deriv reprecifica o fill **fresco**; o gargalo é o leg de ordem (~216 ms,
+location-independent / pior de Tóquio), então a ordem **sempre chega depois** da Deriv
+reprecificar. **H3 REFUTADA em definitivo, mesmo co-locado.** Arbitragem de latência não
+existe pra varejo via API pública da Deriv. Mesmo padrão das outras hipóteses: micro-edge
+real, **sub-custo**.
+
 ## Segurança
 - Token do `.env` acessa **demo (DOT) e real (ROT)**. `use_demo=True` + a trava
   garantem operação só na demo. Nunca rodar com a conta real sem decisão explícita.
