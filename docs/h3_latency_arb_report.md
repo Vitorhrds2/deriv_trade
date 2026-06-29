@@ -83,6 +83,33 @@ Dry-run (valida conta/fluxo sem ordens): omitir `--live`.
 - Pivotar para a outra frente: **monitor de anomalia transitória no sintético**
   (a tese do usuário: explorar mispricing efêmero antes do patch da Deriv).
 
+## Latência real e viabilidade de VM (EC2/GCE) — diagnóstico
+
+Diagnóstico de rede (de casa, Brasil) — `deriv_rtt_probe.py` + checagem CF/RTT:
+- **Deriv atrás de Cloudflare** (`Server: cloudflare`; IPs `104.18.x`/`172.66.x`).
+  TCP até a borda CF de SP: **~4ms** — mas o round-trip de **aplicação** (`ping`) é
+  **~146ms** → o hop **borda→origem→borda** (origem real da Deriv) é ~140ms.
+  **A origem da Deriv é distante** (~70ms one-way de SP).
+- **`proposal`: ~178-191ms** round-trip (~146ms rede + **~32ms** de cômputo de preço).
+- **Binance em AWS Tóquio** (`ap-northeast-1`); RTT de casa **~275ms** (perna lenta).
+
+Reação total (move→fill): casa ≈ **450ms** (275 sinal + 178 ordem). H3 viu fills
+frescos a ~450ms ⇒ **janela 'stale' da Deriv < ~450ms**.
+
+O que uma VM em **AWS Tóquio** muda:
+- **Sinal Binance: 275ms → ~1ms** (único ganho grande, co-locada com a Binance).
+- **Ordem Deriv: ~178ms → desconhecido** — é o hop CF→origem (origem oculta pela CF);
+  de Tóquio pode ser igual ou pior. **Não necessariamente melhora.**
+- Reação total ≈ **180ms** (melhor caso).
+
+**Veredito:** VM só vale se a janela stale estiver **entre ~180ms (Tóquio) e ~450ms
+(casa)**. Provável que o fill reprecifique fresco (< 180ms) ⇒ nem Tóquio resolve; e
+ainda há o **muro da comissão** (~$31/round-trip em $60k) a vencer dentro da janela.
+
+**Teste decisivo barato:** spot AWS `ap-northeast-1` (~centavos/hora), subir o harness
+e re-rodar os 60 trades de lá. `aligned_net > 0` ⇒ edge destravado pela latência;
+senão H3 morto mesmo co-locado.
+
 ## Segurança
 - Token do `.env` acessa **demo (DOT) e real (ROT)**. `use_demo=True` + a trava
   garantem operação só na demo. Nunca rodar com a conta real sem decisão explícita.
