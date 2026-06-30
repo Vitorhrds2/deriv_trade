@@ -1,8 +1,8 @@
 # Investigação de Arbitragem — Polymarket (delimitação de teses)
 
-**Branch:** `feat/polymarket-arb` · **Status:** teses delimitadas, instrumento de caça pronto (read-only, não opera)
-**Código:** `trading-engine/polymarket_arb_probe.py`, `trading-engine/polymarket_arb_stats.py`
-**Testes:** `trading-engine/test_polymarket_arb_stats.py` (11/11), `polymarket_arb_probe.py --selftest` (4/4)
+**Branch:** `feat/polymarket-arb` · **Status:** teses delimitadas; instrumentos de caça read-only prontos (PA1/PA2 + PA5), não operam
+**Código:** `trading-engine/polymarket_arb_probe.py` (PA1/PA2), `trading-engine/polymarket_lag_probe.py` (PA5), `trading-engine/polymarket_arb_stats.py`
+**Testes:** `trading-engine/test_polymarket_arb_stats.py` (15/15), `polymarket_arb_probe.py --selftest` (4/4), `polymarket_lag_probe.py --selftest` (4/4)
 
 ## De onde vem o método (conhecimento herdado)
 
@@ -97,13 +97,19 @@ formato das frentes anteriores.
   settlement, e a evidência on-chain mostra **29 wallets a >98% WR** quando o movimento é grande (>$80).
 - **O que refuta / limita:** WR cai a ~50% em movimentos pequenos (sem sinal); concorrência de bots
   co-locados; o gargalo é a **latência da SUA ordem** chegar antes do livro ajustar — exatamente o muro da
-  H3 (leg de ordem location-independent). Risco de **divergência de oráculo** (Chainlink vs CF Benchmarks).
-- **Teste decisivo barato (mapeado da H3):**
-  1. **Lead-lag do feed:** correlação cruzada Binance × preço Polymarket no mercado curto (análogo a `latency_probe.py`).
-  2. **Teste A/B aligned vs anti** nos últimos 15s **só quando |ΔBTC| > limiar** (replica `arb_order_test.py`):
-     `aligned_net > 0` **e** `aligned − anti > 0` com IC95% **acima de zero** = edge real.
-  3. Se marginal/sub-custo (como na H3), **não prosseguir**; se o limite inferior bater a barra, então
-     desenhar executor (demo/paper primeiro, limite de perda).
+  H3 (leg de ordem location-independent). **Risco de oráculo (confirmado na fonte):** o mercado resolve por
+  **Chainlink** ("Up se preço BTC no fim ≥ preço no início"), não pela Binance. Binance é só o **sinal grátis**;
+  a divergência Binance × Chainlink é basis/oráculo (a H5 da literatura) e entra como ruído/risco.
+- **Estrutura ao vivo (verificada via Gamma):** slugs `btc-updown-5m-<epoch>` / `-15m-`; `outcomes=["Up","Down"]`,
+  `clobTokenIds=[Up, Down]`; janela = `endDate − horizonte`; novas janelas a cada 5/15min (sempre há mercado vivo).
+- **Teste decisivo barato (mapeado da H3) — IMPLEMENTADO em `polymarket_lag_probe.py` (read-only, PAPER):**
+  1. **Lead-lag do feed:** `--seconds N` correlaciona retornos Binance × mid do token Up (`cross_corr_profile`,
+     análogo a `latency_probe.py`). `lag>0` = Polymarket atrasa = janela stale candidata.
+  2. **A/B aligned vs anti** `--paper-ab` nos últimos `--final-s` **só quando |ΔBTC| > `--min-move`**: compra-paper
+     o lado implícito pela Binance (aligned) ou o oposto (anti) ao **ask de topo de livro**, settla contra
+     begin/close. Veredito: `aligned_net > 0` **e** IC95% de `aligned − anti` **acima de zero** (`boot_diff_ci`).
+  3. Se marginal/sub-custo (como na H3), **não prosseguir**. Operar exigiria executor **EIP-712** —
+     **fora do escopo** deste instrumento por decisão de projeto (ele mede, não assina ordens).
 
 ## Veredito preliminar (a defender com dados)
 
@@ -124,13 +130,19 @@ falhou (fill fresco) **invertida**. É aí que vale gastar o teste A/B.
 
 ```bash
 cd trading-engine
-python test_polymarket_arb_stats.py          # 11/11 — prova a matemática (custo, Wilson, walk-book)
+python test_polymarket_arb_stats.py          # 15/15 — prova a matemática (custo, Wilson, walk-book, A/B, lead-lag)
 python polymarket_arb_probe.py --selftest     # 4/4 — prova os gates offline
 
 # Ao vivo (dados PÚBLICOS, sem auth, NÃO opera): conjunto completo de YES de um mercado
 python polymarket_arb_probe.py --market-slug <slug> --taker-rate 0.0 --fixed-cost 0.0 --max-runtime 120
 # binário simples: passe [YES_token, NO_token]
 python polymarket_arb_probe.py --token-ids <YES_ID>,<NO_ID> --persistence 3
+
+# PA5 — latência/staleness em mercados curtos BTC (read-only, PAPER, não opera):
+python polymarket_lag_probe.py --selftest                 # 4/4 — prova lead-lag + A/B offline
+python polymarket_lag_probe.py --discover btc-updown-5m   # lista as janelas vivas
+python polymarket_lag_probe.py --slug <btc-updown-5m-...> --seconds 120 --grid-ms 500   # lead-lag
+python polymarket_lag_probe.py --slug <btc-updown-5m-...> --paper-ab --final-s 30 --min-move 10  # A/B paper
 ```
 
 Evidência confirmada (só o que **persiste** e é **net-positivo** após custo): `logs/polymarket_arb/opportunities.jsonl`.
@@ -146,9 +158,13 @@ Evidência confirmada (só o que **persiste** e é **net-positivo** após custo)
 > O harness **não assina ordens** de propósito. Caçar e registrar é um passo; armar capital é outro, separado e explícito.
 
 ## Próximos passos
-- Rodar o probe ao vivo em mercados NegRisk de Sports (5+ pernas, baixa liquidez) para medir frequência/duração de `net>0` real (PA2).
-- Construir o probe de lead-lag + A/B para PA5 (reusar a arquitetura de `latency_probe.py`/`arb_order_test.py` da H3, trocando Deriv por Polymarket CLOB).
-- Mapear 1–2 pares cross-venue Polymarket×Kalshi com regra de resolução **idêntica** para testar PA4 com `cross_venue_edge`.
+- **PA5 (feito o harness):** rodar `polymarket_lag_probe.py --paper-ab` em várias janelas BTC de 5min em
+  **horário volátil** (abertura US/EU) e acumular ≥30 paper-trades por grupo; verdito = `aligned_net > 0`
+  **e** IC95% de `aligned − anti` acima de zero. Em paralelo, medir a **divergência Binance × Chainlink**
+  (basis) — se for da ordem do edge, a tese morre como a H3.
+- **PA2:** rodar `polymarket_arb_probe.py` em mercados NegRisk de Sports (5+ pernas, baixa liquidez) com
+  `--max-notional` pequeno (topo de livro) para medir frequência/duração de `net>0` real.
+- **PA4:** mapear 1–2 pares cross-venue Polymarket×Kalshi com regra de resolução **idêntica** e testar com `cross_venue_edge` (`fee_b=0.07`).
 
 ## Segurança
 - Tudo aqui é **read-only** sobre APIs **públicas** (Gamma + CLOB), **sem credenciais** e **sem assinar ordens**.

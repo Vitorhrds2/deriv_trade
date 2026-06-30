@@ -82,6 +82,37 @@ def test_net_edge_bps():
     assert approx(s.net_edge_bps(0.03, 0.97), 10000 * 0.03 / 0.97)
 
 
+def test_updown_paper_pnl_win_and_loss():
+    # compra Up a 0.40; venceu -> +0.60; perdeu -> -0.40
+    assert approx(s.updown_paper_pnl(0.40, won=True), 0.60)
+    assert approx(s.updown_paper_pnl(0.40, won=False), -0.40)
+    # taxa corroi o lucro
+    assert s.updown_paper_pnl(0.40, won=True, taker_rate=0.015, fixed_cost=0.01) < 0.60
+
+
+def test_boot_diff_ci_detects_positive_edge():
+    aligned = [0.6] * 20 + [-0.4] * 5   # win-rate alto
+    anti = [0.6] * 5 + [-0.4] * 20      # win-rate baixo
+    lo, hi = s.boot_diff_ci(aligned, anti, n_boot=4000, seed=1)
+    assert lo > 0  # aligned claramente melhor que anti
+
+
+def test_boot_diff_ci_crosses_zero_when_no_edge():
+    aligned = [0.6, -0.4] * 15
+    anti = [0.6, -0.4] * 15
+    lo, hi = s.boot_diff_ci(aligned, anti, n_boot=4000, seed=2)
+    assert lo <= 0 <= hi
+
+
+def test_cross_corr_detects_lag():
+    # target atrasa ref em 2 passos
+    ref = [0.0, 1.0, -1.0, 0.5, -0.5, 1.0, -1.0, 0.2, -0.2, 0.8, -0.8, 0.3]
+    target = [0.0, 0.0] + ref[:-2]
+    prof = s.cross_corr_profile(ref, target, max_lag=4)
+    lag, corr = s.best_lag(prof)
+    assert lag == 2 and corr > 0.9
+
+
 def _run_all():
     tests = [v for k, v in sorted(globals().items()) if k.startswith("test_") and callable(v)]
     passed = 0

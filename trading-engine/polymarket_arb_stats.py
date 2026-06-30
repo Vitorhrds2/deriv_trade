@@ -20,6 +20,7 @@ Convencoes
 Todas as funcoes sao deterministicas e cobertas por `test_polymarket_arb_stats.py`.
 """
 import math
+import random
 
 # Valor critico |z| bicaudal para IC de Wilson (mesma tabela do anomaly_stats).
 Z_CRIT = {
@@ -169,3 +170,81 @@ def net_edge_bps(net, notional):
     if notional <= 0:
         return 0.0
     return 10000.0 * net / notional
+
+
+# --------------------------------------------------------------------------- #
+# PA5 — latencia em mercados curtos (Up/Down BTC) x Binance. Metodo da H3:
+# A/B aligned-vs-anti para isolar o edge do custo/basis; tudo PAPER (sem capital).
+# --------------------------------------------------------------------------- #
+def updown_paper_pnl(ask, won, taker_rate=0.0, fixed_cost=0.0):
+    """P&L PAPER de comprar 1 unidade de um token Up/Down ao preco `ask`.
+
+    No resolve paga 1 USDC se a direcao apostada venceu (`won=True`), senao 0.
+    Custo = taker_rate*ask + fixed_cost (gas). Retorna lucro liquido por unidade.
+    """
+    payout = 1.0 if won else 0.0
+    fees = taker_rate * ask + fixed_cost
+    return payout - ask - fees
+
+
+def boot_diff_ci(aligned, anti, n_boot=20000, seed=42):
+    """IC95% bootstrap da diferenca de medias (aligned - anti).
+
+    Mesma ideia da H3 (`arb_order_test.boot_diff_ci`): a diferenca CANCELA o custo e o
+    basis comuns aos dois grupos, isolando o edge direcional. lo>0 = edge comprovado;
+    hi<0 = aligned PIOR; cruza zero = sem edge.
+    """
+    if not aligned or not anti:
+        return (0.0, 0.0)
+    rng = random.Random(seed)
+    la, ln = len(aligned), len(anti)
+    diffs = sorted(
+        (sum(rng.choices(aligned, k=la)) / la) - (sum(rng.choices(anti, k=ln)) / ln)
+        for _ in range(n_boot)
+    )
+    return diffs[int(0.025 * n_boot)], diffs[int(0.975 * n_boot)]
+
+
+def _pearson(a, b):
+    n = len(a)
+    if n < 2:
+        return 0.0
+    ma = sum(a) / n
+    mb = sum(b) / n
+    num = sum((a[i] - ma) * (b[i] - mb) for i in range(n))
+    da = math.sqrt(sum((x - ma) ** 2 for x in a))
+    db = math.sqrt(sum((x - mb) ** 2 for x in b))
+    if da == 0 or db == 0:
+        return 0.0
+    return num / (da * db)
+
+
+def cross_corr_profile(ref, target, max_lag):
+    """Perfil de correlacao cruzada de retornos `ref` (Binance) vs `target` (Polymarket).
+
+    Listas de mesmo tamanho amostradas no MESMO grid. Retorna [(lag, corr), ...].
+    lag>0 = `target` reflete o movimento de `ref` DEPOIS (Polymarket ATRASA a Binance)
+    — exatamente a janela 'stale' que a tese PA5 tenta explorar. Puro Python (sem numpy)
+    para o `--selftest` rodar sem dependencias.
+    """
+    out = []
+    n = min(len(ref), len(target))
+    for lag in range(-max_lag, max_lag + 1):
+        if lag >= 0:
+            a = ref[: n - lag] if lag else ref[:n]
+            b = target[lag:n]
+        else:
+            a = ref[-lag:n]
+            b = target[: n + lag]
+        m = min(len(a), len(b))
+        if m < 5:
+            continue
+        out.append((lag, _pearson(list(a[:m]), list(b[:m]))))
+    return out
+
+
+def best_lag(profile):
+    """(lag, corr) de correlacao maxima do perfil; (0, 0.0) se vazio."""
+    if not profile:
+        return (0, 0.0)
+    return max(profile, key=lambda x: x[1])
