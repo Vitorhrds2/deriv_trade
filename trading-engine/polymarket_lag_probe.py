@@ -106,14 +106,57 @@ def binance_open_at(epoch_s, timeout=10):
     return float(k[0][1]) if k else None
 
 
-def discover(substr, timeout=15):
-    q = urllib.parse.urlencode({"closed": "false", "limit": 200, "order": "startDate", "ascending": "false"})
+def list_updown_markets(substr, timeout=15):
+    """Lista mercados Up/Down ativos cujo slug casa `substr`, como [(slug, end_dt)]
+    ordenados pelo fim mais proximo. Reusado por --discover e pelo coletor PA5."""
+    q = urllib.parse.urlencode({"closed": "false", "limit": 500, "order": "startDate", "ascending": "false"})
     data = _get(f"{GAMMA}/markets?{q}", timeout=timeout)
     rows = data if isinstance(data, list) else data.get("data", [])
-    hits = [m for m in rows if substr.lower() in (m.get("slug") or "").lower()]
+    out = []
+    for m in rows:
+        slug = m.get("slug") or ""
+        if substr.lower() in slug.lower() and m.get("endDate"):
+            try:
+                out.append((slug, datetime.fromisoformat(m["endDate"].replace("Z", "+00:00"))))
+            except Exception:
+                pass
+    out.sort(key=lambda x: x[1])
+    return out
+
+
+def next_window(substr, after_ts, min_lead_s, timeout=15, tries=6):
+    """Proxima janela (slug, end_dt) que fecha depois de `after_ts + min_lead_s`.
+
+    DETERMINISTICO: o sufixo do slug e o epoch unix do INICIO da janela, alinhado ao grid
+    do horizonte (5m -> multiplos de 300s; 15m -> 900s); o FIM = inicio + horizonte.
+    Construimos o slug da janela iminente e confirmamos via Gamma (as janelas sao criadas
+    com antecedencia). Mais robusto que listar (a listagem por data devolve janelas
+    futuras/antigas, nao a iminente). Verificado: end = begin + horizonte*60.
+    """
+    horizon = parse_horizon_min(substr)
+    if not horizon:
+        return None, None
+    step = horizon * 60
+    deadline = after_ts + min_lead_s
+    begin0 = (int(deadline) // step) * step  # inicio da janela em curso
+    for k in range(tries):
+        begin_epoch = begin0 + k * step
+        if begin_epoch + step <= deadline:           # janela ja fecha cedo demais
+            continue
+        slug = f"{substr}-{begin_epoch}"
+        try:
+            mk = resolve_market(slug, timeout=timeout)
+            return slug, mk["end"]
+        except Exception:
+            continue
+    return None, None
+
+
+def discover(substr, timeout=15):
+    hits = list_updown_markets(substr, timeout=timeout)
     print(f"{len(hits)} mercados ativos casando '{substr}':")
-    for m in hits[:25]:
-        print(f"  {m.get('slug'):42}  end={m.get('endDate')}")
+    for slug, end in hits[:25]:
+        print(f"  {slug:42}  end={end.isoformat()}")
     return 0
 
 
@@ -157,97 +200,154 @@ def run_leadlag(slug, seconds, grid_ms, max_lag_ms):
     return 0
 
 
-def run_paper_ab(args):
+def summarize_ab(trades):
+    """Agrega uma lista de paper-trades em metricas A/B (reusado por janela e no total)."""
+    out = {"n": len(trades)}
+    for grp in ("aligned", "anti"):
+        g = [t for t in trades if t["tag"] == grp]
+        pnl = [t["pnl"] for t in g]
+        wins = sum(1 for t in g if t.get("won"))
+        lo, hi = wilson_interval(wins, len(g)) if g else (0.0, 0.0)
+        out[grp] = {
+            "n": len(g), "wins": wins,
+            "wr": (wins / len(g)) if g else 0.0,
+            "wr_ci": [lo, hi],
+            "pnl_mean": (sum(pnl) / len(g)) if g else 0.0,
+            "pnl_total": sum(pnl),
+        }
+    al = [t["pnl"] for t in trades if t["tag"] == "aligned"]
+    an = [t["pnl"] for t in trades if t["tag"] == "anti"]
+    if al and an:
+        out["aligned_minus_anti"] = out["aligned"]["pnl_mean"] - out["anti"]["pnl_mean"]
+        if len(al) >= 5 and len(an) >= 5:
+            lo, hi = boot_diff_ci(al, an)
+            out["diff_ci95"] = [lo, hi]
+            out["verdict"] = ("edge_comprovado" if lo > 0 else
+                              "aligned_pior" if hi < 0 else "cruza_zero")
+    return out
+
+
+def paper_ab_window(slug, *, final_s, sample_s, guard_s, min_move,
+                    taker_rate, fixed_cost, seed=42, log=lambda *_: None):
+    """Roda o A/B PAPER de UMA janela Up/Down e retorna um registro estruturado.
+
+    NAO opera (sem EIP-712). Espera ate os ultimos `final_s` s da janela, amostra trades
+    quando |move Binance| > min_move, settla no fechamento (Binance proxy do Chainlink),
+    e devolve dict com trades + agregados. `log` permite imprimir ao vivo (CLI) ou silenciar.
+    """
     import random
-    mk = resolve_market(args.slug)
+    mk = resolve_market(slug)
     up_token, down_token = mk["tokens"][0], mk["tokens"][1]
     end = mk["end"]
     begin_epoch = end.timestamp() - mk["horizon_min"] * 60
-    begin_ref = binance_open_at(begin_epoch)
-    print(f"[{args.slug}] {mk['question']}")
-    print(f"  fim={end.isoformat()} | begin~={datetime.fromtimestamp(begin_epoch, timezone.utc).isoformat()} "
-          f"| begin_ref(Binance)={begin_ref}")
-    print(f"  PAPER A/B nos ultimos {args.final_s}s | taker={args.taker_rate} fixed=${args.fixed_cost}")
-    print("  (resolver real = Chainlink; usamos Binance como proxy -> basis/oraculo e risco)")
-    if begin_ref is None:
-        print("  ! sem referencia de begin (klines). Abortando."); return 1
-
-    rng = random.Random(args.seed)
+    rec = {
+        "slug": slug, "question": mk["question"], "horizon_min": mk["horizon_min"],
+        "end": end.isoformat(), "begin_ref": None,
+        "taker_rate": taker_rate, "fixed_cost": fixed_cost,
+        "ts_collected": datetime.now(timezone.utc).isoformat(),
+    }
+    # begin_ref e buscado SO depois que a janela ja comecou (o candle de begin precisa
+    # existir). Buscar cedo demais devolve klines vazio -> None.
+    begin_ref = None
+    rng = random.Random(seed)
     trades = []
     last = 0.0
     while True:
         now = time.time()
         secs_left = end.timestamp() - now
-        if secs_left <= args.guard_s:
+        if secs_left <= guard_s:
             break
-        if secs_left > args.final_s:
-            time.sleep(min(1.0, secs_left - args.final_s)); continue
-        if now - last < args.sample_s:
+        if secs_left > final_s or now < begin_epoch + 1:
+            time.sleep(min(2.0, max(0.2, secs_left - final_s))); continue
+        if begin_ref is None:
+            begin_ref = binance_open_at(begin_epoch)
+            if begin_ref is None:
+                time.sleep(1.0); continue
+            rec["begin_ref"] = begin_ref
+        if now - last < sample_s:
             time.sleep(0.1); continue
         try:
             bp = binance_price()
             d = bp - begin_ref
-            if abs(d) < args.min_move:
+            if abs(d) < min_move:
                 last = now; continue
             move_dir = 1 if d > 0 else -1
-            if rng.random() < 0.5:
-                chosen, tag = move_dir, "aligned"
-            else:
-                chosen, tag = -move_dir, "anti"
+            chosen, tag = (move_dir, "aligned") if rng.random() < 0.5 else (-move_dir, "anti")
             side = "Up" if chosen > 0 else "Down"
             token = up_token if chosen > 0 else down_token
             ask, _, _ = best_ask(token)
             if ask is None:
                 last = now; continue
             trades.append({"tag": tag, "side": side, "ask": ask, "binance": bp, "move": d})
-            print(f"  [{tag:7}] {side:4} ask={ask:.3f} | binance={bp:.1f} (move {d:+.1f}) | left={secs_left:.0f}s")
+            log(f"  [{tag:7}] {side:4} ask={ask:.3f} | binance={bp:.1f} (move {d:+.1f}) | left={secs_left:.0f}s")
             last = now
         except Exception as e:
-            print(f"  ! sample: {e}"); time.sleep(0.5)
+            log(f"  ! sample: {e}"); time.sleep(0.5)
 
-    # settla contra o close (Binance como proxy do Chainlink)
+    if begin_ref is None:
+        begin_ref = binance_open_at(begin_epoch)
+        rec["begin_ref"] = begin_ref
+    if begin_ref is None:
+        rec["error"] = "sem begin_ref (klines indisponivel)"
+        rec["trades"] = trades
+        rec["summary"] = summarize_ab(trades)
+        return rec
     try:
         close_px = binance_price()
     except Exception:
         close_px = begin_ref
     outcome_up = close_px >= begin_ref
-    print(f"\n  close(Binance)={close_px:.1f} vs begin={begin_ref:.1f} -> resultado={'Up' if outcome_up else 'Down'}")
     for t in trades:
         won = (t["side"] == "Up") == outcome_up
         t["won"] = won
-        t["pnl"] = updown_paper_pnl(t["ask"], won, args.taker_rate, args.fixed_cost)
+        t["pnl"] = updown_paper_pnl(t["ask"], won, taker_rate, fixed_cost)
+    rec["close_px"] = close_px
+    rec["outcome"] = "Up" if outcome_up else "Down"
+    rec["trades"] = trades
+    rec["summary"] = summarize_ab(trades)
+    return rec
 
+
+def _print_ab_record(rec):
+    print(f"[{rec['slug']}] {rec.get('question')}")
+    if rec.get("error"):
+        print(f"  ! {rec['error']}"); return
+    print(f"  fim={rec['end']} | begin_ref(Binance)={rec['begin_ref']} | "
+          f"close={rec.get('close_px')} -> resultado={rec.get('outcome')}")
+    print("  (resolver real = Chainlink; Binance e proxy -> basis/oraculo e risco)")
+    s = rec["summary"]
     print("=" * 78)
-    print(f"Paper trades: {len(trades)}")
+    print(f"Paper trades: {s['n']}")
     for grp in ("aligned", "anti"):
-        g = [t for t in trades if t["tag"] == grp]
-        if not g:
-            continue
-        pnl = [t["pnl"] for t in g]
-        wins = sum(1 for t in g if t["won"])
-        lo, hi = wilson_interval(wins, len(g))
-        mean = sum(pnl) / len(g)
-        print(f"  {grp:8}: n={len(g):3d} | WR={wins/len(g)*100:5.1f}% [{lo*100:.0f},{hi*100:.0f}] "
-              f"| P&L medio=${mean:+.4f} | total=${sum(pnl):+.4f}")
-    al = [t["pnl"] for t in trades if t["tag"] == "aligned"]
-    an = [t["pnl"] for t in trades if t["tag"] == "anti"]
-    if al and an:
-        ma, mn = sum(al) / len(al), sum(an) / len(an)
-        print(f">>> aligned={ma:+.4f} | anti={mn:+.4f} | aligned-anti=${ma-mn:+.4f}/trade")
-        if len(al) >= 5 and len(an) >= 5:
-            lo, hi = boot_diff_ci(al, an)
-            verdict = ("edge direcional comprovado" if lo > 0 else
-                       "aligned PIOR" if hi < 0 else "cruza zero (sem edge comprovado)")
-            print(f"    IC95% (aligned-anti): [{lo:+.4f}, {hi:+.4f}] -> {verdict}")
-        if ma > 0:
-            print("    >>> LUCRATIVO no paper: aligned liquido > 0. Validar amostra maior + divergencia "
-                  "Chainlink antes de QUALQUER capital (e exige executor EIP-712, fora deste script).")
+        g = s[grp]
+        if g["n"]:
+            print(f"  {grp:8}: n={g['n']:3d} | WR={g['wr']*100:5.1f}% "
+                  f"[{g['wr_ci'][0]*100:.0f},{g['wr_ci'][1]*100:.0f}] | "
+                  f"P&L medio=${g['pnl_mean']:+.4f} | total=${g['pnl_total']:+.4f}")
+    if "aligned_minus_anti" in s:
+        print(f">>> aligned-anti=${s['aligned_minus_anti']:+.4f}/trade")
+        if "diff_ci95" in s:
+            lo, hi = s["diff_ci95"]
+            print(f"    IC95% (aligned-anti): [{lo:+.4f}, {hi:+.4f}] -> {s.get('verdict')}")
+        if s["aligned"]["pnl_mean"] > 0:
+            print("    >>> LUCRATIVO no paper: aligned liquido > 0. Validar amostra maior + "
+                  "divergencia Chainlink antes de QUALQUER capital (exige EIP-712, fora daqui).")
         else:
-            print("    >>> NAO LUCRATIVO: aligned liquido <= 0 -> mesmo padrao H1/H3 (sinal real, sub-custo).")
+            print("    >>> NAO LUCRATIVO: aligned <= 0 -> mesmo padrao H1/H3 (sinal real, sub-custo).")
     else:
         print("(amostra insuficiente para A/B — rode em janela ativa com mais samples)")
     print("=" * 78)
-    return 0
+
+
+def run_paper_ab(args):
+    print(f"  PAPER A/B nos ultimos {args.final_s}s | taker={args.taker_rate} fixed=${args.fixed_cost}")
+    rec = paper_ab_window(
+        args.slug, final_s=args.final_s, sample_s=args.sample_s, guard_s=args.guard_s,
+        min_move=args.min_move, taker_rate=args.taker_rate, fixed_cost=args.fixed_cost,
+        seed=args.seed, log=print,
+    )
+    _print_ab_record(rec)
+    return 0 if not rec.get("error") else 1
 
 
 def selftest():

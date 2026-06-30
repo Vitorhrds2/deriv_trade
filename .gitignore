@@ -9,3 +9,5 @@ __pycache__/
 
 # Evidencia bruta dos cacadores (auditavel localmente, fora do versionamento)
 trading-engine/logs/polymarket_arb/
+trading-engine/data/
+trading-engine/logs/
