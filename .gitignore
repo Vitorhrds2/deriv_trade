@@ -6,3 +6,6 @@ __pycache__/
 *.db
 *.csv
 .DS_Store
+
+# Evidencia bruta dos cacadores (auditavel localmente, fora do versionamento)
+trading-engine/logs/polymarket_arb/
