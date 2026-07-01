@@ -255,7 +255,7 @@ export const orderbook = {
   })),
 };
 
-export function statusBadgeClass(s: Status | Bot["state"] | BrokerConn["status"]) {
+export function statusBadgeClass(s: Status | Bot["state"] | BrokerConn["status"] | "refuted") {
   switch (s) {
     case "live":
     case "running":
@@ -271,6 +271,7 @@ export function statusBadgeClass(s: Status | Bot["state"] | BrokerConn["status"]
       return "bg-muted text-muted-foreground border-border";
     case "error":
     case "offline":
+    case "refuted":
       return "bg-destructive/15 text-destructive border-destructive/40";
     case "archived":
     default:

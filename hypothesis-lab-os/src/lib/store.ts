@@ -1,6 +1,7 @@
 // Global mock-app store: bots, selections, filters, kill switch, live tick.
 import { create } from "zustand";
-import { bots as seedBots, hypotheses as seedHyp, type Bot, type Hypothesis } from "./mock-data";
+import { bots as seedBots, type Bot } from "./mock-data";
+import { realHypotheses as seedHyp, type HypStatus } from "./hypotheses-data";
 
 export type Notif = {
   id: string;
@@ -26,7 +27,7 @@ type State = {
   selectHyp: (id: string) => void;
   hypFilter: string;
   setHypFilter: (s: string) => void;
-  hypStatus: "all" | Hypothesis["status"];
+  hypStatus: "all" | HypStatus;
   setHypStatus: (s: State["hypStatus"]) => void;
 
   // Global search / command palette
@@ -48,8 +49,7 @@ type State = {
   markAllRead: () => void;
 };
 
-const now = () =>
-  new Date().toLocaleTimeString("en-US", { hour12: false }).slice(0, 8);
+const now = () => new Date().toLocaleTimeString("en-US", { hour12: false }).slice(0, 8);
 
 export const useApp = create<State>((set) => ({
   tick: 0,
@@ -67,14 +67,12 @@ export const useApp = create<State>((set) => ({
               cpu: state === "running" ? Math.max(b.cpu, 5) : 0,
               memory: state === "running" ? Math.max(b.memory, 12) : 0,
             }
-          : b
+          : b,
       ),
     })),
   restartBot: (id) =>
     set((s) => ({
-      bots: s.bots.map((b) =>
-        b.id === id ? { ...b, state: "recovering" } : b
-      ),
+      bots: s.bots.map((b) => (b.id === id ? { ...b, state: "recovering" } : b)),
     })),
 
   selectedHypId: seedHyp[0].id,
@@ -96,14 +94,34 @@ export const useApp = create<State>((set) => ({
     set((s) => ({
       killed: true,
       killOpen: false,
-      bots: s.bots.map((b) => (b.env === "live" ? { ...b, state: "stopped", cpu: 0, memory: 0 } : b)),
+      bots: s.bots.map((b) =>
+        b.env === "live" ? { ...b, state: "stopped", cpu: 0, memory: 0 } : b,
+      ),
     })),
   resume: () => set({ killed: false }),
 
   notifs: [
-    { id: "n1", title: "CPI release detectado", desc: "actual 3.4% > forecast 3.2% — cpi-btc-prod abriu posição.", kind: "success", time: "12:04" },
-    { id: "n2", title: "Latência Kalshi acima do SLO", desc: "p95 220ms > 150ms", kind: "warn", time: "12:01" },
-    { id: "n3", title: "Bot nvda-drift-sim em erro", desc: "data feed disconnected", kind: "error", time: "11:32" },
+    {
+      id: "n1",
+      title: "CPI release detectado",
+      desc: "actual 3.4% > forecast 3.2% — cpi-btc-prod abriu posição.",
+      kind: "success",
+      time: "12:04",
+    },
+    {
+      id: "n2",
+      title: "Latência Kalshi acima do SLO",
+      desc: "p95 220ms > 150ms",
+      kind: "warn",
+      time: "12:01",
+    },
+    {
+      id: "n3",
+      title: "Bot nvda-drift-sim em erro",
+      desc: "data feed disconnected",
+      kind: "error",
+      time: "11:32",
+    },
   ],
   pushNotif: (n) =>
     set((s) => ({
