@@ -37,6 +37,8 @@ class AWSFleetManager:
                 "aws_access_key_id": os.getenv("AWS_ACCESS_KEY_ID"),
                 "aws_secret_access_key": os.getenv("AWS_SECRET_ACCESS_KEY"),
             }
+            if os.getenv("AWS_SESSION_TOKEN"):
+                kwargs["aws_session_token"] = os.getenv("AWS_SESSION_TOKEN")
         for region in self.regions:
             self.sessions[region] = boto3.Session(region_name=region, **kwargs)
 
@@ -100,7 +102,7 @@ class AWSFleetManager:
         if dry_run:
             logger.info(f"[dry-run] {region}: security group '{SG_NAME}' nao existe ainda; "
                         f"seria criado (SSH inbound) em modo --real.")
-            return "sg-dryrun-placeholder"
+            return None
         vpcs = ec2_client.describe_vpcs(Filters=[{"Name": "isDefault", "Values": ["true"]}])["Vpcs"]
         if not vpcs:
             raise RuntimeError("Sem VPC default nesta regiao; crie uma VPC ou passe SecurityGroupId manualmente.")
@@ -138,6 +140,11 @@ class AWSFleetManager:
                 key_name = self._ensure_key_pair(ec2_client, region, dry_run)
                 sg_id = self._ensure_security_group(ec2_client, region, dry_run)
                 logger.info(f"{region}: AMI={ami_id} key={key_name} sg={sg_id}")
+
+                if dry_run and sg_id is None:
+                    logger.info(f"✅ {region}: dry-run OK (credenciais/AMI validos; SG/key ainda nao existem, "
+                                f"serao criados em modo --real antes do RunInstances).")
+                    continue
 
                 new_instances = ec2_resource.create_instances(
                     ImageId=ami_id,

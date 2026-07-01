@@ -45,6 +45,28 @@ def mean(values):
     return sum(values) / len(values) if values else 0.0
 
 
+def bootstrap_diff_ci(values_a, values_b, n_boot=10000, ci=0.95, seed=42):
+    """IC95% via bootstrap para a diferenca de medias entre dois grupos independentes (a - b).
+
+    Usado para comparar EV/trade de grupos de um shadow A/B (ex.: ALIGNED vs ANTI). Se o
+    IC nao cruza zero, a diferenca e estatisticamente significativa nesse nivel de confianca.
+    """
+    if not values_a or not values_b:
+        return (0.0, 0.0, 0.0)
+    rng = random.Random(seed)
+    na, nb = len(values_a), len(values_b)
+    diffs = []
+    for _ in range(n_boot):
+        sample_a = [values_a[rng.randrange(na)] for _ in range(na)]
+        sample_b = [values_b[rng.randrange(nb)] for _ in range(nb)]
+        diffs.append(sum(sample_a) / na - sum(sample_b) / nb)
+    diffs.sort()
+    lo_idx = int((1 - ci) / 2 * n_boot)
+    hi_idx = int((1 + ci) / 2 * n_boot) - 1
+    point = sum(values_a) / na - sum(values_b) / nb
+    return (diffs[lo_idx], point, diffs[hi_idx])
+
+
 def summarize(label, profits):
     """Imprime e retorna um resumo padrao (N, WR, IC95% Wilson, EV/trade, IC95% bootstrap)."""
     n = len(profits)

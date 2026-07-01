@@ -85,6 +85,31 @@ GMT-3 por queda de WebSocket, sem systemd/supervisor para reiniciar — gap de r
 mantido rodando apenas para acumular mais N, precisa de um serviço systemd com auto-restart (o mesmo padrão
 já usado em `synthetic_anomaly_monitor.py`), não apenas uma sessão `tmux` manual.
 
+## Addendum (2026-07-01, pós-auditoria) — Shadow A/B ativado ao vivo
+
+Implementado o controle nulo explícito recomendado acima: `hft_arbitrage_bot.py` agora sorteia
+50/50 entre `ALIGNED` (segue o choque, comportamento histórico) e `ANTI` (contra o choque) a cada
+gatilho, logando o grupo (`SHADOW_AB_TESTING=True`, `SHADOW_AB_ANTI_PROB=0.5`). De quebra, corrigido
+um bug real encontrado durante a implementação: `execute_trade` reatribuía `direction` de `UP/DOWN`
+para `MULTUP/MULTDOWN` **antes** do log do gatilho, o que quebraria o parsing de `audit_hft_trades.py`
+em qualquer trade nova (as históricas foram geradas por uma versão anterior do código que ainda
+logava `UP/DOWN`). `audit_hft_trades.py` ganhou uma seção nova (`SHADOW A/B — ALIGNED vs ANTI`) que
+separa os grupos e compara EV/trade com `bootstrap_diff_ci`: IC cruzando zero confirma o problema
+estrutural de latência (H3); IC não cruzando zero indicaria sinal direcional real (a favor ou contra
+o momentum, dependendo do sinal).
+
+Deploy: `hft_arbitrage_bot.py` enviado via `scp` para `/home/ubuntu/trading-engine/` (AWS
+`18.199.174.178`, backup salvo como `hft_arbitrage_bot.py.bak_20260701_180505`). O bot estava
+**parado** (última sessão morreu 2026-07-01 14:55 por queda de WebSocket, confirmando o gap de
+resiliência já anotado na Nota Operacional) — sessão `tmux hft_bot` recriada com um wrapper de
+auto-restart (`while true; do .venv/bin/python3 hft_arbitrage_bot.py; sleep 5; done`) para não
+depender de reinício manual e garantir acúmulo contínuo de N em ambos os grupos. Confirmado online
+às 18:07 GMT-3, autenticado na conta demo, conectado a Deriv/Binance/Coinbase/Kraken sem erros.
+
+**Amostra ainda insuficiente para veredito** (0 trades ANTI até o momento do deploy — o sinal é raro,
+restrito ao horário de ouro). Rodar `python audit_hft_trades.py` periodicamente para acompanhar o N
+acumulado em cada grupo; ver seção `SHADOW A/B` da saída.
+
 ## Reproduzir
 
 ```bash

@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import json
+import random
 import time
 import os
 import websockets
@@ -56,6 +57,15 @@ LIQUIDATION_DELAY = 0.2
 GOLDEN_HOUR_START_UTC = 12
 GOLDEN_HOUR_END_UTC = 18 # exclusivo (ou seja, até 17:59:59)
 
+# Shadow A/B (docs/hft_v62_audit_report.md): a auditoria da Fase 1 nao teve controle nulo
+# explicito -- o bot so testou "aligned" (segue o choque), nunca "anti" (contra), diferente
+# do H3 (que rodou os dois grupos). Com isso ativo, cada gatilho sorteia 50/50 entre os dois
+# grupos e loga qual foi usado, para que audit_hft_trades.py possa comparar EV(aligned) vs
+# EV(anti) com bootstrap_diff_ci -- se nao houver diferenca estatistica, o problema e
+# estrutural (latencia de execucao, ja confirmado por H3), nao de direcao do sinal.
+SHADOW_AB_TESTING = True
+SHADOW_AB_ANTI_PROB = 0.5
+
 global_prices = {
     "binance": None,
     "coinbase": None,
@@ -76,7 +86,7 @@ def is_golden_hour():
     hour_utc = datetime.now(timezone.utc).hour
     return GOLDEN_HOUR_START_UTC <= hour_utc < GOLDEN_HOUR_END_UTC
 
-async def close_trade(contract_id, direction):
+async def close_trade(contract_id, direction, group):
     start_time = time.time()
     
     # V6.0: Aguarda 0.8s para que o entry_spot seja fixado e evitar lucros fantasmas
@@ -93,7 +103,7 @@ async def close_trade(contract_id, direction):
                 # Se o contrato já foi vendido (pela Deriv Stop Loss/Take Profit nativo)
                 if contract.get("is_sold"):
                     profit = float(contract.get("profit", 0))
-                    logger.info(f"✅ TRADE ENCERRADO AUTOMATICAMENTE! Lucro: ${profit:.2f} | Direção: {direction}")
+                    logger.info(f"✅ TRADE ENCERRADO AUTOMATICAMENTE! Lucro: ${profit:.2f} | Direção: {direction} | Grupo: {group}")
                     state["is_trading"] = False
                     return
 
@@ -128,7 +138,7 @@ async def close_trade(contract_id, direction):
             else:
                 profit = float(sell_res["sell"]["sold_for"]) - STAKE
                 sold_for = float(sell_res["sell"]["sold_for"])
-                logger.info(f"✅ TRADE ENCERRADO! Retorno: ${sold_for:.2f} | Lucro: ${profit:.2f} | Direção: {direction}")
+                logger.info(f"✅ TRADE ENCERRADO! Retorno: ${sold_for:.2f} | Lucro: ${profit:.2f} | Direção: {direction} | Grupo: {group}")
                 break
     except Exception as e:
         logger.error(f"Erro no fechamento agressivo: {e}")
@@ -141,14 +151,22 @@ async def execute_trade(direction, price_shock_amount, elapsed_ms):
         return
         
     state["is_trading"] = True
-    direction = "MULTUP" if price_shock_amount > 0 else "MULTDOWN"
-    
-    logger.info(f"⚡ GATILHO ACIONADO! Direção: {direction} | Salto: {price_shock_amount:.2f} em {elapsed_ms:.0f}ms")
+
+    # direction (UP/DOWN) e o sentido do choque observado -- preservado intacto para log/auditoria.
+    aligned_contract = "MULTUP" if direction == "UP" else "MULTDOWN"
+    if SHADOW_AB_TESTING and random.random() < SHADOW_AB_ANTI_PROB:
+        group = "ANTI"
+        contract_type = "MULTDOWN" if aligned_contract == "MULTUP" else "MULTUP"
+    else:
+        group = "ALIGNED"
+        contract_type = aligned_contract
+
+    logger.info(f"⚡ GATILHO ACIONADO! Direção: {direction} | Grupo: {group} | Ordem: {contract_type} | Salto: {price_shock_amount:.2f} em {elapsed_ms:.0f}ms")
     start_time = time.time()
     
     try:
         res = await state["deriv_client"].buy_direct(
-            contract_type=direction,
+            contract_type=contract_type,
             stake=STAKE,
             symbol=DERIV_SYMBOL,
             multiplier=MULTIPLIER,
@@ -167,7 +185,7 @@ async def execute_trade(direction, price_shock_amount, elapsed_ms):
             logger.info(f"✅ ORDEM EXECUTADA! ID: {contract_id} | Execution Time: {exec_time:.0f}ms | Stake: ${buy_price:.2f}")
             
             # Chama a liquidação em background sem travar
-            asyncio.create_task(close_trade(contract_id, direction))
+            asyncio.create_task(close_trade(contract_id, direction, group))
             
     except Exception as e:
         logger.error(f"Erro no envio da ordem: {e}")
