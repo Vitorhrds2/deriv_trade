@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Panel, Stat, Mono } from "@/components/kit";
+import { PageHeader, Panel, Stat, Mono, ConceptBanner } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { equityCurve, fmtMoney, trades } from "@/lib/mock-data";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { Trophy } from "lucide-react";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/paper")({
   head: () => ({ meta: [{ title: "Paper Trading — TradeLab OS" }] }),
@@ -26,9 +27,13 @@ function PaperPage() {
       <PageHeader
         eyebrow="execution › paper trading"
         title="Paper Trading"
-        description="Execute estratégias em ambiente simulado com dados de mercado reais. Sem risco financeiro."
-        actions={<Button size="sm">Nova conta paper</Button>}
+        description="Preview de UI para uma conta paper isolada por estratégia. Não existe hoje — o hft_bot roda direto em conta demo Deriv (que já é sem risco financeiro real)."
+        actions={<Button size="sm" onClick={() => toast.info("Conceito — sem contas paper isoladas implementadas ainda.")}>Nova conta paper</Button>}
       />
+
+      <ConceptBanner>
+        Leaderboard, equity e tape abaixo são ilustrativos (traders/estratégias fictícios). O ecossistema real não tem contas paper separadas por estratégia — hoje é um bot, uma conta demo Deriv.
+      </ConceptBanner>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Stat label="Conta paper" value={fmtMoney(112_882.3)} delta="+12.88%" tone="pos" />

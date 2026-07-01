@@ -110,3 +110,17 @@ export function Dot({ tone = "muted", className }: { tone?: "pos" | "neg" | "war
 export function Mono({ children, className }: { children: ReactNode; className?: string }) {
   return <span className={cn("font-mono text-xs", className)}>{children}</span>;
 }
+
+// Banner honesto para páginas que mostram um preview de UI/UX de uma feature ainda sem
+// backend real (ex.: strategy builder, paper trading, event feed). O ecossistema real hoje
+// é um único bot (hft_bot) + um catálogo de hipóteses testadas manualmente via scripts.
+export function ConceptBanner({ children }: { children: ReactNode }) {
+  return (
+    <div className="mb-6 rounded-lg border border-dashed border-warning/40 bg-warning/5 px-4 py-3 flex items-start gap-2.5 text-xs text-muted-foreground">
+      <span className="mt-0.5 shrink-0 rounded border border-warning/40 bg-warning/10 px-1.5 py-0.5 font-mono text-[10px] uppercase tracking-wider text-warning">
+        preview
+      </span>
+      <span>{children}</span>
+    </div>
+  );
+}

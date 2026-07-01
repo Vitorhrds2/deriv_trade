@@ -23,9 +23,10 @@ export function KillSwitchDialog() {
         <AlertDialogHeader>
           <AlertDialogTitle className="text-destructive">Acionar Kill Switch</AlertDialogTitle>
           <AlertDialogDescription>
-            Todas as posições live serão sinalizadas para fechamento e todos os bots em
-            ambiente <span className="font-mono text-foreground">live</span> serão pausados imediatamente.
-            Ambiente paper permanece inalterado.
+            Isto altera apenas o estado local do dashboard (badge "halted" no topo, tape
+            pausado). <span className="font-mono text-foreground">status_api.py</span> na EC2 é
+            somente leitura — não existe API de controle remoto do <span className="font-mono text-foreground">hft_bot</span> ainda.
+            Para parar o bot de verdade hoje, é necessário SSH manual na EC2 (<span className="font-mono text-foreground">tmux kill-session -t hft_bot</span>).
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -36,15 +37,15 @@ export function KillSwitchDialog() {
               kill();
               pushNotif({
                 kind: "error",
-                title: "Kill switch acionado",
-                desc: "2 bots live pausados, 4 posições em flatten.",
+                title: "Kill switch acionado (dashboard)",
+                desc: "Estado local marcado como halted. hft_bot na EC2 não foi afetado.",
               });
-              toast.error("Kill switch acionado", {
-                description: "Bots live pausados, posições em flatten.",
+              toast.error("Kill switch acionado (dashboard apenas)", {
+                description: "hft_bot continua rodando na EC2 — sem API de controle remoto ainda.",
               });
             }}
           >
-            Confirmar shutdown
+            Confirmar
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

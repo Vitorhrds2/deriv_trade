@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Panel, Stat, Mono } from "@/components/kit";
+import { PageHeader, Panel, Stat, Mono, ConceptBanner } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -13,7 +13,6 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ResponsiveContaine
 import { Play, Repeat, Sliders } from "lucide-react";
 import { useMemo, useState, useEffect } from "react";
 import { toast } from "sonner";
-import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/simulations")({
   head: () => ({ meta: [{ title: "Simulation Engine — TradeLab OS" }] }),
@@ -32,7 +31,6 @@ const initialRuns: Run[] = [
 ];
 
 function SimulationsPage() {
-  const pushNotif = useApp((s) => s.pushNotif);
   const [runs, setRuns] = useState<Run[]>(initialRuns);
   const [selectedId, setSelectedId] = useState(initialRuns[0].id);
   const [running, setRunning] = useState(0);
@@ -92,8 +90,7 @@ function SimulationsPage() {
       };
       setRuns((prev) => [newRun, ...prev]);
       setSelectedId(id);
-      pushNotif({ kind: status === "passed" ? "success" : status === "warning" ? "warn" : "error", title: `Backtest ${id} concluído`, desc: `${strategy} · sharpe ${sharpe.toFixed(2)}` });
-      toast.success(`Backtest ${id} concluído`, { description: `${strategy} · sharpe ${sharpe.toFixed(2)} · status ${status}` });
+      toast.info("Demo de UI — números aleatórios", { description: "Sem motor de backtest real conectado. Backtests reais no projeto são scripts Python ad-hoc por hipótese (ver /hypotheses)." });
     }, 250 + steps.length * 280 + 200);
   };
 
@@ -102,7 +99,7 @@ function SimulationsPage() {
       <PageHeader
         eyebrow="research › simulation engine"
         title="Simulation Engine"
-        description="Backtests históricos, replay tick-by-tick, Monte Carlo e stress tests com slippage e taxas realistas."
+        description="Preview de UI para um motor de backtest genérico. Hoje cada hipótese roda seu próprio script Python ad-hoc (ver /hypotheses)."
         actions={
           <>
             <Dialog open={paramsOpen} onOpenChange={setParamsOpen}>
@@ -144,6 +141,10 @@ function SimulationsPage() {
           </>
         }
       />
+
+      <ConceptBanner>
+        Preview de UI para um motor de backtest genérico com histórico de runs, Monte Carlo e stress tests. Não existe hoje — cada hipótese real roda seu próprio script Python ad-hoc (ver <Mono>tools</Mono> em cada item de <a href="/hypotheses" className="underline hover:text-foreground">/hypotheses</a>). O carregamento de <Mono>backtest_results.csv</Mono> abaixo é real quando o arquivo existe.
+      </ConceptBanner>
 
       {running > 0 && <Progress value={running} className="h-0.5 mb-4 rounded-full" />}
 

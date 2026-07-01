@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Panel, Stat, Mono } from "@/components/kit";
+import { PageHeader, Panel, Stat, Mono, ConceptBanner } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -60,8 +60,12 @@ function EventsPage() {
         eyebrow="ops › event intelligence"
         title="Event Intelligence Layer"
         description="Transforme eventos macro, on-chain, esportivos e sociais em sinais executáveis."
-        actions={<Button size="sm" className="gap-1.5" onClick={() => toast.success("Wizard de fontes aberto", { description: "14 conectores disponíveis." })}><CalendarClock className="h-4 w-4" />Conectar fonte</Button>}
+        actions={<Button size="sm" className="gap-1.5" onClick={() => toast.info("Conceito — sem conectores reais implementados ainda.")}><CalendarClock className="h-4 w-4" />Conectar fonte</Button>}
       />
+
+      <ConceptBanner>
+        Nenhuma fonte de evento real conectada (macro/on-chain/social). O ecossistema hoje só reage a choques de preço em tempo real via <Mono>hft_arbitrage_bot.py</Mono> — os eventos e o feed abaixo são ilustrativos de uma possível Event Intelligence Layer futura.
+      </ConceptBanner>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Stat label="Eventos hoje" value={seedEvents.length} />

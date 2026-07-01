@@ -17,6 +17,7 @@ import { CommandPalette } from "@/components/command-palette";
 import { KillSwitchDialog } from "@/components/kill-switch-dialog";
 import { Toaster } from "@/components/ui/sonner";
 import { useGlobalTicker } from "@/hooks/useTicker";
+import { useHftAlerts } from "@/hooks/useHftAlerts";
 
 function NotFoundComponent() {
   return (
@@ -95,6 +96,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function AppFrame() {
   useGlobalTicker(1500);
+  useHftAlerts();
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full">

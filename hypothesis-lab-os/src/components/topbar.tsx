@@ -2,16 +2,18 @@ import { Bell, Command, OctagonX, Search, Zap } from "lucide-react";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Dot } from "@/components/kit";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useApp, liveDerivedEquity, liveDerivedPnl } from "@/lib/store";
+import { useApp } from "@/lib/store";
 import { fmtMoney } from "@/lib/mock-data";
+import { getHftStatus, getHftTrades } from "@/lib/hft-api";
+import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
-import { toast } from "sonner";
 
 function TickerNumber({ value, className }: { value: string; className?: string }) {
   return (
@@ -34,14 +36,15 @@ export function TopBar() {
   const setPaletteOpen = useApp((s) => s.setPaletteOpen);
   const setKillOpen = useApp((s) => s.setKillOpen);
   const killed = useApp((s) => s.killed);
-  const tick = useApp((s) => s.tick);
   const notifs = useApp((s) => s.notifs);
   const markAllRead = useApp((s) => s.markAllRead);
-  const pushNotif = useApp((s) => s.pushNotif);
   const navigate = useNavigate();
 
-  const equity = liveDerivedEquity(tick);
-  const pnl = liveDerivedPnl(tick);
+  const statusQuery = useQuery({ queryKey: ["hft-status"], queryFn: () => getHftStatus(), refetchInterval: 5000 });
+  const tradesQuery = useQuery({ queryKey: ["hft-trades"], queryFn: () => getHftTrades(), refetchInterval: 5000 });
+  const status = statusQuery.data;
+  const trades = tradesQuery.data;
+  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
   const unread = notifs.filter((n) => !n.read).length;
 
   return (
@@ -50,7 +53,7 @@ export function TopBar() {
       <div className="hidden md:flex items-center gap-2 text-xs font-mono text-muted-foreground">
         <span>workspace</span>
         <span className="text-foreground/70">/</span>
-        <span className="text-foreground">helios-research</span>
+        <span className="text-foreground">mega-brain</span>
         {killed ? (
           <Badge variant="outline" className="ml-1 h-5 border-destructive/40 text-destructive bg-destructive/10 font-mono uppercase text-[10px] tracking-wider animate-pulse">
             halted
@@ -75,15 +78,15 @@ export function TopBar() {
 
       <div className="hidden lg:flex items-center gap-4 px-3 border-l border-r h-9 font-mono text-[11px]">
         <div className="flex items-center gap-1.5">
-          <span className="text-muted-foreground">NAV</span>
-          <TickerNumber value={fmtMoney(equity)} className="text-pos tabular-nums" />
+          <Dot tone={statusQuery.isLoading ? "muted" : isLive ? "pos" : "neg"} className={isLive ? "animate-pulse" : ""} />
+          <span className="text-muted-foreground">hft_bot</span>
         </div>
         <div className="flex items-center gap-1.5">
-          <span className="text-muted-foreground">P&L</span>
-          <TickerNumber value={fmtMoney(pnl)} className={pnl >= 0 ? "text-pos tabular-nums" : "text-neg tabular-nums"} />
+          <span className="text-muted-foreground">PNL</span>
+          <TickerNumber value={trades ? fmtMoney(trades.total.pnlTotal) : "—"} className={trades && trades.total.pnlTotal < 0 ? "text-neg tabular-nums" : "text-muted-foreground tabular-nums"} />
         </div>
-        <div><span className="text-muted-foreground">DD</span> <span className="text-warning">−3.1%</span></div>
-        <div><span className="text-muted-foreground">SHARPE</span> <span>2.41</span></div>
+        <div><span className="text-muted-foreground">N</span> <span>{trades?.total.n ?? "—"}</span></div>
+        <div><span className="text-muted-foreground">WR</span> <span>{trades ? `${Math.round(trades.total.winRate * 100)}%` : "—"}</span></div>
       </div>
 
       {killed && (
@@ -135,16 +138,8 @@ export function TopBar() {
         </PopoverContent>
       </Popover>
 
-      <Button
-        size="sm"
-        className="gap-1.5"
-        onClick={() => {
-          pushNotif({ kind: "info", title: "Nova hipótese", desc: "HYP-0143 criada (rascunho)." });
-          toast.success("Hipótese HYP-0143 criada", { description: "Rascunho salvo no workspace." });
-          navigate({ to: "/hypotheses" });
-        }}
-      >
-        <Zap className="h-4 w-4" /> Nova hipótese
+      <Button size="sm" className="gap-1.5" onClick={() => navigate({ to: "/hypotheses" })}>
+        <Zap className="h-4 w-4" /> Hipóteses
       </Button>
     </header>
   );

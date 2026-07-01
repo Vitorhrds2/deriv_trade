@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Panel, Mono, Stat } from "@/components/kit";
+import { PageHeader, Panel, Mono, Stat, ConceptBanner } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -7,7 +7,6 @@ import { strategies, statusBadgeClass, fmtMoney } from "@/lib/mock-data";
 import { Code2, GitBranch, MousePointerSquareDashed, Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useApp } from "@/lib/store";
 
 export const Route = createFileRoute("/strategies")({
   head: () => ({ meta: [{ title: "Strategy Builder — TradeLab OS" }] }),
@@ -39,7 +38,6 @@ class CpiBtcLong(Strategy):
 function StrategiesPage() {
   const [deploying, setDeploying] = useState(0);
   const [selectedId, setSelectedId] = useState(strategies[0].id);
-  const pushNotif = useApp((s) => s.pushNotif);
   const selected = strategies.find((x) => x.id === selectedId) ?? strategies[0];
   const startDeploy = () => {
     if (deploying > 0) return;
@@ -48,8 +46,7 @@ function StrategiesPage() {
     steps.forEach((p, i) => setTimeout(() => setDeploying(p), 250 + i * 350));
     setTimeout(() => {
       setDeploying(0);
-      pushNotif({ kind: "success", title: "Estratégia deployed", desc: `${selected.name} → BOT-01 (live)` });
-      toast.success("Deploy concluído", { description: `${selected.name} v.a3f9c2 ativa em produção.` });
+      toast.info("Demo de UI — sem pipeline de deploy real", { description: "O unico deploy real hoje (hft_bot) e manual: scp + tmux na EC2. Ver /bots." });
     }, 250 + steps.length * 350 + 200);
   };
 
@@ -59,9 +56,12 @@ function StrategiesPage() {
         eyebrow="research › strategy builder"
         title="Strategy Builder"
         description="Converta hipóteses em lógica executável — visual ou em código — com versionamento e revisão por par."
-        actions={<Button size="sm" className="gap-1.5" onClick={() => toast.success("Estratégia STR-007 criada", { description: "Rascunho aberto no editor." })}><Plus className="h-4 w-4" />Nova estratégia</Button>}
+        actions={<Button size="sm" className="gap-1.5" onClick={() => toast.info("Conceito — sem editor de estratégias real implementado ainda.")}><Plus className="h-4 w-4" />Nova estratégia</Button>}
       />
 
+      <ConceptBanner>
+        Preview de UI para um strategy builder multi-linguagem com deploy versionado. Na prática, estratégias são scripts Python standalone em <Mono>trading-engine/</Mono>, sem abstração comum nem deploy automatizado.
+      </ConceptBanner>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Stat label="Estratégias" value={strategies.length} />

@@ -100,29 +100,9 @@ export const useApp = create<State>((set) => ({
     })),
   resume: () => set({ killed: false }),
 
-  notifs: [
-    {
-      id: "n1",
-      title: "CPI release detectado",
-      desc: "actual 3.4% > forecast 3.2% — cpi-btc-prod abriu posição.",
-      kind: "success",
-      time: "12:04",
-    },
-    {
-      id: "n2",
-      title: "Latência Kalshi acima do SLO",
-      desc: "p95 220ms > 150ms",
-      kind: "warn",
-      time: "12:01",
-    },
-    {
-      id: "n3",
-      title: "Bot nvda-drift-sim em erro",
-      desc: "data feed disconnected",
-      kind: "error",
-      time: "11:32",
-    },
-  ],
+  // Sem eventos fabricados: notificações reais (ex.: hft_bot offline) devem ser
+  // empurradas via pushNotif() por quem detectar a condição real (ver useHftAlerts).
+  notifs: [],
   pushNotif: (n) =>
     set((s) => ({
       notifs: [{ ...n, id: `n${Date.now()}`, time: now() }, ...s.notifs].slice(0, 30),
