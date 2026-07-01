@@ -1,0 +1,90 @@
+Arquivos de log encontrados: ['hft_trades.log', 'hft_trades_remote.log', 'hft_trades_remote_fresh.log', 'hft_trades_remote_today.log', 'hft_trades_v62.log']
+
+Total de trades REAIS unicas (deduplicadas por contract_id): 40
+
+Timestamp                    Versao                                        Dir       Jump  Exec(ms) Fecho                             Lucro
+2026-06-26 17:00:04          V4.0                                          DOWN    -50.38       487 None                              -6.80
+2026-06-26 17:36:30          V4.0                                          DOWN    -54.23       228 None                              -3.12
+2026-06-26 19:26:03          V4.0                                          UP       50.66       305 None                              -2.90
+2026-06-26 19:38:12          V4.0                                          UP       50.54       190 None                              -2.72
+2026-06-26 20:03:09          V4.0                                          UP       50.49       186 None                              -2.34
+2026-06-27 00:02:14          V4.0                                          UP       50.24       210 None                              -1.66
+2026-06-27 03:39:50          V4.0                                          UP       94.84       303 None                              -2.80
+2026-06-28 12:53:45          V4.0                                          DOWN    -50.94       263 None                               2.73
+2026-06-28 19:20:57.620270   V4.0                                          DOWN    -50.17       223 None                              -8.54
+2026-06-28 21:37:40.616796   V5.0                                          UP      -60.80       210 Gatilho de Fechamento Atingido    -2.28
+2026-06-28 23:56:17.837924   V5.0                                          DOWN     50.20       180 Gatilho de Fechamento Atingido     0.11
+2026-06-29 00:08:40.610822   V5.0                                          DOWN     71.50       155 Gatilho de Fechamento Atingido     1.46
+2026-06-29 08:31:10.650655   V5.1 Hotfix                                   DOWN     84.36       320 None                             -10.00
+2026-06-29 08:59:55.610875   V5.1 Hotfix                                   DOWN     50.79       294 None                             -10.00
+2026-06-29 09:02:48.649501   V5.1 Hotfix                                   DOWN     66.62       318 None                             -10.00
+2026-06-29 09:04:29.587076   V5.1 Hotfix                                   DOWN     59.07       249 None                             -10.00
+2026-06-29 09:07:18.936994   V5.1 Hotfix                                   DOWN     50.05       253 None                             -10.00
+2026-06-29 09:40:32.656183   V6.0 Momentum Rider                           DOWN    -53.41       257 Gatilho de Fechamento Atingido    -6.16
+2026-06-29 10:39:45.598177   V6.0 Momentum Rider                           DOWN    -51.88       308 Take Profit Atingido              10.54
+2026-06-29 11:05:33.644434   V6.0 Momentum Rider                           DOWN    -55.76       169 Take Profit Atingido               3.83
+2026-06-29 11:15:43.808419   V6.0 Momentum Rider                           UP       52.50       181 Take Profit Atingido              10.44
+2026-06-29 12:32:05.612938   V6.0 Momentum Rider                           UP       64.17       174 Take Profit Atingido               6.27
+2026-06-29 12:36:10.944718   V6.0 Momentum Rider                           UP       50.44       172 Stop Loss de Emergência Atingido    -8.63
+2026-06-29 12:47:25.770481   V6.0 Momentum Rider                           UP       50.02       224 Stop Loss de Emergência Atingido    -8.72
+2026-06-29 13:07:52.752020   V6.0 Momentum Rider                           UP       50.42       296 Stop Loss de Emergência Atingido    -8.78
+2026-06-29 17:26:43.576149   V6.0 Momentum Rider                           DOWN    -60.46       200 Timeout Atingido                  -4.01
+2026-06-30 09:56:15.260604   V6.0 Momentum Rider                           DOWN    -55.03       552 Stop Loss (Trend Fails) Atingido    -4.59
+2026-06-30 10:08:20.857198   V6.0 Momentum Rider                           DOWN    -60.32       479 Stop Loss (Trend Fails) Atingido    -4.69
+2026-06-30 10:12:36.061448   V6.0 Momentum Rider                           DOWN    -55.88       968 Take Profit Atingido               8.05
+2026-06-30 12:25:01.013631   V6.0 Momentum Rider                           UP       61.22       946 Stop Loss (Trend Fails) Atingido    -4.62
+2026-06-30 22:12:46.702278   V6.0 Momentum Rider                           DOWN    -46.57       161 Stop Loss (Trend Fails) Atingido    -8.56
+2026-06-30 22:39:06.729792   V6.0 Momentum Rider                           UP       45.42       212 Take Profit Atingido               9.00
+2026-06-30 22:39:29.646722   V6.0 Momentum Rider                           UP       45.14       219 Stop Loss (Trend Fails) Atingido    -9.53
+2026-06-30 22:41:08.581767   V6.0 Momentum Rider                           UP       60.96       225 Stop Loss (Trend Fails) Atingido    -3.41
+2026-06-30 23:48:14.560019   V6.0 Momentum Rider                           UP       88.62       231 Stop Loss (Trend Fails) Atingido    -2.92
+2026-07-01 00:52:14.604554   V6.0 Momentum Rider                           UP       45.72       156 Stop Loss (Trend Fails) Atingido    -3.27
+2026-07-01 00:54:36.761493   V6.0 Momentum Rider                           UP       45.04       227 Stop Loss (Trend Fails) Atingido    -2.57
+2026-07-01 00:55:19.537185   V6.0 Momentum Rider                           UP       45.84       205 Stop Loss (Trend Fails) Atingido    -2.69
+2026-07-01 02:25:02.808102   V6.0 Momentum Rider                           UP       47.26       263 Stop Loss (Trend Fails) Atingido    -4.00
+2026-07-01 02:28:39.522252   V6.0 Momentum Rider                           DOWN    -50.51       235 Stop Loss (Trend Fails) Atingido    -2.78
+
+======================================================================
+RESUMO ESTATISTICO POR VERSAO (Wilson CI + bootstrap CI)
+======================================================================
+
+--- V4.0 ---
+N=9 | Wins=1 | WR=11.11% (IC95% [1.99%, 43.50%])
+EV/trade=$-3.1278 (IC95% [$-5.0644, $-1.2367]) | PnL total=$-28.15
+
+--- V5.0 ---
+N=3 | Wins=2 | WR=66.67% (IC95% [20.77%, 93.85%])
+EV/trade=$-0.2367 (IC95% [$-2.2800, $1.4600]) | PnL total=$-0.71
+
+--- V5.1 Hotfix ---
+N=5 | Wins=0 | WR=0.00% (IC95% [0.00%, 43.45%])
+EV/trade=$-10.0000 (IC95% [$-10.0000, $-10.0000]) | PnL total=$-50.00
+
+--- V6.0 Momentum Rider ---
+N=23 | Wins=6 | WR=26.09% (IC95% [12.55%, 46.47%])
+EV/trade=$-1.8174 (IC95% [$-4.2913, $0.8922]) | PnL total=$-41.80
+
+--- TODAS AS VERSOES (V4-V6.2 combinadas) ---
+N=40 | Wins=9 | WR=22.50% (IC95% [12.32%, 37.50%])
+EV/trade=$-3.0165 (IC95% [$-4.6965, $-1.1810]) | PnL total=$-120.66
+
+--- Apenas V6.x (Momentum Rider + Ultra-Momentum) ---
+N=23 | Wins=6 | WR=26.09% (IC95% [12.55%, 46.47%])
+EV/trade=$-1.8174 (IC95% [$-4.2913, $0.8922]) | PnL total=$-41.80
+
+[Rotulagem por banner e ambigua entre versoes V6.x -- ver nota no codigo]
+Corte empirico (1a trade so possivel com threshold=45): 2026-06-30 22:12:46.702278
+
+--- V6.2-equivalente por parametro (threshold=45, N=10, desde 2026-06-30 22:12:46.702278) ---
+N=10 | Wins=1 | WR=10.00% (IC95% [1.79%, 40.42%])
+EV/trade=$-3.0730 (IC95% [$-5.6270, $0.0140]) | PnL total=$-30.73
+
+======================================================================
+NOTA METODOLOGICA
+======================================================================
+O controle nulo aqui e IMPLICITO: como o hft_bot so entra na direcao do choque
+(nunca sorteia direcao aleatoria nem testa 'anti'), nao ha como medir 'aligned - anti'
+com os dados historicos existentes -- diferente de H3, que rodou ambos os grupos.
+Wilson CI amplo demais para separar sinal de ruido com N pequeno e o resultado
+mais provavel aqui. Ver docs/hft_v62_audit_report.md para o veredito completo e
+a recomendacao de shadow A/B ao vivo (aligned vs anti) para fechar essa lacuna.

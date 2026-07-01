@@ -102,13 +102,13 @@ class DerivClient:
                 if msg_type == "tick" and "tick" in self.callbacks:
                     cb = self.callbacks["tick"]
                     if asyncio.iscoroutinefunction(cb):
-                        await cb(data)
+                        asyncio.create_task(cb(data))
                     else:
                         cb(data)
                 elif msg_type == "ohlc" and "ohlc" in self.callbacks:
                     cb = self.callbacks["ohlc"]
                     if asyncio.iscoroutinefunction(cb):
-                        await cb(data)
+                        asyncio.create_task(cb(data))
                     else:
                         cb(data)
                     
@@ -116,6 +116,18 @@ class DerivClient:
             pass
         except Exception as e:
             logger.error(f"Error in listen loop: {e}")
+            import sys
+            logger.error("Authenticated WebSocket died! Crashing bot to force restart...")
+            # Cancel all pending futures before exiting
+            for req_id, future in list(self.callbacks.items()):
+                if hasattr(future, 'done') and not future.done():
+                    future.set_exception(ConnectionError(f"WebSocket closed unexpectedly: {e}"))
+            sys.exit(1)
+        finally:
+            logger.warning("WebSocket connection closed cleanly by the server. Cancelling pending futures.")
+            for req_id, future in list(self.callbacks.items()):
+                if hasattr(future, 'done') and not future.done():
+                    future.set_exception(ConnectionError("WebSocket closed cleanly by the server"))
 
     async def send_request(self, payload):
         if not self.ws:
@@ -139,7 +151,7 @@ class DerivClient:
     async def get_balance(self):
         return await self.send_request({"balance": 1})
         
-    async def get_proposal(self, contract_type, stake, symbol="1HZ10V", multiplier=None, stop_loss=None, take_profit=None, duration=5, duration_unit="t"):
+    async def get_proposal(self, contract_type, stake, symbol="1HZ10V", multiplier=None, stop_loss=None, take_profit=None, duration=5, duration_unit="t", growth_rate=None, barrier=None):
         payload = {
             "proposal": 1,
             "amount": stake,
@@ -148,8 +160,16 @@ class DerivClient:
             "currency": "USD",
             "underlying_symbol": symbol
         }
-        
-        if multiplier:
+
+        if contract_type == "ACCU" or growth_rate is not None:
+            # Accumuladores nao usam duration/duration_unit: rodam ate knockout ou venda manual.
+            payload["growth_rate"] = growth_rate if growth_rate is not None else 0.01
+            limit_order = {}
+            if take_profit:
+                limit_order["take_profit"] = take_profit
+            if limit_order:
+                payload["limit_order"] = limit_order
+        elif multiplier:
             payload["multiplier"] = multiplier
             # Multipliers can have limit_orders
             limit_order = {}
@@ -162,13 +182,61 @@ class DerivClient:
         else:
             payload["duration"] = duration
             payload["duration_unit"] = duration_unit
-            
+
+        if barrier is not None:
+            payload["barrier"] = str(barrier)
+
         return await self.send_request(payload)
+
+    async def get_ticks_history(self, symbol, count=1000, end="latest", start=1):
+        """Historico de ticks BRUTOS (nao-candle) -- estilo 'ticks', para replay tick-a-tick."""
+        return await self.send_request({
+            "ticks_history": symbol,
+            "adjust_start_time": 1,
+            "count": count,
+            "end": end,
+            "start": start,
+            "style": "ticks"
+        })
+
+    async def get_contracts_for(self, symbol):
+        return await self.send_request({"contracts_for": symbol})
 
     async def buy_contract(self, proposal_id, price):
         return await self.send_request({
             "buy": proposal_id,
             "price": price
+        })
+        
+    async def buy_direct(self, contract_type, stake, symbol="1HZ10V", duration=1, duration_unit="t", barrier=None, multiplier=None, stop_loss=None, take_profit=None):
+        params = {
+            "amount": stake,
+            "basis": "stake",
+            "contract_type": contract_type,
+            "currency": "USD",
+            "underlying_symbol": symbol
+        }
+        
+        if multiplier:
+            params["multiplier"] = multiplier
+            limit_order = {}
+            if stop_loss:
+                limit_order["stop_loss"] = stop_loss
+            if take_profit:
+                limit_order["take_profit"] = take_profit
+            if limit_order:
+                params["limit_order"] = limit_order
+        else:
+            params["duration"] = duration
+            params["duration_unit"] = duration_unit
+            
+        if barrier is not None:
+            params["barrier"] = str(barrier)
+            
+        return await self.send_request({
+            "buy": 1,
+            "price": stake,
+            "parameters": params
         })
     
     async def sell_contract(self, contract_id, price=0):
@@ -198,13 +266,13 @@ class DerivClient:
             "subscribe": 1
         })
 
-    async def subscribe_candles(self, symbol, granularity, callback):
+    async def subscribe_candles(self, symbol, granularity, callback, count=1):
         self.callbacks["ohlc"] = callback
         return await self.send_request({
             "ticks_history": symbol,
             "style": "candles",
             "granularity": granularity,
             "end": "latest",
-            "count": 1,
+            "count": count,
             "subscribe": 1
         })

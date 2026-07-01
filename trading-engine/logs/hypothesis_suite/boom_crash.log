@@ -1,0 +1,40 @@
+WebSocket connection closed cleanly by the server. Cancelling pending futures.
+  BOOM300N   N=  300 ticks=  15000 spikes=   40 gap_medio=  363.6 (spec 300)
+  BOOM500    N=  500 ticks=  15000 spikes=   31 gap_medio=  456.8 (spec 500)
+  BOOM600    N=  600 ticks=  15000 spikes=   20 gap_medio=  637.4 (spec 600)
+  BOOM900    N=  900 ticks=  15000 spikes=   10 gap_medio= 1285.7 (spec 900)
+  BOOM1000   N= 1000 ticks=  15000 spikes=   13 gap_medio=  962.0 (spec 1000)
+  CRASH300N  N=  300 ticks=  15000 spikes=   51 gap_medio=  277.8 (spec 300)
+  CRASH500   N=  500 ticks=  15000 spikes=   28 gap_medio=  443.4 (spec 500)
+  CRASH600   N=  600 ticks=  15000 spikes=   23 gap_medio=  618.0 (spec 600)
+  CRASH900   N=  900 ticks=  15000 spikes=    8 gap_medio= 1556.4 (spec 900)
+  CRASH1000  N= 1000 ticks=  15000 spikes=   14 gap_medio= 1044.0 (spec 1000)
+
+  pool salvo -> boom_gaps_pooled.txt (238 gaps normalizados de 10 simbolos)
+
+==========================================================================
+T2 VEREDITO RIGOROSO - POOL 10 simbolos Boom/Crash  (n=238 gaps normalizados)
+==========================================================================
+  media=1.046  mediana=0.681  sd=1.085  CV=1.037  (memoryless: CV~1.00, mediana/media~0.69)
+  mediana/media = 0.651
+
+  Weibull shape k = 0.996  IC95% bootstrap [0.906, 1.103]
+     k=1 memoryless | k>1 hazard CRESCE (spike 'atrasado' + provavel) | k<1 clustering
+  KS vs exponencial: D=0.0387  crit(0.05)~0.0882  -> NAO rejeita exp (aprox; Lilliefors seria + rigoroso)
+  P(gap>2*mediana | gap>mediana) = 49.6%  IC95% [40.3%, 59.7%]  (memoryless ~50%)
+
+  hazard por idade (normalizada):
+    [0.00,0.30) risco=  238 ev=  53 h=22.27%  ###########
+    [0.30,0.60) risco=  185 ev=  53 h=28.65%  ##############
+    [0.60,0.90) risco=  132 ev=  39 h=29.55%  ###############
+    [0.90,1.20) risco=   93 ev=  24 h=25.81%  #############
+    [1.20,1.50) risco=   69 ev=  14 h=20.29%  ##########
+    [1.50,1.80) risco=   55 ev=  11 h=20.00%  ##########
+    [1.80,2.10) risco=   44 ev=   9 h=20.45%  ##########
+    [2.10,2.39) risco=   35 ev=   9 h=25.71%  #############
+    [2.39,2.69) risco=   26 ev=   7 h=26.92%  #############
+    [2.69,2.99) risco=   19 ev=   7 h=36.84%  ##################
+
+  ----------------------------------------------------------------------
+  VEREDITO: MEMORYLESS nao rejeitado (k=1 dentro do IC). Sem edge de timing: P(spike) ~ taxa base independ. da idade. => T2 REFUTADA.
+==========================================================================

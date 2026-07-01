@@ -17,9 +17,9 @@ SYMBOL = "1HZ10V" # Volatility 10 (1s) Index
 # ======================================================================
 # CONFIGURAÇÕES DE RISCO E MARTINGALE
 # ======================================================================
-BASE_STAKE = 10.00
+BASE_STAKE = 1.00
 MARTINGALE_MULTIPLIER = 11.0 # 11x para recuperar o loss de 100% num payout de 9.9%
-MAX_MARTINGALE_LEVELS = 3    # Limite máximo de dobras
+MAX_MARTINGALE_LEVELS = 1    # DESATIVADO! Você não tem saldo para dobrar.
 TRAIN_TICK_COUNT = 5000      # Tamanho da amostra para quebrar o Pseudo-RNG
 RETRAIN_INTERVAL_MINUTES = 20 # Intervalo (minutos) para limpar e recalcular anomalias
 

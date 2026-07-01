@@ -1,0 +1,74 @@
+{
+    "global_settings": {
+        "virtual_bankroll_limit": 5.0,
+        "max_concurrent_hypotheses": 3,
+        "aws_region_latency_target": "eu-west-1",
+        "demo_mode": true
+    },
+    "hypotheses": [
+        {
+            "id": "LATENCY_ARB_V1",
+            "name": "Binance-Deriv Latency Arbitrage (Options)",
+            "script": "latency_arbitrage_execution.py",
+            "enabled": false,
+            "params": {
+                "deriv_symbol": "cryBTCUSD",
+                "binance_symbol": "btcusdt",
+                "max_latency_ms": 20,
+                "stake": 1.0,
+                "virtual_bankroll": 5.0
+            }
+        },
+        {
+            "id": "STRADDLE_MULT_V1",
+            "name": "Multiplier Straddle Exploit",
+            "script": "straddle_multiplier_exploit.py",
+            "enabled": false,
+            "params": {
+                "symbol": "1HZ10V",
+                "multiplier": 4000,
+                "stake": 1.0,
+                "take_profit_usd": 5.0,
+                "stop_loss_usd": 1.0,
+                "trigger_rhythm": "m1_crossover"
+            }
+        },
+        {
+            "id": "ORACLE_DEEP_V1",
+            "name": "Oracle Deep Pattern Matcher",
+            "script": "oracle_deep_learning_bot.py",
+            "enabled": false,
+            "params": {
+                "symbol": "1HZ10V",
+                "stake": 0.35,
+                "max_martingale": 2,
+                "min_pattern_confidence": 65.0,
+                "ticks_memory_limit": 1000000
+            }
+        },
+        {
+            "id": "RNG_MOMENTUM_V1",
+            "name": "RNG Smoothing Tick Sniper",
+            "script": "rng_smoothing_exploit.py",
+            "enabled": true,
+            "params": {
+                "symbol": "1HZ10V",
+                "stake": 1.0,
+                "duration": 1,
+                "duration_unit": "t"
+            }
+        },
+        {
+            "id": "FOREX_OB_V1",
+            "name": "Forex Order Block Elephant Bar",
+            "script": "forex_imbalance_exploit.py",
+            "enabled": true,
+            "params": {
+                "symbol": "frxEURUSD",
+                "stake": 0.35,
+                "duration": 15,
+                "duration_unit": "m"
+            }
+        }
+    ]
+}

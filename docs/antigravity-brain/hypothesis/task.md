@@ -1,0 +1,3 @@
+- [x] Update `rng_smoothing_exploit.py` to invert the 5-tick logic (Exhaustion Exploit)
+- [x] Deploy new version to AWS and restart `rng_bot` tmux session
+- [x] Check AWS for `hft_bot` and restart it se ele estava parado

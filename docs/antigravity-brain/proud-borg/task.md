@@ -1,0 +1,5 @@
+- `[x]` Modificar o limiar (Threshold) para 45.00 no código-fonte
+- `[x]` Modificar as travas de Take Profit (80%) e Stop Loss (25%) no código-fonte
+- `[x]` Fazer o upload do novo código para a AWS
+- `[x]` Reiniciar o bot na AWS para ativar o novo setup
+- `[x]` Validar se subiu sem erros nos logs

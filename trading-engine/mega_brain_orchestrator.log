@@ -1,0 +1,133 @@
+2026-07-01 06:40:14,220 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 06:40:14,221 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 06:40:14,221 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 06:40:14,222 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 06:40:14,223 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 06:40:14,253 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 06:44:37,780 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 06:44:45,565 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 06:44:45,571 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 06:44:45,571 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 06:44:45,572 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 06:44:45,573 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 06:44:45,589 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 06:45:14,688 - [MEGA_BRAIN] WARNING: 🛑 Hipótese finalizada: RNG_MOMENTUM_V1 (Exit Code: 0)
+2026-07-01 06:45:33,704 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 06:48:14,845 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 06:48:14,847 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 06:48:14,848 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 06:48:14,849 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 06:48:14,850 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 06:48:14,860 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:07:12,541 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:07:22,060 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:07:22,063 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:07:22,066 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:07:22,067 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:07:22,070 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:07:22,082 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:10:28,443 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:10:35,952 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:10:35,953 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:10:35,953 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:10:35,953 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:10:35,954 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:10:35,962 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:11:21,863 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:11:26,688 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:11:26,689 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:11:26,689 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:11:26,690 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:11:26,690 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:11:26,699 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:12:33,000 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:12:38,874 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:12:38,895 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:12:38,896 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:12:38,896 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:12:38,898 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:12:38,926 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:17:55,735 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:18:01,033 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:18:01,035 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:18:01,036 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:18:01,038 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:18:01,040 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:18:01,056 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:18:13,725 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:19:52,615 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:19:52,617 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:19:52,695 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:19:52,697 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:19:52,775 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:19:52,822 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:20:05,592 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:21:00,824 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:21:00,829 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:21:00,829 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:21:00,830 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:21:00,831 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:21:00,856 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:21:27,186 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:21:32,055 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:21:32,058 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:21:32,058 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:21:32,058 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:21:32,060 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:21:32,111 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:24:10,102 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:24:12,518 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:24:12,519 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:24:12,521 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:24:12,521 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:24:12,522 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:24:12,536 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:24:13,579 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:24:17,926 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:24:17,928 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:24:17,928 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:24:17,928 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:24:17,936 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: ORACLE_DEEP_V1 (oracle_deep_learning_bot.py)
+2026-07-01 07:24:18,002 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:29:57,220 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:32:23,475 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:32:23,480 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:32:23,485 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:32:23,485 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:32:23,487 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): ORACLE_DEEP_V1
+2026-07-01 07:32:23,487 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:32:23,502 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: FOREX_OB_V1 (forex_imbalance_exploit.py)
+2026-07-01 07:32:26,296 - [MEGA_BRAIN] WARNING: 🛑 Hipótese finalizada: FOREX_OB_V1 (Exit Code: 1)
+2026-07-01 07:34:14,789 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:34:19,046 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:34:19,048 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:34:19,049 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:34:19,049 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:34:19,049 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): ORACLE_DEEP_V1
+2026-07-01 07:34:19,050 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:34:19,057 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: FOREX_OB_V1 (forex_imbalance_exploit.py)
+2026-07-01 07:36:15,211 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 07:36:23,657 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 07:36:23,675 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 07:36:23,694 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 07:36:23,695 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 07:36:23,695 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): ORACLE_DEEP_V1
+2026-07-01 07:36:23,696 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 07:36:23,717 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: FOREX_OB_V1 (forex_imbalance_exploit.py)
+2026-07-01 08:24:47,834 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 08:26:02,691 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 08:26:02,694 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 08:26:02,694 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 08:26:02,695 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 08:26:02,695 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): ORACLE_DEEP_V1
+2026-07-01 08:26:02,695 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 08:26:02,711 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: FOREX_OB_V1 (forex_imbalance_exploit.py)
+2026-07-01 08:26:05,690 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
+2026-07-01 08:26:30,723 - [MEGA_BRAIN] INFO: 🧠 Mega Brain Orchestrator Iniciado!
+2026-07-01 08:26:30,725 - [MEGA_BRAIN] INFO: ⚙️ Modo Global: DEMO
+2026-07-01 08:26:30,725 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): LATENCY_ARB_V1
+2026-07-01 08:26:30,725 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): STRADDLE_MULT_V1
+2026-07-01 08:26:30,725 - [MEGA_BRAIN] INFO: ⏸️ Hipótese ignorada (Desabilitada): ORACLE_DEEP_V1
+2026-07-01 08:26:30,726 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: RNG_MOMENTUM_V1 (rng_smoothing_exploit.py)
+2026-07-01 08:26:30,736 - [MEGA_BRAIN] INFO: 🚀 Iniciando hipótese: FOREX_OB_V1 (forex_imbalance_exploit.py)
+2026-07-01 08:37:04,327 - [MEGA_BRAIN] INFO: Interrupção manual. Encerrando Mega Brain...
