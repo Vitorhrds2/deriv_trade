@@ -3,7 +3,7 @@ import { PageHeader, Panel, Stat, Mono, Dot } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { fmtMoney } from "@/lib/mock-data";
-import { getHftStatus, getHftTrades } from "@/lib/hft-api";
+import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { OctagonX } from "lucide-react";
 import { useApp } from "@/lib/store";
@@ -32,7 +32,7 @@ function RiskPage() {
   const tradesQuery = useQuery({ queryKey: ["hft-trades"], queryFn: () => getHftTrades(), refetchInterval: 5000 });
   const status = statusQuery.data;
   const trades = tradesQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
 
   const abSplit = [
     { name: "ALIGNED", value: trades?.aligned.n ?? 0 },

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/popover";
 import { useApp } from "@/lib/store";
 import { fmtMoney } from "@/lib/mock-data";
-import { getHftStatus, getHftTrades } from "@/lib/hft-api";
+import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
@@ -44,7 +44,7 @@ export function TopBar() {
   const tradesQuery = useQuery({ queryKey: ["hft-trades"], queryFn: () => getHftTrades(), refetchInterval: 5000 });
   const status = statusQuery.data;
   const trades = tradesQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
   const unread = notifs.filter((n) => !n.read).length;
 
   return (

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Dot } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
-import { getHftStatus, getHftTrades, type HftTrade } from "@/lib/hft-api";
+import { getHftStatus, getHftTrades, isHftLive, type HftTrade } from "@/lib/hft-api";
 import { fmtMoney } from "@/lib/mock-data";
 import {
   Area,
@@ -52,7 +52,7 @@ function LivePage() {
 
   const status = statusQuery.data;
   const trades = tradesQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
   const equityData = useMemo(() => cumulativeEquity(trades?.recentTrades ?? []), [trades]);
   const recentDesc = trades?.recentTrades.slice().reverse().slice(0, 25) ?? [];
 
@@ -67,7 +67,7 @@ function LivePage() {
               className={`flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider ${isLive ? "text-success" : "text-muted-foreground"}`}
             >
               <Dot tone={isLive ? "pos" : "muted"} className={isLive ? "animate-pulse" : ""} />
-              {isLive ? "ao vivo" : "sem heartbeat"}
+              {isLive ? "ao vivo" : "offline"}
             </span>
           </span>
         }

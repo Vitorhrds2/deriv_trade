@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono, Dot } from "@/components/kit";
 import { Button } from "@/components/ui/button";
-import { getHftStatus, getHftTrades } from "@/lib/hft-api";
+import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { fmtMoney } from "@/lib/mock-data";
 import { useQuery } from "@tanstack/react-query";
 import { RefreshCw, Terminal } from "lucide-react";
@@ -30,7 +30,7 @@ function BotsPage() {
 
   const status = statusQuery.data;
   const trades = tradesQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
 
   return (
     <div className="max-w-[1600px] mx-auto">
@@ -95,9 +95,7 @@ function BotsPage() {
                     ? "API de status inacessível"
                     : isLive
                       ? "rodando"
-                      : status.tmuxSessionAlive
-                        ? "sessão tmux ativa, sem heartbeat recente"
-                        : "parado"}
+                      : "parado"}
               </span>
               {status?.error && (
                 <span className="text-xs text-muted-foreground">({status.error})</span>

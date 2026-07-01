@@ -65,6 +65,15 @@ export const getHftStatus = createServerFn({ method: "GET" }).handler(
   },
 );
 
+// O bot só loga em eventos (choque de preço, ordem, erro) -- não tem heartbeat periódico
+// (deriv_tick_sync recebe ticks a cada ~1s mas não loga nenhum). Fora do golden hour
+// (12-18 UTC) é normal o log ficar minutos sem nova linha mesmo com o processo saudável,
+// então `logStale` sozinho NÃO é sinal confiável de "bot caiu" -- só tmux_session_alive é.
+// Ver docs/progress notes 2026-07-01: log parado 33min com tmux vivo, fora do golden hour.
+export function isHftLive(status: Pick<HftStatus, "connected" | "tmuxSessionAlive">): boolean {
+  return status.connected && status.tmuxSessionAlive;
+}
+
 export interface HftGroupSummary {
   n: number;
   wins: number;

@@ -3,7 +3,7 @@ import { PageHeader, Panel, Stat, Dot, Mono } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { fmtMoney } from "@/lib/mock-data";
-import { getHftStatus, getHftTrades, type HftTrade } from "@/lib/hft-api";
+import { getHftStatus, getHftTrades, isHftLive, type HftTrade } from "@/lib/hft-api";
 import { realHypotheses, hypStatusBadgeClass } from "@/lib/hypotheses-data";
 import {
   Area,
@@ -76,7 +76,7 @@ function CommandCenter() {
 
   const status = statusQuery.data;
   const trades = tradesQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
 
   const equityData = useMemo(() => cumulativeEquity(trades?.recentTrades ?? []), [trades]);
   const perTradeBars = useMemo(

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono, Dot } from "@/components/kit";
-import { getHftStatus } from "@/lib/hft-api";
+import { getHftStatus, isHftLive } from "@/lib/hft-api";
 import { useQuery } from "@tanstack/react-query";
 import { Plug } from "lucide-react";
 
@@ -32,10 +32,10 @@ function BrokersPage() {
     refetchInterval: 5000,
   });
   const status = statusQuery.data;
-  const isLive = !!status?.connected && status.tmuxSessionAlive && !status.logStale;
+  const isLive = status ? isHftLive(status) : false;
   // As 3 feeds so alimentam o indice sintetico que o hft_bot consome -- nao ha healthcheck
   // por-exchange exposto pela API hoje, entao o status delas e inferido do estado geral do
-  // bot (se o bot esta vivo e sem heartbeat travado, as 3 conexoes downstream estao de pe).
+  // bot (se a sessao tmux do bot esta viva, as 3 conexoes downstream estao de pe).
   const feedsConnected = isLive;
 
   return (
