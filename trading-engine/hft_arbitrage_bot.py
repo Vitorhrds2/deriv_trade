@@ -254,6 +254,12 @@ async def update_synthetic_price():
                 logger.info(f"🎯 FASE ALINHADA! Pulo Sintético Global de {diff:.2f} formado em {formation_time*1000:.0f}ms. Disparando {direction} (Momentum)!")
                 await execute_trade(direction, diff, formation_time * 1000)
                 state["price_history"].clear()
+            else:
+                # Diagnostico (2026-07-02): choque passou do threshold mas falhou no gate de
+                # timing (arrival vs proximo tick da Deriv) -- antes disso era ignorado em
+                # silencio, impossivel distinguir "mercado quieto" de "gate rejeitando tudo".
+                # So log, nao muda nenhuma logica/estado de trade.
+                logger.info(f"👀 Salto de {diff:.2f} passou do threshold mas falhou no gate de timing (arrive_early={cond_arrive_early}, tick_before_jump={cond_tick_before_jump}) — ignorado, sem disparo.")
 
 async def binance_ws():
     uri = f"wss://stream.binance.com:9443/ws/{BINANCE_SYMBOL}@bookTicker"
