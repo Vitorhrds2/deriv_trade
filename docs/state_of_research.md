@@ -83,14 +83,40 @@ Estas três NÃO são deste autor de commits (Vitor) e rodam em infraestrutura p
 credenciais/instâncias — o que segue vem só da leitura do código/docs no repo.
 
 ### 1. Synthetic Anomaly Monitor (mergeado em `main`, rodando 24/7)
-- **Doc:** `docs/synthetic_anomaly_monitor.md` · **Código:** `trading-engine/synthetic_anomaly_monitor.py`
+- **Doc:** `docs/synthetic_anomaly_monitor.md` · **Código:** `trading-engine/synthetic_anomaly_monitor.py` (996 linhas)
 - Filosofia diferente das 10 hipóteses acima: não testa "sinal estrutural vence custo", **caça
   transiente** — mispricing momentâneo (`EV_EDGE`), viés de RNG, integridade de feed, timing de
   spike. Só alerta com limite inferior de Wilson + persistência por virada de janela (gates
   anti-variância).
 - **Status:** instrumento de detecção ativo, **sem achado confirmado reportado até agora** (por
   design só "caça e registra"; virar aposta exige persistência + confirmação ao vivo + sobreviver
-  a custo real).
+  a custo real). Evidência (`logs/anomaly_monitor/anomalies.jsonl`) só existe no servidor AWS do
+  Carlos — sem acesso, não dá pra saber se já pegou algum achado sem checar com ele.
+
+**Arquitetura (lido em detalhe 2026-07-02):**
+- **5 detectores em paralelo**, a cada `--cycle` (5s default), sobre janela deslizante
+  (`--window`, 2000 ticks default) por símbolo: `detect_rng_bias` (qui-quadrado na distribuição
+  de dígitos, p=0.001), `detect_runs` (teste de corridas z-score em up/down), `detect_feed`
+  (`FEED_FREEZE` = ticks idênticos consecutivos, `FEED_TIMING` = intervalo médio fora do spec),
+  `detect_ev` (Wilson lower-bound de win rate × payout ao vivo via `proposal` da API — o "caçador
+  de jackpot"), `detect_spike_timing` (cadência de spike Boom/Crash vs. spec documentado).
+- **Persistência por turnover** (`streak_confirm`): não basta N ciclos seguidos — exige que uma
+  fração da janela (`--persist-turnover`, 50% default) seja de ticks genuinamente NOVOS desde que
+  a anomalia apareceu. Mata o caso de janela "presa" (símbolo lento como `R_50` fazendo a mesma
+  amostra persistir trivialmente sem ticks novos de verdade).
+- **Auto-vet de amostra fresca** (`_vet_ev_edge`): antes de qualquer `EV_EDGE` virar `CRITICAL`,
+  busca `--vet-sample` (30.000 default) ticks novos e independentes via `ticks_history` e re-mede
+  do zero. Não sobrevive → rebaixa pra `EV_EDGE_REJECTED` (informativo, sem alarme). É a mesma
+  disciplina que refutou Accumulators (item 2) e Jump Index (item 3) acima, agora automatizada em
+  tempo real.
+- **Watchdog separado** (`_watchdog_loop`) pra `FEED_STALL`: detecta o bug histórico de WS caindo
+  por ping-timeout que deixava o monitor "vivo mas cego" — silêncio de ticks além de
+  `--stall-timeout` (30s default) dispara alarme imediato por símbolo.
+- **10 testes de selftest offline** (`--selftest`, sem rede/credenciais) validam cada detector:
+  taxa de falso-positivo sob RNG verdadeiramente uniforme, injeção de viés real detectada,
+  controle EV (payout justo não dispara) vs. injeção EV (payout desajustado dispara), feed
+  freeze/stall, spike controle vs. injeção, persistência por turnover, e o auto-vet (blip uniforme
+  rejeitado, viés real sobrevive).
 
 ### 2. Polymarket PA1-PA5 (branch `feat/polymarket-arb`, **não mergeada**)
 - Aplica a mesma disciplina (Wilson, gates anti-variância, A/B da H3) ao Polymarket.
