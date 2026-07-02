@@ -47,6 +47,7 @@ export DEMO_TICK_MAX_DEMO_LOSS="${DEMO_TICK_MAX_DEMO_LOSS:-10}"
 export DEMO_TICK_MAX_RUNTIME_SECONDS="${DEMO_TICK_MAX_RUNTIME_SECONDS:-900}"
 export DEMO_TICK_LOG_PATH="${DEMO_TICK_LOG_PATH:-demo_tick_strategy.log}"
 export DEMO_TICK_LEDGER_JSONL="${DEMO_TICK_LEDGER_JSONL:-demo_tick_strategy_trades.jsonl}"
+export START_DISCORD_MONITOR="${START_DISCORD_MONITOR:-0}"
 
 start_process \
   demo_tick_strategy \
@@ -58,12 +59,18 @@ start_process \
 export HFT_LOG_PATH="$DEMO_TICK_LOG_PATH"
 export DISCORD_HEARTBEAT_SECONDS="${DISCORD_HEARTBEAT_SECONDS:-300}"
 
-start_process \
-  demo_tick_strategy_discord_monitor \
-  logs/demo_tick_strategy_discord_monitor.pid \
-  logs/demo_tick_strategy_discord_monitor.stdout.log \
-  logs/demo_tick_strategy_discord_monitor.stderr.log \
-  .venv/bin/python3 cloud_shadow_discord_monitor.py
+if [ "$START_DISCORD_MONITOR" = "1" ]; then
+  start_process \
+    demo_tick_strategy_discord_monitor \
+    logs/demo_tick_strategy_discord_monitor.pid \
+    logs/demo_tick_strategy_discord_monitor.stdout.log \
+    logs/demo_tick_strategy_discord_monitor.stderr.log \
+    .venv/bin/python3 cloud_shadow_discord_monitor.py
+else
+  echo "demo_tick_strategy_discord_monitor=disabled"
+fi
 
 echo "demo_tick_strategy_pid=$(cat logs/demo_tick_strategy.pid)"
-echo "demo_tick_strategy_discord_monitor_pid=$(cat logs/demo_tick_strategy_discord_monitor.pid)"
+if [ -f logs/demo_tick_strategy_discord_monitor.pid ]; then
+  echo "demo_tick_strategy_discord_monitor_pid=$(cat logs/demo_tick_strategy_discord_monitor.pid)"
+fi

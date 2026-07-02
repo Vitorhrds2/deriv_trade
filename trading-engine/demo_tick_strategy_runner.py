@@ -229,7 +229,23 @@ class DemoTickStrategy:
             api_token=os.getenv("DERIV_API_TOKEN"),
             use_demo=True,
         )
-        await self.client.connect()
+        for attempt in range(1, self.args.auth_retries + 1):
+            try:
+                await self.client.connect()
+                break
+            except Exception as exc:
+                self.errors += 1
+                self.logger.warning(
+                    "AUTH_RETRY attempt=%s/%s error=%s",
+                    attempt,
+                    self.args.auth_retries,
+                    exc,
+                )
+                self.log_event("auth_retry", attempt=attempt, error=str(exc))
+                if attempt >= self.args.auth_retries:
+                    self.log_event("auth_failed", final_tag="needs_documentation")
+                    raise
+                await asyncio.sleep(min(2 * attempt, 20))
         account_id = str(self.client.account_id or "")
         if not account_id.startswith("DOT"):
             self.logger.critical("ABORT non-demo account: %s", account_id or "unknown")
@@ -285,6 +301,7 @@ def parse_args():
     parser.add_argument("--cooldown-seconds", type=float, default=float(os.getenv("DEMO_TICK_COOLDOWN_SECONDS", "2")))
     parser.add_argument("--poll-seconds", type=float, default=0.25)
     parser.add_argument("--settlement-timeout-seconds", type=float, default=20)
+    parser.add_argument("--auth-retries", type=int, default=int(os.getenv("DEMO_TICK_AUTH_RETRIES", "8")))
     parser.add_argument("--max-runtime-seconds", type=float, default=float(os.getenv("DEMO_TICK_MAX_RUNTIME_SECONDS", "900")))
     parser.add_argument("--log-path", default=os.getenv("DEMO_TICK_LOG_PATH", "demo_tick_strategy.log"))
     parser.add_argument(
