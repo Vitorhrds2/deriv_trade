@@ -1,0 +1,45 @@
+====================================================================================
+  Conta conectada: DOT92172514 | saldo=9997.83 USD | use_demo=True
+  Classificacao API -> demo=['DOT92172514'] | real=['ROT91014561']
+  OK: DOT92172514 CONFIRMADA como DEMO.
+>>> Modo: DRY-RUN (sem ordens) | stake $1.0 x100 | hold 2.0s | max 25 trades / 60s
+====================================================================================
+  [aligned] DRY MULTDOWN | proposal spot=59854.37 | binance=59874.18
+    -> 1 trades (movimento Binance $-9.8)
+  [aligned] DRY MULTUP | proposal spot=59853.81 | binance=59878.82
+    -> 2 trades (movimento Binance $+4.6)
+  [aligned] DRY MULTDOWN | proposal spot=59853.82 | binance=59874.19
+    -> 3 trades (movimento Binance $-4.6)
+  [anti] DRY MULTUP | proposal spot=59846.88 | binance=59865.00
+    -> 4 trades (movimento Binance $-8.4)
+  [anti] DRY MULTUP | proposal spot=59839.17 | binance=59860.96
+    -> 5 trades (movimento Binance $-3.0)
+  [anti] DRY MULTDOWN | proposal spot=59833.31 | binance=59865.00
+    -> 6 trades (movimento Binance $+4.0)
+  [aligned] DRY MULTUP | proposal spot=59846.61 | binance=59869.34
+    -> 7 trades (movimento Binance $+3.3)
+  [aligned] DRY MULTUP | proposal spot=59850.07 | binance=59874.18
+    -> 8 trades (movimento Binance $+4.2)
+  [anti] DRY MULTUP | proposal spot=59843.65 | binance=59865.01
+    -> 9 trades (movimento Binance $-5.0)
+  [anti] DRY MULTDOWN | proposal spot=59840.58 | binance=59869.35
+    -> 10 trades (movimento Binance $+4.3)
+  [aligned] DRY MULTUP | proposal spot=59841.76 | binance=59874.18
+    -> 11 trades (movimento Binance $+4.9)
+  [anti] DRY MULTUP | proposal spot=59848.45 | binance=59863.10
+    -> 12 trades (movimento Binance $-3.2)
+  [anti] DRY MULTDOWN | proposal spot=59835.21 | binance=59865.93
+    -> 13 trades (movimento Binance $+4.2)
+  [anti] DRY MULTUP | proposal spot=59841.92 | binance=59860.97
+    -> 14 trades (movimento Binance $-4.9)
+  [aligned] DRY MULTUP | proposal spot=59844.48 | binance=59869.99
+    -> 15 trades (movimento Binance $+4.0)
+  [anti] DRY MULTDOWN | proposal spot=59851.05 | binance=59879.99
+    -> 16 trades (movimento Binance $+10.0)
+  [aligned] DRY MULTDOWN | proposal spot=59857.67 | binance=59874.01
+    -> 17 trades (movimento Binance $-6.0)
+
+====================================================================================
+Trades: 17 (com fill: 0)
+(dry-run ou sem fills) - rode com --live para medir P&L.
+====================================================================================

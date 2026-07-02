@@ -1,0 +1,24 @@
+====================================================================================
+  Conta conectada: DOT92172514 | saldo=9850.26 USD | use_demo=True
+  Classificacao API -> demo=['DOT92172514'] | real=['ROT91014561']
+  OK: DOT92172514 CONFIRMADA como DEMO.
+>>> Modo: LIVE (ordens demo) | stake $1.0 x100 | hold 2.0s | max 12 trades / 300s
+====================================================================================
+  [control] UP entry=0.00 binance_buy=59916.58 -> binance_sell=59916.57 | P&L=$-0.0200
+  [control] DN entry=0.00 binance_buy=59916.57 -> binance_sell=59916.57 | P&L=$-0.0300
+  [control] DN entry=0.00 binance_buy=59919.03 -> binance_sell=59919.03 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59919.03 -> binance_sell=59919.04 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59919.04 -> binance_sell=59919.03 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59919.03 -> binance_sell=59919.03 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59919.03 -> binance_sell=59919.04 | P&L=$-0.0100
+  [control] UP entry=0.00 binance_buy=59919.04 -> binance_sell=59919.04 | P&L=$-0.0300
+  [control] DN entry=0.00 binance_buy=59919.04 -> binance_sell=59919.04 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59919.04 -> binance_sell=59919.04 | P&L=$-0.0300
+  [control] UP entry=0.00 binance_buy=59927.65 -> binance_sell=59927.66 | P&L=$-0.0200
+  [control] UP entry=0.00 binance_buy=59929.02 -> binance_sell=59929.02 | P&L=$-0.0300
+
+====================================================================================
+Trades: 12 (com fill: 12)
+  control : n= 12 | WR=  0.0% [0.0,24.3] | P&L medio=$-0.0267 | total=$-0.3200
+====================================================================================
+====================================================================================

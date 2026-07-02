@@ -1,0 +1,135 @@
+====================================================================================
+  Conta conectada: DOT92172514 | saldo=9997.83 USD | use_demo=True
+  Classificacao API -> demo=['DOT92172514'] | real=['ROT91014561']
+  OK: DOT92172514 CONFIRMADA como DEMO.
+>>> Modo: LIVE (ordens demo) | stake $1.0 x100 | hold 1.5s | max 60 trades / 600s
+====================================================================================
+  [anti] UP entry=59973.11 binance_buy=59988.69 -> binance_sell=59985.71 | P&L=$-0.0300
+    -> 1 trades (movimento Binance $-6.7)
+  [anti] DN entry=59966.88 binance_buy=60002.75 -> binance_sell=60010.00 | P&L=$-0.0200
+    -> 2 trades (movimento Binance $+15.5)
+  [anti] DN entry=59984.54 binance_buy=60008.51 -> binance_sell=60003.39 | P&L=$-0.0200
+    -> 3 trades (movimento Binance $+8.5)
+  [anti] DN entry=59981.34 binance_buy=60010.00 -> binance_sell=60015.99 | P&L=$-0.0400
+    -> 4 trades (movimento Binance $+6.0)
+  [aligned] DN entry=59983.53 binance_buy=60000.01 -> binance_sell=59976.00 | P&L=$-0.0200
+    -> 5 trades (movimento Binance $-9.8)
+  [aligned] DN entry=59942.61 binance_buy=59964.01 -> binance_sell=59964.00 | P&L=$-0.0300
+    -> 6 trades (movimento Binance $-6.0)
+  [aligned] UP entry=59958.80 binance_buy=59977.99 -> binance_sell=59978.00 | P&L=$-0.0300
+    -> 7 trades (movimento Binance $+9.0)
+  [anti] DN entry=59956.26 binance_buy=59987.62 -> binance_sell=60005.99 | P&L=$-0.0400
+    -> 8 trades (movimento Binance $+8.0)
+  [anti] DN entry=59995.60 binance_buy=60047.58 -> binance_sell=60034.66 | P&L=$-0.0300
+    -> 9 trades (movimento Binance $+28.0)
+  [anti] UP entry=60009.09 binance_buy=60028.01 -> binance_sell=60026.01 | P&L=$-0.0300
+    -> 10 trades (movimento Binance $-4.0)
+  [aligned] DN entry=59994.25 binance_buy=60020.01 -> binance_sell=60008.01 | P&L=$-0.0200
+    -> 11 trades (movimento Binance $-4.1)
+  [aligned] UP entry=59973.76 binance_buy=60009.99 -> binance_sell=60013.99 | P&L=$-0.0200
+    -> 12 trades (movimento Binance $+6.0)
+  [anti] UP entry=59983.29 binance_buy=59998.01 -> binance_sell=59990.00 | P&L=$-0.0300
+    -> 13 trades (movimento Binance $-7.6)
+  [aligned] DN entry=59958.69 binance_buy=59978.00 -> binance_sell=59982.06 | P&L=$-0.0300
+    -> 14 trades (movimento Binance $-4.0)
+  [aligned] UP entry=59966.11 binance_buy=59989.99 -> binance_sell=59997.99 | P&L=$-0.0300
+    -> 15 trades (movimento Binance $+6.0)
+  [aligned] DN entry=59983.32 binance_buy=59996.70 -> binance_sell=59996.00 | P&L=$-0.0200
+    -> 16 trades (movimento Binance $-5.7)
+  [aligned] UP entry=59966.68 binance_buy=60010.00 -> binance_sell=60029.99 | P&L=$-0.0300
+    -> 17 trades (movimento Binance $+16.0)
+  [aligned] DN entry=60001.75 binance_buy=60024.02 -> binance_sell=60030.00 | P&L=$-0.0400
+    -> 18 trades (movimento Binance $-5.9)
+  [aligned] DN entry=59997.88 binance_buy=60018.00 -> binance_sell=60008.01 | P&L=$-0.0300
+    -> 19 trades (movimento Binance $-8.0)
+  [anti] DN entry=59985.00 binance_buy=60010.00 -> binance_sell=60013.99 | P&L=$-0.0400
+    -> 20 trades (movimento Binance $+4.5)
+  [anti] DN entry=59994.82 binance_buy=60026.00 -> binance_sell=60025.99 | P&L=$-0.0300
+    -> 21 trades (movimento Binance $+12.0)
+  [aligned] DN entry=59993.51 binance_buy=60018.01 -> binance_sell=60018.01 | P&L=$-0.0200
+    -> 22 trades (movimento Binance $-4.0)
+  [anti] DN entry=60000.11 binance_buy=60064.04 -> binance_sell=60131.24 | P&L=$-0.0300
+    -> 23 trades (movimento Binance $+28.7)
+  [aligned] UP entry=60073.19 binance_buy=60115.99 -> binance_sell=60136.85 | P&L=$-0.0400
+    -> 24 trades (movimento Binance $+8.0)
+  [aligned] DN entry=60112.22 binance_buy=60141.78 -> binance_sell=60142.00 | P&L=$-0.0500
+    -> 25 trades (movimento Binance $-4.2)
+  [aligned] DN entry=60105.52 binance_buy=60124.83 -> binance_sell=60117.53 | P&L=$-0.0200
+    -> 26 trades (movimento Binance $-7.2)
+  [aligned] DN entry=60099.40 binance_buy=60117.54 -> binance_sell=60119.31 | P&L=$-0.0200
+    -> 27 trades (movimento Binance $-6.4)
+  [anti] DN entry=60097.52 binance_buy=60145.76 -> binance_sell=60144.00 | P&L=$-0.0400
+    -> 28 trades (movimento Binance $+15.2)
+  [aligned] UP entry=60117.70 binance_buy=60144.02 -> binance_sell=60138.01 | P&L=$-0.0200
+    -> 29 trades (movimento Binance $+8.4)
+  [anti] UP entry=60102.01 binance_buy=60121.75 -> binance_sell=60115.50 | P&L=$-0.0300
+    -> 30 trades (movimento Binance $-6.6)
+  [aligned] DN entry=60088.01 binance_buy=60108.01 -> binance_sell=60121.79 | P&L=$-0.0300
+    -> 31 trades (movimento Binance $-5.5)
+  [aligned] UP entry=60108.33 binance_buy=60130.00 -> binance_sell=60138.00 | P&L=$-0.0300
+    -> 32 trades (movimento Binance $+4.5)
+  [anti] DN entry=60157.82 binance_buy=60186.80 -> binance_sell=60156.01 | P&L=$-0.0100
+    -> 33 trades (movimento Binance $+8.8)
+  [anti] UP entry=60100.43 binance_buy=60122.83 -> binance_sell=60104.00 | P&L=$-0.0400
+    -> 34 trades (movimento Binance $-5.2)
+  [anti] UP entry=60071.63 binance_buy=60087.98 -> binance_sell=60082.85 | P&L=$-0.0300
+    -> 35 trades (movimento Binance $-14.0)
+  [anti] DN entry=60062.95 binance_buy=60084.63 -> binance_sell=60081.03 | P&L=$-0.0200
+    -> 36 trades (movimento Binance $+7.9)
+  [aligned] UP entry=60066.69 binance_buy=60100.00 -> binance_sell=60102.48 | P&L=$-0.0300
+    -> 37 trades (movimento Binance $+14.0)
+  [anti] UP entry=60065.08 binance_buy=60082.00 -> binance_sell=60078.01 | P&L=$-0.0300
+    -> 38 trades (movimento Binance $-6.0)
+  [aligned] UP entry=60059.42 binance_buy=60084.20 -> binance_sell=60079.79 | P&L=$-0.0300
+    -> 39 trades (movimento Binance $+6.2)
+  [anti] DN entry=60079.79 binance_buy=60099.99 -> binance_sell=60106.48 | P&L=$-0.0400
+    -> 40 trades (movimento Binance $+12.0)
+  [aligned] UP entry=60095.72 binance_buy=60128.75 -> binance_sell=60132.00 | P&L=$-0.0100
+    -> 41 trades (movimento Binance $+6.8)
+  [anti] DN entry=60116.96 binance_buy=60147.60 -> binance_sell=60162.00 | P&L=$-0.0300
+    -> 42 trades (movimento Binance $+9.6)
+  [anti] UP entry=60141.57 binance_buy=60164.00 -> binance_sell=60164.00 | P&L=$-0.0300
+    -> 43 trades (movimento Binance $-4.3)
+  [anti] UP entry=60131.00 binance_buy=60152.00 -> binance_sell=60141.67 | P&L=$-0.0300
+    -> 44 trades (movimento Binance $-6.0)
+  [aligned] DN entry=60110.89 binance_buy=60132.01 -> binance_sell=60112.00 | P&L=$-0.0300
+    -> 45 trades (movimento Binance $-4.0)
+  [aligned] UP entry=60089.63 binance_buy=60122.00 -> binance_sell=60124.00 | P&L=$-0.0300
+    -> 46 trades (movimento Binance $+12.0)
+  [aligned] DN entry=60109.86 binance_buy=60114.00 -> binance_sell=60097.19 | P&L=$+0.0000
+    -> 47 trades (movimento Binance $-18.9)
+  [anti] UP entry=60063.96 binance_buy=60086.85 -> binance_sell=60086.02 | P&L=$-0.0300
+    -> 48 trades (movimento Binance $-7.2)
+  [aligned] UP entry=60067.14 binance_buy=60088.10 -> binance_sell=60088.00 | P&L=$-0.0300
+    -> 49 trades (movimento Binance $+6.0)
+  [aligned] UP entry=60070.37 binance_buy=60095.02 -> binance_sell=60095.02 | P&L=$-0.0200
+    -> 50 trades (movimento Binance $+5.0)
+  [aligned] DN entry=60064.16 binance_buy=60086.01 -> binance_sell=60076.16 | P&L=$-0.0200
+    -> 51 trades (movimento Binance $-4.0)
+  [aligned] DN entry=60045.08 binance_buy=60060.01 -> binance_sell=60056.25 | P&L=$-0.0300
+    -> 52 trades (movimento Binance $-4.0)
+  [aligned] DN entry=60027.05 binance_buy=60048.01 -> binance_sell=60042.00 | P&L=$-0.0300
+    -> 53 trades (movimento Binance $-6.0)
+  [anti] UP entry=60002.05 binance_buy=60026.17 -> binance_sell=60024.01 | P&L=$-0.0300
+    -> 54 trades (movimento Binance $-5.6)
+  [aligned] DN entry=59992.40 binance_buy=60018.01 -> binance_sell=60012.00 | P&L=$-0.0200
+    -> 55 trades (movimento Binance $-6.0)
+  [aligned] UP entry=59984.30 binance_buy=60013.39 -> binance_sell=60024.00 | P&L=$-0.0200
+    -> 56 trades (movimento Binance $+5.2)
+  [aligned] UP entry=60000.79 binance_buy=60030.00 -> binance_sell=60042.26 | P&L=$-0.0300
+    -> 57 trades (movimento Binance $+6.0)
+  [anti] DN entry=60019.61 binance_buy=60049.31 -> binance_sell=60049.30 | P&L=$-0.0200
+    -> 58 trades (movimento Binance $+6.5)
+  [aligned] DN entry=60019.29 binance_buy=60042.20 -> binance_sell=60042.20 | P&L=$-0.0200
+    -> 59 trades (movimento Binance $-7.1)
+  [anti] UP entry=60012.75 binance_buy=60034.00 -> binance_sell=60030.00 | P&L=$-0.0300
+    -> 60 trades (movimento Binance $-6.0)
+
+====================================================================================
+Trades: 60 (com fill: 60)
+  aligned : n= 34 | WR=  0.0% [0.0,10.2] | P&L medio=$-0.0259 | total=$-0.8800
+  anti    : n= 26 | WR=  0.0% [0.0,12.9] | P&L medio=$-0.0300 | total=$-0.7800
+====================================================================================
+>>> aligned - anti = $+0.0041/trade (edge do lag, ja liquido de custo/basis).
+    IC95% [+0.0000, +0.0082] -> SIGNIFICATIVO >0. ARB REAL no fill: variar hold/threshold e ampliar amostra antes de QUALQUER capital real.
+====================================================================================

@@ -6,3 +6,7 @@ __pycache__/
 *.db
 *.csv
 .DS_Store
+
+# Dados de tick e logs de runtime do recorder (grandes, regeraveis, nao versionar)
+trading-engine/data/
+trading-engine/logs/

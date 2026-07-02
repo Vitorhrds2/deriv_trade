@@ -1,0 +1,40 @@
+========================================================================================
+CUSTO REAL multiplicador cryBTCUSD | stake $10
+Sinal bruto medido: edge realista ~0.0128% | edge melhor caso ~0.0223% por trade
+========================================================================================
+Multiplicadores disponiveis: [100, 200, 300, 400]
+
+    MULT  NOCIONAL  COMISSAO$   COMISS% ROUND-TRIP%  VEREDITO(vs edge realista)
+  --------------------------------------------------------------------------
+     100      1000     0.2600   0.0260%     0.0520%  MORRE
+     200      2000     0.5100   0.0255%     0.0510%  MORRE
+     300      3000     0.7700   0.0257%     0.0513%  MORRE
+     400  erro: Multiplier is not in acceptable range. Accepts 100,200,300,500,800.
+
+=== proposal completo (mult=400) ===
+{
+  "echo_req": {
+    "amount": 10,
+    "basis": "stake",
+    "contract_type": "MULTUP",
+    "currency": "USD",
+    "duration_unit": "s",
+    "multiplier": 400,
+    "proposal": 1,
+    "req_id": 6,
+    "underlying_symbol": "cryBTCUSD"
+  },
+  "error": {
+    "code": "ContractBuyValidationError",
+    "code_args": [
+      "100,200,300,500,800"
+    ],
+    "details": {
+      "field": "multiplier"
+    },
+    "message": "Multiplier is not in acceptable range. Accepts 100,200,300,500,800.",
+    "subcode": "MultiplierOutOfRange"
+  },
+  "msg_type": "proposal",
+  "req_id": 6
+}
