@@ -131,6 +131,32 @@ credenciais/instâncias — o que segue vem só da leitura do código/docs no re
   ainda abaixo do N≥30 por grupo que o próprio plano do Carlos define como necessário para veredito
   (`aligned_net>0` **e** IC95% de `aligned-anti` acima de zero).
 
+**Arquitetura PA5 (lido em detalhe 2026-07-02):**
+- **`polymarket_lag_probe.py`** (413 linhas) — dois modos: `run_leadlag` (diagnóstico puro, mede
+  correlação cruzada entre retornos da Binance e do preço do token "Up" pra ver se o livro da
+  Polymarket atrasa a Binance) e `paper_ab_window` (o teste de verdade). Nos últimos `--final-s`
+  (30s default) de UMA janela Up/Down: monitora o preço Binance vs. o open da janela; quando
+  `|move| >= min_move` (default $5), sorteia 50/50 **aligned** (aposta a favor do movimento já
+  ocorrido) vs. **anti** (contra) — a MESMA metodologia A/B da H3/hft_bot — compra (paper) o ask do
+  token do lado escolhido, e resolve no fim contra o close da Binance (proxy do Chainlink real).
+- **Risco explicitamente sinalizado no próprio código**: Polymarket resolve por **Chainlink**, não
+  Binance; a divergência entre os dois (citada no docstring como "H5 na literatura") é ruído/risco
+  que esta sonda não resolve, só marca. **Sem execução real por design** — Polymarket exige
+  assinatura EIP-712, deliberadamente fora de escopo (paper-only).
+- **Estatística**: Wilson CI por grupo (aligned/anti) + `boot_diff_ci` (bootstrap) na diferença
+  aligned-anti, com veredito automático (`edge_comprovado` se IC95% lo>0, `aligned_pior` se hi<0,
+  `cruza_zero` caso contrário) — mesma disciplina de H1/H3/T4.
+- **`pa5_collector.py`** (242 linhas) — orquestra `paper_ab_window` em loop por `--hours` (48h
+  default): acha a próxima janela (5m/15m configurável) que fecha com lead suficiente, roda o A/B,
+  acumula em JSONL (append idempotente, sobrevive a falhas por janela) e **reconsolida o sumário
+  agregado após CADA janela** (pooling de todos os trades aligned/anti até então, mesmo cálculo de
+  Wilson+bootstrap, agora sobre a amostra total) — resiliente a interrupção a qualquer momento.
+  Escreve corpo de e-mail opcional (liga com o SNS do deploy AWS).
+- Ambos com selftest offline (`--selftest`) cobrindo detecção de lag, fórmula de P&L, isolamento
+  de edge no A/B sintético, parsing de horizonte, e consolidação de múltiplas janelas.
+- Nenhum dado local encontrado (`data/pa5/*.jsonl` não existe neste checkout) — a única evidência
+  real (1 janela, 25 trades) está no servidor AWS efêmero do Carlos.
+
 ### 3. `feat/operate-demo-synthetic` (branch **não mergeada**, commits de HOJE 2026-07-02)
 - **Mexe diretamente em `trading-engine/hft_arbitrage_bot.py`** (o mesmo arquivo rodando ao vivo
   no EC2): adiciona kill switch (`MAX_DEMO_LOSS_USD`, `MAX_SESSION_TRADES`, estado `halted`) e
