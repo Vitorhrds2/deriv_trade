@@ -106,11 +106,24 @@ class JupiterPredictionVenue(PriceFeedVenue):
     async def disconnect(self) -> None:
         return None
 
-    def list_events(self, category: str = "crypto", provider: str = "polymarket", live_only: bool = False) -> list:
-        """GET /events -- provider: 'polymarket' (default da API) ou 'kalshi'."""
+    def list_events(
+        self,
+        category: str = "crypto",
+        provider: str = "polymarket",
+        live_only: bool = False,
+        start: Optional[int] = None,
+        limit: Optional[int] = None,
+    ) -> list:
+        """GET /events -- provider: 'polymarket' (default da API) ou 'kalshi'. `start`/`limit`
+        pra paginacao (a API pagina, default parece ser start=0/limit=10 -- confirmado ao vivo
+        que ha centenas de eventos por category/provider, ex. 732 pra crypto/polymarket)."""
         params = {"category": category, "provider": provider}
         if live_only:
             params["filter"] = "live"
+        if start is not None:
+            params["start"] = start
+        if limit is not None:
+            params["limit"] = limit
         data = self._get("/events", params)
         return data.get("data", data) if isinstance(data, dict) else data
 

@@ -15,3 +15,6 @@ trading-engine/logs/
 trading-engine/jupiter_reliability_log.jsonl
 trading-engine/jupiter_reliability_summary.json
 trading-engine/jupiter_reliability_probe.log
+trading-engine/multi_venue_compare_log.jsonl
+trading-engine/multi_venue_compare_summary.json
+trading-engine/multi_venue_compare.log
