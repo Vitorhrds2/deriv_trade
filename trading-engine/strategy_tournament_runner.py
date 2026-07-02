@@ -396,12 +396,23 @@ class StrategyTournament:
         limit = self.args.healthy_drawdown_30 if model["phase"] == "gate30" else self.args.healthy_drawdown_100
         return abs(model["max_drawdown"]) <= abs(limit)
 
-    def max_possible_target100_pnl(self, model):
+    def max_possible_pnl_at_trade_count(self, model, target_trades):
         spec = self.current_spec()
         stake = float(spec.get("stake", 1.0)) if spec else 1.0
-        remaining = max(0, self.args.target_trades - model["trades"])
+        remaining = max(0, target_trades - model["trades"])
         max_win_profit = stake * float(self.args.max_win_return_ratio)
         return round(model["pnl"] + remaining * max_win_profit, 4)
+
+    def check_gate30_early_failure(self, model):
+        if model["phase"] != "gate30" or model["trades"] >= self.args.gate_trades:
+            return False
+        if not self.pass_healthy_drawdown(model):
+            self.pivot_current_model("failed_gate30_drawdown_early")
+            return True
+        if self.max_possible_pnl_at_trade_count(model, self.args.gate_trades) <= 0:
+            self.pivot_current_model("failed_gate30_pnl_recovery_impossible")
+            return True
+        return False
 
     def check_target100_early_failure(self, model):
         if model["phase"] != "target100" or model["trades"] >= self.args.target_trades:
@@ -409,7 +420,7 @@ class StrategyTournament:
         if not self.pass_healthy_drawdown(model):
             self.pivot_current_model("failed_100_drawdown_early")
             return True
-        if self.max_possible_target100_pnl(model) <= 0:
+        if self.max_possible_pnl_at_trade_count(model, self.args.target_trades) <= 0:
             self.pivot_current_model("failed_100_pnl_recovery_impossible")
             return True
         return False
@@ -430,7 +441,7 @@ class StrategyTournament:
             self.pivot_current_model("model_kill_loss")
             return
 
-        if self.check_target100_early_failure(model):
+        if self.check_gate30_early_failure(model) or self.check_target100_early_failure(model):
             return
 
         if model["phase"] == "gate30" and model["trades"] >= self.args.gate_trades:
@@ -597,7 +608,7 @@ class StrategyTournament:
         await self.connect()
         model = self.start_current_model()
         if model:
-            self.check_target100_early_failure(model)
+            self.check_gate30_early_failure(model) or self.check_target100_early_failure(model)
         symbols = sorted({spec["symbol"] for spec in MODEL_SPECS})
         for symbol in symbols:
             await self.client.subscribe_ticks(symbol, self.on_tick)
