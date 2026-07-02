@@ -14,7 +14,8 @@ export const Route = createFileRoute("/bots")({
 // trading-engine/*.py fora dos 2 arquivos ativos hoje (hft_arbitrage_bot.py, status_api.py):
 // variantes de oracle_diff_bot, straddle/forex/scalper exploits, rng_smoothing_exploit etc.
 // Contagem real do repo (nao deployados / sem tmux ativo), atualizar se o inventario mudar.
-const OTHER_SCRIPTS_COUNT = 60;
+// (find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l, menos os 2 ativos acima)
+const OTHER_SCRIPTS_COUNT = 97;
 
 function BotsPage() {
   const statusQuery = useQuery({

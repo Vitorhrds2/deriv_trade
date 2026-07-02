@@ -50,7 +50,8 @@
             "id": "RNG_MOMENTUM_V1",
             "name": "RNG Smoothing Tick Sniper",
             "script": "rng_smoothing_exploit.py",
-            "enabled": true,
+            "enabled": false,
+            "_disabled_reason": "Formalmente refutado e parado em 2026-07-01: 50 trades, 25W/25L exatos, PnL -$2.00 (passeio aleatorio puro, EV -4%/trade). Nao religar sem nova evidencia.",
             "params": {
                 "symbol": "1HZ10V",
                 "stake": 1.0,
