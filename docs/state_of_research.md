@@ -165,9 +165,20 @@ credenciais/instâncias — o que segue vem só da leitura do código/docs no re
     (direção 50/50, timing sem padrão), existe uma chance real de um modelo passar o gate por
     variância pura — o mesmo padrão do falso-positivo do Accumulators (`DIGITUNDER:4` a 43.7% em
     amostra pequena, ~40% justo em amostra grande).
-- `demo_tick_strategy_runner.py` e `tournament_dashboard.py` — ainda não lidos em detalhe (o
-  primeiro parece ser um runner mais simples/anterior ao torneio; o segundo é o dashboard do
-  commit `a1c7ee9`).
+- **`demo_tick_strategy_runner.py`** (lido em detalhe 2026-07-02) — o protótipo original
+  (`JOB-20260702-002`): mesma lógica trend-follow de streak de ticks, mas sem gates/torneio (só
+  `max_trades`, `max_demo_loss`, roda até acabar ou bater `max_runtime_seconds`). É a base de onde
+  saiu o `JOB-20260702-003` que falhou e virou seed do torneio.
+- **`tournament_dashboard.py`** (lido em detalhe 2026-07-02) — visualizador local, stdlib puro
+  (`http.server`, sem Flask/dependência), porta 8765 (`127.0.0.1` default). Serve o HTML com
+  gráficos (PnL ao longo do tempo, PnL por modelo, distribuição, tabela de pivôs) e dois endpoints
+  somente-leitura: `/api/state` (le `strategy_tournament_state.json`) e `/api/events` (tail de
+  `strategy_tournament_events.jsonl`). Nenhuma lógica de cálculo extra — só espelha o state file.
+
+**Leitura de código do branch `feat/operate-demo-synthetic` concluída (100% dos arquivos novos).**
+Pipeline do dia do Carlos, em ordem: protótipo simples → 1 job real testado e reprovado → torneio
+generalizado com gates 30/100 → dashboard de acompanhamento + probe de diagnóstico do hft_bot +
+monitor Discord do shadow A/B + guardrails no `hft_arbitrage_bot.py`.
 
 **Nota de coordenação:** três frentes tocando a mesma área (`hft_bot`/shadow-AB) no mesmo dia,
 de duas pessoas diferentes, em branches não sincronizadas. Vale alinhar com o Carlos antes do
