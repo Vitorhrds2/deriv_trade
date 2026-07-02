@@ -3,15 +3,11 @@ __pycache__/
 .env
 .env.*
 !.env.example
+!trading-engine/.env.example
 *.db
 *.csv
 .DS_Store
 
-<<<<<<< HEAD
 # Dados de tick e logs de runtime do recorder (grandes, regeraveis, nao versionar)
 trading-engine/data/
 trading-engine/logs/
-=======
-# Evidencia de runtime do monitor de anomalias (gerada ao vivo, nao versionar)
-trading-engine/logs/anomaly_monitor/
->>>>>>> feat/synthetic-anomaly-monitor
