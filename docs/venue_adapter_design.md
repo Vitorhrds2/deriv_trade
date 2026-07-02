@@ -75,18 +75,24 @@ verdade pra mesma chamada HTTP).
 
 Nenhuma das três tem design pronto ainda — só levantamento do que falta:
 
-- **Kalshi** — regulada nos EUA (CFTC), API REST com auth por API key (RSA, não EIP-712/wallet
-  crypto). Modelo de conta mais parecido com uma corretora tradicional que com Polymarket. Não
-  pesquisado em detalhe ainda; existe risco de elegibilidade geográfica/KYC diferente da
-  Polymarket (verificar antes de assumir que "é só trocar a URL").
+- **Kalshi** — regulada nos EUA (CFTC), API REST nativa com auth por API key (RSA, não
+  EIP-712/wallet crypto) ainda não pesquisada em detalhe. **Mas a Jupiter Prediction API (achada
+  na investigação do Phantom, ver acima) já expõe `provider=kalshi` na mesma API usada pra
+  Polymarket** — pode cobrir o caso de uso sem precisar da integração nativa Kalshi de imediato.
+  Existe risco de elegibilidade geográfica diferente em qualquer uma das rotas (verificar antes
+  de assumir que "é só trocar a URL").
 - **Binance-como-corretora** (diferente de Binance-como-feed, já coberto): precisa de API
   key+secret HMAC, é ordem real de spot/futures com capital de verdade — nenhuma hipótese deste
   repo até hoje justificou isso (H1/H3/T4 usam Binance só como sinal, nunca como onde executar).
   Ficaria um `BinanceExecutionVenue(ExecutionVenue)` separado do `BinanceVenue` atual.
-- **"Phantom"** — Phantom é carteira (Solana), não é uma venue/corretora em si (equivalente
-  Solana do MetaMask). Preciso saber qual **plataforma** Solana especificamente vocês querem
-  (mercado de previsão Solana-nativo? DEX via Jupiter? outra coisa?) antes de desenhar um
-  adapter — "Phantom" sozinho não define uma API pra integrar.
+- **"Phantom"** — respondido em 2026-07-02 (ver `docs/phantom_ecosystem_findings.md`). Phantom em
+  si (MCP/CLI oficiais) só automatiza **perps na Hyperliquid**, não prediction markets. Mas o
+  ecossistema Solana ao redor tem duas rotas de verdade pra prediction market, achadas nessa
+  investigação: **World** (app de prediction market embutido no próprio Phantom desde 01/06/2026,
+  sem API pública encontrada ainda) e **Jupiter Prediction API** (`api.jup.ag/prediction/v1`,
+  documentada, agrega liquidez de **Polymarket E Kalshi** na mesma API, paga em USDC/JupUSD via
+  carteira Solana/Phantom). Jupiter é a rota acionável agora — ver `venues/jupiter_prediction.py`
+  (esqueleto, ainda não testado, precisa de API key).
 
 **Recomendação:** não escalar pra nenhuma das três até uma hipótese (PA5 ou outra) provar edge
 real — mesma lógica do `docs/state_of_research.md`: arquitetura sem sinal validado pra explorar
