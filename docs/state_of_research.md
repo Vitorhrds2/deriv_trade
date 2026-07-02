@@ -43,25 +43,47 @@ co-locado) já fechou essa pergunta com muito mais rigor (profundidade executáv
 teste barato em Tóquio) do que o shadow A/B do bot consegue com seu N pequeno e sem co-locação.
 Ver "Estado ao vivo — Shadow A/B do hft_bot" abaixo para o estado atual dele.
 
-## Estado ao vivo — Shadow A/B do hft_bot (checado 2026-07-02 ~11:30 UTC)
+## Estado ao vivo — Shadow A/B do hft_bot (checado 2026-07-02 ~13:56 UTC — veredito fechado)
 
 - **Código de Shadow A/B (`SHADOW_AB_ANTI_PROB`, `Grupo: ALIGNED/ANTI`) está deployado no servidor**
   (`hft_arbitrage_bot.py` ao vivo no EC2), mas **zero trade fechou desde que esse código entrou** —
   0 ALIGNED, 0 ANTI registrados até agora. Números antigos ("32 ALIGNED / 0 ANTI") são de ANTES
   desse deploy e não refletem mais o estado atual.
-- **Seca de gatilho de 24h+**: último `GATILHO ACIONADO` em `2026-07-01 10:59:36 UTC`. Zero
-  gatilhos e zero diagnóstico `👀` desde então, atravessando 3 restarts (queda de WS) e uma janela
-  inteira de golden hour (01/07 12h-18h UTC).
-- **Causa raiz descartada como bug**: rodado `passive_trigger_probe.py` (read-only, sem tocar no
-  bot em produção) por 90s ao vivo — Binance (~120 updates/s), Coinbase, Kraken e Deriv tick feed
-  todos conectados e atualizando; índice sintético calculando valores plausíveis (~$61.2k). Só 1
-  choque ≥$5 formado em 90s, nenhum ≥$45 (o threshold do bot). **Feeds saudáveis; mercado
-  genuinamente quieto perto desse patamar de preço**, consistente com o padrão histórico do log
-  (gatilhos vêm em rajadas — ex.: 10 gatilhos em 6min no dia 01/07 — intercaladas por longos
-  períodos quietos, não taxa constante).
-- **Próximo teste barato:** golden hour (12h-18h UTC) é o checkpoint natural — se gatilhos voltarem
-  quando a liquidez sobe, confirma sazonalidade; se a seca persistir também em golden hour, aí sim
-  investigar mais fundo (não foi feito ainda).
+- **Seca de gatilho de 24h+**: último `GATILHO ACIONADO` real em `2026-07-01 13:59:36 UTC` (log
+  mostra `10:59:36` em GMT-3). Zero gatilhos desde então, atravessando 3 restarts (queda de WS —
+  todos por `Authenticated WebSocket died! Crashing bot to force restart...`, comportamento
+  intencional do supervisor, não um bug novo) e a janela inteira de golden hour de 01/07.
+- **Rajada de `👀 falhou no gate de timing` (40x às 09:30:07 UTC de hoje) era 1 evento só, não 40
+  independentes** — todos os 40 logs caem numa janela de 55ms reais (mesmo `t_0`/`t_next_tick`),
+  amostra ruim pra julgar o gate.
+- **Teste decisivo — `passive_trigger_probe.py` rodado 1h inteira dentro da golden hour de hoje
+  (12:56-13:56 UTC), contagem debounced (1 evento por janela de 50ms) e independente do bot em
+  produção:**
+
+  | threshold | formed (1h) | timing_eligible | taxa elegibilidade |
+  |---|---|---|---|
+  | ≥$5 | 867 | 268 | 30.9% |
+  | ≥$10 | 163 | 57 | 35.0% |
+  | ≥$15 | 49 | 16 | 32.7% |
+  | ≥$30 | 6 | 2 | 33.3% |
+  | ≥$45 (threshold real do bot) | **0** | 0 | n/a |
+
+  **Veredito: gate de timing NÃO está quebrado.** Taxa de elegibilidade fica constante em ~31-35%
+  em toda a faixa de thresholds testada — exatamente o previsto pela matemática do gate assumindo
+  fase aleatória do choque em relação ao tick de 1Hz da Deriv (~34% teórico com
+  `L_DERIV=0.350`/`DERIV_LAG=0.690`). Se o gate estivesse estruturalmente quebrado (ex.: suposição
+  errada do período do tick), essa taxa cairia a ~0% em todos os thresholds, não ficaria estável.
+  **A causa real da seca é frequência**: decaimento suave e monotônico de 867/h (≥$5) para 0/h
+  (≥$45) — mercado genuinamente quieto nesse patamar de choque combinado, não falha de
+  instrumentação nem gate mal calibrado.
+- **Implicação para ação:** baixar `PRICE_SHOCK_THRESHOLD` aumentaria a frequência de disparo (ex.:
+  ~6/h em $30, ~49/h em $15) mas **pioraria o EV**, não melhoraria — H1 (`docs/h1_momentum_report.md`)
+  já mostrou que choques menores têm sinal bruto ainda mais fraco, e o próprio `hft_bot` já é a
+  configuração testada com pior EV de 6 no audit (item 10 acima). Não há ajuste de parâmetro que
+  transforme isso em edge positivo; o veredito de H3/item 10 já fecha essa frente.
+- **Conclusão:** pergunta original (bug de filtro vs. mercado quieto) **respondida com dado de 1h,
+  golden hour, gate saudável**: é mercado quieto. Não investigar mais o timing gate — não é aqui
+  que está o problema.
 
 ## Proposto, nunca testado
 
@@ -156,6 +178,22 @@ credenciais/instâncias — o que segue vem só da leitura do código/docs no re
   de edge no A/B sintético, parsing de horizonte, e consolidação de múltiplas janelas.
 - Nenhum dado local encontrado (`data/pa5/*.jsonl` não existe neste checkout) — a única evidência
   real (1 janela, 25 trades) está no servidor AWS efêmero do Carlos.
+
+**Coleta independente iniciada por este autor (2026-07-02 13:22 UTC)** — em vez de esperar acesso
+à AWS do Carlos, subi `pa5_collector.py`/`polymarket_lag_probe.py`/`polymarket_arb_stats.py` (só
+stdlib, sem credenciais) direto no EC2 compartilhado do `hft_bot`, `tmux pa5_collector`, `--hours
+48`, sem tocar em nada do bot em produção. Roda até 2026-07-04 13:22 UTC; `data/pa5/summary.json`
+reconsolida a cada janela fechada.
+- **Checkpoint após 7 janelas (33min):** `aligned` n=21 WR=81.0% pnl_médio=-$0.069 total=-$1.44 |
+  `anti` n=36 WR=16.7% pnl_médio=+$0.059 total=+$2.12 | `aligned-anti`=-$0.128/trade, IC95%
+  [-0.276,+0.007] → `cruza_zero`. N ainda abaixo de 30/grupo (aligned) — não é veredito.
+- **Padrão preliminar notável:** `aligned` acerta MUITO mais (81% vs 17%) — confirma que o sinal de
+  momentum de curtíssimo prazo é real (o lado que já se moveu na Binance tende a fechar assim) —
+  mas o PnL médio de `aligned` é **negativo**, porque comprar o lado favorito já custa perto de
+  `ask≈1`. É o mesmo padrão sub-custo de H1/H3 (sinal real, custo de entrada já embutido no preço)
+  — oposto do que a tese PA5 preveria se o livro estivesse realmente "stale". Ainda cedo pra
+  descartar (N pequeno, sem IC fechado), mas é o primeiro sinal na direção contrária à tese.
+  Reavaliar quando `windows_collected` for grande o suficiente pra N≥30 nos dois grupos.
 
 ### 3. `feat/operate-demo-synthetic` (branch **não mergeada**, commits de HOJE 2026-07-02)
 - **Mexe diretamente em `trading-engine/hft_arbitrage_bot.py`** (o mesmo arquivo rodando ao vivo
