@@ -39,6 +39,13 @@ from venues import get_venue, list_venues
 GAMMA = "https://gamma-api.polymarket.com"
 UA = {"User-Agent": "multi-venue-orchestrator/1.0 (research; read-only)"}
 
+# Achado empirico (2026-07-02): a 1a janela testada so casou com a Jupiter pq foi olhada
+# 8min38s DEPOIS dela ja ter aberto na Polymarket (deu tempo da Jupiter indexar); toda janela
+# seguinte e olhada ~no instante em que abre (next_window() e chamado assim que a anterior
+# fecha) e a busca original so tentava UMA VEZ -- ou seja, praticamente garantido nao achar
+# nada exceto por sorte de timing. Retry periodico cobre o lag de indexacao do lado da Jupiter.
+JUP_RETRY_INTERVAL_S = 30.0
+
 
 def _get(url: str, timeout: int = 10) -> dict:
     with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=timeout) as r:
@@ -172,16 +179,33 @@ async def run_window(args, binance, polymarket, jupiter, all_rows: list, out_fh)
 
     up_token = tokens[0]
 
-    jup_market = find_jupiter_market_for_slug(jupiter, slug)
-    jup_market_id = jup_market.get("marketId") if jup_market else None
+    jup_market_id = None
+    jup_attempts = 0
+    jup_last_try_ts = 0.0
+
+    def try_find_jupiter():
+        nonlocal jup_market_id, jup_attempts, jup_last_try_ts
+        jup_attempts += 1
+        jup_last_try_ts = time.time()
+        jup_market = find_jupiter_market_for_slug(jupiter, slug)
+        jup_market_id = jup_market.get("marketId") if jup_market else None
+
+    try_find_jupiter()
     if jup_market_id is None:
         print(f"AVISO: slug '{slug}' nao encontrado nos eventos da Jupiter agora -- "
-              f"comparacao Polymarket-vs-Jupiter fica sem dado nesta janela.", flush=True)
+              f"tentando de novo a cada {JUP_RETRY_INTERVAL_S:.0f}s durante a janela "
+              f"(lag de indexacao conhecido do lado da Jupiter).", flush=True)
     else:
         print(f"Market Jupiter equivalente: marketId={jup_market_id}", flush=True)
 
     end_time = min(time.time() + args.duration_s, end_dt.timestamp())
     while time.time() < end_time:
+        if jup_market_id is None and (time.time() - jup_last_try_ts) >= JUP_RETRY_INTERVAL_S:
+            try_find_jupiter()
+            if jup_market_id is not None:
+                print(f"Market Jupiter equivalente encontrado apos {jup_attempts} tentativas: "
+                      f"marketId={jup_market_id}", flush=True)
+
         row = {"ts": now_iso(), "slug": slug}
 
         try:
