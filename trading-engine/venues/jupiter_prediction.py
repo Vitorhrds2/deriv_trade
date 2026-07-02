@@ -2,23 +2,21 @@
 numa API so, paga em USDC/JupUSD via carteira Solana (Phantom serve). Ver
 docs/phantom_ecosystem_findings.md pro levantamento completo.
 
-STATUS: PARCIALMENTE VALIDADO AO VIVO (2026-07-02, com JUPITER_API_KEY real do usuario).
-- `list_events()` (GET /events): OK, 100% confiavel nos testes -- retorna eventos reais
-  (ex.: "What price will Bitcoin hit in July?") com `pricing` ja embutido por market (nao
-  precisa de chamada extra pra ter buy/sell Yes/No em USD de cada market da lista).
-- `get_market()`/`get_price()` (GET /markets/{id}): INSTAVEL -- funcionou 1x, travou (timeout,
-  sem resposta nenhuma) nas 3 tentativas seguintes, reproduzido via curl E via Python (ou seja,
-  nao e bug de client/urllib). Root cause nao confirmada (rate-limit mais agressivo nessa rota
-  especifica? bug no backend deles?). `_get()` agora propaga isso como `JupiterAPIError` (antes
-  vazava um TimeoutError cru). Se for usar `get_price` em producao, considerar extrair o
-  `pricing` direto do resultado de `list_events()` em vez de bater em `/markets/{id}` por
-  market -- mais barato (1 call cobre N markets) e evita a rota flaky. Nao implementei esse
-  fallback automatico ainda por nao ter confirmado se a instabilidade e persistente ou so um
-  efeito do proprio teste (varias chamadas seguidas em poucos minutos). Detalhes completos em
-  docs/phantom_ecosystem_findings.md.
+STATUS: VALIDADO AO VIVO (2026-07-02, com JUPITER_API_KEY real do usuario) -- COM RESSALVA DE
+CONFIABILIDADE.
+- Autenticacao e dados: OK. `list_events()` (GET /events) retorna eventos/markets reais
+  (ex.: "What price will Bitcoin hit in July?") com `pricing` ja embutido por market.
 - Fix aplicado: `urllib` manda `User-Agent: Python-urllib/x.y` por padrao, que o WAF (Cloudflare)
   na frente da api.jup.ag barra com 403 "error code: 1010" mesmo com key valida -- `_get()` agora
   manda um User-Agent explicito.
+- **A API tem falha intermitente real** (timeout sem resposta), pior em GET /markets/{id}
+  (~40% em 7 tentativas) mas tambem observada em GET /events (1/6, e uma vez com falha nas 3
+  tentativas seguidas mesmo com retry+backoff -- ou seja, existem janelas de instabilidade mais
+  amplas, nao so glitches isolados por request). Mitigacoes aplicadas em `_get()`: retry
+  automatico (3 tentativas, backoff 1.5s) + `get_market()` cai pra varrer `list_events()` se
+  `/markets/{id}` direto falhar. Isso reduz mas NAO elimina falhas -- callers devem tratar
+  `JupiterAPIError` como esperado (`stream()` ja faz isso via `except Exception: continue` por
+  symbol/ciclo). Detalhes e numeros completos em docs/phantom_ecosystem_findings.md.
 
 So implementa a camada de LEITURA (PriceFeedVenue) de proposito: executar ordem de verdade exige
 assinar transacao Solana (chave privada da carteira), o que e uma decisao separada -- ver
@@ -66,7 +64,7 @@ class JupiterPredictionVenue(PriceFeedVenue):
         self.api_key = api_key or os.getenv("JUPITER_API_KEY")
         self.poll_interval_s = poll_interval_s
 
-    def _get(self, path: str, params: Optional[dict] = None, timeout: int = 10) -> dict:
+    def _get(self, path: str, params: Optional[dict] = None, timeout: int = 10, retries: int = 2) -> dict:
         if not self.api_key:
             raise JupiterAuthError("JUPITER_API_KEY nao configurada (nem passada explicitamente)")
         url = f"{BASE_URL}{path}"
@@ -83,13 +81,23 @@ class JupiterPredictionVenue(PriceFeedVenue):
                 "Accept": "application/json",
             },
         )
-        try:
-            with urllib.request.urlopen(req, timeout=timeout) as r:
-                return json.loads(r.read().decode("utf-8"))
-        except urllib.error.HTTPError as e:
-            raise JupiterAuthError(f"Jupiter API retornou {e.code}: {e.read().decode('utf-8', 'ignore')}") from e
-        except (TimeoutError, urllib.error.URLError) as e:
-            raise JupiterAPIError(f"Jupiter API sem resposta em {timeout}s pra {path}: {e}") from e
+        # Retry com backoff curto: confirmado ao vivo que a api.jup.ag tem falha intermitente
+        # (timeout sem resposta) em QUALQUER rota, nao so /markets/{id} -- /events tambem
+        # falhou 1x em 6 tentativas no teste. Nao e rate-limit por sequencia (retestado com
+        # espera de 2-3s, falhou igual), parece infra/CDN instavel em alguns edges.
+        last_err = None
+        for attempt in range(retries + 1):
+            try:
+                with urllib.request.urlopen(req, timeout=timeout) as r:
+                    return json.loads(r.read().decode("utf-8"))
+            except urllib.error.HTTPError as e:
+                raise JupiterAuthError(f"Jupiter API retornou {e.code}: {e.read().decode('utf-8', 'ignore')}") from e
+            except (TimeoutError, urllib.error.URLError) as e:
+                last_err = e
+                if attempt < retries:
+                    time.sleep(1.5)
+                    continue
+        raise JupiterAPIError(f"Jupiter API sem resposta em {timeout}s pra {path} (apos {retries + 1} tentativas): {last_err}") from last_err
 
     async def connect(self) -> None:
         return None
@@ -106,8 +114,35 @@ class JupiterPredictionVenue(PriceFeedVenue):
         return data.get("data", data) if isinstance(data, dict) else data
 
     def get_market(self, market_id: str) -> dict:
-        data = self._get(f"/markets/{market_id}")
-        return data.get("data", data) if isinstance(data, dict) else data
+        """GET /markets/{id} -- confirmado ao vivo como intermitente (~40% falha em 7
+        tentativas, curl E Python, com e sem espera entre chamadas -- nao e rate-limit por
+        timing, parece infra/CDN inconsistente so nessa rota especifica). /events nunca falhou
+        nos mesmos testes e ja traz pricing embutido por market, entao usamos como fallback
+        automatico em vez de propagar o timeout pro caller."""
+        try:
+            data = self._get(f"/markets/{market_id}")
+            return data.get("data", data) if isinstance(data, dict) else data
+        except JupiterAPIError:
+            return self._find_market_via_events(market_id)
+
+    def _find_market_via_events(self, market_id: str, category: str = "crypto") -> dict:
+        """Fallback do get_market: varre /events (default 'crypto', unico category testado
+        neste projeto) procurando o marketId. Tenta os dois providers conhecidos."""
+        for provider in ("polymarket", "kalshi"):
+            try:
+                events = self.list_events(category=category, provider=provider)
+            except JupiterAuthError:
+                raise
+            except Exception:
+                continue
+            for ev in events:
+                for m in ev.get("markets", []):
+                    if m.get("marketId") == market_id:
+                        return m
+        raise JupiterAPIError(
+            f"market {market_id} nao encontrado via fallback /events (category={category}) "
+            "-- /markets/{id} direto tambem falhou"
+        )
 
     async def get_price(self, symbol: str) -> float:
         """symbol aqui = marketId. Retorna buyYesPriceUsd convertido de micro-USD pra USD."""

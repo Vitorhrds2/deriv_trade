@@ -90,21 +90,35 @@ corrigidos**:
    `User-Agent` explícito em `venues/jupiter_prediction.py::_get()`. Depois do fix, `list_events()`
    passou a retornar dados reais (10 eventos, ex. *"What price will Bitcoin hit in July?"*, com
    `pricing` já embutido por market).
-2. **`GET /markets/{id}` instável** — funcionou 1x, depois travou (timeout puro, sem resposta)
-   em 3 tentativas seguidas, reproduzido tanto via `curl` isolado quanto via Python — ou seja,
-   **não é bug de client**, é a rota específica se comportando de forma inconsistente no lado da
-   Jupiter (rate-limit mais agressivo nela, ou instabilidade real do backend — não deu pra
-   confirmar qual). Como `/events` **já traz `pricing` embutido em cada market** (não precisa de
-   uma chamada por market), a recomendação registrada no código é: pra polling de preço em
-   produção, preferir extrair de `list_events()` em vez de `get_market()`/`get_price()`
-   individual — mais barato E evita a rota flaky. Não implementei esse fallback automático agora
-   (instabilidade não confirmada como persistente, evitando engenharia prematura) — só
-   documentado como próximo passo se `stream()` for usado de verdade.
+2. **`GET /markets/{id}` instável** — medido em 7 tentativas ao vivo (misturando curl isolado,
+   Python, com e sem espera de 2-3s entre chamadas): **3 sucessos / 4 timeouts** (~40% falha).
+   Descarta rate-limit por sequência (esperar não ajudou) e client (curl falhou igual ao
+   Python) — parece infraestrutura/CDN inconsistente especificamente nessa rota.
 
-**Conclusão prática:** adapter **parcialmente validado ao vivo** — leitura de eventos/mercados
-(`list_events`) funciona 100% com dados reais da Polymarket via Jupiter. Preço por-market
-individual (`get_price`/`get_market`) funciona mas com confiabilidade a confirmar; usar via
-`list_events` é o caminho mais robusto por ora.
+## Round 3 — retestado depois de mais tempo: instabilidade é real e mais ampla que só `/markets/{id}`
+
+Retestando mais tarde: `/markets/{id}` isolado voltou a funcionar 2/2 (confirma que é
+intermitente, não permanentemente quebrado). Mas rodando o script completo mais vezes,
+**`/events` também falhou** — 1 vez sozinho, e uma vez com **timeout nas 3 tentativas seguidas
+mesmo com retry automático e 1.5s de backoff entre elas** (~33s de tentativas, todas sem
+resposta). Ou seja: a instabilidade não é exclusiva de `/markets/{id}` nem puramente por
+sequência de chamadas — parecem existir **janelas de instabilidade mais amplas** na API/CDN da
+Jupiter (afetando qualquer rota por alguns segundos/minutos, depois voltando ao normal), não
+apenas glitches isolados por request individual.
+
+**Mitigações implementadas em `venues/jupiter_prediction.py`:**
+- `_get()`: retry automático (3 tentativas, 1.5s de backoff) antes de desistir.
+- `get_market()`: se `/markets/{id}` falhar mesmo após os retries, cai automaticamente para
+  varrer `list_events()` (que já traz `pricing` embutido) — transparente pro caller,
+  `get_price()` não precisou mudar.
+- Isso **reduz mas não elimina** falhas — durante uma janela de instabilidade mais ampla, mesmo
+  a rota de fallback pode falhar. `stream()` já tolera isso bem (`except Exception: continue`
+  por symbol/ciclo — uma falha pontual não trava o loop, só pula aquele símbolo naquele ciclo).
+
+**Conclusão prática:** adapter **validado ao vivo com dados reais** — autenticação, formato de
+dados e lógica de extração de preço estão corretos. A API em si (não o código daqui) tem uma
+taxa de falha intermitente não-trivial que qualquer uso em produção precisa aceitar e tratar
+como esperado (retry + skip-and-continue), não como bug a "resolver" de vez.
 
 **Nota de segurança:** durante o diagnóstico um `curl -v` chegou a ecoar a API key completa no
 output de debug (comportamento normal do `-v`, mas potencialmente sensível) — o arquivo temporário
@@ -119,9 +133,10 @@ ficará em nenhum commit.
   markets** — mesma cobertura de mercado da Polymarket (CLOB/EIP-712 direto está de fato inviável
   a partir do Brasil, ver `docs/polymarket_dev_reference.md`), potencialmente cobre Kalshi de
   graça, usa carteira Solana (Phantom) em vez de Polygon/MetaMask, e **não bloqueia Brasil**.
-- **Status atual: `list_events()` validado ao vivo com dados reais** (`venues/jupiter_prediction.py`,
-  commit pendente). Falta: (a) confirmar se a instabilidade do `/markets/{id}` é persistente ou
-  transitória (retestar mais espaçado no tempo), (b) decidir se vale implementar o fallback via
-  `list_events()` pra `get_price`, (c) camada de execução (`ExecutionVenue`, assinatura de
-  transação Solana) — ainda não iniciada, é uma decisão separada e precisa da wallet/chave
-  privada Solana (mesma ressalva de segurança já aplicada à Polymarket).
+- **Status atual: camada de leitura (`PriceFeedVenue`) validada ao vivo e com resiliência
+  básica** (`venues/jupiter_prediction.py` — retry+backoff e fallback `/markets/{id}` →
+  `/events`, ver Round 3 acima). Falta: (a) rodar por um período mais longo (horas, não
+  minutos) pra medir a taxa de falha real em produção — a amostra atual é pequena (~15
+  requests); (b) camada de execução (`ExecutionVenue`, assinatura de transação Solana) — ainda
+  não iniciada, é uma decisão separada e precisa da wallet/chave privada Solana (mesma ressalva
+  de segurança já aplicada à Polymarket).
