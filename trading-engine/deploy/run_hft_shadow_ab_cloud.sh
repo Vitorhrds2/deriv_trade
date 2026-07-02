@@ -44,12 +44,20 @@ start_process \
   logs/hft_shadow_ab.stderr.log \
   .venv/bin/python3 hft_arbitrage_bot.py
 
-start_process \
-  cloud_shadow_discord_monitor \
-  logs/cloud_shadow_discord_monitor.pid \
-  logs/cloud_shadow_discord_monitor.stdout.log \
-  logs/cloud_shadow_discord_monitor.stderr.log \
-  .venv/bin/python3 cloud_shadow_discord_monitor.py
+export START_DISCORD_MONITOR="${START_DISCORD_MONITOR:-0}"
+
+if [ "$START_DISCORD_MONITOR" = "1" ]; then
+  start_process \
+    cloud_shadow_discord_monitor \
+    logs/cloud_shadow_discord_monitor.pid \
+    logs/cloud_shadow_discord_monitor.stdout.log \
+    logs/cloud_shadow_discord_monitor.stderr.log \
+    .venv/bin/python3 cloud_shadow_discord_monitor.py
+else
+  echo "cloud_shadow_discord_monitor=disabled"
+fi
 
 echo "bot_pid=$(cat logs/hft_shadow_ab.pid)"
-echo "monitor_pid=$(cat logs/cloud_shadow_discord_monitor.pid)"
+if [ -f logs/cloud_shadow_discord_monitor.pid ]; then
+  echo "monitor_pid=$(cat logs/cloud_shadow_discord_monitor.pid)"
+fi
