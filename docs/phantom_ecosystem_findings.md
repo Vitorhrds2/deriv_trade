@@ -71,6 +71,32 @@ investigação:**
   notional) — mesma categoria de "custo pode comer o sinal" que já matou H1/H3/T4 e o hft_bot.
   Precisa entrar em qualquer cálculo de EV antes de cogitar operar.
 
+## Teste ao vivo (2026-07-02, `JUPITER_API_KEY` configurada)
+
+Resultado **inconclusivo, não é bug no adapter**. Diagnóstico feito via curl direto (isolando
+Python/código):
+
+| Chamada | Resultado |
+|---|---|
+| `api.jup.ag/` (raiz do domínio) | `404` em 0.05s — domínio saudável, resposta rápida |
+| `api.jup.ag/prediction/v1` (sem subpath) | `404` em 0.2s — rota base existe |
+| `.../prediction/v1/events` **sem** header de auth | timeout (10s, `STATUS:000`) |
+| `.../prediction/v1/events` com key **inválida de propósito** | `401` limpo em 0.04s |
+| `.../prediction/v1/events` com a **key real do usuário** | timeout (15-30s, `STATUS:000`) — 3 tentativas |
+| `status.jup.ag` | banner "All services are online" (sem outage geral declarado) |
+
+Key real confirmada com formato/tamanho normais (36 chars, formato UUID, sem aspas/espaço
+sobrando no `.env` — comparado byte-a-byte trimmed vs. raw, idêntico). O padrão estranho: uma
+key **claramente inválida** recebe rejeição rápida (401), mas a key real trava exatamente como
+"sem key nenhuma" — sugere que o problema está do lado da conta/key no backend da Jupiter (key
+ainda não ativada, precisa de algum passo extra no portal tipo escolher plano/tier, ou
+propagação/cache que ainda não pegou), não um erro de rede, geoblock, ou código daqui.
+
+**Ação sugerida pro usuário** (não consigo ver o portal por vocês): conferir no
+`developers.jup.ag/portal` se a key aparece como ativa, se falta selecionar algum plano/tier
+gratuito, ou gerar uma key nova. Evitei bater repetidamente na key real pra não gastar rate
+limit à toa — só retestar depois de checar o portal.
+
 ## Recomendação
 
 - **Não vale a pena perseguir "Phantom nativo" nem "World"** agora — o primeiro é só perps

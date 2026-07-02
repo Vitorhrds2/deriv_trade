@@ -41,15 +41,34 @@ pública** — é por isso que não precisou de nenhuma credencial nem carteira.
 
 ## Restrições geográficas
 
-Bloqueio por país segue sanções OFAC + restrições regulatórias adicionais (lista completa não
-veio em texto simples na doc — é uma tabela interativa). **Checar elegibilidade antes de criar
-conta**, via endpoint público:
+Bloqueio por país segue sanções OFAC + restrições regulatórias adicionais. **Checar elegibilidade
+antes de criar conta**, via endpoint público:
 ```python
 import requests
 requests.get("https://polymarket.com/api/geoblock").json()
 # {"blocked": bool, "ip": ..., "country": ..., "region": ...}
 ```
 Formulário de KYC/KYB (se necessário): linkado na própria página de geoblock.
+
+**CONFIRMADO 2026-07-02: Brasil (BR) está bloqueado.** Testado ao vivo pelo usuário
+(`{"blocked": true, "country": "BR", "region": "SP"}`) e confirmado na lista oficial de
+`docs.polymarket.com/api-reference/geoblock` (BR listado como `Blocked`, não
+`close-only`/`frontend UI restricted` — ou seja, bloqueia **colocação de ordem via API**, não só
+a UI do site). Contexto: a SPA (regulador brasileiro de apostas) declarou em março/2026 que
+nenhuma plataforma de prediction market está autorizada a operar no Brasil, e o setor de apostas
+licenciado pediu formalmente o bloqueio de Polymarket/Kalshi.
+
+- **O que NÃO é afetado:** leitura de dados públicos (Gamma/CLOB/Data API) — é por isso que o
+  PA5 sempre funcionou normalmente, mesmo rodando localmente. `venues/polymarket.py` continua
+  100% válido pra pesquisa/coleta.
+- **O que É afetado:** colocação de ordem nova (trading de verdade) a partir de IP brasileiro.
+- **VPN/evasão de geoblock é proibida pelos Termos de Serviço da Polymarket** e arrisca ação
+  na conta (banimento) — não é um caminho recomendado nem algo que devo ajudar a implementar.
+  Enforcement usa múltiplos sinais (IP + metadados de conta/wallet), não só IP da requisição.
+- **Implicação prática:** trading real via Polymarket direta não é viável a partir do Brasil
+  sem violar os Termos. A rota Jupiter Prediction API (ver
+  `docs/phantom_ecosystem_findings.md`) não bloqueia Brasil — vira o caminho mais realista pra
+  execução, se/quando uma hipótese justificar operar de verdade.
 
 ## O que É preciso pra criar a conta (ação humana, fora do escopo do agente)
 
