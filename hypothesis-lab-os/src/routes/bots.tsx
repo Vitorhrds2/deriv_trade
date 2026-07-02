@@ -107,7 +107,7 @@ function BotsPage() {
               )}
             </div>
 
-            <div className="grid grid-cols-3 gap-3 text-xs">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
               <div className="rounded border p-3">
                 <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
                   total (n)
@@ -130,6 +130,16 @@ function BotsPage() {
                   className={`mt-1 font-mono ${trades && trades.total.pnlTotal < 0 ? "text-neg" : "text-muted-foreground"}`}
                 >
                   {trades ? fmtMoney(trades.total.pnlTotal) : "—"}
+                </div>
+              </div>
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  downtime golden hour (hoje)
+                </Mono>
+                <div
+                  className={`mt-1 font-mono ${status && status.goldenHourDowntime.secondsToday > 0 ? "text-warning" : "text-muted-foreground"}`}
+                >
+                  {status ? `${Math.round(status.goldenHourDowntime.secondsToday)}s` : "—"}
                 </div>
               </div>
             </div>

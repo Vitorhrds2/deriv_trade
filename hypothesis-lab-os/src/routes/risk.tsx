@@ -52,7 +52,7 @@ function RiskPage() {
         }
       />
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
         <Stat label="Stake configurado" value="$10.00" hint="fixo, por trade" />
         <Stat
           label="PnL acumulado"
@@ -64,6 +64,13 @@ function RiskPage() {
           label="hft_bot"
           value={statusQuery.isLoading ? "…" : isLive ? "ao vivo" : "offline"}
           tone={statusQuery.isLoading ? "neutral" : isLive ? "pos" : "neg"}
+        />
+        <Stat
+          label="Downtime golden hour (hoje)"
+          value={status ? `${Math.round(status.goldenHourDowntime.secondsToday)}s` : "—"}
+          tone={status && status.goldenHourDowntime.secondsToday > 0 ? "neg" : "neutral"}
+          delta={status ? `${status.goldenHourDowntime.eventsToday} evento(s)` : undefined}
+          hint={status ? `total: ${Math.round(status.goldenHourDowntime.secondsTotal)}s` : undefined}
         />
       </div>
 

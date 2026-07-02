@@ -23,6 +23,20 @@ async function fetchJson<T>(path: string, timeoutMs = 4000): Promise<T> {
   }
 }
 
+export interface GoldenHourDowntime {
+  secondsToday: number;
+  eventsToday: number;
+  secondsTotal: number;
+  eventsTotal: number;
+}
+
+const EMPTY_DOWNTIME: GoldenHourDowntime = {
+  secondsToday: 0,
+  eventsToday: 0,
+  secondsTotal: 0,
+  eventsTotal: 0,
+};
+
 export interface HftStatus {
   connected: boolean;
   tmuxSessionAlive: boolean;
@@ -30,6 +44,7 @@ export interface HftStatus {
   logStale: boolean;
   lastErrorLine: string | null;
   recentLogLines: string[];
+  goldenHourDowntime: GoldenHourDowntime;
   error?: string;
 }
 
@@ -42,7 +57,14 @@ export const getHftStatus = createServerFn({ method: "GET" }).handler(
         log_stale: boolean;
         last_error_line: string | null;
         recent_log_lines: string[];
+        golden_hour_downtime?: {
+          seconds_today: number | null;
+          events_today: number;
+          seconds_total: number | null;
+          events_total: number;
+        };
       }>("/api/hft/status");
+      const dt = data.golden_hour_downtime;
       return {
         connected: true,
         tmuxSessionAlive: data.tmux_session_alive,
@@ -50,6 +72,12 @@ export const getHftStatus = createServerFn({ method: "GET" }).handler(
         logStale: data.log_stale,
         lastErrorLine: data.last_error_line,
         recentLogLines: data.recent_log_lines ?? [],
+        goldenHourDowntime: {
+          secondsToday: dt?.seconds_today ?? 0,
+          eventsToday: dt?.events_today ?? 0,
+          secondsTotal: dt?.seconds_total ?? 0,
+          eventsTotal: dt?.events_total ?? 0,
+        },
       };
     } catch (e) {
       return {
@@ -59,6 +87,7 @@ export const getHftStatus = createServerFn({ method: "GET" }).handler(
         logStale: true,
         lastErrorLine: null,
         recentLogLines: [],
+        goldenHourDowntime: EMPTY_DOWNTIME,
         error: e instanceof Error ? e.message : String(e),
       };
     }
