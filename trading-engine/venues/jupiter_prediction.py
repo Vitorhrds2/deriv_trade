@@ -48,9 +48,10 @@ class JupiterAuthError(RuntimeError):
 
 class JupiterAPIError(RuntimeError):
     """Timeout/erro de conexao -- distinto de erro de auth (401/403). Visto ao vivo em
-    2026-07-02: /markets/{id} deu timeout intermitente (funcionou 1x, travou nas 3
-    tentativas seguintes, via curl E via Python, geral -- nao e bug de client) enquanto
-    /events nunca falhou. Ver docs/phantom_ecosystem_findings.md."""
+    2026-07-02: falha intermitente em QUALQUER rota (pior em /markets/{id}, ~40% em 7
+    tentativas; /events tambem falhou, 1/6 e uma vez nas 3 tentativas seguidas mesmo com
+    retry+backoff), reproduzido via curl E via Python -- nao e bug de client, parecem
+    janelas de instabilidade na infra/CDN deles. Ver docs/phantom_ecosystem_findings.md."""
     pass
 
 
@@ -114,11 +115,12 @@ class JupiterPredictionVenue(PriceFeedVenue):
         return data.get("data", data) if isinstance(data, dict) else data
 
     def get_market(self, market_id: str) -> dict:
-        """GET /markets/{id} -- confirmado ao vivo como intermitente (~40% falha em 7
-        tentativas, curl E Python, com e sem espera entre chamadas -- nao e rate-limit por
-        timing, parece infra/CDN inconsistente so nessa rota especifica). /events nunca falhou
-        nos mesmos testes e ja traz pricing embutido por market, entao usamos como fallback
-        automatico em vez de propagar o timeout pro caller."""
+        """GET /markets/{id} -- confirmado ao vivo como a rota mais instavel (~40% falha em
+        7 tentativas, curl E Python, com e sem espera entre chamadas -- nao e rate-limit por
+        timing, parece infra/CDN inconsistente). /events falha bem menos nos mesmos testes
+        (~1/6) e ja traz pricing embutido por market, entao usamos como fallback automatico
+        em vez de propagar o timeout pro caller -- mas nao e uma garantia absoluta (ver
+        JupiterAPIError)."""
         try:
             data = self._get(f"/markets/{market_id}")
             return data.get("data", data) if isinstance(data, dict) else data
