@@ -223,7 +223,7 @@ class DemoTickStrategy:
         self.log_event("settlement_timeout", trade_no=trade_no, contract_id=contract_id)
 
     async def run(self):
-        load_dotenv()
+        load_dotenv(".env", override=True)
         self.client = DerivClient(
             app_id=os.getenv("DERIV_APP_ID"),
             api_token=os.getenv("DERIV_API_TOKEN"),

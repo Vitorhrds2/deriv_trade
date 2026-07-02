@@ -11,3 +11,5 @@ __pycache__/
 # Dados de tick e logs de runtime do recorder (grandes, regeraveis, nao versionar)
 trading-engine/data/
 trading-engine/logs/
+trading-engine/*.log
+trading-engine/*_trades.jsonl
