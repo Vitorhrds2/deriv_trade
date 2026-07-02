@@ -2,6 +2,23 @@
 Solana localmente, submete pra rede. Estende JupiterPredictionVenue (reusa list_events/
 get_market/get_price/stream de leitura), adicionando o que precisa de carteira/assinatura.
 
+STATUS (2026-07-02): mecanica de assinatura e o pipeline de /orders validados, EXECUCAO REAL
+AINDA NAO TESTADA (carteira do usuario sem saldo).
+- sign_transaction() validado com tx sintetica (instrucao Memo) + keypair de teste: assinatura
+  bate exatamente com keypair.sign_message() chamado direto, message preservada -- mecanismo de
+  deserializar/assinar/reserializar correto.
+- get_balance() validado contra o RPC publico real (leitura, sem custo).
+- create_order()/buy() testados com SOLANA_PRIVATE_KEY real do usuario contra a API real:
+  - depositAmount abaixo de $5 -> 400 "Minimum order is $5" (limite da API, nao deste codigo).
+  - $5 com carteira zerada -> 400 "INSUFFICIENT_FUNDS" -- confirma que a Jupiter CHECA saldo
+    on-chain ANTES de devolver a tx nao assinada (nao da pra "ensaiar" sem fundos reais).
+  - Ou seja: auth, lookup de market, derivacao de ownerPubkey e encoding do valor -- tudo
+    validado ponta a ponta contra a API real. So falta saldo (~$5+ USDC + fracao de SOL pra
+    fee) pra ver uma tx REAL da Jupiter (nao sintetica) sendo assinada e (opcionalmente,
+    dry_run=False) submetida.
+- submit_transaction() (sendTransaction via RPC) e o fluxo completo com dinheiro de verdade
+  continuam NAO testados -- decisao explicita do usuario de nao depositar fundos ainda.
+
 *** DINHEIRO REAL, MAINNET. LER ANTES DE USAR: ***
 - POST /orders e POST /positions/{id}/claim devolvem uma transacao Solana NAO ASSINADA (base64).
   Este modulo assina localmente com SOLANA_PRIVATE_KEY (nunca sai da maquina, nunca vai pra
@@ -85,7 +102,10 @@ class JupiterExecutionVenue(JupiterPredictionVenue, ExecutionVenue):
         super().__init__(api_key=api_key, poll_interval_s=poll_interval_s)
         load_dotenv()
         secret = solana_private_key or os.getenv("SOLANA_PRIVATE_KEY")
-        self.rpc_url = rpc_url or os.getenv("SOLANA_RPC_URL", DEFAULT_RPC_URL)
+        # os.getenv(..., DEFAULT_RPC_URL) NAO cai no default se a var existir vazia (ex.:
+        # "SOLANA_RPC_URL=" no .env, copiado do .env.example) -- so cai se a var for ausente.
+        # Encadear com `or` cobre os dois casos (ausente OU vazia).
+        self.rpc_url = rpc_url or os.getenv("SOLANA_RPC_URL") or DEFAULT_RPC_URL
         self._keypair: Optional[Keypair] = None
         if secret:
             try:
