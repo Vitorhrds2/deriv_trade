@@ -71,41 +71,57 @@ investigação:**
   notional) — mesma categoria de "custo pode comer o sinal" que já matou H1/H3/T4 e o hft_bot.
   Precisa entrar em qualquer cálculo de EV antes de cogitar operar.
 
-## Teste ao vivo (2026-07-02, `JUPITER_API_KEY` configurada)
+## Teste ao vivo (2026-07-02) — Round 1: key antiga (36 chars, formato UUID)
 
-Resultado **inconclusivo, não é bug no adapter**. Diagnóstico feito via curl direto (isolando
-Python/código):
+Timeout consistente (3 tentativas). Key claramente inválida recebia `401` limpo e rápido, mas a
+key real travava igual a "sem key nenhuma" — apontava pra algo do lado da conta/key no backend
+da Jupiter, não rede/código. Ação sugerida ao usuário: conferir/regenerar a key no portal.
 
-| Chamada | Resultado |
-|---|---|
-| `api.jup.ag/` (raiz do domínio) | `404` em 0.05s — domínio saudável, resposta rápida |
-| `api.jup.ag/prediction/v1` (sem subpath) | `404` em 0.2s — rota base existe |
-| `.../prediction/v1/events` **sem** header de auth | timeout (10s, `STATUS:000`) |
-| `.../prediction/v1/events` com key **inválida de propósito** | `401` limpo em 0.04s |
-| `.../prediction/v1/events` com a **key real do usuário** | timeout (15-30s, `STATUS:000`) — 3 tentativas |
-| `status.jup.ag` | banner "All services are online" (sem outage geral declarado) |
+## Round 2: key nova (`jup_...`, 68 chars) — RESOLVIDO, adapter validado ao vivo
 
-Key real confirmada com formato/tamanho normais (36 chars, formato UUID, sem aspas/espaço
-sobrando no `.env` — comparado byte-a-byte trimmed vs. raw, idêntico). O padrão estranho: uma
-key **claramente inválida** recebe rejeição rápida (401), mas a key real trava exatamente como
-"sem key nenhuma" — sugere que o problema está do lado da conta/key no backend da Jupiter (key
-ainda não ativada, precisa de algum passo extra no portal tipo escolher plano/tier, ou
-propagação/cache que ainda não pegou), não um erro de rede, geoblock, ou código daqui.
+Usuário gerou uma key nova com prefixo `jup_` (formato correto — a key antiga provavelmente era
+o credencial errado copiado do portal). Diagnóstico revelou **dois problemas reais, ambos
+corrigidos**:
 
-**Ação sugerida pro usuário** (não consigo ver o portal por vocês): conferir no
-`developers.jup.ag/portal` se a key aparece como ativa, se falta selecionar algum plano/tier
-gratuito, ou gerar uma key nova. Evitei bater repetidamente na key real pra não gastar rate
-limit à toa — só retestar depois de checar o portal.
+1. **`403 Forbidden ("error code: 1010")` no adapter Python, mas curl funcionava** — `error code:
+   1010` é o código do WAF da Cloudflare pra "assinatura de browser bloqueada". O `urllib` do
+   Python manda `User-Agent: Python-urllib/3.13` por padrão, que o WAF na frente da `api.jup.ag`
+   rejeita mesmo com a key correta; `curl` passa porque manda um UA diferente. **Fix**: adicionado
+   `User-Agent` explícito em `venues/jupiter_prediction.py::_get()`. Depois do fix, `list_events()`
+   passou a retornar dados reais (10 eventos, ex. *"What price will Bitcoin hit in July?"*, com
+   `pricing` já embutido por market).
+2. **`GET /markets/{id}` instável** — funcionou 1x, depois travou (timeout puro, sem resposta)
+   em 3 tentativas seguidas, reproduzido tanto via `curl` isolado quanto via Python — ou seja,
+   **não é bug de client**, é a rota específica se comportando de forma inconsistente no lado da
+   Jupiter (rate-limit mais agressivo nela, ou instabilidade real do backend — não deu pra
+   confirmar qual). Como `/events` **já traz `pricing` embutido em cada market** (não precisa de
+   uma chamada por market), a recomendação registrada no código é: pra polling de preço em
+   produção, preferir extrair de `list_events()` em vez de `get_market()`/`get_price()`
+   individual — mais barato E evita a rota flaky. Não implementei esse fallback automático agora
+   (instabilidade não confirmada como persistente, evitando engenharia prematura) — só
+   documentado como próximo passo se `stream()` for usado de verdade.
+
+**Conclusão prática:** adapter **parcialmente validado ao vivo** — leitura de eventos/mercados
+(`list_events`) funciona 100% com dados reais da Polymarket via Jupiter. Preço por-market
+individual (`get_price`/`get_market`) funciona mas com confiabilidade a confirmar; usar via
+`list_events` é o caminho mais robusto por ora.
+
+**Nota de segurança:** durante o diagnóstico um `curl -v` chegou a ecoar a API key completa no
+output de debug (comportamento normal do `-v`, mas potencialmente sensível) — o arquivo temporário
+que continha isso foi apagado imediatamente; a key não foi exposta em nenhum arquivo do repo nem
+ficará em nenhum commit.
 
 ## Recomendação
 
 - **Não vale a pena perseguir "Phantom nativo" nem "World"** agora — o primeiro é só perps
   (direção, já refutado como classe de estratégia aqui), o segundo não tem API.
-- **Jupiter Prediction API é candidata real** a substituir a integração direta Polymarket
-  CLOB/EIP-712 planejada — mesma cobertura de mercado, potencialmente cobre Kalshi de graça, e
-  usa carteira Solana (Phantom) em vez de Polygon/MetaMask. Ação necessária pra prosseguir:
-  **conta no `developers.jup.ag/portal` pra gerar a API key** (ação do usuário, mesmo tipo de
-  limite já explicado pra Polymarket — não posso criar essa conta).
-- Esqueleto de adapter (`trading-engine/venues/jupiter_prediction.py`) já criado, **não testado**
-  (bloqueado até ter a API key). Assim que a key existir, validar `GET /events` ao vivo antes de
-  qualquer coisa — mesma disciplina usada pra validar `BinanceVenue`/`PolymarketVenue`.
+- **Jupiter Prediction API é a rota de execução mais realista pra hipóteses em prediction
+  markets** — mesma cobertura de mercado da Polymarket (CLOB/EIP-712 direto está de fato inviável
+  a partir do Brasil, ver `docs/polymarket_dev_reference.md`), potencialmente cobre Kalshi de
+  graça, usa carteira Solana (Phantom) em vez de Polygon/MetaMask, e **não bloqueia Brasil**.
+- **Status atual: `list_events()` validado ao vivo com dados reais** (`venues/jupiter_prediction.py`,
+  commit pendente). Falta: (a) confirmar se a instabilidade do `/markets/{id}` é persistente ou
+  transitória (retestar mais espaçado no tempo), (b) decidir se vale implementar o fallback via
+  `list_events()` pra `get_price`, (c) camada de execução (`ExecutionVenue`, assinatura de
+  transação Solana) — ainda não iniciada, é uma decisão separada e precisa da wallet/chave
+  privada Solana (mesma ressalva de segurança já aplicada à Polymarket).

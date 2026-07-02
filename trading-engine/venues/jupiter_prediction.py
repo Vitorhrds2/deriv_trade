@@ -2,12 +2,23 @@
 numa API so, paga em USDC/JupUSD via carteira Solana (Phantom serve). Ver
 docs/phantom_ecosystem_findings.md pro levantamento completo.
 
-STATUS: NAO TESTADO -- ao contrario de binance.py/polymarket.py (validados ao vivo), esta API
-exige `x-api-key` em TODA chamada, inclusive leitura, entao nao da pra validar sem uma key gerada
-em https://developers.jup.ag/portal (acao do usuario, mesma limitacao ja explicada pra criar
-conta na Polymarket -- nao posso gerar isso). Assim que existir JUPITER_API_KEY no ambiente,
-rodar um smoke test real (GET /events) antes de confiar em qualquer coisa aqui, mesma disciplina
-usada nos outros adapters.
+STATUS: PARCIALMENTE VALIDADO AO VIVO (2026-07-02, com JUPITER_API_KEY real do usuario).
+- `list_events()` (GET /events): OK, 100% confiavel nos testes -- retorna eventos reais
+  (ex.: "What price will Bitcoin hit in July?") com `pricing` ja embutido por market (nao
+  precisa de chamada extra pra ter buy/sell Yes/No em USD de cada market da lista).
+- `get_market()`/`get_price()` (GET /markets/{id}): INSTAVEL -- funcionou 1x, travou (timeout,
+  sem resposta nenhuma) nas 3 tentativas seguintes, reproduzido via curl E via Python (ou seja,
+  nao e bug de client/urllib). Root cause nao confirmada (rate-limit mais agressivo nessa rota
+  especifica? bug no backend deles?). `_get()` agora propaga isso como `JupiterAPIError` (antes
+  vazava um TimeoutError cru). Se for usar `get_price` em producao, considerar extrair o
+  `pricing` direto do resultado de `list_events()` em vez de bater em `/markets/{id}` por
+  market -- mais barato (1 call cobre N markets) e evita a rota flaky. Nao implementei esse
+  fallback automatico ainda por nao ter confirmado se a instabilidade e persistente ou so um
+  efeito do proprio teste (varias chamadas seguidas em poucos minutos). Detalhes completos em
+  docs/phantom_ecosystem_findings.md.
+- Fix aplicado: `urllib` manda `User-Agent: Python-urllib/x.y` por padrao, que o WAF (Cloudflare)
+  na frente da api.jup.ag barra com 403 "error code: 1010" mesmo com key valida -- `_get()` agora
+  manda um User-Agent explicito.
 
 So implementa a camada de LEITURA (PriceFeedVenue) de proposito: executar ordem de verdade exige
 assinar transacao Solana (chave privada da carteira), o que e uma decisao separada -- ver
@@ -37,6 +48,14 @@ class JupiterAuthError(RuntimeError):
     pass
 
 
+class JupiterAPIError(RuntimeError):
+    """Timeout/erro de conexao -- distinto de erro de auth (401/403). Visto ao vivo em
+    2026-07-02: /markets/{id} deu timeout intermitente (funcionou 1x, travou nas 3
+    tentativas seguintes, via curl E via Python, geral -- nao e bug de client) enquanto
+    /events nunca falhou. Ver docs/phantom_ecosystem_findings.md."""
+    pass
+
+
 @register
 class JupiterPredictionVenue(PriceFeedVenue):
     name = "jupiter_prediction"
@@ -53,12 +72,24 @@ class JupiterPredictionVenue(PriceFeedVenue):
         url = f"{BASE_URL}{path}"
         if params:
             url += "?" + urllib.parse.urlencode(params)
-        req = urllib.request.Request(url, headers={"x-api-key": self.api_key})
+        # User-Agent explicito: o default do urllib ("Python-urllib/x.y") e barrado pelo WAF
+        # do Cloudflare na frente da api.jup.ag (HTTP 403, "error code: 1010") mesmo com
+        # x-api-key valida. curl passa porque manda um UA diferente.
+        req = urllib.request.Request(
+            url,
+            headers={
+                "x-api-key": self.api_key,
+                "User-Agent": "Mozilla/5.0 (compatible; hypothesis-research-bot/1.0)",
+                "Accept": "application/json",
+            },
+        )
         try:
             with urllib.request.urlopen(req, timeout=timeout) as r:
                 return json.loads(r.read().decode("utf-8"))
         except urllib.error.HTTPError as e:
             raise JupiterAuthError(f"Jupiter API retornou {e.code}: {e.read().decode('utf-8', 'ignore')}") from e
+        except (TimeoutError, urllib.error.URLError) as e:
+            raise JupiterAPIError(f"Jupiter API sem resposta em {timeout}s pra {path}: {e}") from e
 
     async def connect(self) -> None:
         return None
