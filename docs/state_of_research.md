@@ -146,8 +146,28 @@ credenciais/instâncias — o que segue vem só da leitura do código/docs no re
   essencialmente a mesma pergunta diagnóstica** resolvida de forma independente por outro caminho
   (ferramenta externa com contadores, em vez do log inline que foi adicionado em `03db97b`).
   Convergência interessante: dois caminhos diferentes chegaram à mesma pergunta no mesmo dia.
-- `demo_tick_strategy_runner.py` — runner de estratégia em tick separado, ainda não lido em
-  detalhe.
+- **`strategy_tournament_runner.py`** (lido em detalhe 2026-07-02) — torneio SEQUENCIAL (um
+  modelo por vez, não concorrente) de **12 padrões tick-a-tick** em `1HZ100V`/`R_100`/`1HZ10V`:
+  `reversal` (fade após streak de N ticks), `trend` (segue o streak), `mean_revert` (volta pra
+  média de janela curta de 5-7 ticks). Contratos CALL/PUT de 1 tick de duração.
+  - **Gate 30→100**: promove pra fase de 100 trades só se `pnl > 0` E drawdown dentro do limite
+    saudável (12.0/30 trades); kill-switch duro em -14.0 a qualquer momento. Backlog com motivo
+    de falha (`failed_gate30_pnl_nonpositive`, `failed_gate30_drawdown`, etc.), estado 100%
+    persistido e auditável (`strategy_tournament_state.json` + `.jsonl` de eventos).
+  - **Já rodou de verdade hoje**: `seed_failed_trend_model` carrega o resultado real de
+    `JOB-20260702-003` (`trend_2tick_cooldown30`), que **falhou o gate de 30** (PnL não-positivo)
+    — é a origem dos comentários "Pivot from failed 2-tick trend-follow" nos specs dos 12 modelos.
+  - **Observação metodológica:** diferente de TODO o resto deste repositório — inclusive do
+    `synthetic_anomaly_monitor.py` do mesmo autor no mesmo dia — o critério de promoção não tem
+    margem de custo nem teste de significância estatística (sem Wilson CI, sem bootstrap, sem
+    controle nulo), só `pnl > 0` bruto em N=30. Como `jump_index_report.md` e
+    `t2_boom_crash_spike_timing_report.md` já confirmam que os sintéticos são memoryless
+    (direção 50/50, timing sem padrão), existe uma chance real de um modelo passar o gate por
+    variância pura — o mesmo padrão do falso-positivo do Accumulators (`DIGITUNDER:4` a 43.7% em
+    amostra pequena, ~40% justo em amostra grande).
+- `demo_tick_strategy_runner.py` e `tournament_dashboard.py` — ainda não lidos em detalhe (o
+  primeiro parece ser um runner mais simples/anterior ao torneio; o segundo é o dashboard do
+  commit `a1c7ee9`).
 
 **Nota de coordenação:** três frentes tocando a mesma área (`hft_bot`/shadow-AB) no mesmo dia,
 de duas pessoas diferentes, em branches não sincronizadas. Vale alinhar com o Carlos antes do
