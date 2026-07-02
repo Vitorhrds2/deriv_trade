@@ -1,52 +1,54 @@
 # Mega Brain — Hypothesis Suite Summary
 
-## boom_crash — T2: Boom/Crash SPIKE_TIMING
+Todas as 5 hipoteses registradas em `run_hypothesis_suite.py` tem veredito (ultima atualizacao:
+2026-07-02). `jump` e `vanilla` rodados nesta data; `hft_audit`, `boom_crash` e `accumulator`
+rodados em 2026-07-01 (logs preservados, resumidos abaixo).
 
-**Status:** OK (exit=0) (127s)
+## jump — Fase 2: Jump Indices spike-timing
 
-```
-  KS vs exponencial: D=0.0387  crit(0.05)~0.0882  -> NAO rejeita exp (aprox; Lilliefors seria + rigoroso)
-  P(gap>2*mediana | gap>mediana) = 49.6%  IC95% [40.3%, 59.7%]  (memoryless ~50%)
+**Status:** OK (exit=0) (44s) | **Veredito: SEM EDGE**
 
-  hazard por idade (normalizada):
-    [0.00,0.30) risco=  238 ev=  53 h=22.27%  ###########
-    [0.30,0.60) risco=  185 ev=  53 h=28.65%  ##############
-    [0.60,0.90) risco=  132 ev=  39 h=29.55%  ###############
-    [0.90,1.20) risco=   93 ev=  24 h=25.81%  #############
-    [1.20,1.50) risco=   69 ev=  14 h=20.29%  ##########
-    [1.50,1.80) risco=   55 ev=  11 h=20.00%  ##########
-    [1.80,2.10) risco=   44 ev=   9 h=20.45%  ##########
-    [2.10,2.39) risco=   35 ev=   9 h=25.71%  #############
-    [2.39,2.69) risco=   26 ev=   7 h=26.92%  #############
-    [2.69,2.99) risco=   19 ev=   7 h=36.84%  ##################
-
-  ----------------------------------------------------------------------
-  VEREDITO: MEMORYLESS nao rejeitado (k=1 dentro do IC). Sem edge de timing: P(spike) ~ taxa base independ. da idade. => T2 REFUTADA.
-==========================================================================
-```
-
-## accumulator — Fase 2: Accumulators edge scan
-
-**Status:** OK (exit=0) (12s)
+Vies de direcao sempre dentro do IC95% de 50% (amostras de 8-17 saltos por simbolo). Hazard
+rate essencialmente plano por faixa de "ticks desde o ultimo salto" em todos os 5 simbolos —
+sem "temporizador" exploravel, consistente com processo memoryless.
 
 ```
-  N=  5 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.276x | EV=$+0.0210 | EV_lo=$-0.0923
-  N=  8 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.477x | EV=$+0.0785 | EV_lo=$-0.0608
-  N= 10 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.629x | EV=$+0.0262 | EV_lo=$-0.1331
-  N= 15 ticks | sobreviveram  53/100 ( 53.0%, IC95%[ 43.3%, 62.5%]) | payout= 2.079x | EV=$+0.1018 | EV_lo=$-0.1001
-  N= 20 ticks | sobreviveram  40/100 ( 40.0%, IC95%[ 30.9%, 49.8%]) | payout= 2.653x | EV=$+0.0613 | EV_lo=$-0.1791
-  N= 30 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 4.322x | EV=$+0.0805 | EV_lo=$-0.2417
-  N= 40 ticks | sobreviveram  17/100 ( 17.0%, IC95%[ 10.9%, 25.5%]) | payout= 7.040x | EV=$+0.1968 | EV_lo=$-0.2331
-  N= 50 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout=11.467x | EV=$+0.0321 | EV_lo=$-0.4487
-
-======================================================================
-VEREDITO FINAL — 630 celulas testadas (symbol x growth_rate x N)
-======================================================================
->>> 1 candidato(s) a edge (EV_lo > 0):
-    1HZ50V g=0.02 N=2: EV_lo=$+0.0019 (P_emp=100.0%, N_amostra=100)
-
->>> PRE-REQUISITO antes de qualquer capital: confirmar com uma 2a amostra
-    independente (rodar de novo em outro momento) -- viés de multiplos testes
-    (630 celulas testadas, esperar ~31.5 falsos positivos a 5%).
+JD10: N_saltos=12 | dir_up=66.7% | gap_medio=24.9min | CV=0.62 | faixa_hazard=0.000%-0.100%
+JD25: N_saltos=16 | dir_up=62.5% | gap_medio=18.5min | CV=1.02 | faixa_hazard=0.000%-0.164%
+JD50: N_saltos=12 | dir_up=50.0% | gap_medio=27.6min | CV=0.88 | faixa_hazard=0.000%-0.139%
+JD75: N_saltos=17 | dir_up=41.2% | gap_medio=17.0min | CV=1.17 | faixa_hazard=0.000%-0.396%
+JD100: N_saltos=8 | dir_up=50.0% | gap_medio=32.5min | CV=1.54 | faixa_hazard=0.000%-0.196%
 ```
 
+## vanilla — Fase 2: Vanilla Options mispricing
+
+**Status:** OK, rodado direto sem o teto de 600s da suite (21 celulas, ~20min com reconexoes) |
+**Veredito: SEM EDGE**
+
+21 celulas testadas (CALL/PUT x barreira x duracao 15m/60m em 1HZ100V), via Monte Carlo
+driftless calibrado com 15000 ticks reais. **0/21 com EV_lo > 0.** EV medio -7.74% (min -20.4%,
+max apenas -1.24% — nunca chegou perto de cruzar zero). Precisou rodar `vanilla_edge_scan.py`
+diretamente (fora do wrapper da suite) porque o teto de 600s nao da conta da combinacao de
+Monte Carlo pesado (20k sims x ate 3600 ticks) com a instabilidade conhecida do WS demo da
+Deriv (cai a cada ~1 request). Log completo: `vanilla.log`.
+
+## accumulator — Fase 2: Accumulators edge scan (2026-07-01)
+
+**Veredito: SEM EDGE CONFIAVEL.** 630 celulas testadas (symbol x growth_rate x N). 1 unico
+candidato com EV_lo > 0 (1HZ50V g=0.02 N=2: EV_lo=+$0.0019, marginal) — o proprio log ja
+flagra o problema de multiplos testes (esperar ~31.5 falsos positivos a 5% em 630 celulas).
+**Pre-requisito antes de qualquer capital: replicar essa celula especifica numa 2a amostra
+independente.** Log completo: `accumulator.log`.
+
+## boom_crash — T2: Boom/Crash SPIKE_TIMING (2026-07-01)
+
+**Veredito: REFUTADA.** Pool de 238 gaps normalizados (10 simbolos). Weibull shape k=0.996
+(IC95%[0.906,1.103], contem k=1), KS nao rejeita exponencial, hazard rate por idade sem
+tendencia clara. Memoryless nao rejeitado — sem edge de timing. Log completo: `boom_crash.log`.
+
+## hft_audit — Fase 1: Auditoria hft_bot (2026-07-01)
+
+Amostra pequena (N=10 pos-corte V6.2, WR=10%, IC95% largo [1.79%,40.42%]) — inconclusivo por
+falta de controle nulo explicito (hft_bot so entra na direcao do choque, nunca sorteia
+'anti'). Ver `docs/hft_v62_audit_report.md` para o veredito completo e a recomendacao de
+shadow A/B ao vivo. Log completo: `hft_audit.log`.
