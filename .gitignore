@@ -7,11 +7,11 @@ __pycache__/
 *.csv
 .DS_Store
 
-<<<<<<< HEAD
 # Dados de tick e logs de runtime do recorder (grandes, regeraveis, nao versionar)
 trading-engine/data/
 trading-engine/logs/
-=======
-# Evidencia de runtime do monitor de anomalias (gerada ao vivo, nao versionar)
-trading-engine/logs/anomaly_monitor/
->>>>>>> feat/synthetic-anomaly-monitor
+
+# Output de probes/soak tests (gerado ao vivo, nao versionar)
+trading-engine/jupiter_reliability_log.jsonl
+trading-engine/jupiter_reliability_summary.json
+trading-engine/jupiter_reliability_probe.log
