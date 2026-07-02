@@ -41,7 +41,27 @@ mispricing momentâneo, book desatualizado) — filosofia diferente das 10 anter
 **Implicação direta para o `hft_bot`:** ele é a hipótese H3 rodando em produção. O item 8 (H3
 co-locado) já fechou essa pergunta com muito mais rigor (profundidade executável, A/B decisivo,
 teste barato em Tóquio) do que o shadow A/B do bot consegue com seu N pequeno e sem co-locação.
-Ver seção "Shadow A/B do hft_bot" abaixo para o estado atual dele.
+Ver "Estado ao vivo — Shadow A/B do hft_bot" abaixo para o estado atual dele.
+
+## Estado ao vivo — Shadow A/B do hft_bot (checado 2026-07-02 ~11:30 UTC)
+
+- **Código de Shadow A/B (`SHADOW_AB_ANTI_PROB`, `Grupo: ALIGNED/ANTI`) está deployado no servidor**
+  (`hft_arbitrage_bot.py` ao vivo no EC2), mas **zero trade fechou desde que esse código entrou** —
+  0 ALIGNED, 0 ANTI registrados até agora. Números antigos ("32 ALIGNED / 0 ANTI") são de ANTES
+  desse deploy e não refletem mais o estado atual.
+- **Seca de gatilho de 24h+**: último `GATILHO ACIONADO` em `2026-07-01 10:59:36 UTC`. Zero
+  gatilhos e zero diagnóstico `👀` desde então, atravessando 3 restarts (queda de WS) e uma janela
+  inteira de golden hour (01/07 12h-18h UTC).
+- **Causa raiz descartada como bug**: rodado `passive_trigger_probe.py` (read-only, sem tocar no
+  bot em produção) por 90s ao vivo — Binance (~120 updates/s), Coinbase, Kraken e Deriv tick feed
+  todos conectados e atualizando; índice sintético calculando valores plausíveis (~$61.2k). Só 1
+  choque ≥$5 formado em 90s, nenhum ≥$45 (o threshold do bot). **Feeds saudáveis; mercado
+  genuinamente quieto perto desse patamar de preço**, consistente com o padrão histórico do log
+  (gatilhos vêm em rajadas — ex.: 10 gatilhos em 6min no dia 01/07 — intercaladas por longos
+  períodos quietos, não taxa constante).
+- **Próximo teste barato:** golden hour (12h-18h UTC) é o checkpoint natural — se gatilhos voltarem
+  quando a liquidez sobe, confirma sazonalidade; se a seca persistir também em golden hour, aí sim
+  investigar mais fundo (não foi feito ainda).
 
 ## Proposto, nunca testado
 
@@ -80,8 +100,10 @@ credenciais/instâncias — o que segue vem só da leitura do código/docs no re
   perto do settlement, o resultado já é quase determinístico via Binance enquanto o livro CLOB
   pode ficar stale — ao contrário da H3, aqui a estrutura favorece quem reage rápido (evidência
   on-chain de wallets com >98% WR). Harness pronto (`polymarket_lag_probe.py`, read-only, paper,
-  sem credenciais), mas **zero dado real coletado ainda** — próximo passo é acumular ≥30
-  paper-trades em horário volátil.
+  sem credenciais); já tem um **coletor de 48h com deploy AWS** (`pa5_collector.py`, timer + email
+  SNS + auto-stop) **validado ao vivo com 1 janela capturada** (25 paper-trades, outcome=Down) —
+  ainda abaixo do N≥30 por grupo que o próprio plano do Carlos define como necessário para veredito
+  (`aligned_net>0` **e** IC95% de `aligned-anti` acima de zero).
 
 ### 3. `feat/operate-demo-synthetic` (branch **não mergeada**, commits de HOJE 2026-07-02)
 - **Mexe diretamente em `trading-engine/hft_arbitrage_bot.py`** (o mesmo arquivo rodando ao vivo
