@@ -2,6 +2,10 @@
 websockets>=12.0
 python-dotenv>=1.0.0
 
+# Assinatura de transacao Solana (venues/jupiter_execution.py) -- so Keypair/VersionedTransaction,
+# sem precisar do pacote solana-py completo
+solders>=0.28.0
+
 # Opcional — apenas para os scripts de análise/backtest (analyze_*.py, *_backtest.py)
 # numpy>=1.26
 # pandas>=2.2
