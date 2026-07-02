@@ -70,6 +70,83 @@ MODEL_SPECS = [
         "stake": 1.0,
         "rationale": "Same fade hypothesis on classic R_100 instead of 1HZ100V.",
     },
+    {
+        "id": "reversal_4tick_minmove040",
+        "kind": "reversal",
+        "streak": 4,
+        "min_move": 0.40,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ100V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Require a larger four-tick overextension before fading.",
+    },
+    {
+        "id": "mean_revert_7tick_dev035",
+        "kind": "mean_revert",
+        "window": 7,
+        "min_move": 0.35,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ100V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Longer short-horizon mean-reversion window after weak two/three-tick fades.",
+    },
+    {
+        "id": "trend_4tick_minmove050",
+        "kind": "trend",
+        "streak": 4,
+        "min_move": 0.50,
+        "cooldown_seconds": 50,
+        "symbol": "1HZ100V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Follow only stronger four-tick directional bursts.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_R100",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "R_100",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Port the strongest early 1HZ100V reversal gate candidate to classic R_100.",
+    },
+    {
+        "id": "mean_revert_5tick_dev020_R100",
+        "kind": "mean_revert",
+        "window": 5,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "R_100",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Lower-threshold short mean reversion on R_100 for cross-symbol comparison.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_1HZ10V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Same three-tick fade on 1HZ10V to test symbol sensitivity.",
+    },
+    {
+        "id": "trend_3tick_minmove020_1HZ10V",
+        "kind": "trend",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Moderate trend-follow candidate on 1HZ10V.",
+    },
 ]
 
 
@@ -157,7 +234,10 @@ class StrategyTournament:
 
     def load_or_init_state(self):
         if self.state_path.exists() and not self.args.reset:
-            return json.loads(self.state_path.read_text(encoding="utf-8"))
+            state = json.loads(self.state_path.read_text(encoding="utf-8"))
+            self.reconcile_model_specs(state)
+            self.write_state(state)
+            return state
 
         models = [empty_model_state(spec) for spec in MODEL_SPECS]
         state = {
@@ -187,6 +267,21 @@ class StrategyTournament:
             self.seed_failed_trend_model(state, Path(self.args.seed_failed_ledger))
         self.write_state(state)
         return state
+
+    def reconcile_model_specs(self, state):
+        existing_ids = {model["id"] for model in state.get("models", [])}
+        old_len = len(state.get("models", []))
+        appended = []
+        for spec in MODEL_SPECS:
+            if spec["id"] not in existing_ids:
+                state.setdefault("models", []).append(empty_model_state(spec))
+                appended.append(spec["id"])
+        if appended:
+            state.setdefault("runtime", {})["reconciled_model_specs_at"] = utc_now()
+            state["runtime"]["reconciled_model_specs"] = appended
+            if state.get("current_model_index", 0) >= old_len and state.get("status") != "goal_candidate_found":
+                state["current_model_index"] = old_len
+                state["status"] = "collecting"
 
     def seed_failed_trend_model(self, state, ledger_path):
         rows = load_jsonl(ledger_path)
