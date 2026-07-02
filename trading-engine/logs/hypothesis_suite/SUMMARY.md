@@ -32,13 +32,16 @@ diretamente (fora do wrapper da suite) porque o teto de 600s nao da conta da com
 Monte Carlo pesado (20k sims x ate 3600 ticks) com a instabilidade conhecida do WS demo da
 Deriv (cai a cada ~1 request). Log completo: `vanilla.log`.
 
-## accumulator — Fase 2: Accumulators edge scan (2026-07-01)
+## accumulator — Fase 2: Accumulators edge scan (2026-07-01, replicado 2026-07-02)
 
-**Veredito: SEM EDGE CONFIAVEL.** 630 celulas testadas (symbol x growth_rate x N). 1 unico
-candidato com EV_lo > 0 (1HZ50V g=0.02 N=2: EV_lo=+$0.0019, marginal) — o proprio log ja
-flagra o problema de multiplos testes (esperar ~31.5 falsos positivos a 5% em 630 celulas).
-**Pre-requisito antes de qualquer capital: replicar essa celula especifica numa 2a amostra
-independente.** Log completo: `accumulator.log`.
+**Veredito: SEM EDGE (confirmado por replicacao).** Amostra original (07-01, `accumulator.log`):
+630 celulas testadas (symbol x growth_rate x N), 1 unico candidato com EV_lo > 0 (1HZ50V g=0.02
+N=2: EV_lo=+$0.0019, marginal) — o proprio log ja flagrava o problema de multiplos testes
+(esperar ~31.5 falsos positivos a 5% em 630 celulas) e exigia replicacao antes de qualquer
+capital. **Replicacao rodada em 07-02 com amostra fresca e independente** (`ticks_stayed_in`
+e mantido pela propria API da Deriv, nao precisa esperar 24h manualmente — so rodar de novo):
+`accumulator_replication.log`, **0/630 celulas com EV_lo>0** — o candidato de 07-01 NAO se
+repetiu, confirmando que era ruido de multiplos testes, nao edge real. Hipotese encerrada.
 
 ## boom_crash — T2: Boom/Crash SPIKE_TIMING (2026-07-01)
 
