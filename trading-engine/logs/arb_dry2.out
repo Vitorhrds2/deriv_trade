@@ -1,0 +1,16 @@
+====================================================================================
+  Conta conectada: DOT92172514 | saldo=9850.26 USD | use_demo=True
+  Classificacao API -> demo=['DOT92172514'] | real=['ROT91014561']
+  OK: DOT92172514 CONFIRMADA como DEMO.
+>>> Modo: DRY-RUN (sem ordens) | stake $1.0 x100 | hold 2.0s | max 5 trades / 70s
+====================================================================================
+  [control] DRY MULTDOWN | proposal spot=59888.46 | binance=59922.44
+  [control] DRY MULTDOWN | proposal spot=59887.54 | binance=59916.51
+  [control] DRY MULTDOWN | proposal spot=59882.67 | binance=59906.59
+  [control] DRY MULTUP | proposal spot=59875.36 | binance=59903.16
+  [control] DRY MULTDOWN | proposal spot=59888.79 | binance=59916.49
+
+====================================================================================
+Trades: 5 (com fill: 0)
+(dry-run ou sem fills) - rode com --live para medir P&L.
+====================================================================================

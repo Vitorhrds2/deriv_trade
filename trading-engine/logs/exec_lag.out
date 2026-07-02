@@ -1,0 +1,12 @@
+Capturando 180s: Binance + proposals Deriv (~4.0/s)...
+  proposals: 403 ok / 0 erros
+
+====================================================================================
+Binance: 4031 | Deriv ticks: 188 | proposals: 403
+====================================================================================
+  [PROPOSAL spot vs Binance (DECISIVO)] lag0 corr=0.033 | MAX corr=0.306 em lag +1200ms
+  [TICK Deriv vs Binance (display)] lag0 corr=0.119 | MAX corr=0.293 em lag +1000ms
+
+------------------------------------------------------------------------------------
+>>> ARB POSSIVEL: preco TRANSACIONAVEL atrasa ~1200ms (corr 0.31). Passo 3: teste de ordem demo cronometrada para confirmar o fill no preco defasado.
+------------------------------------------------------------------------------------

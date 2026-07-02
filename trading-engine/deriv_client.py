@@ -23,6 +23,10 @@ class DerivClient:
         self.req_id_counter = 1
         self._listen_task = None
         self.account_id = None
+        self._tick_symbols = []
+        self._tick_callback = None
+        self._closing = False
+        self._reconnects = 0
         
     async def _get_auth_url(self):
         # 1. Fetch accounts to find the specified account
@@ -64,70 +68,97 @@ class DerivClient:
             logger.error(f"Failed to authenticate: {e}")
             raise
     
-    async def connect(self):
+    async def _open_ws(self):
         if self.api_token and self.app_id:
-            logger.info("Authenticating to Deriv...")
             url = await self._get_auth_url()
-            logger.info(f"Connecting to authenticated WS...")
-            self.ws = await websockets.connect(url)
         else:
             url = f"{self.base_url}?app_id={self.app_id}" if self.app_id else self.base_url
-            logger.info(f"Connecting to {url}")
-            self.ws = await websockets.connect(url)
-            
+        self.ws = await websockets.connect(url, ping_interval=15, ping_timeout=45)
+
+    async def connect(self):
+        self._closing = False
+        await self._open_ws()
         logger.info("Connected.")
         self._listen_task = asyncio.create_task(self._listen())
-    
+
     async def disconnect(self):
+        self._closing = True
         if self.ws:
             await self.ws.close()
         if self._listen_task:
             self._listen_task.cancel()
         logger.info("Disconnected.")
 
+    def _fail_pending(self, reason):
+        # Falha futures de requests pendentes para os chamadores nao travarem
+        # (send_request nao tem timeout). Preserva os callbacks de tick/ohlc.
+        for rid in list(self.callbacks):
+            if rid in ("tick", "ohlc"):
+                continue
+            fut = self.callbacks.pop(rid, None)
+            if isinstance(fut, asyncio.Future) and not fut.done():
+                fut.set_exception(ConnectionError(reason))
+
+    async def _resubscribe(self):
+        # Fire-and-forget: roda DENTRO do listen loop (que esta reconectando), entao
+        # nao pode usar send_request (deadlock no future). O listen retoma e despacha.
+        if self._tick_callback:
+            self.callbacks["tick"] = self._tick_callback
+        for sym in list(self._tick_symbols):
+            self.req_id_counter += 1
+            await self.ws.send(json.dumps(
+                {"ticks": sym, "subscribe": 1, "req_id": self.req_id_counter}))
+
+    async def _reconnect(self):
+        self._fail_pending("ws reconnecting")
+        backoff = 1
+        while not self._closing:
+            self._reconnects += 1
+            try:
+                await self._open_ws()
+                await self._resubscribe()
+                print(f"  [reconnect] WS reconectado (#{self._reconnects}); "
+                      f"resubscrito {len(self._tick_symbols)} simbolos", flush=True)
+                return
+            except Exception as e:
+                logger.error(f"reconnect failed: {e}")
+                print(f"  [reconnect] falhou: {e}; retry em {backoff}s", flush=True)
+                await asyncio.sleep(backoff)
+                backoff = min(backoff * 2, 30)
+
     async def _listen(self):
-        try:
-            async for message in self.ws:
-                data = json.loads(message)
-                req_id = data.get("req_id")
-                msg_type = data.get("msg_type")
-                
-                # logger.debug(f"Received msg_type: {msg_type}")
-                
-                if req_id and req_id in self.callbacks:
-                    future = self.callbacks.pop(req_id)
-                    if not future.done():
-                        future.set_result(data)
-                
-                if msg_type == "tick" and "tick" in self.callbacks:
-                    cb = self.callbacks["tick"]
-                    if asyncio.iscoroutinefunction(cb):
-                        asyncio.create_task(cb(data))
-                    else:
-                        cb(data)
-                elif msg_type == "ohlc" and "ohlc" in self.callbacks:
-                    cb = self.callbacks["ohlc"]
-                    if asyncio.iscoroutinefunction(cb):
-                        asyncio.create_task(cb(data))
-                    else:
-                        cb(data)
-                    
-        except asyncio.CancelledError:
-            pass
-        except Exception as e:
-            logger.error(f"Error in listen loop: {e}")
-            import sys
-            logger.error("Authenticated WebSocket died! Crashing bot to force restart...")
-            # Cancel all pending futures before exiting
-            for req_id, future in list(self.callbacks.items()):
-                if hasattr(future, 'done') and not future.done():
-                    future.set_exception(ConnectionError(f"WebSocket closed unexpectedly: {e}"))
-            sys.exit(1)
-        finally:
-            logger.warning("WebSocket connection closed cleanly by the server. Cancelling pending futures.")
-            for req_id, future in list(self.callbacks.items()):
-                if hasattr(future, 'done') and not future.done():
-                    future.set_exception(ConnectionError("WebSocket closed cleanly by the server"))
+        while not self._closing:
+            try:
+                async for message in self.ws:
+                    data = json.loads(message)
+                    req_id = data.get("req_id")
+                    msg_type = data.get("msg_type")
+
+                    if req_id and req_id in self.callbacks:
+                        future = self.callbacks.pop(req_id)
+                        if isinstance(future, asyncio.Future) and not future.done():
+                            future.set_result(data)
+
+                    if msg_type == "tick" and "tick" in self.callbacks:
+                        cb = self.callbacks["tick"]
+                        if asyncio.iscoroutinefunction(cb):
+                            await cb(data)
+                        else:
+                            cb(data)
+                    elif msg_type == "ohlc" and "ohlc" in self.callbacks:
+                        cb = self.callbacks["ohlc"]
+                        if asyncio.iscoroutinefunction(cb):
+                            await cb(data)
+                        else:
+                            cb(data)
+            except asyncio.CancelledError:
+                return
+            except Exception as e:
+                logger.error(f"Error in listen loop: {e}")
+            if self._closing:
+                return
+            # Conexao caiu (close/erro/ping timeout) -> reconecta e resubscreve.
+            await self._reconnect()
 
     async def send_request(self, payload):
         if not self.ws:
@@ -261,6 +292,9 @@ class DerivClient:
     
     async def subscribe_ticks(self, symbol, callback):
         self.callbacks["tick"] = callback
+        self._tick_callback = callback
+        if symbol not in self._tick_symbols:
+            self._tick_symbols.append(symbol)
         return await self.send_request({
             "ticks": symbol,
             "subscribe": 1

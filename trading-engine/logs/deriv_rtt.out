@@ -1,0 +1,12 @@
+========================================================================
+Latencia do leg de ORDEM Deriv (atras de Cloudflare) - 25x cada (ms)
+========================================================================
+  ping     : min  146.5 | mediana  154.2 | p95  180.0 | n=25
+  time     : min  148.4 | mediana  157.3 | p95  216.0 | n=25
+  proposal : min  178.4 | mediana  190.8 | p95  310.9 | n=25
+========================================================================
+  rede+CF (min ping) ~146.5 ms | compute Deriv (proposal-ping) ~31.9 ms
+  => leg de ordem ~178-191 ms (proxy p/ Toquio)
+  Reacao Toquio estimada ~ sinal 1ms + 178 ms = ~179 ms.
+  Arb so existe se a janela 'stale' da Deriv for MAIOR que isso.
+========================================================================

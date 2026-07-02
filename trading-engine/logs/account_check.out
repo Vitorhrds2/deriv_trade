@@ -1,0 +1,16 @@
+========================================================================
+CONTAS VINCULADAS AO TOKEN (.env DERIV_API_TOKEN):
+========================================================================
+  account_id=DOT92172514 | type=demo | currency=USD | loginid=?  <== DEMO
+  account_id=ROT91014561 | type=real | currency=USD | loginid=?  <== REAL
+========================================================================
+
+JSON bruto (1a conta) para inspecao de campos:
+{
+  "account_id": "DOT92172514",
+  "balance": "9850.26",
+  "currency": "USD",
+  "group": "row",
+  "status": "active",
+  "account_type": "demo"
+}
