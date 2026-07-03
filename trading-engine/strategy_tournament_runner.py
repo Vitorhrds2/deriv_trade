@@ -149,6 +149,138 @@ MODEL_SPECS = [
     },
 ]
 
+DISCOVERY_MODEL_SPECS = [
+    {
+        "id": "reversal_3tick_minmove015_1HZ10V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.15,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Looser version of the 100-trade winner to test whether signal frequency can rise without killing EV.",
+    },
+    {
+        "id": "reversal_3tick_minmove025_1HZ10V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.25,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Tighter version of the 100-trade winner to test whether larger local overextension improves quality.",
+    },
+    {
+        "id": "reversal_4tick_minmove020_1HZ10V",
+        "kind": "reversal",
+        "streak": 4,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Longer overextension on the same winning symbol.",
+    },
+    {
+        "id": "mean_revert_4tick_dev015_1HZ10V",
+        "kind": "mean_revert",
+        "window": 4,
+        "min_move": 0.15,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Mean-reversion neighbor around the winning short-horizon fade.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_1HZ25V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ25V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Port the winning rule to Volatility 25 (1s) for symbol sensitivity.",
+    },
+    {
+        "id": "reversal_3tick_minmove030_1HZ25V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.30,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ25V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Higher threshold Volatility 25 (1s) fade after local overextension.",
+    },
+    {
+        "id": "mean_revert_5tick_dev025_1HZ25V",
+        "kind": "mean_revert",
+        "window": 5,
+        "min_move": 0.25,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ25V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Short mean-reversion variant on Volatility 25 (1s).",
+    },
+    {
+        "id": "reversal_3tick_minmove030_1HZ50V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.30,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ50V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Port the fade family to Volatility 50 (1s), scaled to a larger move threshold.",
+    },
+    {
+        "id": "reversal_4tick_minmove040_1HZ50V",
+        "kind": "reversal",
+        "streak": 4,
+        "min_move": 0.40,
+        "cooldown_seconds": 50,
+        "symbol": "1HZ50V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Stricter four-tick fade on Volatility 50 (1s).",
+    },
+    {
+        "id": "reversal_3tick_minmove040_1HZ75V",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.40,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ75V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Higher-volatility neighbor test on Volatility 75 (1s).",
+    },
+    {
+        "id": "trend_3tick_minmove020_1HZ10V_discovery",
+        "kind": "trend",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Control arm against the winning reversal on the same symbol and threshold.",
+    },
+]
+
+
+def select_model_specs(model_set):
+    if model_set == "discovery":
+        return DISCOVERY_MODEL_SPECS
+    if model_set == "all":
+        return MODEL_SPECS + DISCOVERY_MODEL_SPECS
+    return MODEL_SPECS
+
 
 def utc_now():
     return datetime.now(timezone.utc).isoformat()
@@ -222,7 +354,8 @@ class StrategyTournament:
         self.args = args
         self.logger = logger
         self.client = None
-        self.ticks_by_symbol = {spec["symbol"]: [] for spec in MODEL_SPECS}
+        self.model_specs = select_model_specs(args.model_set)
+        self.ticks_by_symbol = {spec["symbol"]: [] for spec in self.model_specs}
         self.last_trade_at = 0.0
         self.in_trade = False
         self.done = asyncio.Event()
@@ -242,9 +375,10 @@ class StrategyTournament:
             self.write_state(state)
             return state
 
-        models = [empty_model_state(spec) for spec in MODEL_SPECS]
+        models = [empty_model_state(spec) for spec in self.model_specs]
         state = {
             "goal": "PnL positivo apos 100 trades, com gate positivo em 30 trades",
+            "model_set": self.args.model_set,
             "status": "collecting",
             "job_id": self.args.job_id,
             "started_at": utc_now(),
@@ -273,6 +407,7 @@ class StrategyTournament:
 
     def refresh_runtime_state(self, state):
         state["job_id"] = self.args.job_id
+        state["model_set"] = self.args.model_set
         state["gate_trades"] = self.args.gate_trades
         state["target_trades"] = self.args.target_trades
         state["healthy_drawdown_30"] = self.args.healthy_drawdown_30
@@ -318,7 +453,7 @@ class StrategyTournament:
         existing_ids = {model["id"] for model in state.get("models", [])}
         old_len = len(state.get("models", []))
         appended = []
-        for spec in MODEL_SPECS:
+        for spec in self.model_specs:
             if spec["id"] not in existing_ids:
                 state.setdefault("models", []).append(empty_model_state(spec))
                 appended.append(spec["id"])
@@ -393,7 +528,7 @@ class StrategyTournament:
         model = self.current_model()
         if not model:
             return None
-        return next((spec for spec in MODEL_SPECS if spec["id"] == model["id"]), None)
+        return next((spec for spec in self.model_specs if spec["id"] == model["id"]), None)
 
     def start_current_model(self):
         model = self.current_model()
@@ -664,7 +799,7 @@ class StrategyTournament:
         model = self.start_current_model()
         if model:
             self.check_gate30_early_failure(model) or self.check_target100_early_failure(model)
-        symbols = sorted({spec["symbol"] for spec in MODEL_SPECS})
+        symbols = sorted({spec["symbol"] for spec in self.model_specs})
         for symbol in symbols:
             await self.client.subscribe_ticks(symbol, self.on_tick)
             await asyncio.sleep(0.25)
@@ -698,6 +833,7 @@ def parse_args():
     parser.add_argument("--auth-retries", type=int, default=8)
     parser.add_argument("--continue-model-id", default="")
     parser.add_argument("--allow-backlog-continuation", action="store_true")
+    parser.add_argument("--model-set", choices=["default", "discovery", "all"], default="default")
     return parser.parse_args()
 
 
