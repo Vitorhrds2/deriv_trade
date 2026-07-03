@@ -236,6 +236,9 @@ class StrategyTournament:
         if self.state_path.exists() and not self.args.reset:
             state = json.loads(self.state_path.read_text(encoding="utf-8"))
             self.reconcile_model_specs(state)
+            self.refresh_runtime_state(state)
+            if self.args.continue_model_id:
+                self.prepare_model_continuation(state, self.args.continue_model_id)
             self.write_state(state)
             return state
 
@@ -267,6 +270,49 @@ class StrategyTournament:
             self.seed_failed_trend_model(state, Path(self.args.seed_failed_ledger))
         self.write_state(state)
         return state
+
+    def refresh_runtime_state(self, state):
+        state["job_id"] = self.args.job_id
+        state["gate_trades"] = self.args.gate_trades
+        state["target_trades"] = self.args.target_trades
+        state["healthy_drawdown_30"] = self.args.healthy_drawdown_30
+        state["healthy_drawdown_100"] = self.args.healthy_drawdown_100
+        state.setdefault("runtime", {}).update(
+            {
+                "pid": os.getpid(),
+                "log_path": str(Path(self.args.log_path).resolve()),
+                "events_jsonl": str(self.events_path.resolve()),
+                "state_json": str(self.state_path.resolve()),
+                "loaded_existing_state_at": utc_now(),
+            }
+        )
+
+    def prepare_model_continuation(self, state, model_id):
+        models = state.get("models", [])
+        for index, model in enumerate(models):
+            if model.get("id") != model_id:
+                continue
+
+            if model.get("status") == "backlog" and not self.args.allow_backlog_continuation:
+                raise RuntimeError(f"refusing to continue backlogged model without --allow-backlog-continuation: {model_id}")
+
+            state["current_model_index"] = index
+            state["status"] = "collecting_continuation"
+            model["phase"] = "target100"
+            model["status"] = "collecting_target100"
+            model["stopped_at"] = None
+            model["pivot_reason"] = None
+            state.setdefault("runtime", {}).update(
+                {
+                    "continuation_model_id": model_id,
+                    "continuation_started_at": utc_now(),
+                    "continued_from_trades": model.get("trades", 0),
+                    "continued_from_pnl": model.get("pnl", 0.0),
+                }
+            )
+            return
+
+        raise RuntimeError(f"model not found for continuation: {model_id}")
 
     def reconcile_model_specs(self, state):
         existing_ids = {model["id"] for model in state.get("models", [])}
@@ -606,6 +652,15 @@ class StrategyTournament:
 
     async def run(self):
         await self.connect()
+        if self.args.continue_model_id:
+            model = self.current_model()
+            self.log_event(
+                "continue_model",
+                model_id=self.args.continue_model_id,
+                from_trades=model.get("trades", 0) if model else 0,
+                from_pnl=model.get("pnl", 0.0) if model else 0.0,
+                target_trades=self.args.target_trades,
+            )
         model = self.start_current_model()
         if model:
             self.check_gate30_early_failure(model) or self.check_target100_early_failure(model)
@@ -641,6 +696,8 @@ def parse_args():
     parser.add_argument("--poll-seconds", type=float, default=0.25)
     parser.add_argument("--settlement-timeout-seconds", type=float, default=25)
     parser.add_argument("--auth-retries", type=int, default=8)
+    parser.add_argument("--continue-model-id", default="")
+    parser.add_argument("--allow-backlog-continuation", action="store_true")
     return parser.parse_args()
 
 
