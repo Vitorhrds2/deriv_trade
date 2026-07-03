@@ -391,6 +391,7 @@ class StrategyTournament:
             "post_target_stake": self.args.post_target_stake,
             "post_target_max_trades": self.args.post_target_max_trades,
             "post_target_kill_loss": self.args.post_target_kill_loss,
+            "stake_override": self.args.stake_override,
             "current_model_index": 0,
             "models": models,
             "champions": [],
@@ -420,6 +421,7 @@ class StrategyTournament:
         state["post_target_stake"] = self.args.post_target_stake
         state["post_target_max_trades"] = self.args.post_target_max_trades
         state["post_target_kill_loss"] = self.args.post_target_kill_loss
+        state["stake_override"] = self.args.stake_override
         state.setdefault("runtime", {}).update(
             {
                 "pid": os.getpid(),
@@ -588,13 +590,15 @@ class StrategyTournament:
         return abs(model["max_drawdown"]) <= abs(limit)
 
     def stake_for_model(self, model, spec):
+        if self.args.stake_override > 0:
+            return float(self.args.stake_override)
         if model.get("phase") == "post100" and self.args.post_target_stake > 0:
             return float(self.args.post_target_stake)
         return float(spec.get("stake", 1.0))
 
     def max_possible_pnl_at_trade_count(self, model, target_trades):
         spec = self.current_spec()
-        stake = float(spec.get("stake", 1.0)) if spec else 1.0
+        stake = self.stake_for_model(model, spec) if spec else 1.0
         remaining = max(0, target_trades - model["trades"])
         max_win_profit = stake * float(self.args.max_win_return_ratio)
         return round(model["pnl"] + remaining * max_win_profit, 4)
@@ -889,6 +893,7 @@ def parse_args():
     parser.add_argument("--post-target-stake", type=float, default=0.0)
     parser.add_argument("--post-target-max-trades", type=int, default=0)
     parser.add_argument("--post-target-kill-loss", type=float, default=50.0)
+    parser.add_argument("--stake-override", type=float, default=0.0)
     return parser.parse_args()
 
 
