@@ -398,6 +398,8 @@ class StrategyTournament:
                 "log_path": str(Path(self.args.log_path).resolve()),
                 "events_jsonl": str(self.events_path.resolve()),
                 "state_json": str(self.state_path.resolve()),
+                "app_id_env": self.args.app_id_env,
+                "api_token_env": self.args.api_token_env,
             },
         }
         if self.args.seed_failed_ledger:
@@ -419,6 +421,8 @@ class StrategyTournament:
                 "events_jsonl": str(self.events_path.resolve()),
                 "state_json": str(self.state_path.resolve()),
                 "loaded_existing_state_at": utc_now(),
+                "app_id_env": self.args.app_id_env,
+                "api_token_env": self.args.api_token_env,
             }
         )
 
@@ -770,14 +774,20 @@ class StrategyTournament:
 
     async def connect(self):
         load_dotenv(".env", override=True)
-        self.client = DerivClient(app_id=os.getenv("DERIV_APP_ID"), api_token=os.getenv("DERIV_API_TOKEN"), use_demo=True)
+        app_id = os.getenv(self.args.app_id_env)
+        api_token = os.getenv(self.args.api_token_env)
+        if not app_id:
+            raise RuntimeError(f"missing app id env var: {self.args.app_id_env}")
+        if not api_token:
+            raise RuntimeError(f"missing api token env var: {self.args.api_token_env}")
+        self.client = DerivClient(app_id=app_id, api_token=api_token, use_demo=True)
         for attempt in range(1, self.args.auth_retries + 1):
             try:
                 await self.client.connect()
                 account_id = str(self.client.account_id or "")
                 if not account_id.startswith("DOT"):
                     raise RuntimeError(f"non-demo account blocked: {account_id[:3]}")
-                self.log_event("demo_authenticated", account_id_prefix=account_id[:3])
+                self.log_event("demo_authenticated", account_id_prefix=account_id[:3], api_token_env=self.args.api_token_env)
                 return
             except Exception as exc:
                 self.log_event("auth_retry", attempt=attempt, error=str(exc))
@@ -834,6 +844,8 @@ def parse_args():
     parser.add_argument("--continue-model-id", default="")
     parser.add_argument("--allow-backlog-continuation", action="store_true")
     parser.add_argument("--model-set", choices=["default", "discovery", "all"], default="default")
+    parser.add_argument("--app-id-env", default="DERIV_APP_ID")
+    parser.add_argument("--api-token-env", default="DERIV_API_TOKEN")
     return parser.parse_args()
 
 
