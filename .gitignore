@@ -15,3 +15,5 @@ trading-engine/*.log
 trading-engine/*_trades.jsonl
 trading-engine/strategy_tournament_state.json
 trading-engine/strategy_tournament_events.jsonl
+trading-engine/strategy_discovery*_state.json
+trading-engine/strategy_discovery*_events.jsonl

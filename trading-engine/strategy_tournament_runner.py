@@ -388,6 +388,9 @@ class StrategyTournament:
             "target_trades": self.args.target_trades,
             "healthy_drawdown_30": self.args.healthy_drawdown_30,
             "healthy_drawdown_100": self.args.healthy_drawdown_100,
+            "post_target_stake": self.args.post_target_stake,
+            "post_target_max_trades": self.args.post_target_max_trades,
+            "post_target_kill_loss": self.args.post_target_kill_loss,
             "current_model_index": 0,
             "models": models,
             "champions": [],
@@ -414,6 +417,9 @@ class StrategyTournament:
         state["target_trades"] = self.args.target_trades
         state["healthy_drawdown_30"] = self.args.healthy_drawdown_30
         state["healthy_drawdown_100"] = self.args.healthy_drawdown_100
+        state["post_target_stake"] = self.args.post_target_stake
+        state["post_target_max_trades"] = self.args.post_target_max_trades
+        state["post_target_kill_loss"] = self.args.post_target_kill_loss
         state.setdefault("runtime", {}).update(
             {
                 "pid": os.getpid(),
@@ -581,6 +587,11 @@ class StrategyTournament:
         limit = self.args.healthy_drawdown_30 if model["phase"] == "gate30" else self.args.healthy_drawdown_100
         return abs(model["max_drawdown"]) <= abs(limit)
 
+    def stake_for_model(self, model, spec):
+        if model.get("phase") == "post100" and self.args.post_target_stake > 0:
+            return float(self.args.post_target_stake)
+        return float(spec.get("stake", 1.0))
+
     def max_possible_pnl_at_trade_count(self, model, target_trades):
         spec = self.current_spec()
         stake = float(spec.get("stake", 1.0)) if spec else 1.0
@@ -626,6 +637,19 @@ class StrategyTournament:
             self.pivot_current_model("model_kill_loss")
             return
 
+        if model["phase"] == "post100":
+            start_pnl = float(model.get("post_target_start_pnl", model["pnl"]))
+            if self.args.post_target_kill_loss > 0 and model["pnl"] - start_pnl <= -abs(self.args.post_target_kill_loss):
+                self.pivot_current_model("post100_kill_loss")
+                return
+            if self.args.post_target_max_trades > 0 and model["trades"] >= self.args.post_target_max_trades:
+                model["status"] = "post100_complete"
+                model["stopped_at"] = utc_now()
+                self.state["status"] = "post100_complete"
+                self.log_event("post100_complete", model_id=model["id"], trades=model["trades"], pnl=model["pnl"])
+                self.done.set()
+                return
+
         if self.check_gate30_early_failure(model) or self.check_target100_early_failure(model):
             return
 
@@ -637,11 +661,26 @@ class StrategyTournament:
                 self.pivot_current_model(reason)
         elif model["phase"] == "target100" and model["trades"] >= self.args.target_trades:
             if model["pnl"] > 0 and self.pass_healthy_drawdown(model):
-                model["status"] = "passed_100"
-                model["stopped_at"] = utc_now()
-                self.state["status"] = "goal_candidate_found"
-                self.log_event("passed_100", model_id=model["id"], trades=model["trades"], pnl=model["pnl"])
-                self.done.set()
+                if self.args.post_target_stake > 0:
+                    model["phase"] = "post100"
+                    model["status"] = "collecting_post100"
+                    model["post_target_started_at"] = utc_now()
+                    model["post_target_start_pnl"] = model["pnl"]
+                    model["post_target_stake"] = float(self.args.post_target_stake)
+                    self.state["status"] = "collecting_post100"
+                    self.log_event(
+                        "promote_post100_stake",
+                        model_id=model["id"],
+                        trades=model["trades"],
+                        pnl=model["pnl"],
+                        stake=float(self.args.post_target_stake),
+                    )
+                else:
+                    model["status"] = "passed_100"
+                    model["stopped_at"] = utc_now()
+                    self.state["status"] = "goal_candidate_found"
+                    self.log_event("passed_100", model_id=model["id"], trades=model["trades"], pnl=model["pnl"])
+                    self.done.set()
             else:
                 reason = "failed_100_pnl_nonpositive" if model["pnl"] <= 0 else "failed_100_drawdown"
                 self.pivot_current_model(reason)
@@ -725,13 +764,14 @@ class StrategyTournament:
             self.in_trade = False
             return
         trade_no = model["trades"] + 1
+        stake = self.stake_for_model(model, spec)
         self.last_trade_at = time.time()
-        self.logger.info("SIGNAL model=%s trade=%s contract=%s move=%.5f", model_id, trade_no, signal["contract_type"], signal["move"])
-        self.log_event("signal", model_id=model_id, trade_no=trade_no, phase=model["phase"], **signal)
+        self.logger.info("SIGNAL model=%s trade=%s contract=%s stake=%.2f move=%.5f", model_id, trade_no, signal["contract_type"], stake, signal["move"])
+        self.log_event("signal", model_id=model_id, trade_no=trade_no, phase=model["phase"], stake=stake, **signal)
         try:
             response = await self.client.buy_direct(
                 contract_type=signal["contract_type"],
-                stake=spec["stake"],
+                stake=stake,
                 symbol=spec["symbol"],
                 duration=spec["duration_ticks"],
                 duration_unit="t",
@@ -744,7 +784,7 @@ class StrategyTournament:
                 return
             contract_id = response["buy"]["contract_id"]
             model["latencies_ms"].append(latency_ms)
-            self.log_event("buy", model_id=model_id, trade_no=trade_no, contract_id=contract_id, latency_ms=latency_ms, buy_price=float(response["buy"]["buy_price"]), **signal)
+            self.log_event("buy", model_id=model_id, trade_no=trade_no, contract_id=contract_id, latency_ms=latency_ms, buy_price=float(response["buy"]["buy_price"]), stake=stake, **signal)
             self.logger.info("BUY model=%s trade=%s contract_id=%s latency_ms=%.1f", model_id, trade_no, contract_id, latency_ms)
             await self.wait_settlement(model_id, trade_no, contract_id, signal)
         except Exception as exc:
@@ -846,6 +886,9 @@ def parse_args():
     parser.add_argument("--model-set", choices=["default", "discovery", "all"], default="default")
     parser.add_argument("--app-id-env", default="DERIV_APP_ID")
     parser.add_argument("--api-token-env", default="DERIV_API_TOKEN")
+    parser.add_argument("--post-target-stake", type=float, default=0.0)
+    parser.add_argument("--post-target-max-trades", type=int, default=0)
+    parser.add_argument("--post-target-kill-loss", type=float, default=50.0)
     return parser.parse_args()
 
 
