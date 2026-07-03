@@ -531,6 +531,64 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Wave 3 agentic model: continuously paper-scores explicit sub-rules and trades only the currently best positive-scoring rule.",
     },
+    {
+        "id": "reversal_3tick_minmove020_guard_v2_1HZ10V_w4",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "block_guard": {"window": 5, "max_loss": -10.0, "max_gain": 25.0, "pause_seconds": 300},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 420, "phases": ["gate30", "target100"]},
+        "rationale": "Wave 4: stricter version of the best failed guard model, pausing faster after loss clusters or overheated five-trade blocks.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_guard_lock_1HZ10V_w4",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "block_guard": {"window": 8, "max_loss": -12.0, "max_gain": 28.0, "pause_seconds": 300},
+        "target100_trailing_pause": {"drawdown_from_peak": 25.0, "pause_seconds": 900, "min_trades": 30},
+        "rationale": "Wave 4: preserve the Wave 3 gate30 profit by pausing target100 after a large peak-to-trough retrace.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_guard_2losspause_1HZ10V_w4",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 600, "phases": ["gate30", "target100"]},
+        "rationale": "Wave 4: isolate whether a simple two-loss pause can avoid the drawdown block that killed the best Wave 3 lead.",
+    },
+    {
+        "id": "adaptive_agent_tick_research_v2_1HZ10V_w4",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 40,
+        "stake": 1.0,
+        "score_window": 80,
+        "min_paper_samples": 40,
+        "min_rule_score": 12.0,
+        "block_guard": {"window": 6, "max_loss": -10.0, "max_gain": 22.0, "pause_seconds": 420},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 900, "phases": ["gate30", "target100"]},
+        "rules": [
+            {"id": "rev3_020", "kind": "reversal", "streak": 3, "min_move": 0.20},
+            {"id": "rev4_025", "kind": "reversal", "streak": 4, "min_move": 0.25},
+            {"id": "mr5_020", "kind": "mean_revert", "window": 5, "min_move": 0.20},
+            {"id": "mr6_025", "kind": "mean_revert", "window": 6, "min_move": 0.25},
+        ],
+        "rationale": "Wave 4: agentic selector with stricter paper probation after Wave 3 paper-score/live mismatch.",
+    },
 ]
 
 
@@ -951,6 +1009,8 @@ class StrategyTournament:
         recent.append(round(profit, 4))
         model["recent_profits"] = recent[-100:]
         self.apply_block_guard_after_settlement(model)
+        self.apply_loss_streak_pause_after_settlement(model)
+        self.apply_target100_trailing_pause_after_settlement(model)
         self.write_state()
 
         if model["pnl"] <= -abs(self.args.model_kill_loss):
@@ -1040,6 +1100,59 @@ class StrategyTournament:
                 recent_pnl=block_pnl,
                 pause_seconds=pause_seconds,
             )
+
+    def apply_loss_streak_pause_after_settlement(self, model):
+        spec = self.current_spec()
+        guard = spec.get("loss_streak_pause") if spec else None
+        if not guard:
+            return
+        phases = guard.get("phases")
+        if phases and model.get("phase") not in set(phases):
+            return
+        recent = model.get("recent_profits", [])
+        required_losses = int(guard.get("losses", 0))
+        pause_seconds = float(guard.get("pause_seconds", 0))
+        if required_losses <= 0 or pause_seconds <= 0 or len(recent) < required_losses:
+            return
+        tail = recent[-required_losses:]
+        if not all(float(value) < 0 for value in tail):
+            return
+        model["blocked_until_ts"] = time.time() + pause_seconds
+        model["blocked_reason"] = f"loss_streak_{required_losses}"
+        self.log_event(
+            "loss_streak_pause",
+            model_id=model["id"],
+            reason=model["blocked_reason"],
+            losses=required_losses,
+            pause_seconds=pause_seconds,
+        )
+
+    def apply_target100_trailing_pause_after_settlement(self, model):
+        spec = self.current_spec()
+        guard = spec.get("target100_trailing_pause") if spec else None
+        if not guard or model.get("phase") != "target100":
+            return
+        min_trades = int(guard.get("min_trades", self.args.gate_trades))
+        if model.get("trades", 0) < min_trades:
+            return
+        trigger = abs(float(guard.get("drawdown_from_peak", 0)))
+        pause_seconds = float(guard.get("pause_seconds", 0))
+        if trigger <= 0 or pause_seconds <= 0:
+            return
+        retrace = round(float(model["pnl"]) - float(model["peak_pnl"]), 4)
+        if retrace > -trigger:
+            return
+        model["blocked_until_ts"] = time.time() + pause_seconds
+        model["blocked_reason"] = f"target100_peak_retrace_{abs(retrace)}"
+        self.log_event(
+            "target100_trailing_pause",
+            model_id=model["id"],
+            reason=model["blocked_reason"],
+            retrace=retrace,
+            peak_pnl=model["peak_pnl"],
+            pnl=model["pnl"],
+            pause_seconds=pause_seconds,
+        )
 
     def signal_from_rule(self, ticks, rule):
         if rule["kind"] in ("trend", "reversal"):
