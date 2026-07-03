@@ -635,6 +635,8 @@ class StrategyTournament:
             state = json.loads(self.state_path.read_text(encoding="utf-8"))
             self.reconcile_model_specs(state)
             self.refresh_runtime_state(state)
+            if self.args.start_model_id:
+                self.prepare_priority_start(state, self.args.start_model_id)
             if self.args.continue_model_id:
                 self.prepare_model_continuation(state, self.args.continue_model_id)
             self.write_state(state)
@@ -725,6 +727,49 @@ class StrategyTournament:
             return
 
         raise RuntimeError(f"model not found for continuation: {model_id}")
+
+    def prepare_priority_start(self, state, model_id):
+        if self.args.continue_model_id:
+            raise RuntimeError("--start-model-id cannot be combined with --continue-model-id")
+        models = state.get("models", [])
+        target_index = next((index for index, model in enumerate(models) if model.get("id") == model_id), None)
+        if target_index is None:
+            raise RuntimeError(f"model not found for priority start: {model_id}")
+
+        current_index = int(state.get("current_model_index", 0))
+        for index in range(current_index, target_index):
+            model = models[index]
+            if model.get("status") == "backlog":
+                continue
+            model["status"] = "backlog"
+            model["pivot_reason"] = "priority_skipped_for_requested_wave3"
+            model["stopped_at"] = utc_now()
+            state.setdefault("backlog", []).append(
+                {
+                    "model_id": model["id"],
+                    "reason": model["pivot_reason"],
+                    "trades": model.get("trades", 0),
+                    "pnl": model.get("pnl", 0.0),
+                }
+            )
+
+        target = models[target_index]
+        if target.get("status") == "backlog" and not self.args.allow_backlog_continuation:
+            raise RuntimeError(f"refusing to start backlogged model without --allow-backlog-continuation: {model_id}")
+        if target.get("status") == "backlog":
+            target["status"] = "pending"
+            target["pivot_reason"] = None
+            target["stopped_at"] = None
+        state["current_model_index"] = target_index
+        state["status"] = "collecting_priority_start"
+        state.setdefault("runtime", {}).update(
+            {
+                "priority_start_model_id": model_id,
+                "priority_started_at": utc_now(),
+                "priority_skipped_from_index": current_index,
+                "priority_skipped_to_index": target_index,
+            }
+        )
 
     def reconcile_model_specs(self, state):
         existing_ids = {model["id"] for model in state.get("models", [])}
@@ -1293,6 +1338,7 @@ def parse_args():
     parser.add_argument("--settlement-timeout-seconds", type=float, default=25)
     parser.add_argument("--auth-retries", type=int, default=8)
     parser.add_argument("--continue-model-id", default="")
+    parser.add_argument("--start-model-id", default="")
     parser.add_argument("--allow-backlog-continuation", action="store_true")
     parser.add_argument("--model-set", choices=["default", "discovery", "all"], default="default")
     parser.add_argument("--app-id-env", default="DERIV_APP_ID")
