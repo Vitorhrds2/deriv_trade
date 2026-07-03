@@ -425,6 +425,112 @@ DISCOVERY_MODEL_SPECS = [
         "stake": 1.0,
         "rationale": "Longer mean-reversion test on 1HZ100V with a high displacement filter to avoid weak noise.",
     },
+    {
+        "id": "reversal_3tick_minmove016_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.16,
+        "cooldown_seconds": 40,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "rationale": "Wave 3: lower-than-champion threshold requested by user, testing whether more frequent entries keep positive EV.",
+    },
+    {
+        "id": "reversal_3tick_minmove018_CALLonly_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.18,
+        "cooldown_seconds": 40,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "allowed_contract_types": ["CALL"],
+        "rationale": "Wave 3 direction filter: only take CALL side of the near-champion lower-threshold reversal.",
+    },
+    {
+        "id": "reversal_3tick_minmove018_PUTonly_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.18,
+        "cooldown_seconds": 40,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "allowed_contract_types": ["PUT"],
+        "rationale": "Wave 3 direction filter: only take PUT side of the near-champion lower-threshold reversal.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_stake15_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 45,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "stake_multiplier": 1.5,
+        "rationale": "Wave 3 stake test: champion rule at 1.5x the discovery default stake, still demo-only.",
+    },
+    {
+        "id": "reversal_3tick_minmove020_guard_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.20,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "block_guard": {"window": 8, "max_loss": -12.0, "max_gain": 28.0, "pause_seconds": 180},
+        "rationale": "Wave 3 block-regime guard: pause after clearly bad or hot 8-trade blocks to reduce block alternation.",
+    },
+    {
+        "id": "reversal_3tick_minmove018_guard_CALLonly_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.18,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "allowed_contract_types": ["CALL"],
+        "block_guard": {"window": 8, "max_loss": -12.0, "max_gain": 28.0, "pause_seconds": 180},
+        "rationale": "Wave 3 combined rule: lower threshold, CALL-only direction filter, and block-regime pause.",
+    },
+    {
+        "id": "reversal_3tick_minmove018_guard_PUTonly_1HZ10V_w3",
+        "kind": "reversal",
+        "streak": 3,
+        "min_move": 0.18,
+        "cooldown_seconds": 35,
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "stake": 1.0,
+        "allowed_contract_types": ["PUT"],
+        "block_guard": {"window": 8, "max_loss": -12.0, "max_gain": 28.0, "pause_seconds": 180},
+        "rationale": "Wave 3 combined rule: lower threshold, PUT-only direction filter, and block-regime pause.",
+    },
+    {
+        "id": "adaptive_agent_tick_research_1HZ10V_w3",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 30,
+        "stake": 1.0,
+        "score_window": 40,
+        "min_paper_samples": 12,
+        "min_rule_score": 0.0,
+        "block_guard": {"window": 10, "max_loss": -15.0, "max_gain": 35.0, "pause_seconds": 180},
+        "rules": [
+            {"id": "rev3_016", "kind": "reversal", "streak": 3, "min_move": 0.16},
+            {"id": "rev3_020", "kind": "reversal", "streak": 3, "min_move": 0.20},
+            {"id": "rev4_025", "kind": "reversal", "streak": 4, "min_move": 0.25},
+            {"id": "mr5_018", "kind": "mean_revert", "window": 5, "min_move": 0.18},
+            {"id": "mr6_020", "kind": "mean_revert", "window": 6, "min_move": 0.20},
+            {"id": "trend3_020", "kind": "trend", "streak": 3, "min_move": 0.20},
+        ],
+        "rationale": "Wave 3 agentic model: continuously paper-scores explicit sub-rules and trades only the currently best positive-scoring rule.",
+    },
 ]
 
 
@@ -496,6 +602,10 @@ def empty_model_state(spec, status="pending"):
         "peak_pnl": 0.0,
         "max_drawdown": 0.0,
         "latencies_ms": [],
+        "recent_profits": [],
+        "blocked_until_ts": 0.0,
+        "blocked_reason": None,
+        "last_agent_rule": None,
         "promoted_at": None,
         "pivot_reason": None,
         "started_at": None,
@@ -510,6 +620,7 @@ class StrategyTournament:
         self.client = None
         self.model_specs = select_model_specs(args.model_set)
         self.ticks_by_symbol = {spec["symbol"]: [] for spec in self.model_specs}
+        self.adaptive_agents = {}
         self.last_trade_at = 0.0
         self.in_trade = False
         self.done = asyncio.Event()
@@ -745,10 +856,12 @@ class StrategyTournament:
 
     def stake_for_model(self, model, spec):
         if self.args.stake_override > 0:
-            return float(self.args.stake_override)
-        if model.get("phase") == "post100" and self.args.post_target_stake > 0:
-            return float(self.args.post_target_stake)
-        return float(spec.get("stake", 1.0))
+            base = float(self.args.stake_override)
+        elif model.get("phase") == "post100" and self.args.post_target_stake > 0:
+            base = float(self.args.post_target_stake)
+        else:
+            base = float(spec.get("stake", 1.0))
+        return round(base * float(spec.get("stake_multiplier", 1.0)), 2)
 
     def max_possible_pnl_at_trade_count(self, model, target_trades):
         spec = self.current_spec()
@@ -789,6 +902,10 @@ class StrategyTournament:
         model["peak_pnl"] = max(model["peak_pnl"], model["pnl"])
         dd = model["pnl"] - model["peak_pnl"]
         model["max_drawdown"] = min(model["max_drawdown"], round(dd, 4))
+        recent = model.setdefault("recent_profits", [])
+        recent.append(round(profit, 4))
+        model["recent_profits"] = recent[-100:]
+        self.apply_block_guard_after_settlement(model)
         self.write_state()
 
         if model["pnl"] <= -abs(self.args.model_kill_loss):
@@ -843,10 +960,45 @@ class StrategyTournament:
                 reason = "failed_100_pnl_nonpositive" if model["pnl"] <= 0 else "failed_100_drawdown"
                 self.pivot_current_model(reason)
 
-    def signal_for_model(self, model, spec):
-        ticks = self.ticks_by_symbol[spec["symbol"]]
-        if spec["kind"] in ("trend", "reversal"):
-            needed = spec["streak"] + 1
+    def apply_block_guard_after_settlement(self, model):
+        spec = self.current_spec()
+        guard = spec.get("block_guard") if spec else None
+        if not guard:
+            return
+        recent = model.get("recent_profits", [])
+        window = int(guard.get("window", 0))
+        if window <= 0 or len(recent) < window:
+            return
+        block_pnl = round(sum(recent[-window:]), 4)
+        pause_seconds = float(guard.get("pause_seconds", 0))
+        if pause_seconds <= 0:
+            return
+        if "max_loss" in guard and block_pnl <= float(guard["max_loss"]):
+            model["blocked_until_ts"] = time.time() + pause_seconds
+            model["blocked_reason"] = f"recent_loss_block_{window}_pnl_{block_pnl}"
+            self.log_event(
+                "block_guard_pause",
+                model_id=model["id"],
+                reason=model["blocked_reason"],
+                recent_window=window,
+                recent_pnl=block_pnl,
+                pause_seconds=pause_seconds,
+            )
+        elif "max_gain" in guard and block_pnl >= float(guard["max_gain"]):
+            model["blocked_until_ts"] = time.time() + pause_seconds
+            model["blocked_reason"] = f"recent_gain_block_{window}_pnl_{block_pnl}"
+            self.log_event(
+                "block_guard_pause",
+                model_id=model["id"],
+                reason=model["blocked_reason"],
+                recent_window=window,
+                recent_pnl=block_pnl,
+                pause_seconds=pause_seconds,
+            )
+
+    def signal_from_rule(self, ticks, rule):
+        if rule["kind"] in ("trend", "reversal"):
+            needed = int(rule["streak"]) + 1
             if len(ticks) < needed:
                 return None
             recent = ticks[-needed:]
@@ -858,9 +1010,9 @@ class StrategyTournament:
             else:
                 return None
             move = recent[-1]["quote"] - recent[0]["quote"]
-            if abs(move) < spec.get("min_move", 0.0):
+            if abs(move) < rule.get("min_move", 0.0):
                 return None
-            if spec["kind"] == "reversal":
+            if rule["kind"] == "reversal":
                 direction = "DOWN" if direction == "UP" else "UP"
             return {
                 "direction": direction,
@@ -870,15 +1022,15 @@ class StrategyTournament:
                 "to_quote": recent[-1]["quote"],
             }
 
-        if spec["kind"] == "mean_revert":
-            window = spec["window"]
+        if rule["kind"] == "mean_revert":
+            window = int(rule["window"])
             if len(ticks) < window:
                 return None
             recent = ticks[-window:]
             mean_quote = statistics.mean(item["quote"] for item in recent[:-1])
             last_quote = recent[-1]["quote"]
             diff = last_quote - mean_quote
-            if abs(diff) < spec["min_move"]:
+            if abs(diff) < rule["min_move"]:
                 return None
             direction = "DOWN" if diff > 0 else "UP"
             return {
@@ -888,6 +1040,105 @@ class StrategyTournament:
                 "from_quote": round(mean_quote, 5),
                 "to_quote": last_quote,
             }
+        return None
+
+    def apply_signal_filters(self, model, spec, signal):
+        if not signal:
+            return None
+        allowed_contracts = spec.get("allowed_contract_types")
+        if allowed_contracts and signal.get("contract_type") not in set(allowed_contracts):
+            return None
+        blocked_until = float(model.get("blocked_until_ts", 0.0) or 0.0)
+        if blocked_until > time.time():
+            return None
+        return signal
+
+    def adaptive_state(self, model):
+        return self.adaptive_agents.setdefault(
+            model["id"],
+            {
+                "pending": [],
+                "scores": {},
+                "history": {},
+                "last_tick_seen_at": 0.0,
+                "last_logged_rule": None,
+            },
+        )
+
+    def adaptive_signal_for_model(self, model, spec):
+        ticks = self.ticks_by_symbol[spec["symbol"]]
+        agent = self.adaptive_state(model)
+        if ticks:
+            current_seen_at = ticks[-1]["seen_at"]
+            if agent["last_tick_seen_at"] != current_seen_at:
+                self.update_adaptive_paper(agent, spec, ticks)
+                agent["last_tick_seen_at"] = current_seen_at
+
+        emitted = []
+        for rule in spec.get("rules", []):
+            signal = self.signal_from_rule(ticks, rule)
+            if signal:
+                rule_id = rule["id"]
+                history = agent["history"].get(rule_id, [])
+                score = round(sum(history[-int(spec.get("score_window", 40)):]), 4)
+                emitted.append((score, len(history), rule_id, signal))
+
+        if not emitted:
+            return None
+
+        min_samples = int(spec.get("min_paper_samples", 0))
+        min_score = float(spec.get("min_rule_score", -999999))
+        eligible = [item for item in emitted if item[1] >= min_samples and item[0] >= min_score]
+        if not eligible and spec.get("allow_exploration_before_min_samples", False):
+            eligible = emitted
+        if not eligible:
+            return None
+
+        score, samples, rule_id, signal = max(eligible, key=lambda item: (item[0], item[1], item[2]))
+        signal["agent_rule_id"] = rule_id
+        signal["agent_rule_score"] = score
+        signal["agent_rule_samples"] = samples
+        model["last_agent_rule"] = {"rule_id": rule_id, "score": score, "samples": samples, "ts": utc_now()}
+        if agent.get("last_logged_rule") != rule_id:
+            self.log_event("agent_rule_selected", model_id=model["id"], rule_id=rule_id, score=score, samples=samples)
+            agent["last_logged_rule"] = rule_id
+        return signal
+
+    def update_adaptive_paper(self, agent, spec, ticks):
+        if len(ticks) < 2:
+            return
+        previous_quote = ticks[-2]["quote"]
+        current_quote = ticks[-1]["quote"]
+        pending = agent.get("pending", [])
+        for item in pending:
+            direction = item["direction"]
+            if direction == "UP":
+                outcome = 0.92 if current_quote > previous_quote else -1.0
+            else:
+                outcome = 0.92 if current_quote < previous_quote else -1.0
+            rule_id = item["rule_id"]
+            history = agent.setdefault("history", {}).setdefault(rule_id, [])
+            history.append(outcome)
+            agent["history"][rule_id] = history[-200:]
+            agent.setdefault("scores", {})[rule_id] = round(sum(agent["history"][rule_id]), 4)
+
+        new_pending = []
+        for rule in spec.get("rules", []):
+            signal = self.signal_from_rule(ticks, rule)
+            if signal:
+                new_pending.append({"rule_id": rule["id"], "direction": signal["direction"]})
+        agent["pending"] = new_pending
+
+    def signal_for_model(self, model, spec):
+        ticks = self.ticks_by_symbol[spec["symbol"]]
+        if spec["kind"] == "adaptive_agent":
+            return self.apply_signal_filters(model, spec, self.adaptive_signal_for_model(model, spec))
+
+        if spec["kind"] in ("trend", "reversal"):
+            return self.apply_signal_filters(model, spec, self.signal_from_rule(ticks, spec))
+
+        if spec["kind"] == "mean_revert":
+            return self.apply_signal_filters(model, spec, self.signal_from_rule(ticks, spec))
         return None
 
     async def on_tick(self, message):
@@ -905,6 +1156,8 @@ class StrategyTournament:
         if not model or not spec or symbol != spec["symbol"]:
             return
         self.logger.info("TICK model=%s symbol=%s quote=%.5f trades=%s pnl=%.2f", model["id"], symbol, quote, model["trades"], model["pnl"])
+        if spec["kind"] == "adaptive_agent":
+            self.adaptive_signal_for_model(model, spec)
         if self.in_trade:
             return
         if time.time() - self.last_trade_at < spec["cooldown_seconds"]:
