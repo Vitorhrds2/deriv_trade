@@ -654,6 +654,38 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Agentic PnL500 v4: tighten paper gate and quarantine any sub-rule after live loss to reduce paper/live mismatch seen in v3.",
     },
+    {
+        "id": "adaptive_agent_consistency_pnl500_v5_reversal_only_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 50,
+        "stake": 1.0,
+        "score_window": 180,
+        "min_paper_samples": 120,
+        "min_rule_score": 8.0,
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 3, "max_loss": -12.0, "max_gain": 24.0, "pause_seconds": 1200},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 1800, "phases": ["gate30", "target100", "post100"]},
+        "agent_rule_live_guard": {"losses": 1, "pause_seconds": 7200, "window": 3, "max_loss": -1.0},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 20.0,
+            "pause_seconds": 1800,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_018_call", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_018_put", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_call", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_put", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_022_call", "kind": "reversal", "streak": 3, "min_move": 0.22, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_022_put", "kind": "reversal", "streak": 3, "min_move": 0.22, "allowed_contract_types": ["PUT"]},
+            {"id": "rev4_025_call", "kind": "reversal", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["CALL"]},
+            {"id": "rev4_025_put", "kind": "reversal", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["PUT"]},
+        ],
+        "rationale": "Agentic PnL500 v5 fallback: restrict the agent to the champion reversal lineage after v3/v4 mean-reversion sub-rules showed paper/live mismatch.",
+    },
 ]
 
 
