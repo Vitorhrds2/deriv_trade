@@ -4,7 +4,7 @@
 // Atualize manualmente quando uma nova hipótese for testada ou um veredito mudar
 // (ex.: shadow A/B do hft_bot acumular N suficiente para fechar veredito).
 
-export type HypStatus = "live" | "validating" | "refuted" | "draft" | "paused" | "archived";
+export type HypStatus = "live" | "validating" | "refuted" | "weak-signal" | "draft" | "paused" | "archived";
 
 export interface RealHypothesis {
   id: string;
@@ -1011,6 +1011,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 12 cells (all negative)",
     tools: ["asian_edge_scan.py"],
     reportFile: "asian_edge_scan.log",
+    pnl: 0,
+    trades: 12,
+    sampleUnit: "células (ASIANU/ASIAND × N)",
   },
   {
     id: "HYP-RESET-01",
@@ -1037,6 +1040,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 8 cells (all negative)",
     tools: ["reset_edge_scan.py"],
     reportFile: "reset_edge_scan.log",
+    pnl: 0,
+    trades: 8,
+    sampleUnit: "células (RESETCALL/RESETPUT × duração)",
   },
   {
     id: "HYP-RUNS-01",
@@ -1063,6 +1069,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 8 cells (all negative)",
     tools: ["runs_edge_scan.py"],
     reportFile: "runs_edge_scan.log",
+    pnl: 0,
+    trades: 8,
+    sampleUnit: "células (RUNHIGH/RUNLOW × N)",
   },
   {
     id: "HYP-TICKHIGH-01",
@@ -1089,6 +1098,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 10 cells (all negative)",
     tools: ["tickhigh_edge_scan.py"],
     reportFile: "tickhigh_edge_scan.log",
+    pnl: 0,
+    trades: 10,
+    sampleUnit: "células (TICKHIGH/TICKLOW × posição)",
   },
   {
     id: "HYP-TURBOS-01",
@@ -1115,6 +1127,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 40 cells (all negative)",
     tools: ["turbos_edge_scan.py"],
     reportFile: "turbos_edge_scan.log",
+    pnl: 0,
+    trades: 40,
+    sampleUnit: "células (TURBOSLONG/SHORT × barreira × duração)",
   },
   {
     id: "HYP-OPTBUY-01",
@@ -1144,6 +1159,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV net range across 16 expiries (BTC+ETH, DTE 1-82)",
     tools: ["options_buy_side_scan.py"],
     reportFile: "options_buy_side_scan.log",
+    pnl: 0,
+    trades: 16,
+    sampleUnit: "expiries (BTC+ETH, DTE 1-82)",
   },
   {
     id: "HYP-XFUND-01",
@@ -1171,6 +1189,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "P&L médio/dia (bps) across BTC/ETH/SOL",
     tools: ["cross_venue_funding_arb_scan.py"],
     reportFile: "cross_venue_funding_arb_scan.log",
+    pnl: 0,
+    trades: 270,
+    sampleUnit: "períodos de 8h (BTC/ETH/SOL × 90 dias)",
   },
   {
     id: "HYP-LPOOL-01",
@@ -1199,6 +1220,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "Short -3d/+3d return (%) across 13 events",
     tools: ["launchpool_impact_scan.py"],
     reportFile: "launchpool_impact_scan.log",
+    pnl: 0,
+    trades: 13,
+    sampleUnit: "eventos Launchpool (2023-2026)",
   },
   {
     id: "HYP-RELVAL-01",
@@ -1227,6 +1251,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across 24 cells (all negative, constant margin)",
     tools: ["relative_value_scan.py"],
     reportFile: "relative_value_scan.log",
+    pnl: 0,
+    trades: 40,
+    sampleUnit: "células (símbolo × duração × CALL/PUT)",
   },
   {
     id: "HYP-EXOTIC-01",
@@ -1255,6 +1282,9 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "EV range across ~50 cells (all negative after DGP gate)",
     tools: ["exotic_value_scan.py"],
     reportFile: "exotic_value_scan.log",
+    pnl: 0,
+    trades: 48,
+    sampleUnit: "células (símbolo × barreira × duração)",
   },
   {
     id: "HYP-POLY-01",
@@ -1284,6 +1314,139 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "PA3 min sum(asks) margin: $1.0010 (0.1bps above arb threshold)",
     tools: ["polymarket_arb_scan.py"],
     reportFile: "polymarket_arb_scan.log",
+    pnl: 0,
+    trades: 576,
+    sampleUnit: "mercados Polymarket analisados",
+  },
+  {
+    id: "HYP-PCP-01",
+    title: "D28 — Put-Call Parity Violation (Deribit options arb)",
+    market: "DERIBIT · BTC/ETH · CALLS + PUTS · todas as expiries",
+    thesis:
+      "Put-call parity: C - P = S - K (r=0 em crypto). Se violado após fees, " +
+      "comprar synthetic long (call + short put) e shortar spot = arb livre. " +
+      "Scan: 457 pares BTC + 362 pares ETH, todas as expiries e strikes. " +
+      "Filtros: strike dentro ±60% do spot, bid-ask spread < 50% do mid, OI ≥ 10.",
+    confidence: 3,
+    status: "refuted",
+    tags: ["deribit", "options", "arbitrage", "put-call-parity", "btc", "eth"],
+    trigger: "|C_ask - P_bid - (S - K)| > fees (0.03% * S * 3 legs) em strike com OI ≥ 10",
+    invalidation: "ATM/near-ATM strikes: 0 violações após fees. Market makers arbitram parity eficientemente. " +
+      "Violações apenas em deep OTM/ITM com quotes stale e volume = 0.",
+    createdAt: "2026-07-05",
+    author: "put_call_parity_scan.py",
+    verdict:
+      "SEM EDGE EXECUTÁVEL. 149 violações BTC + 159 ETH com OI ≥ 10, mas todas em strikes deep OTM/ITM " +
+      "com volume = 0 e quotes stale. ATM strikes (±10% do spot) mostram parity perfeita. " +
+      "Market makers da Deribit arbitram put-call parity eficientemente em strikes líquidos. " +
+      "As 'violações' em strikes illíquidos não são executáveis em size real.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "ATM parity deviation: $0 (market makers arbitrage efficiently)",
+    tools: ["put_call_parity_scan.py"],
+    reportFile: "put_call_parity_scan.log",
+    pnl: 0,
+    trades: 819,
+    sampleUnit: "pares call+put (BTC 457 + ETH 362)",
+  },
+  {
+    id: "HYP-BASIS-01",
+    title: "D29 — Basis-Funding Disconnect (Binance carry trade)",
+    market: "BINANCE FUTURES · Top 30 USDT perps · spot + perp carry",
+    thesis:
+      "Quando perp > spot (contango) E funding negativo, long perp é carry trade grátis: " +
+      "ganha basis convergence + recebe funding. Quando perp < spot E funding positivo, " +
+      "short perp é carry grátis. O 'disconnect' é quando ambos componentes favorevem o mesmo lado. " +
+      "Scan: 19 pares analisados, roundtrip fees 0.14% (spot 0.1% + futures 0.04%).",
+    confidence: 4,
+    status: "weak-signal",
+    tags: ["binance", "futures", "funding-rate", "basis", "carry-trade", "arbitrage"],
+    trigger: "Basis > 0 E funding < 0 (long carry) ou basis < 0 E funding > 0 (short carry). " +
+      "Profit per 8h = |basis%| + funding% - 0.14% fees > 0.",
+    invalidation: "Apenas 2 disconnects profitable após fees em 19 pares. " +
+      "ARPAUSDT: +0.28%/8h (backwardation + pos funding). SYNUSDT: +0.01%/8h (marginal). " +
+      "Funding rate muda a cada período — não é garantido.",
+    createdAt: "2026-07-05",
+    author: "basis_funding_disconnect_scan.py",
+    verdict:
+      "SINAL FRACO. 2/19 pares com disconnect profitable após fees. " +
+      "ARPAUSDT: basis -0.41% + funding +0.01%/8h = +0.28% net per 8h (annualized ~+307%). " +
+      "SYNUSDT: +0.01%/8h (marginal). 12 SHORT disconnects vs 1 LONG — mercado em backwardation geral. " +
+      "CUIDADO: funding rate varia a cada 8h, basis converge mas timing é incerto. " +
+      "Annualized carry IC95%: [-107%, +472%] — alta incerteza, poucos pontos.",
+    evPerTrade: 0.15,
+    ci95: [-0.14, 0.29],
+    ci95Label: "Profit per 8h (%) for 2 profitable disconnects, net of 0.14% fees",
+    tools: ["basis_funding_disconnect_scan.py"],
+    reportFile: "basis_funding_disconnect_scan.log",
+    pnl: 0,
+    trades: 19,
+    sampleUnit: "pares spot+perp analisados",
+  },
+  {
+    id: "HYP-DEPEG-01",
+    title: "D30 — Stablecoin Depeg Mean Reversion",
+    market: "BINANCE · USDCUSDT, FDUSDUSDT, TUSDUSDT, USDPUSDT · 90d hourly",
+    thesis:
+      "Stablecoins depeg de $1.00 ocasionalmente. Comprar abaixo de $1.00 e esperar reversão " +
+      "é mean-reversion trade. Scan: 4 pares, 90 dias, threshold 0.3%. " +
+      "Medir: frequência de depegs, WR de reversão, profit vs fees (0.1% roundtrip spot).",
+    confidence: 2,
+    status: "refuted",
+    tags: ["binance", "stablecoin", "mean-reversion", "depeg", "usdc", "fdUSD"],
+    trigger: "|price - 1.0| > 0.3% → buy (if below) or sell (if above), hold until |price - 1.0| < 0.3%",
+    invalidation: "Apenas 2 eventos de depeg em 90 dias (FDUSD). 100% reversão mas avg profit 0.055% < fees 0.1%. " +
+      "Net profit -0.045%. USDC/USDT/TUSD/USDP: 0 eventos (sempre dentro de 0.3%).",
+    createdAt: "2026-07-05",
+    author: "stablecoin_depeg_scan.py",
+    verdict:
+      "SEM EDGE. 2 eventos em 90 dias (FDUSD only), 100% reversão mas profit 0.055% < fees 0.1%. " +
+      "Net EV -0.045% por trade. Stablecoins major (USDC/USDT) não depegaram nem uma vez no período. " +
+      "Depegs pequenos (< 0.3%) são muito frequentes mas profit < fees. " +
+      "Depegs grandes (SVB/USDC Mar 2023) são raros e duram dias (capital lockup). " +
+      "Não é estratégia viável com fees de spot 0.1%.",
+    evPerTrade: -0.045,
+    ci95: [-0.06, -0.03],
+    ci95Label: "Net profit per depeg event (%) after 0.1% roundtrip fees, N=2",
+    tools: ["stablecoin_depeg_scan.py"],
+    reportFile: "stablecoin_depeg_scan.log",
+    pnl: 0,
+    trades: 2,
+    sampleUnit: "eventos depeg (90 dias, 4 stablecoins)",
+  },
+  {
+    id: "HYP-TWAP-01",
+    title: "D31 — Deribit Settlement TWAP Exploit (structural bug)",
+    market: "DERIBIT · BTC/ETH · options expiry 08:00 UTC · 30min TWAP window",
+    thesis:
+      "Deribit settle options com TWAP de 30min (07:30-08:00 UTC). Aos 20min de TWAP formado, " +
+      "é possível prever o settlement price com erro < 0.05% em 90% das vezes (BTC) / 87% (ETH). " +
+      "Se uma option está mispriced vs intrinsic value no TWAP estimado, há janela de 10min para arbitrar. " +
+      "Backtest: 30 expiries diárias BTC + 30 ETH, 1m klines da Binance.",
+    confidence: 7,
+    status: "validating",
+    tags: ["deribit", "options", "settlement", "twap", "exploit", "bug", "structural", "btc", "eth"],
+    trigger: "Aos 20min do TWAP window (07:50 UTC): se |forming_twap - option_market_price_intrinsic| > 0.08% (TWAP error + fees), " +
+      "comprar/vender option mispriced. Hold até settlement (08:00 UTC).",
+    invalidation: "TWAP error aos 20min > 0.1% em > 20% das vezes, ou bid-ask spread das options < TWAP error + fees.",
+    createdAt: "2026-07-05",
+    author: "settlement_twap_scan.py",
+    verdict:
+      "EDGE POTENCIAL (structural). BTC: 27/30 (90%) TWAP previsível within 0.05% aos 20min, Wilson CI [74%, 97%]. " +
+      "ETH: 26/30 (87%), Wilson CI [70%, 95%]. Aos 25min: 93-97% within 0.05%. " +
+      "Exploit: observar 20min de TWAP → estimar settlement → comprar/vender options mispriced nos últimos 10min. " +
+      "CUIDADO: (1) precisa de option com bid-ask spread > 0.08% para lucrar; " +
+      "(2) capital lockup é mínimo (10min até settlement); " +
+      "(3) precisa validar que options realmente estão mispriced vs forming TWAP em tempo real. " +
+      "PRÓXIMO PASSO: paper trade em expiries reais — monitorar options market prices nos últimos 30min antes de settlement.",
+    evPerTrade: 0.08,
+    ci95: [0.05, 0.11],
+    ci95Label: "TWAP prediction accuracy at 20min: 90% within 0.05% (BTC), 87% (ETH), N=30 each",
+    tools: ["settlement_twap_scan.py"],
+    reportFile: "settlement_twap_scan.log",
+    pnl: 0,
+    trades: 60,
+    sampleUnit: "expiries diárias (30 BTC + 30 ETH)",
   },
 ];
 
@@ -1293,6 +1456,8 @@ export function hypStatusBadgeClass(s: HypStatus) {
       return "bg-success/15 text-success border-success/30";
     case "validating":
       return "bg-warning/15 text-warning border-warning/30";
+    case "weak-signal":
+      return "bg-info/15 text-info border-info/30";
     case "refuted":
       return "bg-destructive/15 text-destructive border-destructive/40";
     case "paused":
