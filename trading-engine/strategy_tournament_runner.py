@@ -797,6 +797,48 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Agentic PnL500 v8 fallback: dynamically score reversal, mean-reversion, and momentum families, then trade only when at least two families agree on the same direction, reducing the positive/negative block alternation seen in prior live runs.",
     },
+    {
+        "id": "adaptive_agent_crossfamily_memory_pnl500_v9_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 60,
+        "stake": 1.0,
+        "score_window": 300,
+        "min_paper_samples": 160,
+        "min_rule_score": 2.0,
+        "min_consensus_rules": 2,
+        "min_consensus_score": 12.0,
+        "min_consensus_families": 2,
+        "consensus_key": "contract_type",
+        "consensus_family_key": "rule_family",
+        "consensus_memory_seconds": 300,
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 3, "max_loss": -12.0, "max_gain": 24.0, "pause_seconds": 2400},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 3600, "phases": ["gate30", "target100", "post100"]},
+        "agent_rule_live_guard": {"losses": 1, "pause_seconds": 10800, "window": 3, "max_loss": -1.0},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 18.0,
+            "pause_seconds": 2400,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_016_call", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.16, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_016_put", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.16, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_call", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_put", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "mr4_016_call", "kind": "mean_revert", "family": "mean_revert", "window": 4, "min_move": 0.16, "allowed_contract_types": ["CALL"]},
+            {"id": "mr4_016_put", "kind": "mean_revert", "family": "mean_revert", "window": 4, "min_move": 0.16, "allowed_contract_types": ["PUT"]},
+            {"id": "mr6_020_call", "kind": "mean_revert", "family": "mean_revert", "window": 6, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "mr6_020_put", "kind": "mean_revert", "family": "mean_revert", "window": 6, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "trend3_018_call", "kind": "trend", "family": "momentum", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "trend3_018_put", "kind": "trend", "family": "momentum", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "trend4_025_call", "kind": "trend", "family": "momentum", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["CALL"]},
+            {"id": "trend4_025_put", "kind": "trend", "family": "momentum", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["PUT"]},
+        ],
+        "rationale": "Agentic PnL500 v9 fallback: keep v8 cross-family safeguards, but let a recent eligible family vote confirm a current eligible rule for a few minutes, so valid regime agreement is not lost solely because families do not emit on the same tick.",
+    },
 ]
 
 
@@ -1464,6 +1506,7 @@ class StrategyTournament:
                 "pending": [],
                 "scores": {},
                 "history": {},
+                "consensus_memory": {},
                 "last_tick_seen_at": 0.0,
                 "last_logged_rule": None,
                 "last_status_logged_at": 0.0,
@@ -1495,6 +1538,7 @@ class StrategyTournament:
             for item in emitted
             if item[1] >= min_samples and item[0] >= min_score and not self.is_agent_rule_blocked(model, item[2])
         ]
+        self.refresh_agent_consensus_memory(agent, spec, eligible)
         self.record_agent_status(model, spec, agent, emitted, eligible)
         if float(model.get("blocked_until_ts", 0.0) or 0.0) > time.time():
             return None
@@ -1506,7 +1550,10 @@ class StrategyTournament:
         if not eligible:
             return None
 
-        eligible = self.apply_agent_consensus_filter(model, spec, eligible)
+        current_rule_ids = {item[2] for item in eligible}
+        consensus_pool = self.agent_consensus_pool(agent, spec, eligible)
+        consensus_eligible = self.apply_agent_consensus_filter(model, spec, consensus_pool)
+        eligible = [item for item in consensus_eligible if item[2] in current_rule_ids]
         if not eligible:
             return None
 
@@ -1555,6 +1602,7 @@ class StrategyTournament:
             "eligible_count": len(eligible),
             "best_rule": best,
             "rules": rules,
+            "consensus_memory": self.active_agent_consensus_memory(agent, spec),
         }
         model["last_agent_status"] = status
 
@@ -1570,8 +1618,76 @@ class StrategyTournament:
                 min_rule_score=status["min_rule_score"],
                 best_rule=best,
                 rules=rules,
+                consensus_memory=status["consensus_memory"],
             )
             agent["last_status_logged_at"] = now
+
+    def refresh_agent_consensus_memory(self, agent, spec, eligible):
+        ttl = float(spec.get("consensus_memory_seconds", 0.0) or 0.0)
+        if ttl <= 0:
+            return
+        now = time.time()
+        memory = agent.setdefault("consensus_memory", {})
+        for rule_id in list(memory):
+            if float(memory[rule_id].get("expires_at", 0.0) or 0.0) <= now:
+                del memory[rule_id]
+        for score, samples, rule_id, signal in eligible:
+            memory_signal = dict(signal)
+            memory_signal["agent_vote_source"] = "memory"
+            memory[rule_id] = {
+                "score": float(score),
+                "samples": int(samples),
+                "rule_id": rule_id,
+                "signal": memory_signal,
+                "recorded_at": now,
+                "expires_at": now + ttl,
+            }
+
+    def active_agent_consensus_memory(self, agent, spec):
+        ttl = float(spec.get("consensus_memory_seconds", 0.0) or 0.0)
+        if ttl <= 0:
+            return []
+        now = time.time()
+        active = []
+        for rule_id, row in sorted(agent.get("consensus_memory", {}).items()):
+            expires_at = float(row.get("expires_at", 0.0) or 0.0)
+            if expires_at <= now:
+                continue
+            signal = row.get("signal", {})
+            active.append(
+                {
+                    "rule_id": rule_id,
+                    "rule_family": signal.get("rule_family"),
+                    "contract_type": signal.get("contract_type"),
+                    "score": round(float(row.get("score", 0.0) or 0.0), 4),
+                    "samples": int(row.get("samples", 0) or 0),
+                    "age_seconds": round(now - float(row.get("recorded_at", now) or now), 1),
+                    "ttl_remaining_seconds": round(expires_at - now, 1),
+                }
+            )
+        return active
+
+    def agent_consensus_pool(self, agent, spec, eligible):
+        ttl = float(spec.get("consensus_memory_seconds", 0.0) or 0.0)
+        if ttl <= 0:
+            return eligible
+        now = time.time()
+        current_rule_ids = {item[2] for item in eligible}
+        pool = []
+        for score, samples, rule_id, signal in eligible:
+            current_signal = dict(signal)
+            current_signal["agent_vote_source"] = "current"
+            pool.append((score, samples, rule_id, current_signal))
+        for rule_id, row in sorted(agent.get("consensus_memory", {}).items()):
+            if rule_id in current_rule_ids:
+                continue
+            if float(row.get("expires_at", 0.0) or 0.0) <= now:
+                continue
+            memory_signal = dict(row.get("signal", {}))
+            memory_signal["agent_vote_source"] = "memory"
+            memory_signal["agent_vote_age_seconds"] = round(now - float(row.get("recorded_at", now) or now), 3)
+            pool.append((float(row.get("score", 0.0) or 0.0), int(row.get("samples", 0) or 0), rule_id, memory_signal))
+        return pool
 
     def apply_agent_consensus_filter(self, model, spec, eligible):
         min_rules = int(spec.get("min_consensus_rules", 0) or 0)
