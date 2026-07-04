@@ -756,6 +756,47 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Agentic PnL500 v7 fallback: if reversal consensus stays negative after enough paper samples, test the momentum mirror with the same consensus gate instead of loosening isolated reversal entries.",
     },
+    {
+        "id": "adaptive_agent_crossfamily_pnl500_v8_regime_switch_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 60,
+        "stake": 1.0,
+        "score_window": 300,
+        "min_paper_samples": 160,
+        "min_rule_score": 2.0,
+        "min_consensus_rules": 2,
+        "min_consensus_score": 12.0,
+        "min_consensus_families": 2,
+        "consensus_key": "contract_type",
+        "consensus_family_key": "rule_family",
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 3, "max_loss": -12.0, "max_gain": 24.0, "pause_seconds": 2400},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 3600, "phases": ["gate30", "target100", "post100"]},
+        "agent_rule_live_guard": {"losses": 1, "pause_seconds": 10800, "window": 3, "max_loss": -1.0},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 18.0,
+            "pause_seconds": 2400,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_016_call", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.16, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_016_put", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.16, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_call", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_put", "kind": "reversal", "family": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "mr4_016_call", "kind": "mean_revert", "family": "mean_revert", "window": 4, "min_move": 0.16, "allowed_contract_types": ["CALL"]},
+            {"id": "mr4_016_put", "kind": "mean_revert", "family": "mean_revert", "window": 4, "min_move": 0.16, "allowed_contract_types": ["PUT"]},
+            {"id": "mr6_020_call", "kind": "mean_revert", "family": "mean_revert", "window": 6, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "mr6_020_put", "kind": "mean_revert", "family": "mean_revert", "window": 6, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "trend3_018_call", "kind": "trend", "family": "momentum", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "trend3_018_put", "kind": "trend", "family": "momentum", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "trend4_025_call", "kind": "trend", "family": "momentum", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["CALL"]},
+            {"id": "trend4_025_put", "kind": "trend", "family": "momentum", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["PUT"]},
+        ],
+        "rationale": "Agentic PnL500 v8 fallback: dynamically score reversal, mean-reversion, and momentum families, then trade only when at least two families agree on the same direction, reducing the positive/negative block alternation seen in prior live runs.",
+    },
 ]
 
 
@@ -1371,7 +1412,7 @@ class StrategyTournament:
                 "from_quote": recent[0]["quote"],
                 "to_quote": recent[-1]["quote"],
             }
-            return self.apply_rule_contract_filter(rule, signal)
+            return self.finalize_rule_signal(rule, signal)
 
         if rule["kind"] == "mean_revert":
             window = int(rule["window"])
@@ -1391,8 +1432,13 @@ class StrategyTournament:
                 "from_quote": round(mean_quote, 5),
                 "to_quote": last_quote,
             }
-            return self.apply_rule_contract_filter(rule, signal)
+            return self.finalize_rule_signal(rule, signal)
         return None
+
+    def finalize_rule_signal(self, rule, signal):
+        signal["rule_kind"] = rule.get("kind")
+        signal["rule_family"] = rule.get("family", rule.get("kind"))
+        return self.apply_rule_contract_filter(rule, signal)
 
     def apply_rule_contract_filter(self, rule, signal):
         allowed_contracts = rule.get("allowed_contract_types")
@@ -1485,6 +1531,8 @@ class StrategyTournament:
             rules.append(
                 {
                     "rule_id": rule_id,
+                    "rule_kind": rule.get("kind"),
+                    "rule_family": rule.get("family", rule.get("kind")),
                     "samples": len(history),
                     "score": round(sum(history[-score_window:]), 4),
                     "lifetime_score": round(sum(history), 4),
@@ -1528,10 +1576,12 @@ class StrategyTournament:
     def apply_agent_consensus_filter(self, model, spec, eligible):
         min_rules = int(spec.get("min_consensus_rules", 0) or 0)
         min_score = float(spec.get("min_consensus_score", 0.0) or 0.0)
-        if min_rules <= 1 and min_score <= 0:
+        min_families = int(spec.get("min_consensus_families", 0) or 0)
+        if min_rules <= 1 and min_score <= 0 and min_families <= 1:
             return eligible
 
         key_name = spec.get("consensus_key", "contract_type")
+        family_key = spec.get("consensus_family_key", "rule_family")
         grouped = {}
         for item in eligible:
             score, samples, rule_id, signal = item
@@ -1541,24 +1591,34 @@ class StrategyTournament:
         accepted_groups = []
         for key, items in grouped.items():
             group_score = round(sum(float(item[0]) for item in items), 4)
+            families = sorted(
+                {
+                    str(item[3].get(family_key) or item[3].get("rule_kind") or "unknown")
+                    for item in items
+                }
+            )
             if min_rules > 1 and len(items) < min_rules:
                 continue
             if min_score > 0 and group_score < min_score:
                 continue
-            accepted_groups.append((group_score, len(items), key, items))
+            if min_families > 1 and len(families) < min_families:
+                continue
+            accepted_groups.append((group_score, len(items), len(families), key, families, items))
 
         if not accepted_groups:
             return []
 
-        group_score, _, group_key, items = max(accepted_groups, key=lambda item: (item[0], item[1], item[2]))
+        group_score, _, _, group_key, families, items = max(accepted_groups, key=lambda item: (item[0], item[1], item[2], item[3]))
         for score, samples, rule_id, signal in items:
             signal["agent_consensus_key"] = group_key
             signal["agent_consensus_rules"] = len(items)
             signal["agent_consensus_score"] = group_score
+            signal["agent_consensus_families"] = families
         model["last_agent_consensus"] = {
             "key": group_key,
             "rules": len(items),
             "score": group_score,
+            "families": families,
             "ts": utc_now(),
         }
         return items
