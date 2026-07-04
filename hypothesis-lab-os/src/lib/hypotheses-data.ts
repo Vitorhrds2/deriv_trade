@@ -806,30 +806,31 @@ export const realHypotheses: RealHypothesis[] = [
   {
     id: "HYP-LIQ-01",
     title: "D22 — CEX liquidation cascade (large move → reversal)",
-    market: "BTC Futures (Binance, 1m candles, 25h sample)",
+    market: "BTC Futures (Binance, 1m candles, 7 days)",
     thesis:
       "Large 1-minute price moves (proxy for liquidation cascades) predict short-term reversals. " +
       "After a large UP move (2σ+), BTC tends to pull back. After a large DOWN move (3σ+), BTC tends to bounce.",
-    confidence: 1,
-    status: "validating",
+    confidence: 0,
+    status: "refuted",
     tags: ["cex", "binance", "liquidation", "reversal", "btc", "signal", "kline"],
-    trigger: "1m return > 2σ above mean (UP) or < -2σ (DOWN)",
-    invalidation: "1500 1m candles (~25h). 3 significant pullback signals found (UP 2σ→5m, 2σ→15m, 3σ→60m). Needs larger sample + fee analysis.",
+    trigger: "1m return > 3σ below mean (DOWN) → go long, expect bounce",
+    invalidation: "7 days 1m data (10,080 candles), IS/OOS 70/30 split. Signal IS+OOS validated but returns < fees.",
     createdAt: "2026-07-04",
     author: "cex_liquidation_scan.py",
     pnl: 0,
-    trades: 1500,
-    sampleUnit: "1m candles (Binance Futures BTCUSDT, ~25h)",
+    trades: 10080,
+    sampleUnit: "1m candles (Binance Futures BTCUSDT, 7 days, IS=7056 OOS=3024)",
     verdict:
-      "SINAL PRELIMINAR — 3 sinais estatisticamente significativos de pullback após large UP move: " +
-      "UP 2σ→5m: -0.041% IC95%[-0.076%,-0.008%] | UP 2σ→15m: -0.059% IC95%[-0.119%,-0.002%] | " +
-      "UP 3σ→60m: -0.179% IC95%[-0.332%,-0.017%]. Bounce após DOWN 3σ→1m: +0.030% IC95%[+0.011%,+0.048%]. " +
-      "CUIDADO: N=9-38 eventos, 25h apenas. Binance taker fee 0.04%/side = 0.08% round trip. " +
-      "Sinais de 5m/15m (<0.06%) são menores que o fee. Apenas 3σ→60m (-0.18%) supera custos. " +
-      "Necessário: coletar dias/semanas de dados 1m, OOS test, distinguir liquidations reais de moves normais.",
-    evPerTrade: -0.041,
-    ci95: [-0.076, -0.008],
-    ci95Label: "UP 2σ → pullback 5m return % (IC95%)",
+      "REFUTADO POR FEES — Sinal estatístico real mas não tradeável. " +
+      "DOWN 3σ→bounce 1m: IS+OOS validado, avg=+0.029% IC95%[+0.011%,+0.047%], mas net=-0.051% após fees (0.08% round-trip). " +
+      "DOWN 3σ→bounce 5m: IS+OOS validado, avg=+0.059% IC95%[+0.014%,+0.107%], mas net=-0.021% após fees. " +
+      "DOWN 2.5σ→bounce 60m: avg=+0.156%, net=+0.076% (supera fees!) mas NÃO significativo em OOS. " +
+      "UP pullback signals do 25h scan desapareceram no 7d — eram ruído. " +
+      "Conclusão: grandes moves 1m predizem reversão estatisticamente, mas o efeito é menor que custos de transação. " +
+      "Para ser tradeável precisaria: maker fees (0.02%/side), ou horizonte 30-60m com N maior, ou dados de tick intra-minuto.",
+    evPerTrade: -0.021,
+    ci95: [-0.051, 0.010],
+    ci95Label: "DOWN 3σ → bounce 5m, net return % after fees (IC95%)",
     tools: ["cex_liquidation_scan.py"],
     reportFile: "cex_liquidation_scan.log",
   },

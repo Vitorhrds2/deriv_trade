@@ -1,5 +1,5 @@
 """
-D22 — CEX liquidation cascade scan (historical approach).
+D22 — CEX liquidation cascade scan (historical, multi-day validation).
 
 Hipotese: grandes movimentos de preco em curto prazo (proxy para liquidation cascades)
 predizem reversoes. Quando BTC cai >X% em 1-5 minutos, tende a reverter (bounce).
@@ -12,20 +12,22 @@ Mecanismo:
 
 Data source (gratuito, publico, sem API key):
 - Binance Futures REST API: BTCUSDT 1m klines (velas de 1 minuto)
-- https://fapi.binance.com/fapi/v1/klines?symbol=BTCUSDT&interval=1m&limit=1500
+- Paginacao via startTime/endTime (1500 por request, ~7 dias = ~29 requests)
 
 Teste:
-1. Fetch 1500 velas de 1m (~25 horas)
-2. Detectar velas com |retorno| > threshold (1σ, 2σ, 3σ acima da media)
-3. Medir retorno nos 1m, 5m, 15m, 30m, 60m seguintes
-4. Veredito: grandes moves predizem reversao?
+1. Fetch N dias de velas 1m (paginado)
+2. Split IS/OOS (70/30 temporal)
+3. Detectar velas com |retorno| > threshold (1σ, 2σ, 3σ acima da media)
+4. Medir retorno nos 1m, 5m, 15m, 30m, 60m seguintes
+5. Veredito: IC95% no retorno medio, IS vs OOS, fee-adjusted
 """
 import argparse
 import json
 import sys
 import math
+import time as _time
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
 try:
     from stats_utils import bootstrap_ci, wilson_ci
@@ -33,10 +35,17 @@ except ImportError:
     print("ERRO: stats_utils.py nao encontrado. Execute do diretorio trading-engine/")
     sys.exit(1)
 
+TAKER_FEE_PCT = 0.04  # Binance Futures taker fee per side (%), 0.08% round trip
 
-def fetch_klines(symbol="BTCUSDT", interval="1m", limit=1500):
-    """Fetch kline data from Binance Futures REST API (free, no auth)."""
-    url = f"https://fapi.binance.com/fapi/v1/klines?symbol={symbol}&interval={interval}&limit={limit}"
+
+def fetch_klines_page(symbol="BTCUSDT", interval="1m", limit=1500, start_time_ms=None, end_time_ms=None):
+    """Fetch one page of kline data from Binance Futures REST API (free, no auth)."""
+    params = f"symbol={symbol}&interval={interval}&limit={limit}"
+    if start_time_ms:
+        params += f"&startTime={start_time_ms}"
+    if end_time_ms:
+        params += f"&endTime={end_time_ms}"
+    url = f"https://fapi.binance.com/fapi/v1/klines?{params}"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=30) as resp:
         data = json.loads(resp.read())
@@ -50,9 +59,43 @@ def fetch_klines(symbol="BTCUSDT", interval="1m", limit=1500):
             "close": float(k[4]),
             "volume": float(k[5]),
             "close_time": k[6],
-            "time": datetime.utcfromtimestamp(k[0] / 1000).strftime("%Y-%m-%d %H:%M"),
+            "time": datetime.fromtimestamp(k[0] / 1000, tz=timezone.utc).strftime("%Y-%m-%d %H:%M"),
         })
     return candles
+
+
+def fetch_klines_multi(symbol="BTCUSDT", interval="1m", days=7, page_limit=1500):
+    """Fetch multiple days of 1m candles via pagination."""
+    now_ms = int(datetime.now(tz=timezone.utc).timestamp() * 1000)
+    start_ms = now_ms - days * 24 * 60 * 60 * 1000
+    all_candles = []
+    cursor = start_ms
+    requests_made = 0
+
+    while cursor < now_ms:
+        batch = fetch_klines_page(symbol, interval, page_limit, start_time_ms=cursor)
+        requests_made += 1
+        if not batch:
+            break
+        all_candles.extend(batch)
+        last_open = batch[-1]["open_time"]
+        cursor = last_open + 60_000  # +1 minute
+        if requests_made % 10 == 0:
+            elapsed_days = (cursor - start_ms) / (24 * 60 * 60 * 1000)
+            print(f"    ... {len(all_candles)} velas, ~{elapsed_days:.1f} dias coletados ({requests_made} requests)")
+        if len(batch) < page_limit:
+            break
+        _time.sleep(0.3)  # rate limit courtesy
+
+    # Deduplicate by open_time
+    seen = set()
+    unique = []
+    for c in all_candles:
+        if c["open_time"] not in seen:
+            seen.add(c["open_time"])
+            unique.append(c)
+    unique.sort(key=lambda c: c["open_time"])
+    return unique
 
 
 def compute_returns(candles):
@@ -127,163 +170,238 @@ def analyze_moves(events, label, horizons=(1, 5, 15, 30, 60)):
         print(f"    {h}m{'':<7} {len(returns):<6} {avg:<12.4f} {ci_str:<30} {wr*100:<10.1f} {wr_ci_str:<20}")
 
 
+def analyze_dataset(candles, label, horizons=(1, 5, 15, 30, 60), thresholds=(1.0, 1.5, 2.0, 2.5, 3.0)):
+    """Run full large-move analysis on a dataset. Returns list of significant edges."""
+    if not candles:
+        return []
+
+    candles = compute_returns(candles)
+    candles = compute_forward_returns(candles, horizons=horizons)
+
+    returns = [c["return_1m"] for c in candles if c.get("return_1m") is not None]
+    if len(returns) < 10:
+        print(f"  [{label}] Dados insuficientes ({len(returns)} velas)")
+        return []
+
+    mean_ret = sum(returns) / len(returns)
+    std_ret = math.sqrt(sum((r - mean_ret) ** 2 for r in returns) / len(returns))
+
+    print(f"\n  [{label}] {len(candles)} velas | mean={mean_ret:.6f}% std={std_ret:.4f}%")
+
+    edges = []
+    for thresh in thresholds:
+        large_up, large_down, _, _ = detect_large_moves(candles, thresh)
+
+        for h in horizons:
+            # Bounce after large down (long signal)
+            if large_down:
+                rets = [c[f"fwd_{h}m"] for c in large_down if c.get(f"fwd_{h}m") is not None]
+                if len(rets) >= 5:
+                    lo, avg, hi = bootstrap_ci(rets, n_boot=5000)
+                    net = avg - 2 * TAKER_FEE_PCT  # round-trip fee
+                    net_lo = lo - 2 * TAKER_FEE_PCT
+                    net_hi = hi - 2 * TAKER_FEE_PCT
+                    sig = lo > 0
+                    fee_sig = net_lo > 0
+                    if sig or fee_sig:
+                        edges.append({
+                            "signal": f"DOWN {thresh}σ -> bounce {h}m",
+                            "n": len(rets), "avg": avg, "lo": lo, "hi": hi,
+                            "net": net, "net_lo": net_lo, "net_hi": net_hi,
+                            "fee_significant": fee_sig, "direction": "long",
+                        })
+
+            # Pullback after large up (short signal)
+            if large_up:
+                rets = [c[f"fwd_{h}m"] for c in large_up if c.get(f"fwd_{h}m") is not None]
+                if len(rets) >= 5:
+                    lo, avg, hi = bootstrap_ci(rets, n_boot=5000)
+                    # For short: return is negative = profit. Fee reduces profit.
+                    net = avg + 2 * TAKER_FEE_PCT  # short profit = -|return| - fee
+                    net_lo = lo + 2 * TAKER_FEE_PCT
+                    net_hi = hi + 2 * TAKER_FEE_PCT
+                    sig = hi < 0
+                    fee_sig = net_hi < 0
+                    if sig or fee_sig:
+                        edges.append({
+                            "signal": f"UP {thresh}σ -> pullback {h}m",
+                            "n": len(rets), "avg": avg, "lo": lo, "hi": hi,
+                            "net": net, "net_lo": net_lo, "net_hi": net_hi,
+                            "fee_significant": fee_sig, "direction": "short",
+                        })
+
+    # Print detailed table for this dataset
+    for thresh in thresholds:
+        large_up, large_down, _, _ = detect_large_moves(candles, thresh)
+        print(f"\n    Threshold {thresh}σ: UP={len(large_up)} DOWN={len(large_down)} events")
+        if large_up:
+            analyze_moves(large_up, f"  UP (>{thresh}σ) -> pullback", horizons=horizons)
+        if large_down:
+            analyze_moves(large_down, f"  DOWN (<-{thresh}σ) -> bounce", horizons=horizons)
+
+    return edges
+
+
 def main():
-    parser = argparse.ArgumentParser(description="D22 — CEX liquidation cascade scan (historical kline approach)")
+    parser = argparse.ArgumentParser(description="D22 — CEX liquidation cascade scan (multi-day validation)")
     parser.add_argument("--symbol", default="BTCUSDT", help="Binance Futures symbol")
-    parser.add_argument("--limit", type=int, default=1500, help="Number of 1m candles (max 1500)")
-    parser.add_argument("--threshold-std", type=float, default=2.0, help="Threshold in std devs for 'large move'")
+    parser.add_argument("--days", type=int, default=7, help="Days of 1m data to fetch")
+    parser.add_argument("--oos-ratio", type=float, default=0.3, help="Fraction of data for OOS (0.3 = last 30%)")
     args = parser.parse_args()
 
     print("=" * 100)
-    print(f"D22 — CEX Liquidation Cascade Scan (Historical) | {args.symbol} | {args.limit} velas 1m | threshold={args.threshold_std}σ")
+    print(f"D22 — CEX Liquidation Cascade Scan (Multi-Day) | {args.symbol} | {args.days} dias | OOS={args.oos_ratio*100:.0f}%")
     print("=" * 100)
 
-    # 1. Fetch klines
-    print(f"\n[1/3] Fetching {args.limit} 1m candles from Binance Futures...")
+    # 1. Fetch klines (paginated)
+    print(f"\n[1/4] Fetching {args.days} days of 1m candles from Binance Futures...")
     try:
-        candles = fetch_klines(args.symbol, "1m", args.limit)
+        candles = fetch_klines_multi(args.symbol, "1m", args.days)
+        if len(candles) < 100:
+            print(f"  ERRO: apenas {len(candles)} velas obtidas")
+            sys.exit(1)
         print(f"  OK: {len(candles)} velas | {candles[0]['time']} -> {candles[-1]['time']}")
         print(f"  Price: ${candles[0]['close']:.2f} -> ${candles[-1]['close']:.2f}")
+        print(f"  ~{len(candles) / 60 / 24:.1f} dias de dados")
     except Exception as e:
         print(f"  ERRO: {e}")
         sys.exit(1)
 
-    # 2. Compute returns
-    print("\n[2/3] Computing returns...")
-    candles = compute_returns(candles)
-    candles = compute_forward_returns(candles, horizons=(1, 5, 15, 30, 60))
+    # 2. Split IS / OOS
+    print(f"\n[2/4] Splitting IS/OOS ({1-args.oos_ratio:.0%}/{args.oos_ratio:.0%})...")
+    split_idx = int(len(candles) * (1 - args.oos_ratio))
+    is_candles = candles[:split_idx]
+    oos_candles = candles[split_idx:]
+    print(f"  IS:  {len(is_candles)} velas | {is_candles[0]['time']} -> {is_candles[-1]['time']}")
+    print(f"  OOS: {len(oos_candles)} velas | {oos_candles[0]['time']} -> {oos_candles[-1]['time']}")
 
-    returns = [c["return_1m"] for c in candles if c.get("return_1m") is not None]
-    mean_ret = sum(returns) / len(returns)
-    std_ret = math.sqrt(sum((r - mean_ret) ** 2 for r in returns) / len(returns))
-    max_ret = max(returns)
-    min_ret = min(returns)
+    # 3. Analyze Full + IS + OOS
+    print(f"\n[3/4] Analyzing large moves...")
+    print(f"  Fee model: Binance taker {TAKER_FEE_PCT}%/side = {2*TAKER_FEE_PCT}% round-trip")
 
-    print(f"  1m returns: mean={mean_ret:.6f}% std={std_ret:.4f}% max={max_ret:.4f}% min={min_ret:.4f}%")
-    print(f"  Threshold {args.threshold_std}σ: >{mean_ret + args.threshold_std * std_ret:.4f}% (up) / <{mean_ret - args.threshold_std * std_ret:.4f}% (down)")
-
-    # 3. Detect and analyze large moves
-    print(f"\n[3/3] Detecting large moves (>{args.threshold_std}σ) and analyzing forward returns...")
-
-    # Test multiple thresholds
     print("\n" + "=" * 100)
-    print("LARGE MOVE ANALYSIS — proxy for liquidation cascades")
+    print("FULL DATASET ANALYSIS")
+    print("=" * 100)
+    full_edges = analyze_dataset(candles, "FULL")
+
+    print("\n" + "=" * 100)
+    print("IN-SAMPLE (IS) ANALYSIS")
+    print("=" * 100)
+    is_edges = analyze_dataset(is_candles, "IS")
+
+    print("\n" + "=" * 100)
+    print("OUT-OF-SAMPLE (OOS) ANALYSIS")
+    print("=" * 100)
+    oos_edges = analyze_dataset(oos_candles, "OOS")
+
+    # 4. Volume-weighted analysis on full dataset
+    print("\n" + "=" * 100)
+    print("VOLUME-WEIGHTED ANALYSIS (Full dataset)")
     print("=" * 100)
 
-    for thresh in [1.0, 1.5, 2.0, 2.5, 3.0]:
-        large_up, large_down, _, _ = detect_large_moves(candles, thresh)
-
-        print(f"\n{'='*80}")
-        print(f"Threshold: {thresh}σ")
-        print(f"{'='*80}")
-
-        # Large UP move -> expect PULLBACK (short signal)
-        if large_up:
-            analyze_moves(large_up, f"Large UP (>{thresh}σ) -> expect PULLBACK")
-
-        # Large DOWN move -> expect BOUNCE (long signal)
-        if large_down:
-            analyze_moves(large_down, f"Large DOWN (<-{thresh}σ) -> expect BOUNCE")
-
-        if not large_up and not large_down:
-            print(f"  Nenhum evento encontrado neste threshold")
-
-    # Volume analysis
-    print("\n" + "=" * 100)
-    print("VOLUME-WEIGHTED ANALYSIS")
-    print("=" * 100)
-
-    # High volume + large down move = likely liquidation cascade
-    volumes = [c["volume"] for c in candles]
+    all_candles = compute_returns(compute_forward_returns(candles))
+    volumes = [c["volume"] for c in all_candles]
     vol_median = sorted(volumes)[len(volumes) // 2]
     vol_q80 = sorted(volumes)[int(len(volumes) * 0.8)]
 
-    for thresh in [1.5, 2.0]:
-        _, large_down, _, _ = detect_large_moves(candles, thresh)
+    for thresh in [1.5, 2.0, 2.5]:
+        _, large_down, _, _ = detect_large_moves(all_candles, thresh)
         if not large_down:
             continue
+        high_vol = [c for c in large_down if c["volume"] > vol_q80]
+        if high_vol:
+            analyze_moves(high_vol, f"  DOWN {thresh}σ + HIGH VOL (>Q80) -> bounce")
 
-        high_vol_down = [c for c in large_down if c["volume"] > vol_q80]
-        low_vol_down = [c for c in large_down if c["volume"] <= vol_median]
+        large_up, _, _, _ = detect_large_moves(all_candles, thresh)
+        if large_up:
+            high_vol_up = [c for c in large_up if c["volume"] > vol_q80]
+            if high_vol_up:
+                analyze_moves(high_vol_up, f"  UP {thresh}σ + HIGH VOL (>Q80) -> pullback")
 
-        if high_vol_down:
-            analyze_moves(high_vol_down, f"Large DOWN ({thresh}σ) + HIGH VOLUME (>Q80) -> BOUNCE")
-        if low_vol_down:
-            analyze_moves(low_vol_down, f"Large DOWN ({thresh}σ) + LOW VOLUME (<median) -> BOUNCE")
+    # Save samples (only significant events, >1.5σ)
+    all_returns = [c["return_1m"] for c in all_candles if c.get("return_1m") is not None]
+    all_mean = sum(all_returns) / len(all_returns) if all_returns else 0
+    all_std = math.sqrt(sum((r - all_mean) ** 2 for r in all_returns) / len(all_returns)) if all_returns else 1
+    threshold_15 = all_mean + 1.5 * all_std
+    threshold_15_neg = all_mean - 1.5 * all_std
 
-    # Save samples
     samples = []
-    for c in candles:
-        row = {
-            "time": c["time"],
-            "close": c["close"],
-            "return_1m": c.get("return_1m"),
-            "volume": c["volume"],
-            "fwd_5m": c.get("fwd_5m"),
-            "fwd_15m": c.get("fwd_15m"),
-            "fwd_30m": c.get("fwd_30m"),
-            "fwd_60m": c.get("fwd_60m"),
-        }
-        samples.append(row)
+    for c in all_candles:
+        r = c.get("return_1m")
+        if r is not None and (r > threshold_15 or r < threshold_15_neg):
+            samples.append({
+                "time": c["time"], "close": c["close"],
+                "return_1m": r, "volume": c["volume"],
+                "fwd_5m": c.get("fwd_5m"), "fwd_15m": c.get("fwd_15m"),
+                "fwd_30m": c.get("fwd_30m"), "fwd_60m": c.get("fwd_60m"),
+            })
     with open("cex_liquidation_samples.json", "w") as f:
         json.dump(samples, f, indent=2)
-    print(f"\nAmostras salvas em cex_liquidation_samples.json")
+    print(f"\n  {len(samples)} eventos significativos salvos em cex_liquidation_samples.json")
 
-    # Verdict
+    # 5. Verdict
     print("\n" + "=" * 100)
-    print("VEREDITO PRELIMINAR")
+    print("VEREDITO — D22 CEX LIQUIDATION CASCADE")
     print("=" * 100)
 
-    found_edges = []
-    for thresh in [1.5, 2.0, 2.5, 3.0]:
-        large_up, large_down, _, _ = detect_large_moves(candles, thresh)
+    # Cross-reference IS and OOS edges
+    is_signals = {e["signal"]: e for e in is_edges}
+    oos_signals = {e["signal"]: e for e in oos_edges}
+    full_signals = {e["signal"]: e for e in full_edges}
 
-        # Check bounce after large down
-        if large_down:
-            for h in [1, 5, 15, 30, 60]:
-                returns_fwd = [c[f"fwd_{h}m"] for c in large_down if c.get(f"fwd_{h}m") is not None]
-                if len(returns_fwd) >= 3:
-                    lo, avg, hi = bootstrap_ci(returns_fwd, n_boot=5000)
-                    if lo > 0:
-                        found_edges.append(f"DOWN {thresh}σ -> bounce {h}m: +{avg:.4f}% IC95%[{lo:.4f}%, {hi:.4f}%]")
+    all_signals = set(list(is_signals.keys()) + list(oos_signals.keys()) + list(full_signals.keys()))
 
-        # Check pullback after large up
-        if large_up:
-            for h in [1, 5, 15, 30, 60]:
-                returns_fwd = [c[f"fwd_{h}m"] for c in large_up if c.get(f"fwd_{h}m") is not None]
-                if len(returns_fwd) >= 3:
-                    lo, avg, hi = bootstrap_ci(returns_fwd, n_boot=5000)
-                    if hi < 0:
-                        found_edges.append(f"UP {thresh}σ -> pullback {h}m: {avg:.4f}% IC95%[{lo:.4f}%, {hi:.4f}%]")
+    if not all_signals:
+        print("  SEM EDGE: nenhum signal significativo encontrado em nenhum dataset")
+        print(f"  ({len(candles)} velas, {args.days} dias, threshold ate 3σ)")
+        sys.exit(0)
 
-    if found_edges:
-        print(f"  SINAIS ENCONTRADOS ({len(found_edges)}):")
-        for e in found_edges:
-            print(f"    {e}")
+    print(f"\n  Signals significativos encontrados:")
+    print(f"  {'Signal':<35} {'IS?':<5} {'OOS?':<5} {'Fee-sig?':<10} {'N (full)':<10} {'Avg%':<10} {'Net%':<10}")
+    print("  " + "-" * 85)
+
+    validated = []
+    for sig in sorted(all_signals):
+        in_is = sig in is_signals
+        in_oos = sig in oos_signals
+        in_full = sig in full_signals
+        full_e = full_signals.get(sig, {})
+        fee_sig = full_e.get("fee_significant", False)
+        n_full = full_e.get("n", "?")
+        avg = full_e.get("avg", 0)
+        net = full_e.get("net", 0)
+
+        is_str = "YES" if in_is else "no"
+        oos_str = "YES" if in_oos else "no"
+        fee_str = "YES" if fee_sig else "no"
+
+        print(f"  {sig:<35} {is_str:<5} {oos_str:<5} {fee_str:<10} {n_full:<10} {avg:<10.4f} {net:<10.4f}")
+
+        if in_is and in_oos:
+            validated.append((sig, full_e))
+
+    # Final verdict
+    print("\n  " + "=" * 80)
+    if validated:
+        print(f"  EDGE VALIDADO IS+OOS ({len(validated)} signals):")
+        for sig, e in validated:
+            fee_note = " (supera fees)" if e.get("fee_significant") else " (NAO supera fees)"
+            print(f"    {sig}: avg={e['avg']:.4f}% IC95%[{e['lo']:.4f}%, {e['hi']:.4f}%] net={e['net']:.4f}%{fee_note}")
+        print(f"\n  PROXIMO PASSO: Se net > 0 apos fees, implementar paper trading para validacao ao vivo")
     else:
-        print("  SEM EDGE: grandes movimentos de 1m nao predizem reversao com IC95% > 0")
-        print(f"  ({len(candles)} velas de 1m, threshold ate 3σ)")
+        # Check if at least significant in full dataset
+        full_sig = [s for s, e in full_signals.items()]
+        if full_sig:
+            print(f"  SINAL PARCIAL: {len(full_sig)} signals significativos no dataset completo")
+            print(f"  MAS nao replicam em IS e OOS simultaneamente -> possivel overfitting/ruído")
+        else:
+            print(f"  SEM EDGE: nenhum signal significativo")
 
-        # Show best candidate
-        best = None
-        for thresh in [2.0, 2.5, 3.0]:
-            _, large_down, _, _ = detect_large_moves(candles, thresh)
-            if large_down:
-                for h in [5, 15, 30]:
-                    returns_fwd = [c[f"fwd_{h}m"] for c in large_down if c.get(f"fwd_{h}m") is not None]
-                    if len(returns_fwd) >= 3:
-                        lo, avg, hi = bootstrap_ci(returns_fwd, n_boot=5000)
-                        if best is None or avg > best[1]:
-                            best = (f"DOWN {thresh}σ -> {h}m: {avg:.4f}% IC95%[{lo:.4f}%, {hi:.4f}%] (N={len(returns_fwd)})", avg)
-
-        if best:
-            print(f"  Melhor candidato (nao significante): {best[0]}")
-
-    print(f"\n  NOTA: {args.limit} velas = ~{args.limit//60}h de dados. Para validacao seria necessario:")
-    print("  1. Coletar dias/semanas de dados 1m (via multiple fetches ou Binance data archive)")
-    print("  2. Distinguir liquidation cascades reais (via WS forceOrder) de grandes moves normais")
-    print("  3. Testar com dados de tick (não velas) para capturar moves intra-minuto")
-    print("  4. OOS test rigoroso")
+    print(f"\n  Dataset: {len(candles)} velas 1m ({args.days} dias)")
+    print(f"  Fees: {TAKER_FEE_PCT}%/side = {2*TAKER_FEE_PCT}% round-trip (Binance taker)")
+    print(f"  IS: {len(is_candles)} velas | OOS: {len(oos_candles)} velas")
+    print(f"  Para validacao adicional: coletar mais dias, testar em outros simbolos (ETHUSDT),")
+    print(f"  e distinguir liquidations reais (WS forceOrder) de grandes moves normais.")
 
 
 if __name__ == "__main__":
