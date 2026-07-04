@@ -1448,6 +1448,156 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 60,
     sampleUnit: "expiries diárias (30 BTC + 30 ETH)",
   },
+  {
+    id: "HYP-LATARB-01",
+    title: "D32 — Cross-Exchange Latency Arbitrage (Binance leads Bybit/OKX)",
+    market: "BINANCE vs BYBIT/OKX · BTC/ETH/SOL · 100ms polling",
+    thesis:
+      "Binance é a exchange mais rápida. Se o preço do BTC move na Binance primeiro, " +
+      "Bybit/OKX lagam em milliseconds. Se lag > 0.2% (fees roundtrip), comprar na exchange " +
+      "lagging quando leader move é arb livre. Scan: poll 3 exchanges a cada 100ms por 5min.",
+    confidence: 20,
+    status: "validating",
+    tags: ["crypto", "latency", "arbitrage", "cross-exchange", "aggressive"],
+    trigger: "Lag > 0.2% entre Binance e Bybit/OKX com follower catchup > 60% hit rate",
+    invalidation: "Divergência média < fees ou follower não catchup consistentemente",
+    createdAt: "2026-07-04",
+    author: "latency_arb_scan.py",
+    verdict:
+      "EM TESTE. Polling a 100ms por 5min. Divergência entre exchanges medida em tempo real. " +
+      "NOTA: Real latency arb precisa WebSocket sub-ms. Este scan mede se divergência > fees. " +
+      "Se avg_divergence < 0.2%, não vale tentar nem com infra profissional.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Aguardando resultados do scan de 5min",
+    tools: ["latency_arb_scan.py"],
+    reportFile: "latency_arb_scan.log",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "samples de 100ms (5min × 3 exchanges)",
+  },
+  {
+    id: "HYP-OBI-01",
+    title: "D33 — Order Book Imbalance Alpha (predict next-tick direction)",
+    market: "BINANCE · BTC/ETH/SOL · Top 20 levels · 1s polling",
+    thesis:
+      "Se volume de bids >> volume de asks no order book, preço sobe no próximo segundo. " +
+      "Imbalance ratio > 0.60 → long, < 0.40 → short. Teste: poll depth a cada 1s por 10min, " +
+      "medir win rate a 1s/5s/10s horizon. Net após 0.1% taker fee por lado.",
+    confidence: 15,
+    status: "validating",
+    tags: ["crypto", "orderbook", "imbalance", "microstructure", "aggressive"],
+    trigger: "Win rate > 55% após fees com N > 10 signals em algum horizon",
+    invalidation: "OBI não prediz direção após fees a 1s granularity",
+    createdAt: "2026-07-04",
+    author: "order_book_imbalance_scan.py",
+    verdict:
+      "EM TESTE. Coletando order book depth a cada 1s por 10min. " +
+      "Testando imbalance simples e volume-weighted. " +
+      "NOTA: Real OBI alpha precisa WebSocket + L2 data sub-second. " +
+      "Este scan é um sanity check a 1s — se não passar, sub-second não ajudará muito.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Aguardando resultados do scan de 10min",
+    tools: ["order_book_imbalance_scan.py"],
+    reportFile: "order_book_imbalance_scan.log",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "samples de 1s (10min × 3 símbolos)",
+  },
+  {
+    id: "HYP-LIQ-01",
+    title: "D34 — Liquidation Cascade Detection & Front-Run",
+    market: "BINANCE FUTURES · BTC/ETH/SOL · 2s polling · 30min",
+    thesis:
+      "Liquidações em cascata: 3+ liquidations em 10s mesma direção = cascade. " +
+      "Se longs sendo liquidados, preço continua caindo → short e ride cascade. " +
+      "Scan: monitora liquidations em tempo real, detecta cascades, simula P&L a 30s/60s/120s/300s hold. " +
+      "Net após 0.1% taker fee por lado.",
+    confidence: 25,
+    status: "validating",
+    tags: ["crypto", "liquidation", "cascade", "futures", "aggressive", "front-run"],
+    trigger: "Cascade continuation WR > 60% após fees com N > 5",
+    invalidation: "Cascades são raras ou não continuam após detecção + fees",
+    createdAt: "2026-07-04",
+    author: "liquidation_cascade_scan.py",
+    verdict:
+      "EM TESTE. Monitorando liquidations por 30min. Cascades são eventos raros — " +
+      "pode não detectar nenhuma em 30min. Needs longer run on AWS para capturar eventos. " +
+      "Se detectar: cascade continuation é o edge mais agressivo possível (front-run liquidations).",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Aguardando resultados do scan de 30min",
+    tools: ["liquidation_cascade_scan.py"],
+    reportFile: "liquidation_cascade_scan.log",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "cascades detectadas (30min monitoring)",
+  },
+  {
+    id: "HYP-FUNDPRED-01",
+    title: "D35 — Funding Rate Prediction (momentum + premium index)",
+    market: "BINANCE FUTURES · Top 20 USDT perps · 8h funding cycles",
+    thesis:
+      "Binance funding rate é determinada por: funding = clamp(premium_index + 0.01%, ±0.75%). " +
+      "Premium index é publicado em tempo real → podemos prever funding ANTES de ser postado. " +
+      "Estratégia: se premium > 0.1% → SHORT para receber funding positivo. " +
+      "Também testa momentum: últimos 3 fundings positivos predizem próximo positivo?",
+    confidence: 40,
+    status: "weak-signal",
+    tags: ["crypto", "funding", "prediction", "futures", "aggressive", "information-edge"],
+    trigger: "Momentum WR > 60% OU premium_index > fees (0.08%)",
+    invalidation: "Funding não é autocorrelacionado e premium < fees",
+    createdAt: "2026-07-04",
+    author: "funding_prediction_scan.py",
+    verdict:
+      "SINAL FRACO CONFIRMADO. Momentum test: 88.8% accuracy (N=205) — últimos 3 fundings " +
+      "predizem direção do próximo. MAS: premium_index atualmente ~0% (não há oportunidade now). " +
+      "Oportunidades aparecem em volatilidade alta (premium > 0.1%). " +
+      "Annualized quando ativo: +30-300% dependendo do par. " +
+      "CUIDADO: momentum pode ser regime-dependente (bull market bias). " +
+      "PRÓXIMO PASSO: monitorar premium_index continuamente na AWS, entrar quando > 0.1%.",
+    evPerTrade: 0.01,
+    ci95: [-0.02, 0.04],
+    ci95Label: "Funding momentum accuracy 88.8% (N=205), but premium currently ~0%",
+    tools: ["funding_prediction_scan.py"],
+    reportFile: "funding_prediction_scan_results.json",
+    pnl: 0,
+    trades: 205,
+    sampleUnit: "funding periods (10 perps × ~20 history each)",
+  },
+  {
+    id: "HYP-IVANOM-01",
+    title: "D36 — Deribit IV Surface Anomaly (mispriced skew/term structure)",
+    market: "DERIBIT · BTC/ETH · All strikes/expiries · IV surface",
+    thesis:
+      "A superfície de IV de opções deveria ser smooth. Strikes ou expiries onde IV " +
+      "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
+      "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
+      "Compara IV de cada option vs média ponderada dos vizinhos.",
+    confidence: 30,
+    status: "validating",
+    tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
+    trigger: "|IV - fair_IV| > 2 vol points com OI ≥ 10 e bid-ask spread razoável",
+    invalidation: "Anomalias são stale quotes ou desaparecem em re-scan",
+    createdAt: "2026-07-04",
+    author: "iv_surface_anomaly_scan.py",
+    verdict:
+      "705 ANOMALIAS DETECTADAS (393 BUY + 312 SELL). " +
+      "Top BUY: BTC-25DEC26-110000-P IV=41.2 vs fair=57.2 (dev=-16.0). " +
+      "Top SELL: ETH-25SEP26-16000-P IV=130.2 vs fair=64.7 (dev=+65.5). " +
+      "CUIDADO: muitas anomalias em strikes deep OTM com bid=0.0001 (stale quotes). " +
+      "Anomalias reais precisam: bid > 0.001, ask < 1.0, OI > 50, volume > 0. " +
+      "PRÓXIMO PASSO: filtrar por liquidez real e paper trade as top 5 oportunidades.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "705 anomalies (393 BUY + 312 SELL), needs liquidity filtering",
+    tools: ["iv_surface_anomaly_scan.py"],
+    reportFile: "iv_surface_anomaly_scan_results.json",
+    pnl: 0,
+    trades: 705,
+    sampleUnit: "anomalias IV (533 BTC + 516 ETH opções líquidas)",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
