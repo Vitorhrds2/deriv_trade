@@ -133,7 +133,7 @@ export const realHypotheses: RealHypothesis[] = [
     market: "1HZ100V",
     thesis:
       "Payoff convexo real (payout_per_point × max(0, final−strike)) é o único produto não-binário do ecossistema — abre espaço para comparar preço vs. valor justo teórico via Monte Carlo, análogo a IV implícita vs. realizada.",
-    confidence: 4,
+    confidence: 10,
     status: "refuted",
     tags: ["vanilla", "opcoes", "mispricing", "mega-brain-2"],
     trigger: "CALL/PUT × 5 strikes × 2 durações (15m, 60m)",
@@ -141,12 +141,14 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-01",
     author: "vanilla_edge_scan.py",
     pnl: 0,
-    trades: 17,
-    sampleUnit: "células testadas (20k caminhos Monte Carlo cada)",
+    trades: 20,
+    sampleUnit: "células testadas (20k caminhos Monte Carlo cada, 15k ticks reais calibrando)",
     verdict:
-      "Refutado — EV médio -8.98% em 17/20 células (CALL/PUT × strikes × durações), nenhuma com IC95% cruzando zero (min -19.48%, max -2.85%). Margem monotônica e coerente com precificação padrão: mais OTM = mais margem.",
-    evPerTrade: -0.0898,
-    ci95: [-19.48, -2.85],
+      "Refutado — 0/20 células com EV_lo > 0. EV médio -8.42% (min=-19.92%, max=-1.96%). " +
+      "ATM CALL 15m: EV=-8.12%, ATM PUT 15m: EV=-10.30%. OTM deep: EV=-19.92%. " +
+      "60m: ainda mais negativo (mais theta decay). House margin sistemática em todo o surface.",
+    evPerTrade: -0.0842,
+    ci95: [-19.92, -1.96],
     ci95Label: "Range de EV% observado",
     tools: ["probe_vanilla.py", "vanilla_edge_scan.py"],
     reportFile: "docs/vanilla_options_report.md",
@@ -157,7 +159,7 @@ export const realHypotheses: RealHypothesis[] = [
     market: "BOOM300N/500/1000, CRASH300N/500/1000",
     thesis:
       "O intervalo entre spikes gigantes (~30-50x o movimento normal) poderia ter hazard rate crescente (spike 'atrasado' fica mais provável), permitindo posicionar entrada com Multiplier antes do spike.",
-    confidence: 3,
+    confidence: 10,
     status: "refuted",
     tags: ["boom-crash", "timing", "memoria", "weibull", "mega-brain-2"],
     trigger: "Spike detectado via |retorno| > 8x mediana na direção do índice",
@@ -165,11 +167,15 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-01",
     author: "boom_timing_test.py",
     pnl: 0,
-    trades: 177,
-    sampleUnit: "gaps normalizados (6 símbolos, pool multi-símbolo)",
+    trades: 1058,
+    sampleUnit: "gaps normalizados (10 símbolos Boom/Crash, 60k ticks cada, pool multi-símbolo)",
     verdict:
-      "Refutado, replicado 2x de forma independente — Weibull k=1.000 IC95%[0.898,1.129] (coleta fresca, N=177) e k=1.024 IC95%[0.935,1.134] (dataset antigo, N=208). Ambos consistentes com processo memoryless; KS não rejeita exponencial em nenhuma coleta.",
-    ci95: [0.898, 1.129],
+      "VEREDITO DECISIVO (N=1058, 10 símbolos, 600k ticks) — Weibull k=1.010 IC95%[0.966,1.058]. " +
+      "KS NÃO rejeita exponencial (D=0.014 vs crit=0.042). Hazard por idade constante ~25% em todos os bins. " +
+      "P(gap>2*med|gap>med)=49.3% (memoryless esperado ~50%). " +
+      "Coleta anterior (N=177): k=1.000 IC95%[0.898,1.129]. Ambas consistentes com processo memoryless puro. " +
+      "T2 REFUTADA: P(spike) ~ taxa base independente da idade. 'Spike atrasado' é falácia do apostador.",
+    ci95: [0.966, 1.058],
     ci95Label: "Weibull shape k (1.0 = memoryless)",
     tools: ["boom_timing_test.py", "boom_memory_test.py"],
     reportFile: "docs/t2_boom_crash_spike_timing_report.md",
@@ -682,6 +688,34 @@ export const realHypotheses: RealHypothesis[] = [
       "Spot listings (N=5): -12.7% in 30d. Futures listings (N=35): -15.0% in 30d.",
     tools: ["listing_impact_scan.py"],
     reportFile: "docs/event_driven_report.md",
+  },
+  {
+    id: "HYP-T2J-01",
+    title: "T2-Jump — Memória de spike em Jump Indices (JD10/25/50/75/100)",
+    market: "JD10, JD25, JD50, JD75, JD100",
+    thesis:
+      "Jump Indices têm spikes em AMBAS direções (diferente de Boom/Crash). O gap entre spikes poderia ter hazard crescente (spike 'atrasado' mais provável), permitindo timing de entrada.",
+    confidence: 10,
+    status: "refuted",
+    tags: ["jump-indices", "timing", "memoria", "weibull", "mega-brain-2"],
+    trigger: "Spike = |retorno| > 8x mediana, ambas direções. 80k ticks por símbolo, 5 símbolos",
+    invalidation: "Weibull shape k > 1 (hazard crescente) em qualquer direção",
+    createdAt: "2026-07-04",
+    author: "jump_timing_test.py",
+    pnl: 0,
+    trades: 260,
+    sampleUnit: "gaps normalizados (5 símbolos Jump, 80k ticks cada, pool multi-símbolo)",
+    verdict:
+      "Refutado — CLUSTERING (k<1) em todas as 3 direções testadas: " +
+      "UP k=0.720 IC95%[0.654,0.816], DOWN k=0.715 IC95%[0.642,0.821], BOTH k=0.708 IC95%[0.656,0.778]. " +
+      "KS REJEITA exponencial em todas (D=0.18-0.22 vs crit=0.08-0.12). " +
+      "Hazard DECRESCENTE com idade (58% no 1o bin → 0% no 9o). " +
+      "Spikes se AGRUPAM (clustering), 'overdue' fica MENOS provável. Anti-tese de timing. " +
+      "Diferente de Boom/Crash (memoryless), Jump Indices têm memória NEGATIVA para timing.",
+    ci95: [0.656, 0.778],
+    ci95Label: "Weibull shape k (1.0 = memoryless, <1 = clustering)",
+    tools: ["jump_timing_test.py"],
+    reportFile: "docs/state_of_research.md",
   },
 ];
 
