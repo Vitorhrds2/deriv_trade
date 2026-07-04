@@ -4,37 +4,25 @@
     "binance_current": {
       "exchange": "binance",
       "symbol": "BTCUSDT",
-      "funding_rate": 5.892e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 61918.21107246
+      "funding_rate": 9.444e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 62599.9
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "BTCUSDT",
-      "funding_rate": 2.575e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 61912.95
+      "funding_rate": 8.233e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 62597.42
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "BTCUSDT",
-      "funding_rate": 5.68578766618e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 9.98688475625e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 2.705e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 1.519e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -1.077e-05,
         "funding_time": 1780588800003
@@ -382,9 +370,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 3.74e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 7.537e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 3.466e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 2.602e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 7.429e-05,
         "funding_time": 1783065600000
@@ -1172,21 +1184,21 @@
       {
         "funding_rate": -1.99e-06,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": -8.35e-06,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": -7.225e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 1.46e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 6.08954397873e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 4.07757884118e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5.38283058701e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -2285,50 +2297,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.15367064070096714,
-    "total_funding_bps_30d": 42.105755552065,
-    "net_carry_bps_30d": 2.1057555520649984,
-    "positive_periods": 171,
-    "total_periods": 274,
-    "persistence": 0.6240875912408759,
-    "timestamp": "2026-07-03T14:12:04.984079+00:00"
+    "avg_funding_bps_30d": 0.15762003932403248,
+    "total_funding_bps_30d": 43.660750892757,
+    "net_carry_bps_30d": 3.660750892757001,
+    "positive_periods": 174,
+    "total_periods": 277,
+    "persistence": 0.628158844765343,
+    "timestamp": "2026-07-04T12:55:42.309275+00:00"
   },
   {
     "symbol": "ETHUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "ETHUSDT",
-      "funding_rate": 5.219e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1740.70696899
+      "funding_rate": 6.923e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1762.97601043
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "ETHUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1740.42
+      "funding_rate": 3.993e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1762.89
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "ETHUSDT",
-      "funding_rate": 4.42925522089e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 2.93793433397e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 7.361e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 7.651e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 4.482e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 3.946e-05,
         "funding_time": 1780588800003
@@ -2676,9 +2676,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 5.241e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 9.748e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 7.642e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 5.41e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 3.129e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 7.795e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 9.828e-05,
         "funding_time": 1783065600000
@@ -3466,21 +3490,21 @@
       {
         "funding_rate": 1.073e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": -4.46e-06,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": -7.664e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -6.621e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 7.45597493041e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 7.24813657104e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5.88368007291e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 7.76998564309e-05,
         "funding_time": 1783065600000
@@ -4579,50 +4603,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.20084481241665694,
-    "total_funding_bps_30d": 55.031478602164,
-    "net_carry_bps_30d": 15.031478602164,
-    "positive_periods": 178,
-    "total_periods": 274,
-    "persistence": 0.6496350364963503,
-    "timestamp": "2026-07-03T14:12:07.474402+00:00"
+    "avg_funding_bps_30d": 0.20610201357256316,
+    "total_funding_bps_30d": 57.0902577596,
+    "net_carry_bps_30d": 17.0902577596,
+    "positive_periods": 181,
+    "total_periods": 277,
+    "persistence": 0.6534296028880866,
+    "timestamp": "2026-07-04T12:55:44.815393+00:00"
   },
   {
     "symbol": "SOLUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "SOLUSDT",
-      "funding_rate": -2.61e-06,
-      "next_funding_time": 1783094400000,
-      "mark_price": 81.38
+      "funding_rate": 2.898e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 81.56
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "SOLUSDT",
-      "funding_rate": -1.753e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 81.37
+      "funding_rate": 4.627e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 81.56
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "SOLUSDT",
-      "funding_rate": 9.9857733572e-06,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": -4.446e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -0.00012086,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -0.00018206,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -6.287e-05,
         "funding_time": 1780588800003
@@ -4970,9 +4982,33 @@
       {
         "funding_rate": 1.188e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": -3.2e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 7.283e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 8.74e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 5.33e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -3.042e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 1.452e-05,
         "funding_time": 1783065600000
@@ -5760,21 +5796,21 @@
       {
         "funding_rate": 9.92e-06,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 4.934e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 2.694e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 5.244e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -5.5843438794e-06,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 1.8158246815e-06,
         "funding_time": 1783065600000
@@ -6873,50 +6909,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.043044125855824816,
-    "total_funding_bps_30d": 11.794090484496,
-    "net_carry_bps_30d": -28.205909515504,
-    "positive_periods": 150,
-    "total_periods": 274,
-    "persistence": 0.5474452554744526,
-    "timestamp": "2026-07-03T14:12:09.994733+00:00"
+    "avg_funding_bps_30d": 0.04959655973177617,
+    "total_funding_bps_30d": 13.738247045702,
+    "net_carry_bps_30d": -26.261752954298,
+    "positive_periods": 152,
+    "total_periods": 277,
+    "persistence": 0.5487364620938628,
+    "timestamp": "2026-07-04T12:55:47.355741+00:00"
   },
   {
     "symbol": "XRPUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "XRPUSDT",
-      "funding_rate": -4.19e-06,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1.11150621
+      "funding_rate": -1.571e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.1465
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "XRPUSDT",
-      "funding_rate": 1.69e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1.1116
+      "funding_rate": 5.57e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.1465
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "XRPUSDT",
-      "funding_rate": 8.69433392732e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 6.7413717541e-06,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 5.197e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -4.372e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -1.693e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -0.00013728,
         "funding_time": 1780588800003
@@ -7264,9 +7288,33 @@
       {
         "funding_rate": 1.337e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 3.244e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 1.29e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 1e-07,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": -1.248e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 1.466e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 3.699e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -7.717e-05,
         "funding_time": 1783065600000
@@ -8054,21 +8102,21 @@
       {
         "funding_rate": 3.865e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 2.89e-06,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 1.66e-06,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 6.57e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 8.79195414632e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -1.66287749186e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 4.2087323891e-06,
         "funding_time": 1783065600000
@@ -9167,13 +9215,13 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.16473236287279563,
-    "total_funding_bps_30d": 45.136667427146,
-    "net_carry_bps_30d": 5.136667427146001,
-    "positive_periods": 164,
-    "total_periods": 274,
-    "persistence": 0.5985401459854015,
-    "timestamp": "2026-07-03T14:12:12.381740+00:00"
+    "avg_funding_bps_30d": 0.16913204004545848,
+    "total_funding_bps_30d": 46.849575092592,
+    "net_carry_bps_30d": 6.849575092591998,
+    "positive_periods": 166,
+    "total_periods": 277,
+    "persistence": 0.5992779783393501,
+    "timestamp": "2026-07-04T12:55:50.174097+00:00"
   },
   {
     "symbol": "DOGEUSDT",
@@ -9181,36 +9229,24 @@
       "exchange": "binance",
       "symbol": "DOGEUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.0764
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.07705485
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "DOGEUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.0764
+      "funding_rate": 8.801e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.07704
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "DOGEUSDT",
-      "funding_rate": 5.97631252565e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 8.395e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 1.319e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 5.434e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -1.174e-05,
         "funding_time": 1780588800003
@@ -9558,9 +9594,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 8.605e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -10348,21 +10408,21 @@
       {
         "funding_rate": 6.084e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 8.685e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 4.777e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 9.99632306279e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5.76560885506e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 5.60845123198e-05,
         "funding_time": 1783065600000
@@ -11461,13 +11521,13 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.38414261129056204,
-    "total_funding_bps_30d": 105.255075493614,
-    "net_carry_bps_30d": 65.255075493614,
-    "positive_periods": 205,
-    "total_periods": 274,
-    "persistence": 0.7481751824817519,
-    "timestamp": "2026-07-03T14:12:14.757659+00:00"
+    "avg_funding_bps_30d": 0.3892825584310433,
+    "total_funding_bps_30d": 107.831268685399,
+    "net_carry_bps_30d": 67.831268685399,
+    "positive_periods": 208,
+    "total_periods": 277,
+    "persistence": 0.7509025270758123,
+    "timestamp": "2026-07-04T12:55:52.744400+00:00"
   },
   {
     "symbol": "ADAUSDT",
@@ -11475,36 +11535,24 @@
       "exchange": "binance",
       "symbol": "ADAUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.1711
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.1778
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "ADAUSDT",
-      "funding_rate": 8.636e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.171
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.1778
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "ADAUSDT",
-      "funding_rate": 6.58495332351e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 2.755e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 2.351e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -7.198e-05,
         "funding_time": 1780588800003
@@ -11852,9 +11900,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 8.978e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -12642,21 +12714,21 @@
       {
         "funding_rate": 5.028e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 2.422e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 7.851e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -2.73e-06,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -13752,53 +13824,133 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1775203200000
+      },
+      {
+        "funding_rate": 3.97018521317e-05,
+        "funding_time": 1775174400000
+      },
+      {
+        "funding_rate": 4.17907795348e-05,
+        "funding_time": 1775145600000
+      },
+      {
+        "funding_rate": -0.0001577033575537,
+        "funding_time": 1775116800000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1775088000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1775059200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1775030400000
+      },
+      {
+        "funding_rate": -0.0003119290274854,
+        "funding_time": 1775001600000
+      },
+      {
+        "funding_rate": -9.92768501937e-05,
+        "funding_time": 1774972800000
+      },
+      {
+        "funding_rate": 1.11797977788e-05,
+        "funding_time": 1774944000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1774915200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1774886400000
+      },
+      {
+        "funding_rate": 2.99324144966e-05,
+        "funding_time": 1774857600000
+      },
+      {
+        "funding_rate": -0.0002491810132876,
+        "funding_time": 1774828800000
+      },
+      {
+        "funding_rate": -0.0003695377390558,
+        "funding_time": 1774800000000
+      },
+      {
+        "funding_rate": -2.71307646945e-05,
+        "funding_time": 1774771200000
+      },
+      {
+        "funding_rate": -6.52619556072e-05,
+        "funding_time": 1774742400000
+      },
+      {
+        "funding_rate": -7.79463813052e-05,
+        "funding_time": 1774713600000
+      },
+      {
+        "funding_rate": -0.0001409995946129,
+        "funding_time": 1774684800000
+      },
+      {
+        "funding_rate": -0.0003345807872169,
+        "funding_time": 1774656000000
+      },
+      {
+        "funding_rate": -0.0002628433949225,
+        "funding_time": 1774627200000
+      },
+      {
+        "funding_rate": 7.19555421613e-05,
+        "funding_time": 1774598400000
+      },
+      {
+        "funding_rate": -2.15548734946e-05,
+        "funding_time": 1774569600000
+      },
+      {
+        "funding_rate": -5.04938985254e-05,
+        "funding_time": 1774540800000
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.24109265777345257,
-    "total_funding_bps_30d": 66.059388229926,
-    "net_carry_bps_30d": 26.059388229926,
-    "positive_periods": 180,
-    "total_periods": 274,
-    "persistence": 0.656934306569343,
-    "timestamp": "2026-07-03T14:12:17.431036+00:00"
+    "avg_funding_bps_30d": 0.18106865237134667,
+    "total_funding_bps_30d": 54.320595711404,
+    "net_carry_bps_30d": 14.320595711404003,
+    "positive_periods": 193,
+    "total_periods": 300,
+    "persistence": 0.6433333333333333,
+    "timestamp": "2026-07-04T12:55:55.105129+00:00"
   },
   {
     "symbol": "AVAXUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "AVAXUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 6.8340401
+      "funding_rate": -3.373e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 6.87522936
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "AVAXUSDT",
-      "funding_rate": -4.819e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 6.833
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
+      "mark_price": 6.876
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "AVAXUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": -3.40057799109e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 6.73e-06,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -7.17e-06,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 2.914e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -8.512e-05,
         "funding_time": 1780588800003
@@ -14146,9 +14298,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 3.479e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 9.203e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 1.299e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 3.091e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -3.511e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 5.694e-05,
         "funding_time": 1783065600000
@@ -14936,21 +15112,21 @@
       {
         "funding_rate": 9.481e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 3.227e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 1.0269154567e-06,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -4.2887069246e-06,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -16049,13 +16225,13 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.15321873640309855,
-    "total_funding_bps_30d": 41.981933774449004,
-    "net_carry_bps_30d": 1.9819337744490042,
-    "positive_periods": 176,
-    "total_periods": 274,
-    "persistence": 0.6423357664233577,
-    "timestamp": "2026-07-03T14:12:20.073275+00:00"
+    "avg_funding_bps_30d": 0.15505168180422385,
+    "total_funding_bps_30d": 42.94931585977,
+    "net_carry_bps_30d": 2.949315859770003,
+    "positive_periods": 178,
+    "total_periods": 277,
+    "persistence": 0.6425992779783394,
+    "timestamp": "2026-07-04T12:55:57.679028+00:00"
   },
   {
     "symbol": "LINKUSDT",
@@ -16063,36 +16239,24 @@
       "exchange": "binance",
       "symbol": "LINKUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 7.84150817
+      "next_funding_time": 1783180800000,
+      "mark_price": 7.94680696
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "LINKUSDT",
-      "funding_rate": 2.546e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 7.843
+      "funding_rate": 1.72e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 7.945
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "LINKUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 4.95812707178e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 5.878e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -4.588e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 2.345e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 7.26e-05,
         "funding_time": 1780588800003
@@ -16440,9 +16604,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 7.457e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": -2.141e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 9.882e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 1.378e-05,
         "funding_time": 1783065600000
@@ -17230,21 +17418,21 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 9.735e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 3.879e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 7.79319121025e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -18343,50 +18531,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.27151541609147445,
-    "total_funding_bps_30d": 74.395224009064,
-    "net_carry_bps_30d": 34.395224009063995,
-    "positive_periods": 197,
-    "total_periods": 274,
-    "persistence": 0.718978102189781,
-    "timestamp": "2026-07-03T14:12:25.722301+00:00"
+    "avg_funding_bps_30d": 0.2786084589533899,
+    "total_funding_bps_30d": 77.174543130089,
+    "net_carry_bps_30d": 37.174543130089006,
+    "positive_periods": 200,
+    "total_periods": 277,
+    "persistence": 0.7220216606498195,
+    "timestamp": "2026-07-04T12:56:00.273955+00:00"
   },
   {
     "symbol": "BNBUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "BNBUSDT",
-      "funding_rate": 0.00012277,
-      "next_funding_time": 1783094400000,
-      "mark_price": 566.07
+      "funding_rate": 0.00012205,
+      "next_funding_time": 1783180800000,
+      "mark_price": 573.61
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "BNBUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 565.5
+      "funding_rate": -0.00014103,
+      "next_funding_time": 1783180800000,
+      "mark_price": 572.8
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "BNBUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 3.79258395601e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 3.58e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 0.0,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 5.166e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 0.0,
         "funding_time": 1780588800003
@@ -18734,9 +18910,33 @@
       {
         "funding_rate": 5.653e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001291,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.00019594,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.00012176,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 7.549e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -4.059e-05,
         "funding_time": 1783065600000
@@ -19524,21 +19724,21 @@
       {
         "funding_rate": -4.324e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 6.26e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": -1.263e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -20637,50 +20837,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.36941361561151825,
-    "total_funding_bps_30d": 101.219330677556,
-    "net_carry_bps_30d": 61.219330677556,
-    "positive_periods": 196,
-    "total_periods": 274,
-    "persistence": 0.7153284671532847,
-    "timestamp": "2026-07-03T14:12:28.273283+00:00"
+    "avg_funding_bps_30d": 0.37624307103810833,
+    "total_funding_bps_30d": 104.219330677556,
+    "net_carry_bps_30d": 64.219330677556,
+    "positive_periods": 199,
+    "total_periods": 277,
+    "persistence": 0.7184115523465704,
+    "timestamp": "2026-07-04T12:56:02.723513+00:00"
   },
   {
     "symbol": "DOTUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "DOTUSDT",
-      "funding_rate": 9.692e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.872
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.873
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "DOTUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.8717
+      "funding_rate": 6.305e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.8729
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "DOTUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 9.08e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 7.85e-06,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -0.0001578,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -0.00012625,
         "funding_time": 1780588800003
@@ -21028,9 +21216,33 @@
       {
         "funding_rate": -9.61e-06,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 9.781e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 1.718e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 8.307e-05,
         "funding_time": 1783065600000
@@ -21818,21 +22030,21 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": -0.00010091,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 7.833e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -0.00018348,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -22931,13 +23143,13 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": -0.2436527018176715,
-    "total_funding_bps_30d": -66.760840298042,
-    "net_carry_bps_30d": -106.760840298042,
-    "positive_periods": 184,
-    "total_periods": 274,
-    "persistence": 0.6715328467153284,
-    "timestamp": "2026-07-03T14:12:30.744624+00:00"
+    "avg_funding_bps_30d": -0.2301835389821011,
+    "total_funding_bps_30d": -63.760840298042,
+    "net_carry_bps_30d": -103.760840298042,
+    "positive_periods": 187,
+    "total_periods": 277,
+    "persistence": 0.6750902527075813,
+    "timestamp": "2026-07-04T12:56:05.236830+00:00"
   },
   {
     "symbol": "MATICUSDT",
@@ -22945,24 +23157,12 @@
       "exchange": "binance",
       "symbol": "MATICUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.19800222
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.19800379
     },
     "bybit_current": null,
     "okx_current": null,
     "binance_history": [
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1780588800003
@@ -23310,6 +23510,18 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
@@ -24122,7 +24334,7 @@
     "positive_periods": 155,
     "total_periods": 200,
     "persistence": 0.775,
-    "timestamp": "2026-07-03T14:12:33.287861+00:00"
+    "timestamp": "2026-07-04T12:56:07.583450+00:00"
   },
   {
     "symbol": "LTCUSDT",
@@ -24130,36 +24342,24 @@
       "exchange": "binance",
       "symbol": "LTCUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 43.57
+      "next_funding_time": 1783180800000,
+      "mark_price": 44.51
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "LTCUSDT",
-      "funding_rate": 9.905e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 43.55
+      "funding_rate": 8.85e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 44.51
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "LTCUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 7.09890581777e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 4.525e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -2.51e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -2.348e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -2.464e-05,
         "funding_time": 1780588800003
@@ -24507,9 +24707,33 @@
       {
         "funding_rate": 5.003e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 6.922e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 7.488e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 5.139e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 6.902e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 5.279e-05,
         "funding_time": 1783065600000
@@ -25297,21 +25521,21 @@
       {
         "funding_rate": -3.742e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 9.004e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 7.661e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -6.6e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 4.05196208289e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -5.71807909208e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 9.2813031248e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -1.86898942e-07,
         "funding_time": 1783065600000
@@ -26410,50 +26634,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.3194366368743613,
-    "total_funding_bps_30d": 87.525638503575,
-    "net_carry_bps_30d": 47.525638503574996,
-    "positive_periods": 193,
-    "total_periods": 274,
-    "persistence": 0.7043795620437956,
-    "timestamp": "2026-07-03T14:12:35.749436+00:00"
+    "avg_funding_bps_30d": 0.3187261989716101,
+    "total_funding_bps_30d": 88.287157115136,
+    "net_carry_bps_30d": 48.287157115136,
+    "positive_periods": 195,
+    "total_periods": 277,
+    "persistence": 0.703971119133574,
+    "timestamp": "2026-07-04T12:56:10.092448+00:00"
   },
   {
     "symbol": "ATOMUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "ATOMUSDT",
-      "funding_rate": 5.183e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1.58845143
+      "funding_rate": -0.00025532,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.595
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "ATOMUSDT",
-      "funding_rate": 1.574e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 1.5878
+      "funding_rate": -0.00012792,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.5944
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "ATOMUSDT",
-      "funding_rate": -6.999977585e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": -0.0001563893271627,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": -5.202e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -5.3e-07,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -9.483e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -0.00024189,
         "funding_time": 1780588800003
@@ -26801,9 +27013,33 @@
       {
         "funding_rate": -0.00014211,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": -4.35e-06,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": -0.00017571,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -0.00021888,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": -0.00012976,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -0.00020072,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -2.392e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -6.668e-05,
         "funding_time": 1783065600000
@@ -27591,21 +27827,21 @@
       {
         "funding_rate": -4.272e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 2.391e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 1.106e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 4.992e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": -2.25401205222e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -0.0002081638858511,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -7.29075771735e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -8.26211376661e-05,
         "funding_time": 1783065600000
@@ -28701,53 +28937,133 @@
       {
         "funding_rate": 3.56042561763e-05,
         "funding_time": 1775203200000
+      },
+      {
+        "funding_rate": -2.45428700699e-05,
+        "funding_time": 1775174400000
+      },
+      {
+        "funding_rate": -0.0002579613425958,
+        "funding_time": 1775145600000
+      },
+      {
+        "funding_rate": -0.0002402177400074,
+        "funding_time": 1775116800000
+      },
+      {
+        "funding_rate": -0.0004517815111567,
+        "funding_time": 1775088000000
+      },
+      {
+        "funding_rate": 3.59566405899e-05,
+        "funding_time": 1775059200000
+      },
+      {
+        "funding_rate": -5.03455598442e-05,
+        "funding_time": 1775030400000
+      },
+      {
+        "funding_rate": 5.19095287259e-05,
+        "funding_time": 1775001600000
+      },
+      {
+        "funding_rate": -6.36688595619e-05,
+        "funding_time": 1774972800000
+      },
+      {
+        "funding_rate": -0.0001121823646926,
+        "funding_time": 1774944000000
+      },
+      {
+        "funding_rate": -1.01452503108e-05,
+        "funding_time": 1774915200000
+      },
+      {
+        "funding_rate": -0.0003603090696164,
+        "funding_time": 1774886400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1774857600000
+      },
+      {
+        "funding_rate": -0.0001940220084509,
+        "funding_time": 1774828800000
+      },
+      {
+        "funding_rate": -0.0002870816981789,
+        "funding_time": 1774800000000
+      },
+      {
+        "funding_rate": 3.02860948967e-05,
+        "funding_time": 1774771200000
+      },
+      {
+        "funding_rate": -0.0001641123025775,
+        "funding_time": 1774742400000
+      },
+      {
+        "funding_rate": -2.77179564589e-05,
+        "funding_time": 1774713600000
+      },
+      {
+        "funding_rate": -0.0003396258230246,
+        "funding_time": 1774684800000
+      },
+      {
+        "funding_rate": -0.0001326847127187,
+        "funding_time": 1774656000000
+      },
+      {
+        "funding_rate": -0.0004205984997867,
+        "funding_time": 1774627200000
+      },
+      {
+        "funding_rate": -7.13170928263e-05,
+        "funding_time": 1774598400000
+      },
+      {
+        "funding_rate": -0.0002948689977727,
+        "funding_time": 1774569600000
+      },
+      {
+        "funding_rate": -0.0001693744788885,
+        "funding_time": 1774540800000
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": -0.3095443057736022,
-    "total_funding_bps_30d": -84.815139781967,
-    "net_carry_bps_30d": -124.815139781967,
-    "positive_periods": 129,
-    "total_periods": 274,
-    "persistence": 0.4708029197080292,
-    "timestamp": "2026-07-03T14:12:38.669557+00:00"
+    "avg_funding_bps_30d": -0.4079843812023467,
+    "total_funding_bps_30d": -122.395314360704,
+    "net_carry_bps_30d": -162.395314360704,
+    "positive_periods": 133,
+    "total_periods": 300,
+    "persistence": 0.44333333333333336,
+    "timestamp": "2026-07-04T12:56:12.505732+00:00"
   },
   {
     "symbol": "NEARUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "NEARUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 2.08642459
+      "funding_rate": 5.15e-06,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.97849795
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "NEARUSDT",
-      "funding_rate": -0.00013287,
-      "next_funding_time": 1783094400000,
-      "mark_price": 2.0865
+      "funding_rate": 2.63e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 1.9788
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "NEARUSDT",
-      "funding_rate": 2.62798608263e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": -5.487e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 2.641e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 5.967e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -1.968e-05,
         "funding_time": 1780588800003
@@ -29095,9 +29411,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 1.894e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": -9.432e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -4.485e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -2.662e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 4.476e-05,
         "funding_time": 1783065600000
@@ -29885,21 +30225,21 @@
       {
         "funding_rate": 1.229e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": -1.662e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": -1.0041935209e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 3.72523619857e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -30998,50 +31338,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.4938392308955292,
-    "total_funding_bps_30d": 135.311949265375,
-    "net_carry_bps_30d": 95.311949265375,
-    "positive_periods": 217,
-    "total_periods": 274,
-    "persistence": 0.791970802919708,
-    "timestamp": "2026-07-03T14:12:41.183534+00:00"
+    "avg_funding_bps_30d": 0.49308322575141517,
+    "total_funding_bps_30d": 136.584053533142,
+    "net_carry_bps_30d": 96.584053533142,
+    "positive_periods": 219,
+    "total_periods": 277,
+    "persistence": 0.7906137184115524,
+    "timestamp": "2026-07-04T12:56:15.850146+00:00"
   },
   {
     "symbol": "APTUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "APTUSDT",
-      "funding_rate": 4.954e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.6222685
+      "funding_rate": 6.158e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.62528033
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "APTUSDT",
-      "funding_rate": -2.4e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.6222
+      "funding_rate": 0.0001,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.6252
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "APTUSDT",
-      "funding_rate": 2.44950180801e-05,
-      "next_funding_time": 1783094400000,
+      "funding_rate": -5.44412954625e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 8.957e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -0.00012205,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -0.00038924,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -0.00012008,
         "funding_time": 1780588800003
@@ -31389,9 +31717,33 @@
       {
         "funding_rate": 1.663e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 7.357e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 9.519e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 8.48e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 7.21e-06,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -7.706e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -1.969e-05,
         "funding_time": 1783065600000
@@ -32179,21 +32531,21 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 3.45e-06,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 9.637e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 3.34866677996e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 2.94776394918e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5.7527089059e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -6.33086709247e-05,
         "funding_time": 1783065600000
@@ -33292,50 +33644,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": -0.36003317508297084,
-    "total_funding_bps_30d": -98.649089972734,
-    "net_carry_bps_30d": -138.649089972734,
-    "positive_periods": 139,
-    "total_periods": 274,
-    "persistence": 0.5072992700729927,
-    "timestamp": "2026-07-03T14:12:43.656619+00:00"
+    "avg_funding_bps_30d": -0.35178402891418775,
+    "total_funding_bps_30d": -97.44417600923,
+    "net_carry_bps_30d": -137.44417600923,
+    "positive_periods": 142,
+    "total_periods": 277,
+    "persistence": 0.5126353790613718,
+    "timestamp": "2026-07-04T12:56:18.203829+00:00"
   },
   {
     "symbol": "ARBUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "ARBUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.07946365
+      "funding_rate": 7.552e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.07953
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "ARBUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.07945
+      "funding_rate": 4.13e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.07955
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "ARBUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 7.13964100836e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": -6.938e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -7.223e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -9.505e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -2.391e-05,
         "funding_time": 1780588800003
@@ -33683,9 +34023,33 @@
       {
         "funding_rate": -5.321e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 1.163e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5.658e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 5.692e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 9.246e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 9.307e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -3.662e-05,
         "funding_time": 1783065600000
@@ -34473,21 +34837,21 @@
       {
         "funding_rate": 9.225e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 8.791e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 9.00892980254e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -35586,13 +35950,13 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.1810838046004708,
-    "total_funding_bps_30d": 49.616962460529,
-    "net_carry_bps_30d": 9.616962460529002,
-    "positive_periods": 178,
-    "total_periods": 274,
-    "persistence": 0.6496350364963503,
-    "timestamp": "2026-07-03T14:12:46.233058+00:00"
+    "avg_funding_bps_30d": 0.1895951459956065,
+    "total_funding_bps_30d": 52.517855440783,
+    "net_carry_bps_30d": 12.517855440783002,
+    "positive_periods": 181,
+    "total_periods": 277,
+    "persistence": 0.6534296028880866,
+    "timestamp": "2026-07-04T12:56:20.793215+00:00"
   },
   {
     "symbol": "OPUSDT",
@@ -35600,36 +35964,24 @@
       "exchange": "binance",
       "symbol": "OPUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.10501261
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.1079757
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "OPUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.10491
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.1079
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "OPUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 8.00142524978e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -0.00043926,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": -0.00036622,
         "funding_time": 1780588800003
@@ -35977,9 +36329,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -36767,21 +37143,21 @@
       {
         "funding_rate": -0.00012905,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 2.678e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 1.96e-06,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -2.846e-05,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -37880,50 +38256,38 @@
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.343186847790719,
-    "total_funding_bps_30d": 94.033196294657,
-    "net_carry_bps_30d": 54.033196294657,
-    "positive_periods": 196,
-    "total_periods": 274,
-    "persistence": 0.7153284671532847,
-    "timestamp": "2026-07-03T14:12:48.688913+00:00"
+    "avg_funding_bps_30d": 0.3503003476341408,
+    "total_funding_bps_30d": 97.033196294657,
+    "net_carry_bps_30d": 57.033196294657,
+    "positive_periods": 199,
+    "total_periods": 277,
+    "persistence": 0.7184115523465704,
+    "timestamp": "2026-07-04T12:56:23.309907+00:00"
   },
   {
     "symbol": "INJUSDT",
     "binance_current": {
       "exchange": "binance",
       "symbol": "INJUSDT",
-      "funding_rate": 1.616e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 4.87519781
+      "funding_rate": 1.215e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 4.815
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "INJUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 4.8749
+      "funding_rate": -4.639e-05,
+      "next_funding_time": 1783180800000,
+      "mark_price": 4.8141
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "INJUSDT",
-      "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "funding_rate": 8.7511599008e-05,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": -8.669e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 8.491e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -0.00014597,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 7.438e-05,
         "funding_time": 1780588800003
@@ -38271,9 +38635,33 @@
       {
         "funding_rate": 1.071e-05,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 6.803e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 2.516e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": -7.158e-05,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": -3.018e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -3.158e-05,
         "funding_time": 1783065600000
@@ -39061,21 +39449,21 @@
       {
         "funding_rate": -0.00017534,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": 5.996e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 6.95e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 6.01585468517e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": -6.63407839869e-05,
         "funding_time": 1783065600000
@@ -40171,16 +40559,108 @@
       {
         "funding_rate": -0.0001406841048561,
         "funding_time": 1775203200000
+      },
+      {
+        "funding_rate": 4.23723190815e-05,
+        "funding_time": 1775174400000
+      },
+      {
+        "funding_rate": -3.72770163871e-05,
+        "funding_time": 1775145600000
+      },
+      {
+        "funding_rate": -0.0002297375452929,
+        "funding_time": 1775116800000
+      },
+      {
+        "funding_rate": 2.71975426685e-05,
+        "funding_time": 1775088000000
+      },
+      {
+        "funding_rate": -7.33104924264e-05,
+        "funding_time": 1775059200000
+      },
+      {
+        "funding_rate": 5.12022929322e-05,
+        "funding_time": 1775030400000
+      },
+      {
+        "funding_rate": 9.3756396636e-05,
+        "funding_time": 1775001600000
+      },
+      {
+        "funding_rate": -0.0001916874899066,
+        "funding_time": 1774972800000
+      },
+      {
+        "funding_rate": -5.51529340278e-05,
+        "funding_time": 1774944000000
+      },
+      {
+        "funding_rate": -3.4481670372e-05,
+        "funding_time": 1774915200000
+      },
+      {
+        "funding_rate": -5.62345935753e-05,
+        "funding_time": 1774886400000
+      },
+      {
+        "funding_rate": -6.0740430698e-06,
+        "funding_time": 1774857600000
+      },
+      {
+        "funding_rate": -0.0001074347445394,
+        "funding_time": 1774828800000
+      },
+      {
+        "funding_rate": -9.50513339227e-05,
+        "funding_time": 1774800000000
+      },
+      {
+        "funding_rate": 7.81318651671e-05,
+        "funding_time": 1774771200000
+      },
+      {
+        "funding_rate": 1.52596436446e-05,
+        "funding_time": 1774742400000
+      },
+      {
+        "funding_rate": 9.18656467284e-05,
+        "funding_time": 1774713600000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1774684800000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1774656000000
+      },
+      {
+        "funding_rate": -0.0001245142425541,
+        "funding_time": 1774627200000
+      },
+      {
+        "funding_rate": 5.95510848967e-05,
+        "funding_time": 1774598400000
+      },
+      {
+        "funding_rate": -0.0001054399507193,
+        "funding_time": 1774569600000
+      },
+      {
+        "funding_rate": 1.24231065413e-05,
+        "funding_time": 1774540800000
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": -0.5084766200095437,
-    "total_funding_bps_30d": -139.322593882615,
-    "net_carry_bps_30d": -179.322593882615,
-    "positive_periods": 139,
-    "total_periods": 274,
-    "persistence": 0.5072992700729927,
-    "timestamp": "2026-07-03T14:12:51.165647+00:00"
+    "avg_funding_bps_30d": -0.4705578999968967,
+    "total_funding_bps_30d": -141.167369999069,
+    "net_carry_bps_30d": -181.167369999069,
+    "positive_periods": 153,
+    "total_periods": 300,
+    "persistence": 0.51,
+    "timestamp": "2026-07-04T12:56:25.821668+00:00"
   },
   {
     "symbol": "SUIUSDT",
@@ -40188,36 +40668,24 @@
       "exchange": "binance",
       "symbol": "SUIUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.75473571
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.759
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "SUIUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.7547
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.75873
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "SUIUSDT",
       "funding_rate": 0.0001,
-      "next_funding_time": 1783094400000,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 6.252e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": -8.606e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": 3.712e-05,
-        "funding_time": 1780560000000
-      },
       {
         "funding_rate": 1.28e-05,
         "funding_time": 1780588800003
@@ -40565,9 +41033,33 @@
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600007
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -41355,21 +41847,21 @@
       {
         "funding_rate": -4.602e-05,
         "funding_time": 1777420800000
-      },
-      {
-        "funding_rate": -3.666e-05,
-        "funding_time": 1777392000000
-      },
-      {
-        "funding_rate": 7.013e-05,
-        "funding_time": 1777363200000
-      },
-      {
-        "funding_rate": -8.02e-06,
-        "funding_time": 1777334400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 0.0001,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 0.0001,
         "funding_time": 1783065600000
@@ -42465,120 +42957,16 @@
       {
         "funding_rate": 8.92102327308e-05,
         "funding_time": 1775203200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1775174400000
-      },
-      {
-        "funding_rate": -4.087750797e-05,
-        "funding_time": 1775145600000
-      },
-      {
-        "funding_rate": 8.80074931998e-05,
-        "funding_time": 1775116800000
-      },
-      {
-        "funding_rate": 2.86944704878e-05,
-        "funding_time": 1775088000000
-      },
-      {
-        "funding_rate": 7.8106540962e-06,
-        "funding_time": 1775059200000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1775030400000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1775001600000
-      },
-      {
-        "funding_rate": 2.47491914901e-05,
-        "funding_time": 1774972800000
-      },
-      {
-        "funding_rate": 0.0001,
-        "funding_time": 1774944000000
-      },
-      {
-        "funding_rate": 7.1713696097e-05,
-        "funding_time": 1774915200000
-      },
-      {
-        "funding_rate": 7.77434346302e-05,
-        "funding_time": 1774886400000
-      },
-      {
-        "funding_rate": 2.52092445205e-05,
-        "funding_time": 1774857600000
-      },
-      {
-        "funding_rate": 5.30543370519e-05,
-        "funding_time": 1774828800000
-      },
-      {
-        "funding_rate": -5.2488703871e-06,
-        "funding_time": 1774800000000
-      },
-      {
-        "funding_rate": -0.000141427426483,
-        "funding_time": 1774771200000
-      },
-      {
-        "funding_rate": -2.8457662809e-06,
-        "funding_time": 1774742400000
-      },
-      {
-        "funding_rate": 8.7059257659e-05,
-        "funding_time": 1774713600000
-      },
-      {
-        "funding_rate": -6.58050488944e-05,
-        "funding_time": 1774684800000
-      },
-      {
-        "funding_rate": -0.0001207182720605,
-        "funding_time": 1774656000000
-      },
-      {
-        "funding_rate": -8.98544475323e-05,
-        "funding_time": 1774627200000
-      },
-      {
-        "funding_rate": 2.22434760854e-05,
-        "funding_time": 1774598400000
-      },
-      {
-        "funding_rate": -3.715949942e-05,
-        "funding_time": 1774569600000
-      },
-      {
-        "funding_rate": -5.8823007921e-06,
-        "funding_time": 1774540800000
-      },
-      {
-        "funding_rate": -4.9791993621e-05,
-        "funding_time": 1774512000000
-      },
-      {
-        "funding_rate": 2.11279757453e-05,
-        "funding_time": 1774483200000
-      },
-      {
-        "funding_rate": 8.61294596467e-05,
-        "funding_time": 1774454400000
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": 0.37224824232816,
-    "total_funding_bps_30d": 111.674472698448,
-    "net_carry_bps_30d": 71.674472698448,
-    "positive_periods": 220,
-    "total_periods": 300,
-    "persistence": 0.7333333333333333,
-    "timestamp": "2026-07-03T14:12:53.649321+00:00"
+    "avg_funding_bps_30d": 0.3983218668800072,
+    "total_funding_bps_30d": 110.335157125762,
+    "net_carry_bps_30d": 70.335157125762,
+    "positive_periods": 207,
+    "total_periods": 277,
+    "persistence": 0.7472924187725631,
+    "timestamp": "2026-07-04T12:56:28.207312+00:00"
   },
   {
     "symbol": "TIAUSDT",
@@ -42586,48 +42974,24 @@
       "exchange": "binance",
       "symbol": "TIAUSDT",
       "funding_rate": 5e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.40262905
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.39275
     },
     "bybit_current": {
       "exchange": "bybit",
       "symbol": "TIAUSDT",
       "funding_rate": 5e-05,
-      "next_funding_time": 1783094400000,
-      "mark_price": 0.4026
+      "next_funding_time": 1783180800000,
+      "mark_price": 0.3927
     },
     "okx_current": {
       "exchange": "okx",
       "symbol": "TIAUSDT",
       "funding_rate": 5e-05,
-      "next_funding_time": 1783094400000,
+      "next_funding_time": 1783180800000,
       "mark_price": 0
     },
     "binance_history": [
-      {
-        "funding_rate": 2.935e-05,
-        "funding_time": 1780502400001
-      },
-      {
-        "funding_rate": 4.716e-05,
-        "funding_time": 1780516800002
-      },
-      {
-        "funding_rate": 4.54e-05,
-        "funding_time": 1780531200009
-      },
-      {
-        "funding_rate": -7.606e-05,
-        "funding_time": 1780545600000
-      },
-      {
-        "funding_rate": -4.328e-05,
-        "funding_time": 1780560000000
-      },
-      {
-        "funding_rate": -5.473e-05,
-        "funding_time": 1780574400002
-      },
       {
         "funding_rate": -0.00012776,
         "funding_time": 1780588800003
@@ -43319,9 +43683,57 @@
       {
         "funding_rate": 5e-05,
         "funding_time": 1783080000002
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783094400000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783108800001
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783137600006
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783166400000
       }
     ],
     "bybit_history": [
+      {
+        "funding_rate": 1.4e-05,
+        "funding_time": 1783166400000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783137600000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783108800000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 5e-05,
         "funding_time": 1783080000000
@@ -44097,33 +44509,33 @@
       {
         "funding_rate": -0.0001135,
         "funding_time": 1780300800000
-      },
-      {
-        "funding_rate": 5e-05,
-        "funding_time": 1780286400000
-      },
-      {
-        "funding_rate": 5e-05,
-        "funding_time": 1780272000000
-      },
-      {
-        "funding_rate": -3.103e-05,
-        "funding_time": 1780257600000
-      },
-      {
-        "funding_rate": 5e-05,
-        "funding_time": 1780243200000
-      },
-      {
-        "funding_rate": 5e-05,
-        "funding_time": 1780228800000
-      },
-      {
-        "funding_rate": 5e-05,
-        "funding_time": 1780214400000
       }
     ],
     "okx_history": [
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783166400000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783152000000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783137600000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783123200000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783108800000
+      },
+      {
+        "funding_rate": 5e-05,
+        "funding_time": 1783094400000
+      },
       {
         "funding_rate": 5e-05,
         "funding_time": 1783080000000
@@ -45299,39 +45711,15 @@
       {
         "funding_rate": 2.43267138738e-05,
         "funding_time": 1778860800000
-      },
-      {
-        "funding_rate": -9.12423778238e-05,
-        "funding_time": 1778846400000
-      },
-      {
-        "funding_rate": -4.18478697019e-05,
-        "funding_time": 1778832000000
-      },
-      {
-        "funding_rate": 2.91492894515e-05,
-        "funding_time": 1778817600000
-      },
-      {
-        "funding_rate": -0.0001097274682807,
-        "funding_time": 1778803200000
-      },
-      {
-        "funding_rate": -6.33065991174e-05,
-        "funding_time": 1778788800000
-      },
-      {
-        "funding_rate": -0.000113066925423,
-        "funding_time": 1778774400000
       }
     ],
     "best_exchange": "okx",
-    "avg_funding_bps_30d": -0.026932459320320006,
-    "total_funding_bps_30d": -8.079737796096001,
-    "net_carry_bps_30d": -48.079737796096,
-    "positive_periods": 168,
+    "avg_funding_bps_30d": -0.003931060957143338,
+    "total_funding_bps_30d": -1.1793182871430012,
+    "net_carry_bps_30d": -41.179318287143005,
+    "positive_periods": 173,
     "total_periods": 300,
-    "persistence": 0.56,
-    "timestamp": "2026-07-03T14:12:56.132800+00:00"
+    "persistence": 0.5766666666666667,
+    "timestamp": "2026-07-04T12:56:30.766000+00:00"
   }
 ]

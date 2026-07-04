@@ -1,401 +1,137 @@
 [
   {
-    "ts": 1783081659.1407402,
-    "binance_mid": 81.35499999999999,
-    "binance_spread_bps": 1.2291807510300679,
-    "jup_sell_price": 81.2794753,
-    "jup_sell_div_bps": -9.283350746725874,
-    "jup_buy_price": 81.27989394798054,
-    "jup_buy_div_bps": -9.231891342812363,
-    "tri_ratio": 0.999931319,
-    "tri_bps": -0.6868100000001487,
+    "ts": 1783169742.657024,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.541366,
+    "jup_sell_div_bps": -6.573196887064452,
+    "jup_buy_price": 81.5394014621796,
+    "jup_buy_div_bps": -6.813963823812901,
+    "tri_ratio": 1.000020394,
+    "tri_bps": 0.20394000000090173,
     "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "AlphaQ",
+      "Whirlpool"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00024704641954089243,
+    "tri_back_impact_pct": 0.00025074452722326056,
+    "errors": []
+  },
+  {
+    "ts": 1783169751.19406,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.524282,
+    "jup_sell_div_bps": -7.442299442300482,
+    "jup_buy_price": 81.5240590681838,
+    "jup_buy_div_bps": -7.46962454081082,
+    "tri_ratio": 0.999982128,
+    "tri_bps": -0.17872000000029864,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 1.981052539156495e-05,
+    "tri_back_impact_pct": 7.95035173961925e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783169759.695366,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.523228,
+    "jup_sell_div_bps": -7.5714898572047336,
+    "jup_buy_price": 81.52533146816457,
+    "jup_buy_div_bps": -7.31366450149436,
+    "tri_ratio": 0.999991499,
+    "tri_bps": -0.08501000000049608,
+    "sell_routes": [
+      "TesseraV"
+    ],
+    "buy_routes": [
       "HumidiFi"
     ],
-    "buy_routes": [
-      "TesseraV"
-    ],
     "tri_back_routes": [
-      "BisonFi"
+      "Quantum"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0003119476196045898,
-    "tri_back_impact_pct": 0.0003754584331447054,
+    "buy_impact_pct": 0.00031571740541934585,
+    "tri_back_impact_pct": 0.0,
     "errors": []
   },
   {
-    "ts": 1783081668.667868,
-    "binance_mid": 81.36500000000001,
-    "binance_spread_bps": 1.2290296810674266,
-    "jup_sell_price": 81.2904584,
-    "jup_sell_div_bps": -9.161383887421302,
-    "jup_buy_price": 81.29174511283848,
-    "jup_buy_div_bps": -9.00324306047134,
-    "tri_ratio": 0.9999424426,
-    "tri_bps": -0.5755740000001897,
+    "ts": 1783169768.341182,
+    "binance_mid": 81.57499999999999,
+    "binance_spread_bps": 1.2258657676990643,
+    "jup_sell_price": 81.521378,
+    "jup_sell_div_bps": -6.5733374195513425,
+    "jup_buy_price": 81.51937203298385,
+    "jup_buy_div_bps": -6.819242049173881,
+    "tri_ratio": 1.00001472,
+    "tri_bps": 0.14720000000023603,
     "sell_routes": [
       "Quantum"
     ],
     "buy_routes": [
-      "TesseraV"
+      "GoonFi V2"
     ],
     "tri_back_routes": [
-      "TesseraV"
+      "GoonFi V2"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.00047896622272515217,
-    "tri_back_impact_pct": 0.00047597570301282163,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.00010853455838067223,
     "errors": []
   },
   {
-    "ts": 1783081678.195464,
-    "binance_mid": 81.375,
-    "binance_spread_bps": 1.2288786482323695,
-    "jup_sell_price": 81.3002462,
-    "jup_sell_div_bps": -9.186334869431192,
-    "jup_buy_price": 81.30403216896593,
-    "jup_buy_div_bps": -8.721085226920772,
-    "tri_ratio": 0.9999519363,
-    "tri_bps": -0.48063699999989495,
-    "sell_routes": [
-      "Quantum"
-    ],
-    "buy_routes": [
-      "TesseraV"
-    ],
-    "tri_back_routes": [
-      "TesseraV"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0005270362623605363,
-    "tri_back_impact_pct": 0.0002802203410970161,
-    "errors": []
-  },
-  {
-    "ts": 1783081687.7337291,
-    "binance_mid": 81.375,
-    "binance_spread_bps": 1.2288786482323695,
-    "jup_sell_price": 81.30006130000001,
-    "jup_sell_div_bps": -9.209056835636241,
-    "jup_buy_price": 81.27746130191797,
-    "jup_buy_div_bps": -11.986322344950315,
-    "tri_ratio": 1.0002175243,
-    "tri_bps": 2.175242999999938,
+    "ts": 1783169776.898405,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.524291,
+    "jup_sell_div_bps": -7.441196298339497,
+    "jup_buy_price": 81.52195290627397,
+    "jup_buy_div_bps": -7.727780073057697,
+    "tri_ratio": 1.000026132,
+    "tri_bps": 0.2613199999990101,
     "sell_routes": [
       "HumidiFi"
     ],
     "buy_routes": [
       "GoonFi V2",
-      "Scorch"
-    ],
-    "tri_back_routes": [
-      "Quantum"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0003824027733736667,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081697.211618,
-    "binance_mid": 81.36500000000001,
-    "binance_spread_bps": 1.2290296810674266,
-    "jup_sell_price": 81.27865890000001,
-    "jup_sell_div_bps": -10.611577459595464,
-    "jup_buy_price": 81.2837777639706,
-    "jup_buy_div_bps": -9.9824538842751,
-    "tri_ratio": 0.9999538428,
-    "tri_bps": -0.4615720000000767,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "TesseraV"
-    ],
-    "sell_impact_pct": 0.00018056123891821,
-    "buy_impact_pct": 0.0003577073936426403,
-    "tri_back_impact_pct": 0.0002829679964826562,
-    "errors": []
-  },
-  {
-    "ts": 1783081706.72661,
-    "binance_mid": 81.345,
-    "binance_spread_bps": 1.2293318581339856,
-    "jup_sell_price": 81.2569872,
-    "jup_sell_div_bps": -10.819693896367488,
-    "jup_buy_price": 81.24944530313088,
-    "jup_buy_div_bps": -11.7468433055646,
-    "tri_ratio": 1.0001583257,
-    "tri_bps": 1.583256999999616,
-    "sell_routes": [
-      "Quantum"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "HumidiFi"
-    ],
-    "sell_impact_pct": 5.158864808848e-05,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081716.295671,
-    "binance_mid": 81.32499999999999,
-    "binance_spread_bps": 1.2296341838309397,
-    "jup_sell_price": 81.2413908,
-    "jup_sell_div_bps": -10.28087304026852,
-    "jup_buy_price": 81.23726831055312,
-    "jup_buy_div_bps": -10.787788434905522,
-    "tri_ratio": 1.0000502558,
-    "tri_bps": 0.5025579999995422,
-    "sell_routes": [
-      "SolFi V2"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "HumidiFi"
-    ],
-    "sell_impact_pct": 0.00035231640301108,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081725.766304,
-    "binance_mid": 81.305,
-    "binance_spread_bps": 1.2299366582627287,
-    "jup_sell_price": 81.22793060000001,
-    "jup_sell_div_bps": -9.479048029026403,
-    "jup_buy_price": 81.22494031877326,
-    "jup_buy_div_bps": -9.846833678954908,
-    "tri_ratio": 1.0000267341,
-    "tri_bps": 0.26734099999981,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "Quantum"
-    ],
-    "tri_back_routes": [
-      "Quantum"
-    ],
-    "sell_impact_pct": 0.00080457670769834,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081735.267665,
-    "binance_mid": 81.275,
-    "binance_spread_bps": 1.2303906490316967,
-    "jup_sell_price": 81.1937127,
-    "jup_sell_div_bps": -10.001513380498261,
-    "jup_buy_price": 81.19453097759664,
-    "jup_buy_div_bps": -9.900833270176992,
-    "tri_ratio": 0.9999941421,
-    "tri_bps": -0.05857899999961447,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "Quantum"
-    ],
-    "sell_impact_pct": 0.00121139223366904,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081744.745198,
-    "binance_mid": 81.275,
-    "binance_spread_bps": 1.2303906490316967,
-    "jup_sell_price": 81.1914582,
-    "jup_sell_div_bps": -10.278904952323114,
-    "jup_buy_price": 81.19453801948475,
-    "jup_buy_div_bps": -9.89996684284868,
-    "tri_ratio": 0.9999501387,
-    "tri_bps": -0.498612999999537,
-    "sell_routes": [
-      "TesseraV"
-    ],
-    "buy_routes": [
       "Quantum"
     ],
     "tri_back_routes": [
       "GoonFi V2",
       "Quantum"
     ],
-    "sell_impact_pct": 0.00081502194343294,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081754.2137759,
-    "binance_mid": 81.295,
-    "binance_spread_bps": 1.2300879512873983,
-    "jup_sell_price": 81.223807,
-    "jup_sell_div_bps": -8.757365151609331,
-    "jup_buy_price": 81.22466445043796,
-    "jup_buy_div_bps": -8.651891206352873,
-    "tri_ratio": 1.0000022455,
-    "tri_bps": 0.022454999999421688,
-    "sell_routes": [
-      "HumidiFi",
-      "ZeroFi"
-    ],
-    "buy_routes": [
-      "SolFi V2"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
-    ],
-    "sell_impact_pct": 0.0008553016519023,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0004708321812196115,
-    "errors": []
-  },
-  {
-    "ts": 1783081763.656842,
-    "binance_mid": 81.305,
-    "binance_spread_bps": 1.2299366582627287,
-    "jup_sell_price": 81.2234847,
-    "jup_sell_div_bps": -10.025865567924065,
-    "jup_buy_price": 81.2218191941742,
-    "jup_buy_div_bps": -10.230712234893891,
-    "tri_ratio": 1.0000720133,
-    "tri_bps": 0.7201330000006223,
-    "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
-    ],
-    "sell_impact_pct": 0.00021539962089046,
-    "buy_impact_pct": 0.00034467612470298587,
-    "tri_back_impact_pct": 0.0002931872794064731,
-    "errors": []
-  },
-  {
-    "ts": 1783081773.1548889,
-    "binance_mid": 81.315,
-    "binance_spread_bps": 1.2297854024461545,
-    "jup_sell_price": 81.24300480000001,
-    "jup_sell_div_bps": -8.853864600625872,
-    "jup_buy_price": 81.2438806807983,
-    "jup_buy_div_bps": -8.746150058623776,
-    "tri_ratio": 0.9999971735,
-    "tri_bps": -0.028265000000526896,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "TesseraV"
-    ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0003218603720435421,
+    "buy_impact_pct": 0.00021703772027161517,
+    "tri_back_impact_pct": 0.00022134573755905784,
     "errors": []
   },
   {
-    "ts": 1783081782.687051,
-    "binance_mid": 81.305,
-    "binance_spread_bps": 1.2299366582627287,
-    "jup_sell_price": 81.2232944,
-    "jup_sell_div_bps": -10.049271262530777,
-    "jup_buy_price": 81.22584320097792,
-    "jup_buy_div_bps": -9.735784886795024,
-    "tri_ratio": 1.0000062584,
-    "tri_bps": 0.06258400000014319,
-    "sell_routes": [
-      "Quantum"
-    ],
-    "buy_routes": [
-      "Quantum"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.00013927879935544293,
-    "tri_back_impact_pct": 0.00012882427436753546,
-    "errors": []
-  },
-  {
-    "ts": 1783081792.17772,
-    "binance_mid": 81.315,
-    "binance_spread_bps": 1.2297854024461545,
-    "jup_sell_price": 81.2327493,
-    "jup_sell_div_bps": -10.11507102010736,
-    "jup_buy_price": 81.23292770528843,
-    "jup_buy_div_bps": -10.093130998163378,
-    "tri_ratio": 0.999953825,
-    "tri_bps": -0.4617500000003716,
-    "sell_routes": [
-      "Quantum"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.00025365448511021027,
-    "tri_back_impact_pct": 0.0005074982229414489,
-    "errors": []
-  },
-  {
-    "ts": 1783081801.685475,
-    "binance_mid": 81.32499999999999,
-    "binance_spread_bps": 1.2296341838309397,
-    "jup_sell_price": 81.2547363,
-    "jup_sell_div_bps": -8.639864740237805,
-    "jup_buy_price": 81.25463139476176,
-    "jup_buy_div_bps": -8.652764246938768,
-    "tri_ratio": 1.0000043988,
-    "tri_bps": 0.043988000000272365,
-    "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
-      "SolFi V2"
-    ],
-    "tri_back_routes": [
-      "SolFi V2"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0006598242610004169,
-    "tri_back_impact_pct": 0.00045897122606643144,
-    "errors": []
-  },
-  {
-    "ts": 1783081811.227112,
-    "binance_mid": 81.315,
-    "binance_spread_bps": 1.2297854024461545,
-    "jup_sell_price": 81.2295563,
-    "jup_sell_div_bps": -10.507741499108285,
-    "jup_buy_price": 81.22959560584238,
-    "jup_buy_div_bps": -10.502907723989523,
-    "tri_ratio": 0.9999995568,
-    "tri_bps": -0.004432000000331726,
+    "ts": 1783169785.3779001,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.526058,
+    "jup_sell_div_bps": -7.224612367469733,
+    "jup_buy_price": 81.5249190599282,
+    "jup_buy_div_bps": -7.364214018730577,
+    "tri_ratio": 1.000013971,
+    "tri_bps": 0.1397100000000151,
     "sell_routes": [
       "SolFi V2"
     ],
@@ -406,261 +142,265 @@
       "Quantum"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.000460316990888015,
-    "tri_back_impact_pct": 0.0004602763238640953,
-    "errors": []
-  },
-  {
-    "ts": 1783081820.715009,
-    "binance_mid": 81.285,
-    "binance_spread_bps": 1.230239281540889,
-    "jup_sell_price": 81.2084379,
-    "jup_sell_div_bps": -9.418970289720077,
-    "jup_buy_price": 81.20477319969989,
-    "jup_buy_div_bps": -9.86981611614816,
-    "tri_ratio": 1.0002151759,
-    "tri_bps": 2.1517589999997533,
-    "sell_routes": [
-      "PancakeSwap"
-    ],
-    "buy_routes": [
-      "TesseraV"
-    ],
-    "tri_back_routes": [
-      "HumidiFi"
-    ],
-    "sell_impact_pct": 0.00045361630523155,
-    "buy_impact_pct": 0.0,
+    "buy_impact_pct": 6.943013153172124e-05,
     "tri_back_impact_pct": 0.0,
     "errors": []
   },
   {
-    "ts": 1783081830.264711,
-    "binance_mid": 81.275,
-    "binance_spread_bps": 1.2303906490316967,
-    "jup_sell_price": 81.1953915,
-    "jup_sell_div_bps": -9.794955398339733,
-    "jup_buy_price": 81.19819511236638,
-    "jup_buy_div_bps": -9.450001554429779,
-    "tri_ratio": 1.0000032709,
-    "tri_bps": 0.03270899999963106,
+    "ts": 1783169793.884372,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.531295,
+    "jup_sell_div_bps": -6.5827051541346915,
+    "jup_buy_price": 81.53234092841437,
+    "jup_buy_div_bps": -6.454504086000759,
+    "tri_ratio": 0.999977543,
+    "tri_bps": -0.22457000000031258,
     "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
-    ],
-    "sell_impact_pct": 0.00053269275275905,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081839.788772,
-    "binance_mid": 81.255,
-    "binance_spread_bps": 1.2306934957855045,
-    "jup_sell_price": 81.1705184,
-    "jup_sell_div_bps": -10.397095563348655,
-    "jup_buy_price": 81.17580832391648,
-    "jup_buy_div_bps": -9.74606806762793,
-    "tri_ratio": 0.9999522933,
-    "tri_bps": -0.47706699999983115,
-    "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
       "Quantum"
     ],
-    "sell_impact_pct": 0.00090663518703104,
-    "buy_impact_pct": 0.0,
-    "tri_back_impact_pct": 0.0,
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2",
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00012251914501387243,
+    "tri_back_impact_pct": 0.00017008075144081753,
     "errors": []
   },
   {
-    "ts": 1783081849.271692,
-    "binance_mid": 81.275,
-    "binance_spread_bps": 1.2303906490316967,
-    "jup_sell_price": 81.1980182,
-    "jup_sell_div_bps": -9.471768686557816,
-    "jup_buy_price": 81.20285470976845,
-    "jup_buy_div_bps": -8.87668904725444,
-    "tri_ratio": 0.999925807,
-    "tri_bps": -0.7419300000000018,
+    "ts": 1783169802.4226692,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.532631,
+    "jup_sell_div_bps": -7.643728169618713,
+    "jup_buy_price": 81.53252089544513,
+    "jup_buy_div_bps": -7.657222201711821,
+    "tri_ratio": 0.999986543,
+    "tri_bps": -0.134569999999945,
     "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
       "SolFi V2"
     ],
-    "tri_back_routes": [
+    "buy_routes": [
+      "GoonFi V2",
       "Quantum"
     ],
-    "sell_impact_pct": 0.00056815185274592,
-    "buy_impact_pct": 0.0004339148654841657,
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00012359315758722535,
+    "tri_back_impact_pct": 0.00012957100804258045,
+    "errors": []
+  },
+  {
+    "ts": 1783169810.9149618,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.532077,
+    "jup_sell_div_bps": -7.71162448679427,
+    "jup_buy_price": 81.53099148614209,
+    "jup_buy_div_bps": -7.8446612976179715,
+    "tri_ratio": 1.000020499,
+    "tri_bps": 0.20498999999896128,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0001098417791812279,
+    "tri_back_impact_pct": 0.00035934362693548197,
+    "errors": []
+  },
+  {
+    "ts": 1783169819.434956,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.53199,
+    "jup_sell_div_bps": -7.722286904835537,
+    "jup_buy_price": 81.53257108105124,
+    "jup_buy_div_bps": -7.6510716280108015,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00013906808460848345,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783169827.7559428,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.542009,
+    "jup_sell_div_bps": -6.49439303878985,
+    "jup_buy_price": 81.52255701777008,
+    "jup_buy_div_bps": -8.878360466930049,
+    "tri_ratio": 1.000302293,
+    "tri_bps": 3.0229300000006454,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "AlphaQ"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 5.9108554028609696e-05,
     "tri_back_impact_pct": 0.0,
     "errors": []
   },
   {
-    "ts": 1783081858.734473,
-    "binance_mid": 81.275,
-    "binance_spread_bps": 1.2303906490316967,
-    "jup_sell_price": 81.20196419999999,
-    "jup_sell_div_bps": -8.986256536452014,
-    "jup_buy_price": 81.2036058973294,
-    "jup_buy_div_bps": -8.78426363218819,
-    "tri_ratio": 0.9999675051,
-    "tri_bps": -0.32494900000012983,
+    "ts": 1783169836.2150269,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.52098,
+    "jup_sell_div_bps": -7.847030704175216,
+    "jup_buy_price": 81.52237106743706,
+    "jup_buy_div_bps": -7.676525410669157,
+    "tri_ratio": null,
+    "tri_bps": null,
     "sell_routes": [
-      "BisonFi"
+      "GoonFi V2"
     ],
     "buy_routes": [
+      "Manifest",
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783169844.663125,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.522158,
+    "jup_sell_div_bps": -7.702641416927547,
+    "jup_buy_price": 81.52273604565526,
+    "jup_buy_div_bps": -7.63178946433087,
+    "tri_ratio": 0.999998296,
+    "tri_bps": -0.01703999999991268,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 2.375492229e-06,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 5.744278396982769e-06,
+    "errors": []
+  },
+  {
+    "ts": 1783169853.2037592,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.523929,
+    "jup_sell_div_bps": -7.485567199854449,
+    "jup_buy_price": 81.52330107194024,
+    "jup_buy_div_bps": -7.5625333161450365,
+    "tri_ratio": 1.000014821,
+    "tri_bps": 0.14820999999942686,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Deriverse",
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0002722264080054687,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783169861.694219,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.542335,
+    "jup_sell_div_bps": -6.4544396102708035,
+    "jup_buy_price": 81.53849203117556,
+    "jup_buy_div_bps": -6.925420531213172,
+    "tri_ratio": 1.000039969,
+    "tri_bps": 0.3996899999991754,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
       "SolFi V2"
     ],
-    "tri_back_routes": [
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00045847983846206846,
+    "tri_back_impact_pct": 0.00046563794969348295,
+    "errors": []
+  },
+  {
+    "ts": 1783169870.202626,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.541225,
+    "jup_sell_div_bps": -6.590477357681436,
+    "jup_buy_price": 81.54223703547711,
+    "jup_buy_div_bps": -6.46644580217957,
+    "tri_ratio": 0.999957093,
+    "tri_bps": -0.4290699999998093,
+    "sell_routes": [
+      "Aquifer",
       "Quantum"
     ],
-    "sell_impact_pct": 0.00026666246026978,
-    "buy_impact_pct": 5.996781734484684e-05,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081868.203764,
-    "binance_mid": 81.295,
-    "binance_spread_bps": 1.2300879512873983,
-    "jup_sell_price": 81.2181417,
-    "jup_sell_div_bps": -9.454246878651556,
-    "jup_buy_price": 81.22224093139732,
-    "jup_buy_div_bps": -8.950005363512966,
-    "tri_ratio": 0.9999160019,
-    "tri_bps": -0.8399810000003782,
-    "sell_routes": [
-      "TesseraV"
-    ],
     "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "SolFi V2",
       "Quantum"
     ],
-    "sell_impact_pct": 7.45365950989e-06,
-    "buy_impact_pct": 0.000274669422512774,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081877.747285,
-    "binance_mid": 81.285,
-    "binance_spread_bps": 1.230239281540889,
-    "jup_sell_price": 81.2056419,
-    "jup_sell_div_bps": -9.762945192839174,
-    "jup_buy_price": 81.20940536614025,
-    "jup_buy_div_bps": -9.299948804791914,
-    "tri_ratio": 0.9999763819,
-    "tri_bps": -0.23618099999955788,
-    "sell_routes": [
-      "TesseraV"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
     "tri_back_routes": [
-      "HumidiFi"
-    ],
-    "sell_impact_pct": 0.0004843357503031,
-    "buy_impact_pct": 0.0004292406250580042,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081887.240383,
-    "binance_mid": 81.295,
-    "binance_spread_bps": 1.2300879512873983,
-    "jup_sell_price": 81.2215723,
-    "jup_sell_div_bps": -9.032252906082332,
-    "jup_buy_price": 81.22153637344562,
-    "jup_buy_div_bps": -9.036672188250883,
-    "tri_ratio": 1.0000112243,
-    "tri_bps": 0.11224299999890164,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "BisonFi"
+      "Riptide"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.00019276094525647465,
-    "tri_back_impact_pct": 0.0005677578136704472,
+    "buy_impact_pct": 0.00023463169193218945,
+    "tri_back_impact_pct": 9.07586393511258e-05,
     "errors": []
   },
   {
-    "ts": 1783081896.759168,
-    "binance_mid": 81.295,
-    "binance_spread_bps": 1.2300879512873983,
-    "jup_sell_price": 81.2203256,
-    "jup_sell_div_bps": -9.185607970970706,
-    "jup_buy_price": 81.22126227161823,
-    "jup_buy_div_bps": -9.070389123780327,
-    "tri_ratio": 1.0000047147,
-    "tri_bps": 0.04714699999963656,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "HumidiFi"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.00024956161840785756,
-    "tri_back_impact_pct": 0.0,
-    "errors": []
-  },
-  {
-    "ts": 1783081906.2181592,
-    "binance_mid": 81.295,
-    "binance_spread_bps": 1.2300879512873983,
-    "jup_sell_price": 81.2222252,
-    "jup_sell_div_bps": -8.951940463743748,
-    "jup_buy_price": 81.22363272206843,
-    "jup_buy_div_bps": -8.778802869988498,
-    "tri_ratio": 0.9996987967,
-    "tri_bps": -3.0120330000005247,
-    "sell_routes": [
-      "BisonFi"
-    ],
-    "buy_routes": [
-      "HumidiFi"
-    ],
-    "tri_back_routes": [
-      "Meteora DLMM"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0006896162631626628,
-    "tri_back_impact_pct": 0.000323673998504824,
-    "errors": []
-  },
-  {
-    "ts": 1783081915.704881,
-    "binance_mid": 81.315,
-    "binance_spread_bps": 1.2297854024461545,
-    "jup_sell_price": 81.2260769,
-    "jup_sell_div_bps": -10.9356330320362,
-    "jup_buy_price": 81.22588229780811,
-    "jup_buy_div_bps": -10.959564925522349,
-    "tri_ratio": 0.9999106095,
-    "tri_bps": -0.8939050000000837,
+    "ts": 1783169878.802264,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.555628,
+    "jup_sell_div_bps": -7.274643141580642,
+    "jup_buy_price": 81.55495806513422,
+    "jup_buy_div_bps": -7.356727913471013,
+    "tri_ratio": 0.999991515,
+    "tri_bps": -0.08484999999947007,
     "sell_routes": [
       "Riptide"
     ],
@@ -668,97 +408,607 @@
       "Quantum"
     ],
     "tri_back_routes": [
-      "BisonFi"
+      "Quantum"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 2.1262465591812633e-05,
-    "tri_back_impact_pct": 0.00040833823362167925,
+    "buy_impact_pct": 0.00028544137764842934,
+    "tri_back_impact_pct": 0.00047306779007014996,
     "errors": []
   },
   {
-    "ts": 1783081925.233474,
-    "binance_mid": 81.345,
-    "binance_spread_bps": 1.2293318581339856,
-    "jup_sell_price": 81.2628659,
-    "jup_sell_div_bps": -10.097006576926011,
-    "jup_buy_price": 81.26627375049792,
-    "jup_buy_div_bps": -9.678068658440301,
-    "tri_ratio": 0.9998949576,
-    "tri_bps": -1.0504239999997722,
-    "sell_routes": [
-      "HumidiFi"
-    ],
-    "buy_routes": [
-      "BisonFi"
-    ],
-    "tri_back_routes": [
-      "SolFi V2"
-    ],
-    "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0004417498511462796,
-    "tri_back_impact_pct": 0.0007923632342250403,
-    "errors": []
-  },
-  {
-    "ts": 1783081934.7092311,
-    "binance_mid": 81.345,
-    "binance_spread_bps": 1.2293318581339856,
-    "jup_sell_price": 81.2667208,
-    "jup_sell_div_bps": -9.623111438932598,
-    "jup_buy_price": 81.2685348137424,
-    "jup_buy_div_bps": -9.400108950469376,
-    "tri_ratio": 0.999971588,
-    "tri_bps": -0.2841200000003319,
+    "ts": 1783169887.2567601,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.552199,
+    "jup_sell_div_bps": -7.694786497581012,
+    "jup_buy_price": 81.5446665545692,
+    "jup_buy_div_bps": -8.617710645200622,
+    "tri_ratio": null,
+    "tri_bps": null,
     "sell_routes": [
       "Quantum"
     ],
     "buy_routes": [
       "HumidiFi"
     ],
-    "tri_back_routes": [
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783169895.6492789,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.558381,
+    "jup_sell_div_bps": -6.9373276971159665,
+    "jup_buy_price": 81.55997309083646,
+    "jup_buy_div_bps": -6.7422543850449355,
+    "tri_ratio": 0.999962984,
+    "tri_bps": -0.37015999999945315,
+    "sell_routes": [
       "HumidiFi"
     ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0007401894102255201,
-    "tri_back_impact_pct": 0.0003896176797211916,
+    "buy_impact_pct": 0.000457859042937834,
+    "tri_back_impact_pct": 0.00029520245457689983,
     "errors": []
   },
   {
-    "ts": 1783081944.1580632,
-    "binance_mid": 81.345,
-    "binance_spread_bps": 1.2293318581339856,
-    "jup_sell_price": 81.27112100000001,
-    "jup_sell_div_bps": -9.082180834715215,
-    "jup_buy_price": 81.27300085738914,
-    "jup_buy_div_bps": -8.851083976994712,
-    "tri_ratio": 0.9999837425,
-    "tri_bps": -0.16257500000005365,
+    "ts": 1783169904.1513631,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.570771,
+    "jup_sell_div_bps": -7.867826299993561,
+    "jup_buy_price": 81.56698704180529,
+    "jup_buy_div_bps": -8.331347852599988,
+    "tri_ratio": 1.000035145,
+    "tri_bps": 0.3514500000001419,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0004084152119742032,
+    "tri_back_impact_pct": 0.0005414908900904297,
+    "errors": []
+  },
+  {
+    "ts": 1783169912.6949718,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.575397,
+    "jup_sell_div_bps": -7.301157591718704,
+    "jup_buy_price": 81.57859682837852,
+    "jup_buy_div_bps": -6.909189884420723,
+    "tri_ratio": 0.999974907,
+    "tri_bps": -0.2509299999997605,
     "sell_routes": [
       "Quantum"
     ],
     "buy_routes": [
-      "HumidiFi"
+      "Quantum",
+      "Raydium CLMM"
     ],
     "tri_back_routes": [
-      "SolFi V2"
+      "Quantum"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 5.773786705078065e-05,
-    "tri_back_impact_pct": 0.0008190015156250187,
+    "buy_impact_pct": 0.0006724902316041915,
+    "tri_back_impact_pct": 0.0003856624920815199,
     "errors": []
   },
   {
-    "ts": 1783081953.663342,
-    "binance_mid": 81.35499999999999,
-    "binance_spread_bps": 1.2291807510300679,
-    "jup_sell_price": 81.2706403,
-    "jup_sell_div_bps": -10.369331940260976,
-    "jup_buy_price": 81.27086102527245,
-    "jup_buy_div_bps": -10.342200814644114,
-    "tri_ratio": 1.0000134596,
-    "tri_bps": 0.13459600000098604,
+    "ts": 1783169921.196416,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.580018,
+    "jup_sell_div_bps": -6.735101365835173,
+    "jup_buy_price": 81.57991709702752,
+    "jup_buy_div_bps": -6.747461624606165,
+    "tri_ratio": 1.000005307,
+    "tri_bps": 0.053069999998989204,
     "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "AlphaQ",
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 7.91991546016112e-05,
+    "tri_back_impact_pct": 0.00015451251960120515,
+    "errors": []
+  },
+  {
+    "ts": 1783169929.710094,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.582108,
+    "jup_sell_div_bps": -6.479083726341121,
+    "jup_buy_price": 81.579005049217,
+    "jup_buy_div_bps": -6.859184269368341,
+    "tri_ratio": 1.000028119,
+    "tri_bps": 0.2811899999999312,
+    "sell_routes": [
+      "Riptide"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0005109414843686978,
+    "tri_back_impact_pct": 0.0003960771370958247,
+    "errors": []
+  },
+  {
+    "ts": 1783169938.1708522,
+    "binance_mid": 81.64500000000001,
+    "binance_spread_bps": 1.2248147467701778,
+    "jup_sell_price": 81.586307,
+    "jup_sell_div_bps": -7.188805193215164,
+    "jup_buy_price": 81.58820500793412,
+    "jup_buy_div_bps": -6.95633438249605,
+    "tri_ratio": 1.000047209,
+    "tri_bps": 0.4720900000010353,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00026014811853200195,
+    "tri_back_impact_pct": 0.0001037788091858474,
+    "errors": []
+  },
+  {
+    "ts": 1783169946.613972,
+    "binance_mid": 81.64500000000001,
+    "binance_spread_bps": 1.2248147467701778,
+    "jup_sell_price": 81.587404,
+    "jup_sell_div_bps": -7.054443015494365,
+    "jup_buy_price": 81.58719504257344,
+    "jup_buy_div_bps": -7.080036429244791,
+    "tri_ratio": 0.999994178,
+    "tri_bps": -0.058219999999886696,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0004865006027144642,
+    "tri_back_impact_pct": 0.00012901506574412454,
+    "errors": []
+  },
+  {
+    "ts": 1783169955.0659,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.572711,
+    "jup_sell_div_bps": -7.630183132234056,
+    "jup_buy_price": 81.57370599978582,
+    "jup_buy_div_bps": -7.508299162635577,
+    "tri_ratio": 0.999977074,
+    "tri_bps": -0.22925999999978686,
+    "sell_routes": [
+      "ZeroFi"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 5.0058350132e-05,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.00022842063257710093,
+    "errors": []
+  },
+  {
+    "ts": 1783169963.560139,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.554236,
+    "jup_sell_div_bps": -7.445200024506038,
+    "jup_buy_price": 81.54805547554857,
+    "jup_buy_div_bps": -8.20247803117607,
+    "tri_ratio": 1.00007409,
+    "tri_bps": 0.7409000000002663,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0002286271102056,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783169972.015157,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.546606,
+    "jup_sell_div_bps": -8.38007719169418,
+    "jup_buy_price": 81.54407417633946,
+    "jup_buy_div_bps": -8.69029267420756,
+    "tri_ratio": 1.000072037,
+    "tri_bps": 0.7203700000002478,
+    "sell_routes": [
+      "ZeroFi"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.000249782325022,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783169980.47648,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.537795,
+    "jup_sell_div_bps": -7.010846252833652,
+    "jup_buy_price": 81.53965039607324,
+    "jup_buy_div_bps": -6.7834553498078485,
+    "tri_ratio": 0.999999909,
+    "tri_bps": -0.0009099999997985719,
+    "sell_routes": [
+      "Quantum",
+      "Byreal"
+    ],
+    "buy_routes": [
+      "Deriverse",
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 8.0363476648e-05,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783169988.932304,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.537378,
+    "jup_sell_div_bps": -7.061952325509523,
+    "jup_buy_price": 81.5341721646641,
+    "jup_buy_div_bps": -7.454848377461824,
+    "tri_ratio": 1.000014251,
+    "tri_bps": 0.14251000000076175,
+    "sell_routes": [
+      "Quantum",
+      "AlphaQ"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0004963848748342,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 5.992984588985254e-06,
+    "errors": []
+  },
+  {
+    "ts": 1783169997.375173,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.535013,
+    "jup_sell_div_bps": -7.351798517065073,
+    "jup_buy_price": 81.53374500191998,
+    "jup_buy_div_bps": -7.507199960783967,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 7.00514529635e-05,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170005.722931,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.539646,
+    "jup_sell_div_bps": -6.7839941172858795,
+    "jup_buy_price": 81.53543192567916,
+    "jup_buy_div_bps": -7.300456439835311,
+    "tri_ratio": 1.00004084,
+    "tri_bps": 0.40840000000041954,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 5.610586518596762e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783170014.16014,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.540801,
+    "jup_sell_div_bps": -6.642441326061278,
+    "jup_buy_price": 81.53745103013783,
+    "jup_buy_div_bps": -7.053002005290528,
+    "tri_ratio": 1.000036553,
+    "tri_bps": 0.3655299999993922,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0003199861024970859,
+    "errors": []
+  },
+  {
+    "ts": 1783170022.6123729,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.546859,
+    "jup_sell_div_bps": -5.899993872173675,
+    "jup_buy_price": 81.54212694330018,
+    "jup_buy_div_bps": -6.479938317277217,
+    "tri_ratio": 1.000064242,
+    "tri_bps": 0.6424200000010316,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
       "SolFi V2"
+    ],
+    "tri_back_routes": [
+      "ZeroFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00034286026587425746,
+    "tri_back_impact_pct": 0.00011598693929766222,
+    "errors": []
+  },
+  {
+    "ts": 1783170031.0997372,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.550188,
+    "jup_sell_div_bps": -6.71674529746757,
+    "jup_buy_price": 81.54754308111377,
+    "jup_buy_div_bps": -7.040857654091916,
+    "tri_ratio": 1.000046709,
+    "tri_bps": 0.4670900000003364,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0004092544284764379,
+    "tri_back_impact_pct": 0.00042490509011309445,
+    "errors": []
+  },
+  {
+    "ts": 1783170039.55124,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.546403,
+    "jup_sell_div_bps": -7.180564916364414,
+    "jup_buy_price": 81.54612101042798,
+    "jup_buy_div_bps": -7.215120344587749,
+    "tri_ratio": 0.999984168,
+    "tri_bps": -0.15831999999993407,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 1.1627641958e-05,
+    "buy_impact_pct": 2.1740127975327596e-05,
+    "tri_back_impact_pct": 0.0004311489669578008,
+    "errors": []
+  },
+  {
+    "ts": 1783170048.122485,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.554088,
+    "jup_sell_div_bps": -6.238833404815482,
+    "jup_buy_price": 81.54837300521844,
+    "jup_buy_div_bps": -6.9391575003434545,
+    "tri_ratio": 1.000069676,
+    "tri_bps": 0.6967600000007401,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00044934589404814934,
+    "tri_back_impact_pct": 0.00044975072356455165,
+    "errors": []
+  },
+  {
+    "ts": 1783170056.64776,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.54841,
+    "jup_sell_div_bps": -6.934624103913451,
+    "jup_buy_price": 81.54857602663957,
+    "jup_buy_div_bps": -6.914278948645786,
+    "tri_ratio": 0.999957247,
+    "tri_bps": -0.4275300000000648,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "Byreal",
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00020643690134164073,
+    "tri_back_impact_pct": 0.00048265866083121306,
+    "errors": []
+  },
+  {
+    "ts": 1783170065.100704,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.549605,
+    "jup_sell_div_bps": -6.788186998344476,
+    "jup_buy_price": 81.5491360319534,
+    "jup_buy_div_bps": -6.8456550513564665,
+    "tri_ratio": 1.000005383,
+    "tri_bps": 0.053829999999699396,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 3.875803454420904e-05,
+    "tri_back_impact_pct": 2.2254273408873545e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783170073.553151,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.548983,
+    "jup_sell_div_bps": -6.864407818146302,
+    "jup_buy_price": 81.54768896657839,
+    "jup_buy_div_bps": -7.022980628833807,
+    "tri_ratio": 1.000044416,
+    "tri_bps": 0.4441599999993606,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0004110426552452899,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170081.992403,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.547244,
+    "jup_sell_div_bps": -7.077507505665522,
+    "jup_buy_price": 81.54664707870798,
+    "jup_buy_div_bps": -7.1506551427011384,
+    "tri_ratio": 1.000012961,
+    "tri_bps": 0.12960999999922507,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170090.4387672,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.547832,
+    "jup_sell_div_bps": -7.0054530972354785,
+    "jup_buy_price": 81.54925730904095,
+    "jup_buy_div_bps": -6.830793573805058,
+    "tri_ratio": 1.000010144,
+    "tri_bps": 0.10143999999989717,
+    "sell_routes": [
+      "HumidiFi"
     ],
     "buy_routes": [
       "HumidiFi"
@@ -767,7 +1017,712 @@
       "HumidiFi"
     ],
     "sell_impact_pct": 0.0,
-    "buy_impact_pct": 0.0005844990820934086,
+    "buy_impact_pct": 8.533621664752903e-05,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170098.893327,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.547159,
+    "jup_sell_div_bps": -7.087923534096717,
+    "jup_buy_price": 81.54808082241034,
+    "jup_buy_div_bps": -6.97496202311727,
+    "tri_ratio": 0.999988696,
+    "tri_bps": -0.11304000000045278,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 2.611925877e-07,
+    "buy_impact_pct": 2.371497720850363e-05,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170107.3172312,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.546746,
+    "jup_sell_div_bps": -7.138533178112976,
+    "jup_buy_price": 81.54802499413435,
+    "jup_buy_div_bps": -6.981803304410049,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 1.80307284106e-05,
+    "buy_impact_pct": 4.690744922738079e-06,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170115.649377,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.550227,
+    "jup_sell_div_bps": -6.711966178540909,
+    "jup_buy_price": 81.5481784609512,
+    "jup_buy_div_bps": -6.962997248794023,
+    "tri_ratio": 1.000024105,
+    "tri_bps": 0.24105000000052001,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 6.743900928711124e-06,
+    "tri_back_impact_pct": 3.4163687073497575e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783170124.1090581,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.560824,
+    "jup_sell_div_bps": -5.413393787144551,
+    "jup_buy_price": 81.56993404868645,
+    "jup_buy_div_bps": -4.297034656398649,
+    "tri_ratio": 0.999897767,
+    "tri_bps": -1.0223300000000712,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "Hadron"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00027052620019796074,
+    "tri_back_impact_pct": 0.0002502173395216455,
+    "errors": []
+  },
+  {
+    "ts": 1783170132.5909991,
+    "binance_mid": 81.625,
+    "binance_spread_bps": 1.2251148545164967,
+    "jup_sell_price": 81.575,
+    "jup_sell_div_bps": -6.1255742725877065,
+    "jup_buy_price": 81.56920365777401,
+    "jup_buy_div_bps": -6.8356927688807145,
+    "tri_ratio": 1.000061156,
+    "tri_bps": 0.6115599999989563,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
+      "AlphaQ"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0002908986091300053,
+    "tri_back_impact_pct": 9.950816601246136e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783170141.0290382,
+    "binance_mid": 81.64500000000001,
+    "binance_spread_bps": 1.2248147467701778,
+    "jup_sell_price": 81.581492,
+    "jup_sell_div_bps": -7.778553493785656,
+    "jup_buy_price": 81.57829904588444,
+    "jup_buy_div_bps": -8.169631222435541,
+    "tri_ratio": 1.000033023,
+    "tri_bps": 0.3302300000007641,
+    "sell_routes": [
+      "ZeroFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00037057611785310803,
+    "tri_back_impact_pct": 0.00036829400287410674,
+    "errors": []
+  },
+  {
+    "ts": 1783170149.554704,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.581926,
+    "jup_sell_div_bps": -6.501378085379455,
+    "jup_buy_price": 81.5772067059821,
+    "jup_buy_div_bps": -7.079474982285054,
+    "tri_ratio": 1.000050602,
+    "tri_bps": 0.5060199999995518,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Deriverse",
+      "Raydium CLMM"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 1.75126091702e-05,
+    "buy_impact_pct": 3.97857497772658e-05,
+    "tri_back_impact_pct": 5.758874967436852e-05,
+    "errors": []
+  },
+  {
+    "ts": 1783170158.021537,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.577287,
+    "jup_sell_div_bps": -7.069639247870715,
+    "jup_buy_price": 81.57946906383856,
+    "jup_buy_div_bps": -6.802344112382191,
+    "tri_ratio": 0.99989981,
+    "tri_bps": -1.001899999999445,
+    "sell_routes": [
+      "Scorch",
+      "Quantum"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0004029032741853282,
+    "tri_back_impact_pct": 0.0004137405158420586,
+    "errors": []
+  },
+  {
+    "ts": 1783170166.481456,
+    "binance_mid": 81.64500000000001,
+    "binance_spread_bps": 1.2248147467701778,
+    "jup_sell_price": 81.588337,
+    "jup_sell_div_bps": -6.940167799622091,
+    "jup_buy_price": 81.58140967928716,
+    "jup_buy_div_bps": -7.788636256090129,
+    "tri_ratio": 1.000255334,
+    "tri_bps": 2.5533399999999595,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0001018570583943826,
+    "tri_back_impact_pct": 0.00022995675732135704,
+    "errors": []
+  },
+  {
+    "ts": 1783170174.9356759,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.558916,
+    "jup_sell_div_bps": -6.871776021566216,
+    "jup_buy_price": 81.5516088354869,
+    "jup_buy_div_bps": -7.767097287643992,
+    "tri_ratio": 1.000103646,
+    "tri_bps": 1.0364599999990176,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0001738894583204,
+    "buy_impact_pct": 4.2341012826112995e-05,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170183.3892539,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.546238,
+    "jup_sell_div_bps": -5.976101476805738,
+    "jup_buy_price": 81.54116375129183,
+    "jup_buy_div_bps": -6.597983786771937,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "Quantum",
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "ZeroFi"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0003293001843184,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170191.733742,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.558052,
+    "jup_sell_div_bps": -6.977638914415921,
+    "jup_buy_price": 81.55379739048239,
+    "jup_buy_div_bps": -7.498941311967396,
+    "tri_ratio": 0.999987554,
+    "tri_bps": -0.12446000000054802,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "Quantum",
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170200.1874251,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.560587,
+    "jup_sell_div_bps": -6.667034246157069,
+    "jup_buy_price": 81.5600082281099,
+    "jup_buy_div_bps": -6.737949138040263,
+    "tri_ratio": 0.999985504,
+    "tri_bps": -0.14496000000030485,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "ZeroFi"
+    ],
+    "sell_impact_pct": 0.0001534047644003,
+    "buy_impact_pct": 0.00011698618855668527,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170208.96064,
+    "binance_mid": 81.61500000000001,
+    "binance_spread_bps": 1.225264963548994,
+    "jup_sell_price": 81.561398,
+    "jup_sell_div_bps": -6.567665257613445,
+    "jup_buy_price": 81.56151125128778,
+    "jup_buy_div_bps": -6.553788974113361,
+    "tri_ratio": 1.00000081,
+    "tri_bps": 0.008099999999622298,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "SolFi V2"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170217.4072099,
+    "binance_mid": 81.625,
+    "binance_spread_bps": 1.2251148545164967,
+    "jup_sell_price": 81.567246,
+    "jup_sell_div_bps": -7.0755283307813475,
+    "jup_buy_price": 81.56444204491676,
+    "jup_buy_div_bps": -7.41904503316879,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 7.17724622974e-05,
+    "buy_impact_pct": 0.00012756064676736588,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170225.754019,
+    "binance_mid": 81.625,
+    "binance_spread_bps": 1.2251148545164967,
+    "jup_sell_price": 81.565877,
+    "jup_sell_div_bps": -7.243246554364421,
+    "jup_buy_price": 81.56496508821067,
+    "jup_buy_div_bps": -7.3549662222762855,
+    "tri_ratio": 1.000015419,
+    "tri_bps": 0.1541899999990548,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "HumidiFi"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 8.85549554013e-05,
+    "buy_impact_pct": 0.00015698336282380713,
+    "tri_back_impact_pct": 0.00028752853237594823,
+    "errors": []
+  },
+  {
+    "ts": 1783170234.2057102,
+    "binance_mid": 81.63499999999999,
+    "binance_spread_bps": 1.2249647822631369,
+    "jup_sell_price": 81.583607,
+    "jup_sell_div_bps": -6.295461505480524,
+    "jup_buy_price": 81.58948805895521,
+    "jup_buy_div_bps": -5.575052495226227,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.00048331658741413694,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170242.5283751,
+    "binance_mid": 81.66499999999999,
+    "binance_spread_bps": 1.2245147860166676,
+    "jup_sell_price": 81.60651,
+    "jup_sell_div_bps": -7.162186983406838,
+    "jup_buy_price": 81.59328507233435,
+    "jup_buy_div_bps": -8.781598930464531,
+    "tri_ratio": 1.000152118,
+    "tri_bps": 1.5211799999992337,
+    "sell_routes": [
+      "Riptide"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0003857295259274461,
+    "tri_back_impact_pct": 0.0006487095317605981,
+    "errors": []
+  },
+  {
+    "ts": 1783170250.975035,
+    "binance_mid": 81.655,
+    "binance_spread_bps": 1.2246647480241142,
+    "jup_sell_price": 81.596838,
+    "jup_sell_div_bps": -7.122895107463821,
+    "jup_buy_price": 81.59530834867026,
+    "jup_buy_div_bps": -7.310226113494943,
+    "tri_ratio": 1.000016753,
+    "tri_bps": 0.16752999999924967,
+    "sell_routes": [
+      "BisonFi"
+    ],
+    "buy_routes": [
+      "SolFi V2",
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0006315723734742869,
+    "tri_back_impact_pct": 0.0004010300913537306,
+    "errors": []
+  },
+  {
+    "ts": 1783170259.420917,
+    "binance_mid": 81.655,
+    "binance_spread_bps": 1.2246647480241142,
+    "jup_sell_price": 81.602776,
+    "jup_sell_div_bps": -6.395689180086386,
+    "jup_buy_price": 81.59945100525398,
+    "jup_buy_div_bps": -6.802889565368786,
+    "tri_ratio": 1.000040379,
+    "tri_bps": 0.40379000000090315,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "BisonFi"
+    ],
+    "sell_impact_pct": 0.0,
+    "buy_impact_pct": 0.0006823085015398583,
+    "tri_back_impact_pct": 0.0005109683510490487,
+    "errors": []
+  },
+  {
+    "ts": 1783170267.8911161,
+    "binance_mid": 81.625,
+    "binance_spread_bps": 1.2251148545164967,
+    "jup_sell_price": 81.571142,
+    "jup_sell_div_bps": -6.598223583461597,
+    "jup_buy_price": 81.56158071323381,
+    "jup_buy_div_bps": -7.769591028017262,
+    "tri_ratio": 1.000122835,
+    "tri_bps": 1.2283499999998782,
+    "sell_routes": [
+      "Meteora DLMM"
+    ],
+    "buy_routes": [
+      "BisonFi"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 0.0003310861840388,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170276.366343,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.548051,
+    "jup_sell_div_bps": -6.9786165063401535,
+    "jup_buy_price": 81.53413704964827,
+    "jup_buy_div_bps": -8.683653005541869,
+    "tri_ratio": null,
+    "tri_bps": null,
+    "sell_routes": [
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [],
+    "sell_impact_pct": 0.0001765733742815,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": [
+      "TRI_back: HTTP Error 429: Too Many Requests"
+    ]
+  },
+  {
+    "ts": 1783170284.708155,
+    "binance_mid": 81.595,
+    "binance_spread_bps": 1.2255652919898163,
+    "jup_sell_price": 81.537711,
+    "jup_sell_div_bps": -7.021141001286508,
+    "jup_buy_price": 81.53605603590658,
+    "jup_buy_div_bps": -7.223967656525027,
+    "tri_ratio": 1.000020297,
+    "tri_bps": 0.20297000000057963,
+    "sell_routes": [
+      "Quantum",
+      "SolFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0007916767452505,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170293.1476,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.541965,
+    "jup_sell_div_bps": -7.724404141901242,
+    "jup_buy_price": 81.53809603046605,
+    "jup_buy_div_bps": -8.198513514360554,
+    "tri_ratio": 1.00001777,
+    "tri_bps": 0.1776999999991702,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "Quantum",
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.0001893496157665,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170301.601142,
+    "binance_mid": 81.60499999999999,
+    "binance_spread_bps": 1.2254151093689256,
+    "jup_sell_price": 81.544934,
+    "jup_sell_div_bps": -7.360578395930637,
+    "jup_buy_price": 81.54232903723566,
+    "jup_buy_div_bps": -7.679794469006725,
+    "tri_ratio": 1.000008164,
+    "tri_bps": 0.081640000000327,
+    "sell_routes": [
+      "HumidiFi"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.0006053407952706,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170310.069967,
+    "binance_mid": 81.58500000000001,
+    "binance_spread_bps": 1.2257155114304241,
+    "jup_sell_price": 81.524234,
+    "jup_sell_div_bps": -7.448182876754426,
+    "jup_buy_price": 81.52489307582391,
+    "jup_buy_div_bps": -7.367398930697647,
+    "tri_ratio": 0.999999508,
+    "tri_bps": -0.004919999999630775,
+    "sell_routes": [
+      "Riptide"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "HumidiFi"
+    ],
+    "sell_impact_pct": 0.0004061025658834,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170318.511528,
+    "binance_mid": 81.505,
+    "binance_spread_bps": 1.2269185939519192,
+    "jup_sell_price": 81.448427,
+    "jup_sell_div_bps": -6.9410465615606665,
+    "jup_buy_price": 81.44715403101105,
+    "jup_buy_div_bps": -7.097229493766369,
+    "tri_ratio": 1.000047502,
+    "tri_bps": 0.4750199999992155,
+    "sell_routes": [
+      "Meteora DAMM v2"
+    ],
+    "buy_routes": [
+      "GoonFi V2"
+    ],
+    "tri_back_routes": [
+      "TesseraV"
+    ],
+    "sell_impact_pct": 0.0009380051890722,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170326.952626,
+    "binance_mid": 81.505,
+    "binance_spread_bps": 1.2269185939519192,
+    "jup_sell_price": 81.443624,
+    "jup_sell_div_bps": -7.530335562234913,
+    "jup_buy_price": 81.44350441269331,
+    "jup_buy_div_bps": -7.5450079512521295,
+    "tri_ratio": 1.000089628,
+    "tri_bps": 0.8962800000000826,
+    "sell_routes": [
+      "Quantum"
+    ],
+    "buy_routes": [
+      "TesseraV"
+    ],
+    "tri_back_routes": [
+      "GoonFi V2"
+    ],
+    "sell_impact_pct": 0.000962379465428,
+    "buy_impact_pct": 0.0,
+    "tri_back_impact_pct": 0.0,
+    "errors": []
+  },
+  {
+    "ts": 1783170335.4182599,
+    "binance_mid": 81.505,
+    "binance_spread_bps": 1.2269185939519192,
+    "jup_sell_price": 81.443278,
+    "jup_sell_div_bps": -7.572786945584805,
+    "jup_buy_price": 81.44158002578111,
+    "jup_buy_div_bps": -7.781114559706563,
+    "tri_ratio": 1.000014132,
+    "tri_bps": 0.14132000000000033,
+    "sell_routes": [
+      "Scorch",
+      "Aquifer",
+      "GoonFi V2"
+    ],
+    "buy_routes": [
+      "Quantum"
+    ],
+    "tri_back_routes": [
+      "Quantum"
+    ],
+    "sell_impact_pct": 0.000966623714391,
+    "buy_impact_pct": 0.00013301159645134878,
     "tri_back_impact_pct": 0.0,
     "errors": []
   }
