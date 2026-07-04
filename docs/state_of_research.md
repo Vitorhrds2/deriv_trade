@@ -1,4 +1,4 @@
-# Estado da Pesquisa — Consolidado (2026-07-03)
+# Estado da Pesquisa — Consolidado (2026-07-04)
 
 **Propósito:** fonte única de verdade sobre todas as hipóteses de edge já testadas neste
 repositório, seu veredito, e o que ainda está em aberto. Consolidado após o merge de
@@ -7,18 +7,19 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**36 hipóteses testadas. 32 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com sinal estatisticamente significante (D17 — token unlock short), 1 refutada em re-teste rigoroso (D16v2).**
-O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5), ele é
+**41 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com anomalias reais confirmadas (D36 — IV surface), 1 aguardando eventos (D34 — liquidation cascade).**
+O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
 touch/no-touch, range, vanillas, accumulators, jump indices, multipliers, higher/lower, tickhigh,
 runs, asian, reset, turbos). Nenhuma hipótese sobreviveu a controle nulo + IC95% + segunda fonte
-independente.
+independente, exceto D17 (edge validado) e D36 (anomalias reverting, aguardando P&L).
 
 **Todos os 14 produtos Deriv ativos na API estão agora exaustivamente testados e refutados.**
 O ecossistema Deriv está fechado para mispricing de produtos. O Polymarket também está fechado
-(PA1-PA5 todos refutados). As frentes **ainda em aberto** são: Early sell optionality (rodando,
-preliminar SEM EDGE) e Synthetic Anomaly Monitor (Carlos, inacessível).
+(PA1-PA5 todos refutados). As frentes **ainda em aberto** são: D17 (token unlock, bot em paper),
+D34 (liquidation cascade, loop contínuo na AWS), D36 (IV surface anomaly, paper bot ativo na AWS),
+e Early sell optionality (trial 32/50 na AWS).
 
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
@@ -51,6 +52,9 @@ preliminar SEM EDGE) e Synthetic Anomaly Monitor (Carlos, inacessível).
 | 30 | D16v2 — CVD rigorous re-test (5k candles, k-fold, Bonferroni) | Binance spot (1h, 5000 candles) | `docs/cvd_v2_report.md` | REFUTADO. 5-fold CV + permutation test + Bonferroni (α=0.0019). Nenhum config significativo. ETH diverge_96h_48h WR 76% mas p=0.107. Sharpe 10+ do v1 era artefato de annualization |
 | 31 | D17 — Token unlock impact (short pré-unlock) | Binance spot (10 tokens, 167 eventos: 119 IS + 48 OOS) | `docs/event_driven_report.md` | **SINAL VALIDADO OOS** — Short 3d antes/3d depois: IS WR 61% avg +285bps t=2.66, OOS WR 79% avg +660bps t=5.43. Edge MAIS FORTE em 2025. Large unlocks (≥$200M): 7/7 negativos, -19.2% excess 30d. Primeiro edge real em 36 hipóteses |
 | 32 | D18 — Binance listing announcement impact | Binance spot+futures (43 listings) | `docs/event_driven_report.md` | REFUTADO. Buy at listing: WR 23%, avg +32bps (1d), t-stat=0.29. 30d excess=-15.3% (t=-3.34). Listings são "sell the news" — tokens caem após listing |
+| 33 | D32 — Cross-exchange latency arbitrage (Binance vs Bybit/OKX) | CEX perps (REST API) | `docs/latency_arb_report.md` | REFUTADO. 1200+ samples, divergência máx 0.02% vs 0.2% fees (10x menor). REST ~2.5s/sample (não 100ms). Não há leader consistente. Latency arb é jogo institucional (co-location sub-ms, WebSocket/FIX) |
+| 34 | D33 — Order book imbalance alpha (predict next-tick) | Binance spot (1s polling) | `docs/order_book_imbalance_report.md` | REFUTADO. 2400+ signals, WR direcional 62.5% em 10s MAS 0 wins após fees (100% negativo). Movimentos de preço < 0.1% fee em 10s. Precisaria WebSocket L2 + maker orders |
+| 35 | D35 — Funding rate prediction (momentum + premium) | Binance futures (20 perps, 30d) | `docs/funding_prediction_report.md` | REFUTADO. Momentum direction WR 87.3% (N=1269) MAS Profitable WR 11.7%. EV -$0.43/trade, annualized -47.3%. Funding rates太小 vs 0.08% fees. Exceções (LABUSDT, SLXUSDT) são outliers illiquid |
 
 ## Hipóteses com sinal fraco/marginal (não refutadas, não confirmadas)
 
@@ -276,9 +280,12 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 
 | # | Hipótese | Status | Notas |
 |---|----------|--------|-------|
-| 14 | Early sell optionality | 3/20 trials na AWS | Preliminar SEM EDGE; sell melhor em losses, hold melhor em wins |
+| 14 | Early sell optionality | Trial 32/50 na AWS | 15 sell wins vs 17 hold wins. Tendência mudou — era 75% sell antes, agora hold está vencendo. Aguardando N=50 |
 | 15 | Synthetic Anomaly Monitor | Rodando 24/7 (Carlos) | Inacessível neste servidor; sem achado confirmado reportado |
 | 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
+| 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
+| 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
+| 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Paper bot escaneando hourly. Aguardando settles para P&L real. **Edge mais promissor** |
 
 ## Recomendação
 
@@ -340,11 +347,33 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 18. **Binance listing impact — REFUTADO** (D18). 43 listings, buy at listing:
     WR 23%, avg +32bps (1d), t-stat=0.29. 30d excess=-15.3% (t=-3.34). Listings
     são "sell the news" — tokens caem após listing. Não há pump capturável.
-19. **Status consolidado**: 36 hipóteses, 32 refutadas, 2 com sinal fraco/marginal,
-    1 com edge validado OOS-2025 + OOS-2026 + custos + timing (D17). Arbitragem:
-    encerrada. Direcional: D13/D14 sinal fraco. Event-driven: D17 edge validado em
-    3 períodos (IS/OOS-25/OOS-26), timing otimizado (-3d/+3d é ótimo), custos
-    testados (funding -4bps). D18 refutado. **Bot implementado: `unlock_short_bot.py`.**
-    Próximo: paper trading em tempo real para validar execução.
-20. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
+19. **Cross-exchange latency arb — REFUTADO** (D32). 1200+ samples, divergência
+    máx 0.02% vs 0.2% fees. REST API ~2.5s/sample (não 100ms). Não há leader
+    consistente. Latency arb é jogo institucional (co-location sub-ms, WebSocket/FIX,
+    maker orders). Não viável sem infra profissional.
+20. **Order book imbalance — REFUTADO** (D33). 2400+ signals, WR direcional até
+    62.5% em 10s MAS 0 wins após fees (100% negativo). Movimentos de preço < 0.1%
+    fee em 10s. OBI tem poder preditivo direcional real mas insuficiente para
+    superar taker fees. Precisaria WebSocket L2 + maker orders.
+21. **Funding rate prediction — REFUTADO** (D35). Momentum direction WR 87.3%
+    (N=1269) MAS Profitable WR 11.7%. EV -$0.43/trade, annualized -47.3%.
+    Funding rates são太小 vs 0.08% fees. Momentum prediz direção mas valor
+    coletado é insuficiente. Edge só em perps com funding anômalo (LABUSDT,
+    SLXUSDT) — outliers illiquid não escaláveis.
+22. **IV surface anomaly — EDGE PROMISSOR** (D36). 6/6 anomalias reverting
+    (0 stale quotes). Paper bot ativo na AWS escaneando hourly. Filtros de
+    liquidez aplicados (bid≥0.001, OI≥50, spread<50%). Aguardando settles
+    para medir P&L real após fees Deribit (0.03% roundtrip). Se profitável,
+    este é o PRIMEIRO edge estrutural em opções crypto do projeto.
+23. **Liquidation cascade — AGUARDANDO EVENTOS** (D34). 0 cascades em 30min
+    (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
+    mas quando ocorrem, continuation é quase garantida (forced selling).
+    Precisa dias/semanas para capturar eventos durante volatilidade alta.
+24. **Status consolidado**: 41 hipóteses, 36 refutadas, 2 com sinal fraco/marginal,
+    1 com edge validado (D17), 1 com anomalias reais confirmadas (D36, aguardando
+    P&L), 1 aguardando eventos (D34). Arbitragem: encerrada. Direcional: D13/D14
+    sinal fraco. Event-driven: D17 edge validado em 3 períodos. Options: D36
+    edge promissor (anomalias reverting). **Foco: D17 go live + D36 paper bot
+    settles + D34 aguardar volatilidade.**
+25. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
     `hft_arbitrage_bot.py` de novo.
