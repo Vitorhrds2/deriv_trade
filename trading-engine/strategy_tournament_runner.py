@@ -664,6 +664,7 @@ def empty_model_state(spec, status="pending"):
         "blocked_until_ts": 0.0,
         "blocked_reason": None,
         "last_agent_rule": None,
+        "last_agent_status": None,
         "promoted_at": None,
         "pivot_reason": None,
         "started_at": None,
@@ -1224,6 +1225,7 @@ class StrategyTournament:
                 "history": {},
                 "last_tick_seen_at": 0.0,
                 "last_logged_rule": None,
+                "last_status_logged_at": 0.0,
             },
         )
 
@@ -1245,12 +1247,13 @@ class StrategyTournament:
                 score = round(sum(history[-int(spec.get("score_window", 40)):]), 4)
                 emitted.append((score, len(history), rule_id, signal))
 
-        if not emitted:
-            return None
-
         min_samples = int(spec.get("min_paper_samples", 0))
         min_score = float(spec.get("min_rule_score", -999999))
         eligible = [item for item in emitted if item[1] >= min_samples and item[0] >= min_score]
+        self.record_agent_status(model, spec, agent, emitted, eligible)
+        if not emitted:
+            return None
+
         if not eligible and spec.get("allow_exploration_before_min_samples", False):
             eligible = emitted
         if not eligible:
@@ -1265,6 +1268,51 @@ class StrategyTournament:
             self.log_event("agent_rule_selected", model_id=model["id"], rule_id=rule_id, score=score, samples=samples)
             agent["last_logged_rule"] = rule_id
         return signal
+
+    def record_agent_status(self, model, spec, agent, emitted, eligible):
+        score_window = int(spec.get("score_window", 40))
+        rules = []
+        for rule in spec.get("rules", []):
+            rule_id = rule["id"]
+            history = agent.get("history", {}).get(rule_id, [])
+            rules.append(
+                {
+                    "rule_id": rule_id,
+                    "samples": len(history),
+                    "score": round(sum(history[-score_window:]), 4),
+                    "lifetime_score": round(sum(history), 4),
+                    "currently_emitted": any(item[2] == rule_id for item in emitted),
+                    "eligible": any(item[2] == rule_id for item in eligible),
+                }
+            )
+
+        best = max(rules, key=lambda item: (item["score"], item["samples"], item["rule_id"])) if rules else None
+        status = {
+            "ts": utc_now(),
+            "score_window": score_window,
+            "min_paper_samples": int(spec.get("min_paper_samples", 0)),
+            "min_rule_score": float(spec.get("min_rule_score", -999999)),
+            "emitted_count": len(emitted),
+            "eligible_count": len(eligible),
+            "best_rule": best,
+            "rules": rules,
+        }
+        model["last_agent_status"] = status
+
+        log_seconds = float(spec.get("agent_status_log_seconds", 60.0))
+        now = time.time()
+        if now - float(agent.get("last_status_logged_at", 0.0) or 0.0) >= log_seconds:
+            self.log_event(
+                "agent_status",
+                model_id=model["id"],
+                emitted_count=status["emitted_count"],
+                eligible_count=status["eligible_count"],
+                min_paper_samples=status["min_paper_samples"],
+                min_rule_score=status["min_rule_score"],
+                best_rule=best,
+                rules=rules,
+            )
+            agent["last_status_logged_at"] = now
 
     def update_adaptive_paper(self, agent, spec, ticks):
         if len(ticks) < 2:
