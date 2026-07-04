@@ -21,10 +21,22 @@ Aggressiveness: tentar detectar outflows em tempo quase real e medir
 se há edge preditivo antes do mercado reagir.
 """
 import json
+import os
 import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 from collections import defaultdict
+
+from pathlib import Path
+_env_path = Path(__file__).parent / ".env"
+if _env_path.exists():
+    for line in _env_path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
+WHALE_ALERT_API_KEY = os.environ.get("WHALE_ALERT_API_KEY", "demo")
 
 # Known exchange hot wallet addresses (subset)
 EXCHANGE_WALLETS_BTC = {
@@ -56,7 +68,7 @@ def fetch_exchange_netflow_cryptoquant():
     """
     # CryptoQuant public endpoint (may need API key)
     # Fallback: use Whale Alert API (free tier)
-    url = "https://api.whale-alert.io/v1/transactions?api_key=demo&min=500000&start=0&currency=btc"
+    url = f"https://api.whale-alert.io/v1/transactions?api_key={WHALE_ALERT_API_KEY}&min=500000&start=0&currency=btc"
     try:
         data = fetch_json(url, timeout=10)
         return data
@@ -107,9 +119,9 @@ def fetch_binance_withdrawal_history():
     """Binance doesn't expose withdrawal history publicly.
     Use Whale Alert as proxy for large exchange outflows.
     """
-    # Try whale alert with demo key
+    # Whale Alert with real API key
     now_ts = int(time.time())
-    url = f"https://api.whale-alert.io/v1/transactions?api_key=demo&min=1000000&start={now_ts - 3600}&currency=btc"
+    url = f"https://api.whale-alert.io/v1/transactions?api_key={WHALE_ALERT_API_KEY}&min=1000000&start={now_ts - 3600}&currency=btc"
     try:
         data = fetch_json(url, timeout=15)
         transactions = data.get("transactions", [])

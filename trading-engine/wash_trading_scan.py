@@ -45,8 +45,8 @@ RUN_DURATION = 120  # 2 minutes (initial test)
 DUP_TRADE_ID_WINDOW = 1000  # check last 1000 trades for duplicate IDs
 CLUSTER_WINDOW_MS = 100  # trades within 100ms
 CLUSTER_MIN_TRADES = 5  # 5+ identical trades in 100ms = cluster
-VOLUME_BURST_WINDOW = 10  # seconds
-VOLUME_BURST_MULT = 5  # 5x average volume = burst
+VOLUME_BURST_WINDOW = 30  # seconds
+VOLUME_BURST_MULT = 10  # 10x average volume = burst
 TIMESTAMP_ANOMALY_MS = 5000  # trade timestamp > 5s off from current time
 
 
@@ -111,9 +111,13 @@ def on_message(ws, message, state):
             # Same price and same direction
             if len(set(prices)) == 1 and len(set(qtys)) <= 2:
                 direction = "SELL" if buyer_maker else "BUY"
-                state["anomalies"]["clusters"] += 1
-                if state["anomalies"]["clusters"] <= 10:
-                    print(f"  [CLUSTER] {symbol} {len(cluster_trades)} trades @ {price} x {qty} in <100ms ({direction})")
+                # Cooldown: only log once per cluster (skip if last cluster was < 500ms ago)
+                last_cluster_ts = state["symbols"][symbol].get("last_cluster_ts", 0)
+                if now_ms - last_cluster_ts > 500:
+                    state["anomalies"]["clusters"] += 1
+                    state["symbols"][symbol]["last_cluster_ts"] = now_ms
+                    if state["anomalies"]["clusters"] <= 20:
+                        print(f"  [CLUSTER] {symbol} {len(cluster_trades)} trades @ {price} x {qty} in <100ms ({direction})")
 
     # 3. Timestamp anomaly
     time_diff = abs(now_ms - ts)
@@ -135,10 +139,13 @@ def on_message(ws, message, state):
         all_volumes = [v for _, v in state["symbols"][symbol]["volume_timeline"]]
         avg_window_vol = sum(all_volumes[-100:]) / 10  # rough average per window
         if avg_window_vol > 0 and recent_vol > avg_window_vol * VOLUME_BURST_MULT:
-            state["anomalies"]["volume_bursts"] += 1
-            if state["anomalies"]["volume_bursts"] <= 10:
-                print(f"  [VOL_BURST] {symbol} ${recent_vol:,.0f} in {VOLUME_BURST_WINDOW}s "
-                      f"(avg ${avg_window_vol:,.0f}, {recent_vol/avg_window_vol:.1f}x)")
+            last_burst_ts = state["symbols"][symbol].get("last_burst_ts", 0)
+            if now_s - last_burst_ts > VOLUME_BURST_WINDOW:
+                state["anomalies"]["volume_bursts"] += 1
+                state["symbols"][symbol]["last_burst_ts"] = now_s
+                if state["anomalies"]["volume_bursts"] <= 20:
+                    print(f"  [VOL_BURST] {symbol} ${recent_vol:,.0f} in {VOLUME_BURST_WINDOW}s "
+                          f"(avg ${avg_window_vol:,.0f}, {recent_vol/avg_window_vol:.1f}x)")
 
     # Log progress
     if state["total_trades"] % 1000 == 0:

@@ -22,8 +22,20 @@ demora a precificar. Janela de oportunidade pode ser 30min-4h.
 """
 import json
 import time
+import os
 import urllib.request
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
+
+_env_path = Path(__file__).parent / ".env"
+if _env_path.exists():
+    for line in _env_path.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
+ETHERSCAN_API_KEY = os.environ.get("ETHERSCAN_API_KEY", "YourApiKeyToken")
 
 # USDT contract on Ethereum: 0xdac17f958d2ee523a2206206994597c13d831ec7
 # USDC contract on Ethereum: 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
@@ -109,16 +121,25 @@ def fetch_stablecoin_supply_history():
 
 
 def fetch_etherscan_token_transfers(contract, limit=20):
-    """Fetch recent large token transfers from Etherscan (free tier).
-    Note: Without API key, limited functionality.
+    """Fetch recent large token transfers from Etherscan.
+    Uses token transfer events for the USDT/USDC contract.
     """
-    # Etherscan API endpoint for token transfers
-    # Free tier: 5 calls/sec, 100k calls/day
-    # We'd need an API key for this to work properly
-    url = f"https://api.etherscan.io/api?module=account&action=tokentx&contractaddress={contract}&page=1&offset={limit}&sort=desc&apikey=YourApiKeyToken"
+    # Query recent token transfers FROM the Tether/Circle treasury address
+    # USDT treasury: 0x5754284f345afc66a98fbb0a0afe71e0f007b949
+    # USDC treasury: 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48 (also the token contract)
+    # Use tokentx with the treasury address to get mint events
+    treasury = "0x5754284f345afc66a98fbb0a0afe71e0f007b949" if contract == USDT_CONTRACT else contract
+    url = (f"https://api.etherscan.io/v2/api?chainid=1&module=account&action=tokentx"
+           f"&address={treasury}&contractaddress={contract}"
+           f"&page=1&offset={limit}&sort=desc&apikey={ETHERSCAN_API_KEY}")
     try:
         data = fetch_json(url, timeout=15)
-        transfers = data.get("result", [])
+        result = data.get("result", [])
+        # Etherscan returns error message as string in result field
+        if isinstance(result, str):
+            print(f"  Etherscan API error: {result}")
+            return None
+        transfers = result
         large_transfers = []
         for tx in transfers:
             value = int(tx.get("value", 0))

@@ -286,11 +286,11 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
 | 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
 | 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Backtest BS: BUY 7/7 wins +$4,500 (100% WR), SELL 0/9 wins -$792 (bid-ask spread artifact). **Edge parcialmente confirmado — BUY only** |
-| 20 | D37 — Exchange outflow signal | Scan inicial | APIs free tier limitadas (Whale Alert 401). Sem dados em tempo real. Necessário API key |
-| 21 | D38 — Binance announcement front-run | Scanner funcional | API Binance retorna 80 anúncios em 8 catalogs. Polling 3s. 0 novos em 60s (esperado). Deploy AWS para capturar listing real |
-| 22 | D39 — Options max pain magnet | Dados em tempo real | Max pain 10JUL26: BTC $61k vs spot $63.4k (+3.86%), ETH $1,700 vs $1,788 (+4.90%). SHORT toward max pain. Trackear até expiry |
-| 23 | D40 — Stablecoin mint signal | Dados em tempo real | DefiLlama: $309.5B supply, 3d change -$337M (redemption, bearish). Sem sinal bullish. Etherscan API key necessária para real-time |
-| 24 | D41 — WS trade anomaly detector | Scan funcional | 5,235 trades em 120s. 0 dup IDs (não há wash trading). 150 clusters (2.87%, provável TWAP/VWAP). Buy pressure em 3/3 símbolos |
+| 20 | D37 — Exchange outflow signal | Funcionando (API key) | Whale Alert autenticado. 0 outflows >$1M na última 1h (mercado calmo). Necessário rodar continuamente |
+| 21 | D38 — Binance announcement front-run | Scanner funcional | API Binance retorna 80 anúncios em 8 catalogs. Polling 3s. 0 novos em 120s (esperado). Deploy AWS para capturar listing real |
+| 22 | D39 — Options max pain magnet | Dados em tempo real | Max pain 10JUL26: BTC $61k vs spot $63.5k (+3.87%), ETH $1,700 vs $1,787 (+4.85%). SHORT toward max pain. Trackear até expiry |
+| 23 | D40 — Stablecoin mint signal | Funcionando (Etherscan V2) | DefiLlama: $309.5B supply, 3d change -$337M (redemption). Etherscan V2: 14 large USDT transfers, $100M from Tether treasury |
+| 24 | D41 — WS trade anomaly detector | Funcionando (thresholds ajustados) | 2,388 trades em 120s. 0 dup IDs. 9 clusters (0.38%, TWAP/VWAP). 7 vol bursts. BTC buy 4.6:1 |
 
 ## Recomendação
 

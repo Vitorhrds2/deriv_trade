@@ -1626,18 +1626,18 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "exchange_outflow_scan.py",
     verdict:
-      "SCAN INICIAL — APIs free tier limitadas. Whale Alert requer API key (401). " +
-      "Blockchain.com unconfirmed txs não retornou dados. " +
-      "Necessário API key do Whale Alert ou Glassnode para validar. " +
-      "Preço BTC: $63,218. Sem dados em tempo real ainda.",
+      "SCAN FUNCIONANDO — Whale Alert API key configurada. " +
+      "0 outflows >$1M na última 1h (mercado calmo). " +
+      "Blockchain.com fallback sem dados. " +
+      "Preço BTC: $63,302. API funcional, necessário rodar continuamente.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Sem dados — APIs requerem key",
+    ci95Label: "API funcional. 0 outflows na última 1h. Aguardando whale movements.",
     tools: ["exchange_outflow_scan.py"],
     reportFile: "exchange_outflow_scan_results.json",
     pnl: 0,
     trades: 0,
-    sampleUnit: "scan inicial (sem dados em tempo real)",
+    sampleUnit: "scan com API key (0 outflows na última 1h)",
   },
   {
     id: "HYP-ANNOUNCE-01",
@@ -1719,17 +1719,18 @@ export const realHypotheses: RealHypothesis[] = [
     verdict:
       "DADOS EM TEMPO REAL — DefiLlama supply: $309.5B total. " +
       "3-day change: -$337M (REDEMPTION, não mint). " +
-      "Daily avg: -$112M/d. Sinal: NEUTRAL/BEARISH (capital saindo). " +
-      "Etherscan API requer key para real-time mint detection. " +
+      "Etherscan V2 funcional: 14 large USDT transfers detectados, " +
+      "incluindo $100M e $40M from Tether treasury (2026-07-03). " +
+      "Sinal: NEUTRAL/BEARISH (capital saindo). " +
       "PRÓXIMO: monitorar daily. Quando 3d change > +$500M → LONG BTC.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "3d change -$337M (redemption regime). Sem sinal bullish.",
+    ci95Label: "3d change -$337M (redemption). Etherscan V2: $100M USDT transfer detectado.",
     tools: ["stablecoin_mint_scan.py"],
     reportFile: "stablecoin_mint_scan_results.json",
     pnl: 0,
-    trades: 0,
-    sampleUnit: "7d supply history (3d change: -$337M)",
+    trades: 14,
+    sampleUnit: "7d supply + Etherscan V2 (14 large USDT transfers, 3d change -$337M)",
   },
   {
     id: "HYP-WASH-01",
@@ -1747,21 +1748,20 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "wash_trading_scan.py",
     verdict:
-      "SCAN FUNCIONANDO — 5,235 trades em 120s (43.5/s). " +
-      "0 duplicate trade IDs (não há wash trading óbvio). " +
-      "150 trade clusters (2.87%): 5+ trades idênticos em <100ms — provável TWAP/VWAP. " +
-      "Buy/Sell ratio inclinado BUY em todos 3 símbolos (SOL 2:1 buy). " +
-      "Volume burst threshold muito sensível (86% falsos positivos). " +
-      "PRÓXIMO: ajustar thresholds, correlacionar clusters com movimento de preço, " +
-      "deploy AWS por 24h+.",
+      "SCAN FUNCIONANDO (thresholds ajustados) — 2,388 trades em 120s (19.8/s). " +
+      "0 duplicate trade IDs (não há wash trading). " +
+      "9 trade clusters (0.38%, cooldown 500ms): TWAP/VWAP de MMs. " +
+      "7 volume bursts (10x avg em 30s, cooldown). " +
+      "BTC buy/sell ratio 4.6:1, SOL 2:1, ETH sell volume dominante. " +
+      "PRÓXIMO: correlacionar clusters com preço, deploy AWS 24h+.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "150 clusters em 120s (2.87%). 0 dup IDs. Buy pressure em 3/3 símbolos.",
+    ci95Label: "9 clusters (0.38%), 7 vol bursts, 0 dup IDs. BTC buy 4.6:1.",
     tools: ["wash_trading_scan.py"],
     reportFile: "wash_trading_scan_results.json",
     pnl: 0,
-    trades: 5235,
-    sampleUnit: "120s WS scan (5,235 trades, 150 clusters, 0 dup IDs)",
+    trades: 2388,
+    sampleUnit: "120s WS scan (2,388 trades, 9 clusters, 7 vol bursts, 0 dup IDs)",
   },
 ];
 

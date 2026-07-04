@@ -6,16 +6,17 @@
 = redução de supply vendável = bullish. Detectar outflows em tempo real → comprar
 antes do mercado precificar.
 
-**Status:** SCAN INICIAL — APIs free tier limitadas
-- Whale Alert: requer API key (401 unauthorized com demo)
-- Blockchain.com: unconfirmed txs API não retornou dados
-- Glassnode: requer API key
+**Status:** SCAN FUNCIONANDO — Whale Alert API key configurada
+- Whale Alert: autenticado com sucesso (API key do .env)
+- 0 outflows > $1M detectados na última 1h (mercado calmo, não há whale movements)
+- Blockchain.com: unconfirmed txs API não retornou dados (fallback)
+- Preço BTC: $63,302
 
-**Resultado inicial:** Sem dados em tempo real. Necessário API key do Whale Alert
-ou Glassnode para validar a hipótese. Preço BTC: $63,218.
+**Resultado:** API funcional. Necessário rodar continuamente por dias para capturar
+outflows grandes e correlacionar com movimento de preço.
 
-**Próximo:** Obter API key do Whale Alert (free tier: 10 calls/min) e rodar
-continuamente por 7d, tracking preço após outflows > $5M.
+**Próximo:** Deploy na AWS em loop contínuo. Quando detectar outflow > $5M →
+registrar preço BTC e trackear 1h/4h/24h após.
 
 ---
 
@@ -74,20 +75,22 @@ para max pain, edge = ~4% - 0.1% fees = ~3.9% net.
 **Tese:** Mints grandes de USDT/USDC = capital novo entrando no ecossistema →
 pressão compradora → BTC price up.
 
-**Status:** SCAN FUNCIONANDO — DefiLlama supply data
+**Status:** SCAN FUNCIONANDO — DefiLlama + Etherscan V2 API
 
 **Resultado inicial:**
 - Supply total stablecoins: ~$309.5B
 - 3-day change: **-$337M (REDEMPTION, não mint)**
 - Daily avg: -$112M/d
+- Etherscan V2: 14 large USDT transfers encontrados (>$1M)
+  - $100M transfer from Tether treasury (2026-07-03)
+  - $40M transfer from Tether treasury (2026-07-03)
 - Sinal: NEUTRAL/BEARISH (stablecoins sendo redeemidas, não mintadas)
 
 **Análise:** Mercado está em regime de contração de stablecoins (redeemptions > mints).
 Isso é bearish para crypto — capital saindo do ecossistema, não entrando.
 
 **Próximo:** Monitorar daily. Quando 3d change > +$500M → LONG BTC.
-Para real-time, necessário Etherscan API key para monitorar Transfer events
-do contrato USDT em tempo real.
+Etherscan V2 funcional para real-time mint detection.
 
 ---
 
@@ -96,35 +99,35 @@ do contrato USDT em tempo real.
 **Tese:** Padrões anômalos no trade stream (duplicações, clusters, volume bursts)
 revelam operações coordenadas ou wash trading. Seguir o flow dos "smart money".
 
-**Status:** SCAN FUNCIONANDO — WebSocket em tempo real
+**Status:** SCAN FUNCIONANDO — WebSocket em tempo real (thresholds ajustados)
 
-**Resultado inicial (120s, 5,235 trades):**
+**Resultado inicial (120s, 2,388 trades, thresholds ajustados):**
 
 | Anomalia | Count | % trades |
 |----------|-------|----------|
-| Trade clusters | 150 | 2.87% |
-| Volume bursts | 4,514 | 86.2% |
+| Trade clusters | 9 | 0.38% |
+| Volume bursts | 7 | 0.29% |
 | Dup trade IDs | 0 | 0% |
 
 ### Per-symbol
 | Symbol | Trades | Buy/Sell ratio | Buy Vol / Sell Vol |
 |--------|--------|----------------|---------------------|
-| BTCUSDT | 3,687 | 1.26 | 1.26 |
-| ETHUSDT | 1,076 | 1.33 | 1.95 |
-| SOLUSDT | 472 | 2.13 | 4.05 |
+| BTCUSDT | 1,451 | 4.62 | 4.09 |
+| ETHUSDT | 630 | 1.92 | 0.48 |
+| SOLUSDT | 307 | 2.07 | 2.45 |
 
 **Análise:**
 - **0 duplicate trade IDs** — Binance não está duplicando trades (não há wash trading óbvio)
-- **150 trade clusters** (5+ trades idênticos em <100ms) — provável algoritmo de execução
-  de ordens grandes (TWAP/VWAP) dividindo em múltiplas sub-ordens
-- **Volume bursts** muito sensíveis (threshold 5x avg em 10s) — precisa ajustar threshold
-- **Buy/Sell ratio inclinado para BUY** em todos os 3 símbolos, especialmente SOL (2:1)
+- **9 trade clusters** (5+ trades idênticos em <100ms, com cooldown 500ms) — provável
+  algoritmo de execução de ordens grandes (TWAP/VWAP). Clusters em ambos BUY e SELL.
+- **7 volume bursts** (10x avg em 30s, com cooldown) — bursts reais de atividade
+- **Buy/Sell ratio fortemente inclinado para BUY** em BTC (4.6:1) e SOL (2:1)
+- ETH tem sell volume dominante (24.7 vs 11.7) apesar de mais buy trades
 
 **Próximo:**
-1. Ajustar volume burst threshold (86% é falso positivo — threshold muito baixo)
-2. Investigar clusters: são MMs executando TWAP? Seguir direção dos clusters
-3. Deploy na AWS por 24h+ para capturar padrões raros
-4. Correlacionar clusters com movimento de preço subsequente
+1. Correlacionar clusters com movimento de preço subsequente (30s, 60s, 5min)
+2. Deploy na AWS por 24h+ para capturar padrões raros
+3. Classificar clusters por direção e tamanho para identificar "smart money" flow
 
 ---
 
@@ -132,8 +135,8 @@ revelam operações coordenadas ou wash trading. Seguir o flow dos "smart money"
 
 | # | Hipótese | Status | Achado inicial |
 |---|----------|--------|----------------|
-| D37 | Exchange Outflow | Limitado (API key) | Sem dados em tempo real |
-| D38 | Announcement Front-Run | Funcionando | 0 anúncios em 60s (esperado) |
-| D39 | Max Pain Magnet | Funcionando | Max pain 4% abaixo spot (SHORT signal) |
-| D40 | Stablecoin Mint | Funcionando | -$337M 3d (redemption, bearish) |
-| D41 | Wash Trading Detector | Funcionando | 150 clusters, 0 dup IDs, buy pressure |
+| D37 | Exchange Outflow | Funcionando (API key) | 0 outflows na última 1h (mercado calmo) |
+| D38 | Announcement Front-Run | Funcionando | 0 anúncios em 120s (esperado, ~3-10/dia) |
+| D39 | Max Pain Magnet | Funcionando | Max pain 4% abaixo spot (SHORT signal 10JUL26) |
+| D40 | Stablecoin Mint | Funcionando (Etherscan V2) | -$337M 3d (redemption). $100M USDT treasury transfer detectado |
+| D41 | Wash Trading Detector | Funcionando (thresholds ajustados) | 9 clusters, 7 vol bursts, 0 dup IDs, BTC buy 4.6:1 |

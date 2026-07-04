@@ -29,7 +29,7 @@ ANNOUNCEMENT_URLS = [
     "https://www.binance.com/en/support/announcement/api/v1/list?type=1&pageNo=1&pageSize=10",
 ]
 POLL_INTERVAL = 3  # seconds
-RUN_DURATION = 60  # 1 minute (initial test)
+RUN_DURATION = 120  # 2 minutes
 PRICE_API = "https://api.binance.com/api/v3/ticker/price"
 
 # Keywords for classification
