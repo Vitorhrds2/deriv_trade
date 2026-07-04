@@ -589,6 +589,39 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Wave 4: agentic selector with stricter paper probation after Wave 3 paper-score/live mismatch.",
     },
+    {
+        "id": "adaptive_agent_consistency_pnl500_v3_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 35,
+        "stake": 1.0,
+        "score_window": 80,
+        "min_paper_samples": 40,
+        "min_rule_score": 2.0,
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 8, "max_loss": -22.0, "max_gain": 45.0, "pause_seconds": 300},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 600, "phases": ["gate30", "target100", "post100"]},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 35.0,
+            "pause_seconds": 900,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_018_call", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_018_put", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_call", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_put", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_022", "kind": "reversal", "streak": 3, "min_move": 0.22},
+            {"id": "rev4_025", "kind": "reversal", "streak": 4, "min_move": 0.25},
+            {"id": "mr5_020_call", "kind": "mean_revert", "window": 5, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "mr5_020_put", "kind": "mean_revert", "window": 5, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "mr6_025", "kind": "mean_revert", "window": 6, "min_move": 0.25},
+            {"id": "trend3_020", "kind": "trend", "streak": 3, "min_move": 0.20},
+        ],
+        "rationale": "Agentic PnL500 campaign: reuse champion-neighbor reversal, sub-0.20 threshold, direction filters, trend control, and rolling paper-score selection for sustained demo PnL.",
+    },
 ]
 
 
@@ -714,6 +747,7 @@ class StrategyTournament:
             "target_trades": self.args.target_trades,
             "healthy_drawdown_30": self.args.healthy_drawdown_30,
             "healthy_drawdown_100": self.args.healthy_drawdown_100,
+            "target_pnl": self.args.target_pnl,
             "post_target_stake": self.args.post_target_stake,
             "post_target_max_trades": self.args.post_target_max_trades,
             "post_target_kill_loss": self.args.post_target_kill_loss,
@@ -748,6 +782,7 @@ class StrategyTournament:
         state["target_trades"] = self.args.target_trades
         state["healthy_drawdown_30"] = self.args.healthy_drawdown_30
         state["healthy_drawdown_100"] = self.args.healthy_drawdown_100
+        state["target_pnl"] = self.args.target_pnl
         state["post_target_stake"] = self.args.post_target_stake
         state["post_target_max_trades"] = self.args.post_target_max_trades
         state["post_target_kill_loss"] = self.args.post_target_kill_loss
@@ -1022,6 +1057,14 @@ class StrategyTournament:
             self.pivot_current_model("model_kill_loss")
             return
 
+        if self.args.target_pnl > 0 and model["pnl"] >= self.args.target_pnl:
+            model["status"] = "target_pnl_reached"
+            model["stopped_at"] = utc_now()
+            self.state["status"] = "target_pnl_reached"
+            self.log_event("target_pnl_reached", model_id=model["id"], trades=model["trades"], pnl=model["pnl"], target_pnl=self.args.target_pnl)
+            self.done.set()
+            return
+
         if model["phase"] == "post100":
             start_pnl = float(model.get("post_target_start_pnl", model["pnl"]))
             if self.args.post_target_kill_loss > 0 and model["pnl"] - start_pnl <= -abs(self.args.post_target_kill_loss):
@@ -1135,7 +1178,10 @@ class StrategyTournament:
     def apply_target100_trailing_pause_after_settlement(self, model):
         spec = self.current_spec()
         guard = spec.get("target100_trailing_pause") if spec else None
-        if not guard or model.get("phase") != "target100":
+        if not guard:
+            return
+        phases = set(guard.get("phases", ["target100"]))
+        if model.get("phase") not in phases:
             return
         min_trades = int(guard.get("min_trades", self.args.gate_trades))
         if model.get("trades", 0) < min_trades:
@@ -1177,13 +1223,14 @@ class StrategyTournament:
                 return None
             if rule["kind"] == "reversal":
                 direction = "DOWN" if direction == "UP" else "UP"
-            return {
+            signal = {
                 "direction": direction,
                 "contract_type": "CALL" if direction == "UP" else "PUT",
                 "move": round(move, 5),
                 "from_quote": recent[0]["quote"],
                 "to_quote": recent[-1]["quote"],
             }
+            return self.apply_rule_contract_filter(rule, signal)
 
         if rule["kind"] == "mean_revert":
             window = int(rule["window"])
@@ -1196,14 +1243,21 @@ class StrategyTournament:
             if abs(diff) < rule["min_move"]:
                 return None
             direction = "DOWN" if diff > 0 else "UP"
-            return {
+            signal = {
                 "direction": direction,
                 "contract_type": "CALL" if direction == "UP" else "PUT",
                 "move": round(diff, 5),
                 "from_quote": round(mean_quote, 5),
                 "to_quote": last_quote,
             }
+            return self.apply_rule_contract_filter(rule, signal)
         return None
+
+    def apply_rule_contract_filter(self, rule, signal):
+        allowed_contracts = rule.get("allowed_contract_types")
+        if allowed_contracts and signal.get("contract_type") not in set(allowed_contracts):
+            return None
+        return signal
 
     def apply_signal_filters(self, model, spec, signal):
         if not signal:
@@ -1494,6 +1548,7 @@ def parse_args():
     parser.add_argument("--seed-failed-ledger", default="")
     parser.add_argument("--gate-trades", type=int, default=30)
     parser.add_argument("--target-trades", type=int, default=100)
+    parser.add_argument("--target-pnl", type=float, default=0.0)
     parser.add_argument("--healthy-drawdown-30", type=float, default=12.0)
     parser.add_argument("--healthy-drawdown-100", type=float, default=20.0)
     parser.add_argument("--model-kill-loss", type=float, default=14.0)
