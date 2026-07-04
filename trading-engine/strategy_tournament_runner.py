@@ -812,6 +812,7 @@ class StrategyTournament:
             "target_trades": self.args.target_trades,
             "healthy_drawdown_30": self.args.healthy_drawdown_30,
             "healthy_drawdown_100": self.args.healthy_drawdown_100,
+            "hard_drawdown_stop": self.args.hard_drawdown_stop,
             "target_pnl": self.args.target_pnl,
             "post_target_stake": self.args.post_target_stake,
             "post_target_max_trades": self.args.post_target_max_trades,
@@ -847,6 +848,7 @@ class StrategyTournament:
         state["target_trades"] = self.args.target_trades
         state["healthy_drawdown_30"] = self.args.healthy_drawdown_30
         state["healthy_drawdown_100"] = self.args.healthy_drawdown_100
+        state["hard_drawdown_stop"] = self.args.hard_drawdown_stop
         state["target_pnl"] = self.args.target_pnl
         state["post_target_stake"] = self.args.post_target_stake
         state["post_target_max_trades"] = self.args.post_target_max_trades
@@ -1121,6 +1123,9 @@ class StrategyTournament:
 
         if model["pnl"] <= -abs(self.args.model_kill_loss):
             self.pivot_current_model("model_kill_loss")
+            return
+        if self.args.hard_drawdown_stop > 0 and abs(model["max_drawdown"]) >= abs(self.args.hard_drawdown_stop):
+            self.pivot_current_model("hard_drawdown_stop")
             return
 
         if self.args.target_pnl > 0 and model["pnl"] >= self.args.target_pnl:
@@ -1693,6 +1698,7 @@ def parse_args():
     parser.add_argument("--target-pnl", type=float, default=0.0)
     parser.add_argument("--healthy-drawdown-30", type=float, default=12.0)
     parser.add_argument("--healthy-drawdown-100", type=float, default=20.0)
+    parser.add_argument("--hard-drawdown-stop", type=float, default=0.0)
     parser.add_argument("--model-kill-loss", type=float, default=14.0)
     parser.add_argument("--max-win-return-ratio", type=float, default=0.92)
     parser.add_argument("--max-runtime-seconds", type=float, default=21600)
