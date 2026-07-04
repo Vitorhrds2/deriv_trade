@@ -4,8 +4,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -52,8 +52,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -116,24 +116,24 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will Brazil win the 2026 FIFA World Cup?",
       "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.0010000000000001,
+      "arb_bps": -10.000000000001119,
       "error": null
     },
     {
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -201,14 +201,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -217,28 +209,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -260,16 +236,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.0030000000000001,
-      "arb_bps": -30.000000000001137,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -284,8 +260,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -388,8 +364,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -444,8 +420,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -596,24 +572,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -644,16 +620,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -668,8 +644,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -708,8 +684,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -724,8 +700,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -795,6 +771,30 @@
     {
       "question": "Will Elon Musk win the 2028 US Presidential Election?",
       "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -804,8 +804,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -852,8 +852,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.021,
-      "arb_bps": -209.9999999999991,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -916,8 +916,8 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -932,8 +932,8 @@
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -1001,14 +1001,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -1017,28 +1009,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -1060,16 +1036,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.0050000000000001,
-      "arb_bps": -50.00000000000115,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1084,8 +1060,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -1188,8 +1164,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1244,8 +1220,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -1396,24 +1372,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -1444,16 +1420,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1468,8 +1444,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1508,8 +1484,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1524,8 +1500,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1595,6 +1571,30 @@
     {
       "question": "Will Elon Musk win the 2028 US Presidential Election?",
       "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -1604,8 +1604,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -1652,8 +1652,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -1716,8 +1716,8 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -1732,8 +1732,8 @@
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -1801,14 +1801,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -1817,28 +1809,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -1860,16 +1836,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -1884,8 +1860,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -1988,8 +1964,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2044,8 +2020,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -2196,24 +2172,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -2244,16 +2220,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2268,8 +2244,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2308,8 +2284,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2324,8 +2300,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2395,6 +2371,30 @@
     {
       "question": "Will Elon Musk win the 2028 US Presidential Election?",
       "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -2404,8 +2404,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -2452,8 +2452,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -2516,8 +2516,8 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -2532,16 +2532,16 @@
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will Portugal win the 2026 FIFA World Cup?",
       "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -2601,14 +2601,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -2617,28 +2609,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -2660,16 +2636,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2684,8 +2660,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -2788,8 +2764,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -2844,8 +2820,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -2996,24 +2972,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -3044,16 +3020,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3068,8 +3044,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3108,8 +3084,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3124,8 +3100,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3195,6 +3171,30 @@
     {
       "question": "Will Elon Musk win the 2028 US Presidential Election?",
       "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -3204,8 +3204,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -3252,8 +3252,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -3316,8 +3316,8 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.0030000000000001,
+      "arb_bps": -30.000000000001137,
       "error": null
     },
     {
@@ -3332,8 +3332,8 @@
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -3401,14 +3401,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -3417,28 +3409,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -3460,16 +3436,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3484,8 +3460,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -3588,8 +3564,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3644,8 +3620,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -3796,24 +3772,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -3844,16 +3820,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3868,8 +3844,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3908,8 +3884,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3924,8 +3900,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -3995,6 +3971,30 @@
     {
       "question": "Will Elon Musk win the 2028 US Presidential Election?",
       "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
+      "n_outcomes": 2,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
+      "error": null
+    },
+    {
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -4004,8 +4004,8 @@
       "question": "New Rihanna Album before GTA VI?",
       "slug": "new-rhianna-album-before-gta-vi-926",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
+      "sum_asks": 1.01,
+      "arb_bps": -100.00000000000009,
       "error": null
     },
     {
@@ -4052,8 +4052,8 @@
       "question": "Will Harvey Weinstein be sentenced to no prison time?",
       "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
       "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
+      "sum_asks": 1.029,
+      "arb_bps": -289.99999999999915,
       "error": null
     },
     {
@@ -4116,8 +4116,8 @@
       "question": "Will France win the 2026 FIFA World Cup?",
       "slug": "will-france-win-the-2026-fifa-world-cup-924",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -4132,8 +4132,8 @@
       "question": "Will Argentina win the 2026 FIFA World Cup?",
       "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
@@ -4201,14 +4201,6 @@
       "error": null
     },
     {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
       "question": "Will Morocco win the 2026 FIFA World Cup?",
       "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
       "n_outcomes": 2,
@@ -4217,28 +4209,12 @@
       "error": null
     },
     {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
       "question": "Will Egypt win the 2026 FIFA World Cup?",
       "slug": "will-egypt-win-the-2026-fifa-world-cup",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
     },
     {
       "question": "Will Switzerland win the 2026 FIFA World Cup?",
@@ -4260,16 +4236,16 @@
       "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
       "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
       "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4284,8 +4260,8 @@
       "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
       "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -4388,8 +4364,8 @@
       "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
       "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4444,8 +4420,8 @@
       "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
       "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -4596,24 +4572,24 @@
       "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
       "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
+      "sum_asks": 1.001,
+      "arb_bps": -9.999999999998899,
       "error": null
     },
     {
       "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
       "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
       "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.003,
+      "arb_bps": -29.999999999998916,
       "error": null
     },
     {
@@ -4644,16 +4620,16 @@
       "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
       "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
       "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
       "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4668,8 +4644,8 @@
       "question": "Will Marco Rubio win the 2028 US Presidential Election?",
       "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4708,8 +4684,8 @@
       "question": "Will Kamala Harris win the 2028 US Presidential Election?",
       "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4724,8 +4700,8 @@
       "question": "Will JB Pritzker win the 2028 US Presidential Election?",
       "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
+      "sum_asks": 1.002,
+      "arb_bps": -20.000000000000018,
       "error": null
     },
     {
@@ -4801,3200 +4777,24 @@
       "error": null
     },
     {
-      "question": "New Rihanna Album before GTA VI?",
-      "slug": "new-rhianna-album-before-gta-vi-926",
+      "question": "Will LeBron James win the 2028 US Presidential Election?",
+      "slug": "will-lebron-james-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "New Playboi Carti Album before GTA VI?",
-      "slug": "new-playboi-carti-album-before-gta-vi-421",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "Will Jesus Christ return before GTA VI?",
-      "slug": "will-jesus-christ-return-before-gta-vi-665",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Trump out as President before GTA VI?",
-      "slug": "trump-out-as-president-before-gta-vi-846",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will China invades Taiwan before GTA VI?",
-      "slug": "will-china-invades-taiwan-before-gta-vi-716-644",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will bitcoin hit $1m before GTA VI?",
-      "slug": "will-bitcoin-hit-1m-before-gta-vi-872-424",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to no prison time?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
-      "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to less than 5 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-less-than-5-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 5 and 10 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-5-and-10-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 10 and 20 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-10-and-20-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 20 and 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-20-and-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to more than 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-more-than-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Spain win the 2026 FIFA World Cup?",
-      "slug": "will-spain-win-the-2026-fifa-world-cup-963",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will England win the 2026 FIFA World Cup?",
-      "slug": "will-england-win-the-2026-fifa-world-cup-937",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will France win the 2026 FIFA World Cup?",
-      "slug": "will-france-win-the-2026-fifa-world-cup-924",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Brazil win the 2026 FIFA World Cup?",
-      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Argentina win the 2026 FIFA World Cup?",
-      "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Portugal win the 2026 FIFA World Cup?",
-      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will USA win the 2026 FIFA World Cup?",
-      "slug": "will-usa-win-the-2026-fifa-world-cup-467",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mexico win the 2026 FIFA World Cup?",
-      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Belgium win the 2026 FIFA World Cup?",
-      "slug": "will-belgium-win-the-2026-fifa-world-cup-358",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Colombia win the 2026 FIFA World Cup?",
-      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Norway win the 2026 FIFA World Cup?",
-      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Canada win the 2026 FIFA World Cup?",
-      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Paraguay win the 2026 FIFA World Cup?",
-      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Morocco win the 2026 FIFA World Cup?",
-      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Egypt win the 2026 FIFA World Cup?",
-      "slug": "will-egypt-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Switzerland win the 2026 FIFA World Cup?",
-      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Xi Jinping out before 2027?",
-      "slug": "xi-jinping-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
-      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
-      "slug": "will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
-      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 Democratic presidential nomination?",
-      "slug": "will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen A. Smith win the 2028 Democratic presidential nomination?",
-      "slug": "will-stephen-a-smith-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
-      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
-      "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
-      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Mark Cuban win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
-      "slug": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Raphael Warnock win the 2028 Democratic presidential nomination?",
-      "slug": "will-raphael-warnock-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cory Booker win the 2028 Democratic presidential nomination?",
-      "slug": "will-corey-booker-win-the-2028-democratic-presidential-nomination-125",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 Democratic presidential nomination?",
-      "slug": "will-tim-walz-win-the-2028-democratic-presidential-nomination-475",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Michelle Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Rahm Emanuel win the 2028 Democratic presidential nomination?",
-      "slug": "will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gina Raimondo win the 2028 Democratic presidential nomination?",
-      "slug": "will-gina-raimondo-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Zohran Mamdani win the 2028 Democratic presidential nomination?",
-      "slug": "will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
-      "slug": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will John Fetterman win the 2028 Democratic presidential nomination?",
-      "slug": "will-john-fetterman-win-the-2028-democratic-presidential-nomination-941",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jared Polis win the 2028 Democratic presidential nomination?",
-      "slug": "will-jared-polis-win-the-2028-democratic-presidential-nomination-837",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Barack Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hillary Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Liz Cheney win the 2028 Democratic presidential nomination?",
-      "slug": "will-liz-cheney-win-the-2028-democratic-presidential-nomination-551",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Bernie Sanders win the 2028 Democratic presidential nomination?",
-      "slug": "will-bernie-sanders-win-the-2028-democratic-presidential-nomination-879",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Phil Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will LeBron James win the 2028 Democratic presidential nomination?",
-      "slug": "will-lebron-james-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
-      "slug": "will-person-a-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will George Clooney win the 2028 Democratic presidential nomination?",
-      "slug": "will-george-clooney-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chelsea Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-chelsea-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will MrBeast win the 2028 Democratic presidential nomination?",
-      "slug": "will-mrbeast-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
-      "slug": "will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Oprah Winfrey win the 2028 Democratic presidential nomination?",
-      "slug": "will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andrew Yang win the 2028 Democratic presidential nomination?",
-      "slug": "will-andrew-yang-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Beto O\u2019Rourke win the 2028 Democratic presidential nomination?",
-      "slug": "will-beto-orourke-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kim Kardashian win the 2028 Democratic presidential nomination?",
-      "slug": "will-kim-kardashian-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chris Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-chris-murphy-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jasmine Crockett win the 2028 Democratic presidential nomination?",
-      "slug": "will-jasmine-crockett-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ruben Gallego win the 2028 Democratic presidential nomination?",
-      "slug": "will-ruben-gallego-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
-      "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
-      "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
-      "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Putin out as President of Russia by December 31, 2026?",
-      "slug": "putin-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will JD Vance win the 2028 US Presidential Election?",
-      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0030000000000001,
-      "arb_bps": -30.000000000001137,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
-      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
-      "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 US Presidential Election?",
-      "slug": "will-josh-shapiro-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
-      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 US Presidential Election?",
-      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "slug": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 US Presidential Election?",
-      "slug": "will-andy-beshear-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
-      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 US Presidential Election?",
-      "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen Smith win the 2028 US Presidential Election?",
-      "slug": "will-stephen-smith-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will JB Pritzker win the 2028 US Presidential Election?",
-      "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
-      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump Jr. win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Nikki Haley win the 2028 US Presidential Election?",
-      "slug": "will-nikki-haley-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ron DeSantis win the 2028 US Presidential Election?",
-      "slug": "will-ron-desantis-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 US Presidential Election?",
-      "slug": "will-tim-walz-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Vivek Ramaswamy win the 2028 US Presidential Election?",
-      "slug": "will-vivek-ramaswamy-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
-      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Elon Musk win the 2028 US Presidential Election?",
-      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "New Rihanna Album before GTA VI?",
-      "slug": "new-rhianna-album-before-gta-vi-926",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "New Playboi Carti Album before GTA VI?",
-      "slug": "new-playboi-carti-album-before-gta-vi-421",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "Will Jesus Christ return before GTA VI?",
-      "slug": "will-jesus-christ-return-before-gta-vi-665",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Trump out as President before GTA VI?",
-      "slug": "trump-out-as-president-before-gta-vi-846",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will China invades Taiwan before GTA VI?",
-      "slug": "will-china-invades-taiwan-before-gta-vi-716-644",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will bitcoin hit $1m before GTA VI?",
-      "slug": "will-bitcoin-hit-1m-before-gta-vi-872-424",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to no prison time?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
-      "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to less than 5 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-less-than-5-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 5 and 10 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-5-and-10-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 10 and 20 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-10-and-20-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 20 and 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-20-and-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to more than 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-more-than-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Spain win the 2026 FIFA World Cup?",
-      "slug": "will-spain-win-the-2026-fifa-world-cup-963",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will England win the 2026 FIFA World Cup?",
-      "slug": "will-england-win-the-2026-fifa-world-cup-937",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will France win the 2026 FIFA World Cup?",
-      "slug": "will-france-win-the-2026-fifa-world-cup-924",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Brazil win the 2026 FIFA World Cup?",
-      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Argentina win the 2026 FIFA World Cup?",
-      "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Portugal win the 2026 FIFA World Cup?",
-      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will USA win the 2026 FIFA World Cup?",
-      "slug": "will-usa-win-the-2026-fifa-world-cup-467",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mexico win the 2026 FIFA World Cup?",
-      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Belgium win the 2026 FIFA World Cup?",
-      "slug": "will-belgium-win-the-2026-fifa-world-cup-358",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Colombia win the 2026 FIFA World Cup?",
-      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Norway win the 2026 FIFA World Cup?",
-      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Canada win the 2026 FIFA World Cup?",
-      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Paraguay win the 2026 FIFA World Cup?",
-      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Morocco win the 2026 FIFA World Cup?",
-      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Egypt win the 2026 FIFA World Cup?",
-      "slug": "will-egypt-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Switzerland win the 2026 FIFA World Cup?",
-      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Xi Jinping out before 2027?",
-      "slug": "xi-jinping-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
-      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
-      "slug": "will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
-      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 Democratic presidential nomination?",
-      "slug": "will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen A. Smith win the 2028 Democratic presidential nomination?",
-      "slug": "will-stephen-a-smith-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
-      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
-      "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
-      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Mark Cuban win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
-      "slug": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Raphael Warnock win the 2028 Democratic presidential nomination?",
-      "slug": "will-raphael-warnock-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cory Booker win the 2028 Democratic presidential nomination?",
-      "slug": "will-corey-booker-win-the-2028-democratic-presidential-nomination-125",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 Democratic presidential nomination?",
-      "slug": "will-tim-walz-win-the-2028-democratic-presidential-nomination-475",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Michelle Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Rahm Emanuel win the 2028 Democratic presidential nomination?",
-      "slug": "will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gina Raimondo win the 2028 Democratic presidential nomination?",
-      "slug": "will-gina-raimondo-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Zohran Mamdani win the 2028 Democratic presidential nomination?",
-      "slug": "will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
-      "slug": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will John Fetterman win the 2028 Democratic presidential nomination?",
-      "slug": "will-john-fetterman-win-the-2028-democratic-presidential-nomination-941",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jared Polis win the 2028 Democratic presidential nomination?",
-      "slug": "will-jared-polis-win-the-2028-democratic-presidential-nomination-837",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Barack Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hillary Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Liz Cheney win the 2028 Democratic presidential nomination?",
-      "slug": "will-liz-cheney-win-the-2028-democratic-presidential-nomination-551",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Bernie Sanders win the 2028 Democratic presidential nomination?",
-      "slug": "will-bernie-sanders-win-the-2028-democratic-presidential-nomination-879",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Phil Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will LeBron James win the 2028 Democratic presidential nomination?",
-      "slug": "will-lebron-james-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
-      "slug": "will-person-a-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will George Clooney win the 2028 Democratic presidential nomination?",
-      "slug": "will-george-clooney-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chelsea Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-chelsea-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will MrBeast win the 2028 Democratic presidential nomination?",
-      "slug": "will-mrbeast-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
-      "slug": "will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Oprah Winfrey win the 2028 Democratic presidential nomination?",
-      "slug": "will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andrew Yang win the 2028 Democratic presidential nomination?",
-      "slug": "will-andrew-yang-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Beto O\u2019Rourke win the 2028 Democratic presidential nomination?",
-      "slug": "will-beto-orourke-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kim Kardashian win the 2028 Democratic presidential nomination?",
-      "slug": "will-kim-kardashian-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chris Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-chris-murphy-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jasmine Crockett win the 2028 Democratic presidential nomination?",
-      "slug": "will-jasmine-crockett-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ruben Gallego win the 2028 Democratic presidential nomination?",
-      "slug": "will-ruben-gallego-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
-      "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
-      "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
-      "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Putin out as President of Russia by December 31, 2026?",
-      "slug": "putin-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will JD Vance win the 2028 US Presidential Election?",
-      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0030000000000001,
-      "arb_bps": -30.000000000001137,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
-      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
-      "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 US Presidential Election?",
-      "slug": "will-josh-shapiro-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
-      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 US Presidential Election?",
-      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "slug": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 US Presidential Election?",
-      "slug": "will-andy-beshear-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
-      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 US Presidential Election?",
-      "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen Smith win the 2028 US Presidential Election?",
-      "slug": "will-stephen-smith-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will JB Pritzker win the 2028 US Presidential Election?",
-      "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
-      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump Jr. win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Nikki Haley win the 2028 US Presidential Election?",
-      "slug": "will-nikki-haley-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ron DeSantis win the 2028 US Presidential Election?",
-      "slug": "will-ron-desantis-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 US Presidential Election?",
-      "slug": "will-tim-walz-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Vivek Ramaswamy win the 2028 US Presidential Election?",
-      "slug": "will-vivek-ramaswamy-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
-      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Elon Musk win the 2028 US Presidential Election?",
-      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "New Rihanna Album before GTA VI?",
-      "slug": "new-rhianna-album-before-gta-vi-926",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "New Playboi Carti Album before GTA VI?",
-      "slug": "new-playboi-carti-album-before-gta-vi-421",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "Will Jesus Christ return before GTA VI?",
-      "slug": "will-jesus-christ-return-before-gta-vi-665",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Trump out as President before GTA VI?",
-      "slug": "trump-out-as-president-before-gta-vi-846",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will China invades Taiwan before GTA VI?",
-      "slug": "will-china-invades-taiwan-before-gta-vi-716-644",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will bitcoin hit $1m before GTA VI?",
-      "slug": "will-bitcoin-hit-1m-before-gta-vi-872-424",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to no prison time?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
-      "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to less than 5 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-less-than-5-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 5 and 10 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-5-and-10-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 10 and 20 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-10-and-20-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 20 and 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-20-and-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to more than 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-more-than-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Spain win the 2026 FIFA World Cup?",
-      "slug": "will-spain-win-the-2026-fifa-world-cup-963",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will England win the 2026 FIFA World Cup?",
-      "slug": "will-england-win-the-2026-fifa-world-cup-937",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will France win the 2026 FIFA World Cup?",
-      "slug": "will-france-win-the-2026-fifa-world-cup-924",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Brazil win the 2026 FIFA World Cup?",
-      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Argentina win the 2026 FIFA World Cup?",
-      "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Portugal win the 2026 FIFA World Cup?",
-      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will USA win the 2026 FIFA World Cup?",
-      "slug": "will-usa-win-the-2026-fifa-world-cup-467",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mexico win the 2026 FIFA World Cup?",
-      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Belgium win the 2026 FIFA World Cup?",
-      "slug": "will-belgium-win-the-2026-fifa-world-cup-358",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Colombia win the 2026 FIFA World Cup?",
-      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Norway win the 2026 FIFA World Cup?",
-      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Canada win the 2026 FIFA World Cup?",
-      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Paraguay win the 2026 FIFA World Cup?",
-      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Morocco win the 2026 FIFA World Cup?",
-      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Egypt win the 2026 FIFA World Cup?",
-      "slug": "will-egypt-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Switzerland win the 2026 FIFA World Cup?",
-      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Xi Jinping out before 2027?",
-      "slug": "xi-jinping-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
-      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
-      "slug": "will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
-      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 Democratic presidential nomination?",
-      "slug": "will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen A. Smith win the 2028 Democratic presidential nomination?",
-      "slug": "will-stephen-a-smith-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
-      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
-      "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
-      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Mark Cuban win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
-      "slug": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Raphael Warnock win the 2028 Democratic presidential nomination?",
-      "slug": "will-raphael-warnock-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cory Booker win the 2028 Democratic presidential nomination?",
-      "slug": "will-corey-booker-win-the-2028-democratic-presidential-nomination-125",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 Democratic presidential nomination?",
-      "slug": "will-tim-walz-win-the-2028-democratic-presidential-nomination-475",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Michelle Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Rahm Emanuel win the 2028 Democratic presidential nomination?",
-      "slug": "will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gina Raimondo win the 2028 Democratic presidential nomination?",
-      "slug": "will-gina-raimondo-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Zohran Mamdani win the 2028 Democratic presidential nomination?",
-      "slug": "will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
-      "slug": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will John Fetterman win the 2028 Democratic presidential nomination?",
-      "slug": "will-john-fetterman-win-the-2028-democratic-presidential-nomination-941",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jared Polis win the 2028 Democratic presidential nomination?",
-      "slug": "will-jared-polis-win-the-2028-democratic-presidential-nomination-837",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Barack Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hillary Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Liz Cheney win the 2028 Democratic presidential nomination?",
-      "slug": "will-liz-cheney-win-the-2028-democratic-presidential-nomination-551",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Bernie Sanders win the 2028 Democratic presidential nomination?",
-      "slug": "will-bernie-sanders-win-the-2028-democratic-presidential-nomination-879",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Phil Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will LeBron James win the 2028 Democratic presidential nomination?",
-      "slug": "will-lebron-james-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
-      "slug": "will-person-a-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will George Clooney win the 2028 Democratic presidential nomination?",
-      "slug": "will-george-clooney-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chelsea Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-chelsea-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will MrBeast win the 2028 Democratic presidential nomination?",
-      "slug": "will-mrbeast-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
-      "slug": "will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Oprah Winfrey win the 2028 Democratic presidential nomination?",
-      "slug": "will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andrew Yang win the 2028 Democratic presidential nomination?",
-      "slug": "will-andrew-yang-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Beto O\u2019Rourke win the 2028 Democratic presidential nomination?",
-      "slug": "will-beto-orourke-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kim Kardashian win the 2028 Democratic presidential nomination?",
-      "slug": "will-kim-kardashian-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chris Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-chris-murphy-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jasmine Crockett win the 2028 Democratic presidential nomination?",
-      "slug": "will-jasmine-crockett-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ruben Gallego win the 2028 Democratic presidential nomination?",
-      "slug": "will-ruben-gallego-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
-      "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
-      "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
-      "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Putin out as President of Russia by December 31, 2026?",
-      "slug": "putin-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will JD Vance win the 2028 US Presidential Election?",
-      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0030000000000001,
-      "arb_bps": -30.000000000001137,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
-      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
-      "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 US Presidential Election?",
-      "slug": "will-josh-shapiro-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
-      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 US Presidential Election?",
-      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "slug": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 US Presidential Election?",
-      "slug": "will-andy-beshear-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
-      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 US Presidential Election?",
-      "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen Smith win the 2028 US Presidential Election?",
-      "slug": "will-stephen-smith-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will JB Pritzker win the 2028 US Presidential Election?",
-      "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
-      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump Jr. win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Nikki Haley win the 2028 US Presidential Election?",
-      "slug": "will-nikki-haley-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ron DeSantis win the 2028 US Presidential Election?",
-      "slug": "will-ron-desantis-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 US Presidential Election?",
-      "slug": "will-tim-walz-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Vivek Ramaswamy win the 2028 US Presidential Election?",
-      "slug": "will-vivek-ramaswamy-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
-      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Elon Musk win the 2028 US Presidential Election?",
-      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "New Rihanna Album before GTA VI?",
-      "slug": "new-rhianna-album-before-gta-vi-926",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "New Playboi Carti Album before GTA VI?",
-      "slug": "new-playboi-carti-album-before-gta-vi-421",
-      "n_outcomes": 2,
-      "sum_asks": 1.02,
-      "arb_bps": -200.00000000000017,
-      "error": null
-    },
-    {
-      "question": "Will Jesus Christ return before GTA VI?",
-      "slug": "will-jesus-christ-return-before-gta-vi-665",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Trump out as President before GTA VI?",
-      "slug": "trump-out-as-president-before-gta-vi-846",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will China invades Taiwan before GTA VI?",
-      "slug": "will-china-invades-taiwan-before-gta-vi-716-644",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will bitcoin hit $1m before GTA VI?",
-      "slug": "will-bitcoin-hit-1m-before-gta-vi-872-424",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to no prison time?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-no-prison-time",
-      "n_outcomes": 2,
-      "sum_asks": 1.014,
-      "arb_bps": -140.0000000000001,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to less than 5 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-less-than-5-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 5 and 10 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-5-and-10-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 10 and 20 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-10-and-20-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to between 20 and 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-between-20-and-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Harvey Weinstein be sentenced to more than 30 years in prison?",
-      "slug": "will-harvey-weinstein-be-sentenced-to-more-than-30-years-in-prison",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Spain win the 2026 FIFA World Cup?",
-      "slug": "will-spain-win-the-2026-fifa-world-cup-963",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will England win the 2026 FIFA World Cup?",
-      "slug": "will-england-win-the-2026-fifa-world-cup-937",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will France win the 2026 FIFA World Cup?",
-      "slug": "will-france-win-the-2026-fifa-world-cup-924",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Brazil win the 2026 FIFA World Cup?",
-      "slug": "will-brazil-win-the-2026-fifa-world-cup-183",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Argentina win the 2026 FIFA World Cup?",
-      "slug": "will-argentina-win-the-2026-fifa-world-cup-245",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Portugal win the 2026 FIFA World Cup?",
-      "slug": "will-portugal-win-the-2026-fifa-world-cup-912",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will USA win the 2026 FIFA World Cup?",
-      "slug": "will-usa-win-the-2026-fifa-world-cup-467",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mexico win the 2026 FIFA World Cup?",
-      "slug": "will-mexico-win-the-2026-fifa-world-cup-529",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Belgium win the 2026 FIFA World Cup?",
-      "slug": "will-belgium-win-the-2026-fifa-world-cup-358",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Colombia win the 2026 FIFA World Cup?",
-      "slug": "will-colombia-win-the-2026-fifa-world-cup-734",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Norway win the 2026 FIFA World Cup?",
-      "slug": "will-norway-win-the-2026-fifa-world-cup-893",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Canada win the 2026 FIFA World Cup?",
-      "slug": "will-canada-win-the-2026-fifa-world-cup-755",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Paraguay win the 2026 FIFA World Cup?",
-      "slug": "will-paraguay-win-the-2026-fifa-world-cup-967",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Australia win the 2026 FIFA World Cup?",
-      "slug": "will-australia-win-the-2026-fifa-world-cup-816",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Morocco win the 2026 FIFA World Cup?",
-      "slug": "will-morocco-win-the-2026-fifa-world-cup-464",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ghana win the 2026 FIFA World Cup?",
-      "slug": "will-ghana-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Egypt win the 2026 FIFA World Cup?",
-      "slug": "will-egypt-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cape Verde win the 2026 FIFA World Cup?",
-      "slug": "will-cape-verde-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 0.0,
-      "arb_bps": 0.0,
-      "error": "incomplete book"
-    },
-    {
-      "question": "Will Switzerland win the 2026 FIFA World Cup?",
-      "slug": "will-switzerland-win-the-2026-fifa-world-cup",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Xi Jinping out before 2027?",
-      "slug": "xi-jinping-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 Democratic presidential nomination?",
-      "slug": "will-gavin-newsom-win-the-2028-democratic-presidential-nomination-568",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 Democratic presidential nomination?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-democratic-presidential-nomination-653",
-      "n_outcomes": 2,
-      "sum_asks": 1.004,
-      "arb_bps": -40.000000000000036,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 Democratic presidential nomination?",
-      "slug": "will-pete-buttigieg-win-the-2028-democratic-presidential-nomination-687",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 Democratic presidential nomination?",
-      "slug": "will-josh-shapiro-win-the-2028-democratic-presidential-nomination-977",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 Democratic presidential nomination?",
-      "slug": "will-wes-moore-win-the-2028-democratic-presidential-nomination-714",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen A. Smith win the 2028 Democratic presidential nomination?",
-      "slug": "will-stephen-a-smith-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 Democratic presidential nomination?",
-      "slug": "will-kamala-harris-win-the-2028-democratic-presidential-nomination-641",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 Democratic presidential nomination?",
-      "slug": "will-gretchen-whitmer-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 Democratic presidential nomination?",
-      "slug": "will-andy-beshear-win-the-2028-democratic-presidential-nomination-832",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Ossoff win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-ossoff-win-the-2028-democratic-presidential-nomination-885",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Mark Cuban win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-cuban-win-the-2028-democratic-presidential-nomination-329",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will J.B. Pritzker win the 2028 Democratic presidential nomination?",
-      "slug": "will-jb-pritzker-win-the-2028-democratic-presidential-nomination-288",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Raphael Warnock win the 2028 Democratic presidential nomination?",
-      "slug": "will-raphael-warnock-win-the-2028-democratic-presidential-nomination-914",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Cory Booker win the 2028 Democratic presidential nomination?",
-      "slug": "will-corey-booker-win-the-2028-democratic-presidential-nomination-125",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 Democratic presidential nomination?",
-      "slug": "will-tim-walz-win-the-2028-democratic-presidential-nomination-475",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Michelle Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-michelle-obama-win-the-2028-democratic-presidential-nomination-777",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Mark Kelly win the 2028 Democratic presidential nomination?",
-      "slug": "will-mark-kelly-win-the-2028-democratic-presidential-nomination-479",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Rahm Emanuel win the 2028 Democratic presidential nomination?",
-      "slug": "will-rahm-emanuel-win-the-2028-democratic-presidential-nomination-299",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gina Raimondo win the 2028 Democratic presidential nomination?",
-      "slug": "will-gina-raimondo-win-the-2028-democratic-presidential-nomination-676",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Zohran Mamdani win the 2028 Democratic presidential nomination?",
-      "slug": "will-zohran-mamdani-win-the-2028-democratic-presidential-nomination-445",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Roy Cooper win the 2028 Democratic presidential nomination?",
-      "slug": "will-roy-cooper-win-the-2028-democratic-presidential-nomination-286",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will John Fetterman win the 2028 Democratic presidential nomination?",
-      "slug": "will-john-fetterman-win-the-2028-democratic-presidential-nomination-941",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jared Polis win the 2028 Democratic presidential nomination?",
-      "slug": "will-jared-polis-win-the-2028-democratic-presidential-nomination-837",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jon Stewart win the 2028 Democratic presidential nomination?",
-      "slug": "will-jon-stewart-win-the-2028-democratic-presidential-nomination-518",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will Barack Obama win the 2028 Democratic presidential nomination?",
-      "slug": "will-barack-obama-win-the-2028-democratic-presidential-nomination-265",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hillary Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-hillary-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Liz Cheney win the 2028 Democratic presidential nomination?",
-      "slug": "will-liz-cheney-win-the-2028-democratic-presidential-nomination-551",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Bernie Sanders win the 2028 Democratic presidential nomination?",
-      "slug": "will-bernie-sanders-win-the-2028-democratic-presidential-nomination-879",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Phil Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-phil-murphy-win-the-2028-democratic-presidential-nomination-611",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will LeBron James win the 2028 Democratic presidential nomination?",
-      "slug": "will-lebron-james-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Hunter Biden win the 2028 Democratic presidential nomination?",
-      "slug": "will-person-a-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will George Clooney win the 2028 Democratic presidential nomination?",
-      "slug": "will-george-clooney-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chelsea Clinton win the 2028 Democratic presidential nomination?",
-      "slug": "will-chelsea-clinton-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will MrBeast win the 2028 Democratic presidential nomination?",
-      "slug": "will-mrbeast-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Dwayne 'The Rock' Johnson win the 2028 Democratic presidential nomination?",
-      "slug": "will-dwayne-the-rock-johnson-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Oprah Winfrey win the 2028 Democratic presidential nomination?",
-      "slug": "will-oprah-winfrey-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andrew Yang win the 2028 Democratic presidential nomination?",
-      "slug": "will-andrew-yang-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Beto O\u2019Rourke win the 2028 Democratic presidential nomination?",
-      "slug": "will-beto-orourke-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kim Kardashian win the 2028 Democratic presidential nomination?",
-      "slug": "will-kim-kardashian-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Chris Murphy win the 2028 Democratic presidential nomination?",
-      "slug": "will-chris-murphy-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Jasmine Crockett win the 2028 Democratic presidential nomination?",
-      "slug": "will-jasmine-crockett-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ruben Gallego win the 2028 Democratic presidential nomination?",
-      "slug": "will-ruben-gallego-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ro Khanna win the 2028 Democratic presidential nomination?",
-      "slug": "will-ro-khanna-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.002,
-      "arb_bps": -20.000000000000018,
-      "error": null
-    },
-    {
-      "question": "Will James Talarico win the 2028 Democratic presidential nomination?",
-      "slug": "will-james-talarico-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Graham Platner win the 2028 Democratic presidential nomination?",
-      "slug": "will-graham-platner-win-the-2028-democratic-presidential-nomination",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Putin out as President of Russia by December 31, 2026?",
-      "slug": "putin-out-before-2027",
-      "n_outcomes": 2,
-      "sum_asks": 1.01,
-      "arb_bps": -100.00000000000009,
-      "error": null
-    },
-    {
-      "question": "Will JD Vance win the 2028 US Presidential Election?",
-      "slug": "will-jd-vance-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0030000000000001,
-      "arb_bps": -30.000000000001137,
-      "error": null
-    },
-    {
-      "question": "Will Gavin Newsom win the 2028 US Presidential Election?",
-      "slug": "will-gavin-newsom-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Alexandria Ocasio-Cortez win the 2028 US Presidential Election?",
-      "slug": "will-alexandria-ocasio-cortez-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.0010000000000001,
-      "arb_bps": -10.000000000001119,
-      "error": null
-    },
-    {
-      "question": "Will Pete Buttigieg win the 2028 US Presidential Election?",
-      "slug": "will-pete-buttigieg-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Josh Shapiro win the 2028 US Presidential Election?",
-      "slug": "will-josh-shapiro-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Marco Rubio win the 2028 US Presidential Election?",
-      "slug": "will-marco-rubio-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.003,
-      "arb_bps": -29.999999999998916,
-      "error": null
-    },
-    {
-      "question": "Will Wes Moore win the 2028 US Presidential Election?",
-      "slug": "will-wes-moore-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "slug": "will-gretchen-whitmer-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Andy Beshear win the 2028 US Presidential Election?",
-      "slug": "will-andy-beshear-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Glenn Youngkin win the 2028 US Presidential Election?",
-      "slug": "will-glenn-youngkin-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Kamala Harris win the 2028 US Presidential Election?",
-      "slug": "will-kamala-harris-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Stephen Smith win the 2028 US Presidential Election?",
-      "slug": "will-stephen-smith-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will JB Pritzker win the 2028 US Presidential Election?",
-      "slug": "will-jb-pritzker-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tulsi Gabbard win the 2028 US Presidential Election?",
-      "slug": "will-tulsi-gabbard-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Donald Trump Jr. win the 2028 US Presidential Election?",
-      "slug": "will-donald-trump-jr-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Nikki Haley win the 2028 US Presidential Election?",
-      "slug": "will-nikki-haley-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Ron DeSantis win the 2028 US Presidential Election?",
-      "slug": "will-ron-desantis-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Tim Walz win the 2028 US Presidential Election?",
-      "slug": "will-tim-walz-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
-      "sum_asks": 1.001,
-      "arb_bps": -9.999999999998899,
-      "error": null
-    },
-    {
-      "question": "Will Vivek Ramaswamy win the 2028 US Presidential Election?",
-      "slug": "will-vivek-ramaswamy-win-the-2028-us-presidential-election",
-      "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
     },
     {
-      "question": "Will Greg Abbott win the 2028 US Presidential Election?",
-      "slug": "will-greg-abbott-win-the-2028-us-presidential-election",
+      "question": "Will Dwayne 'The Rock' Johnson win the 2028 US Presidential Election?",
+      "slug": "will-dwayne-the-rock-johnson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
       "error": null
     },
     {
-      "question": "Will Elon Musk win the 2028 US Presidential Election?",
-      "slug": "will-elon-musk-win-the-2028-us-presidential-election",
+      "question": "Will Tucker Carlson win the 2028 US Presidential Election?",
+      "slug": "will-tucker-carlson-win-the-2028-us-presidential-election",
       "n_outcomes": 2,
       "sum_asks": 1.001,
       "arb_bps": -9.999999999998899,
@@ -8003,80 +4803,352 @@
   ],
   "pa2": [
     {
-      "slug_5m": "btc-updown-5m-1783170000",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783169700",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783268100",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783170000",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783169700",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783268100",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783170000",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783169700",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783268100",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783170000",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783169700",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783268100",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783170000",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
       "error": null
     },
     {
-      "slug_5m": "btc-updown-5m-1783169700",
-      "slug_15m": "btc-updown-15m-1783170000",
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268400",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268100",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783267800",
+      "slug_15m": "btc-updown-15m-1783268100",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783269000",
+      "slug_15m": "btc-updown-15m-1783269000",
+      "up_5m": 0.51,
+      "up_15m": 0.51,
+      "diff_bps": 0.0,
+      "error": null
+    },
+    {
+      "slug_5m": "btc-updown-5m-1783268700",
+      "slug_15m": "btc-updown-15m-1783269000",
       "up_5m": 0.51,
       "up_15m": 0.51,
       "diff_bps": 0.0,
@@ -8086,169 +5158,127 @@
   "pa4": [],
   "pa1": [
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 36.915403,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 194.977514,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169400",
-      "age_s": 387.013473,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 211.223469,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 97.168315,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 222.324502,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169400",
-      "age_s": 447.266385,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 248.710429,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 157.618193,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 264.956384,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169400",
-      "age_s": 507.716263,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 276.057417,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 217.777812,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 302.157393,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169400",
-      "age_s": 567.875882,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 318.403348,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 278.885806,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 329.504381,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783170000",
-      "age_s": 135.276382,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 353.479197,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-15m-1783170000",
-      "age_s": 151.251491,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 369.725152,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 341.525614,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 380.826185,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783170000",
-      "age_s": 197.244637,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 404.008072,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-15m-1783170000",
-      "age_s": 213.219746,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 420.254027,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 403.493869,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 431.35506,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783170000",
-      "age_s": 258.50928,
+      "slug": "btc-updown-5m-1783269000",
+      "age_s": 453.023325,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-15m-1783170000",
-      "age_s": 274.484389,
+      "slug": "btc-updown-15m-1783269000",
+      "age_s": 469.26928,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null
     },
     {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 464.758512,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-5m-1783170000",
-      "age_s": 320.868307,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-15m-1783170000",
-      "age_s": 336.843416,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 527.117539,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-5m-1783170000",
-      "age_s": 381.300411,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-15m-1783170000",
-      "age_s": 397.27552,
-      "up_ask": 0.51,
-      "down_ask": 0.5,
-      "error": null
-    },
-    {
-      "slug": "btc-updown-5m-1783169700",
-      "age_s": 587.549643,
+      "slug": "btc-updown-5m-1783268700",
+      "age_s": 480.370313,
       "up_ask": 0.51,
       "down_ask": 0.5,
       "error": null

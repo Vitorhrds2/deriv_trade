@@ -986,6 +986,305 @@ export const realHypotheses: RealHypothesis[] = [
     tools: ["vanilla_edge_scan.py"],
     reportFile: "vanilla_edge_scan.log",
   },
+  {
+    id: "HYP-ASIAN-01",
+    title: "Asian Up/Down — último tick vs média da janela",
+    market: "1HZ100V · ASIANU/ASIAND · N=5-10 ticks",
+    thesis:
+      "Paga se o último tick de uma janela de N ticks for estritamente maior (ASIANU) ou menor (ASIAND) que a média dos N ticks. " +
+      "Fair value teórico: 50% exato por simetria (negar a trajetória mapeia um evento no outro). " +
+      "Teste empírico via replay de 15000 ticks reais, janelas não-sobrepostas, Wilson CI.",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "asian", "barrier"],
+    trigger: "P_emp > 1/payout com Wilson CI lo > breakeven em algum N",
+    invalidation: "0 de 12 células com EV_lo > 0. EV médio -0.26, todos negativos.",
+    createdAt: "2026-07-05",
+    author: "asian_edge_scan.py",
+    verdict:
+      "SEM EDGE. 12 células testadas (ASIANU/ASIAND x N=5..10). " +
+      "P_emp ~50% como previsto teoricamente. Payout 19.53x implica breakeven 51.2%. " +
+      "Nenhuma célula com EV_lo > 0. House margin confirmada. " +
+      "EV médio: -0.259 (min=-0.470, max=-0.063).",
+    evPerTrade: -0.259,
+    ci95: [-0.470, -0.063],
+    ci95Label: "EV range across 12 cells (all negative)",
+    tools: ["asian_edge_scan.py"],
+    reportFile: "asian_edge_scan.log",
+  },
+  {
+    id: "HYP-RESET-01",
+    title: "Reset Call/Put — strike reseta para o menor ponto de referência",
+    market: "1HZ100V · RESETCALL/RESETPUT · 5m-60m",
+    thesis:
+      "RESETCALL paga se S_final > min(S_entrada, S_meio) — strike 'reseta' para o menor dos dois pontos, " +
+      "tornando o contrato mais favorável que uma call ATM comum. Payout fixo (binário). " +
+      "Monte Carlo driftless via bootstrap de retornos reais, 2 checkpoints, comparado com payout cotado.",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "reset", "barrier", "monte-carlo"],
+    trigger: "P_simulado > 1/payout com Wilson CI lo > breakeven em alguma duração",
+    invalidation: "0 de 8 células com EV_lo > 0. P_simulado ~63% mas breakeven ~64%.",
+    createdAt: "2026-07-05",
+    author: "reset_edge_scan.py",
+    verdict:
+      "SEM EDGE. 8 células testadas (RESETCALL/RESETPUT x 5m/15m/30m/60m). " +
+      "P_simulado ~62.7% consistente com mecânica (reset favorece comprador), " +
+      "mas payout cotado ~15.7x implica breakeven ~63.7% — house margin embutida. " +
+      "EV médio: -0.182 (min=-0.287, max=-0.109).",
+    evPerTrade: -0.182,
+    ci95: [-0.287, -0.109],
+    ci95Label: "EV range across 8 cells (all negative)",
+    tools: ["reset_edge_scan.py"],
+    reportFile: "reset_edge_scan.log",
+  },
+  {
+    id: "HYP-RUNS-01",
+    title: "Only Ups/Only Downs — N ticks monotônicos consecutivos",
+    market: "1HZ100V · RUNHIGH/RUNLOW · N=2-5",
+    thesis:
+      "Paga se os próximos N ticks subirem (RUNHIGH) ou descerem (RUNLOW) sucessivamente. " +
+      "Medição empírica direta (replay, sem bootstrap) em janelas não-sobrepostas de 15000 ticks. " +
+      "Compara P_empírica contra payout cotado (38x-305x).",
+    confidence: 3,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "runs", "monotonic"],
+    trigger: "P_emp > 1/payout com Wilson CI lo > breakeven em algum N",
+    invalidation: "0 de 8 células com EV_lo > 0. P_emp < teórico 0.5^N em todos os casos.",
+    createdAt: "2026-07-05",
+    author: "runs_edge_scan.py",
+    verdict:
+      "SEM EDGE. 8 células testadas (RUNHIGH/RUNLOW x N=2..5). " +
+      "P_emp cai exponencialmente com N (24.9% N=2, 2.7% N=5 para RUNHIGH) — " +
+      "abaixo do teórico 0.5^N, sugerindo ticks empatados reduzem probabilidade. " +
+      "Payout cresce mas não compensa. EV médio: -1.010 (min=-1.715, max=-0.280).",
+    evPerTrade: -1.010,
+    ci95: [-1.715, -0.280],
+    ci95Label: "EV range across 8 cells (all negative)",
+    tools: ["runs_edge_scan.py"],
+    reportFile: "runs_edge_scan.log",
+  },
+  {
+    id: "HYP-TICKHIGH-01",
+    title: "High/Low Ticks — qual dos 5 ticks é o extremo",
+    market: "1HZ100V · TICKHIGH/TICKLOW · 5 ticks",
+    thesis:
+      "Aposta em qual dos 5 ticks seguintes será o maior (TICKHIGH) ou menor (TICKLOW). " +
+      "Deriv precifica com formato U simétrico (posições 1 e 5 pagam menos, meio paga mais) — " +
+      "consistente com lei do arcsine. Bootstrap de 200k simulações para medir P_empírica por posição.",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "tickhigh", "arcsine"],
+    trigger: "P_emp > 1/payout em alguma posição com Wilson CI lo > breakeven",
+    invalidation: "0 de 10 células com EV_lo > 0. Deriv precifica corretamente o arcsine.",
+    createdAt: "2026-07-05",
+    author: "tickhigh_edge_scan.py",
+    verdict:
+      "SEM EDGE. 10 células testadas (TICKHIGH/TICKLOW x 5 posições). " +
+      "Distribuição empírica bate com arcsine teórico: posições 1 e 5 ~27.3%, meio ~14%. " +
+      "Deriv precifica corretamente — payout menor nas bordas (35x), maior no meio (65x). " +
+      "EV médio: -0.606 (min=-0.883, max=-0.354). House margin em todas as posições.",
+    evPerTrade: -0.606,
+    ci95: [-0.883, -0.354],
+    ci95Label: "EV range across 10 cells (all negative)",
+    tools: ["tickhigh_edge_scan.py"],
+    reportFile: "tickhigh_edge_scan.log",
+  },
+  {
+    id: "HYP-TURBOS-01",
+    title: "Turbos — knockout com payoff convexo (payout_per_point × distância)",
+    market: "1HZ100V · TURBOSLONG/SHORT · 15m-60m",
+    thesis:
+      "Barreira/knockout: se preço tocar a barreira, perde stake. Se sobreviver, " +
+      "payout = payout_per_point × distância final até barreira. " +
+      "Monte Carlo driftless via bootstrap, 40 células (2 direções × 10 barreiras × 2 durações).",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "turbos", "knockout", "monte-carlo"],
+    trigger: "EV_lo > 0 em alguma combinação barreira/duração",
+    invalidation: "0 de 40 células com EV_lo > 0. House margin em todas as barreiras.",
+    createdAt: "2026-07-05",
+    author: "turbos_edge_scan.py",
+    verdict:
+      "SEM EDGE. 40 células testadas (TURBOSLONG/SHORT x 10 barreiras x 15m/60m). " +
+      "P(sobrevive) e payout_medio calculados via MC driftless. " +
+      "EV sempre negativo, converge para 0 apenas em barreiras extremas (irrealista). " +
+      "EV médio: -0.010 (min=-0.054, max=-0.0002). House margin embutida no payout_per_point.",
+    evPerTrade: -0.010,
+    ci95: [-0.054, -0.0002],
+    ci95Label: "EV range across 40 cells (all negative)",
+    tools: ["turbos_edge_scan.py"],
+    reportFile: "turbos_edge_scan.log",
+  },
+  {
+    id: "HYP-OPTBUY-01",
+    title: "Crypto Options Buy-Side — ATM straddle (inverse VRP)",
+    market: "Deribit · BTC/ETH · ATM Straddle · DTE 1-82",
+    thesis:
+      "D23 mostrou IV < RV em crypto (inverso do TradFi). Implicação: COMPRAR straddles ATM " +
+      "pode ser positive EV — pagar IV barato, capturar RV alta. " +
+      "Simula payoff histórico (|S_T - S_0|) vs custo do straddle (ask_price × underlying) " +
+      "em janelas históricas de mesmo DTE. Bootstrap CI, net após taker fees (0.03%).",
+    confidence: 55,
+    status: "validating",
+    tags: ["crypto", "options", "deribit", "vrp", "straddle", "inverse-vrp"],
+    trigger: "EV net após fees > 0 com IC95% não cruzando zero",
+    invalidation: "DTE ≤ 1: EV negativo (fees > spread). DTE longe: confundir com drift de bull market.",
+    createdAt: "2026-07-05",
+    author: "options_buy_side_scan.py",
+    verdict:
+      "EDGE POTENCIAL DETECTADO. 12 de 16 expiries com EV net positivo após fees. " +
+      "BTC: DTE≥2 profitável (ROI +7% a +78%). ETH: DTE≥5 profitável (ROI +4% a +109%). " +
+      "Melhor: ETH DTE=54, EV +$308, ROI +109%, WR 92%, N=36. " +
+      "CUIDADO: payoffs históricos assumem K=S_0 (ATM straddle) e podem refletir drift de bull market " +
+      "em vez de VRP estrutural. Necessita validação out-of-sample com execução real ou paper trading. " +
+      "DTE curto (1d) negativo — fees dominam. Edge cresce com DTE (mais tempo para RV > IV).",
+    evPerTrade: 308.45,
+    ci95: [-35.02, 5860.87],
+    ci95Label: "EV net range across 16 expiries (BTC+ETH, DTE 1-82)",
+    tools: ["options_buy_side_scan.py"],
+    reportFile: "options_buy_side_scan.log",
+  },
+  {
+    id: "HYP-XFUND-01",
+    title: "Cross-Venue Funding Rate Arbitrage (Binance vs OKX/Bybit)",
+    market: "Binance/Bybit/OKX · BTC/ETH/SOL · Perp",
+    thesis:
+      "Quando funding rates divergem entre exchanges, ir long perp na venue com funding menor " +
+      "e short perp na venue com funding maior captura o diferencial. Market-neutral, sem exposure ao preço. " +
+      "Simula P&L histórico (90 períodos de 8h) com rebalanceamento diário. Net após taker fees round-trip.",
+    confidence: 8,
+    status: "refuted",
+    tags: ["crypto", "funding", "arbitrage", "cross-venue", "market-neutral"],
+    trigger: "P&L médio/dia > 0 com IC95% não cruzando zero e WR > 60%",
+    invalidation: "Spread médio < custo de rebalanceamento em todos os pares.",
+    createdAt: "2026-07-05",
+    author: "cross_venue_funding_arb_scan.py",
+    verdict:
+      "SEM EDGE. BTC: P&L -2.08 bps/dia (WR 0%), ETH: -1.86 bps/dia (WR 10%), SOL: -0.39 bps/dia (WR 31%). " +
+      "Spreads de funding entre Binance/OKX/Bybit são minúsculos (0.1-0.7 bps/8h) vs custo round-trip " +
+      "de 3.6-4.2 bps. Funding rates são altamente correlacionadas entre venues — não divergem o suficiente. " +
+      "Nenhum spread atual supera custos. Edge real dependeria de rebalanceamento infrequente, " +
+      "mas spread médio já é negativo antes de custos.",
+    evPerTrade: -1.44,
+    ci95: [-2.32, -0.39],
+    ci95Label: "P&L médio/dia (bps) across BTC/ETH/SOL",
+    tools: ["cross_venue_funding_arb_scan.py"],
+    reportFile: "cross_venue_funding_arb_scan.log",
+  },
+  {
+    id: "HYP-LPOOL-01",
+    title: "Binance Launchpool/Megadrop — short pré-distribuição",
+    market: "Binance · 13 Launchpool events · 2023-2026",
+    thesis:
+      "Similar a D17 (token unlock, único edge validado), Launchpools distribuem tokens grátis " +
+      "que podem criar pressão vendedora. Short 3d antes da distribuição, cover 3d depois. " +
+      "IS: 2023-2024 (7 events), OOS: 2025-2026 (6 events). Benchmark: excess return vs BTC.",
+    confidence: 15,
+    status: "refuted",
+    tags: ["crypto", "event-driven", "launchpool", "binance", "short"],
+    trigger: "Short -3d/+3d com WR > 55% e mean > 0 em IS e OOS",
+    invalidation: "IS: -9.2% mean, WR 43%. OOS: +8.8% mas N=6 (não significativo). ALL: -0.9%.",
+    createdAt: "2026-07-05",
+    author: "launchpool_impact_scan.py",
+    verdict:
+      "SEM EDGE CONSISTENTE. IS (N=7): mean -9.2%, WR 43% — tokens SOBEM antes do Launchpool (hype). " +
+      "OOS (N=6): mean +8.8%, WR 100% — reversão no OOS mas N muito pequeno. " +
+      "ALL (N=13): mean -0.9%, WR 69% mas IC95% cruza zero. " +
+      "Diferença vs D17: Launchpool distribui para stakers (não necessariamente sellers), " +
+      "enquanto unlocks liberam tokens para investidores (mais propensos a vender). " +
+      "Padrão diferente: Launchpool gera pre-event rally (buy the hype), não pre-event dump.",
+    evPerTrade: -0.9,
+    ci95: [-14.0, 8.4],
+    ci95Label: "Short -3d/+3d return (%) across 13 events",
+    tools: ["launchpool_impact_scan.py"],
+    reportFile: "launchpool_impact_scan.log",
+  },
+  {
+    id: "HYP-RELVAL-01",
+    title: "Rise/Fall por duração — valor relativo across durations",
+    market: "R_100, 1HZ100V · CALL/PUT · DURAÇÃO 1-10 ticks",
+    thesis:
+      "A margem da casa pode VARIAR com a duração do contrato Rise/Fall. Se houver uma duração " +
+      "onde a margem é mínima ou inverte (edge > 0), é valor-relativo explorável. " +
+      "3 medidas independentes por célula: P_emp (replay), P_teo (GBM auto-calibrado), payout (API proposal). " +
+      "Cross-check DGP: se P_emp ~ P_teo, modelo bate.",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "rise-fall", "duration", "relative-value"],
+    trigger: "EV_lo > 0 em alguma duração com P_emp ~ P_teo (DGP validado)",
+    invalidation: "0 de 24 células com EV_lo > 0. Margem constante ~2pp em todas as durações.",
+    createdAt: "2026-07-05",
+    author: "relative_value_scan.py",
+    verdict:
+      "SEM EDGE. 24 células testadas (CALL/PUT x 6 durações x 2 símbolos). " +
+      "P_emp bate com P_teo (max diff 0.37pp — DGP validado, sem path-dependence). " +
+      "Margem da casa constante ~2pp em todas as durações — não varia. " +
+      "Melhor EV: CALL d=10 1HZ100V = -0.0205/$1 (ainda negativo). " +
+      "EV médio: -0.038, range [-0.067, -0.020].",
+    evPerTrade: -0.038,
+    ci95: [-0.067, -0.020],
+    ci95Label: "EV range across 24 cells (all negative, constant margin)",
+    tools: ["relative_value_scan.py"],
+    reportFile: "relative_value_scan.log",
+  },
+  {
+    id: "HYP-EXOTIC-01",
+    title: "Contratos exóticos/barreira — Onetouch/Notouch/Range/ExpiryMiss",
+    market: "R_100, 1HZ100V · ONETOUCH/NOTOUCH/RANGE/UPORDOWN/EXPIRYRANGE/EXPIRYMISS · 120s-600s",
+    thesis:
+      "Contratos path-dependent (tocar/não tocar/ficar dentro/sair) podem ter margem diferente " +
+      "de Rise/Fall. Monte Carlo driftless (GBM discreto por tick) para prob teórica, " +
+      "replay empírico para P_emp, API proposal para payout. " +
+      "Gate: N≥100 e |P_emp - P_mc| < 3pp (validação DGP).",
+    confidence: 5,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "exotic", "barrier", "monte-carlo", "path-dependent"],
+    trigger: "EV_lo > 0 com DGP validado (|P_emp - P_mc| < 3pp e N≥100)",
+    invalidation: "1 célula com EV_lo > 0 mas REPROVADA no gate DGP (P_emp diverge de P_mc).",
+    createdAt: "2026-07-05",
+    author: "exotic_value_scan.py",
+    verdict:
+      "SEM EDGE. ~50 células testadas (7 tipos de contrato x barreiras k=1.0/1.5 x 3 durações x 2 símbolos). " +
+      "1 célula aparentou EV_lo > 0 mas foi reprovada no gate DGP: P_emp divergiu de P_mc > 3pp " +
+      "(falso edge de drift de amostra + N baixo). " +
+      "Pelo MC driftless (DGP verdadeiro), P_mc < implied em toda célula → house margin confirmada. " +
+      "EV médio: -0.094, range [-0.353, -0.029]. Margem maior em barreiras apertadas (k=1.0).",
+    evPerTrade: -0.094,
+    ci95: [-0.353, -0.029],
+    ci95Label: "EV range across ~50 cells (all negative after DGP gate)",
+    tools: ["exotic_value_scan.py"],
+    reportFile: "exotic_value_scan.log",
+  },
+  {
+    id: "HYP-POLY-01",
+    title: "Polymarket Arbitrage — PA1-PA4 (multi-outcome, cross-market, sniping, convergence)",
+    market: "Polymarket · BTC Up/Down 5m/15m · 576 mercados",
+    thesis:
+      "4 hipóteses: PA1 (new market sniping — books mispriced antes de bots convergirem), " +
+      "PA2 (cross-market consistency — 5m vs 15m implied probs devem ser consistentes), " +
+      "PA3 (multi-outcome arb — sum of asks < $1.00 = free money), " +
+      "PA4 (near-resolution convergence — stale book nos minutos finais). " +
+      "Scan real-time via Gamma + CLOB APIs, 6 ciclos de 10s.",
+    confidence: 5,
+    status: "refuted",
+    tags: ["polymarket", "prediction-market", "arbitrage", "real-time"],
+    trigger: "PA3: sum(asks) < $0.96 (post-fee). PA2: diff > 500bps. PA1: spread > 200bps em novo mercado.",
+    invalidation: "PA3: 0/576 com sum < $1.00. PA2: max diff 0bps. PA1: spread 100bps converge em ~3min.",
+    createdAt: "2026-07-05",
+    author: "polymarket_arb_scan.py",
+    verdict:
+      "SEM EDGE. PA3: 576 mercados, min sum(asks) = $1.0010 (acima de $1.00 — sem arb bruto). " +
+      "PA2: 44 pares 5m/15m comparados, diff média 0bps, max 0bps — mercados perfeitamente consistentes. " +
+      "PA1: 18 novos mercados, spread 100bps desde criação, convergem em ~3min — bots já ativos. " +
+      "PA4: sem mercados próximos de resolução no período. " +
+      "Polymarket BTC Up/Down é um mercado eficiente com bots arbitrando continuamente.",
+    evPerTrade: -0.001,
+    ci95: [-0.001, 0.001],
+    ci95Label: "PA3 min sum(asks) margin: $1.0010 (0.1bps above arb threshold)",
+    tools: ["polymarket_arb_scan.py"],
+    reportFile: "polymarket_arb_scan.log",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
