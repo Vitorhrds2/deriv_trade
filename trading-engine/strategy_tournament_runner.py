@@ -686,6 +686,41 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Agentic PnL500 v5 fallback: restrict the agent to the champion reversal lineage after v3/v4 mean-reversion sub-rules showed paper/live mismatch.",
     },
+    {
+        "id": "adaptive_agent_consensus_pnl500_v6_reversal_cluster_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 55,
+        "stake": 1.0,
+        "score_window": 240,
+        "min_paper_samples": 160,
+        "min_rule_score": 4.0,
+        "min_consensus_rules": 2,
+        "min_consensus_score": 16.0,
+        "consensus_key": "contract_type",
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 3, "max_loss": -12.0, "max_gain": 24.0, "pause_seconds": 1800},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 3600, "phases": ["gate30", "target100", "post100"]},
+        "agent_rule_live_guard": {"losses": 1, "pause_seconds": 10800, "window": 3, "max_loss": -1.0},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 18.0,
+            "pause_seconds": 2400,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_018_call", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_call", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_022_call", "kind": "reversal", "streak": 3, "min_move": 0.22, "allowed_contract_types": ["CALL"]},
+            {"id": "rev4_025_call", "kind": "reversal", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_018_put", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_put", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_022_put", "kind": "reversal", "streak": 3, "min_move": 0.22, "allowed_contract_types": ["PUT"]},
+            {"id": "rev4_025_put", "kind": "reversal", "streak": 4, "min_move": 0.25, "allowed_contract_types": ["PUT"]},
+        ],
+        "rationale": "Agentic PnL500 v6 fallback: require a same-direction cluster of reversal sub-rules before trading, so one isolated high paper score cannot walk the model through fragile live rules.",
+    },
 ]
 
 
@@ -1390,6 +1425,10 @@ class StrategyTournament:
         if not eligible:
             return None
 
+        eligible = self.apply_agent_consensus_filter(model, spec, eligible)
+        if not eligible:
+            return None
+
         score, samples, rule_id, signal = max(eligible, key=lambda item: (item[0], item[1], item[2]))
         signal["agent_rule_id"] = rule_id
         signal["agent_rule_score"] = score
@@ -1450,6 +1489,44 @@ class StrategyTournament:
                 rules=rules,
             )
             agent["last_status_logged_at"] = now
+
+    def apply_agent_consensus_filter(self, model, spec, eligible):
+        min_rules = int(spec.get("min_consensus_rules", 0) or 0)
+        min_score = float(spec.get("min_consensus_score", 0.0) or 0.0)
+        if min_rules <= 1 and min_score <= 0:
+            return eligible
+
+        key_name = spec.get("consensus_key", "contract_type")
+        grouped = {}
+        for item in eligible:
+            score, samples, rule_id, signal = item
+            key = signal.get(key_name) or signal.get("contract_type")
+            grouped.setdefault(key, []).append(item)
+
+        accepted_groups = []
+        for key, items in grouped.items():
+            group_score = round(sum(float(item[0]) for item in items), 4)
+            if min_rules > 1 and len(items) < min_rules:
+                continue
+            if min_score > 0 and group_score < min_score:
+                continue
+            accepted_groups.append((group_score, len(items), key, items))
+
+        if not accepted_groups:
+            return []
+
+        group_score, _, group_key, items = max(accepted_groups, key=lambda item: (item[0], item[1], item[2]))
+        for score, samples, rule_id, signal in items:
+            signal["agent_consensus_key"] = group_key
+            signal["agent_consensus_rules"] = len(items)
+            signal["agent_consensus_score"] = group_score
+        model["last_agent_consensus"] = {
+            "key": group_key,
+            "rules": len(items),
+            "score": group_score,
+            "ts": utc_now(),
+        }
+        return items
 
     def is_agent_rule_blocked(self, model, rule_id):
         stats = model.get("rule_live_stats", {}).get(rule_id, {})
