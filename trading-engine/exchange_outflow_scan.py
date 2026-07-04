@@ -260,4 +260,22 @@ def analyze_outflow_signal():
 
 
 if __name__ == "__main__":
-    analyze_outflow_signal()
+    import sys
+    continuous = "--continuous" in sys.argv
+    if continuous:
+        POLL_INTERVAL_S = 600  # 10 min between scans
+        LOG_FILE = "d37_outflow_monitor.log"
+        print(f"CONTINUOUS MODE — polling every {POLL_INTERVAL_S}s, logging to {LOG_FILE}")
+        while True:
+            try:
+                results = analyze_outflow_signal()
+                if results.get("signal_score", 0) > 0:
+                    with open(LOG_FILE, "a") as f:
+                        f.write(f"[{results['timestamp']}] SIGNAL: {results['signal']} score={results['signal_score']} | BTC=${results['btc_price']:,.0f}\n")
+                        for r in results.get("signal_reasons", []):
+                            f.write(f"  - {r}\n")
+            except Exception as e:
+                print(f"  Scan error: {e}")
+            time.sleep(POLL_INTERVAL_S)
+    else:
+        analyze_outflow_signal()

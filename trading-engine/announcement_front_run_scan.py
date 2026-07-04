@@ -161,7 +161,7 @@ def run_scan():
 
     print(f"[SCAN] Monitoring for new announcements...\n")
 
-    while time.time() - start_time < RUN_DURATION:
+    while RUN_DURATION == 0 or time.time() - start_time < RUN_DURATION:
         poll_count += 1
         now = datetime.now(timezone.utc)
         elapsed = time.time() - start_time
@@ -302,4 +302,8 @@ def run_scan():
 
 
 if __name__ == "__main__":
+    import sys
+    if "--continuous" in sys.argv:
+        RUN_DURATION = 0
+        print("CONTINUOUS MODE — infinite polling")
     run_scan()

@@ -200,15 +200,16 @@ def run_scan():
         on_open=lambda ws: on_open(ws, state),
     )
 
-    # Run with timeout
-    def timeout_handler():
-        time.sleep(RUN_DURATION)
-        print(f"\n  Timeout reached ({RUN_DURATION}s), closing...")
-        ws.close()
+    # Run with timeout (skip in continuous mode)
+    if RUN_DURATION > 0:
+        def timeout_handler():
+            time.sleep(RUN_DURATION)
+            print(f"\n  Timeout reached ({RUN_DURATION}s), closing...")
+            ws.close()
 
-    import threading
-    timer = threading.Thread(target=timeout_handler, daemon=True)
-    timer.start()
+        import threading
+        timer = threading.Thread(target=timeout_handler, daemon=True)
+        timer.start()
 
     ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
 
@@ -292,4 +293,15 @@ def run_scan():
 
 
 if __name__ == "__main__":
-    run_scan()
+    import sys
+    if "--continuous" in sys.argv:
+        RUN_DURATION = 0
+        print("CONTINUOUS MODE — infinite monitoring, auto-reconnect on WS close")
+        while True:
+            try:
+                run_scan()
+            except Exception as e:
+                print(f"  Scan error: {e}, restarting in 5s...")
+                time.sleep(5)
+    else:
+        run_scan()

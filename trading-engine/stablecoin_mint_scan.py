@@ -293,4 +293,20 @@ def run_scan():
 
 
 if __name__ == "__main__":
-    run_scan()
+    import sys
+    continuous = "--continuous" in sys.argv
+    if continuous:
+        POLL_INTERVAL_S = 3600  # 1h between scans
+        LOG_FILE = "d40_stablecoin_monitor.log"
+        print(f"CONTINUOUS MODE — polling every {POLL_INTERVAL_S}s, logging to {LOG_FILE}")
+        while True:
+            try:
+                signal = run_scan()
+                with open(LOG_FILE, "a") as f:
+                    ts = datetime.now(timezone.utc).isoformat()
+                    f.write(f"[{ts}] signal={signal}\n")
+            except Exception as e:
+                print(f"  Scan error: {e}")
+            time.sleep(POLL_INTERVAL_S)
+    else:
+        run_scan()
