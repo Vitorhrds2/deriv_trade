@@ -1456,25 +1456,28 @@ export const realHypotheses: RealHypothesis[] = [
       "Binance é a exchange mais rápida. Se o preço do BTC move na Binance primeiro, " +
       "Bybit/OKX lagam em milliseconds. Se lag > 0.2% (fees roundtrip), comprar na exchange " +
       "lagging quando leader move é arb livre. Scan: poll 3 exchanges a cada 100ms por 5min.",
-    confidence: 20,
-    status: "validating",
+    confidence: 5,
+    status: "refuted",
     tags: ["crypto", "latency", "arbitrage", "cross-exchange", "aggressive"],
     trigger: "Lag > 0.2% entre Binance e Bybit/OKX com follower catchup > 60% hit rate",
     invalidation: "Divergência média < fees ou follower não catchup consistentemente",
     createdAt: "2026-07-04",
     author: "latency_arb_scan.py",
     verdict:
-      "EM TESTE. Polling a 100ms por 5min. Divergência entre exchanges medida em tempo real. " +
-      "NOTA: Real latency arb precisa WebSocket sub-ms. Este scan mede se divergência > fees. " +
-      "Se avg_divergence < 0.2%, não vale tentar nem com infra profissional.",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "Aguardando resultados do scan de 5min",
+      "REFUTADO. 1200+ samples coletados. Divergência máxima entre exchanges: ~0.02% (ex: " +
+      "Binance $63,314 vs OKX $63,326 = $12 diff). Fees roundtrip: 0.2% (10x maiores). " +
+      "PROBLEMA 1: REST API leva ~2.5s/sample (não 100ms) — 3 chamadas HTTP sequenciais. " +
+      "PROBLEMA 2: Não há leader consistente — Bybit/OKX às vezes acima de Binance. " +
+      "Latency arb é jogo institucional: precisa co-location sub-ms, WebSocket/FIX, maker orders. " +
+      "Não viável sem infra profissional (Jump Trading, Wintermute level).",
+    evPerTrade: -0.2,
+    ci95: [-0.2, -0.2],
+    ci95Label: "Max divergence 0.02% vs 0.2% fees = sempre negativo. N=1200+ samples.",
     tools: ["latency_arb_scan.py"],
     reportFile: "latency_arb_scan.log",
     pnl: 0,
-    trades: 0,
-    sampleUnit: "samples de 100ms (5min × 3 exchanges)",
+    trades: 1200,
+    sampleUnit: "samples REST (~2.5s cada, 3 exchanges, 5min)",
   },
   {
     id: "HYP-OBI-01",
@@ -1484,26 +1487,29 @@ export const realHypotheses: RealHypothesis[] = [
       "Se volume de bids >> volume de asks no order book, preço sobe no próximo segundo. " +
       "Imbalance ratio > 0.60 → long, < 0.40 → short. Teste: poll depth a cada 1s por 10min, " +
       "medir win rate a 1s/5s/10s horizon. Net após 0.1% taker fee por lado.",
-    confidence: 15,
-    status: "validating",
+    confidence: 5,
+    status: "refuted",
     tags: ["crypto", "orderbook", "imbalance", "microstructure", "aggressive"],
     trigger: "Win rate > 55% após fees com N > 10 signals em algum horizon",
     invalidation: "OBI não prediz direção após fees a 1s granularity",
     createdAt: "2026-07-04",
     author: "order_book_imbalance_scan.py",
     verdict:
-      "EM TESTE. Coletando order book depth a cada 1s por 10min. " +
-      "Testando imbalance simples e volume-weighted. " +
-      "NOTA: Real OBI alpha precisa WebSocket + L2 data sub-second. " +
-      "Este scan é um sanity check a 1s — se não passar, sub-second não ajudará muito.",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "Aguardando resultados do scan de 10min",
+      "REFUTADO. 10min de scan, 600 samples, 3 símbolos. Resultados: " +
+      "BTC 1s: WR 37.9%, EV -0.099% (N=517). BTC 5s: WR 54.2%, EV -0.097%. BTC 10s: WR 62.5%, EV -0.095%. " +
+      "SOL 1s: WR 19.0%, EV -0.101%. ETH 10s: WR 62.5% mas 100% dos trades negativos após fees. " +
+      "PROBLEMA: Win rate direcional chega a 62.5% em 10s, mas 0 wins após custos — " +
+      "porque movimentos de preço são menores que 0.1% fee em 10s. " +
+      "OBI tem algum poder preditivo direcional, mas insuficiente para superar fees a 1s granularity. " +
+      "Precisaria WebSocket L2 sub-second + maker orders (0 fee) para ser viável.",
+    evPerTrade: -0.097,
+    ci95: [-0.101, -0.095],
+    ci95Label: "EV -0.097% médio após fees. WR direcional 19-62.5% mas 0% lucrativo. N=2400+ signals.",
     tools: ["order_book_imbalance_scan.py"],
     reportFile: "order_book_imbalance_scan.log",
-    pnl: 0,
-    trades: 0,
-    sampleUnit: "samples de 1s (10min × 3 símbolos)",
+    pnl: -282.0,
+    trades: 2400,
+    sampleUnit: "signals OBI (600 samples × 3 símbolos × horizons 1s/5s/10s)",
   },
   {
     id: "HYP-LIQ-01",
@@ -1522,17 +1528,19 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "liquidation_cascade_scan.py",
     verdict:
-      "EM TESTE. Monitorando liquidations por 30min. Cascades são eventos raros — " +
-      "pode não detectar nenhuma em 30min. Needs longer run on AWS para capturar eventos. " +
-      "Se detectar: cascade continuation é o edge mais agressivo possível (front-run liquidations).",
+      "EM TESTE CONTÍNUO na AWS. Primeiro scan de 30min: 0 liquidations detectadas (mercado calmo). " +
+      "Bot reiniciado em loop infinito (30min scan + 60s pause + repeat) para capturar eventos " +
+      "ao longo de dias. Cascades são eventos raros — precisam volatilidade alta (crash/pump). " +
+      "Quando detectar: cascade continuation é o edge mais agressivo possível (front-run forced selling). " +
+      "Monitorar liquidation_cascade_scan.log na AWS para eventos.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Aguardando resultados do scan de 30min",
+    ci95Label: "0 cascades em 30min. Bot rodando em loop contínuo na AWS.",
     tools: ["liquidation_cascade_scan.py"],
     reportFile: "liquidation_cascade_scan.log",
     pnl: 0,
     trades: 0,
-    sampleUnit: "cascades detectadas (30min monitoring)",
+    sampleUnit: "cascades detectadas (loop contínuo 30min/scan na AWS)",
   },
   {
     id: "HYP-FUNDPRED-01",
@@ -1549,22 +1557,24 @@ export const realHypotheses: RealHypothesis[] = [
     trigger: "Momentum WR > 60% OU premium_index > fees (0.08%)",
     invalidation: "Funding não é autocorrelacionado e premium < fees",
     createdAt: "2026-07-04",
-    author: "funding_prediction_scan.py",
+    author: "funding_prediction_scan.py + funding_paper_bot.py",
     verdict:
-      "SINAL FRACO CONFIRMADO. Momentum test: 88.8% accuracy (N=205) — últimos 3 fundings " +
-      "predizem direção do próximo. MAS: premium_index atualmente ~0% (não há oportunidade now). " +
-      "Oportunidades aparecem em volatilidade alta (premium > 0.1%). " +
+      "SINAL FRACO CONFIRMADO + PAPER BOT ATIVO NA AWS. " +
+      "Momentum test: 88.7% accuracy (N=204) — últimos 3 fundings predizem direção do próximo. " +
+      "Premium index atualmente ~0% (não há oportunidade now — mercado calmo). " +
+      "Paper bot (fund_paper) monitorando premium_index a cada 60s nos top 20 perps. " +
+      "Entra automaticamente quando premium > 0.10% + momentum confirma. " +
+      "Position size: $1000 simulado. Oportunidades aparecem em volatilidade alta. " +
       "Annualized quando ativo: +30-300% dependendo do par. " +
-      "CUIDADO: momentum pode ser regime-dependente (bull market bias). " +
-      "PRÓXIMO PASSO: monitorar premium_index continuamente na AWS, entrar quando > 0.1%.",
+      "CUIDADO: momentum pode ser regime-dependente (bull market bias).",
     evPerTrade: 0.01,
     ci95: [-0.02, 0.04],
-    ci95Label: "Funding momentum accuracy 88.8% (N=205), but premium currently ~0%",
-    tools: ["funding_prediction_scan.py"],
-    reportFile: "funding_prediction_scan_results.json",
+    ci95Label: "Funding momentum accuracy 88.7% (N=204). Paper bot ativo, 0 trades ainda (premium ~0%).",
+    tools: ["funding_prediction_scan.py", "funding_paper_bot.py"],
+    reportFile: "funding_paper_bot.log",
     pnl: 0,
-    trades: 205,
-    sampleUnit: "funding periods (10 perps × ~20 history each)",
+    trades: 204,
+    sampleUnit: "funding periods (10 perps × ~20 history) + paper bot ativo 60s scan",
   },
   {
     id: "HYP-IVANOM-01",
@@ -1578,25 +1588,26 @@ export const realHypotheses: RealHypothesis[] = [
     confidence: 30,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
-    trigger: "|IV - fair_IV| > 2 vol points com OI ≥ 10 e bid-ask spread razoável",
+    trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50%",
     invalidation: "Anomalias são stale quotes ou desaparecem em re-scan",
     createdAt: "2026-07-04",
-    author: "iv_surface_anomaly_scan.py",
+    author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py",
     verdict:
-      "705 ANOMALIAS DETECTADAS (393 BUY + 312 SELL). " +
-      "Top BUY: BTC-25DEC26-110000-P IV=41.2 vs fair=57.2 (dev=-16.0). " +
-      "Top SELL: ETH-25SEP26-16000-P IV=130.2 vs fair=64.7 (dev=+65.5). " +
-      "CUIDADO: muitas anomalias em strikes deep OTM com bid=0.0001 (stale quotes). " +
-      "Anomalias reais precisam: bid > 0.001, ask < 1.0, OI > 50, volume > 0. " +
-      "PRÓXIMO PASSO: filtrar por liquidez real e paper trade as top 5 oportunidades.",
+      "PAPER BOT ATIVO NA AWS. Filtros de liquidez aplicados (bid≥0.001, ask≤2.0, OI≥50, spread<50%). " +
+      "Primeiro scan: 234 BTC + 209 ETH opções líquidas. 6 posições abertas: " +
+      "BUY ETH-25SEP26-1300-C (IV=62.0 vs fair=106.2, dev=-44.1, est. profit=$0.13), " +
+      "SELL ETH-10JUL26-1300-C (IV=106.8 vs fair=62.6, dev=+44.2, est. profit=$0.12), " +
+      "BUY ETH-31JUL26-1450-C (dev=-22.0), 3x SELL BTC (dev +3.7 a +7.9). " +
+      "Bot escaneia a cada 1h, settle quando anomalia reverte (dev < 1 vol point). " +
+      "PRÓXIMO: verificar em 1h se anomalias reverteram ou persistem (stale quotes vs real edge).",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "705 anomalies (393 BUY + 312 SELL), needs liquidity filtering",
-    tools: ["iv_surface_anomaly_scan.py"],
-    reportFile: "iv_surface_anomaly_scan_results.json",
+    ci95Label: "6 paper positions abertas. Primeiro settle em ~1h. Needs reversion data.",
+    tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py"],
+    reportFile: "iv_anomaly_paper_bot.log",
     pnl: 0,
-    trades: 705,
-    sampleUnit: "anomalias IV (533 BTC + 516 ETH opções líquidas)",
+    trades: 6,
+    sampleUnit: "paper positions (234 BTC + 209 ETH líquidas, scan hourly)",
   },
 ];
 
