@@ -717,6 +717,92 @@ export const realHypotheses: RealHypothesis[] = [
     tools: ["jump_timing_test.py"],
     reportFile: "docs/state_of_research.md",
   },
+  {
+    id: "HYP-ONCHAIN-01",
+    title: "D19 — On-chain NVT signal (BTC directional)",
+    market: "BTC on-chain metrics (CoinGecko market cap / volume proxy)",
+    thesis:
+      "If NVT ratio (market cap / transaction volume) is low, BTC is undervalued relative to " +
+      "on-chain activity → bullish. If NVT is high, BTC is overvalued → bearish.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["on-chain", "nvt", "btc", "signal", "coingecko"],
+    trigger: "NVT < Q20 (bullish) or NVT > Q80 (bearish)",
+    invalidation: "365 dias, NVT quintis não separam retornos. Q1 (low NVT) retorno=-1.67% IC95%[-3.16%,-0.23%]. Q5 (high NVT) retorno=+0.05% IC95%[-1.20%,+1.30%]. Direção INVERSA à hipótese.",
+    createdAt: "2026-07-04",
+    author: "onchain_signal_scan.py",
+    pnl: 0,
+    trades: 365,
+    sampleUnit: "daily NVT observations (365 days, CoinGecko proxy)",
+    verdict:
+      "Refutado — NVT baixo (bullish esperado) produziu retornos NEGATIVOS (-1.67% em 7d, IC95% não cruza zero). " +
+      "NVT alto (bearish esperado) produziu retornos ~0%. Direção oposta à hipótese. " +
+      "Volume alto (Q80) também negativo: -3.38% em 7d, -4.83% em 14d. " +
+      "Proxy NVT (market_cap/total_volume CoinGecko) pode não capturar on-chain activity corretamente.",
+    evPerTrade: -1.67,
+    ci95: [-3.16, 0.05],
+    ci95Label: "Q1-Q5 return spread % (7d forward)",
+    tools: ["onchain_signal_scan.py"],
+    reportFile: "onchain_signal_scan.log",
+  },
+  {
+    id: "HYP-SENT-01",
+    title: "D20 — Sentiment & Fear/Greed contrarian signal",
+    market: "BTC sentiment indicators (Fear & Greed Index, Google Trends)",
+    thesis:
+      "Extreme Fear (F&G < 25) signals market oversold → buy. Extreme Greed (F&G > 75) signals " +
+      "market overbought → sell. Sentiment acts as a contrarian indicator.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["sentiment", "fear-greed", "contrarian", "btc", "signal"],
+    trigger: "F&G < 25 (Extreme Fear → LONG) or F&G > 75 (Extreme Greed → SHORT)",
+    invalidation: "365 dias, F&G quintis não separam retornos. Q1 (low F&G) retorno=+0.83% IC95%[-0.37%,+2.02%]. Q5 (high F&G) retorno=-0.90% IC95%[-2.01%,+0.22%]. IC95% cruza zero em ambos.",
+    createdAt: "2026-07-04",
+    author: "sentiment_signal_scan.py",
+    pnl: 0,
+    trades: 358,
+    sampleUnit: "daily F&G observations (365 days)",
+    verdict:
+      "Refutado — Q1 (Extreme Fear) retorno +0.83% mas IC95% cruza zero [-0.37%, +2.02%]. " +
+      "Q5 (Extreme Greed) retorno -0.90% mas IC95% também cruza zero [-2.01%, +0.22%]. " +
+      "Direção correta (contrarian) mas SEM significância estatística. " +
+      "Google Trends bloqueado (429). F&G < 30 em 7d: -1.12% IC95%[-1.94%,-0.33%] — na direção CONTRÁRIA à hipótese.",
+    evPerTrade: 0.83,
+    ci95: [-0.37, 2.02],
+    ci95Label: "Q1 (Extreme Fear) return % (7d forward, IC95%)",
+    tools: ["sentiment_signal_scan.py"],
+    reportFile: "sentiment_signal_scan.log",
+  },
+  {
+    id: "HYP-MACRO-01",
+    title: "D21 — Cross-asset macro signal (DXY/VIX/S&P500/Gold vs BTC)",
+    market: "Macro assets (DXY, VIX, S&P500, Gold) vs BTC returns",
+    thesis:
+      "DXY inversely correlated with BTC → DXY rising = BTC falling. VIX positively correlated " +
+      "with BTC vol → high VIX = risk-off = BTC falling. S&P500 correlated (risk on/off). " +
+      "Gold as safe haven inversely correlated in stress periods.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["macro", "dxy", "vix", "spx", "gold", "correlation", "btc"],
+    trigger: "Asset return > +1.5σ (SHORT BTC) or < -1.5σ (LONG BTC)",
+    invalidation: "2 anos, nenhum signal macro isolado gera retorno positivo com IC95% > 0. Correlações: SPX=0.43, VIX=-0.40, DXY=-0.02, Gold=0.10.",
+    createdAt: "2026-07-04",
+    author: "cross_asset_macro_scan.py",
+    pnl: 0,
+    trades: 500,
+    sampleUnit: "daily observations (2y, 4 macro assets × 4 thresholds × 4 horizons)",
+    verdict:
+      "Refutado — Correlações contemporâneas existem (SPX-BTC=0.43, VIX-BTC=-0.40) mas NENHUM signal " +
+      "isolado com z-score threshold gera retorno positivo com IC95% > 0. " +
+      "DXY correlação quase zero (-0.02) — hipótese principal refutada. " +
+      "Correlação é instável no tempo (rolling 30d varia de ~0 a ~0.7) e fraca para predição direta. " +
+      "SPX < -1.5σ (LONG) mostrou +2.60% em 14d mas IC95%[-0.64%, +5.84%] — não significante.",
+    evPerTrade: 0,
+    ci95: [-0.64, 5.84],
+    ci95Label: "Best signal (SPX < -1.5σ LONG, 14d) return % IC95%",
+    tools: ["cross_asset_macro_scan.py"],
+    reportFile: "cross_asset_macro_scan.log",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
