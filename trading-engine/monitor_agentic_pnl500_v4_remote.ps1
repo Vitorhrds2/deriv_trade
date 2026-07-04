@@ -4,6 +4,8 @@ param(
     [string]$RemoteDir = "/home/ubuntu/te",
     [string]$StateJson = "strategy_agentic_pnl500_v4_state.json",
     [string]$EventsJsonl = "strategy_agentic_pnl500_v4_events.jsonl",
+    [string]$PidFile = "logs/agentic_pnl500_v4.pid",
+    [string]$Title = "Agentic PnL500 Remote Monitor",
     [int]$IntervalSeconds = 5
 )
 
@@ -17,7 +19,7 @@ python3 - <<'PY'
 import json, pathlib, time, os, subprocess
 state_path = pathlib.Path("$StateJson")
 events_path = pathlib.Path("$EventsJsonl")
-pid_path = pathlib.Path("logs/agentic_pnl500_v4.pid")
+pid_path = pathlib.Path("$PidFile")
 pid = pid_path.read_text().strip() if pid_path.exists() else ""
 alive = False
 elapsed = ""
@@ -83,7 +85,7 @@ PY
 
     $json = $remote | ssh -i $KeyPath -o BatchMode=yes -o ConnectTimeout=20 -o StrictHostKeyChecking=no -o UserKnownHostsFile=NUL ubuntu@$HostName "sed 's/\r$//' | bash"
     Clear-Host
-    Write-Host "Agentic PnL500 V4 Remote Monitor" -ForegroundColor Cyan
+    Write-Host $Title -ForegroundColor Cyan
     Write-Host "Host: $HostName | Refresh: ${IntervalSeconds}s | Ctrl+C para sair"
     Write-Host ""
     try {
