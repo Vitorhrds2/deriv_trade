@@ -51,15 +51,18 @@ s = json.load(open(state_path))
 idx = s.get("current_model_index")
 models = s.get("models") or []
 m = models[idx] if isinstance(idx, int) and 0 <= idx < len(models) else {}
+current_model_id = m.get("id")
 
 counts = collections.Counter()
 recent = []
 last_settlement = None
 latencies = []
+region = "unknown"
+active_region = "unknown"
 material = {
     "signal", "buy", "settled", "block_guard_pause", "loss_streak_pause",
     "passed_30", "passed_100", "passed_1000", "pivot", "hard_drawdown_stop",
-    "runtime_timeout", "runner_error"
+    "runtime_timeout", "runner_error", "infra_region_switch"
 }
 
 if events_path.exists():
@@ -71,6 +74,13 @@ if events_path.exists():
         except Exception:
             continue
         event = row.get("event")
+        if event == "infra_region_switch":
+            region = row.get("to_region") or region
+            active_region = region
+            recent.append(row)
+            continue
+        if row.get("model_id") != current_model_id:
+            continue
         counts[event] += 1
         if event == "buy" and row.get("latency_ms") is not None:
             latencies.append(float(row.get("latency_ms")))
@@ -105,6 +115,7 @@ payload = {
     "state_status": s.get("status"),
     "updated_at": s.get("updated_at"),
     "model_id": m.get("id"),
+    "active_region": active_region,
     "model_status": m.get("status"),
     "phase": m.get("phase"),
     "stake": s.get("stake_override"),
@@ -167,6 +178,7 @@ function Show-Snapshot {
     Write-Host "PID:           $($Data.pid) alive=$($Data.alive) elapsed='$($Data.elapsed)'" -ForegroundColor $aliveColor
     Write-Host "Job:           $($Data.job_id)"
     Write-Host "Model:         $($Data.model_id)"
+    Write-Host "Region:        $($Data.active_region)"
     Write-Host "Status:        $($Data.state_status) / $($Data.model_status) / $($Data.phase)"
     Write-Host "Stake/Target:  `$$($Data.stake) | $($Data.trades)/$($Data.target_trades) ($($Data.progress_pct)%)"
     Write-Host "W/L/WR:        $($Data.wins)/$($Data.losses) | $($Data.win_rate_pct)%"
