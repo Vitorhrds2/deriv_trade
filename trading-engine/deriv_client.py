@@ -36,6 +36,7 @@ class DerivClient:
             req = urllib.request.Request("https://api.derivws.com/trading/v1/options/accounts")
             req.add_header("Authorization", f"Bearer {self.api_token}")
             req.add_header("Deriv-App-ID", str(self.app_id))
+            req.add_header("User-Agent", "Codex-DerivDemo/1.0")
             with urllib.request.urlopen(req) as response:
                 return json.loads(response.read().decode())
                 
@@ -43,6 +44,7 @@ class DerivClient:
             req = urllib.request.Request(f"https://api.derivws.com/trading/v1/options/accounts/{acc_id}/otp", method="POST")
             req.add_header("Authorization", f"Bearer {self.api_token}")
             req.add_header("Deriv-App-ID", str(self.app_id))
+            req.add_header("User-Agent", "Codex-DerivDemo/1.0")
             req.add_header("Content-Length", "0")
             with urllib.request.urlopen(req) as response:
                 return json.loads(response.read().decode())

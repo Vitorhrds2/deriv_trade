@@ -11,6 +11,7 @@ import {
   Plug,
   Radio,
   Shield,
+  Unlock,
   Workflow,
 } from "lucide-react";
 
@@ -30,6 +31,7 @@ import {
 const research = [
   { title: "Command Center", url: "/",            icon: Gauge },
   { title: "Hypotheses",     url: "/hypotheses",  icon: FlaskConical },
+  { title: "D17 Dashboard",  url: "/d17",         icon: Unlock },
   { title: "Strategies",     url: "/strategies",  icon: Workflow },
   { title: "Simulations",    url: "/simulations", icon: Beaker },
 ];

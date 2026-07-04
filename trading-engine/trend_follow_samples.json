@@ -1,0 +1,5144 @@
+{
+  "BTCUSDT": {
+    "n_candles": 1000,
+    "buy_hold_return_pct": 123.27133418466494,
+    "buy_hold_annual_pct": 34.09458526332065,
+    "buy_hold_sharpe": 0.8523706809338073,
+    "train_days": 700,
+    "test_days": 300,
+    "train_results": [
+      {
+        "name": "Donchian(50) long-only",
+        "n_trades": 3,
+        "total_pnl_bps": 9866.91211710313,
+        "avg_pnl_bps": 3288.9707057010432,
+        "win_rate": 100.0,
+        "sharpe": 2.257657030787214,
+        "max_dd_bps": 0,
+        "avg_hold_days": 141.33333333333334,
+        "trades": [
+          {
+            "entry_idx": 54,
+            "exit_idx": 206,
+            "pnl_bps": 5068.202630025139,
+            "days_held": 152,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 354,
+            "exit_idx": 506,
+            "pnl_bps": 3586.716421689081,
+            "days_held": 152,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 571,
+            "exit_idx": 691,
+            "pnl_bps": 1211.9930653889085,
+            "days_held": 120,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "SMA(10/20) long-only",
+        "n_trades": 17,
+        "total_pnl_bps": 12655.834724348299,
+        "avg_pnl_bps": 744.4608661381352,
+        "win_rate": 41.17647058823529,
+        "sharpe": 1.3379374628240526,
+        "max_dd_bps": 1384.2023376870402,
+        "avg_hold_days": 24.529411764705884,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 73,
+            "pnl_bps": 2793.2771925706406,
+            "days_held": 53,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 75,
+            "exit_idx": 76,
+            "pnl_bps": -80.69725424980791,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 78,
+            "exit_idx": 102,
+            "pnl_bps": -536.0233366294798,
+            "days_held": 24,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 117,
+            "exit_idx": 166,
+            "pnl_bps": 4747.740740740741,
+            "days_held": 49,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 175,
+            "exit_idx": 186,
+            "pnl_bps": -198.70087279729603,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 251,
+            "pnl_bps": -16.714824073165023,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 283,
+            "exit_idx": 300,
+            "pnl_bps": -548.9602622893931,
+            "days_held": 17,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 318,
+            "exit_idx": 331,
+            "pnl_bps": -619.8263785271862,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 345,
+            "exit_idx": 364,
+            "pnl_bps": 395.479062154569,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 374,
+            "exit_idx": 444,
+            "pnl_bps": 4684.168189268238,
+            "days_held": 70,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 458,
+            "exit_idx": 466,
+            "pnl_bps": 498.268292197999,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 484,
+            "pnl_bps": -284.12630282746966,
+            "days_held": 17,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 533,
+            "exit_idx": 543,
+            "pnl_bps": -509.732584090912,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 557,
+            "exit_idx": 605,
+            "pnl_bps": 2304.830593242376,
+            "days_held": 48,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 615,
+            "exit_idx": 621,
+            "pnl_bps": -220.7927931072946,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 631,
+            "exit_idx": 662,
+            "pnl_bps": 784.280121142548,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 675,
+            "exit_idx": 684,
+            "pnl_bps": -536.6348583768088,
+            "days_held": 9,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(5/100) long-only",
+        "n_trades": 5,
+        "total_pnl_bps": 10193.15444505119,
+        "avg_pnl_bps": 2038.630889010238,
+        "win_rate": 80.0,
+        "sharpe": 1.274409711654585,
+        "max_dd_bps": 914.3909390939098,
+        "avg_hold_days": 87.8,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 217,
+            "pnl_bps": 4232.8771070484345,
+            "days_held": 117,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 253,
+            "pnl_bps": 24.985009024793904,
+            "days_held": 33,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 285,
+            "exit_idx": 300,
+            "pnl_bps": -914.3909390939098,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 348,
+            "exit_idx": 496,
+            "pnl_bps": 5417.98085633071,
+            "days_held": 148,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 565,
+            "exit_idx": 691,
+            "pnl_bps": 1431.7024117411615,
+            "days_held": 126,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/50) long-only",
+        "n_trades": 8,
+        "total_pnl_bps": 9264.713243890596,
+        "avg_pnl_bps": 1158.0891554863244,
+        "win_rate": 62.5,
+        "sharpe": 1.1394369731430611,
+        "max_dd_bps": 2664.872540938571,
+        "avg_hold_days": 51.125,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 104,
+            "pnl_bps": 1175.7618540009196,
+            "days_held": 54,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 192,
+            "pnl_bps": 3796.89350073056,
+            "days_held": 70,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 225,
+            "exit_idx": 256,
+            "pnl_bps": -940.4956091694747,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 288,
+            "exit_idx": 303,
+            "pnl_bps": -1724.3769317690962,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 347,
+            "exit_idx": 449,
+            "pnl_bps": 4721.066394653746,
+            "days_held": 102,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 469,
+            "exit_idx": 490,
+            "pnl_bps": -500.484018948883,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 560,
+            "exit_idx": 623,
+            "pnl_bps": 1833.1076351467786,
+            "days_held": 63,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 632,
+            "exit_idx": 685,
+            "pnl_bps": 903.2404192460456,
+            "days_held": 53,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(5/50) long-only",
+        "n_trades": 12,
+        "total_pnl_bps": 10273.218040758096,
+        "avg_pnl_bps": 856.1015033965081,
+        "win_rate": 50.0,
+        "sharpe": 1.0768269190952904,
+        "max_dd_bps": 2393.3612292567636,
+        "avg_hold_days": 34.666666666666664,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 100,
+            "pnl_bps": 1562.9276609912815,
+            "days_held": 50,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 117,
+            "exit_idx": 119,
+            "pnl_bps": -162.85185185185247,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 190,
+            "pnl_bps": 4280.013979832964,
+            "days_held": 68,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 223,
+            "exit_idx": 254,
+            "pnl_bps": -280.01267275596535,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 285,
+            "exit_idx": 301,
+            "pnl_bps": -1294.977497749775,
+            "days_held": 16,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 321,
+            "exit_idx": 325,
+            "pnl_bps": -818.3710587510236,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 345,
+            "exit_idx": 448,
+            "pnl_bps": 5521.701021603778,
+            "days_held": 103,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 455,
+            "exit_idx": 459,
+            "pnl_bps": -610.7794559390404,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 486,
+            "pnl_bps": -737.2589113418198,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 556,
+            "exit_idx": 557,
+            "pnl_bps": 89.19027142326367,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 558,
+            "exit_idx": 622,
+            "pnl_bps": 2068.829210264044,
+            "days_held": 64,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 628,
+            "exit_idx": 682,
+            "pnl_bps": 654.8073450322431,
+            "days_held": 54,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "TSMOM(90) long-only",
+        "n_trades": 12,
+        "total_pnl_bps": 9522.020495547931,
+        "avg_pnl_bps": 793.5017079623276,
+        "win_rate": 50.0,
+        "sharpe": 1.0584900097214107,
+        "max_dd_bps": 1091.1647288856502,
+        "avg_hold_days": 37.5,
+        "trades": [
+          {
+            "entry_idx": 90,
+            "exit_idx": 238,
+            "pnl_bps": 5392.376456503229,
+            "days_held": 148,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 239,
+            "exit_idx": 245,
+            "pnl_bps": 101.81968001697508,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 250,
+            "exit_idx": 251,
+            "pnl_bps": 7.899586321176955,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 253,
+            "exit_idx": 254,
+            "pnl_bps": -219.83811580388857,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 256,
+            "exit_idx": 258,
+            "pnl_bps": -113.72284472373065,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 281,
+            "exit_idx": 299,
+            "pnl_bps": -518.3936441642944,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 305,
+            "exit_idx": 307,
+            "pnl_bps": -143.6066730873568,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 349,
+            "exit_idx": 371,
+            "pnl_bps": -95.60345110638002,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 383,
+            "pnl_bps": 72.96351506620537,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 385,
+            "exit_idx": 500,
+            "pnl_bps": 4187.873369821689,
+            "days_held": 115,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 504,
+            "exit_idx": 505,
+            "pnl_bps": -508.80300858110445,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 576,
+            "exit_idx": 699,
+            "pnl_bps": 1359.0556252854108,
+            "days_held": 123,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "SMA(5/20) long-only",
+        "n_trades": 19,
+        "total_pnl_bps": 9404.343505501216,
+        "avg_pnl_bps": 494.96544765795875,
+        "win_rate": 36.84210526315789,
+        "sharpe": 1.0289319861581006,
+        "max_dd_bps": 2081.7058881594294,
+        "avg_hold_days": 21.473684210526315,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 83,
+            "pnl_bps": 2344.742818579267,
+            "days_held": 63,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 86,
+            "exit_idx": 99,
+            "pnl_bps": -561.9304686351086,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 114,
+            "exit_idx": 163,
+            "pnl_bps": 4403.803768417671,
+            "days_held": 49,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 172,
+            "exit_idx": 180,
+            "pnl_bps": -438.1908602074594,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 182,
+            "exit_idx": 188,
+            "pnl_bps": -803.7153164796215,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 239,
+            "pnl_bps": 373.2242302492949,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 240,
+            "exit_idx": 248,
+            "pnl_bps": -342.3588927588358,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 281,
+            "exit_idx": 299,
+            "pnl_bps": -518.3936441642944,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 318,
+            "exit_idx": 327,
+            "pnl_bps": -352.27140479851306,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 342,
+            "exit_idx": 361,
+            "pnl_bps": 106.62804329102903,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 441,
+            "pnl_bps": 4383.832153597263,
+            "days_held": 69,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 455,
+            "exit_idx": 461,
+            "pnl_bps": -402.62320791194986,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 465,
+            "exit_idx": 483,
+            "pnl_bps": -298.29191515995285,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 504,
+            "exit_idx": 505,
+            "pnl_bps": -508.80300858110445,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 532,
+            "exit_idx": 540,
+            "pnl_bps": -430.3609909098835,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 554,
+            "exit_idx": 601,
+            "pnl_bps": 2344.336970653581,
+            "days_held": 47,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 611,
+            "exit_idx": 617,
+            "pnl_bps": -335.56374966118614,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 628,
+            "exit_idx": 660,
+            "pnl_bps": 998.5348404387244,
+            "days_held": 32,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 672,
+            "exit_idx": 681,
+            "pnl_bps": -558.2558604577039,
+            "days_held": 9,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/100) long-only",
+        "n_trades": 5,
+        "total_pnl_bps": 9757.945932897792,
+        "avg_pnl_bps": 1951.5891865795584,
+        "win_rate": 60.0,
+        "sharpe": 0.9971470336486962,
+        "max_dd_bps": 2362.3855427905255,
+        "avg_hold_days": 87.8,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 220,
+            "pnl_bps": 5327.623148526995,
+            "days_held": 120,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 256,
+            "pnl_bps": -341.37890904750566,
+            "days_held": 34,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 288,
+            "exit_idx": 302,
+            "pnl_bps": -2021.00663374302,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 350,
+            "exit_idx": 495,
+            "pnl_bps": 5315.385591037005,
+            "days_held": 145,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 568,
+            "exit_idx": 694,
+            "pnl_bps": 1477.3227361243178,
+            "days_held": 126,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "Donchian(10) long-only",
+        "n_trades": 13,
+        "total_pnl_bps": 9431.91080152466,
+        "avg_pnl_bps": 725.5316001172815,
+        "win_rate": 53.84615384615385,
+        "sharpe": 0.9876105818826101,
+        "max_dd_bps": 2115.6213938234887,
+        "avg_hold_days": 33.84615384615385,
+        "trades": [
+          {
+            "entry_idx": 15,
+            "exit_idx": 102,
+            "pnl_bps": 2476.9798902267594,
+            "days_held": 87,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 163,
+            "pnl_bps": 4283.357527359727,
+            "days_held": 50,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 188,
+            "pnl_bps": -1094.4889695615748,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 250,
+            "pnl_bps": -44.54592826988207,
+            "days_held": 30,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 280,
+            "exit_idx": 299,
+            "pnl_bps": 95.20461805348215,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 329,
+            "pnl_bps": -1071.7911140455144,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 341,
+            "exit_idx": 359,
+            "pnl_bps": 30.87440907137406,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 483,
+            "pnl_bps": 4764.305548136544,
+            "days_held": 111,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 528,
+            "exit_idx": 546,
+            "pnl_bps": -989.065450843183,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 561,
+            "exit_idx": 600,
+            "pnl_bps": 1861.8509435335595,
+            "days_held": 39,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 610,
+            "exit_idx": 622,
+            "pnl_bps": -758.5077970837375,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 630,
+            "exit_idx": 663,
+            "pnl_bps": 435.9929854048098,
+            "days_held": 33,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 672,
+            "exit_idx": 681,
+            "pnl_bps": -558.2558604577039,
+            "days_held": 9,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "TSMOM(10) long-only",
+        "n_trades": 55,
+        "total_pnl_bps": 8468.53644925287,
+        "avg_pnl_bps": 153.9733899864158,
+        "win_rate": 30.909090909090907,
+        "sharpe": 0.9799040423936536,
+        "max_dd_bps": 3299.49016089819,
+        "avg_hold_days": 7.4363636363636365,
+        "trades": [
+          {
+            "entry_idx": 10,
+            "exit_idx": 44,
+            "pnl_bps": 2600.639124293786,
+            "days_held": 34,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 45,
+            "exit_idx": 48,
+            "pnl_bps": 79.53128099242089,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 49,
+            "exit_idx": 68,
+            "pnl_bps": 1179.7805990958532,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 74,
+            "exit_idx": 77,
+            "pnl_bps": -218.418669548446,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 78,
+            "exit_idx": 81,
+            "pnl_bps": -252.32214517443273,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 85,
+            "exit_idx": 87,
+            "pnl_bps": -322.0220894056186,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 88,
+            "exit_idx": 96,
+            "pnl_bps": -329.9288579446481,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 97,
+            "exit_idx": 98,
+            "pnl_bps": -280.3716066961366,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 112,
+            "exit_idx": 139,
+            "pnl_bps": 2249.0743464476045,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 141,
+            "exit_idx": 160,
+            "pnl_bps": 1966.9422523155404,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 161,
+            "exit_idx": 162,
+            "pnl_bps": -134.5562413259262,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 169,
+            "exit_idx": 178,
+            "pnl_bps": -580.4936232836825,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 184,
+            "pnl_bps": -365.4342362468584,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 186,
+            "exit_idx": 188,
+            "pnl_bps": -888.739825012716,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 198,
+            "exit_idx": 199,
+            "pnl_bps": -339.87382178456403,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 200,
+            "exit_idx": 201,
+            "pnl_bps": -132.922286061935,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 202,
+            "exit_idx": 203,
+            "pnl_bps": -74.10483568271908,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 204,
+            "exit_idx": 205,
+            "pnl_bps": -520.1096044843891,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 215,
+            "exit_idx": 219,
+            "pnl_bps": 107.87831050630108,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 235,
+            "pnl_bps": 304.0875140658392,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 239,
+            "exit_idx": 247,
+            "pnl_bps": -237.36116459985976,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 248,
+            "exit_idx": 249,
+            "pnl_bps": -238.41383722223244,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 280,
+            "exit_idx": 296,
+            "pnl_bps": 866.5584359725517,
+            "days_held": 16,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 311,
+            "exit_idx": 315,
+            "pnl_bps": -63.63074457695796,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 318,
+            "exit_idx": 324,
+            "pnl_bps": -304.6865632056232,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 325,
+            "exit_idx": 326,
+            "pnl_bps": 34.90142271774841,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 327,
+            "exit_idx": 328,
+            "pnl_bps": -45.37041224721133,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 339,
+            "exit_idx": 340,
+            "pnl_bps": 118.53291011196757,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 341,
+            "exit_idx": 359,
+            "pnl_bps": 30.87440907137406,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 369,
+            "exit_idx": 383,
+            "pnl_bps": 644.9072593540137,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 385,
+            "exit_idx": 420,
+            "pnl_bps": 4267.378880563114,
+            "days_held": 35,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 423,
+            "exit_idx": 428,
+            "pnl_bps": -152.9633466048175,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 429,
+            "exit_idx": 437,
+            "pnl_bps": 353.8376486908984,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 438,
+            "exit_idx": 440,
+            "pnl_bps": -37.429382119322916,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 452,
+            "exit_idx": 453,
+            "pnl_bps": 102.63675572221165,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 455,
+            "exit_idx": 459,
+            "pnl_bps": -610.7794559390404,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 460,
+            "exit_idx": 462,
+            "pnl_bps": -39.1129985175157,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 465,
+            "exit_idx": 466,
+            "pnl_bps": -70.75258203325788,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 477,
+            "pnl_bps": -211.65048961600476,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 479,
+            "exit_idx": 481,
+            "pnl_bps": -145.6762056212654,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 493,
+            "exit_idx": 494,
+            "pnl_bps": -148.93124848587453,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 496,
+            "exit_idx": 497,
+            "pnl_bps": -168.76960727340938,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 500,
+            "exit_idx": 503,
+            "pnl_bps": -29.66015920016868,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 517,
+            "exit_idx": 518,
+            "pnl_bps": -656.5024422293732,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 528,
+            "exit_idx": 538,
+            "pnl_bps": -503.31562765052786,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 541,
+            "exit_idx": 542,
+            "pnl_bps": -330.25146803002536,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 549,
+            "exit_idx": 550,
+            "pnl_bps": -384.08787630172725,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 552,
+            "exit_idx": 600,
+            "pnl_bps": 2173.862581777715,
+            "days_held": 48,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 609,
+            "exit_idx": 613,
+            "pnl_bps": -25.889307129211424,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 614,
+            "exit_idx": 618,
+            "pnl_bps": -162.8743961694251,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 625,
+            "exit_idx": 652,
+            "pnl_bps": 1044.9547995437536,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 653,
+            "exit_idx": 654,
+            "pnl_bps": -119.90711471907355,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 658,
+            "exit_idx": 662,
+            "pnl_bps": -325.7784350530564,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 672,
+            "exit_idx": 679,
+            "pnl_bps": -178.34826912097262,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 697,
+            "exit_idx": 698,
+            "pnl_bps": -26.40110567179596,
+            "days_held": 1,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      }
+    ],
+    "test_results": [
+      {
+        "name": "SMA(10/50) long+short",
+        "n_trades": 7,
+        "total_pnl_bps": 3918.509445074685,
+        "avg_pnl_bps": 559.7870635820979,
+        "win_rate": 57.14285714285714,
+        "sharpe": 1.1568622733374547,
+        "max_dd_bps": 1650.0223003035335,
+        "avg_hold_days": 35.57142857142857,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 120,
+            "pnl_bps": 1754.4594687560377,
+            "days_held": 70,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 120,
+            "exit_idx": 142,
+            "pnl_bps": -511.1276627639278,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 142,
+            "exit_idx": 192,
+            "pnl_bps": 1997.1943977591045,
+            "days_held": 50,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 192,
+            "exit_idx": 203,
+            "pnl_bps": -754.8581418831008,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 203,
+            "exit_idx": 214,
+            "pnl_bps": -895.1641584204325,
+            "days_held": 11,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 214,
+            "exit_idx": 261,
+            "pnl_bps": 556.9824665609005,
+            "days_held": 47,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 261,
+            "exit_idx": 299,
+            "pnl_bps": 1771.0230750661035,
+            "days_held": 38,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/50) long+short",
+        "n_trades": 7,
+        "total_pnl_bps": 3987.6894458400693,
+        "avg_pnl_bps": 569.6699208342956,
+        "win_rate": 57.14285714285714,
+        "sharpe": 1.144320957639587,
+        "max_dd_bps": 2011.8082980846214,
+        "avg_hold_days": 35.57142857142857,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 119,
+            "pnl_bps": 1958.6508617082202,
+            "days_held": 69,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 119,
+            "exit_idx": 138,
+            "pnl_bps": -230.80254470323482,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 138,
+            "exit_idx": 190,
+            "pnl_bps": 1622.3601895798067,
+            "days_held": 52,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 190,
+            "exit_idx": 202,
+            "pnl_bps": -1156.0990173289138,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 202,
+            "exit_idx": 212,
+            "pnl_bps": -855.7092807557076,
+            "days_held": 10,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 212,
+            "exit_idx": 260,
+            "pnl_bps": 730.4829388486929,
+            "days_held": 48,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 260,
+            "exit_idx": 299,
+            "pnl_bps": 1918.8062984912058,
+            "days_held": 39,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 1704.7118034209548,
+        "avg_pnl_bps": 568.237267806985,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.9664758993037363,
+        "max_dd_bps": 754.7804650197226,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 222,
+            "pnl_bps": 1208.203955639332,
+            "days_held": 122,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 267,
+            "pnl_bps": -754.7804650197226,
+            "days_held": 45,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 267,
+            "exit_idx": 299,
+            "pnl_bps": 1251.2883128013452,
+            "days_held": 32,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(20/50) long+short",
+        "n_trades": 7,
+        "total_pnl_bps": 2399.806039028199,
+        "avg_pnl_bps": 342.82943414688555,
+        "win_rate": 57.14285714285714,
+        "sharpe": 0.7466581530670798,
+        "max_dd_bps": 1376.9024541056485,
+        "avg_hold_days": 35.57142857142857,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 123,
+            "pnl_bps": 1996.3117897879756,
+            "days_held": 73,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 123,
+            "exit_idx": 148,
+            "pnl_bps": -1376.9024541056485,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 148,
+            "exit_idx": 194,
+            "pnl_bps": 1024.961296624363,
+            "days_held": 46,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 194,
+            "exit_idx": 211,
+            "pnl_bps": -255.00962193980865,
+            "days_held": 17,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 211,
+            "exit_idx": 216,
+            "pnl_bps": -628.4643866426272,
+            "days_held": 5,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 216,
+            "exit_idx": 265,
+            "pnl_bps": 95.16752561088556,
+            "days_held": 49,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 265,
+            "exit_idx": 299,
+            "pnl_bps": 1543.7418896930592,
+            "days_held": 34,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/20) long+short",
+        "n_trades": 15,
+        "total_pnl_bps": 1146.1720753215263,
+        "avg_pnl_bps": 76.41147168810176,
+        "win_rate": 40.0,
+        "sharpe": 0.29833479170768645,
+        "max_dd_bps": 1778.0756962047058,
+        "avg_hold_days": 18.6,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 25,
+            "pnl_bps": -1013.6074741975366,
+            "days_held": 5,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 25,
+            "exit_idx": 36,
+            "pnl_bps": -464.9829025046601,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 36,
+            "exit_idx": 50,
+            "pnl_bps": 71.89778233159142,
+            "days_held": 14,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 50,
+            "exit_idx": 55,
+            "pnl_bps": -371.3831018341004,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 55,
+            "exit_idx": 87,
+            "pnl_bps": 1493.9362078001354,
+            "days_held": 32,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 87,
+            "exit_idx": 99,
+            "pnl_bps": -768.9964406488493,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 99,
+            "exit_idx": 116,
+            "pnl_bps": -298.47993476496134,
+            "days_held": 17,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 116,
+            "exit_idx": 136,
+            "pnl_bps": 49.30399067797248,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 136,
+            "exit_idx": 178,
+            "pnl_bps": 1856.6989738832135,
+            "days_held": 42,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 178,
+            "exit_idx": 196,
+            "pnl_bps": -681.6187839365922,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 196,
+            "exit_idx": 212,
+            "pnl_bps": -619.068657068333,
+            "days_held": 16,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 212,
+            "exit_idx": 252,
+            "pnl_bps": 749.3444572634917,
+            "days_held": 40,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 252,
+            "exit_idx": 285,
+            "pnl_bps": 1776.305001170316,
+            "days_held": 33,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 285,
+            "exit_idx": 290,
+            "pnl_bps": -408.06551249364503,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 290,
+            "exit_idx": 299,
+            "pnl_bps": -225.11153035651614,
+            "days_held": 9,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(10/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 48.3358809867309,
+        "avg_pnl_bps": 16.1119603289103,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.02134940357689033,
+        "max_dd_bps": 1562.467086061795,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 225,
+            "pnl_bps": 1348.3111811491058,
+            "days_held": 125,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 225,
+            "exit_idx": 269,
+            "pnl_bps": -1562.467086061795,
+            "days_held": 44,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 269,
+            "exit_idx": 299,
+            "pnl_bps": 262.49178589942017,
+            "days_held": 30,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -754.7804650197226,
+        "avg_pnl_bps": -754.7804650197226,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 754.7804650197226,
+        "avg_hold_days": 45.0,
+        "trades": [
+          {
+            "entry_idx": 222,
+            "exit_idx": 267,
+            "pnl_bps": -754.7804650197226,
+            "days_held": 45,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(5/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -1562.467086061795,
+        "avg_pnl_bps": -1562.467086061795,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 1562.467086061795,
+        "avg_hold_days": 44.0,
+        "trades": [
+          {
+            "entry_idx": 225,
+            "exit_idx": 269,
+            "pnl_bps": -1562.467086061795,
+            "days_held": 44,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      }
+    ],
+    "best_oos": {
+      "name": "SMA(10/50) long+short",
+      "n_trades": 7,
+      "total_pnl_bps": 3918.509445074685,
+      "avg_pnl_bps": 559.7870635820979,
+      "win_rate": 57.14285714285714,
+      "sharpe": 1.1568622733374547,
+      "max_dd_bps": 1650.0223003035335,
+      "avg_hold_days": 35.57142857142857,
+      "trades": [
+        {
+          "entry_idx": 50,
+          "exit_idx": 120,
+          "pnl_bps": 1754.4594687560377,
+          "days_held": 70,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 120,
+          "exit_idx": 142,
+          "pnl_bps": -511.1276627639278,
+          "days_held": 22,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 142,
+          "exit_idx": 192,
+          "pnl_bps": 1997.1943977591045,
+          "days_held": 50,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 192,
+          "exit_idx": 203,
+          "pnl_bps": -754.8581418831008,
+          "days_held": 11,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 203,
+          "exit_idx": 214,
+          "pnl_bps": -895.1641584204325,
+          "days_held": 11,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 214,
+          "exit_idx": 261,
+          "pnl_bps": 556.9824665609005,
+          "days_held": 47,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 261,
+          "exit_idx": 299,
+          "pnl_bps": 1771.0230750661035,
+          "days_held": 38,
+          "direction": "short"
+        }
+      ],
+      "type": "MA_cross_ls"
+    }
+  },
+  "ETHUSDT": {
+    "n_candles": 1000,
+    "buy_hold_return_pct": 6.803483501139129,
+    "buy_hold_annual_pct": 2.4332197281895063,
+    "buy_hold_sharpe": 0.3712960278202071,
+    "train_days": 700,
+    "test_days": 300,
+    "train_results": [
+      {
+        "name": "TSMOM(10) long-only",
+        "n_trades": 47,
+        "total_pnl_bps": 16355.96685672874,
+        "avg_pnl_bps": 347.99929482401575,
+        "win_rate": 42.5531914893617,
+        "sharpe": 1.461428082438677,
+        "max_dd_bps": 2615.8239676288404,
+        "avg_hold_days": 7.808510638297872,
+        "trades": [
+          {
+            "entry_idx": 12,
+            "exit_idx": 42,
+            "pnl_bps": 2521.196715485475,
+            "days_held": 30,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 45,
+            "exit_idx": 68,
+            "pnl_bps": 742.3557466278273,
+            "days_held": 23,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 74,
+            "exit_idx": 77,
+            "pnl_bps": 89.12614249802445,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 78,
+            "exit_idx": 87,
+            "pnl_bps": -291.33642987650563,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 89,
+            "exit_idx": 90,
+            "pnl_bps": -143.41434603619564,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 92,
+            "exit_idx": 104,
+            "pnl_bps": 587.4818489212344,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 117,
+            "exit_idx": 160,
+            "pnl_bps": 5237.680614622402,
+            "days_held": 43,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 170,
+            "exit_idx": 171,
+            "pnl_bps": -260.12287690287724,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 172,
+            "exit_idx": 174,
+            "pnl_bps": -174.05182994475456,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 175,
+            "exit_idx": 177,
+            "pnl_bps": -1024.9406220081255,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 185,
+            "pnl_bps": -423.20899905538135,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 198,
+            "exit_idx": 199,
+            "pnl_bps": -264.3266883266133,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 200,
+            "exit_idx": 205,
+            "pnl_bps": -469.17295139108944,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 236,
+            "pnl_bps": 2147.7808286519116,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 237,
+            "exit_idx": 238,
+            "pnl_bps": -111.48754396171807,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 239,
+            "exit_idx": 242,
+            "pnl_bps": 103.1729783969464,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 257,
+            "exit_idx": 258,
+            "pnl_bps": -84.65823504334233,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 280,
+            "exit_idx": 291,
+            "pnl_bps": -234.47853365710523,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 312,
+            "exit_idx": 315,
+            "pnl_bps": 144.44283607469666,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 316,
+            "exit_idx": 317,
+            "pnl_bps": -261.0141255367247,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 318,
+            "exit_idx": 319,
+            "pnl_bps": -49.763828016010606,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 324,
+            "pnl_bps": -1124.623381888738,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 341,
+            "exit_idx": 342,
+            "pnl_bps": -107.73404285849028,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 344,
+            "exit_idx": 359,
+            "pnl_bps": 642.5923473654871,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 370,
+            "exit_idx": 382,
+            "pnl_bps": 219.94508157002127,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 395,
+            "exit_idx": 408,
+            "pnl_bps": 1396.5628777274453,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 411,
+            "exit_idx": 429,
+            "pnl_bps": 882.9142551490778,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 430,
+            "exit_idx": 435,
+            "pnl_bps": 383.02102661666373,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 451,
+            "exit_idx": 457,
+            "pnl_bps": 42.28462257244667,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 468,
+            "pnl_bps": -497.65593917602064,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 470,
+            "exit_idx": 472,
+            "pnl_bps": -146.0657734470161,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 473,
+            "exit_idx": 475,
+            "pnl_bps": -78.23480248396612,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 498,
+            "exit_idx": 505,
+            "pnl_bps": -860.1085986042535,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 528,
+            "exit_idx": 537,
+            "pnl_bps": -794.1019230956288,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 557,
+            "exit_idx": 559,
+            "pnl_bps": 167.2292595445883,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 560,
+            "exit_idx": 576,
+            "pnl_bps": 1426.678762221551,
+            "days_held": 16,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 577,
+            "exit_idx": 590,
+            "pnl_bps": 3917.253949235553,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 591,
+            "exit_idx": 593,
+            "pnl_bps": -116.00194434317572,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 595,
+            "exit_idx": 601,
+            "pnl_bps": -110.78009736518159,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 603,
+            "exit_idx": 606,
+            "pnl_bps": -761.7322170276237,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 610,
+            "exit_idx": 614,
+            "pnl_bps": -396.62352199333634,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 616,
+            "exit_idx": 618,
+            "pnl_bps": -167.8248240507782,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 619,
+            "exit_idx": 620,
+            "pnl_bps": -35.3663366336638,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 631,
+            "exit_idx": 662,
+            "pnl_bps": 4860.042808804774,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 669,
+            "exit_idx": 681,
+            "pnl_bps": 402.6774859282262,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 682,
+            "exit_idx": 687,
+            "pnl_bps": 72.29364230102311,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 688,
+            "exit_idx": 694,
+            "pnl_bps": -641.9365608623169,
+            "days_held": 6,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "SMA(20/50) long-only",
+        "n_trades": 7,
+        "total_pnl_bps": 10781.582380739781,
+        "avg_pnl_bps": 1540.2260543913974,
+        "win_rate": 71.42857142857143,
+        "sharpe": 1.4137670489410332,
+        "max_dd_bps": 2630.5311842517967,
+        "avg_hold_days": 50.857142857142854,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 120,
+            "pnl_bps": 1333.0456226880392,
+            "days_held": 70,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 129,
+            "exit_idx": 181,
+            "pnl_bps": 2058.6288070174182,
+            "days_held": 52,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 230,
+            "exit_idx": 264,
+            "pnl_bps": -1004.4876055541629,
+            "days_held": 34,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 298,
+            "exit_idx": 301,
+            "pnl_bps": -1626.0435786976338,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 360,
+            "exit_idx": 452,
+            "pnl_bps": 4597.275072966458,
+            "days_held": 92,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 578,
+            "exit_idx": 627,
+            "pnl_bps": 924.8715451279573,
+            "days_held": 49,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 643,
+            "exit_idx": 699,
+            "pnl_bps": 4498.292517191705,
+            "days_held": 56,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/50) long-only",
+        "n_trades": 9,
+        "total_pnl_bps": 11110.579757386447,
+        "avg_pnl_bps": 1234.5088619318276,
+        "win_rate": 55.55555555555556,
+        "sharpe": 1.398795237794007,
+        "max_dd_bps": 3131.758023382226,
+        "avg_hold_days": 39.0,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 112,
+            "pnl_bps": 1111.4426633785454,
+            "days_held": 62,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 125,
+            "exit_idx": 181,
+            "pnl_bps": 3385.0731129811556,
+            "days_held": 56,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 227,
+            "exit_idx": 262,
+            "pnl_bps": -999.9798273283517,
+            "days_held": 35,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 289,
+            "exit_idx": 295,
+            "pnl_bps": -493.3654749017242,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 354,
+            "exit_idx": 365,
+            "pnl_bps": -816.0839734676672,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 373,
+            "exit_idx": 393,
+            "pnl_bps": -822.3287476844831,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 395,
+            "exit_idx": 445,
+            "pnl_bps": 2232.789442552364,
+            "days_held": 50,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 571,
+            "exit_idx": 623,
+            "pnl_bps": 2099.514066078744,
+            "days_held": 52,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 640,
+            "exit_idx": 699,
+            "pnl_bps": 5413.518495777865,
+            "days_held": 59,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "TSMOM(30) long-only",
+        "n_trades": 21,
+        "total_pnl_bps": 14553.956713820102,
+        "avg_pnl_bps": 693.0455578009572,
+        "win_rate": 38.095238095238095,
+        "sharpe": 1.3513315829706376,
+        "max_dd_bps": 2884.851312222387,
+        "avg_hold_days": 16.714285714285715,
+        "trades": [
+          {
+            "entry_idx": 30,
+            "exit_idx": 87,
+            "pnl_bps": 1700.9736536411222,
+            "days_held": 57,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 89,
+            "exit_idx": 90,
+            "pnl_bps": -143.41434603619564,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 94,
+            "exit_idx": 107,
+            "pnl_bps": -1342.4835357029547,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 115,
+            "pnl_bps": -168.68829823955832,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 117,
+            "exit_idx": 124,
+            "pnl_bps": 748.7110772348921,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 127,
+            "exit_idx": 177,
+            "pnl_bps": 2306.9636352016373,
+            "days_held": 50,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 255,
+            "pnl_bps": 1495.195617090501,
+            "days_held": 33,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 286,
+            "exit_idx": 288,
+            "pnl_bps": -241.46410803127247,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 289,
+            "exit_idx": 290,
+            "pnl_bps": -441.24789304266255,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 332,
+            "exit_idx": 333,
+            "pnl_bps": -354.1888677158868,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 354,
+            "exit_idx": 360,
+            "pnl_bps": -1038.7443489624898,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 363,
+            "exit_idx": 368,
+            "pnl_bps": -136.66238725120752,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 369,
+            "exit_idx": 381,
+            "pnl_bps": 328.8829678212754,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 388,
+            "exit_idx": 393,
+            "pnl_bps": -1001.4266750401439,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 395,
+            "exit_idx": 440,
+            "pnl_bps": 2247.0076087395805,
+            "days_held": 45,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 442,
+            "exit_idx": 446,
+            "pnl_bps": -280.0999845143796,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 471,
+            "exit_idx": 472,
+            "pnl_bps": -275.2636482206076,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 572,
+            "exit_idx": 574,
+            "pnl_bps": -200.97926392357044,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 575,
+            "exit_idx": 613,
+            "pnl_bps": 4498.53927337256,
+            "days_held": 38,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 616,
+            "exit_idx": 619,
+            "pnl_bps": -108.74984789665658,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 636,
+            "exit_idx": 699,
+            "pnl_bps": 6961.096085296119,
+            "days_held": 63,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "Donchian(20) long-only",
+        "n_trades": 6,
+        "total_pnl_bps": 13180.770257707738,
+        "avg_pnl_bps": 2196.79504295129,
+        "win_rate": 66.66666666666666,
+        "sharpe": 1.3306852684255888,
+        "max_dd_bps": 2350.188058984243,
+        "avg_hold_days": 59.0,
+        "trades": [
+          {
+            "entry_idx": 28,
+            "exit_idx": 163,
+            "pnl_bps": 6677.273895047338,
+            "days_held": 135,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 188,
+            "pnl_bps": -1881.0895331306954,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 225,
+            "exit_idx": 247,
+            "pnl_bps": -469.09852585354736,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 349,
+            "exit_idx": 438,
+            "pnl_bps": 3059.9647833409895,
+            "days_held": 89,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 578,
+            "exit_idx": 622,
+            "pnl_bps": 380.20114252578907,
+            "days_held": 44,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 640,
+            "exit_idx": 699,
+            "pnl_bps": 5413.518495777865,
+            "days_held": 59,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "Donchian(10) long-only",
+        "n_trades": 14,
+        "total_pnl_bps": 11128.973613036409,
+        "avg_pnl_bps": 794.9266866454578,
+        "win_rate": 50.0,
+        "sharpe": 1.177419199363598,
+        "max_dd_bps": 2638.083786124662,
+        "avg_hold_days": 25.857142857142858,
+        "trades": [
+          {
+            "entry_idx": 14,
+            "exit_idx": 106,
+            "pnl_bps": 3889.9597283164017,
+            "days_held": 92,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 163,
+            "pnl_bps": 3004.782483196569,
+            "days_held": 41,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 188,
+            "pnl_bps": -1881.0895331306954,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 223,
+            "exit_idx": 243,
+            "pnl_bps": 1758.3883135763099,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 281,
+            "exit_idx": 291,
+            "pnl_bps": -903.9377732611046,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 347,
+            "exit_idx": 359,
+            "pnl_bps": -90.66335119523316,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 383,
+            "pnl_bps": -739.3350039356758,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 396,
+            "exit_idx": 438,
+            "pnl_bps": 1781.2274345788437,
+            "days_held": 42,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 453,
+            "exit_idx": 463,
+            "pnl_bps": -1326.4524620325242,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 533,
+            "exit_idx": 538,
+            "pnl_bps": -1236.2214107245816,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 562,
+            "exit_idx": 606,
+            "pnl_bps": 3725.1744047009,
+            "days_held": 44,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 610,
+            "exit_idx": 621,
+            "pnl_bps": -1040.9952502304004,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 633,
+            "exit_idx": 663,
+            "pnl_bps": 3550.597686750363,
+            "days_held": 30,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 670,
+            "exit_idx": 699,
+            "pnl_bps": 637.5383464272361,
+            "days_held": 29,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "Donchian(50) long-only",
+        "n_trades": 3,
+        "total_pnl_bps": 12166.721313406564,
+        "avg_pnl_bps": 4055.5737711355214,
+        "win_rate": 100.0,
+        "sharpe": 1.0966473405339732,
+        "max_dd_bps": 0,
+        "avg_hold_days": 157.33333333333334,
+        "trades": [
+          {
+            "entry_idx": 55,
+            "exit_idx": 301,
+            "pnl_bps": 2401.4455315649934,
+            "days_held": 246,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 378,
+            "exit_idx": 483,
+            "pnl_bps": 426.9385600547524,
+            "days_held": 105,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 578,
+            "exit_idx": 699,
+            "pnl_bps": 9338.337221786818,
+            "days_held": 121,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "TSMOM(60) long-only",
+        "n_trades": 15,
+        "total_pnl_bps": 14159.473901946649,
+        "avg_pnl_bps": 943.9649267964433,
+        "win_rate": 46.666666666666664,
+        "sharpe": 1.083608754723791,
+        "max_dd_bps": 2172.043814200161,
+        "avg_hold_days": 27.133333333333333,
+        "trades": [
+          {
+            "entry_idx": 60,
+            "exit_idx": 120,
+            "pnl_bps": -248.80381028386142,
+            "days_held": 60,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 121,
+            "exit_idx": 201,
+            "pnl_bps": 3177.5352350124767,
+            "days_held": 80,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 202,
+            "exit_idx": 203,
+            "pnl_bps": 4.235461794591018,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 225,
+            "exit_idx": 243,
+            "pnl_bps": 25.169289252767676,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 244,
+            "exit_idx": 270,
+            "pnl_bps": -1709.1434904130583,
+            "days_held": 26,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 272,
+            "exit_idx": 273,
+            "pnl_bps": -462.9003237871024,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 275,
+            "exit_idx": 285,
+            "pnl_bps": 1404.6164381328163,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 364,
+            "exit_idx": 365,
+            "pnl_bps": -90.98273381884715,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 374,
+            "pnl_bps": -91.07031359918493,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 376,
+            "exit_idx": 380,
+            "pnl_bps": -93.27310506137049,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 384,
+            "exit_idx": 385,
+            "pnl_bps": 81.87270141912806,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 386,
+            "exit_idx": 390,
+            "pnl_bps": -238.0737532522171,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 391,
+            "exit_idx": 460,
+            "pnl_bps": 3078.391086627937,
+            "days_held": 69,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 461,
+            "exit_idx": 470,
+            "pnl_bps": -16.436001864244957,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 578,
+            "exit_idx": 699,
+            "pnl_bps": 9338.337221786818,
+            "days_held": 121,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "TSMOM(90) long-only",
+        "n_trades": 10,
+        "total_pnl_bps": 12603.908906226914,
+        "avg_pnl_bps": 1260.3908906226914,
+        "win_rate": 40.0,
+        "sharpe": 1.079806712896605,
+        "max_dd_bps": 2060.030647680569,
+        "avg_hold_days": 37.6,
+        "trades": [
+          {
+            "entry_idx": 90,
+            "exit_idx": 240,
+            "pnl_bps": 6984.034309481518,
+            "days_held": 150,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 252,
+            "exit_idx": 254,
+            "pnl_bps": -409.00124434045756,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 255,
+            "exit_idx": 259,
+            "pnl_bps": -412.07866288818275,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 267,
+            "exit_idx": 269,
+            "pnl_bps": -446.23903317645636,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 278,
+            "exit_idx": 293,
+            "pnl_bps": 347.3720755102305,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 294,
+            "exit_idx": 299,
+            "pnl_bps": -877.9090931330569,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 392,
+            "exit_idx": 393,
+            "pnl_bps": -262.17468965264686,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 394,
+            "exit_idx": 486,
+            "pnl_bps": 1489.5663660192763,
+            "days_held": 92,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 592,
+            "exit_idx": 593,
+            "pnl_bps": -539.0594486682033,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 595,
+            "exit_idx": 699,
+            "pnl_bps": 6729.398327074892,
+            "days_held": 104,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "SMA(5/50) long-only",
+        "n_trades": 12,
+        "total_pnl_bps": 10024.25309547758,
+        "avg_pnl_bps": 835.3544246231316,
+        "win_rate": 41.66666666666667,
+        "sharpe": 1.001015736506799,
+        "max_dd_bps": 4788.533341951728,
+        "avg_hold_days": 29.333333333333332,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 109,
+            "pnl_bps": 922.7373612823668,
+            "days_held": 59,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 123,
+            "exit_idx": 179,
+            "pnl_bps": 3732.1439937178397,
+            "days_held": 56,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 185,
+            "exit_idx": 187,
+            "pnl_bps": -889.264787175235,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 225,
+            "exit_idx": 260,
+            "pnl_bps": -863.9884427791952,
+            "days_held": 35,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 285,
+            "exit_idx": 291,
+            "pnl_bps": -956.3413471555835,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 350,
+            "exit_idx": 361,
+            "pnl_bps": -915.7768306857799,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 385,
+            "pnl_bps": -483.8773438183269,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 386,
+            "exit_idx": 393,
+            "pnl_bps": -679.2845903376073,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 396,
+            "exit_idx": 442,
+            "pnl_bps": 1800.2916970301899,
+            "days_held": 46,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 456,
+            "exit_idx": 458,
+            "pnl_bps": -996.7183283841134,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 569,
+            "exit_idx": 622,
+            "pnl_bps": 2749.5918923579247,
+            "days_held": 53,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 637,
+            "exit_idx": 699,
+            "pnl_bps": 6604.7398214251,
+            "days_held": 62,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      }
+    ],
+    "test_results": [
+      {
+        "name": "SMA(10/50) long+short",
+        "n_trades": 5,
+        "total_pnl_bps": 4883.152251907971,
+        "avg_pnl_bps": 976.6304503815942,
+        "win_rate": 60.0,
+        "sharpe": 1.3988718390463073,
+        "max_dd_bps": 1062.4205806595223,
+        "avg_hold_days": 49.8,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 119,
+            "pnl_bps": 2347.510891593752,
+            "days_held": 69,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 119,
+            "exit_idx": 140,
+            "pnl_bps": -1062.4205806595223,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 140,
+            "exit_idx": 192,
+            "pnl_bps": 2157.9338206319735,
+            "days_held": 52,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 192,
+            "exit_idx": 253,
+            "pnl_bps": -352.7145897911852,
+            "days_held": 61,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 253,
+            "exit_idx": 299,
+            "pnl_bps": 1792.8427101329523,
+            "days_held": 46,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(10/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 3421.3845597995305,
+        "avg_pnl_bps": 1140.4615199331768,
+        "win_rate": 66.66666666666666,
+        "sharpe": 1.3979086386695143,
+        "max_dd_bps": 663.2727867201002,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 224,
+            "pnl_bps": 2339.754245012322,
+            "days_held": 124,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 224,
+            "exit_idx": 258,
+            "pnl_bps": -663.2727867201003,
+            "days_held": 34,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 258,
+            "exit_idx": 299,
+            "pnl_bps": 1744.9031015073087,
+            "days_held": 41,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/50) long+short",
+        "n_trades": 7,
+        "total_pnl_bps": 3585.5676160536595,
+        "avg_pnl_bps": 512.2239451505228,
+        "win_rate": 57.14285714285714,
+        "sharpe": 0.85162832903359,
+        "max_dd_bps": 2389.9588642026174,
+        "avg_hold_days": 35.57142857142857,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 118,
+            "pnl_bps": 2390.203512008057,
+            "days_held": 68,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 118,
+            "exit_idx": 137,
+            "pnl_bps": -577.7673954545893,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 137,
+            "exit_idx": 190,
+            "pnl_bps": 2011.0970674198788,
+            "days_held": 53,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 190,
+            "exit_idx": 203,
+            "pnl_bps": -1585.3833240542792,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 203,
+            "exit_idx": 206,
+            "pnl_bps": -804.5755401483383,
+            "days_held": 3,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 206,
+            "exit_idx": 251,
+            "pnl_bps": 168.8476183801718,
+            "days_held": 45,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 251,
+            "exit_idx": 299,
+            "pnl_bps": 1983.1456779027587,
+            "days_held": 48,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(20/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 2170.5987235307357,
+        "avg_pnl_bps": 723.5329078435785,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.7760041995441935,
+        "max_dd_bps": 1317.8457790314421,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 229,
+            "pnl_bps": 2165.1601795901847,
+            "days_held": 129,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 229,
+            "exit_idx": 264,
+            "pnl_bps": -1317.8457790314421,
+            "days_held": 35,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 264,
+            "exit_idx": 299,
+            "pnl_bps": 1323.284322971993,
+            "days_held": 35,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/100) long+short",
+        "n_trades": 5,
+        "total_pnl_bps": 1388.048713259784,
+        "avg_pnl_bps": 277.6097426519568,
+        "win_rate": 40.0,
+        "sharpe": 0.4098527096876338,
+        "max_dd_bps": 1581.1678319662765,
+        "avg_hold_days": 39.8,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 132,
+            "pnl_bps": -1195.640549572966,
+            "days_held": 32,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 132,
+            "exit_idx": 134,
+            "pnl_bps": -385.52728239331043,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 134,
+            "exit_idx": 222,
+            "pnl_bps": 2395.8580364001195,
+            "days_held": 88,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 255,
+            "pnl_bps": -1217.0235634559733,
+            "days_held": 33,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 255,
+            "exit_idx": 299,
+            "pnl_bps": 1790.3820722819144,
+            "days_held": 44,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(20/50) long+short",
+        "n_trades": 5,
+        "total_pnl_bps": 1688.2795674841445,
+        "avg_pnl_bps": 337.65591349682893,
+        "win_rate": 60.0,
+        "sharpe": 0.3754211349781294,
+        "max_dd_bps": 2855.750713221742,
+        "avg_hold_days": 49.8,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 122,
+            "pnl_bps": 2289.2120432508523,
+            "days_held": 72,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 147,
+            "pnl_bps": -2855.750713221742,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 147,
+            "exit_idx": 194,
+            "pnl_bps": 525.9110631456084,
+            "days_held": 47,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 194,
+            "exit_idx": 256,
+            "pnl_bps": -78.05555814408393,
+            "days_held": 62,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 256,
+            "exit_idx": 299,
+            "pnl_bps": 1806.9627324535097,
+            "days_held": 43,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -663.2727867201003,
+        "avg_pnl_bps": -663.2727867201003,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 663.2727867201003,
+        "avg_hold_days": 34.0,
+        "trades": [
+          {
+            "entry_idx": 224,
+            "exit_idx": 258,
+            "pnl_bps": -663.2727867201003,
+            "days_held": 34,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(20/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -1317.8457790314421,
+        "avg_pnl_bps": -1317.8457790314421,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 1317.8457790314421,
+        "avg_hold_days": 35.0,
+        "trades": [
+          {
+            "entry_idx": 229,
+            "exit_idx": 264,
+            "pnl_bps": -1317.8457790314421,
+            "days_held": 35,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      }
+    ],
+    "best_oos": {
+      "name": "SMA(10/50) long+short",
+      "n_trades": 5,
+      "total_pnl_bps": 4883.152251907971,
+      "avg_pnl_bps": 976.6304503815942,
+      "win_rate": 60.0,
+      "sharpe": 1.3988718390463073,
+      "max_dd_bps": 1062.4205806595223,
+      "avg_hold_days": 49.8,
+      "trades": [
+        {
+          "entry_idx": 50,
+          "exit_idx": 119,
+          "pnl_bps": 2347.510891593752,
+          "days_held": 69,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 119,
+          "exit_idx": 140,
+          "pnl_bps": -1062.4205806595223,
+          "days_held": 21,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 140,
+          "exit_idx": 192,
+          "pnl_bps": 2157.9338206319735,
+          "days_held": 52,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 192,
+          "exit_idx": 253,
+          "pnl_bps": -352.7145897911852,
+          "days_held": 61,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 253,
+          "exit_idx": 299,
+          "pnl_bps": 1792.8427101329523,
+          "days_held": 46,
+          "direction": "short"
+        }
+      ],
+      "type": "MA_cross_ls"
+    }
+  },
+  "SOLUSDT": {
+    "n_candles": 1000,
+    "buy_hold_return_pct": 252.7131782945737,
+    "buy_hold_annual_pct": 58.46953039261664,
+    "buy_hold_sharpe": 0.9618429061121635,
+    "train_days": 700,
+    "test_days": 300,
+    "train_results": [
+      {
+        "name": "TSMOM(20) long-only",
+        "n_trades": 28,
+        "total_pnl_bps": 24471.202189880285,
+        "avg_pnl_bps": 873.9715067814387,
+        "win_rate": 46.42857142857143,
+        "sharpe": 1.4537206345657208,
+        "max_dd_bps": 1916.0837478634567,
+        "avg_hold_days": 14.142857142857142,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 58,
+            "pnl_bps": 9274.973126778377,
+            "days_held": 38,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 59,
+            "exit_idx": 96,
+            "pnl_bps": 4874.098625707357,
+            "days_held": 37,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 101,
+            "exit_idx": 102,
+            "pnl_bps": -774.1625857002928,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 111,
+            "exit_idx": 112,
+            "pnl_bps": 160.31395842172282,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 114,
+            "pnl_bps": -47.537372147915136,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 116,
+            "exit_idx": 120,
+            "pnl_bps": -239.813924956549,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 180,
+            "pnl_bps": 7220.458770021753,
+            "days_held": 58,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 183,
+            "exit_idx": 184,
+            "pnl_bps": -477.1618330750508,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 208,
+            "exit_idx": 209,
+            "pnl_bps": 144.24246642076787,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 210,
+            "exit_idx": 215,
+            "pnl_bps": -0.7863857819253965,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 243,
+            "pnl_bps": 231.07241988392565,
+            "days_held": 23,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 274,
+            "exit_idx": 300,
+            "pnl_bps": 173.83448966454532,
+            "days_held": 26,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 325,
+            "pnl_bps": -627.4644395145507,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 347,
+            "exit_idx": 361,
+            "pnl_bps": -444.802295472041,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 362,
+            "exit_idx": 367,
+            "pnl_bps": -292.96844456855604,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 370,
+            "exit_idx": 374,
+            "pnl_bps": 518.2513661202182,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 377,
+            "exit_idx": 427,
+            "pnl_bps": 4813.218599411729,
+            "days_held": 50,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 458,
+            "exit_idx": 459,
+            "pnl_bps": -654.4946323678348,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 460,
+            "exit_idx": 462,
+            "pnl_bps": 24.224211423699067,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 465,
+            "exit_idx": 486,
+            "pnl_bps": -493.1370834547755,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 539,
+            "exit_idx": 540,
+            "pnl_bps": -42.43230251562145,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 541,
+            "exit_idx": 542,
+            "pnl_bps": -750.2439409489224,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 557,
+            "exit_idx": 599,
+            "pnl_bps": 2344.4589483052728,
+            "days_held": 42,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 634,
+            "exit_idx": 636,
+            "pnl_bps": -335.6996587030718,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 637,
+            "exit_idx": 664,
+            "pnl_bps": 415.9278282628721,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 666,
+            "exit_idx": 667,
+            "pnl_bps": -342.0289000294903,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 674,
+            "exit_idx": 681,
+            "pnl_bps": -831.346334341433,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 682,
+            "exit_idx": 699,
+            "pnl_bps": 630.2075130360753,
+            "days_held": 17,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "SMA(10/50) long-only",
+        "n_trades": 8,
+        "total_pnl_bps": 12649.341292081272,
+        "avg_pnl_bps": 1581.167661510159,
+        "win_rate": 62.5,
+        "sharpe": 1.3309407882979039,
+        "max_dd_bps": 1790.0978570543793,
+        "avg_hold_days": 48.375,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 109,
+            "pnl_bps": 5764.598619687612,
+            "days_held": 59,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 118,
+            "exit_idx": 190,
+            "pnl_bps": 4119.444671294406,
+            "days_held": 72,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 224,
+            "exit_idx": 251,
+            "pnl_bps": -1456.4738421703053,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 284,
+            "exit_idx": 306,
+            "pnl_bps": -204.65016957668618,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 353,
+            "exit_idx": 438,
+            "pnl_bps": 3077.040140559536,
+            "days_held": 85,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 470,
+            "exit_idx": 489,
+            "pnl_bps": -1790.0978570543791,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 560,
+            "exit_idx": 607,
+            "pnl_bps": 703.1974466850427,
+            "days_held": 47,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 643,
+            "exit_idx": 699,
+            "pnl_bps": 2436.2822826560455,
+            "days_held": 56,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "TSMOM(10) long-only",
+        "n_trades": 44,
+        "total_pnl_bps": 26523.858027052993,
+        "avg_pnl_bps": 602.8149551602953,
+        "win_rate": 45.45454545454545,
+        "sharpe": 1.2574254172332813,
+        "max_dd_bps": 4246.576681704562,
+        "avg_hold_days": 9.022727272727273,
+        "trades": [
+          {
+            "entry_idx": 10,
+            "exit_idx": 43,
+            "pnl_bps": 14134.568744662678,
+            "days_held": 33,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 45,
+            "exit_idx": 48,
+            "pnl_bps": 198.90201528839435,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 53,
+            "exit_idx": 71,
+            "pnl_bps": 2529.747048903879,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 72,
+            "exit_idx": 86,
+            "pnl_bps": 4600.54794520548,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 94,
+            "exit_idx": 95,
+            "pnl_bps": -225.88235294117592,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 100,
+            "exit_idx": 102,
+            "pnl_bps": -348.8597479766411,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 112,
+            "exit_idx": 135,
+            "pnl_bps": 1264.6426338820586,
+            "days_held": 23,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 143,
+            "exit_idx": 171,
+            "pnl_bps": 5634.036797446022,
+            "days_held": 28,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 173,
+            "exit_idx": 179,
+            "pnl_bps": -437.1657726160091,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 197,
+            "exit_idx": 199,
+            "pnl_bps": -604.2625039821592,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 200,
+            "exit_idx": 203,
+            "pnl_bps": -492.93565313449284,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 210,
+            "exit_idx": 219,
+            "pnl_bps": -273.89418788169826,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 233,
+            "pnl_bps": 620.9285894524348,
+            "days_held": 13,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 240,
+            "exit_idx": 243,
+            "pnl_bps": -560.22587029922,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 263,
+            "exit_idx": 270,
+            "pnl_bps": -1479.488344131989,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 272,
+            "exit_idx": 273,
+            "pnl_bps": -817.6232086682995,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 275,
+            "exit_idx": 276,
+            "pnl_bps": 19.598359496535302,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 279,
+            "exit_idx": 297,
+            "pnl_bps": 2080.77519379845,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 310,
+            "exit_idx": 313,
+            "pnl_bps": -538.9226048414602,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 318,
+            "exit_idx": 319,
+            "pnl_bps": 10.114153652217023,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 326,
+            "pnl_bps": -885.1963982774365,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 338,
+            "exit_idx": 359,
+            "pnl_bps": 680.4350070043502,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 369,
+            "exit_idx": 390,
+            "pnl_bps": 1393.4542705971273,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 395,
+            "exit_idx": 417,
+            "pnl_bps": 2713.265448309127,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 418,
+            "exit_idx": 420,
+            "pnl_bps": -288.35984054576096,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 424,
+            "exit_idx": 426,
+            "pnl_bps": 77.52374491180389,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 431,
+            "exit_idx": 432,
+            "pnl_bps": -115.61156150863658,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 450,
+            "exit_idx": 459,
+            "pnl_bps": -250.31007342454248,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 478,
+            "pnl_bps": 323.9478839232842,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 511,
+            "exit_idx": 512,
+            "pnl_bps": -2065.212914778133,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 515,
+            "exit_idx": 516,
+            "pnl_bps": -293.532900704767,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 517,
+            "exit_idx": 518,
+            "pnl_bps": -786.3674184366096,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 528,
+            "exit_idx": 538,
+            "pnl_bps": -814.3545407522362,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 552,
+            "exit_idx": 572,
+            "pnl_bps": 1175.5535390199639,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 578,
+            "exit_idx": 589,
+            "pnl_bps": 125.93214155417763,
+            "days_held": 11,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 591,
+            "exit_idx": 593,
+            "pnl_bps": 7.660923183310654,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 595,
+            "exit_idx": 598,
+            "pnl_bps": -220.8649140776147,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 610,
+            "exit_idx": 613,
+            "pnl_bps": -568.5232067510551,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 616,
+            "exit_idx": 618,
+            "pnl_bps": -373.01039419494055,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 625,
+            "exit_idx": 626,
+            "pnl_bps": -181.04714912280664,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 629,
+            "exit_idx": 661,
+            "pnl_bps": 1774.7186836518053,
+            "days_held": 32,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 671,
+            "exit_idx": 681,
+            "pnl_bps": -227.27979994442845,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 682,
+            "exit_idx": 694,
+            "pnl_bps": 479.0954559965944,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 695,
+            "exit_idx": 699,
+            "pnl_bps": -472.6591938945866,
+            "days_held": 4,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "SMA(10/20) long-only",
+        "n_trades": 17,
+        "total_pnl_bps": 18585.93854954162,
+        "avg_pnl_bps": 1093.290502914213,
+        "win_rate": 58.82352941176471,
+        "sharpe": 1.1617823036288286,
+        "max_dd_bps": 5051.259921329656,
+        "avg_hold_days": 23.058823529411764,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 52,
+            "pnl_bps": 8731.185583306988,
+            "days_held": 32,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 54,
+            "exit_idx": 92,
+            "pnl_bps": 6361.589958158996,
+            "days_held": 38,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 116,
+            "exit_idx": 140,
+            "pnl_bps": 558.6729373274712,
+            "days_held": 24,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 146,
+            "exit_idx": 184,
+            "pnl_bps": 3241.0367635748325,
+            "days_held": 38,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 215,
+            "exit_idx": 238,
+            "pnl_bps": 1153.8921991644418,
+            "days_held": 23,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 268,
+            "exit_idx": 277,
+            "pnl_bps": -1208.0802441082913,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 281,
+            "exit_idx": 301,
+            "pnl_bps": -1340.7428786547862,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 323,
+            "exit_idx": 331,
+            "pnl_bps": -1902.6374745417513,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 345,
+            "exit_idx": 365,
+            "pnl_bps": 924.1994830469831,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 375,
+            "exit_idx": 423,
+            "pnl_bps": 5205.913621262459,
+            "days_held": 48,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 455,
+            "exit_idx": 464,
+            "pnl_bps": -1230.8148634084628,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 469,
+            "exit_idx": 483,
+            "pnl_bps": -1957.6436098565882,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 534,
+            "exit_idx": 543,
+            "pnl_bps": -1862.8014480646052,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 557,
+            "exit_idx": 601,
+            "pnl_bps": 1583.5007045909645,
+            "days_held": 44,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 619,
+            "exit_idx": 620,
+            "pnl_bps": 27.83381167144927,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 633,
+            "exit_idx": 664,
+            "pnl_bps": 387.8281999080567,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 675,
+            "exit_idx": 699,
+            "pnl_bps": -86.99419383653388,
+            "days_held": 24,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(5/20) long-only",
+        "n_trades": 17,
+        "total_pnl_bps": 25378.06641142497,
+        "avg_pnl_bps": 1492.8274359661748,
+        "win_rate": 58.82352941176471,
+        "sharpe": 1.0811675193540904,
+        "max_dd_bps": 2894.8277728653047,
+        "avg_hold_days": 23.176470588235293,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 91,
+            "pnl_bps": 18256.952260512175,
+            "days_held": 71,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 138,
+            "pnl_bps": -195.05900865460276,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 144,
+            "exit_idx": 180,
+            "pnl_bps": 3854.1247612985358,
+            "days_held": 36,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 211,
+            "exit_idx": 238,
+            "pnl_bps": 655.9586441565249,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 266,
+            "exit_idx": 273,
+            "pnl_bps": -1041.07632494373,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 276,
+            "exit_idx": 277,
+            "pnl_bps": -460.20284547119314,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 278,
+            "exit_idx": 299,
+            "pnl_bps": 934.3955255987381,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 327,
+            "pnl_bps": -1016.3460785593098,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 342,
+            "exit_idx": 362,
+            "pnl_bps": 424.8009333527799,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 373,
+            "exit_idx": 393,
+            "pnl_bps": 186.1256138537088,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 396,
+            "exit_idx": 422,
+            "pnl_bps": 1893.4199134199132,
+            "days_held": 26,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 453,
+            "exit_idx": 461,
+            "pnl_bps": -1391.622551493188,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 482,
+            "pnl_bps": -315.20295202951985,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 533,
+            "exit_idx": 540,
+            "pnl_bps": -1188.0022693425988,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 554,
+            "exit_idx": 599,
+            "pnl_bps": 2861.316643486325,
+            "days_held": 45,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 631,
+            "exit_idx": 663,
+            "pnl_bps": 490.30295200568474,
+            "days_held": 32,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 673,
+            "exit_idx": 699,
+            "pnl_bps": 1428.1811942347283,
+            "days_held": 26,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "TSMOM(30) long-only",
+        "n_trades": 20,
+        "total_pnl_bps": 18743.48701042175,
+        "avg_pnl_bps": 937.1743505210876,
+        "win_rate": 50.0,
+        "sharpe": 1.0675019407462705,
+        "max_dd_bps": 2820.95484669667,
+        "avg_hold_days": 20.9,
+        "trades": [
+          {
+            "entry_idx": 30,
+            "exit_idx": 104,
+            "pnl_bps": 11615.220125786163,
+            "days_held": 74,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 117,
+            "exit_idx": 118,
+            "pnl_bps": -280.4891628554389,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 120,
+            "exit_idx": 187,
+            "pnl_bps": 5990.871837758729,
+            "days_held": 67,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 218,
+            "exit_idx": 219,
+            "pnl_bps": -393.4580452758568,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 220,
+            "exit_idx": 250,
+            "pnl_bps": -995.9020943729496,
+            "days_held": 30,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 280,
+            "exit_idx": 302,
+            "pnl_bps": -1230.8898821617227,
+            "days_held": 22,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 303,
+            "exit_idx": 310,
+            "pnl_bps": 135.81717451523545,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 332,
+            "exit_idx": 333,
+            "pnl_bps": -336.52199940137615,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 347,
+            "exit_idx": 350,
+            "pnl_bps": 101.77199244173904,
+            "days_held": 3,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 354,
+            "exit_idx": 436,
+            "pnl_bps": 4325.869495339119,
+            "days_held": 82,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 483,
+            "pnl_bps": -748.8961778506674,
+            "days_held": 16,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 489,
+            "exit_idx": 495,
+            "pnl_bps": -16.48805940196703,
+            "days_held": 6,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 549,
+            "exit_idx": 550,
+            "pnl_bps": -544.1495170096593,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 552,
+            "exit_idx": 553,
+            "pnl_bps": -311.8935269207512,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 556,
+            "exit_idx": 558,
+            "pnl_bps": 186.35041498515034,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 559,
+            "exit_idx": 606,
+            "pnl_bps": 296.0077214556365,
+            "days_held": 47,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 607,
+            "exit_idx": 608,
+            "pnl_bps": 130.84894811607856,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 636,
+            "exit_idx": 638,
+            "pnl_bps": 70.13893595391283,
+            "days_held": 2,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 642,
+            "exit_idx": 681,
+            "pnl_bps": 795.6877186521815,
+            "days_held": 39,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 684,
+            "exit_idx": 699,
+            "pnl_bps": -46.40888933180533,
+            "days_held": 15,
+            "direction": "long"
+          }
+        ],
+        "type": "tsmom"
+      },
+      {
+        "name": "Donchian(20) long-only",
+        "n_trades": 8,
+        "total_pnl_bps": 19579.548264976707,
+        "avg_pnl_bps": 2447.4435331220884,
+        "win_rate": 62.5,
+        "sharpe": 1.0121451966306978,
+        "max_dd_bps": 3556.664503569111,
+        "avg_hold_days": 51.75,
+        "trades": [
+          {
+            "entry_idx": 22,
+            "exit_idx": 106,
+            "pnl_bps": 13975.420721236407,
+            "days_held": 84,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 124,
+            "exit_idx": 187,
+            "pnl_bps": 4302.0497475219745,
+            "days_held": 63,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 221,
+            "exit_idx": 247,
+            "pnl_bps": -651.2354897408549,
+            "days_held": 26,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 281,
+            "exit_idx": 301,
+            "pnl_bps": -1340.7428786547862,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 347,
+            "exit_idx": 438,
+            "pnl_bps": 3543.5803765134033,
+            "days_held": 91,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 468,
+            "exit_idx": 499,
+            "pnl_bps": -3556.6645035691117,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 559,
+            "exit_idx": 600,
+            "pnl_bps": 1147.5126903553287,
+            "days_held": 41,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 641,
+            "exit_idx": 699,
+            "pnl_bps": 2159.627601314348,
+            "days_held": 58,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "SMA(5/50) long-only",
+        "n_trades": 10,
+        "total_pnl_bps": 9813.137154629669,
+        "avg_pnl_bps": 981.3137154629669,
+        "win_rate": 50.0,
+        "sharpe": 0.9413057232254691,
+        "max_dd_bps": 3433.041574173031,
+        "avg_hold_days": 38.2,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 107,
+            "pnl_bps": 5299.65128950236,
+            "days_held": 57,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 121,
+            "pnl_bps": -492.06923682140155,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 124,
+            "exit_idx": 188,
+            "pnl_bps": 2928.3822704320182,
+            "days_held": 64,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 223,
+            "exit_idx": 248,
+            "pnl_bps": -1016.5197215777266,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 282,
+            "exit_idx": 302,
+            "pnl_bps": -1940.05976839746,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 349,
+            "exit_idx": 363,
+            "pnl_bps": -476.46208419784443,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 365,
+            "exit_idx": 437,
+            "pnl_bps": 4326.346207279799,
+            "days_held": 72,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 468,
+            "exit_idx": 486,
+            "pnl_bps": -2533.6466007558124,
+            "days_held": 18,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 558,
+            "exit_idx": 604,
+            "pnl_bps": 1557.887197851388,
+            "days_held": 46,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 641,
+            "exit_idx": 699,
+            "pnl_bps": 2159.627601314348,
+            "days_held": 58,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "Donchian(10) long-only",
+        "n_trades": 15,
+        "total_pnl_bps": 26674.12466709766,
+        "avg_pnl_bps": 1778.2749778065108,
+        "win_rate": 46.666666666666664,
+        "sharpe": 0.818577175864292,
+        "max_dd_bps": 3536.6828646546164,
+        "avg_hold_days": 30.466666666666665,
+        "trades": [
+          {
+            "entry_idx": 11,
+            "exit_idx": 106,
+            "pnl_bps": 23610.164460489374,
+            "days_held": 95,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 138,
+            "pnl_bps": -195.05900865460276,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 143,
+            "exit_idx": 180,
+            "pnl_bps": 4629.2480887171305,
+            "days_held": 37,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 211,
+            "exit_idx": 247,
+            "pnl_bps": -249.681978798586,
+            "days_held": 36,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 268,
+            "exit_idx": 299,
+            "pnl_bps": -101.8022463156522,
+            "days_held": 31,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 327,
+            "pnl_bps": -1016.3460785593098,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 341,
+            "exit_idx": 360,
+            "pnl_bps": 63.441231477485005,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 372,
+            "exit_idx": 438,
+            "pnl_bps": 2278.369185862047,
+            "days_held": 66,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 452,
+            "exit_idx": 459,
+            "pnl_bps": -1141.4055974269124,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 482,
+            "pnl_bps": -315.20295202951985,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 533,
+            "exit_idx": 542,
+            "pnl_bps": -1692.9309978015735,
+            "days_held": 9,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 559,
+            "exit_idx": 600,
+            "pnl_bps": 1147.5126903553287,
+            "days_held": 41,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 611,
+            "exit_idx": 621,
+            "pnl_bps": -1534.6560077519375,
+            "days_held": 10,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 629,
+            "exit_idx": 663,
+            "pnl_bps": 775.5148619957544,
+            "days_held": 34,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 674,
+            "exit_idx": 699,
+            "pnl_bps": 416.95901553863774,
+            "days_held": 25,
+            "direction": "long"
+          }
+        ],
+        "type": "breakout"
+      },
+      {
+        "name": "SMA(5/20) long+short",
+        "n_trades": 33,
+        "total_pnl_bps": 21060.228058972374,
+        "avg_pnl_bps": 638.1887290597689,
+        "win_rate": 48.484848484848484,
+        "sharpe": 0.6393249406313127,
+        "max_dd_bps": 6201.338853921085,
+        "avg_hold_days": 20.575757575757574,
+        "trades": [
+          {
+            "entry_idx": 20,
+            "exit_idx": 91,
+            "pnl_bps": 18256.952260512175,
+            "days_held": 71,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 91,
+            "exit_idx": 113,
+            "pnl_bps": -1388.5152057245089,
+            "days_held": 22,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 113,
+            "exit_idx": 138,
+            "pnl_bps": -195.05900865460276,
+            "days_held": 25,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 138,
+            "exit_idx": 144,
+            "pnl_bps": -2600.5805805805803,
+            "days_held": 6,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 144,
+            "exit_idx": 180,
+            "pnl_bps": 3854.1247612985358,
+            "days_held": 36,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 180,
+            "exit_idx": 211,
+            "pnl_bps": 1215.877731261112,
+            "days_held": 31,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 211,
+            "exit_idx": 238,
+            "pnl_bps": 655.9586441565249,
+            "days_held": 27,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 238,
+            "exit_idx": 266,
+            "pnl_bps": 993.790989886607,
+            "days_held": 28,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 266,
+            "exit_idx": 273,
+            "pnl_bps": -1041.07632494373,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 273,
+            "exit_idx": 276,
+            "pnl_bps": -805.475539349742,
+            "days_held": 3,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 276,
+            "exit_idx": 277,
+            "pnl_bps": -460.20284547119314,
+            "days_held": 1,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 277,
+            "exit_idx": 278,
+            "pnl_bps": -294.81028512488166,
+            "days_held": 1,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 278,
+            "exit_idx": 299,
+            "pnl_bps": 934.3955255987381,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 299,
+            "exit_idx": 320,
+            "pnl_bps": -52.07436014924269,
+            "days_held": 21,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 320,
+            "exit_idx": 327,
+            "pnl_bps": -1016.3460785593098,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 327,
+            "exit_idx": 342,
+            "pnl_bps": 41.598666570042944,
+            "days_held": 15,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 342,
+            "exit_idx": 362,
+            "pnl_bps": 424.8009333527799,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 362,
+            "exit_idx": 373,
+            "pnl_bps": -824.244624406589,
+            "days_held": 11,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 373,
+            "exit_idx": 393,
+            "pnl_bps": 186.1256138537088,
+            "days_held": 20,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 393,
+            "exit_idx": 396,
+            "pnl_bps": -2451.149097815765,
+            "days_held": 3,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 396,
+            "exit_idx": 422,
+            "pnl_bps": 1893.4199134199132,
+            "days_held": 26,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 422,
+            "exit_idx": 453,
+            "pnl_bps": 661.0020519835832,
+            "days_held": 31,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 453,
+            "exit_idx": 461,
+            "pnl_bps": -1391.622551493188,
+            "days_held": 8,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 461,
+            "exit_idx": 467,
+            "pnl_bps": -1690.4768993566902,
+            "days_held": 6,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 467,
+            "exit_idx": 482,
+            "pnl_bps": -315.20295202951985,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 482,
+            "exit_idx": 533,
+            "pnl_bps": 3360.7444960803646,
+            "days_held": 51,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 533,
+            "exit_idx": 540,
+            "pnl_bps": -1188.0022693425988,
+            "days_held": 7,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 540,
+            "exit_idx": 554,
+            "pnl_bps": -411.8419784808078,
+            "days_held": 14,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 554,
+            "exit_idx": 599,
+            "pnl_bps": 2861.316643486325,
+            "days_held": 45,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 599,
+            "exit_idx": 631,
+            "pnl_bps": 693.8144082538543,
+            "days_held": 32,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 631,
+            "exit_idx": 663,
+            "pnl_bps": 490.30295200568474,
+            "days_held": 32,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 663,
+            "exit_idx": 673,
+            "pnl_bps": -765.4981254993544,
+            "days_held": 10,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 673,
+            "exit_idx": 699,
+            "pnl_bps": 1428.1811942347283,
+            "days_held": 26,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_ls"
+      }
+    ],
+    "test_results": [
+      {
+        "name": "SMA(5/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 2676.5443697647024,
+        "avg_pnl_bps": 892.1814565882341,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.9704380356186538,
+        "max_dd_bps": 654.7136180849911,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 243,
+            "pnl_bps": 2855.7259001161437,
+            "days_held": 143,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 243,
+            "exit_idx": 255,
+            "pnl_bps": -654.713618084991,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 255,
+            "exit_idx": 299,
+            "pnl_bps": 475.53208773354953,
+            "days_held": 44,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(10/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 2280.2387004948605,
+        "avg_pnl_bps": 760.0795668316201,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.8021751781095476,
+        "max_dd_bps": 863.981531192956,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 244,
+            "pnl_bps": 2769.005032907473,
+            "days_held": 144,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 244,
+            "exit_idx": 259,
+            "pnl_bps": -863.981531192956,
+            "days_held": 15,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 259,
+            "exit_idx": 299,
+            "pnl_bps": 375.21519878034366,
+            "days_held": 40,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/50) long+short",
+        "n_trades": 12,
+        "total_pnl_bps": 1653.124351286921,
+        "avg_pnl_bps": 137.76036260724342,
+        "win_rate": 33.33333333333333,
+        "sharpe": 0.3554985584097079,
+        "max_dd_bps": 3753.3245419799514,
+        "avg_hold_days": 20.75,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 120,
+            "pnl_bps": 3039.889280322093,
+            "days_held": 70,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 120,
+            "exit_idx": 137,
+            "pnl_bps": -703.8288614938366,
+            "days_held": 17,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 137,
+            "exit_idx": 191,
+            "pnl_bps": 2614.8563867050666,
+            "days_held": 54,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 191,
+            "exit_idx": 203,
+            "pnl_bps": -1412.9401817797514,
+            "days_held": 12,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 203,
+            "exit_idx": 222,
+            "pnl_bps": -918.8212180746572,
+            "days_held": 19,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 222,
+            "exit_idx": 227,
+            "pnl_bps": -232.93375394321774,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 227,
+            "exit_idx": 229,
+            "pnl_bps": 59.42903188672703,
+            "days_held": 2,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 229,
+            "exit_idx": 233,
+            "pnl_bps": -265.99675098630826,
+            "days_held": 4,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 233,
+            "exit_idx": 241,
+            "pnl_bps": -626.7094932191285,
+            "days_held": 8,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 241,
+            "exit_idx": 255,
+            "pnl_bps": -355.3521758636154,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 255,
+            "exit_idx": 299,
+            "pnl_bps": 475.53208773354953,
+            "days_held": 44,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 299,
+            "exit_idx": 299,
+            "pnl_bps": -20.0,
+            "days_held": 0,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(10/50) long+short",
+        "n_trades": 9,
+        "total_pnl_bps": 1704.6742061589714,
+        "avg_pnl_bps": 189.4082451287746,
+        "win_rate": 33.33333333333333,
+        "sharpe": 0.3551383142001777,
+        "max_dd_bps": 3605.1135241387306,
+        "avg_hold_days": 27.666666666666668,
+        "trades": [
+          {
+            "entry_idx": 50,
+            "exit_idx": 122,
+            "pnl_bps": 3115.883241066935,
+            "days_held": 72,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 122,
+            "exit_idx": 141,
+            "pnl_bps": -910.827773297162,
+            "days_held": 19,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 141,
+            "exit_idx": 192,
+            "pnl_bps": 2729.5170637475853,
+            "days_held": 51,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 192,
+            "exit_idx": 206,
+            "pnl_bps": -1008.0106571936049,
+            "days_held": 14,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 206,
+            "exit_idx": 227,
+            "pnl_bps": -720.9115545700909,
+            "days_held": 21,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 227,
+            "exit_idx": 232,
+            "pnl_bps": -255.98480488085775,
+            "days_held": 5,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 232,
+            "exit_idx": 243,
+            "pnl_bps": -867.6774345673205,
+            "days_held": 11,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 243,
+            "exit_idx": 259,
+            "pnl_bps": -752.5290729268568,
+            "days_held": 16,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 259,
+            "exit_idx": 299,
+            "pnl_bps": 375.21519878034366,
+            "days_held": 40,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(20/100) long+short",
+        "n_trades": 3,
+        "total_pnl_bps": 1081.5550653938615,
+        "avg_pnl_bps": 360.51835513128714,
+        "win_rate": 66.66666666666666,
+        "sharpe": 0.34942922719964625,
+        "max_dd_bps": 1474.338136208148,
+        "avg_hold_days": 66.33333333333333,
+        "trades": [
+          {
+            "entry_idx": 100,
+            "exit_idx": 245,
+            "pnl_bps": 2510.391018195897,
+            "days_held": 145,
+            "direction": "short"
+          },
+          {
+            "entry_idx": 245,
+            "exit_idx": 266,
+            "pnl_bps": -1474.338136208148,
+            "days_held": 21,
+            "direction": "long"
+          },
+          {
+            "entry_idx": 266,
+            "exit_idx": 299,
+            "pnl_bps": 45.502183406112565,
+            "days_held": 33,
+            "direction": "short"
+          }
+        ],
+        "type": "MA_cross_ls"
+      },
+      {
+        "name": "SMA(5/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -654.713618084991,
+        "avg_pnl_bps": -654.713618084991,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 654.713618084991,
+        "avg_hold_days": 12.0,
+        "trades": [
+          {
+            "entry_idx": 243,
+            "exit_idx": 255,
+            "pnl_bps": -654.713618084991,
+            "days_held": 12,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(5/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -863.981531192956,
+        "avg_pnl_bps": -863.981531192956,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 863.981531192956,
+        "avg_hold_days": 15.0,
+        "trades": [
+          {
+            "entry_idx": 244,
+            "exit_idx": 259,
+            "pnl_bps": -863.981531192956,
+            "days_held": 15,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(10/200) long-only",
+        "n_trades": 0,
+        "total_pnl_bps": 0,
+        "win_rate": 0,
+        "sharpe": 0,
+        "max_dd_bps": 0,
+        "avg_hold_days": 0,
+        "type": "MA_cross_long"
+      },
+      {
+        "name": "SMA(20/100) long-only",
+        "n_trades": 1,
+        "total_pnl_bps": -1474.338136208148,
+        "avg_pnl_bps": -1474.338136208148,
+        "win_rate": 0.0,
+        "sharpe": 0,
+        "max_dd_bps": 1474.338136208148,
+        "avg_hold_days": 21.0,
+        "trades": [
+          {
+            "entry_idx": 245,
+            "exit_idx": 266,
+            "pnl_bps": -1474.338136208148,
+            "days_held": 21,
+            "direction": "long"
+          }
+        ],
+        "type": "MA_cross_long"
+      }
+    ],
+    "best_oos": {
+      "name": "SMA(5/100) long+short",
+      "n_trades": 3,
+      "total_pnl_bps": 2676.5443697647024,
+      "avg_pnl_bps": 892.1814565882341,
+      "win_rate": 66.66666666666666,
+      "sharpe": 0.9704380356186538,
+      "max_dd_bps": 654.7136180849911,
+      "avg_hold_days": 66.33333333333333,
+      "trades": [
+        {
+          "entry_idx": 100,
+          "exit_idx": 243,
+          "pnl_bps": 2855.7259001161437,
+          "days_held": 143,
+          "direction": "short"
+        },
+        {
+          "entry_idx": 243,
+          "exit_idx": 255,
+          "pnl_bps": -654.713618084991,
+          "days_held": 12,
+          "direction": "long"
+        },
+        {
+          "entry_idx": 255,
+          "exit_idx": 299,
+          "pnl_bps": 475.53208773354953,
+          "days_held": 44,
+          "direction": "short"
+        }
+      ],
+      "type": "MA_cross_ls"
+    }
+  }
+}

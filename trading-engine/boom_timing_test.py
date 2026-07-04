@@ -276,8 +276,12 @@ def main():
 
     if args.offline:
         with open(args.offline) as f:
-            gaps = [int(float(x)) for x in f if x.strip()]
-        analyze([g / args.offline_n for g in gaps], f"offline {os.path.basename(args.offline)} (N={args.offline_n})")
+            raw = [float(x) for x in f if x.strip()]
+        if args.offline_n > 1:
+            gaps = [int(round(g)) for g in raw]
+            analyze([g / args.offline_n for g in gaps], f"offline {os.path.basename(args.offline)} (N={args.offline_n})")
+        else:
+            analyze(raw, f"offline {os.path.basename(args.offline)} (ja normalizado)")
         return
 
     symbols = [s.strip() for s in args.symbols.split(",") if s.strip()]

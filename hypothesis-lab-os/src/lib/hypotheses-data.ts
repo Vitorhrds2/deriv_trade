@@ -36,8 +36,8 @@ export const realHypotheses: RealHypothesis[] = [
     market: "cryBTCUSD · Multiplier x800",
     thesis:
       "Um índice sintético reconstruído a partir de Binance (38.74%) + Coinbase (53.38%) + Kraken (2.66%) + offset $3152.82 (R²=0.928) reage a choques de preço com atraso suficiente para capturar via Multiplier antes da Deriv reprecificar.",
-    confidence: 20,
-    status: "validating",
+    confidence: 10,
+    status: "refuted",
     tags: ["hft", "latencia", "multiplier", "shadow-ab", "cripto", "ao-vivo"],
     trigger:
       "Choque de preço > 45 pontos no índice sintético, formado em < 50ms (filtro de velocidade)",
@@ -49,7 +49,9 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 40,
     sampleUnit: "trades reais (conta demo)",
     verdict:
-      "Provisoriamente refutado — EV/trade IC95% [-$4.70, -$1.18] (não cruza zero). Config mais recente (V6.2, N=10) é a pior da série (10% WR). Consistente com H3: gargalo é a perna de execução da ordem na Deriv (~180-220ms), não a qualidade do sinal. Shadow A/B (ALIGNED vs ANTI) ativado ao vivo em 2026-07-01 para isolar sinal de execução — amostra ainda insuficiente (0 trades ANTI até o deploy).",
+      "Refutado — 40 trades reais (conta demo), EV/trade -$3.02, IC95% [-$4.70, -$1.18] (não cruza zero). " +
+      "WR 22.5% (9/40). V6.2 com golden-hour filter produziu zero trades em 33h+ (threshold muito restritivo). " +
+      "Consistente com H3: gargalo é a perna de execução da Deriv (~180-220ms), não a qualidade do sinal.",
     evPerTrade: -3.02,
     ci95: [-4.7, -1.18],
     ci95Label: "EV/trade (bootstrap)",
@@ -171,6 +173,515 @@ export const realHypotheses: RealHypothesis[] = [
     ci95Label: "Weibull shape k (1.0 = memoryless)",
     tools: ["boom_timing_test.py", "boom_memory_test.py"],
     reportFile: "docs/t2_boom_crash_spike_timing_report.md",
+  },
+  {
+    id: "HYP-HL-01",
+    title: "HIGHER/LOWER — barrier mispricing vs Monte Carlo driftless",
+    market: "1HZ10V, 1HZ100V",
+    thesis:
+      "Contratos HIGHER/LOWER com barreira percentual poderiam ter payout desalinhado vs. probabilidade real de tocar a barreira, abrindo EV positivo em alguma combinação de barrier × duração.",
+    confidence: 3,
+    status: "refuted",
+    tags: ["higher-lower", "barreira", "mispricing", "mega-brain-2"],
+    trigger: "HIGHER/LOWER × 5 barriers × 3 durações × 2 símbolos = 31 células",
+    invalidation: "IC95% do EV simulado cruzar zero em qualquer célula",
+    createdAt: "2026-07-03",
+    author: "higher_lower_edge_scan.py",
+    pnl: 0,
+    trades: 31,
+    sampleUnit: "células testadas (20k caminhos Monte Carlo cada)",
+    verdict:
+      "Refutado — 0/31 células com EV_lo > 0. House margin 0.2-10% embutida no payout, crescente com distância da barreira. Padrão idêntico aos outros 13 produtos Deriv testados.",
+    evPerTrade: -0.03,
+    tools: ["higher_lower_edge_scan.py"],
+    reportFile: "docs/state_of_research.md",
+  },
+  {
+    id: "HYP-MULT-01",
+    title: "Multipliers (MULTUP/MULTDOWN) — mispricing standalone",
+    market: "1HZ10V",
+    thesis:
+      "Único produto Deriv ativo nunca testado para mispricing. Payoff = (spot_final - entry) × multiplier, sem payout fixo. Comissão (ask_price - stake) poderia ser menor que o fair value do optionality embutido (stop loss, cancellation).",
+    confidence: 2,
+    status: "refuted",
+    tags: ["multiplier", "comissao", "mispricing", "mega-brain-2"],
+    trigger: "MULTUP/MULTDOWN × 5 multipliers (400-4000) × 3 cancellations (5m/15m/60m) = 30 células",
+    invalidation: "IC95% do EV simulado (MC payoff - comissão) cruzar zero em qualquer célula",
+    createdAt: "2026-07-03",
+    author: "multiplier_edge_scan.py",
+    pnl: 0,
+    trades: 30,
+    sampleUnit: "células testadas (20k caminhos Monte Carlo cada, 10k ticks reais calibrando)",
+    verdict:
+      "Refutado — 0/30 células com EV_lo > 0. MC payoff bruto ≈ $0 (martingale confirmado), EV = -comissão em todas as células. Comissão escala linearmente: $0.44 (mult=400, 5m) a $7.61 (mult=4000, 60m). Não há mispricing — Deriv cobra fair value (zero) + comissão pura.",
+    evPerTrade: -0.376,
+    tools: ["probe_multiplier.py", "multiplier_edge_scan.py"],
+    reportFile: "docs/state_of_research.md",
+  },
+  {
+    id: "HYP-PA5-01",
+    title: "PA5 — Polymarket BTC Up/Down stale-book arbitrage",
+    market: "Polymarket BTC 5-15min windows",
+    thesis:
+      "Mercados BTC de 5-15min no Polymarket resolvem por benchmark de preço; perto do settlement, o resultado já é quase determinístico via Binance enquanto o livro CLOB pode ficar stale — comprar o lado favorito (aligned) deveria ter EV positivo.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["polymarket", "latencia", "momentum", "clob", "stale-book"],
+    trigger: "|move| >= $5 nos últimos 30s antes do settlement → comprar aligned (a favor) vs anti (contra) 50/50",
+    invalidation: "IC95% da diferença aligned-anti cruzar zero OU ser negativo",
+    createdAt: "2026-07-02",
+    author: "pa5_collector.py",
+    pnl: -19.62,
+    trades: 1838,
+    sampleUnit: "paper trades (265 janelas, 635 aligned + 1203 anti)",
+    verdict:
+      "Refutado — verdict 'aligned_pior'. Aligned WR=88.5% (sinal real de momentum) mas PnL médio=-$0.031 (comprar lado favorito custa ~$1, payoff <$1). Diff aligned-anti=-$0.037/trade, IC95%[-$0.060,-$0.014] NÃO cruza zero. O livro NÃO está stale — está corretamente precificado. Mesmo padrão sub-custo de H1/H3, mas aqui o edge vai na direção CONTRÁRIA à tese.",
+    evPerTrade: -0.037,
+    ci95: [-0.06, -0.014],
+    ci95Label: "Diff aligned-anti por trade (bootstrap)",
+    tools: ["polymarket_lag_probe.py", "pa5_collector.py", "polymarket_arb_stats.py"],
+    reportFile: "docs/state_of_research.md",
+  },
+  {
+    id: "HYP-SELL-01",
+    title: "Early sell optionality — bid_price vs hold-to-expiry",
+    market: "1HZ10V · CALL 15m",
+    thesis:
+      "A capacidade de vender antes do expiry a bid_price poderia ter valor de optionality (vender quando ITM antes de reverter) que excede o custo do spread bid/ask embutido.",
+    confidence: 45,
+    status: "validating",
+    tags: ["early-sell", "optionality", "bid-price", "mega-brain-2", "edge-preliminar"],
+    trigger: "Comprar CALL 15m, monitorar bid_price durante vida do contrato, comparar sell no melhor bid vs hold-to-expiry",
+    invalidation: "IC95% da diferença sell_profit - hold_profit cruzar zero (non-hindsight, regra predefinida)",
+    createdAt: "2026-07-03",
+    author: "early_sell_test.py",
+    pnl: 89.54,
+    trades: 20,
+    sampleUnit: "trials reais (20/20 completos, 15m cada) — confirmação com 50 trials em andamento",
+    verdict:
+      "EDGE PRELIMINAR (N=20) — Sell WR 75%, EV +$4.48/trade. Hold WR 50%, EV -$0.39/trade. " +
+      "Diferença +$4.86/trade, IC95% [+$1.94, +$7.82] NÃO cruza zero. " +
+      "Regra non-hindsight (thresh=$13): EV_sell +$3.84 vs EV_hold +$0.49. " +
+      "Confirmação com 50 trials em andamento na EC2. N=20 ainda é pequeno — aguardar N≥50 para veredito final.",
+    tools: ["early_sell_test.py", "probe_sellable.py"],
+    reportFile: "docs/state_of_research.md",
+  },
+  {
+    id: "HYP-XSYM-01",
+    title: "Cross-symbol arbitrage — correlação entre RNGs sintéticos",
+    market: "10 símbolos sintéticos Deriv (R_10 a 1HZ100V)",
+    thesis:
+      "Se os RNGs de símbolos sintéticos diferentes tiverem correlação não-nula, mudanças em um símbolo poderiam prever mudanças em outro, abrindo arbitragem cross-symbol.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["cross-symbol", "correlacao", "rng", "arbitragem"],
+    trigger: "Download simultâneo de ticks de 10 símbolos, medir correlação e variance ratio",
+    invalidation: "Correlação ~0 e variance ratio ~1.0 (RNGs independentes)",
+    createdAt: "2026-07-03",
+    author: "cross_symbol_arb_test.py",
+    pnl: 0,
+    trades: 500,
+    sampleUnit: "epochs simultâneos (10 símbolos, 500 ticks cada)",
+    verdict:
+      "Refutado — correlação ~0 entre todos os pares de símbolos, variance ratio ~1.0. RNGs são independentes. Nenhuma estrutura cross-symbol explorável.",
+    tools: ["cross_symbol_arb_test.py"],
+    reportFile: "docs/state_of_research.md",
+  },
+  {
+    id: "HYP-DEX-01",
+    title: "DEX arbitrage — Jupiter (Solana) vs Binance CEX + triangular SOL→USDC→SOL",
+    market: "Solana DEX / Binance CEX",
+    thesis:
+      "O agregador Jupiter pode ter pricing stale vs Binance, criando janela de arb CEX-DEX. " +
+      "Adicionalmente, triangular arb via rotas otimizadas pode ter roundtrip > 1.0 explorando " +
+      "pools com pricing divergente entre 15+ DEXs (HumidiFi, Meteora, Raydium, Orca, etc.).",
+    confidence: 0,
+    status: "refuted",
+    tags: ["dex", "solana", "jupiter", "cex-dex", "triangular", "arbitrage"],
+    trigger: "Gap de preço entre Jupiter Swap API e Binance bookTicker > fee AMM (~25bps)",
+    invalidation: "Gap CEX-DEX sempre negativo + triangular roundtrip ~0bps",
+    createdAt: "2026-07-03",
+    author: "dex_arb_scan.py",
+    pnl: 0,
+    trades: 199,
+    sampleUnit: "quotes Jupiter (3 runs: 10min@5s/1SOL, 10min@7s/1SOL, 5min@8s/10SOL)",
+    verdict:
+      "Refutado — CEX-DEX: 0/199 amostras com divergência positiva; Jupiter sempre ~9bps abaixo " +
+      "de Binance (fee implícito do agregador). Triangular (chained): roundtrip médio +0.76bps " +
+      "(1SOL) e -0.11bps (10SOL), max +7.93bps, threshold ~50bps. Agregador já captura " +
+      "ineficiências intra-DEX. Bug crítico corrigido: versão inicial inflava roundtrip usando " +
+      "input fixo vs Binance em vez de outAmount real da leg 1.",
+    tools: ["dex_arb_scan.py"],
+    reportFile: "docs/dex_arb_report.md",
+  },
+  {
+    id: "HYP-PA-01",
+    title: "PA1-PA4 Polymarket — new market snipe + cross-market + multi-outcome arb + near-resolution",
+    market: "Polymarket (todos os mercados ativos)",
+    thesis:
+      "PA1: mercados recém-criados têm books mal precificados antes da convergência de bots. " +
+      "PA2: mercados logicamente relacionados (BTC 5m vs 15m) têm probabilidades inconsistentes. " +
+      "PA3: mercados multi-outcome onde sum(best asks) < $1.00 = arb livre. " +
+      "PA4: book converge lentamente perto do settlement, criando janela de snipe.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["polymarket", "arbitrage", "multi-outcome", "cross-market", "new-market", "near-resolution"],
+    trigger: "sum(asks) < $1.00 em qualquer mercado ativo, ou spread > 500bps em mercado novo, ou diff > 500bps entre 5m/15m",
+    invalidation: "sum(asks) >= $1.00 em todos mercados; spreads convergem <37s; diff=0bps entre janelas",
+    createdAt: "2026-07-03",
+    author: "polymarket_arb_scan.py",
+    pnl: 0,
+    trades: 940,
+    sampleUnit: "mercados escaneados (10 ciclos, 94 mercados/ciclo) + 24 novos mercados + 10 pares 5m/15m",
+    verdict:
+      "Refutado — PA3: 940 mercados, min sum(asks)=$1.001, 0 arb. PA2: 10 pares 5m/15m, diff=0.0bps. " +
+      "PA1: 24 novos mercados, spread=100bps desde age=37s (bots convergem instantaneamente). " +
+      "PA4: mecanismo já refutado pelo PA5 (N=1838, livro não está stale). Polymarket encerrado como venue de arb.",
+    tools: ["polymarket_arb_scan.py"],
+    reportFile: "docs/polymarket_pa1_pa4_report.md",
+  },
+  {
+    id: "HYP-DEX-02",
+    title: "D6 — Cross-aggregator DEX arbitrage (EVM: BSC, Base, Arbitrum, Polygon)",
+    market: "OpenOcean vs Paraswap vs LiFi (EVM chains)",
+    thesis:
+      "Different DEX aggregators on EVM chains may route through different underlying DEXs, " +
+      "producing different quotes for the same token pair. If the cross-aggregator spread " +
+      "exceeds gas + fees, there may be an exploitable cross-DEX arbitrage opportunity.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["dex", "evm", "bsc", "base", "arbitrum", "polygon", "cross-aggregator", "arbitrage"],
+    trigger: "Cross-aggregator quote spread > gas + slippage for same token pair",
+    invalidation: "BSC (most liquid chain) shows roundtrip -1 to -3 bps; positive roundtrips on less liquid chains are quote API artifacts",
+    createdAt: "2026-07-03",
+    author: "dex_cross_agg_scan.py",
+    pnl: 0,
+    trades: 160,
+    sampleUnit: "quote comparisons (5 cycles, 4 chains, 5 pairs, 2 sizes) + 25 roundtrips",
+    verdict:
+      "Refutado — BSC (controle de sanidade, chain mais líquida): spread 0-5 bps, roundtrip -1 a -3 bps. " +
+      "Base/Arbitrum: spread 20-165 bps mas roundtrip positivo (+30-73 bps) é artefato de quote API " +
+      "indicativa do Paraswap (inconsistência interna: otimista em ambos os lados). Polygon: spread " +
+      "450 bps em WMATIC é stale quote do OpenOcean. 15/25 roundtrips 'positivos' mas todos são " +
+      "quote artifacts, não preços executáveis. Padrão espelha Solana DEX: agregadores já capturam " +
+      "ineficiências de roteamento.",
+    tools: ["dex_cross_agg_scan.py"],
+    reportFile: "docs/dex_cross_agg_report.md",
+  },
+  {
+    id: "HYP-CEX-01",
+    title: "D7 — CEX-CEX arbitrage (Binance vs Bybit vs OKX)",
+    market: "CEX spot (Binance, Bybit, OKX)",
+    thesis:
+      "If the same pair (e.g. BTC/USDT) has a higher bid on one exchange than the ask on another " +
+      "(after fees), there is a cross-exchange arbitrage opportunity.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["cex", "binance", "bybit", "okx", "cross-exchange", "arbitrage"],
+    trigger: "Cross-exchange bid-ask spread > 20 bps (taker fees both sides)",
+    invalidation: "Gross spread 0-4 bps, fees 20 bps/side. 0/100 positive net.",
+    createdAt: "2026-07-03",
+    author: "cex_arb_scan.py",
+    pnl: 0,
+    trades: 100,
+    sampleUnit: "cross-exchange quote comparisons (20 cycles, 8 pairs, 3 exchanges)",
+    verdict:
+      "Refutado — 100 observações, gross 0-4 bps, net -16 a -26 bps, 0/100 positivos. " +
+      "Market makers cross-exchange comprimem qualquer ineficiência instantaneamente. " +
+      "Gap CEX-CEX (~0-4 bps) é menor que gap CEX-DEX (~9 bps em Solana).",
+    tools: ["cex_arb_scan.py"],
+    reportFile: "docs/cex_arb_report.md",
+  },
+  {
+    id: "HYP-CEX-02",
+    title: "D8 — Triangular arbitrage (Binance)",
+    market: "CEX spot (Binance)",
+    thesis:
+      "If a triangular path (e.g. BTC→ETH→USDT→BTC) yields > 1.0 after fees, there is a " +
+      "triangular arbitrage opportunity within a single exchange.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["cex", "binance", "triangular", "arbitrage"],
+    trigger: "Triangular roundtrip > 30 bps (3 legs × 10 bps taker fee)",
+    invalidation: "Gross -10 bps average, best +2 bps. 0/120 positive net.",
+    createdAt: "2026-07-03",
+    author: "cex_arb_scan.py",
+    pnl: 0,
+    trades: 120,
+    sampleUnit: "triangular roundtrip checks (20 cycles, 6 paths)",
+    verdict:
+      "Refutado — 120 observações, gross -10 bps médio (máx +2 bps), net -28 a -98 bps, 0/120 positivos. " +
+      "Spread bid-ask em cada leg consome qualquer ineficiência. Binance é mais eficiente que Solana DEX.",
+    tools: ["cex_arb_scan.py"],
+    reportFile: "docs/cex_arb_report.md",
+  },
+  {
+    id: "HYP-CEX-03",
+    title: "D9 — Funding rate carry trade (Binance/Bybit/OKX perpetuals)",
+    market: "CEX perpetual futures (Binance, Bybit, OKX)",
+    thesis:
+      "If perpetual futures funding rates are persistently positive (longs pay shorts), " +
+      "a delta-neutral carry trade (buy spot + short perp, collect funding every 8h) " +
+      "is profitable after trading fees and capital cost.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["cex", "perpetual", "funding-rate", "carry-trade", "binance", "bybit", "okx"],
+    trigger: "Total funding > 40 bps entry/exit fees + 42 bps/30d capital cost",
+    invalidation: "Initial scan 14/20 profitable (sample bias ~11 days). Validation: 4/19, 0% of 7-day windows profitable.",
+    createdAt: "2026-07-03",
+    author: "funding_rate_scan.py, funding_rate_validate.py",
+    pnl: 0,
+    trades: 19,
+    sampleUnit: "perpetual contracts analyzed (30-day funding history, 90-360 periods each)",
+    verdict:
+      "Refutado — Scan inicial mostrou 14/20 'lucrativos' mas era viés de amostra curta (~11 dias OKX). " +
+      "Validação com 30 dias completos: apenas 4/19 têm net positivo, e 0% das janelas contínuas de 7 dias " +
+      "são lucrativas após fees (40 bps) + custo de capital (42 bps/30d). Funding é autocorrelacionado " +
+      "(18/19 lag-1 positive) mas não forte o suficiente para superar custos. Basis risk não contabilizado " +
+      "piora o quadro.",
+    tools: ["funding_rate_scan.py", "funding_rate_validate.py"],
+    reportFile: "docs/cex_arb_report.md",
+  },
+  {
+    id: "HYP-DEFI-01",
+    title: "D10 — DeFi liquidation MEV (Aave V3)",
+    market: "DeFi lending (Aave V3 on Base)",
+    thesis:
+      "When a borrower's health factor drops below 1.0, liquidators can repay debt and seize " +
+      "collateral + bonus (5-10%). A liquidation bot using flash loans can capture this bonus " +
+      "profitably without needing capital.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["defi", "aave", "liquidation", "mev", "base", "flash-loans"],
+    trigger: "Health factor < 1.0 on Aave V3 positions",
+    invalidation: "108 events in 10.6 days, but 95% have debt <$4. Latency 30-60s vs <12s MEV bots. Capture rate <1%.",
+    createdAt: "2026-07-03",
+    author: "defi_liquidation_scan.py",
+    pnl: 0,
+    trades: 108,
+    sampleUnit: "LiquidationCall events on Aave V3 Base (500000 blocks, ~10.6 days)",
+    verdict:
+      "Refutado para retail — 108 liquidações Aave V3 na Base em 10.6 dias, bonus médio 7.8%. " +
+      "Mas 95% dos eventos têm debt <$4 (mediana ~$0.3). Apenas 2-3 eventos >$500 em 10 dias. " +
+      "Latência fatal: 30-60s via eth_getLogs vs <12s dos bots MEV profissionais. " +
+      "RPCs gratuitos bloqueiam eth_getLogs (apenas mainnet.base.org funcionou). " +
+      "Sem infra profissional (WebSocket + flashbots + archive node), capture rate é <1%. " +
+      "Receita realista (1% capture): ~$2 em 10 dias. Não é edge explorável sem co-location + MEV bundles.",
+    tools: ["defi_liquidation_scan.py"],
+    reportFile: "docs/defi_liquidation_report.md",
+  },
+  {
+    id: "HYP-OPT-01",
+    title: "D11 — Options IV mispricing (Deribit BTC/ETH)",
+    market: "Deribit options (BTC, ETH)",
+    thesis:
+      "If implied volatility (IV) on Deribit options is systematically mispriced relative to " +
+      "historical realized volatility (RV), there may be an edge in selling overpriced IV or " +
+      "buying underpriced IV via delta-hedged option positions.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["options", "deribit", "iv", "volatility", "vrp", "delta-hedging"],
+    trigger: "IV (DVOL) deviates significantly from RV (30d historical vol)",
+    invalidation: "VRP is negative (-8.2% BTC, -8.8% ETH): IV < RV. Buying vol = theta decay. Delta hedging costs + bid-ask spreads consume the edge.",
+    createdAt: "2026-07-03",
+    author: "options_iv_scan.py",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "DVOL + RV + ATM IV surface for BTC and ETH (8 expiries each, 1d-28d)",
+    verdict:
+      "Refutado — VRP negativo em BTC (-8.2%) e ETH (-8.8%): IV < RV sugere comprar vol. " +
+      "Mas theta decay + delta hedging costs ($600-1500/mês em fees de hedge) + bid-ask spreads " +
+      "(5-15% do premium) consomem o edge. Term structure em contango (+9%) já precifica aumento " +
+      "de vol. Skew ATM = 0% (balanced). Sem edge sem infra de vol trading profissional.",
+    tools: ["options_iv_scan.py"],
+    reportFile: "docs/options_stat_arb_report.md",
+  },
+  {
+    id: "HYP-STATARB-01",
+    title: "D12 — Statistical arbitrage (crypto pairs trading)",
+    market: "Binance spot (20 top USDT pairs)",
+    thesis:
+      "If two crypto assets are cointegrated (their spread mean-reverts), a pairs trading " +
+      "strategy can profit from temporary divergences by going long the underperformer and " +
+      "short the outperformer.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["stat-arb", "pairs-trading", "cointegration", "mean-reversion", "binance"],
+    trigger: "Z-score of cointegrated spread exceeds ±2.0 standard deviations",
+    invalidation: "76/190 pairs cointegrated, but 7/10 backtested OOS negative after 40bps fees. avg PnL=-278bps, avg Sharpe=-0.26.",
+    createdAt: "2026-07-03",
+    author: "stat_arb_scan.py",
+    pnl: 0,
+    trades: 145,
+    sampleUnit: "190 pairs tested (20 symbols × 19), 10 backtested OOS (70/30 walk-forward, 500 daily candles)",
+    verdict:
+      "Refutado — 76/190 pares cointegrados (40%) mostra que cripto é altamente correlacionado. " +
+      "Mas backtest OOS: 7/10 pares negativos após 40bps fees. avg PnL=-278bps, avg Sharpe=-0.26. " +
+      "Win rate de 63% é enganosa: ganhos pequenos (exit at z=0.5) vs perdas grandes (stop at z=4.0). " +
+      "Melhor par ADA/SUI: +1,417 bps (~5.4% annualizado) — marginal. " +
+      "Risco de quebra de cointegração (LUNA/UST precedent). Sem edge após custos.",
+    tools: ["stat_arb_scan.py"],
+    reportFile: "docs/options_stat_arb_report.md",
+  },
+  {
+    id: "HYP-FUND-SIG-01",
+    title: "D13 — Funding rate como signal direcional",
+    market: "Binance futures (BTC, ETH, SOL, BNB, XRP, ADA, DOGE, AVAX, LINK, DOT)",
+    thesis:
+      "If funding rates are extreme, they signal overleveraged positioning. " +
+      "When funding is very positive (longs pay shorts), the market is overleveraged long " +
+      "and a price drop is likely. When very negative, a rally is likely. " +
+      "Trade: take the opposite side of the crowded trade.",
+    confidence: 30,
+    status: "validating",
+    tags: ["funding-rate", "directional", "signal", "binance", "futures", "sentiment"],
+    trigger: "Funding rate exceeds percentile threshold (50th/75th/90th/95th) of historical distribution",
+    invalidation: "Long side (funding negative → buy) has WR 0-12% — does not work in crypto. Short side WR 37-43% at 72h but overall WR is 26%.",
+    createdAt: "2026-07-03",
+    author: "funding_signal_scan.py",
+    pnl: 0,
+    trades: 250,
+    sampleUnit: "500 funding events × 10 symbols, 6 horizons (1h-72h), 4 percentile thresholds",
+    verdict:
+      "Sinal fraco assimétrico — Short side (funding positivo → vender) tem WR 37-43% em 72h " +
+      "para BTC/ETH. Long side NÃO funciona (WR 0-12%). Sharpe 5.4 BTC mas WR 26%: poucas trades " +
+      "grandes compensam muitas pequenas perdas. Sinal só funciona em 72h (horizontes curtos " +
+      "são negativos). Melhor como filtro complementar, não como estratégia standalone.",
+    tools: ["funding_signal_scan.py"],
+    reportFile: "docs/funding_trend_report.md",
+  },
+  {
+    id: "HYP-TREND-01",
+    title: "D14 — BTC trend following (momentum multi-dia)",
+    market: "Binance spot (BTC, ETH, SOL)",
+    thesis:
+      "If BTC exhibits momentum at multi-day timeframes, a trend-following strategy using " +
+      "moving average crossovers or breakout signals can capture directional moves that " +
+      "exceed transaction costs.",
+    confidence: 35,
+    status: "validating",
+    tags: ["trend-following", "momentum", "directional", "binance", "moving-average", "breakout"],
+    trigger: "Fast SMA crosses slow SMA (10/50), or price breaks N-day high/low",
+    invalidation: "Long-only strategies don't replicate OOS (overfitting). N=7 trades OOS is not statistically significant.",
+    createdAt: "2026-07-03",
+    author: "trend_follow_scan.py",
+    pnl: 0,
+    trades: 7,
+    sampleUnit: "1000 daily candles × 3 symbols, 30+ strategy configs, 70/30 walk-forward",
+    verdict:
+      "Sinal marginal — SMA(10/50) long+short beat buy & hold em risk-adjusted return " +
+      "(Sharpe 1.16 vs 0.85 BTC, 1.40 vs 0.37 ETH). MAS N=7 trades OOS não é significativo. " +
+      "Long-only strategies não replicam OOS (overfitting no train set). " +
+      "Custos de shorting (funding + borrow) reduzem edge. Potencial como estratégia complementar.",
+    tools: ["trend_follow_scan.py"],
+    reportFile: "docs/funding_trend_report.md",
+  },
+  {
+    id: "HYP-COMBINED-01",
+    title: "D15 — Combined funding filter + trend following",
+    market: "Binance spot + futures (BTC, ETH, SOL)",
+    thesis:
+      "Using funding rate as a filter for trend following improves risk-adjusted returns. " +
+      "Skip long entries when funding is extremely positive (overleveraged longs), " +
+      "only short when funding is positive (longs crowded).",
+    confidence: 0,
+    status: "refuted",
+    tags: ["combined", "funding-rate", "trend-following", "filter", "binance"],
+    trigger: "SMA(10/50) crossover + funding rate percentile filter (75th/90th)",
+    invalidation: "Funding filter PIORA trend following: delta Sharpe -0.27 BTC, -0.45 ETH, -0.80 SOL. Filter removes good trades.",
+    createdAt: "2026-07-03",
+    author: "combined_signal_scan.py",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "1000 daily candles × 3 symbols, 4 strategy variants, 70/30 walk-forward",
+    verdict:
+      "Refutado — Funding filter piora trend following em todos os 3 symbols. " +
+      "Delta Sharpe negativo: BTC -0.27, ETH -0.45, SOL -0.80. " +
+      "Filtro remove trades bons: em trend de alta, funding é positivo (normal), " +
+      "filtrar = perder o trend. Funding reflete positioning atual, não direção futura. " +
+      "Descoberta secundária: funding-only short em ETH Sharpe=2.96 mas MaxDD=95%.",
+    tools: ["combined_signal_scan.py"],
+    reportFile: "docs/combined_cvd_report.md",
+  },
+  {
+    id: "HYP-CVD-01",
+    title: "D16 — CVD / order flow directional signal",
+    market: "Binance spot (BTC, ETH, SOL — 1h candles)",
+    thesis:
+      "Cumulative Volume Delta (CVD) — running sum of taker buy minus sell volume — " +
+      "predicts short-term price direction. Divergence between CVD and price signals " +
+      "impending reversal. CVD momentum confirms trend.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["cvd", "order-flow", "directional", "binance", "microstructure", "divergence", "bonferroni", "k-fold"],
+    trigger: "CVD-price divergence (price new high, CVD doesn't confirm) or CVD z-score extreme",
+    invalidation: "5-fold CV + permutation test + Bonferroni (α=0.0019): no config significant. ETH diverge_96h_48h WR 76% but p=0.107. Sharpe 10+ in v1 was annualization artifact.",
+    createdAt: "2026-07-03",
+    author: "cvd_signal_v2_scan.py",
+    pnl: 0,
+    trades: 51,
+    sampleUnit: "5000 1h candles × 3 symbols, 27 configs, 5-fold CV, permutation test (1000x), Bonferroni correction",
+    verdict:
+      "Refutado em re-teste rigoroso — 5000 candles, 5-fold CV, permutation test, Bonferroni (α=0.0019). " +
+      "Nenhum config significativo. ETH diverge_96h_48h WR 76% mas p=0.107 (56x acima do threshold). " +
+      "Sharpe 10+ do v1 era artefato de annualization inflation + multiple testing. " +
+      "Sinal é regime-dependent (fold 2: WR 93%, fold 4: WR 45%). Não é robusto.",
+    tools: ["cvd_signal_scan.py", "cvd_signal_v2_scan.py"],
+    reportFile: "docs/cvd_v2_report.md",
+  },
+  {
+    id: "HYP-UNLOCK-01",
+    title: "D17 — Token unlock impact (short pré-unlock)",
+    market: "Binance spot (10 tokens: APT, OP, ARB, DYDX, AXS, GRT, IMX, AVAX, SEI, STRK)",
+    thesis:
+      "Token unlocks increase circulating supply, creating selling pressure. " +
+      "Shorting 3 days before unlock and exiting 3 days after captures the post-unlock dump. " +
+      "Large unlocks (≥$200M) have stronger effect. Market doesn't fully price the unlock because " +
+      "events are routine and the dump is gradual, not instant.",
+    confidence: 88,
+    status: "validating",
+    tags: ["event-driven", "token-unlock", "vesting", "supply-pressure", "short", "binance", "significant", "oos-validated", "costs-tested", "timing-optimized", "2026-validated"],
+    trigger: "Known token unlock date → short 3d before, exit 3d after. Filter: unlock value ≥$200M or ≥5% supply",
+    invalidation: "Market may learn and arbitrage the edge. Bull market may reduce effect. Execution slippage on low-liquidity tokens.",
+    createdAt: "2026-07-03",
+    author: "token_unlock_scan.py + shorting_cost_scan.py + timing_optimization_scan.py",
+    pnl: 384,
+    trades: 48,
+    sampleUnit: "215 unlock events (119 IS 2023-2024 + 48 OOS-2025 + 48 OOS-2026) × 10 tokens, daily candles, BTC benchmark, 20bps fees + real funding rates + 25 timing combos",
+    verdict:
+      "EDGE VALIDADO em 3 períodos + custos + timing — Primeiro edge real em 36 hipóteses. " +
+      "IS: WR 61%, +285bps, t=2.66. OOS-2025: WR 79%, +660bps, t=5.43. " +
+      "OOS-2026: WR 67%, +384bps, t=2.59 (mais fraco mas significativo). " +
+      "Timing optimization (25 combos): -3d/+3d é o ótimo. " +
+      "Funding cost: -4bps OOS (irrelevante). NET OOS-2025: +656bps, t=5.38. " +
+      "Large unlocks (≥$200M): 7/7 negativos. OPUSDT OOS-2025: 6/6 wins.",
+    tools: ["token_unlock_scan.py", "shorting_cost_scan.py", "timing_optimization_scan.py"],
+    reportFile: "docs/event_driven_report.md",
+  },
+  {
+    id: "HYP-LISTING-01",
+    title: "D18 — Binance listing announcement impact",
+    market: "Binance spot+futures (43 listings, 2023+)",
+    thesis:
+      "Binance listing announcements create a price pump for the listed token. " +
+      "Buying at listing and selling after a short hold captures the pump.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["event-driven", "listing", "binance", "announcement", "buy", "refuted"],
+    trigger: "Binance listing announcement → buy at listing time, hold 1-7 days",
+    invalidation: "WR 23% (1d hold), avg +32bps, t-stat=0.29. 30d excess=-15.3% (t=-3.34). Listings are sell-the-news events.",
+    createdAt: "2026-07-03",
+    author: "listing_impact_scan.py",
+    pnl: 0,
+    trades: 43,
+    sampleUnit: "43 listings with price data (from 173 parsed), 2023+, daily+hourly candles, BTC benchmark, 20bps fees",
+    verdict:
+      "Refutado — Buy at listing: WR 23%, avg +32bps (1d), t-stat=0.29. " +
+      "30d excess=-15.3% (t=-3.34) — tokens significantly underperform BTC after listing. " +
+      "Listings are 'sell the news' events. No capturable pump. " +
+      "Spot listings (N=5): -12.7% in 30d. Futures listings (N=35): -15.0% in 30d.",
+    tools: ["listing_impact_scan.py"],
+    reportFile: "docs/event_driven_report.md",
   },
 ];
 

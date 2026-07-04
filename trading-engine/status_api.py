@@ -15,14 +15,35 @@ Endpoints:
 """
 import glob
 import json
+import math
 import os
 import re
 import subprocess
+import sys
 import time
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from audit_hft_trades import LOG_DIR, parse_log
+
+# ─── Unlock bot imports ──────────────────────────────────────────────────────
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+UNLOCK_STATE_FILE = os.path.join(BASE_DIR, "unlock_short_state.json")
+UNLOCK_TRADE_FILE = os.path.join(BASE_DIR, "unlock_short_trades.json")
+UNLOCK_TMUX_SESSION = "unlock_bot"
+sys.path.insert(0, BASE_DIR)
+from unlock_short_bot import (
+    KNOWN_UNLOCKS,
+    ENTRY_DAYS,
+    EXIT_DAYS,
+    FEE_BPS,
+    STOP_LOSS_PCT,
+    MAX_CONCURRENT,
+    MAX_POSITION_PCT,
+    MIN_UNLOCK_VALUE_MM,
+    KELLY_FRACTION,
+    ENTRY_TIME_UTC,
+)
 
 PORT = int(os.getenv("STATUS_API_PORT", "8787"))
 # O bot loga com frequencia (tick sync, monitoramento) mesmo sem disparar trade; se o log
@@ -202,6 +223,14 @@ class Handler(BaseHTTPRequestHandler):
                 self._handle_status()
             elif self.path == "/api/hft/trades":
                 self._handle_trades()
+            elif self.path == "/api/unlock/status":
+                self._handle_unlock_status()
+            elif self.path == "/api/unlock/trades":
+                self._handle_unlock_trades()
+            elif self.path == "/api/unlock/schedule":
+                self._handle_unlock_schedule()
+            elif self.path == "/api/unlock/stats":
+                self._handle_unlock_stats()
             else:
                 self._send_json({"error": "not found"}, status=404)
         except Exception as e:
@@ -240,9 +269,219 @@ class Handler(BaseHTTPRequestHandler):
         )
 
 
+    # ─── Unlock bot endpoints ───────────────────────────────────────────────
+
+    def _handle_unlock_status(self):
+        state = _unlock_load_state()
+        open_positions = state.get("open_positions", [])
+        closed_trades = state.get("closed_trades", [])
+        total_pnl = sum(t.get("net_pnl", 0) for t in closed_trades)
+        wins = sum(1 for t in closed_trades if t.get("net_pnl", 0) > 0)
+        wr = round(wins / len(closed_trades) * 100, 1) if closed_trades else 0
+        self._send_json({
+            "connected": True,
+            "tmux_session_alive": _unlock_tmux_alive(),
+            "mode": "paper",
+            "open_positions": open_positions,
+            "open_count": len(open_positions),
+            "closed_count": len(closed_trades),
+            "total_pnl": round(total_pnl, 2),
+            "win_rate": wr,
+            "last_check": state.get("last_check"),
+            "config": {
+                "entry_days": ENTRY_DAYS,
+                "exit_days": EXIT_DAYS,
+                "fee_bps": FEE_BPS,
+                "stop_loss_pct": STOP_LOSS_PCT,
+                "max_concurrent": MAX_CONCURRENT,
+                "max_position_pct": MAX_POSITION_PCT * 100,
+                "min_unlock_value_mm": MIN_UNLOCK_VALUE_MM,
+                "kelly_fraction": KELLY_FRACTION,
+                "entry_time_utc": ENTRY_TIME_UTC,
+            },
+            "server_time": time.time(),
+        })
+
+    def _handle_unlock_trades(self):
+        trades = _unlock_load_trades()
+        stats = _unlock_compute_stats(trades)
+        equity_curve = _unlock_equity_curve(trades)
+        self._send_json({
+            "connected": True,
+            "trades": trades,
+            "equity_curve": equity_curve,
+            "stats": stats,
+            "starting_equity": 10000,
+            "final_equity": equity_curve[-1]["equity"] if equity_curve else 10000,
+            "total_return_pct": round((equity_curve[-1]["equity"] / 10000 - 1) * 100, 1) if equity_curve else 0,
+        })
+
+    def _handle_unlock_schedule(self):
+        upcoming = _unlock_get_upcoming(20)
+        self._send_json({
+            "connected": True,
+            "upcoming": upcoming,
+            "config": {
+                "entry_days": ENTRY_DAYS,
+                "exit_days": EXIT_DAYS,
+                "min_unlock_value_mm": MIN_UNLOCK_VALUE_MM,
+            },
+        })
+
+    def _handle_unlock_stats(self):
+        trades = _unlock_load_trades()
+        stats = _unlock_compute_stats(trades)
+        by_symbol = {}
+        for t in trades:
+            sym = t.get("symbol", "?")
+            if sym not in by_symbol:
+                by_symbol[sym] = []
+            by_symbol[sym].append(t.get("net_pnl", 0))
+        per_symbol = []
+        for sym, pnls in sorted(by_symbol.items()):
+            n = len(pnls)
+            wins = sum(1 for p in pnls if p > 0)
+            per_symbol.append({
+                "symbol": sym,
+                "n": n,
+                "wr": round(wins / n * 100, 1) if n else 0,
+                "avg_pnl": round(sum(pnls) / n, 2) if n else 0,
+                "total_pnl": round(sum(pnls), 2),
+            })
+        self._send_json({
+            "connected": True,
+            "period_stats": stats,
+            "per_symbol": per_symbol,
+            "total_trades": len(trades),
+        })
+
+
+# ─── Unlock helper functions ─────────────────────────────────────────────────
+
+def _unlock_tmux_alive():
+    try:
+        res = subprocess.run(["tmux", "has-session", "-t", UNLOCK_TMUX_SESSION], capture_output=True, timeout=3)
+        return res.returncode == 0
+    except Exception:
+        return False
+
+
+def _unlock_load_state():
+    try:
+        with open(UNLOCK_STATE_FILE) as f:
+            return json.load(f)
+    except Exception:
+        return {"open_positions": [], "closed_trades": [], "last_check": None}
+
+
+def _unlock_load_trades():
+    try:
+        with open(UNLOCK_TRADE_FILE) as f:
+            return json.load(f)
+    except Exception:
+        return []
+
+
+def _unlock_mean(x):
+    return sum(x) / len(x) if x else 0
+
+
+def _unlock_std(x):
+    if len(x) < 2:
+        return 0
+    m = _unlock_mean(x)
+    return math.sqrt(sum((xi - m) ** 2 for xi in x) / (len(x) - 1))
+
+
+def _unlock_t_stat(values):
+    if len(values) < 2:
+        return 0
+    m = _unlock_mean(values)
+    s = _unlock_std(values)
+    return m / (s / math.sqrt(len(values))) if s > 0 else 0
+
+
+def _unlock_empty_stats():
+    return {"n": 0, "wr": 0, "avg_pnl": 0, "total_pnl": 0, "t_stat": 0}
+
+
+def _unlock_stats_from_pnls(pnls):
+    n = len(pnls)
+    if n == 0:
+        return _unlock_empty_stats()
+    wins = sum(1 for p in pnls if p > 0)
+    return {
+        "n": n,
+        "wr": round(wins / n * 100, 1),
+        "avg_pnl": round(_unlock_mean(pnls), 2),
+        "total_pnl": round(sum(pnls), 2),
+        "t_stat": round(_unlock_t_stat(pnls), 2),
+    }
+
+
+def _unlock_classify_period(unlock_date_str):
+    d = unlock_date_str[:10] if isinstance(unlock_date_str, str) else ""
+    if d < "2025-01-01":
+        return "IS"
+    elif d < "2026-01-01":
+        return "OOS-2025"
+    else:
+        return "OOS-2026"
+
+
+def _unlock_compute_stats(trades):
+    if not trades:
+        return {"all": _unlock_empty_stats(), "is": _unlock_empty_stats(), "oos25": _unlock_empty_stats(), "oos26": _unlock_empty_stats()}
+    pnls_all = [t.get("net_pnl", 0) for t in trades]
+    pnls_by_period = {"IS": [], "OOS-2025": [], "OOS-2026": []}
+    for t in trades:
+        ud = t.get("unlock_date", t.get("unlockDate", ""))
+        period = _unlock_classify_period(ud)
+        pnls_by_period[period].append(t.get("net_pnl", 0))
+    return {
+        "all": _unlock_stats_from_pnls(pnls_all),
+        "is": _unlock_stats_from_pnls(pnls_by_period["IS"]),
+        "oos25": _unlock_stats_from_pnls(pnls_by_period["OOS-2025"]),
+        "oos26": _unlock_stats_from_pnls(pnls_by_period["OOS-2026"]),
+    }
+
+
+def _unlock_get_upcoming(limit=20):
+    now = datetime.now(timezone.utc)
+    now_str = now.strftime("%Y-%m-%d")
+    upcoming = []
+    for sym, date, val, pct, src in KNOWN_UNLOCKS:
+        if date >= now_str and val >= MIN_UNLOCK_VALUE_MM:
+            unlock_dt = datetime.strptime(date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+            entry_dt = unlock_dt + timedelta(days=ENTRY_DAYS)
+            exit_dt = unlock_dt + timedelta(days=EXIT_DAYS)
+            days_to = (unlock_dt - now).days
+            upcoming.append({
+                "symbol": sym,
+                "unlock_date": date,
+                "unlock_value_mm": val,
+                "pct_supply": pct,
+                "source": src,
+                "entry_date": entry_dt.strftime("%Y-%m-%d"),
+                "exit_date": exit_dt.strftime("%Y-%m-%d"),
+                "days_until": days_to,
+            })
+    upcoming.sort(key=lambda x: x["unlock_date"])
+    return upcoming[:limit]
+
+
+def _unlock_equity_curve(trades, starting_equity=10000):
+    curve = [{"trade": 0, "equity": starting_equity}]
+    eq = starting_equity
+    for i, t in enumerate(trades, 1):
+        eq += t.get("net_pnl", 0)
+        curve.append({"trade": i, "equity": round(eq, 2)})
+    return curve
+
+
 def main():
     server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
-    print(f"status_api rodando em 0.0.0.0:{PORT} (le {LOG_DIR}/hft_trades*.log)")
+    print(f"status_api rodando em 0.0.0.0:{PORT} (hft + unlock endpoints)")
     server.serve_forever()
 
 

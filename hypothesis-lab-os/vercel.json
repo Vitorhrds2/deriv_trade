@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "vite build",
+  "devCommand": "vite dev",
+  "framework": "tanstack-start",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "http://18.199.174.178:8787/api/:path*"
+    }
+  ]
+}
+

@@ -1,150 +1,298 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHeader, Panel, Mono, Stat, ConceptBanner } from "@/components/kit";
-import { Button } from "@/components/ui/button";
+import { PageHeader, Panel, Mono, Stat, Dot } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
-import { Progress } from "@/components/ui/progress";
-import { strategies, statusBadgeClass, fmtMoney } from "@/lib/mock-data";
-import { Code2, GitBranch, MousePointerSquareDashed, Plus } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
+import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
+import { getUnlockStatus, getUnlockStats } from "@/lib/unlock-api";
+import { fmtMoney } from "@/lib/mock-data";
+import { CircuitBoard, Cpu, Radio, Unlock } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/strategies")({
-  head: () => ({ meta: [{ title: "Strategy Builder — TradeLab OS" }] }),
+  head: () => ({ meta: [{ title: "Live Strategies — TradeLab OS" }] }),
   component: StrategiesPage,
 });
 
-const code = `# cpi_btc_long_v3.py
-from tradelab import Strategy, signals
-
-class CpiBtcLong(Strategy):
-    market = "BTC-PERP"
-    timeframe = "1m"
-
-    def on_event(self, ev):
-        if ev.name != "US_CPI":
-            return
-        if ev.actual > ev.forecast:
-            self.long(
-                size=self.risk.notional(0.02),
-                tp=signals.atr(14) * 2,
-                sl=signals.atr(14) * 1,
-                exit_after="4h",
-            )
-
-    def on_tick(self, bar):
-        if self.position and bar.drawdown > 0.02:
-            self.flatten()`;
-
 function StrategiesPage() {
-  const [deploying, setDeploying] = useState(0);
-  const [selectedId, setSelectedId] = useState(strategies[0].id);
-  const selected = strategies.find((x) => x.id === selectedId) ?? strategies[0];
-  const startDeploy = () => {
-    if (deploying > 0) return;
-    setDeploying(5);
-    const steps = [20, 42, 68, 88, 100];
-    steps.forEach((p, i) => setTimeout(() => setDeploying(p), 250 + i * 350));
-    setTimeout(() => {
-      setDeploying(0);
-      toast.info("Demo de UI — sem pipeline de deploy real", { description: "O unico deploy real hoje (hft_bot) e manual: scp + tmux na EC2. Ver /bots." });
-    }, 250 + steps.length * 350 + 200);
-  };
+  const hftStatusQuery = useQuery({
+    queryKey: ["hft-status"],
+    queryFn: () => getHftStatus(),
+    refetchInterval: 5000,
+  });
+  const hftTradesQuery = useQuery({
+    queryKey: ["hft-trades"],
+    queryFn: () => getHftTrades(),
+    refetchInterval: 5000,
+  });
+  const unlockStatusQuery = useQuery({
+    queryKey: ["unlock-status"],
+    queryFn: () => getUnlockStatus(),
+    refetchInterval: 10000,
+  });
+  const unlockStatsQuery = useQuery({
+    queryKey: ["unlock-stats"],
+    queryFn: () => getUnlockStats(),
+    refetchInterval: 15000,
+  });
+
+  const hftStatus = hftStatusQuery.data;
+  const hftTrades = hftTradesQuery.data;
+  const unlockStatus = unlockStatusQuery.data;
+  const unlockStats = unlockStatsQuery.data;
+
+  const hftLive = hftStatus ? isHftLive(hftStatus) : false;
+  const unlockConnected = unlockStatus?.connected ?? false;
 
   return (
     <div className="max-w-[1600px] mx-auto">
       <PageHeader
-        eyebrow="research › strategy builder"
-        title="Strategy Builder"
-        description="Converta hipóteses em lógica executável — visual ou em código — com versionamento e revisão por par."
-        actions={<Button size="sm" className="gap-1.5" onClick={() => toast.info("Conceito — sem editor de estratégias real implementado ainda.")}><Plus className="h-4 w-4" />Nova estratégia</Button>}
+        eyebrow="research › live strategies"
+        title="Live Strategies"
+        description="Bots em execução real no ecossistema — status ao vivo via APIs na AWS EC2."
       />
 
-      <ConceptBanner>
-        Preview de UI para um strategy builder multi-linguagem com deploy versionado. Na prática, estratégias são scripts Python standalone em <Mono>trading-engine/</Mono>, sem abstração comum nem deploy automatizado.
-      </ConceptBanner>
-
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <Stat label="Estratégias" value={strategies.length} />
-        <Stat label="Sharpe médio" value={(strategies.reduce((a, s) => a + s.sharpe, 0) / strategies.length).toFixed(2)} delta="+0.18 mês" tone="pos" />
-        <Stat label="Win rate médio" value={`${Math.round((strategies.reduce((a, s) => a + s.winRate, 0) / strategies.length) * 100)}%`} />
-        <Stat label="Drawdown agregado" value="6.4%" delta="dentro do limite" tone="neutral" />
+        <Stat
+          label="Bots ativos"
+          value={(hftLive ? 1 : 0) + (unlockConnected ? 1 : 0)}
+          hint="de 2 deployados"
+        />
+        <Stat
+          label="hft_bot trades"
+          value={hftTrades?.total.n ?? "—"}
+          hint="conta demo Deriv"
+        />
+        <Stat
+          label="unlock_bot trades"
+          value={unlockStats?.total_trades ?? "—"}
+          hint="paper trading"
+        />
+        <Stat
+          label="PnL agregado"
+          value={fmtMoney(
+            (hftTrades?.total.pnlTotal ?? 0) + (unlockStatus?.total_pnl ?? 0)
+          )}
+          tone={
+            (hftTrades?.total.pnlTotal ?? 0) + (unlockStatus?.total_pnl ?? 0) < 0
+              ? "neg"
+              : "pos"
+          }
+        />
       </div>
 
       <div className="grid grid-cols-12 gap-4">
-        <Panel className="col-span-12 xl:col-span-7" title="Estratégias do workspace">
-          <table className="w-full text-sm">
-            <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
-              <tr>
-                <th className="text-left px-4 py-2">Nome</th>
-                <th className="text-left px-4 py-2">Hipótese</th>
-                <th className="text-left px-4 py-2">Lang</th>
-                <th className="text-right px-4 py-2">Sharpe</th>
-                <th className="text-right px-4 py-2">DD</th>
-                <th className="text-right px-4 py-2">Win%</th>
-                <th className="text-right px-4 py-2">P&L</th>
-                <th className="text-left px-4 py-2">Estado</th>
-              </tr>
-            </thead>
-            <tbody className="font-mono text-xs">
-              {strategies.map((s) => {
-                const active = s.id === selectedId;
-                return (
-                  <tr key={s.id} onClick={() => setSelectedId(s.id)} className={`border-b border-border/40 last:border-0 cursor-pointer transition-colors ${active ? "bg-primary/5" : "hover:bg-muted/30"}`}>
-                    <td className="px-4 py-3">
-                      <div className={`text-sm font-sans font-medium ${active ? "text-primary" : "text-foreground"}`}>{s.name}</div>
-                      <div className="text-[10px] text-muted-foreground">{s.id} · {s.broker}</div>
-                    </td>
-                    <td className="px-4 py-3 text-muted-foreground">{s.hypothesisId}</td>
-                    <td className="px-4 py-3">
-                      <Badge variant="outline" className="text-[10px] font-mono uppercase border-border">
-                        {s.language === "Python" && <Code2 className="h-3 w-3 mr-1" />}
-                        {s.language === "Visual" && <MousePointerSquareDashed className="h-3 w-3 mr-1" />}
-                        {s.language === "TypeScript" && <Code2 className="h-3 w-3 mr-1" />}
-                        {s.language}
-                      </Badge>
-                    </td>
-                    <td className="px-4 py-3 text-right">{s.sharpe.toFixed(2)}</td>
-                    <td className="px-4 py-3 text-right text-warning">{s.drawdown.toFixed(1)}%</td>
-                    <td className="px-4 py-3 text-right">{Math.round(s.winRate * 100)}%</td>
-                    <td className={`px-4 py-3 text-right ${s.pnl > 0 ? "text-pos" : s.pnl < 0 ? "text-neg" : "text-muted-foreground"}`}>{fmtMoney(s.pnl)}</td>
-                    <td className="px-4 py-3">
-                      <Badge variant="outline" className={`${statusBadgeClass(s.status)} text-[10px] uppercase tracking-wider`}>{s.status}</Badge>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </Panel>
+        {/* hft_bot card */}
+        <Panel
+          className="col-span-12 xl:col-span-6"
+          title={
+            <span className="flex items-center gap-2">
+              <Radio className="h-4 w-4" />
+              hft_bot
+            </span>
+          }
+          subtitle="HYP-HFT-01 · cryBTCUSD Multiplier x800 · Deriv demo"
+          actions={
+            <Dot tone={hftLive ? "pos" : "muted"} className={hftLive ? "animate-pulse" : ""} />
+          }
+        >
+          <div className="p-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">
+                {hftLive ? "ao vivo" : "offline"}
+              </span>
+              <Badge
+                variant="outline"
+                className={`text-[10px] uppercase ${
+                  hftLive
+                    ? "border-success/40 text-success bg-success/10"
+                    : "border-destructive/40 text-destructive bg-destructive/10"
+                }`}
+              >
+                {hftLive ? "running" : "stopped"}
+              </Badge>
+            </div>
 
-        <Panel className="col-span-12 xl:col-span-5" title={<><Mono className="text-muted-foreground">~/</Mono> {selected.name}.py</>} subtitle={`${selected.id} · ${selected.broker} · sharpe ${selected.sharpe.toFixed(2)}`} actions={
-          <>
-            <Button size="sm" variant="ghost" className="gap-1.5" onClick={() => toast.info("Branch: main", { description: "3 commits ahead of origin." })}><GitBranch className="h-4 w-4" />main</Button>
-            <Button size="sm" onClick={startDeploy} disabled={deploying > 0}>{deploying > 0 ? `Deploying ${deploying}%` : "Deploy"}</Button>
-          </>
-        }>
-          {deploying > 0 && <Progress value={deploying} className="h-0.5 rounded-none" />}
-          <pre className="font-mono text-[11px] leading-relaxed p-4 overflow-auto max-h-[460px] bg-background/30 text-foreground/90">
-            <code>{code}</code>
-          </pre>
-        </Panel>
-
-        <Panel className="col-span-12" title="Visual builder (preview)" subtitle="Conecte triggers, indicadores e operadores lógicos.">
-          <div className="p-6 grid-bg rounded-b-lg">
-            <div className="grid grid-cols-5 gap-4 items-stretch text-xs font-mono">
-              {[
-                { t: "EVENT", v: "US CPI", c: "border-accent/40 text-accent" },
-                { t: "FILTER", v: "actual > forecast", c: "border-info/40 text-info" },
-                { t: "INDICATOR", v: "ATR(14)", c: "border-primary/40 text-primary" },
-                { t: "ACTION", v: "LONG BTC-PERP", c: "border-success/40 text-success" },
-                { t: "EXIT", v: "after 4h | sl=ATR", c: "border-warning/40 text-warning" },
-              ].map((n, i) => (
-                <div key={i} className={`rounded-md border bg-card p-4 ${n.c} relative`}>
-                  <div className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">{n.t}</div>
-                  <div className="text-sm font-medium mt-2 text-foreground">{n.v}</div>
-                  {i < 4 && <div className="hidden xl:block absolute top-1/2 -right-3 w-3 h-px bg-border" />}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Trades
+                </Mono>
+                <div className="mt-1 font-mono text-sm">
+                  {hftTrades?.total.n ?? "—"}
                 </div>
-              ))}
+              </div>
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Win Rate
+                </Mono>
+                <div className="mt-1 font-mono text-sm">
+                  {hftTrades ? `${Math.round(hftTrades.total.winRate * 100)}%` : "—"}
+                </div>
+              </div>
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  PnL
+                </Mono>
+                <div
+                  className={`mt-1 font-mono text-sm ${
+                    (hftTrades?.total.pnlTotal ?? 0) < 0
+                      ? "text-neg"
+                      : "text-pos"
+                  }`}
+                >
+                  {hftTrades ? fmtMoney(hftTrades.total.pnlTotal) : "—"}
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded border p-3 space-y-2">
+              <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                Config (V6.2)
+              </Mono>
+              <div className="text-xs font-mono space-y-1 text-muted-foreground">
+                <div>STAKE=$10.0 · MULTIPLIER=800 · THRESHOLD=45.00</div>
+                <div>TP=0.80% · SL=0.25% · WINDOW=50ms</div>
+                <div>GOLDEN_HOUR: 12-18 UTC · SAFETY_TIMEOUT: 30min</div>
+              </div>
+            </div>
+
+            <div className="rounded border p-3 space-y-2">
+              <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                Script
+              </Mono>
+              <div className="text-xs font-mono text-foreground/80">
+                hft_arbitrage_bot.py
+              </div>
+              <div className="text-[10px] text-muted-foreground">
+                Deploy: EC2 us-east-1 · tmux session "hft_bot" · auto-restart on WS death
+              </div>
+            </div>
+
+            <div className="text-xs text-muted-foreground">
+              <CircuitBoard className="h-3 w-3 inline mr-1" />
+              Veredito: EV/trade IC95% [-$4.70, -$1.18] — provisoriamente refutado, shadow A/B ativo
+            </div>
+          </div>
+        </Panel>
+
+        {/* unlock_bot card */}
+        <Panel
+          className="col-span-12 xl:col-span-6"
+          title={
+            <span className="flex items-center gap-2">
+              <Unlock className="h-4 w-4" />
+              unlock_short_bot
+            </span>
+          }
+          subtitle="HYP-UNLOCK-01 · Binance spot · 10 tokens · paper trading"
+          actions={
+            <Dot
+              tone={unlockConnected ? "pos" : "muted"}
+              className={unlockConnected ? "animate-pulse" : ""}
+            />
+          }
+        >
+          <div className="p-4 space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium">
+                {unlockConnected ? "conectado" : "offline"}
+              </span>
+              <Badge
+                variant="outline"
+                className={`text-[10px] uppercase ${
+                  unlockConnected
+                    ? "border-success/40 text-success bg-success/10"
+                    : "border-destructive/40 text-destructive bg-destructive/10"
+                }`}
+              >
+                {unlockStatus?.mode ?? "—"}
+              </Badge>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Posições abertas
+                </Mono>
+                <div className="mt-1 font-mono text-sm">
+                  {unlockStatus?.open_count ?? "—"}
+                </div>
+              </div>
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Trades fechados
+                </Mono>
+                <div className="mt-1 font-mono text-sm">
+                  {unlockStatus?.closed_count ?? unlockStats?.total_trades ?? "—"}
+                </div>
+              </div>
+              <div className="rounded border p-3">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Win Rate
+                </Mono>
+                <div className="mt-1 font-mono text-sm">
+                  {unlockStatus ? `${Math.round(unlockStatus.win_rate * 100)}%` : "—"}
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded border p-3 space-y-2">
+              <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                Config (D17)
+              </Mono>
+              <div className="text-xs font-mono space-y-1 text-muted-foreground">
+                <div>Entry: -3d · Exit: +3d · Fees: 20bps + real funding</div>
+                <div>Min unlock: $50M · Max concurrent: 5</div>
+                <div>Stop loss: 15% · Kelly fraction: 0.25</div>
+              </div>
+            </div>
+
+            <div className="rounded border p-3 space-y-2">
+              <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                Edge validado (3 períodos)
+              </Mono>
+              <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                <div>
+                  <span className="text-muted-foreground">IS: </span>
+                  <span className="text-pos">WR 61% · +285bps</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">OOS-25: </span>
+                  <span className="text-pos">WR 79% · +656bps</span>
+                </div>
+                <div>
+                  <span className="text-muted-foreground">OOS-26: </span>
+                  <span className="text-pos">WR 67% · +384bps</span>
+                </div>
+              </div>
+            </div>
+
+            {unlockStatus && unlockStatus.open_count > 0 && (
+              <div className="rounded border p-3 space-y-2">
+                <Mono className="text-muted-foreground uppercase tracking-wider text-[10px]">
+                  Posições abertas agora
+                </Mono>
+                <div className="space-y-1.5">
+                  {unlockStatus.open_positions.map((p, i) => (
+                    <div key={i} className="flex justify-between text-xs font-mono">
+                      <span className="text-foreground">{p.symbol}</span>
+                      <Badge
+                        variant="outline"
+                        className="text-[10px] uppercase border-destructive/40 text-destructive bg-destructive/10"
+                      >
+                        {p.side}
+                      </Badge>
+                      <span className="text-muted-foreground">
+                        {fmtMoney(p.notional)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="text-xs text-muted-foreground">
+              <Cpu className="h-3 w-3 inline mr-1" />
+              Deploy: EC2 us-east-1 · tmux session "unlock_bot" · paper trading mode
             </div>
           </div>
         </Panel>

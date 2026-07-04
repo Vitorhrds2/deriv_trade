@@ -1,0 +1,10 @@
+{
+  "n_cycles": 180,
+  "events_success_rate": 1.0,
+  "events_avg_latency_s": 2.088,
+  "market_direct_success_rate": 1.0,
+  "market_direct_avg_latency_s": 1.637,
+  "market_fallback_success_rate": 1.0,
+  "market_fallback_avg_latency_s": 2.393,
+  "updated_at": "2026-07-02T21:36:14.292900+00:00"
+}

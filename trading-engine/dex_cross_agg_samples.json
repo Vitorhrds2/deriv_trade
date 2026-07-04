@@ -1,0 +1,4162 @@
+[
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566822889512527270235,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566572862288553453153,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 565194797535210412500,
+        "success": true
+      }
+    ],
+    "spread_bps": 28.805855687577008,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:06.188120+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2833639638442877235000,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2832669860576168091317,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 2825919520663395477210,
+        "success": true
+      }
+    ],
+    "spread_bps": 27.318958388699727,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:11.645644+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566005064389138786236,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 565882135665631576400,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 564600689441564409210,
+        "success": true
+      }
+    ],
+    "spread_bps": 24.873773161053293,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:16.741347+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2829840226530914932179,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 2823027085848851674168,
+        "success": true
+      }
+    ],
+    "spread_bps": 24.134166888500204,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:19.967619+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:36.428870+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:38.167800+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:39.914357+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:41.118296+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1748170011561678875944,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748652356177753346446,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 1744636646448047569556,
+        "success": true
+      }
+    ],
+    "spread_bps": 23.01745602949169,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:43.714143+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8739738935844261278165,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8740218772278611331856,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 8719363305264146454131,
+        "success": true
+      }
+    ],
+    "spread_bps": 23.91856639563785,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:46.326272+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1748346843,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748765860,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 1742931178,
+        "success": true
+      }
+    ],
+    "spread_bps": 33.47626156240576,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:50.150987+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8742609050,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8739955200,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 8712950624,
+        "success": true
+      }
+    ],
+    "spread_bps": 34.03947443281184,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:42:52.554828+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:56.521816+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:42:58.034012+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1741498834,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1746799206,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 1742728954,
+        "success": true
+      }
+    ],
+    "spread_bps": 30.43569077692532,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:42:59.670704+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8708187686,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8733825929,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 8713478781,
+        "success": true
+      }
+    ],
+    "spread_bps": 29.44153700455739,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:43:02.265279+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:43:05.729319+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:43:06.862191+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 80276,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 81081,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 79760,
+        "success": true
+      }
+    ],
+    "spread_bps": 165.6218655967904,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:43:08.271998+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 400958,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 399744,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 399564,
+        "success": true
+      }
+    ],
+    "spread_bps": 34.888027950466004,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:43:10.235809+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 76819,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 73577,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 73489,
+        "success": true
+      }
+    ],
+    "spread_bps": 453.12903972023025,
+    "best_agg": "OpenOcean",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:43:12.435417+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 367871,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 370179,
+        "success": true
+      }
+    ],
+    "spread_bps": 62.739384186304434,
+    "best_agg": "LiFi",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:43:14.318969+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:43:30.742422+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:43:32.032921+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1746216832,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1747506246,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 1742697743,
+        "success": true
+      }
+    ],
+    "spread_bps": 27.5922948733629,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:43:33.259863+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8729651273,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8738534471,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 8714068488,
+        "success": true
+      }
+    ],
+    "spread_bps": 28.076418074624616,
+    "best_agg": "Paraswap",
+    "worst_agg": "LiFi",
+    "timestamp": "2026-07-03T13:43:36.130772+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566727676984946180528,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999941142889067341,
+    "roundtrip_bps": -0.5885711093265901,
+    "timestamp": "2026-07-03T13:43:38.073408+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566119519440274010602,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999683725240116456,
+    "roundtrip_bps": -3.1627475988354403,
+    "timestamp": "2026-07-03T13:43:44.026348+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "base",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1748587787,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1003055934517133498,
+    "roundtrip_bps": 30.559345171334982,
+    "timestamp": "2026-07-03T13:43:48.834378+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 1747864183,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1002019774286476233,
+    "roundtrip_bps": 20.197742864762333,
+    "timestamp": "2026-07-03T13:44:07.822975+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "",
+    "sell_amount_b": 0,
+    "buy_agg": "",
+    "buy_amount_a": 0,
+    "roundtrip_bps": -9999,
+    "timestamp": "2026-07-03T13:44:12.419060+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "polygon",
+    "token_a": "WMATIC",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 76847,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 1083440610390259656,
+    "roundtrip_bps": 834.4061039025966,
+    "timestamp": "2026-07-03T13:44:13.709351+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566486428813596696679,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566472392135116977977,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.24779104285757714,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:44:46.905042+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2832297206490193640611,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2832298023756119369035,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0028855231854046375,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:44:49.069265+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 565952445905998602229,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 565928796501886209881,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.4178865655639689,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:44:51.704658+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2829745005673849971034,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:44:54.160297+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:10.029705+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:11.369539+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:12.577523+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:14.652305+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1748147229646351707915,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748000530036653565845,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.8392423639314683,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:45:17.061525+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8739124591545449204948,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8738167805054930673857,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 1.0949509231958683,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:45:19.433530+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1746655002,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748248980,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 9.125889189192039,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:24.436093+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8732745314,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8736449389,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 4.241592840297049,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:27.851209+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:31.954386+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:33.278277+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1746056099,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1747000000,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 5.405903055122858,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:34.809721+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8731594592,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8735000000,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 3.9000986178630863,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:37.472119+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:39.521374+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:40.754059+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 80489,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 81081,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 73.55042303917305,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:41.991275+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 402017,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 399744,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 56.86139129042587,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:45:43.654290+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 76847,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 73642,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 435.2136009342495,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:45:45.289017+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 378785,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 368196,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 287.59139154146163,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:45:46.658480+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:48.744807+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:45:49.969377+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1746394168,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1746585117,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 1.0933900461811437,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:51.121922+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8730537316,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8732416520,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 2.1524494220488366,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:45:52.577919+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566459044506466610400,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999837052281088998,
+    "roundtrip_bps": -1.62947718911002,
+    "timestamp": "2026-07-03T13:45:54.165274+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 565911310593696833968,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999689350039996534,
+    "roundtrip_bps": -3.10649960003466,
+    "timestamp": "2026-07-03T13:45:58.980634+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "base",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1747886350,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1002866174309785302,
+    "roundtrip_bps": 28.66174309785302,
+    "timestamp": "2026-07-03T13:46:03.728812+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1747100000,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1001782027477155946,
+    "roundtrip_bps": 17.82027477155946,
+    "timestamp": "2026-07-03T13:46:08.055849+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "",
+    "sell_amount_b": 0,
+    "buy_agg": "",
+    "buy_amount_a": 0,
+    "roundtrip_bps": -9999,
+    "timestamp": "2026-07-03T13:46:13.281532+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "polygon",
+    "token_a": "WMATIC",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 76847,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 1083438206995408681,
+    "roundtrip_bps": 834.3820699540869,
+    "timestamp": "2026-07-03T13:46:29.093494+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566462149383978909523,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566450651100379279116,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.2029882669795506,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:47:01.963621+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2832245235728687657029,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2832139929628613041388,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.3718252017598041,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:47:07.518461+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 565911356480732419270,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 565944234678300979865,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.5809778721003631,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:47:10.556025+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2829539271977497466269,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2829521665718765861753,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.06222344555588376,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:47:12.712227+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:15.982928+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:17.251467+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:18.905310+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:20.709291+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748151826925957430580,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:21.873420+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8737589886082597371329,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8739384205465918052207,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 2.053563290008275,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:47:37.795731+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1747449241,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1751514286,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 23.26273579010356,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:47:41.863041+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8736958312,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8756193409,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 22.01578205264075,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:47:44.107035+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:46.434088+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:47.581367+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1754701904,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:47:49.048041+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8731632832,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8762483875,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 35.33250148464328,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:48:04.988671+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:48:07.188700+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:48:08.465242+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 80481,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 81081,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 74.55175755768443,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:48:09.696669+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 401977,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 399744,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 55.86075088056356,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:48:11.403793+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 76847,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 73642,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 435.2136009342495,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:48:13.207709+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 378880,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 368196,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 290.17153907158144,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:48:15.091268+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:48:16.662021+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:48:18.042228+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1746524953,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1746497971,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.1544920203059314,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:48:19.690840+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8731291243,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8731170753,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.13799982088152388,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:48:21.175927+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566881952333178333898,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999914417851515431,
+    "roundtrip_bps": -0.85582148484569,
+    "timestamp": "2026-07-03T13:48:23.047059+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566354531454587379749,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999720276231767970,
+    "roundtrip_bps": -2.7972376823203002,
+    "timestamp": "2026-07-03T13:48:27.431075+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "base",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1751408775,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1004519160983115406,
+    "roundtrip_bps": 45.19160983115406,
+    "timestamp": "2026-07-03T13:48:32.032237+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1754309461,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1006342722109267349,
+    "roundtrip_bps": 63.42722109267349,
+    "timestamp": "2026-07-03T13:48:37.156182+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "",
+    "sell_amount_b": 0,
+    "buy_agg": "",
+    "buy_amount_a": 0,
+    "roundtrip_bps": -9999,
+    "timestamp": "2026-07-03T13:48:41.787571+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "polygon",
+    "token_a": "WMATIC",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 76860,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 1083612080878266275,
+    "roundtrip_bps": 836.1208087826627,
+    "timestamp": "2026-07-03T13:48:42.962114+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566417444109463850567,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566201727066578564403,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 3.8098972958434727,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:15.917139+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2832014648262077773499,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2830899992313464647458,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 3.937461413824825,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:18.328663+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 565867091225820270539,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 565635835474255058906,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 4.088421154775602,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:21.541245+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2828277046569804778094,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2827785169705866391351,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 1.7394421231424364,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:24.542682+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:28.712294+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:29.928164+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:31.374358+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:32.621282+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745068241566212944712,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1745309167172792520373,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 1.380608510549381,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:33.822145+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8723177648572489527859,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8725278300878994220523,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 2.408127394778502,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:35.867785+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1743970818,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1748503034,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 25.987911914704984,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:39.454935+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8719392186,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8740588087,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 24.308920332809993,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:42.524297+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:44.375149+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:45.800254+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745518912,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1751877600,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 36.428639966520166,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:47.442394+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8727428086,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8746017840,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 21.300380612497435,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:50.202179+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:53.280619+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:49:54.592165+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 80380,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 81081,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 87.21074894252301,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:49:56.556264+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 401477,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 399744,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 43.35274575728466,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:58.055148+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 76820,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 73642,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 431.5472149045382,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:49:59.807560+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 378818,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 368196,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 288.4876533150822,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:50:01.439832+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:50:02.891911+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:50:04.186958+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745607750,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1743617082,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 11.416887460844457,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:50:05.462438+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8727857033,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8716496393,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 13.033493605439276,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:50:07.231891+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566287424550752737777,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999801816931657046,
+    "roundtrip_bps": -1.9818306834295398,
+    "timestamp": "2026-07-03T13:50:10.905427+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 565765137721831305667,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999779666852167855,
+    "roundtrip_bps": -2.20333147832145,
+    "timestamp": "2026-07-03T13:50:16.157491+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "base",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1748142168,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1004255489925341505,
+    "roundtrip_bps": 42.55489925341505,
+    "timestamp": "2026-07-03T13:50:23.592490+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1747478363,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1005947028082876100,
+    "roundtrip_bps": 59.470280828761,
+    "timestamp": "2026-07-03T13:50:30.098476+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "",
+    "sell_amount_b": 0,
+    "buy_agg": "",
+    "buy_amount_a": 0,
+    "roundtrip_bps": -9999,
+    "timestamp": "2026-07-03T13:50:35.860794+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "polygon",
+    "token_a": "WMATIC",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 76820,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 1082525975190945051,
+    "roundtrip_bps": 825.2597519094505,
+    "timestamp": "2026-07-03T13:50:37.123853+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566412756418170668000,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566698328996854380067,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 5.041775197465359,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:10.424773+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2833593909318873586457,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2833523109960026117901,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.2498633542059495,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:13.457828+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 566009432950938477037,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 566160009021189855475,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 2.6603102613738656,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:15.710772+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 2830941770031022349935,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 2830571473733331967058,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 1.3082033120399787,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:18.632353+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:21.613004+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "WBNB",
+    "to_token": "BUSD",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:22.877767+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:24.045343+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "CAKE",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:25.232438+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745785157361729532584,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1745931762019654199190,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.8397634571840381,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:26.534216+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "bsc",
+    "from_token": "ETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8727506363476362421357,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8727961001427938836418,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.5209253739178283,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:29.613810+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745076106,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1749721059,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 26.61748094555596,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:31.825933+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8724861632,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8745699906,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 23.88378736411347,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:34.044185+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:37.290276+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "base",
+    "from_token": "WETH",
+    "to_token": "CBETH",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:38.956222+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745518912,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1751138464,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 32.19416278659031,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:40.497416+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8727428086,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8736519871,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 10.417484865426138,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:42.278698+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:44.999632+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "WETH",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:46.244625+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 80374,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 81081,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 87.96376937815712,
+    "best_agg": "Paraswap",
+    "worst_agg": "OpenOcean",
+    "timestamp": "2026-07-03T13:51:47.966887+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "arbitrum",
+    "from_token": "ARB",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 401446,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 399744,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 42.57724943964137,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:49.457708+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 76895,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 73642,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 441.73162054262514,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:51.359511+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 378658,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 368196,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 284.14214168540667,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:52.781920+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:54.555379+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WMATIC",
+    "to_token": "USDT",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 0,
+        "success": false
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 0.0,
+    "best_agg": "",
+    "worst_agg": "",
+    "timestamp": "2026-07-03T13:51:55.916915+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 1.0,
+    "amount_wei": "1000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 1745607750,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 1744084693,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 8.732700918211659,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:57.080992+00:00"
+  },
+  {
+    "type": "spread",
+    "chain": "polygon",
+    "from_token": "WETH",
+    "to_token": "USDC",
+    "amount": 5.0,
+    "amount_wei": "5000000000000000000",
+    "quotes": [
+      {
+        "aggregator": "OpenOcean",
+        "out_amount": 8727857033,
+        "success": true
+      },
+      {
+        "aggregator": "Paraswap",
+        "out_amount": 8719276005,
+        "success": true
+      },
+      {
+        "aggregator": "LiFi",
+        "out_amount": 0,
+        "success": false
+      }
+    ],
+    "spread_bps": 9.841445545569698,
+    "best_agg": "OpenOcean",
+    "worst_agg": "Paraswap",
+    "timestamp": "2026-07-03T13:51:58.497105+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566749388421823690551,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999944470661023494,
+    "roundtrip_bps": -0.55529338976506,
+    "timestamp": "2026-07-03T13:52:00.227032+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "bsc",
+    "token_a": "WBNB",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 566195012861783416973,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 999662204340798648,
+    "roundtrip_bps": -3.3779565920135197,
+    "timestamp": "2026-07-03T13:52:07.124076+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "base",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1750786720,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1003458592686615599,
+    "roundtrip_bps": 34.58592686615599,
+    "timestamp": "2026-07-03T13:52:12.842067+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "Paraswap",
+    "sell_amount_b": 1751974787,
+    "buy_agg": "Paraswap",
+    "buy_amount_a": 1007266245634889000,
+    "roundtrip_bps": 72.66245634889,
+    "timestamp": "2026-07-03T13:52:17.050500+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "arbitrum",
+    "token_a": "WETH",
+    "token_b": "USDT",
+    "amount_a": 1.0,
+    "sell_agg": "",
+    "sell_amount_b": 0,
+    "buy_agg": "",
+    "buy_amount_a": 0,
+    "roundtrip_bps": -9999,
+    "timestamp": "2026-07-03T13:52:21.115503+00:00"
+  },
+  {
+    "type": "roundtrip",
+    "chain": "polygon",
+    "token_a": "WMATIC",
+    "token_b": "USDC",
+    "amount_a": 1.0,
+    "sell_agg": "OpenOcean",
+    "sell_amount_b": 76887,
+    "buy_agg": "OpenOcean",
+    "buy_amount_a": 1083445366386175939,
+    "roundtrip_bps": 834.4536638617594,
+    "timestamp": "2026-07-03T13:52:22.346210+00:00"
+  }
+]

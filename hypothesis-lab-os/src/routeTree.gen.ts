@@ -16,6 +16,7 @@ import { Route as PaperRouteImport } from './routes/paper'
 import { Route as LiveRouteImport } from './routes/live'
 import { Route as HypothesesRouteImport } from './routes/hypotheses'
 import { Route as EventsRouteImport } from './routes/events'
+import { Route as D17RouteImport } from './routes/d17'
 import { Route as BrokersRouteImport } from './routes/brokers'
 import { Route as BotsRouteImport } from './routes/bots'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
@@ -56,6 +57,11 @@ const EventsRoute = EventsRouteImport.update({
   path: '/events',
   getParentRoute: () => rootRouteImport,
 } as any)
+const D17Route = D17RouteImport.update({
+  id: '/d17',
+  path: '/d17',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrokersRoute = BrokersRouteImport.update({
   id: '/brokers',
   path: '/brokers',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/analytics': typeof AnalyticsRoute
   '/bots': typeof BotsRoute
   '/brokers': typeof BrokersRoute
+  '/d17': typeof D17Route
   '/events': typeof EventsRoute
   '/hypotheses': typeof HypothesesRoute
   '/live': typeof LiveRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/bots': typeof BotsRoute
   '/brokers': typeof BrokersRoute
+  '/d17': typeof D17Route
   '/events': typeof EventsRoute
   '/hypotheses': typeof HypothesesRoute
   '/live': typeof LiveRoute
@@ -109,6 +117,7 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/bots': typeof BotsRoute
   '/brokers': typeof BrokersRoute
+  '/d17': typeof D17Route
   '/events': typeof EventsRoute
   '/hypotheses': typeof HypothesesRoute
   '/live': typeof LiveRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/bots'
     | '/brokers'
+    | '/d17'
     | '/events'
     | '/hypotheses'
     | '/live'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/bots'
     | '/brokers'
+    | '/d17'
     | '/events'
     | '/hypotheses'
     | '/live'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/bots'
     | '/brokers'
+    | '/d17'
     | '/events'
     | '/hypotheses'
     | '/live'
@@ -164,6 +176,7 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   BotsRoute: typeof BotsRoute
   BrokersRoute: typeof BrokersRoute
+  D17Route: typeof D17Route
   EventsRoute: typeof EventsRoute
   HypothesesRoute: typeof HypothesesRoute
   LiveRoute: typeof LiveRoute
@@ -224,6 +237,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EventsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/d17': {
+      id: '/d17'
+      path: '/d17'
+      fullPath: '/d17'
+      preLoaderRoute: typeof D17RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/brokers': {
       id: '/brokers'
       path: '/brokers'
@@ -260,6 +280,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   BotsRoute: BotsRoute,
   BrokersRoute: BrokersRoute,
+  D17Route: D17Route,
   EventsRoute: EventsRoute,
   HypothesesRoute: HypothesesRoute,
   LiveRoute: LiveRoute,

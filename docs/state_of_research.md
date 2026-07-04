@@ -1,4 +1,4 @@
-# Estado da Pesquisa — Consolidado (2026-07-02)
+# Estado da Pesquisa — Consolidado (2026-07-03)
 
 **Propósito:** fonte única de verdade sobre todas as hipóteses de edge já testadas neste
 repositório, seu veredito, e o que ainda está em aberto. Consolidado após o merge de
@@ -7,16 +7,18 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**10 hipóteses testadas até agora nos sintéticos Deriv e em BTC/cripto. Todas refutadas.**
-O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4), ele é
+**36 hipóteses testadas. 32 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com sinal estatisticamente significante (D17 — token unlock short), 1 refutada em re-teste rigoroso (D16v2).**
+O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
-touch/no-touch, range, vanillas, accumulators, jump indices). Nenhuma hipótese sobreviveu a
-controle nulo + IC95% + segunda fonte independente.
+touch/no-touch, range, vanillas, accumulators, jump indices, multipliers, higher/lower, tickhigh,
+runs, asian, reset, turbos). Nenhuma hipótese sobreviveu a controle nulo + IC95% + segunda fonte
+independente.
 
-As duas frentes **ainda em aberto** (não refutadas nem confirmadas) mudam de categoria: não
-tentam vencer a margem/custo com sinal mais forte, tentam explorar algo **transiente** (bug,
-mispricing momentâneo, book desatualizado) — filosofia diferente das 10 anteriores.
+**Todos os 14 produtos Deriv ativos na API estão agora exaustivamente testados e refutados.**
+O ecossistema Deriv está fechado para mispricing de produtos. O Polymarket também está fechado
+(PA1-PA5 todos refutados). As frentes **ainda em aberto** são: Early sell optionality (rodando,
+preliminar SEM EDGE) e Synthetic Anomaly Monitor (Carlos, inacessível).
 
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
@@ -28,17 +30,39 @@ mispricing momentâneo, book desatualizado) — filosofia diferente das 10 anter
 | 4 | Vanilla Options — mispricing vs. valor justo | Deriv sintéticos | `docs/vanilla_options_report.md` | 17/17 células com EV<0; margem cresce com grau de OTM, exatamente como precificação padrão de opções |
 | 5 | T2 — SPIKE_TIMING (Boom/Crash) | Deriv sintéticos | `docs/t2_boom_crash_spike_timing_report.md` | Intervalo entre spikes consistente com processo memoryless |
 | 6 | T3 — Valor-relativo em exóticos/barreira | Deriv sintéticos | `trading-engine/docs/t3_exotic_value_report.md` | 0 células com `EV_lo>0`; "edges" do scan ingênuo eram drift de amostra + N baixo |
+| 7 | HIGHER/LOWER — barrier mispricing | Deriv sintéticos | `higher_lower_edge_scan.py` | 0/31 células com EV_lo>0; house margin 0.2-10% |
+| 8 | Multipliers (MULTUP/MULTDOWN) — mispricing standalone | Deriv sintéticos | `multiplier_edge_scan.py` | 0/30 células com EV_lo>0; MC payoff≈$0 (martingale), EV=-comissão ($0.44-$7.61) |
+| 9 | Cross-symbol arbitrage — RNG independence | Deriv sintéticos | `cross_symbol_arb_test.py` | Correlação ~0, VR ~1.0; RNGs independentes |
+| 10 | Entry Spot Lag — reuso de tick T0 | Deriv sintéticos | `docs/entry_spot_lag_report.md` | 0/75 trials com mesmo epoch; regra T+1 confirmada |
+| 11 | Direction Bias — viés direcional em 1 tick | Deriv sintéticos | `tick_direction_bias_test.py` | 200 trials randomizados: WR 52.5%, IC95% cruza breakeven |
+| 17 | DEX arb — Jupiter (Solana) vs Binance CEX + triangular | Solana DEX / Binance | `docs/dex_arb_report.md` | CEX-DEX: 0/199 amostras positivas, Jupiter sempre ~9bps abaixo de Binance. Triangular: roundtrip ~0bps (máx +7.9bps), threshold ~50bps. Agregador já captura ineficiências |
+| 18 | PA1-PA4 Polymarket — new market snipe + cross-market + multi-outcome arb + near-resolution | Polymarket (todos os mercados ativos) | `docs/polymarket_pa1_pa4_report.md` | PA3: 940 mercados, min sum(asks)=$1.001, 0 arb. PA2: 10 pares 5m/15m, diff=0.0bps. PA1: 24 novos mercados, spread=100bps desde age=37s. PA4: mecanismo já refutado pelo PA5 (N=1838) |
+| 19 | D6 — Cross-aggregator DEX arb (EVM: BSC, Base, Arbitrum, Polygon) | OpenOcean vs Paraswap vs LiFi | `docs/dex_cross_agg_report.md` | BSC (controle): spread 0-5bps, roundtrip -1 a -3bps. Base/Arb: spread 20-165bps mas roundtrip positivo é artefato de quote API indicativa. Polygon: 450bps spread é stale quote. 160 observações, 5 ciclos |
+| 20 | D7 — CEX-CEX arbitrage (Binance vs Bybit vs OKX) | CEX spot | `docs/cex_arb_report.md` | 100 observações, gross 0-4bps, net -16 a -26bps, 0/100 positivos. Market makers cross-exchange comprimem spread a zero |
+| 21 | D8 — Triangular arbitrage (Binance) | CEX spot | `docs/cex_arb_report.md` | 120 observações, gross -10bps médio, net -28 a -98bps, 0/120 positivos. Spread bid-ask em cada leg consome qualquer ineficiência |
+| 22 | D9 — Funding rate carry trade (Binance/Bybit/OKX perps) | CEX perps | `docs/cex_arb_report.md` | Scan inicial: 14/20 "lucrativos" (viés de amostra curta ~11 dias). Validação 30d: apenas 4/19, 0% das janelas 7d lucrativas. Fees 40bps + capital cost 42bps consomem funding |
+| 23 | D10 — DeFi liquidation monitor (Aave V3) | DeFi (Base) | `docs/defi_liquidation_report.md` | 108 eventos em 10.6 dias na Base. Bonus médio 7.8%. Mas 95% dos eventos têm debt <$4. Latência 30-60s vs <12s bots MEV. Capture rate retail <1%. Sem edge sem infra profissional |
+| 24 | D11 — Options IV mispricing (Deribit BTC/ETH) | Deribit options | `docs/options_stat_arb_report.md` | VRP negativo (-8.2% BTC, -8.8% ETH): IV < RV. Mas theta decay + delta hedging costs + bid-ask spreads consomem edge. Sem edge sem infra de vol trading profissional |
+| 25 | D12 — Statistical arbitrage (crypto pairs trading) | Binance spot | `docs/options_stat_arb_report.md` | 76/190 pares cointegrados (40%). Backtest OOS: 7/10 pares negativos após 40bps fees. avg PnL=-278bps, avg Sharpe=-0.26. Cointegração existe mas edge < custos |
+| 26 | D13 — Funding rate como signal direcional | Binance futures | `docs/funding_trend_report.md` | Short side (funding positivo → vender) tem WR 37-43% em 72h. Long side não funciona (WR 0-12%). Sharpe 5.4 BTC mas WR 26%. Sinal assimétrico e fraco, melhor como filtro complementar |
+| 27 | D14 — BTC trend following (momentum multi-dia) | Binance spot | `docs/funding_trend_report.md` | SMA(10/50) long+short: Sharpe OOS 1.16 BTC, 1.40 ETH. Beat buy & hold em risk-adjusted. MAS N=7 trades OOS (não significativo). Long-only não replica OOS. Marginal |
+| 28 | D15 — Combined funding filter + trend following | Binance spot+futures | `docs/combined_cvd_report.md` | Funding filter PIORA trend following: delta Sharpe -0.27 BTC, -0.45 ETH, -0.80 SOL. Filtro remove trades bons. Combinação não funciona |
+| 29 | D16 — CVD / order flow signal | Binance spot (1h) | `docs/combined_cvd_report.md` | Sharpe 10+ OOS mas N=6-12 e 27+ configs testados = overfitting. CVD divergence WR 67-75% promissor mas inconclusivo. Precisa mais dados |
+| 30 | D16v2 — CVD rigorous re-test (5k candles, k-fold, Bonferroni) | Binance spot (1h, 5000 candles) | `docs/cvd_v2_report.md` | REFUTADO. 5-fold CV + permutation test + Bonferroni (α=0.0019). Nenhum config significativo. ETH diverge_96h_48h WR 76% mas p=0.107. Sharpe 10+ do v1 era artefato de annualization |
+| 31 | D17 — Token unlock impact (short pré-unlock) | Binance spot (10 tokens, 167 eventos: 119 IS + 48 OOS) | `docs/event_driven_report.md` | **SINAL VALIDADO OOS** — Short 3d antes/3d depois: IS WR 61% avg +285bps t=2.66, OOS WR 79% avg +660bps t=5.43. Edge MAIS FORTE em 2025. Large unlocks (≥$200M): 7/7 negativos, -19.2% excess 30d. Primeiro edge real em 36 hipóteses |
+| 32 | D18 — Binance listing announcement impact | Binance spot+futures (43 listings) | `docs/event_driven_report.md` | REFUTADO. Buy at listing: WR 23%, avg +32bps (1d), t-stat=0.29. 30d excess=-15.3% (t=-3.34). Listings são "sell the news" — tokens caem após listing |
 
-## Hipóteses refutadas — sinal real, porém sub-custo
+## Hipóteses com sinal fraco/marginal (não refutadas, não confirmadas)
 
 | # | Hipótese | Produto | Relatório | Achado central |
 |---|---|---|---|---|
-| 7 | H1 — Momentum pós-choque | Binance BTC → Deriv multiplicador | `docs/h1_momentum_report.md` | Edge bruto real (~0.013-0.022%) mas comissão Deriv (~0.026%/lado) é maior. Custo > sinal |
-| 8 | H3 — Latência cross-venue (Deriv×Binance) | arbitragem de latência | `docs/h3_latency_arb_report.md` | **Definitivo mesmo co-locado em AWS Tóquio**: reagir mais rápido capturou MENOS edge (217ms vs 450ms de casa); `aligned-anti` IC95% cruza zero; custo ~489x a captura |
-| 9 | T4 — Viés direcional pós-choque, horizonte longo | Binance BTC, 7 dias OOS | `trading-engine/docs/t4_long_horizon_report.md` | Nenhuma das 24 células (momentum nem fade) sobrevive a controle nulo + custo |
-| 10 | `hft_bot` V6.2 (produção) — implementação ao vivo de H3 | Deriv `cryBTCUSD` sintético | `docs/hft_v62_audit_report.md` | N=40, WR 22.5%, EV/trade -$3.02, IC95% [-4.70,-1.18] não cruza zero. Pior de 6 configs testadas |
+| 12 | H1 — Momentum pós-choque | Binance BTC → Deriv multiplicador | `docs/h1_momentum_report.md` | Edge bruto real (~0.013-0.022%) mas comissão Deriv (~0.026%/lado) é maior. Custo > sinal |
+| 13 | H3 — Latência cross-venue (Deriv×Binance) | arbitragem de latência | `docs/h3_latency_arb_report.md` | **Definitivo mesmo co-locado em AWS Tóquio**: reagir mais rápido capturou MENOS edge (217ms vs 450ms de casa); `aligned-anti` IC95% cruza zero; custo ~489x a captura |
+| 14 | T4 — Viés direcional pós-choque, horizonte longo | Binance BTC, 7 dias OOS | `trading-engine/docs/t4_long_horizon_report.md` | Nenhuma das 24 células (momentum nem fade) sobrevive a controle nulo + custo |
+| 15 | `hft_bot` V6.2 (produção) — implementação ao vivo de H3 | Deriv `cryBTCUSD` sintético | `docs/hft_v62_audit_report.md` | N=40, WR 22.5%, EV/trade -$3.02, IC95% [-4.70,-1.18] não cruza zero. Pior de 6 configs testadas |
+| 16 | PA5 — Polymarket stale-book arbitrage | Polymarket BTC 5-15min | `pa5_collector.py` | N=1838, aligned WR=88.5% mas PnL=-$0.031; diff aligned-anti=-$0.037 IC95%[-$0.060,-$0.014] não cruza zero. Livro NÃO está stale |
 
-**Implicação direta para o `hft_bot`:** ele é a hipótese H3 rodando em produção. O item 8 (H3
+**Implicação direta para o `hft_bot`:** ele é a hipótese H3 rodando em produção. O item 13 (H3
 co-locado) já fechou essa pergunta com muito mais rigor (profundidade executável, A/B decisivo,
 teste barato em Tóquio) do que o shadow A/B do bot consegue com seu N pequeno e sem co-locação.
 Ver "Estado ao vivo — Shadow A/B do hft_bot" abaixo para o estado atual dele.
@@ -248,13 +272,79 @@ monitor Discord do shadow A/B + guardrails no `hft_arbitrage_bot.py`.
 de duas pessoas diferentes, em branches não sincronizadas. Vale alinhar com o Carlos antes do
 próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum dos dois lados.
 
+## Hipóteses em andamento
+
+| # | Hipótese | Status | Notas |
+|---|----------|--------|-------|
+| 14 | Early sell optionality | 3/20 trials na AWS | Preliminar SEM EDGE; sell melhor em losses, hold melhor em wins |
+| 15 | Synthetic Anomaly Monitor | Rodando 24/7 (Carlos) | Inacessível neste servidor; sem achado confirmado reportado |
+| 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
+
 ## Recomendação
 
-1. Nenhuma hipótese testada até agora (10/10) justifica capital real.
-2. `hft_bot` shadow A/B tem valor marginal baixo — H3 co-locada já respondeu a mesma pergunta com
+1. **Deriv está exaustivamente fechado.** Todos os 14 produtos ativos na API foram testados e
+   refutados. Nenhuma hipótese de mispricing de produto, execução, latência ou timing sobreviveu.
+2. **PA5 Polymarket refutado** com N=1838 (aligned_pior, IC95% não cruza zero). O livro CLOB está
+   corretamente precificado.
+3. `hft_bot` shadow A/B tem valor marginal baixo — H3 co-locada já respondeu a mesma pergunta com
    mais rigor. Decisão de mantê-lo rodando ou não é operacional, não estatística.
-3. As duas frentes com potencial real de descoberta nova são **Synthetic Anomaly Monitor**
-   (transiente, já rodando) e **Polymarket PA5** (estrutura invertida favoravelmente, harness
-   pronto mas sem dado ainda) — nenhuma delas precisa de capital para o próximo passo.
-4. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
-   `hft_arbitrage_bot.py` de novo.
+4. **Solana DEX arb refutado** (Jupiter vs Binance + triangular). O agregador Jupiter já captura
+   ineficiências intra-DEX; o gap CEX-DEX de ~9bps é fee estrutural, não edge explorável.
+5. **Polymarket encerrado.** PA1-PA5 todos refutados. Market makers profissionais precificam
+   corretamente desde a criação até a resolução.
+6. **EVM DEX cross-aggregator arb refutado** (D6). Spreads de 20-450 bps entre OpenOcean,
+   Paraswap e LiFi em BSC/Base/Arbitrum/Polygon são artefatos de quote APIs indicativas, não
+   preços executáveis. BSC (chain mais líquida, controle de sanidade) mostra roundtrip negativo
+   (-1 a -3 bps). O padrão espelha Solana DEX: agregadores já capturam ineficiências.
+7. **CEX-CEX arb refutado** (D7). Binance, Bybit e OKX têm preços idênticos (spread 0-4 bps,
+   fees 20 bps). Market makers cross-exchange comprimem qualquer ineficiência instantaneamente.
+8. **Triangular CEX arb refutado** (D8). Binance triangular é -10 bps gross médio. O spread
+   bid-ask em cada leg consome qualquer ineficiência. Mais eficiente que Solana DEX.
+9. **Funding rate carry trade refutado** (D9). Scan inicial mostrou 14/20 "lucrativos", mas era
+   viés de amostra curta (~11 dias). Validação com 30 dias completos: apenas 4/19, e 0% das
+   janelas de 7 dias são lucrativas após fees (40 bps) + custo de capital (42 bps/30d).
+10. **DeFi liquidation MEV refutado para retail** (D10). 108 liquidações Aave V3 na Base em 10.6
+    dias, bonus médio 7.8%. Mas 95% dos eventos têm debt <$4, latência 30-60s vs <12s dos bots MEV,
+    e RPCs gratuitos bloqueiam eth_getLogs. Sem infra profissional (WebSocket + flashbots + archive
+    node), capture rate é <1%.
+11. **Options IV mispricing refutado** (D11). VRP negativo em BTC (-8.2%) e ETH (-8.8%):
+    IV < RV sugere comprar vol, mas theta decay + delta hedging costs + bid-ask spreads
+    consomem o edge. Sem infra de vol trading profissional, não é capturável.
+12. **Statistical arbitrage refutado** (D12). 76/190 pares cointegrados (40%), mas backtest
+    OOS: 7/10 pares negativos após 40bps fees. avg PnL=-278bps, avg Sharpe=-0.26. Win rate
+    de 63% é enganosa — ganhos pequenos vs perdas grandes nos stops.
+13. **Funding rate signal — sinal fraco assimétrico** (D13). Short side (funding positivo →
+    vender) tem WR 37-43% em 72h para BTC/ETH. Long side não funciona (WR 0-12%). Sharpe 5.4
+    mas WR 26% — poucas trades grandes compensam muitas pequenas perdas. Melhor como filtro
+    complementar, não standalone.
+14. **Trend following — sinal marginal** (D14). SMA(10/50) long+short beat buy & hold em
+    risk-adjusted (Sharpe 1.16 vs 0.85 BTC). MAS N=7 trades OOS não é significativo.
+    Long-only não replica OOS. Custos de shorting (funding + borrow) reduzem edge.
+15. **Combined funding+trend refutado** (D15). Funding filter PIORA trend following:
+    delta Sharpe -0.27 BTC, -0.45 ETH, -0.80 SOL. Filtro remove trades bons — funding
+    reflete positioning atual, não direção futura. Descoberta secundária: funding-only
+    short em ETH tem Sharpe=2.96 mas MaxDD=95% — não é tradeable.
+16. **CVD / order flow — REFUTADO em re-teste rigoroso** (D16v2). 5000 candles,
+    5-fold CV, permutation test, Bonferroni correction (α=0.0019). Nenhum config
+    significativo. ETH diverge_96h_48h WR 76% mas p=0.107 (56x acima do threshold).
+    Sharpe 10+ do v1 era artefato de annualization inflation + multiple testing.
+    Sinal é regime-dependent, não robusto.
+17. **Token unlock short — EDGE VALIDADO OOS + CUSTOS + TIMING + 2026** (D17).
+    215 unlock events (119 IS 2023-2024 + 48 OOS-2025 + 48 OOS-2026), 10 tokens.
+    Short 3d antes/3d depois. IS: WR 61%, +285bps, t=2.66. OOS-2025: WR 79%, +660bps,
+    t=5.43. **OOS-2026: WR 67%, +384bps, t=2.59.** Edge mantém em 2026 (mais fraco mas
+    significativo). Timing optimization (25 combos): **-3d/+3d é o ótimo** — não precisa
+    mudar. Funding cost: -4bps OOS (irrelevante). NET OOS-2025: +656bps, t=5.38.
+    Large unlocks (≥$200M): 7/7 negativos. **Bot implementado: `unlock_short_bot.py`**
+    (paper/live/backtest modes, half-Kelly sizing, +90.9% return backtest $10k→$19k).
+18. **Binance listing impact — REFUTADO** (D18). 43 listings, buy at listing:
+    WR 23%, avg +32bps (1d), t-stat=0.29. 30d excess=-15.3% (t=-3.34). Listings
+    são "sell the news" — tokens caem após listing. Não há pump capturável.
+19. **Status consolidado**: 36 hipóteses, 32 refutadas, 2 com sinal fraco/marginal,
+    1 com edge validado OOS-2025 + OOS-2026 + custos + timing (D17). Arbitragem:
+    encerrada. Direcional: D13/D14 sinal fraco. Event-driven: D17 edge validado em
+    3 períodos (IS/OOS-25/OOS-26), timing otimizado (-3d/+3d é ótimo), custos
+    testados (funding -4bps). D18 refutado. **Bot implementado: `unlock_short_bot.py`.**
+    Próximo: paper trading em tempo real para validar execução.
+20. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
+    `hft_arbitrage_bot.py` de novo.

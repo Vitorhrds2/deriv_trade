@@ -1,21 +1,14 @@
-// Server functions que consomem a status_api.py rodando na EC2 (18.199.174.178:8787),
-// ao lado do hft_arbitrage_bot. Rodam no servidor (Cloudflare Worker em produção, Node em
-// dev) e fazem um fetch() HTTP simples -- é o único transporte que o Worker suporta (sem
-// SSH/subprocess). Se a EC2 estiver inacessível, retornam `connected: false` em vez de
-// lançar erro, para as páginas mostrarem um estado "desconectado" honesto.
-import { createServerFn } from "@tanstack/react-start";
+// Client-side fetch para status_api.py rodando na EC2 (18.199.174.178:8787).
+// CORS habilitado na API (Access-Control-Allow-Origin: *), então o browser
+// pode fetch direto sem precisar de server function (evita timeout nas Vercel
+// serverless functions que não conseguem reach a EC2).
+const API_URL = "http://18.199.174.178:8787";
 
-const DEFAULT_STATUS_API_URL = "http://18.199.174.178:8787";
-
-function apiBase(): string {
-  return process.env.HFT_STATUS_API_URL ?? DEFAULT_STATUS_API_URL;
-}
-
-async function fetchJson<T>(path: string, timeoutMs = 4000): Promise<T> {
+async function fetchJson<T>(path: string, timeoutMs = 8000): Promise<T> {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(`${apiBase()}${path}`, { signal: controller.signal });
+    const res = await fetch(`${API_URL}${path}`, { signal: controller.signal });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return (await res.json()) as T;
   } finally {
@@ -48,51 +41,49 @@ export interface HftStatus {
   error?: string;
 }
 
-export const getHftStatus = createServerFn({ method: "GET" }).handler(
-  async (): Promise<HftStatus> => {
-    try {
-      const data = await fetchJson<{
-        tmux_session_alive: boolean;
-        log_age_seconds: number | null;
-        log_stale: boolean;
-        last_error_line: string | null;
-        recent_log_lines: string[];
-        golden_hour_downtime?: {
-          seconds_today: number | null;
-          events_today: number;
-          seconds_total: number | null;
-          events_total: number;
-        };
-      }>("/api/hft/status");
-      const dt = data.golden_hour_downtime;
-      return {
-        connected: true,
-        tmuxSessionAlive: data.tmux_session_alive,
-        logAgeSeconds: data.log_age_seconds,
-        logStale: data.log_stale,
-        lastErrorLine: data.last_error_line,
-        recentLogLines: data.recent_log_lines ?? [],
-        goldenHourDowntime: {
-          secondsToday: dt?.seconds_today ?? 0,
-          eventsToday: dt?.events_today ?? 0,
-          secondsTotal: dt?.seconds_total ?? 0,
-          eventsTotal: dt?.events_total ?? 0,
-        },
+export async function getHftStatus(): Promise<HftStatus> {
+  try {
+    const data = await fetchJson<{
+      tmux_session_alive: boolean;
+      log_age_seconds: number | null;
+      log_stale: boolean;
+      last_error_line: string | null;
+      recent_log_lines: string[];
+      golden_hour_downtime?: {
+        seconds_today: number | null;
+        events_today: number;
+        seconds_total: number | null;
+        events_total: number;
       };
-    } catch (e) {
-      return {
-        connected: false,
-        tmuxSessionAlive: false,
-        logAgeSeconds: null,
-        logStale: true,
-        lastErrorLine: null,
-        recentLogLines: [],
-        goldenHourDowntime: EMPTY_DOWNTIME,
-        error: e instanceof Error ? e.message : String(e),
-      };
-    }
-  },
-);
+    }>("/api/hft/status");
+    const dt = data.golden_hour_downtime;
+    return {
+      connected: true,
+      tmuxSessionAlive: data.tmux_session_alive,
+      logAgeSeconds: data.log_age_seconds,
+      logStale: data.log_stale,
+      lastErrorLine: data.last_error_line,
+      recentLogLines: data.recent_log_lines ?? [],
+      goldenHourDowntime: {
+        secondsToday: dt?.seconds_today ?? 0,
+        eventsToday: dt?.events_today ?? 0,
+        secondsTotal: dt?.seconds_total ?? 0,
+        eventsTotal: dt?.events_total ?? 0,
+      },
+    };
+  } catch (e) {
+    return {
+      connected: false,
+      tmuxSessionAlive: false,
+      logAgeSeconds: null,
+      logStale: true,
+      lastErrorLine: null,
+      recentLogLines: [],
+      goldenHourDowntime: EMPTY_DOWNTIME,
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
+}
 
 // O bot só loga em eventos (choque de preço, ordem, erro) -- não tem heartbeat periódico
 // (deriv_tick_sync recebe ticks a cada ~1s mas não loga nenhum). Fora do golden hour
@@ -151,53 +142,51 @@ function mapGroup(g: {
   };
 }
 
-export const getHftTrades = createServerFn({ method: "GET" }).handler(
-  async (): Promise<HftTradesResponse> => {
-    try {
-      const data = await fetchJson<{
-        total: Parameters<typeof mapGroup>[0];
-        aligned: Parameters<typeof mapGroup>[0];
-        anti: Parameters<typeof mapGroup>[0];
-        recent_trades: Array<{
-          version: string;
-          ts: string | null;
-          direction: "UP" | "DOWN";
-          group?: "ALIGNED" | "ANTI";
-          jump: number;
-          formation_ms: number;
-          exec_ms: number | null;
-          contract_id: string | null;
-          close_reason: string | null;
-          profit: number | null;
-        }>;
-      }>("/api/hft/trades");
-      return {
-        connected: true,
-        total: mapGroup(data.total),
-        aligned: mapGroup(data.aligned),
-        anti: mapGroup(data.anti),
-        recentTrades: (data.recent_trades ?? []).map((t) => ({
-          version: t.version,
-          ts: t.ts,
-          direction: t.direction,
-          group: t.group ?? "ALIGNED",
-          jump: t.jump,
-          formationMs: t.formation_ms,
-          execMs: t.exec_ms,
-          contractId: t.contract_id,
-          closeReason: t.close_reason,
-          profit: t.profit,
-        })),
-      };
-    } catch (e) {
-      return {
-        connected: false,
-        total: EMPTY_GROUP,
-        aligned: EMPTY_GROUP,
-        anti: EMPTY_GROUP,
-        recentTrades: [],
-        error: e instanceof Error ? e.message : String(e),
-      };
-    }
-  },
-);
+export async function getHftTrades(): Promise<HftTradesResponse> {
+  try {
+    const data = await fetchJson<{
+      total: Parameters<typeof mapGroup>[0];
+      aligned: Parameters<typeof mapGroup>[0];
+      anti: Parameters<typeof mapGroup>[0];
+      recent_trades: Array<{
+        version: string;
+        ts: string | null;
+        direction: "UP" | "DOWN";
+        group?: "ALIGNED" | "ANTI";
+        jump: number;
+        formation_ms: number;
+        exec_ms: number | null;
+        contract_id: string | null;
+        close_reason: string | null;
+        profit: number | null;
+      }>;
+    }>("/api/hft/trades");
+    return {
+      connected: true,
+      total: mapGroup(data.total),
+      aligned: mapGroup(data.aligned),
+      anti: mapGroup(data.anti),
+      recentTrades: (data.recent_trades ?? []).map((t) => ({
+        version: t.version,
+        ts: t.ts,
+        direction: t.direction,
+        group: t.group ?? "ALIGNED",
+        jump: t.jump,
+        formationMs: t.formation_ms,
+        execMs: t.exec_ms,
+        contractId: t.contract_id,
+        closeReason: t.close_reason,
+        profit: t.profit,
+      })),
+    };
+  } catch (e) {
+    return {
+      connected: false,
+      total: EMPTY_GROUP,
+      aligned: EMPTY_GROUP,
+      anti: EMPTY_GROUP,
+      recentTrades: [],
+      error: e instanceof Error ? e.message : String(e),
+    };
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "processes": [
+    {
+      "id": "hft-bot",
+      "script": "hft_arbitrage_bot.py",
+      "args": {},
+      "enabled": false
+    },
+    {
+      "id": "unlock-bot-paper",
+      "script": "unlock_short_bot.py",
+      "args": {"paper": true},
+      "enabled": true
+    },
+    {
+      "id": "status-api",
+      "script": "status_api.py",
+      "args": {},
+      "enabled": true
+    },
+    {
+      "id": "early-sell-test",
+      "script": "early_sell_test.py",
+      "args": {"trials": 50, "stake": 10, "duration": 15, "duration-unit": "m"},
+      "enabled": false
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "HYP-ACCU-01",
+      "script": "accumulator_edge_scan.py",
+      "enabled": false
+    },
+    {
+      "id": "HYP-JUMP-01",
+      "script": "jump_index_spike_scan.py",
+      "enabled": false
+    },
+    {
+      "id": "HYP-T2-01",
+      "script": "boom_timing_test.py",
+      "enabled": false
+    }
+  ],
+  "fleet": {
+    "regions": ["eu-west-1", "ap-northeast-1", "us-east-1"],
+    "dry_run": true
+  }
+}

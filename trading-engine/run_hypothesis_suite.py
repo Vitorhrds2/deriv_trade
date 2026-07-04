@@ -58,6 +58,98 @@ HYPOTHESIS_SUITE = [
         id="accumulator", name="Fase 2: Accumulators edge scan",
         cmd=[sys.executable, "accumulator_edge_scan.py"], timeout_s=300,
     ),
+    HypothesisTest(
+        id="tickhigh", name="Fase 3: High/Low Ticks (TICKHIGH/TICKLOW) mispricing",
+        cmd=[sys.executable, "tickhigh_edge_scan.py"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="runs", name="Fase 3: Only Ups/Only Downs (RUNHIGH/RUNLOW) mispricing",
+        cmd=[sys.executable, "runs_edge_scan.py"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="asian", name="Fase 3: Asians (ASIANU/ASIAND) mispricing",
+        cmd=[sys.executable, "asian_edge_scan.py"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="reset", name="Fase 3: Reset Call/Put (RESETCALL/RESETPUT) mispricing",
+        cmd=[sys.executable, "reset_edge_scan.py"], timeout_s=400,
+    ),
+    HypothesisTest(
+        id="turbos", name="Fase 3: Turbos (TURBOSLONG/TURBOSSHORT) mispricing",
+        cmd=[sys.executable, "turbos_edge_scan.py"], timeout_s=600,
+    ),
+    HypothesisTest(
+        id="higher_lower", name="Fase 3: HIGHER/LOWER barrier mispricing",
+        cmd=[sys.executable, "higher_lower_edge_scan.py"], timeout_s=600,
+    ),
+    HypothesisTest(
+        id="multiplier", name="Fase 4: Multipliers (MULTUP/MULTDOWN) mispricing standalone",
+        cmd=[sys.executable, "multiplier_edge_scan.py"], timeout_s=900,
+    ),
+    HypothesisTest(
+        id="early_sell", name="Fase 4: Early sell optionality (bid_price vs hold)",
+        cmd=[sys.executable, "early_sell_test.py", "--trials", "20"], timeout_s=2400,
+    ),
+    HypothesisTest(
+        id="cross_symbol", name="Fase 4: Cross-symbol arbitrage (RNG independence)",
+        cmd=[sys.executable, "cross_symbol_arb_test.py"], timeout_s=600,
+    ),
+    HypothesisTest(
+        id="dex_arb", name="Fase 5: DEX arbitrage (Jupiter vs Binance + triangular)",
+        cmd=[sys.executable, "dex_arb_scan.py", "--duration-min", "10", "--interval-s", "7"], timeout_s=900,
+    ),
+    HypothesisTest(
+        id="pa1_pa4", name="Fase 5: PA1-PA4 Polymarket (multi-outcome + cross-market + new market + near-resolution)",
+        cmd=[sys.executable, "polymarket_arb_scan.py", "--duration-min", "10", "--interval-s", "20"], timeout_s=900,
+    ),
+    HypothesisTest(
+        id="dex_cross_agg", name="Fase 5: D6 Cross-aggregator DEX arb (OpenOcean vs Paraswap vs LiFi on BSC/Base/Arb/Polygon)",
+        cmd=[sys.executable, "dex_cross_agg_scan.py", "--duration-min", "10", "--interval-s", "30"], timeout_s=900,
+    ),
+    HypothesisTest(
+        id="cex_arb", name="Fase 5: D7+D8 CEX-CEX arb + Triangular (Binance/Bybit/OKX)",
+        cmd=[sys.executable, "cex_arb_scan.py", "--duration-min", "10", "--interval-s", "15"], timeout_s=900,
+    ),
+    HypothesisTest(
+        id="funding_carry", name="Fase 5: D9 Funding rate carry trade scan (Binance/Bybit/OKX perps)",
+        cmd=[sys.executable, "funding_rate_scan.py", "--days", "30"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="defi_liq", name="Fase 5: D10 DeFi liquidation scan (Aave V3 via RPC)",
+        cmd=[sys.executable, "defi_liquidation_scan.py", "--blocks", "200000", "--chains", "base"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="options_iv", name="Fase 5: D11 Options IV mispricing scan (Deribit BTC/ETH)",
+        cmd=[sys.executable, "options_iv_scan.py"], timeout_s=120,
+    ),
+    HypothesisTest(
+        id="stat_arb", name="Fase 5: D12 Statistical arbitrage scan (Binance pairs trading)",
+        cmd=[sys.executable, "stat_arb_scan.py", "--interval", "1d", "--limit", "500"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="funding_signal", name="Fase 6: D13 Funding rate directional signal scan",
+        cmd=[sys.executable, "funding_signal_scan.py"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="trend_follow", name="Fase 6: D14 BTC trend following scan",
+        cmd=[sys.executable, "trend_follow_scan.py"], timeout_s=120,
+    ),
+    HypothesisTest(
+        id="combined_signal", name="Fase 6: D15 Combined funding + trend signal scan",
+        cmd=[sys.executable, "combined_signal_scan.py"], timeout_s=120,
+    ),
+    HypothesisTest(
+        id="cvd_signal", name="Fase 6: D16v2 CVD / order flow signal (rigorous: 5k candles, k-fold, Bonferroni)",
+        cmd=[sys.executable, "cvd_signal_v2_scan.py", "--interval", "1h", "--limit", "5000", "--k-folds", "5"], timeout_s=600,
+    ),
+    HypothesisTest(
+        id="token_unlock", name="Fase 6: D17 Token unlock impact (short pre-unlock)",
+        cmd=[sys.executable, "token_unlock_scan.py"], timeout_s=300,
+    ),
+    HypothesisTest(
+        id="listing_impact", name="Fase 6: D18 Binance listing announcement impact",
+        cmd=[sys.executable, "listing_impact_scan.py"], timeout_s=600,
+    ),
 ]
 
 STAGGER_S = 4  # atraso entre lancamentos de scripts que usam a API da Deriv (evita bater rate-limit junto)

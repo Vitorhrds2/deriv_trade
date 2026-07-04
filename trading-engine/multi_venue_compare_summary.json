@@ -1,0 +1,14 @@
+{
+  "n_cycles": 1871,
+  "binance_success_rate": 1.0,
+  "polymarket_success_rate": 0.974,
+  "jupiter_success_rate": 0.998,
+  "polymarket_price_diversity_ratio": 0.066,
+  "polymarket_n_ok": 1822,
+  "jupiter_price_diversity_ratio": 0.081,
+  "jupiter_n_ok": 1442,
+  "n_comparable_poly_vs_jupiter": 1393,
+  "mean_abs_diff_poly_vs_jupiter": 0.00214,
+  "max_abs_diff_poly_vs_jupiter": 0.37,
+  "updated_at": "2026-07-02T23:44:58.293911+00:00"
+}
