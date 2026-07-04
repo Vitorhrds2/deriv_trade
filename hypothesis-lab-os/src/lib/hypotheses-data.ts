@@ -834,6 +834,127 @@ export const realHypotheses: RealHypothesis[] = [
     tools: ["cex_liquidation_scan.py"],
     reportFile: "cex_liquidation_scan.log",
   },
+  {
+    id: "HYP-JUMP-01",
+    title: "T2-Jump — Jump Indices spike-timing (memory vs memoryless)",
+    market: "Deriv Jump Indices (JD10/25/50/75/100), 400k ticks",
+    thesis:
+      "Jump Index spikes may have a 'timer' structure (increasing hazard rate with age) " +
+      "instead of being memoryless (geometric/exponential). If hazard grows, an 'overdue' spike " +
+      "becomes more likely — a structural timing edge.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "jump", "spike", "timing", "memoryless", "weibull"],
+    trigger: "Detect spikes as |return| > 8x median, measure gap distribution, fit Weibull shape k",
+    invalidation: "Weibull k < 1 (clustering), IC95% entirely below 1.0. Spikes group together, 'overdue' is LESS likely.",
+    createdAt: "2026-07-04",
+    author: "jump_timing_test.py",
+    pnl: 0,
+    trades: 261,
+    sampleUnit: "gaps between spikes, normalized by N, pooled across 5 Jump symbols",
+    verdict:
+      "REFUTADO — Spikes se AGRUPAM (clustering), não têm timer. " +
+      "Weibull shape k=0.695 IC95%[0.643, 0.765] — IC inteiro < 1.0. " +
+      "KS vs exponencial: D=0.194 > crit 0.084 → REJEITA memoryless, mas na direção OPSTA à tese. " +
+      "Hazard DECAI com idade (55% → 6%). 'Spike atrasado' é MENOS provável, não mais. " +
+      "Conclusão: P(spike) é máximo logo após um spike, depois decai. Anti-tese de timing.",
+    evPerTrade: 0,
+    ci95: [0.643, 0.765],
+    ci95Label: "Weibull shape k (IC95%) — k=1 memoryless, k<1 clustering",
+    tools: ["jump_timing_test.py"],
+    reportFile: "jump_timing_test.log",
+  },
+  {
+    id: "HYP-BOOM-01",
+    title: "T2-Boom — Boom/Crash spike-timing (memory vs memoryless)",
+    market: "Deriv Boom/Crash (BOOM300N-1000, CRASH300N-1000), 800k ticks",
+    thesis:
+      "Boom/Crash spikes may have a 'timer' structure (increasing hazard rate with age). " +
+      "If hazard grows with time since last spike, an 'overdue' spike is more likely — timing edge.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "boom", "crash", "spike", "timing", "memoryless", "weibull"],
+    trigger: "Detect spikes as |return| > 8x median in spike direction, measure gap distribution, fit Weibull",
+    invalidation: "Weibull k=1.016 IC95%[0.977, 1.059] — k=1 inside CI. KS does not reject exponential. Memoryless confirmed.",
+    createdAt: "2026-07-04",
+    author: "boom_timing_test.py",
+    pnl: 0,
+    trades: 1405,
+    sampleUnit: "gaps between spikes, normalized by N, pooled across 10 Boom/Crash symbols",
+    verdict:
+      "REFUTADO — Spikes são MEMORYLESS (sem memória). " +
+      "Weibull shape k=1.016 IC95%[0.977, 1.059] — k=1 dentro do IC. " +
+      "KS vs exponencial: D=0.011 < crit 0.036 → NÃO rejeita exponencial. " +
+      "P(gap>2*mediana | gap>mediana) = 50.3% IC95%[44.2%, 54.3%] (memoryless = 50%). " +
+      "Hazard ~constante em ~25% independente da idade. " +
+      "Conclusão: P(spike) = taxa base, independente de quanto tempo desde o último. Falácia do apostador.",
+    evPerTrade: 0,
+    ci95: [0.977, 1.059],
+    ci95Label: "Weibull shape k (IC95%) — k=1 memoryless confirmed",
+    tools: ["boom_timing_test.py"],
+    reportFile: "boom_timing_test.log",
+  },
+  {
+    id: "HYP-VRP-01",
+    title: "D23 — Crypto Volatility Risk Premium (IV vs RV)",
+    market: "Deribit BTC/ETH options vs Binance realized vol, 30d window",
+    thesis:
+      "Implied volatility on Deribit options is systematically higher than realized volatility " +
+      "of the underlying. If IV > RV consistently, selling options captures the premium. " +
+      "Well-documented edge in TradFi equity indices.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["options", "deribit", "volatility", "iv", "rv", "vrp", "btc", "eth"],
+    trigger: "Compare ATM IV (Deribit) vs 30d RV (Binance 1h klines), net of bid-ask spread",
+    invalidation: "IV < RV for both BTC and ETH. RV is higher than IV — opposite of TradFi pattern.",
+    createdAt: "2026-07-04",
+    author: "volatility_risk_premium_scan.py",
+    pnl: 0,
+    trades: 1634,
+    sampleUnit: "914 BTC + 720 ETH options (Deribit) vs 720 1h candles (Binance)",
+    verdict:
+      "REFUTADO — IV < RV (inverso do TradFi). " +
+      "BTC: IV ATM=35.9%, RV 30d=45.6% IC95%[43.9%, 47.3%]. VRP=-9.7 vol pts IC95%[-12.1, -7.5]. " +
+      "ETH: IV ATM=48.8%, RV 30d=60.7% IC95%[58.6%, 62.7%]. VRP=-11.9 vol pts IC95%[-14.4, -9.6]. " +
+      "Em crypto, vol realizada > vol implícita — comprar opções é mais barato que o payoff esperado. " +
+      "Inverse do equity index VRP. Selling options seria NEGATIVE EV no momento. " +
+      "Nota: pode variar no tempo. Períodos de baixa vol podem mostrar IV > RV.",
+    evPerTrade: -9.7,
+    ci95: [-12.1, -7.5],
+    ci95Label: "BTC VRP (IV-RV) in vol points (IC95%)",
+    tools: ["volatility_risk_premium_scan.py"],
+    reportFile: "volatility_risk_premium_scan.log",
+  },
+  {
+    id: "HYP-BASIS-01",
+    title: "D24 — Perpetual Basis Arbitrage (perp vs spot)",
+    market: "Binance/Bybit/OKX BTC perp vs spot, current snapshot + 30d funding history",
+    thesis:
+      "When perp trades at premium/discount to spot, short perp + long spot (or vice versa) " +
+      "captures basis + funding. Market-neutral. Edge should appear during stress events.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["perp", "basis", "funding", "binance", "bybit", "okx", "arb", "market-neutral"],
+    trigger: "Basis > round-trip costs (~28 bps taker) + favorable funding direction",
+    invalidation: "Basis ~4 bps vs costs 28-31 bps. Net 24h = -19 bps across all venues.",
+    createdAt: "2026-07-04",
+    author: "perp_basis_arb_scan.py",
+    pnl: 0,
+    trades: 3,
+    sampleUnit: "3 venues (Binance/Bybit/OKX), BTC spot vs perp, 90 funding periods",
+    verdict:
+      "REFUTADO (condições normais) — Basis muito pequeno vs custos. " +
+      "Binance: basis=-3.8 bps, net 24h=-19.3 bps. Bybit: -4.5 bps, -19.7 bps. OKX: -4.6 bps, -18.6 bps. " +
+      "Custos round-trip (taker both legs): 28-31 bps. Basis precisa ser > 28 bps para break-even. " +
+      "Funding histórico Binance: mean=+0.23 bps/8h, positivo 77% do tempo. " +
+      "Para ser viável: maker fees (custo cai para ~8 bps), ou capturar durante stress (liquidation cascades), " +
+      "ou hold 3+ dias acumulando funding. Edge pode existir em momentos específicos, não em regime normal.",
+    evPerTrade: -19,
+    ci95: [-31, -8],
+    ci95Label: "Net 24h carry (bps) after round-trip taker fees (IC95% across venues)",
+    tools: ["perp_basis_arb_scan.py"],
+    reportFile: "perp_basis_arb_scan.log",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
