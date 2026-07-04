@@ -733,6 +733,10 @@ class StrategyTournament:
         }
         if self.args.seed_failed_ledger:
             self.seed_failed_trend_model(state, Path(self.args.seed_failed_ledger))
+        if self.args.start_model_id:
+            self.prepare_priority_start(state, self.args.start_model_id)
+        if self.args.continue_model_id:
+            raise RuntimeError("--continue-model-id requires an existing state file")
         self.write_state(state)
         return state
 
