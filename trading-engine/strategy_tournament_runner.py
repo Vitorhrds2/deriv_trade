@@ -1375,6 +1375,8 @@ class StrategyTournament:
             if item[1] >= min_samples and item[0] >= min_score and not self.is_agent_rule_blocked(model, item[2])
         ]
         self.record_agent_status(model, spec, agent, emitted, eligible)
+        if float(model.get("blocked_until_ts", 0.0) or 0.0) > time.time():
+            return None
         if not emitted:
             return None
 
@@ -1420,6 +1422,8 @@ class StrategyTournament:
             "score_window": score_window,
             "min_paper_samples": int(spec.get("min_paper_samples", 0)),
             "min_rule_score": float(spec.get("min_rule_score", -999999)),
+            "global_blocked": float(model.get("blocked_until_ts", 0.0) or 0.0) > time.time(),
+            "global_blocked_reason": model.get("blocked_reason"),
             "emitted_count": len(emitted),
             "eligible_count": len(eligible),
             "best_rule": best,
