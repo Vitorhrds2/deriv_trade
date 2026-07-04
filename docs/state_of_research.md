@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**41 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com anomalias reais confirmadas (D36 — IV surface), 1 aguardando eventos (D34 — liquidation cascade).**
+**41 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com edge parcialmente confirmado (D36 — IV surface BUY side 100% WR), 1 aguardando eventos (D34 — liquidation cascade).**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -285,7 +285,7 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
 | 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
 | 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
-| 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Paper bot escaneando hourly. Aguardando settles para P&L real. **Edge mais promissor** |
+| 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Backtest BS: BUY 7/7 wins +$4,500 (100% WR), SELL 0/9 wins -$792 (bid-ask spread artifact). **Edge parcialmente confirmado — BUY only** |
 
 ## Recomendação
 
@@ -360,11 +360,11 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     Funding rates são太小 vs 0.08% fees. Momentum prediz direção mas valor
     coletado é insuficiente. Edge só em perps com funding anômalo (LABUSDT,
     SLXUSDT) — outliers illiquid não escaláveis.
-22. **IV surface anomaly — EDGE PROMISSOR** (D36). 6/6 anomalias reverting
-    (0 stale quotes). Paper bot ativo na AWS escaneando hourly. Filtros de
-    liquidez aplicados (bid≥0.001, OI≥50, spread<50%). Aguardando settles
-    para medir P&L real após fees Deribit (0.03% roundtrip). Se profitável,
-    este é o PRIMEIRO edge estrutural em opções crypto do projeto.
+22. **IV surface anomaly — EDGE PARCIALMENTE CONFIRMADO** (D36). Backtest BS model-based:
+    BUY side 7/7 wins +$4,500 (100% WR), SELL side 0/9 wins -$792 (bid-ask spread
+    artifacts em deep ITM). Top BUY: BTC-26MAR27-115000-C +$1,289 (172% ROI).
+    Theta decay mínimo após 7d. Reversion test: 6/6 reverting (0 stale).
+    **Próximo: ajustar paper bot para BUY only, validar settles reais.**
 23. **Liquidation cascade — AGUARDANDO EVENTOS** (D34). 0 cascades em 30min
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).

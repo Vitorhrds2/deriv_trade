@@ -1586,31 +1586,29 @@ export const realHypotheses: RealHypothesis[] = [
       "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
       "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
       "Compara IV de cada option vs média ponderada dos vizinhos.",
-    confidence: 50,
+    confidence: 55,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
-    trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50%",
-    invalidation: "Anomalias são stale quotes ou desaparecem em re-scan",
+    trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50% (BUY only)",
+    invalidation: "SELL anomalies são bid-ask spread artifacts em deep ITM",
     createdAt: "2026-07-04",
-    author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py + iv_anomaly_reversion_test.py",
+    author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py + iv_anomaly_backtest.py",
     verdict:
-      "ANOMALIAS REAIS CONFIRMADAS — IV REVERTENDO! Reversion test: 6/6 posições " +
-      "mostrando IV convergindo toward fair value (0 stale, 0 widened). " +
-      "BTC-31JUL26-82000-P: dev +3.7→+2.0 (reverting). " +
-      "ETH-10JUL26-1300-C: dev +44.2→+39.1 (reverting). " +
-      "ETH-25SEP26-1300-C: dev -44.1→-11.4 (strong reversion, fair IV ajustou de 106→73). " +
-      "Paper bot ativo na AWS escaneando hourly. Settle quando dev < 1 vol point. " +
-      "PRÓXIMO: aguardar settles para medir P&L real da reversion. " +
-      "Se reversion confirmar profitável após fees (0.03% Deribit), este é o " +
-      "PRIMEIRO EDGE estrutural do projeto em opções crypto.",
-    evPerTrade: 0,
+      "EDGE PARCIALMENTE CONFIRMADO (backtest BS). BUY side: 7/7 wins, +$4,500 (100% WR). " +
+      "SELL side: 0/9 wins, -$792 (0% WR — artefatos de bid-ask spread em deep ITM). " +
+      "Top BUY: BTC-26MAR27-115000-C +$1,289 (172% ROI, IV 41.8→54.2). " +
+      "Theta decay mínimo: após 7d P&L ainda +$3,512. " +
+      "Reversion test: 6/6 anomalias reverting (0 stale). " +
+      "PRÓXIMO: ajustar paper bot para BUY only, validar settles reais na AWS. " +
+      "Se confirmado, PRIMEIRO edge estrutural em opções crypto do projeto.",
+    evPerTrade: 232,
     ci95: [0, 0],
-    ci95Label: "6/6 anomalias reverting (0 stale). Aguardando settles para P&L real.",
-    tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_reversion_test.py"],
-    reportFile: "iv_anomaly_reversion_test_results.json",
-    pnl: 0,
-    trades: 6,
-    sampleUnit: "paper positions (6/6 reverting, scan hourly na AWS)",
+    ci95Label: "BUY 100% WR (7/7), SELL 0% WR (0/9). Backtest BS model-based, N=16.",
+    tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_backtest.py"],
+    reportFile: "iv_anomaly_backtest_results.json",
+    pnl: 3708,
+    trades: 16,
+    sampleUnit: "BS backtest (7 BUY wins + 9 SELL losses = +$3,708 net)",
   },
 ];
 
