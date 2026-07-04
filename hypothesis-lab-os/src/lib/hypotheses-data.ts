@@ -803,6 +803,36 @@ export const realHypotheses: RealHypothesis[] = [
     tools: ["cross_asset_macro_scan.py"],
     reportFile: "cross_asset_macro_scan.log",
   },
+  {
+    id: "HYP-LIQ-01",
+    title: "D22 — CEX liquidation cascade (large move → reversal)",
+    market: "BTC Futures (Binance, 1m candles, 25h sample)",
+    thesis:
+      "Large 1-minute price moves (proxy for liquidation cascades) predict short-term reversals. " +
+      "After a large UP move (2σ+), BTC tends to pull back. After a large DOWN move (3σ+), BTC tends to bounce.",
+    confidence: 1,
+    status: "validating",
+    tags: ["cex", "binance", "liquidation", "reversal", "btc", "signal", "kline"],
+    trigger: "1m return > 2σ above mean (UP) or < -2σ (DOWN)",
+    invalidation: "1500 1m candles (~25h). 3 significant pullback signals found (UP 2σ→5m, 2σ→15m, 3σ→60m). Needs larger sample + fee analysis.",
+    createdAt: "2026-07-04",
+    author: "cex_liquidation_scan.py",
+    pnl: 0,
+    trades: 1500,
+    sampleUnit: "1m candles (Binance Futures BTCUSDT, ~25h)",
+    verdict:
+      "SINAL PRELIMINAR — 3 sinais estatisticamente significativos de pullback após large UP move: " +
+      "UP 2σ→5m: -0.041% IC95%[-0.076%,-0.008%] | UP 2σ→15m: -0.059% IC95%[-0.119%,-0.002%] | " +
+      "UP 3σ→60m: -0.179% IC95%[-0.332%,-0.017%]. Bounce após DOWN 3σ→1m: +0.030% IC95%[+0.011%,+0.048%]. " +
+      "CUIDADO: N=9-38 eventos, 25h apenas. Binance taker fee 0.04%/side = 0.08% round trip. " +
+      "Sinais de 5m/15m (<0.06%) são menores que o fee. Apenas 3σ→60m (-0.18%) supera custos. " +
+      "Necessário: coletar dias/semanas de dados 1m, OOS test, distinguir liquidations reais de moves normais.",
+    evPerTrade: -0.041,
+    ci95: [-0.076, -0.008],
+    ci95Label: "UP 2σ → pullback 5m return % (IC95%)",
+    tools: ["cex_liquidation_scan.py"],
+    reportFile: "cex_liquidation_scan.log",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
