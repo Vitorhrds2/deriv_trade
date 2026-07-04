@@ -144,7 +144,7 @@ def run_scan():
     time.sleep(3)
 
     # Monitor and compute lag
-    while time.time() - state["start_time"] < RUN_DURATION:
+    while RUN_DURATION == 0 or time.time() - state["start_time"] < RUN_DURATION:
         time.sleep(5)
         elapsed = time.time() - state["start_time"]
 
@@ -191,15 +191,16 @@ def run_scan():
               f"Deriv: {state['deriv_ticks']} | "
               f"Best lag: {best_lag_ms}ms (corr: {best_corr:.2f})")
 
-    # Close connections
-    try:
-        binance_ws.close()
-    except:
-        pass
-    try:
-        deriv_ws.close()
-    except:
-        pass
+    # Close connections (skip in continuous mode)
+    if RUN_DURATION > 0:
+        try:
+            binance_ws.close()
+        except:
+            pass
+        try:
+            deriv_ws.close()
+        except:
+            pass
 
     # Summary
     elapsed = time.time() - state["start_time"]
