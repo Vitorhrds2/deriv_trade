@@ -5,7 +5,7 @@ param(
     [string]$StateJson = "strategy_guardv2_1000_stress_state.json",
     [string]$EventsJsonl = "strategy_guardv2_1000_stress_events.jsonl",
     [string]$PidFile = "logs/guardv2_1000_stress.pid",
-    [string]$Title = "GuardV2 1000 Stress Monitor",
+    [string]$Title = "GuardV2_1000_Stress_Monitor",
     [int]$IntervalSeconds = 5,
     [switch]$Once
 )
@@ -139,7 +139,11 @@ PY
         -o UserKnownHostsFile=NUL `
         ubuntu@$HostName "sed 's/\r$//' | bash"
 
-    return ($output | Select-Object -Last 1)
+    $line = ($output | Where-Object { $_ -and $_.Trim().Length -gt 0 } | Select-Object -Last 1)
+    if (-not $line) {
+        throw "Resposta remota vazia. Confira KeyPath='$KeyPath', HostName='$HostName' e conectividade SSH."
+    }
+    return $line
 }
 
 function Show-Snapshot {
@@ -195,6 +199,9 @@ do {
     try {
         $json = Get-RemoteSnapshot
         $data = $json | ConvertFrom-Json
+        if ($null -eq $data) {
+            throw "Resposta remota nao gerou JSON: $json"
+        }
         Show-Snapshot -Data $data
     } catch {
         Clear-Host
