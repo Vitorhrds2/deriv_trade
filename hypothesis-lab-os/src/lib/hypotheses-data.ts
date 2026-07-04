@@ -1610,6 +1610,159 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 16,
     sampleUnit: "BS backtest (7 BUY wins + 9 SELL losses = +$3,708 net)",
   },
+  {
+    id: "HYP-OUTFLOW-01",
+    title: "D37 — Exchange Outflow Signal (on-chain whale tracking)",
+    market: "BLOCKCHAIN · BTC/ETH · Exchange wallets · Whale Alert",
+    thesis:
+      "Saídas grandes de BTC/ETH de exchanges = holders movendo para cold storage = " +
+      "redução de supply vendável = bullish. Se detectarmos outflows > $5M em tempo real, " +
+      "compramos antes do mercado precificar a redução de supply.",
+    confidence: 20,
+    status: "validating",
+    tags: ["crypto", "on-chain", "whale", "exchange-flow", "aggressive"],
+    trigger: "Net exchange outflow > $5M in 1h → LONG BTC",
+    invalidation: "Outflows não predizem preço em 1h/4h/24h após sinal",
+    createdAt: "2026-07-04",
+    author: "exchange_outflow_scan.py",
+    verdict:
+      "SCAN INICIAL — APIs free tier limitadas. Whale Alert requer API key (401). " +
+      "Blockchain.com unconfirmed txs não retornou dados. " +
+      "Necessário API key do Whale Alert ou Glassnode para validar. " +
+      "Preço BTC: $63,218. Sem dados em tempo real ainda.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Sem dados — APIs requerem key",
+    tools: ["exchange_outflow_scan.py"],
+    reportFile: "exchange_outflow_scan_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "scan inicial (sem dados em tempo real)",
+  },
+  {
+    id: "HYP-ANNOUNCE-01",
+    title: "D38 — Binance Announcement Front-Run (listing pump capture)",
+    market: "BINANCE · Spot · Announcement API · 3s polling",
+    thesis:
+      "Binance posta anúncios de listings/delistings em sua página de suporte. " +
+      "Se detectarmos 'Will List XXX' em segundos via polling a cada 3s, podemos comprar " +
+      "o token antes do pump instantâneo que segue listings da Binance.",
+    confidence: 30,
+    status: "validating",
+    tags: ["crypto", "binance", "listing", "front-run", "aggressive", "information-edge"],
+    trigger: "New 'Will List' announcement detected → BUY token immediately",
+    invalidation: "Mercado precifica listing em < 3s (polling muito lento) ou slippage > edge",
+    createdAt: "2026-07-04",
+    author: "announcement_front_run_scan.py",
+    verdict:
+      "SCANNER FUNCIONANDO — API Binance cms/article/list/query retorna 80 anúncios " +
+      "em 8 catalogs (New Listing, Delisting, Maintenance, etc). " +
+      "Polling a cada 3s. 0 novos anúncios em 60s (esperado, ~3-10/dia). " +
+      "Necessário rodar por horas/dias para capturar listing event real. " +
+      "PRÓXIMO: deploy AWS em loop contínuo, comprar token automaticamente ao detectar 'Will List'.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Scanner funcional, aguardando primeiro listing event",
+    tools: ["announcement_front_run_scan.py"],
+    reportFile: "announcement_scan_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "60s scan (0 novos anúncios — esperado)",
+  },
+  {
+    id: "HYP-MAXPAIN-01",
+    title: "D39 — Options Max Pain Magnet (Deribit expiry day manipulation)",
+    market: "DERIBIT · BTC/ETH · Options OI · Max pain computation",
+    thesis:
+      "No dia de expiry de opções, o preço do underlying gravita toward max pain strike " +
+      "(preço onde máximo de opções expira worthless, beneficiando option writers/MMs). " +
+      "MMs têm incentivo e capital para empurrar preço toward max pain. " +
+      "Se |spot - max_pain| > 2% no expiry day, trade toward max pain.",
+    confidence: 40,
+    status: "validating",
+    tags: ["crypto", "options", "deribit", "max-pain", "expiry", "aggressive", "structural"],
+    trigger: "|spot - max_pain| > 2% on expiry day → trade toward max pain",
+    invalidation: "Preço não converge para max pain em expiries consecutivos",
+    createdAt: "2026-07-04",
+    author: "max_pain_scan.py",
+    verdict:
+      "DADOS EM TEMPO REAL — Max pain computado para 6 expiries BTC + ETH. " +
+      "Próximo expiry 10JUL26 (5.5d): BTC max pain $61k vs spot $63.4k (+3.86%), " +
+      "ETH max pain $1,700 vs spot $1,788 (+4.90%). " +
+      "SIGNAL: SHORT toward max pain se magnet effect funcionar. " +
+      "Edge potencial: ~4% - 0.1% fees = ~3.9% net. " +
+      "PRÓXIMO: trackear preço até 10JUL26 08:00 UTC. Se convergir, edge confirmado.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Max pain 4% abaixo spot em próximo expiry. Aguardando convergência.",
+    tools: ["max_pain_scan.py"],
+    reportFile: "max_pain_scan_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "6 expiries BTC + ETH (próximo: 10JUL26, 5.5d)",
+  },
+  {
+    id: "HYP-STABLECOIN-01",
+    title: "D40 — Stablecoin Mint Signal (capital inflow detection)",
+    market: "ETHEREUM · USDT/USDC · DefiLlama · Supply data",
+    thesis:
+      "Quando Tether/Circle emitem (mint) grandes quantidades de stablecoins, " +
+      "esse capital novo entra no ecossistema crypto → pressão compradora → BTC up. " +
+      "Se detectarmos mints > $500M em 3d, LONG BTC. Redemptions > $500M = BEARISH.",
+    confidence: 25,
+    status: "validating",
+    tags: ["crypto", "stablecoin", "macro", "capital-flow", "aggressive"],
+    trigger: "3d supply change > +$500M → LONG BTC | < -$500M → SHORT BTC",
+    invalidation: "Supply changes não predizem preço em 1d/7d/30d",
+    createdAt: "2026-07-04",
+    author: "stablecoin_mint_scan.py",
+    verdict:
+      "DADOS EM TEMPO REAL — DefiLlama supply: $309.5B total. " +
+      "3-day change: -$337M (REDEMPTION, não mint). " +
+      "Daily avg: -$112M/d. Sinal: NEUTRAL/BEARISH (capital saindo). " +
+      "Etherscan API requer key para real-time mint detection. " +
+      "PRÓXIMO: monitorar daily. Quando 3d change > +$500M → LONG BTC.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "3d change -$337M (redemption regime). Sem sinal bullish.",
+    tools: ["stablecoin_mint_scan.py"],
+    reportFile: "stablecoin_mint_scan_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "7d supply history (3d change: -$337M)",
+  },
+  {
+    id: "HYP-WASH-01",
+    title: "D41 — Binance WS Trade Anomaly Detector (wash trading / smart money flow)",
+    market: "BINANCE · WebSocket · BTCUSDT/ETHUSDT/SOLUSDT · Real-time",
+    thesis:
+      "Padrões anômalos no Binance trade stream (clusters de trades idênticos em <100ms, " +
+      "volume bursts, duplicate trade IDs) revelam operações coordenadas, algoritmos de " +
+      "execução de MMs, ou wash trading. Seguir a direção dos clusters = seguir smart money.",
+    confidence: 35,
+    status: "validating",
+    tags: ["crypto", "binance", "websocket", "wash-trading", "anomaly", "aggressive", "real-time"],
+    trigger: "5+ identical trades in <100ms → follow direction | Volume burst 5x avg → track price",
+    invalidation: "Clusters são apenas TWAP/VWAP de retails, não predizem direção",
+    createdAt: "2026-07-04",
+    author: "wash_trading_scan.py",
+    verdict:
+      "SCAN FUNCIONANDO — 5,235 trades em 120s (43.5/s). " +
+      "0 duplicate trade IDs (não há wash trading óbvio). " +
+      "150 trade clusters (2.87%): 5+ trades idênticos em <100ms — provável TWAP/VWAP. " +
+      "Buy/Sell ratio inclinado BUY em todos 3 símbolos (SOL 2:1 buy). " +
+      "Volume burst threshold muito sensível (86% falsos positivos). " +
+      "PRÓXIMO: ajustar thresholds, correlacionar clusters com movimento de preço, " +
+      "deploy AWS por 24h+.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "150 clusters em 120s (2.87%). 0 dup IDs. Buy pressure em 3/3 símbolos.",
+    tools: ["wash_trading_scan.py"],
+    reportFile: "wash_trading_scan_results.json",
+    pnl: 0,
+    trades: 5235,
+    sampleUnit: "120s WS scan (5,235 trades, 150 clusters, 0 dup IDs)",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {

@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**41 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com edge parcialmente confirmado (D36 — IV surface BUY side 100% WR), 1 aguardando eventos (D34 — liquidation cascade).**
+**46 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com edge parcialmente confirmado (D36 — IV surface BUY side 100% WR), 1 aguardando eventos (D34 — liquidation cascade), 5 novas em validação inicial (D37-D41 — hipóteses agressivas).**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -286,6 +286,11 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
 | 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
 | 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Backtest BS: BUY 7/7 wins +$4,500 (100% WR), SELL 0/9 wins -$792 (bid-ask spread artifact). **Edge parcialmente confirmado — BUY only** |
+| 20 | D37 — Exchange outflow signal | Scan inicial | APIs free tier limitadas (Whale Alert 401). Sem dados em tempo real. Necessário API key |
+| 21 | D38 — Binance announcement front-run | Scanner funcional | API Binance retorna 80 anúncios em 8 catalogs. Polling 3s. 0 novos em 60s (esperado). Deploy AWS para capturar listing real |
+| 22 | D39 — Options max pain magnet | Dados em tempo real | Max pain 10JUL26: BTC $61k vs spot $63.4k (+3.86%), ETH $1,700 vs $1,788 (+4.90%). SHORT toward max pain. Trackear até expiry |
+| 23 | D40 — Stablecoin mint signal | Dados em tempo real | DefiLlama: $309.5B supply, 3d change -$337M (redemption, bearish). Sem sinal bullish. Etherscan API key necessária para real-time |
+| 24 | D41 — WS trade anomaly detector | Scan funcional | 5,235 trades em 120s. 0 dup IDs (não há wash trading). 150 clusters (2.87%, provável TWAP/VWAP). Buy pressure em 3/3 símbolos |
 
 ## Recomendação
 
@@ -369,11 +374,10 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).
     Precisa dias/semanas para capturar eventos durante volatilidade alta.
-24. **Status consolidado**: 41 hipóteses, 36 refutadas, 2 com sinal fraco/marginal,
-    1 com edge validado (D17), 1 com anomalias reais confirmadas (D36, aguardando
-    P&L), 1 aguardando eventos (D34). Arbitragem: encerrada. Direcional: D13/D14
-    sinal fraco. Event-driven: D17 edge validado em 3 períodos. Options: D36
-    edge promissor (anomalias reverting). **Foco: D17 go live + D36 paper bot
-    settles + D34 aguardar volatilidade.**
+24. **Status consolidado**: 46 hipóteses, 36 refutadas, 2 com sinal fraco/marginal,
+    1 com edge validado (D17), 1 com edge parcialmente confirmado (D36 BUY only),
+    1 aguardando eventos (D34), 5 novas em validação inicial (D37-D41).
+    **Foco: D17 go live + D36 paper bot settles + D39 max pain trackear até 10JUL26 +
+    D38/D41 deploy AWS em loop contínuo + D37/D40 obter API keys.**
 25. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
     `hft_arbitrage_bot.py` de novo.
