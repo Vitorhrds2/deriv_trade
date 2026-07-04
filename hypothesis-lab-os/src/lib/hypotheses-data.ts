@@ -955,6 +955,37 @@ export const realHypotheses: RealHypothesis[] = [
     tools: ["perp_basis_arb_scan.py"],
     reportFile: "perp_basis_arb_scan.log",
   },
+  {
+    id: "HYP-VAN-01",
+    title: "T3-Vanilla — Vanilla Options mispricing (convex payoff)",
+    market: "Deriv 1HZ100V Vanilla Options (CALL/PUT), 15m + 60m durations",
+    thesis:
+      "Vanilla Options have CONVEX payoff (unlike all binary/barrier products tested). " +
+      "Monte Carlo driftless simulation vs market price may reveal mispricing in the " +
+      "payout_per_point calibration. Only product with real optionality tested.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "vanilla", "options", "convex", "monte-carlo", "mispricing"],
+    trigger: "Monte Carlo 20k simulations of driftless price paths, compare payout vs $10 stake",
+    invalidation: "20 cells tested (CALL/PUT x barrier x duration). 0 cells with EV_lo > 0. EV range -3.3% to -24.6%.",
+    createdAt: "2026-07-04",
+    author: "vanilla_edge_scan.py",
+    pnl: 0,
+    trades: 20,
+    sampleUnit: "20 cells (CALL/PUT x 5-6 barriers x 2 durations), 20k MC sims each, 15k historical ticks",
+    verdict:
+      "REFUTADO — House margin presente em todas as 20 células. " +
+      "EV médio: -13.1% (min=-3.3%, max=-24.6%). 0 células com EV_lo > 0. " +
+      "Padrão: EV mais negativo para barreiras OTM distantes (maior alavancagem, maior margem). " +
+      "EV menos negativo para ITM profundo (-3.3%) mas ainda negativo. " +
+      "Conclusão: Deriv calibra payout_per_point com margem embutida em todos os strikes. " +
+      "Mesmo payoff convexo não escapa da house margin. Último produto Deriv não testado — refutado.",
+    evPerTrade: -0.131,
+    ci95: [-0.246, -0.033],
+    ci95Label: "EV range across 20 cells (min to max EV, all negative)",
+    tools: ["vanilla_edge_scan.py"],
+    reportFile: "vanilla_edge_scan.log",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
