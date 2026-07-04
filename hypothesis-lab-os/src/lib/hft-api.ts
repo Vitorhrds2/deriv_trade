@@ -1,8 +1,7 @@
 // Client-side fetch para status_api.py rodando na EC2 (18.199.174.178:8787).
-// CORS habilitado na API (Access-Control-Allow-Origin: *), então o browser
-// pode fetch direto sem precisar de server function (evita timeout nas Vercel
-// serverless functions que não conseguem reach a EC2).
-const API_URL = "http://18.199.174.178:8787";
+// Usa paths relativos (/api/...) que o Vercel rewrite proxy encaminha para a EC2.
+// Isso evita Mixed Content blocking (HTTPS page -> HTTP API) e CORS issues.
+const API_URL = "";
 
 async function fetchJson<T>(path: string, timeoutMs = 8000): Promise<T> {
   const controller = new AbortController();
