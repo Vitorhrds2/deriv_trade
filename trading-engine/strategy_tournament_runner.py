@@ -622,6 +622,38 @@ DISCOVERY_MODEL_SPECS = [
         ],
         "rationale": "Agentic PnL500 campaign: reuse champion-neighbor reversal, sub-0.20 threshold, direction filters, trend control, and rolling paper-score selection for sustained demo PnL.",
     },
+    {
+        "id": "adaptive_agent_consistency_pnl500_v4_guarded_1HZ10V",
+        "kind": "adaptive_agent",
+        "symbol": "1HZ10V",
+        "duration_ticks": 1,
+        "cooldown_seconds": 45,
+        "stake": 1.0,
+        "score_window": 120,
+        "min_paper_samples": 80,
+        "min_rule_score": 6.0,
+        "agent_status_log_seconds": 30,
+        "block_guard": {"window": 4, "max_loss": -12.0, "max_gain": 28.0, "pause_seconds": 600},
+        "loss_streak_pause": {"losses": 2, "pause_seconds": 900, "phases": ["gate30", "target100", "post100"]},
+        "agent_rule_live_guard": {"losses": 1, "pause_seconds": 1800, "window": 3, "max_loss": -1.0},
+        "target100_trailing_pause": {
+            "drawdown_from_peak": 25.0,
+            "pause_seconds": 1200,
+            "min_trades": 30,
+            "phases": ["target100", "post100"],
+        },
+        "rules": [
+            {"id": "rev3_018_call", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_018_put", "kind": "reversal", "streak": 3, "min_move": 0.18, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_020_call", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["CALL"]},
+            {"id": "rev3_020_put", "kind": "reversal", "streak": 3, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "rev3_022", "kind": "reversal", "streak": 3, "min_move": 0.22},
+            {"id": "rev4_025", "kind": "reversal", "streak": 4, "min_move": 0.25},
+            {"id": "mr5_020_put", "kind": "mean_revert", "window": 5, "min_move": 0.20, "allowed_contract_types": ["PUT"]},
+            {"id": "mr6_025", "kind": "mean_revert", "window": 6, "min_move": 0.25},
+        ],
+        "rationale": "Agentic PnL500 v4: tighten paper gate and quarantine any sub-rule after live loss to reduce paper/live mismatch seen in v3.",
+    },
 ]
 
 
@@ -698,6 +730,7 @@ def empty_model_state(spec, status="pending"):
         "blocked_reason": None,
         "last_agent_rule": None,
         "last_agent_status": None,
+        "rule_live_stats": {},
         "promoted_at": None,
         "pivot_reason": None,
         "started_at": None,
@@ -1035,7 +1068,7 @@ class StrategyTournament:
             return True
         return False
 
-    def update_after_settlement(self, model, profit):
+    def update_after_settlement(self, model, profit, signal=None):
         model["trades"] += 1
         if profit > 0:
             model["wins"] += 1
@@ -1048,6 +1081,7 @@ class StrategyTournament:
         recent = model.setdefault("recent_profits", [])
         recent.append(round(profit, 4))
         model["recent_profits"] = recent[-100:]
+        self.update_agent_rule_live_stats_after_settlement(model, profit, signal)
         self.apply_block_guard_after_settlement(model)
         self.apply_loss_streak_pause_after_settlement(model)
         self.apply_target100_trailing_pause_after_settlement(model)
@@ -1303,7 +1337,11 @@ class StrategyTournament:
 
         min_samples = int(spec.get("min_paper_samples", 0))
         min_score = float(spec.get("min_rule_score", -999999))
-        eligible = [item for item in emitted if item[1] >= min_samples and item[0] >= min_score]
+        eligible = [
+            item
+            for item in emitted
+            if item[1] >= min_samples and item[0] >= min_score and not self.is_agent_rule_blocked(model, item[2])
+        ]
         self.record_agent_status(model, spec, agent, emitted, eligible)
         if not emitted:
             return None
@@ -1326,9 +1364,11 @@ class StrategyTournament:
     def record_agent_status(self, model, spec, agent, emitted, eligible):
         score_window = int(spec.get("score_window", 40))
         rules = []
+        live_stats = model.get("rule_live_stats", {})
         for rule in spec.get("rules", []):
             rule_id = rule["id"]
             history = agent.get("history", {}).get(rule_id, [])
+            rule_live = live_stats.get(rule_id, {})
             rules.append(
                 {
                     "rule_id": rule_id,
@@ -1337,6 +1377,8 @@ class StrategyTournament:
                     "lifetime_score": round(sum(history), 4),
                     "currently_emitted": any(item[2] == rule_id for item in emitted),
                     "eligible": any(item[2] == rule_id for item in eligible),
+                    "live_blocked": self.is_agent_rule_blocked(model, rule_id),
+                    "live_stats": rule_live,
                 }
             )
 
@@ -1367,6 +1409,70 @@ class StrategyTournament:
                 rules=rules,
             )
             agent["last_status_logged_at"] = now
+
+    def is_agent_rule_blocked(self, model, rule_id):
+        stats = model.get("rule_live_stats", {}).get(rule_id, {})
+        return float(stats.get("blocked_until_ts", 0.0) or 0.0) > time.time()
+
+    def update_agent_rule_live_stats_after_settlement(self, model, profit, signal):
+        rule_id = (signal or {}).get("agent_rule_id")
+        if not rule_id:
+            return
+        stats = model.setdefault("rule_live_stats", {}).setdefault(
+            rule_id,
+            {
+                "trades": 0,
+                "wins": 0,
+                "losses": 0,
+                "pnl": 0.0,
+                "loss_streak": 0,
+                "recent_profits": [],
+                "blocked_until_ts": 0.0,
+                "blocked_reason": None,
+            },
+        )
+        stats["trades"] += 1
+        stats["pnl"] = round(float(stats.get("pnl", 0.0)) + profit, 4)
+        stats.setdefault("recent_profits", []).append(round(profit, 4))
+        stats["recent_profits"] = stats["recent_profits"][-20:]
+        if profit > 0:
+            stats["wins"] += 1
+            stats["loss_streak"] = 0
+        elif profit < 0:
+            stats["losses"] += 1
+            stats["loss_streak"] = int(stats.get("loss_streak", 0)) + 1
+
+        spec = self.current_spec()
+        guard = spec.get("agent_rule_live_guard") if spec else None
+        if not guard:
+            return
+        pause_seconds = float(guard.get("pause_seconds", 0))
+        if pause_seconds <= 0:
+            return
+
+        reason = None
+        required_losses = int(guard.get("losses", 0))
+        if required_losses > 0 and int(stats.get("loss_streak", 0)) >= required_losses:
+            reason = f"rule_loss_streak_{required_losses}"
+        window = int(guard.get("window", 0))
+        if not reason and window > 0 and len(stats.get("recent_profits", [])) >= window:
+            block_pnl = round(sum(stats["recent_profits"][-window:]), 4)
+            if block_pnl <= float(guard.get("max_loss", -999999)):
+                reason = f"rule_recent_loss_{window}_pnl_{block_pnl}"
+        if not reason:
+            return
+
+        stats["blocked_until_ts"] = time.time() + pause_seconds
+        stats["blocked_reason"] = reason
+        self.log_event(
+            "agent_rule_quarantine",
+            model_id=model["id"],
+            rule_id=rule_id,
+            reason=reason,
+            pause_seconds=pause_seconds,
+            rule_trades=stats["trades"],
+            rule_pnl=stats["pnl"],
+        )
 
     def update_adaptive_paper(self, agent, spec, ticks):
         if len(ticks) < 2:
@@ -1478,7 +1584,7 @@ class StrategyTournament:
             if contract.get("is_sold"):
                 profit = float(contract.get("profit", 0.0))
                 model = next(item for item in self.state["models"] if item["id"] == model_id)
-                self.update_after_settlement(model, profit)
+                self.update_after_settlement(model, profit, signal)
                 self.log_event("settled", model_id=model_id, trade_no=trade_no, contract_id=contract_id, profit=profit, pnl=model["pnl"], trades=model["trades"], **signal)
                 self.logger.info("SETTLED model=%s trade=%s profit=%.2f pnl=%.2f trades=%s", model_id, trade_no, profit, model["pnl"], model["trades"])
                 return
