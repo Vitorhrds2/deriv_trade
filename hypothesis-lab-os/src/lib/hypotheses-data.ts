@@ -1551,30 +1551,31 @@ export const realHypotheses: RealHypothesis[] = [
       "Premium index é publicado em tempo real → podemos prever funding ANTES de ser postado. " +
       "Estratégia: se premium > 0.1% → SHORT para receber funding positivo. " +
       "Também testa momentum: últimos 3 fundings positivos predizem próximo positivo?",
-    confidence: 40,
-    status: "weak-signal",
+    confidence: 10,
+    status: "refuted",
     tags: ["crypto", "funding", "prediction", "futures", "aggressive", "information-edge"],
     trigger: "Momentum WR > 60% OU premium_index > fees (0.08%)",
     invalidation: "Funding não é autocorrelacionado e premium < fees",
     createdAt: "2026-07-04",
-    author: "funding_prediction_scan.py + funding_paper_bot.py",
+    author: "funding_prediction_scan.py + funding_momentum_backtest.py",
     verdict:
-      "SINAL FRACO CONFIRMADO + PAPER BOT ATIVO NA AWS. " +
-      "Momentum test: 88.7% accuracy (N=204) — últimos 3 fundings predizem direção do próximo. " +
-      "Premium index atualmente ~0% (não há oportunidade now — mercado calmo). " +
-      "Paper bot (fund_paper) monitorando premium_index a cada 60s nos top 20 perps. " +
-      "Entra automaticamente quando premium > 0.10% + momentum confirma. " +
-      "Position size: $1000 simulado. Oportunidades aparecem em volatilidade alta. " +
-      "Annualized quando ativo: +30-300% dependendo do par. " +
-      "CUIDADO: momentum pode ser regime-dependente (bull market bias).",
-    evPerTrade: 0.01,
-    ci95: [-0.02, 0.04],
-    ci95Label: "Funding momentum accuracy 88.7% (N=204). Paper bot ativo, 0 trades ainda (premium ~0%).",
-    tools: ["funding_prediction_scan.py", "funding_paper_bot.py"],
-    reportFile: "funding_paper_bot.log",
-    pnl: 0,
-    trades: 204,
-    sampleUnit: "funding periods (10 perps × ~20 history) + paper bot ativo 60s scan",
+      "REFUTADO APÓS BACKTEST DECISIVO. Momentum direction accuracy: 87.3% (N=1269) — " +
+      "MAS Profitable WR: apenas 11.7% (149 wins / 1120 losses). " +
+      "EV/trade: -$0.43 (-0.043%). Total P&L: -$548. Annualized: -47.3%. " +
+      "PROBLEMA: Funding rates são太小 (avg 0.002-0.01%) vs 0.08% roundtrip fees. " +
+      "Momentum prediz DIREÇÃO corretamente (87%), mas o valor do funding coletado " +
+      "é insuficiente para cobrir fees na maioria dos períodos. " +
+      "Única exceção: LABUSDT (+$142.81, WR 70.3%) e SLXUSDT (+$74.81) — " +
+      "perps com funding médio alto (-0.23% e -0.16%). Mas estes são outliers " +
+      "e podem não persistir. Edge só existe quando funding > 0.08% (alta volatilidade).",
+    evPerTrade: -0.43,
+    ci95: [-0.48, -0.38],
+    ci95Label: "EV -$0.43/trade (N=1269, 20 perps, 30d). WR direção 87.3% mas WR lucro 11.7%.",
+    tools: ["funding_prediction_scan.py", "funding_momentum_backtest.py", "funding_paper_bot.py"],
+    reportFile: "funding_momentum_backtest_results.json",
+    pnl: -548.15,
+    trades: 1269,
+    sampleUnit: "funding events backtested (20 perps × ~30d × 3 strategies)",
   },
   {
     id: "HYP-IVANOM-01",
@@ -1585,29 +1586,31 @@ export const realHypotheses: RealHypothesis[] = [
       "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
       "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
       "Compara IV de cada option vs média ponderada dos vizinhos.",
-    confidence: 30,
+    confidence: 50,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
     trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50%",
     invalidation: "Anomalias são stale quotes ou desaparecem em re-scan",
     createdAt: "2026-07-04",
-    author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py",
+    author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py + iv_anomaly_reversion_test.py",
     verdict:
-      "PAPER BOT ATIVO NA AWS. Filtros de liquidez aplicados (bid≥0.001, ask≤2.0, OI≥50, spread<50%). " +
-      "Primeiro scan: 234 BTC + 209 ETH opções líquidas. 6 posições abertas: " +
-      "BUY ETH-25SEP26-1300-C (IV=62.0 vs fair=106.2, dev=-44.1, est. profit=$0.13), " +
-      "SELL ETH-10JUL26-1300-C (IV=106.8 vs fair=62.6, dev=+44.2, est. profit=$0.12), " +
-      "BUY ETH-31JUL26-1450-C (dev=-22.0), 3x SELL BTC (dev +3.7 a +7.9). " +
-      "Bot escaneia a cada 1h, settle quando anomalia reverte (dev < 1 vol point). " +
-      "PRÓXIMO: verificar em 1h se anomalias reverteram ou persistem (stale quotes vs real edge).",
+      "ANOMALIAS REAIS CONFIRMADAS — IV REVERTENDO! Reversion test: 6/6 posições " +
+      "mostrando IV convergindo toward fair value (0 stale, 0 widened). " +
+      "BTC-31JUL26-82000-P: dev +3.7→+2.0 (reverting). " +
+      "ETH-10JUL26-1300-C: dev +44.2→+39.1 (reverting). " +
+      "ETH-25SEP26-1300-C: dev -44.1→-11.4 (strong reversion, fair IV ajustou de 106→73). " +
+      "Paper bot ativo na AWS escaneando hourly. Settle quando dev < 1 vol point. " +
+      "PRÓXIMO: aguardar settles para medir P&L real da reversion. " +
+      "Se reversion confirmar profitável após fees (0.03% Deribit), este é o " +
+      "PRIMEIRO EDGE estrutural do projeto em opções crypto.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "6 paper positions abertas. Primeiro settle em ~1h. Needs reversion data.",
-    tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py"],
-    reportFile: "iv_anomaly_paper_bot.log",
+    ci95Label: "6/6 anomalias reverting (0 stale). Aguardando settles para P&L real.",
+    tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_reversion_test.py"],
+    reportFile: "iv_anomaly_reversion_test_results.json",
     pnl: 0,
     trades: 6,
-    sampleUnit: "paper positions (234 BTC + 209 ETH líquidas, scan hourly)",
+    sampleUnit: "paper positions (6/6 reverting, scan hourly na AWS)",
   },
 ];
 
