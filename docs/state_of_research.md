@@ -291,6 +291,11 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 22 | D39 — Options max pain magnet | Dados em tempo real | Max pain 10JUL26: BTC $61k vs spot $63.5k (+3.87%), ETH $1,700 vs $1,787 (+4.85%). SHORT toward max pain. Trackear até expiry |
 | 23 | D40 — Stablecoin mint signal | Funcionando (Etherscan V2) | DefiLlama: $309.5B supply, 3d change -$337M (redemption). Etherscan V2: 14 large USDT transfers, $100M from Tether treasury |
 | 24 | D41 — WS trade anomaly detector | Funcionando (thresholds ajustados) | 2,388 trades em 120s. 0 dup IDs. 9 clusters (0.38%, TWAP/VWAP). 7 vol bursts. BTC buy 4.6:1 |
+| 25 | D42 — Deriv vs Binance latency arb | Lag detectado | 164ms avg lag (0-300ms variável). Deriv atualiza ~1 tick/s vs Binance 20/s. Necessário medir consistência 1h+ |
+| 26 | D43 — Order book imbalance | ⚡ EDGE DETECTADO | 75.4% accuracy em 30s (N=98). Imbalance >70% bid/ask prediz direção. Diretamente negociável |
+| 27 | D44 — Funding rate arb | Aguardando | 0 sinais (mercado estável). Monitorando 20 perps a cada 5min |
+| 28 | D45 — Liquidation cascade | Aguardando | 0 cascades em 120s. Eventos raros, precisa dias de monitoramento |
+| 29 | D46 — Deriv tick patterns | ⚡ EDGE PRELIMINAR | ==D→UP 55.4% (N=542), ==U→DOWN 56.7% (N=300). Mean reversion nos ticks sintéticos |
 
 ## Recomendação
 

@@ -1763,6 +1763,150 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 2388,
     sampleUnit: "120s WS scan (2,388 trades, 9 clusters, 7 vol bursts, 0 dup IDs)",
   },
+  {
+    id: "D42",
+    title: "Deriv vs Binance Cross-Venue Latency Arbitrage",
+    market: "cryBTCUSD · Binance BTCUSDT",
+    thesis:
+      "Deriv's crypto price feed (cryBTCUSD) may lag Binance's real-time price. " +
+      "If lag > 100ms consistently, we can trade on Deriv knowing where price already moved. " +
+      "Stream both venues simultaneously and cross-correlate.",
+    confidence: 45,
+    status: "validating",
+    tags: ["crypto", "deriv", "binance", "latency", "arbitrage", "aggressive", "real-time"],
+    trigger: "Binance price moves → Deriv hasn't updated yet → trade on Deriv in direction",
+    invalidation: "Lag is 0ms most of the time (Deriv catches up instantly)",
+    createdAt: "2026-07-04",
+    author: "deriv_binance_latency_arb_scan.py",
+    verdict:
+      "LAG DETECTADO: 164ms avg (0-300ms variável). " +
+      "Deriv atualiza ~1 tick/s vs Binance 20/s. " +
+      "Lag é real mas inconsistente — às vezes 0ms, às vezes 300ms. " +
+      "PRÓXIMO: medir consistência em 1h+ para determinar explorabilidade.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "164ms avg lag, 11 samples. Variabilidade alta (0-300ms).",
+    tools: ["deriv_binance_latency_arb_scan.py"],
+    reportFile: "deriv_binance_latency_arb_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "60s dual-venue scan (1,367 Binance trades, 63 Deriv ticks, 164ms avg lag)",
+  },
+  {
+    id: "D43",
+    title: "Binance Order Book Imbalance Predictor",
+    market: "BTCUSDT · ETHUSDT · SOLUSDT",
+    thesis:
+      "When bid volume >> ask volume (or vice versa) in the top 20 order book levels, " +
+      "price moves in the direction of the imbalance within 30s. " +
+      "Imbalance > 70% → predict direction → trade and close after 30s.",
+    confidence: 70,
+    status: "validating",
+    tags: ["crypto", "binance", "orderbook", "microstructure", "aggressive", "real-time", "edge"],
+    trigger: "Bid/ask volume imbalance > 70% → trade in imbalance direction, close 30s",
+    invalidation: "Accuracy drops below 60% with larger sample (N=500+)",
+    createdAt: "2026-07-04",
+    author: "orderbook_imbalance_scan.py",
+    verdict:
+      "⚡ EDGE DETECTADO: 75.4% accuracy em 30s (N=98). " +
+      "10s: 71.9%, 5s: 54.3%, 1s: 22.4%. " +
+      "Order book imbalance > 70% prediz direção do preço. " +
+      "Diretamente negociável: detectar imbalance → trade → close 30s. " +
+      "PRÓXIMO: validar N=500+, implementar bot de execução.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "75.4% at 30s (N=98), 71.9% at 10s (N=89). Need N=500+ for Wilson CI.",
+    tools: ["orderbook_imbalance_scan.py"],
+    reportFile: "orderbook_imbalance_results.json",
+    pnl: 0,
+    trades: 98,
+    sampleUnit: "120s scan (98 predictions, 75.4% accuracy at 30s horizon)",
+  },
+  {
+    id: "D44",
+    title: "Binance Funding Rate + Basis Arbitrage",
+    market: "Binance Futures · 20 perpetuals",
+    thesis:
+      "When perpetual futures funding rate is extreme, basis reverts. " +
+      "Short futures + long spot when funding > 0.05%/8h (delta neutral, collect funding). " +
+      "Monitor 20 perpetuals for extreme funding conditions.",
+    confidence: 30,
+    status: "validating",
+    tags: ["crypto", "binance", "futures", "funding", "basis", "delta-neutral", "aggressive"],
+    trigger: "Funding > 0.05%/8h → SHORT futures + LONG spot | Funding < -0.03%/8h → LONG futures",
+    invalidation: "Funding flips sign before basis reverts, or basis widens further",
+    createdAt: "2026-07-04",
+    author: "funding_basis_arb_scan.py",
+    verdict:
+      "AGUARDANDO: 0 sinais em 20 perps (mercado estável). " +
+      "Funding rates extremos ocorrem em alta volatilidade. " +
+      "Monitorando continuamente a cada 5min.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "0 signals in 20 perpetuals. All funding rates within normal range.",
+    tools: ["funding_basis_arb_scan.py"],
+    reportFile: "funding_basis_arb_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "20 perpetuals scanned, 0 extreme funding signals",
+  },
+  {
+    id: "D45",
+    title: "Binance Liquidation Cascade Predictor",
+    market: "BTCUSDT · ETHUSDT · SOLUSDT Futures",
+    thesis:
+      "When 3+ liquidations occur in 10s on the same side, a cascade forms that amplifies " +
+      "the price move. Joining the cascade direction for 30-60s captures the forced flow. " +
+      "Stream liquidation orders via WebSocket in real-time.",
+    confidence: 25,
+    status: "validating",
+    tags: ["crypto", "binance", "liquidation", "cascade", "momentum", "aggressive", "real-time"],
+    trigger: "3+ liquidations in 10s same direction → join cascade, exit 30-60s",
+    invalidation: "Price reverses immediately after cascade (cascade exhaustion)",
+    createdAt: "2026-07-04",
+    author: "liquidation_cascade_predictor.py",
+    verdict:
+      "AGUARDANDO: 0 liquidations em 120s (mercado calmo). " +
+      "Cascades são eventos raros — precisam dias de monitoramento. " +
+      "Mais prováveis durante flash crashes e high leverage flushouts.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "0 cascades in 120s. Need days of monitoring for rare events.",
+    tools: ["liquidation_cascade_predictor.py"],
+    reportFile: "liquidation_cascade_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "120s WS scan (0 liquidations, 0 cascades — market calm)",
+  },
+  {
+    id: "D46",
+    title: "Deriv Tick Pattern Exploitation",
+    market: "R_10-100 · 1HZ10V-100V",
+    thesis:
+      "Deriv's synthetic price feed may have exploitable patterns at the tick level. " +
+      "Track 3-tick sequential patterns (e.g., ==D, ==U) and predict next tick direction. " +
+      "If pattern > 55% accuracy → executable 1-tick CALL/PUT trade.",
+    confidence: 55,
+    status: "weak-signal",
+    tags: ["deriv", "synthetic", "ticks", "pattern", "mean-reversion", "aggressive", "real-time"],
+    trigger: "==D pattern (flat-flat-down) → CALL | ==U pattern (flat-flat-up) → PUT",
+    invalidation: "Pattern accuracy drops below 52% with N=5000+ (Wilson CI crosses 50%)",
+    createdAt: "2026-07-04",
+    author: "deriv_tick_pattern_scan.py",
+    verdict:
+      "⚡ EDGE PRELIMINAR: Mean reversion pattern detectado. " +
+      "==D → UP: 55.4% (N=542). ==U → DOWN: 56.7% (N=300). " +
+      "Quando 2 ticks idênticos seguidos de directional tick, próximo tick tende a REVERTER. " +
+      "PRÓXIMO: acumular N=5000+ em 24h para validação estatística.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "==D: 55.4% (N=542), ==U: 56.7% (N=300). Need N=5000+ for Wilson CI.",
+    tools: ["deriv_tick_pattern_scan.py"],
+    reportFile: "deriv_tick_pattern_results.json",
+    pnl: 0,
+    trades: 880,
+    sampleUnit: "120s scan (880 ticks, 10 symbols, 2 patterns > 55%)",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
