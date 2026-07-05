@@ -11,11 +11,14 @@ export const Route = createFileRoute("/bots")({
   component: BotsPage,
 });
 
-// trading-engine/*.py fora dos 2 arquivos ativos hoje (hft_arbitrage_bot.py, status_api.py):
-// variantes de oracle_diff_bot, straddle/forex/scalper exploits, rng_smoothing_exploit etc.
-// Contagem real do repo (nao deployados / sem tmux ativo), atualizar se o inventario mudar.
-// (find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l, menos os 2 ativos acima)
-const OTHER_SCRIPTS_COUNT = 97;
+// trading-engine/*.py fora dos 15 scripts com sessao tmux ativa hoje na EC2 (hft_arbitrage_bot.py,
+// status_api.py, unlock_short_bot.py, liquidation_cascade_scan.py, e as 11 hypothesis bots
+// D37-D41/D44/D46 + iv_anomaly/basis/options/twap paper bots -- ver /paper e state_of_research.md).
+// Contagem real do repo verificada em 2026-07-05 (scripts historicos, testados uma vez ou em
+// standby), atualizar se o inventario mudar:
+// find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l   -> 181 total
+// menos os 15 ativos acima                                       -> 166
+const OTHER_SCRIPTS_COUNT = 166;
 
 function BotsPage() {
   const statusQuery = useQuery({
@@ -38,7 +41,7 @@ function BotsPage() {
       <PageHeader
         eyebrow="execution › bot orchestrator"
         title="Bot Orchestrator"
-        description="Status real do único bot em produção (hft_bot, AWS) via API na EC2. Sem frota multi-broker fake — deploy hoje é manual (scp + tmux)."
+        description="Status real do hft_bot (AWS) via API dedicada na EC2 — detalhe completo abaixo. Há mais 12 bots de validação de hipótese rodando na mesma instância sem UI dedicada ainda (ver /paper e docs/state_of_research.md). Deploy é manual (scp + tmux) para todos."
         actions={
           <Button
             variant="outline"
@@ -59,10 +62,10 @@ function BotsPage() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Stat
-          label="Bots em execução"
-          value={isLive ? 1 : 0}
+          label="hft_bot"
+          value={isLive ? "rodando" : "parado"}
           tone={isLive ? "pos" : "neutral"}
-          hint="hft_bot · AWS"
+          hint="+12 outros bots na mesma EC2, ver /paper"
         />
         <Stat label="Trades hoje (total)" value={trades?.total.n ?? "—"} hint="ALIGNED + ANTI" />
         <Stat
@@ -221,8 +224,10 @@ function BotsPage() {
             {OTHER_SCRIPTS_COUNT}+ scripts exploratórios em <Mono>trading-engine/</Mono> (variantes
             de <Mono>oracle_diff_bot</Mono>, <Mono>straddle_multiplier_exploit</Mono>,{" "}
             <Mono>forex_imbalance_exploit</Mono>, <Mono>rng_smoothing_exploit</Mono>, etc.) —
-            testados em algum momento ou em standby, nenhum com sessão tmux ativa hoje. Deploy é
-            manual (scp + tmux); orquestração automática de fleet ainda não existe.
+            testados uma vez (veredito fechado) ou em standby, sem sessão tmux ativa hoje. Deploy é
+            manual (scp + tmux); orquestração automática de fleet ainda não existe. Isso NÃO inclui
+            os 12 bots de hipótese em validação ativa (D37-D41, D44, D46, D34, D36, D29,
+            options/twap) — esses têm sessão tmux rodando agora, ver <Mono>/paper</Mono>.
           </div>
         </Panel>
       </div>

@@ -414,9 +414,15 @@ function PaperPage() {
               <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Tmux Sessions</div>
               <div className="text-sm font-mono mt-1 flex items-center gap-1">
                 <Cpu className="h-3 w-3" />
-                hft_bot · unlock_bot · pa5_collector · status_api
+                16 ativas (hft_bot, unlock_bot, status_api, supervisor + 12 hypothesis bots)
               </div>
             </div>
+          </div>
+          <div className="px-4 pb-4 text-[11px] text-muted-foreground">
+            Só hft_bot e unlock_bot têm API de status ao vivo (painéis acima). Os outros 12
+            (D37-D41, D44, D46, D34 liq_bot, D36 iv_anomaly, D29 basis, options/twap paper bots)
+            rodam na mesma instância validando hipóteses de pesquisa, sem UI dedicada ainda —
+            status real em <Mono>docs/state_of_research.md</Mono>.
           </div>
         </Panel>
       </div>

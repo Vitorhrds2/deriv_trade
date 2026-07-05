@@ -145,6 +145,8 @@ revelam operações coordenadas ou wash trading. Seguir o flow dos "smart money"
 
 ## D42 — Deriv vs Binance Cross-Venue Latency Arbitrage
 
+> ⚠️ **REFUTADO em 2026-07-05** com N=6.830 (13h AWS) — ver seção "UPDATE 2026-07-05" no final deste documento. O achado abaixo é o teste inicial de 60s, mantido só para histórico.
+
 **Tese:** Deriv's crypto price feed (cryBTCUSD) lags Binance's real-time price.
 If lag > 100ms, we can trade on Deriv knowing where price already moved on Binance.
 
@@ -165,6 +167,8 @@ If lag > 100ms, we can trade on Deriv knowing where price already moved on Binan
 ---
 
 ## D43 — Binance Order Book Imbalance Predictor ⚡ EDGE DETECTED
+
+> ⚠️ **REFUTADO em 2026-07-05** — auto-concluído com N=24.994 (9.3h AWS), accuracy caiu 75.4%→58.8%. Ver seção "UPDATE 2026-07-05" no final deste documento. O achado abaixo é o teste inicial de 120s (N=98), mantido só para histórico.
 
 **Tese:** When bid volume >> ask volume (or vice versa) in the top 20 order book levels,
 price moves in the direction of the imbalance within 30s.
@@ -217,6 +221,8 @@ Short futures + long spot when funding > 0.05%/8h (delta neutral, collect fundin
 
 ## D45 — Binance Liquidation Cascade Predictor
 
+> ⚠️ **RETIRADO em 2026-07-05** — redundante com D34 (`liquidation_cascade_scan.py`), que já rodava com design mais rigoroso. Ver seção "UPDATE 2026-07-05" no final deste documento. Não usar este script novamente, usar D34.
+
 **Tese:** When 3+ liquidations occur in 10s on the same side, a cascade forms
 that amplifies the price move. Joining the cascade direction for 30-60s captures
 the forced flow.
@@ -241,6 +247,8 @@ the forced flow.
 ---
 
 ## D46 — Deriv Tick Pattern Exploitation ⚡ EDGE DETECTED
+
+> ⚠️ **DADOS PERDIDOS em 2026-07-05** (crash sem checkpoint) — corrigido e restartado do zero. Achado abaixo (N=542/300) ainda não confirmado em amostra maior. Ver seção "UPDATE 2026-07-05" no final deste documento.
 
 **Tese:** Deriv's synthetic price feed may have exploitable patterns at the tick level.
 Duplicate ticks (==) followed by a directional tick (U or D) may predict reversion.

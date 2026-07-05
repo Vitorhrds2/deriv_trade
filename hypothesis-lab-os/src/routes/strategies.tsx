@@ -54,7 +54,7 @@ function StrategiesPage() {
         <Stat
           label="Bots ativos"
           value={(hftLive ? 1 : 0) + (unlockConnected ? 1 : 0)}
-          hint="de 2 deployados"
+          hint="com API de status (+14 outros sem live status, ver /bots)"
         />
         <Stat
           label="hft_bot trades"
@@ -163,7 +163,7 @@ function StrategiesPage() {
                 hft_arbitrage_bot.py
               </div>
               <div className="text-[10px] text-muted-foreground">
-                Deploy: EC2 us-east-1 · tmux session "hft_bot" · auto-restart on WS death
+                Deploy: EC2 eu-central-1 · tmux session "hft_bot" · auto-restart on WS death
               </div>
             </div>
 
@@ -292,7 +292,7 @@ function StrategiesPage() {
 
             <div className="text-xs text-muted-foreground">
               <Cpu className="h-3 w-3 inline mr-1" />
-              Deploy: EC2 us-east-1 · tmux session "unlock_bot" · paper trading mode
+              Deploy: EC2 eu-central-1 · tmux session "unlock_bot" · paper trading mode
             </div>
           </div>
         </Panel>

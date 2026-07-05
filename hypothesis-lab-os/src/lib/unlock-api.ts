@@ -1,4 +1,7 @@
-// Client-side fetch para unlock_status_api.py rodando na EC2 (18.199.174.178:8787).
+// Client-side fetch para os endpoints /api/unlock/* servidos por status_api.py na EC2
+// (18.199.174.178:8787, proxied via rewrite em vercel.json). status_api.py absorveu a lógica
+// de unlock_status_api.py -- esse script legado (porta 8788) não é mais usado por nada e foi
+// parado em 2026-07-05 (confirmado: nenhum path do frontend aponta pra 8788).
 // CORS habilitado na API (Access-Control-Allow-Origin: *), então o browser
 // pode fetch direto sem precisar de server function (evita timeout nas Vercel
 // serverless functions que não conseguem reach a EC2).
