@@ -272,12 +272,93 @@ pattern in Deriv's synthetic feed:
 
 ---
 
-## Resumo D42-D46
+## Resumo D42-D46 (achados iniciais, 60-120s local — ver UPDATE abaixo para dados reais de 13h)
 
-| # | Hipótese | Status | Achado inicial |
+| # | Hipótese | Status inicial | Achado inicial |
 |---|----------|--------|----------------|
 | D42 | Latency Arb (Deriv vs Binance) | Lag detectado | 164ms avg lag (0-300ms variável). Necessário medir consistência |
 | D43 | Order Book Imbalance | ⚡ EDGE DETECTADO | 75.4% accuracy em 30s (N=98). Diretamente negociável |
 | D44 | Funding Rate Arb | Aguardando | 0 sinais (mercado estável). Monitorando 20 perps |
 | D45 | Liquidation Cascade | Aguardando | 0 cascades em 120s. Eventos raros, precisa dias |
 | D46 | Deriv Tick Patterns | ⚡ EDGE PRELIMINAR | ==D→UP 55.4% (N=542), ==U→DOWN 56.7% (N=300). Mean reversion |
+
+---
+
+## UPDATE 2026-07-05 — Auditoria pós-incidente AWS (dados reais de 13h)
+
+**Contexto:** A instância AWS ficou inacessível por ~5h (09:26-15:46 UTC) por pressão de
+memória (t3.micro, 911MB RAM, sem swap, ~20 processos concorrentes). Antes de religar
+qualquer bot, foi feita uma auditoria completa dos logs acumulados (13h de dados reais,
+muito maior que os scans locais de 60-120s acima) e uma checagem cruzada contra o resto
+do `state_of_research.md` para achar hipóteses já testadas de forma mais rigorosa.
+Ver detalhes completos em `docs/state_of_research.md` item 26 (nota do incidente).
+
+### D42 — REFUTADO (era "lag detectado")
+
+Com N=6.830 amostras (13h), o lag médio do FEED se confirma em ~204.5ms (max 950ms) —
+maior amostra, mesma conclusão qualitativa do teste local. **MAS** esta pergunta específica
+(lag do feed Deriv vs Binance) já tinha sido respondida de forma **muito mais rigorosa** por
+`docs/h3_latency_arb_report.md`: H3 mediu o MESMO lag de feed (~0.51 corr em +400ms) só que
+foi além — testou a **execução real** (60 + 41 ordens demo, incluindo VM co-localizada em
+Tóquio) e descobriu que o fill da Deriv **sempre reprecifica fresco**, tornando o lag do feed
+inexplorável. Custo ~489x a captura, mesmo co-locado. D42 mede só o "Passo 1" de H3 (feed),
+nunca chegou ao "Passo 3" (fill real), que é o teste decisivo. **Não restartado.**
+
+### D43 — REFUTADO (era "⚡ EDGE DETECTADO")
+
+O processo rodou 33.487s (9.3h) sem supervisão e **concluiu sozinho** (WS caiu naturalmente,
+o script não tinha reconexão automática em modo `--continuous` — bug notado, sem impacto aqui
+porque o resultado final já é conclusivo). Com N=24.994 predictions e 756 resolvidas:
+accuracy em 30s **caiu de 75.4% (N=98) para 58.8% (N=756)** — abaixo do próprio threshold de
+60% que eu tinha definido como "edge". Isso é clássica regressão à média de false-positive de
+amostra pequena. Além disso, `docs/order_book_imbalance_report.md` (D33) já tinha testado
+exatamente esta tese com N=2.400+ e fees incluídos: WR direcional real de até 62.5% em 10s,
+mas **0% dos trades lucrativos após taker fee de 0.1%/lado** — o movimento de preço em 10-30s
+é menor que o custo de transação. D43 nunca contabilizou fees; se tivesse, o resultado teria
+sido o mesmo 0% lucrativo do D33. **Não restartado.**
+
+### D44 — Sem mudança de veredito (aguardando evento extremo)
+
+113 ciclos completos em 13h (a cada 5min). Único sinal persistente: ATOMUSDT LONG_FUT com
+funding ~-0.03%/8h, bem na borda do threshold, magnitude pequena. Nenhum extremo real
+observado. **Restartado** — é barato (polling REST leve) e a pergunta central (o que acontece
+quando funding é REALMENTE extremo) ainda não foi testada.
+
+### D45 — RETIRADO (redundante com D34)
+
+Durante a auditoria, descobri que esta hipótese (3+ liquidações/10s = cascade) já existia
+como **D34** (`liquidation_cascade_scan.py`, tmux `liq_bot`), rodando continuamente desde
+antes desta sessão, com design **mais rigoroso**: 4 hold periods testados (30/60/120/300s)
+e P&L já ajustado por fee (0.1%/lado). D34 confirma 0 cascades em todos os ciclos ao longo
+de dias de dados — mesmo resultado do D45 (0 em 120s), só que com muito mais tempo de
+observação. Rodar os dois em paralelo desperdiça recursos (críticos agora, ver incidente).
+**D45 não restartado — D34 é a fonte única desta tese daqui em diante.**
+
+### D46 — Dados perdidos, restart com fix (era "⚡ EDGE PRELIMINAR")
+
+O script rodou ~8h na AWS mas **nunca escreveu nenhum checkpoint** — o design original só
+salva o JSON de resultado DEPOIS que `ws.run_forever()` retorna (ou seja, só numa desconexão
+"limpa"). Como o processo morreu abruptamente no crash de memória, **todo o progresso
+acumulado em 8h foi perdido**; o log na AWS só tinha os mesmos N=542/300 do teste local
+inicial de 120s. **Corrigido:** adicionado `save_checkpoint()` chamado a cada 500 ticks, para
+que crashes futuros percam no máximo alguns minutos de dados, não 8h. Restartado do zero com
+o fix — ainda preliminar, precisa N=5000+ (≈24h+) para validação Wilson CI. Esta é a única das
+5 hipóteses agressivas que **não colide** com nenhuma pesquisa anterior (o mecanismo de
+"dígitos" já testado é sobre o último dígito do preço, não sobre sequências de 3 ticks) —
+continua sendo uma pista genuinamente nova e vale manter rodando.
+
+### Achado bônus não relacionado a D42-46: Early Sell Optionality FECHOU
+
+Durante a mesma auditoria, encontrei que `early_sell_test.py` (hipótese separada, rodando na
+AWS desde antes desta sessão) **completou seus 50 trials programados** exatamente durante a
+janela do incidente. Resultado: **EDGE CONFIRMADO**. Sell (vender no melhor bid) WR 86%
+(IC95%[73.8%,93.1%]) vs Hold WR 52% (IC95%[38.5%,65.2%]); diferença de EV = +$5.23/trade,
+IC95%[+$3.22,+$7.17] não cruza zero. Confirmado por regra non-hindsight (vender no 1º bid≥
+threshold) em todos os 8 thresholds testados. Ver `docs/state_of_research.md` item 14 e
+`hypotheses-data.ts` (HYP-SELL-01, agora `status: live`).
+
+### Fix de infraestrutura
+
+Adicionado swapfile de 2GB (`/swapfile`, persistente via `/etc/fstab`) para dar margem de
+segurança contra pressão de memória futura. Supervisor (`aggressive_monitor_supervisor.sh`)
+atualizado para NÃO religar D42/D43/D45 automaticamente.

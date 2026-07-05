@@ -73,6 +73,21 @@ def run_scan():
             "dup_streak": 0,
         }
 
+    def save_checkpoint():
+        elapsed_now = time.time() - state["start_time"]
+        try:
+            with open("deriv_tick_pattern_results.json", "w") as f:
+                json.dump({
+                    "duration_s": elapsed_now,
+                    "total_ticks": state["total_ticks"],
+                    "duplicates": dict(state["duplicates"]),
+                    "timing_gaps": state["timing_gaps"][:50],
+                    "patterns": {k: v for k, v in state["patterns"].items() if v["total"] >= 5},
+                    "checkpoint": True,
+                }, f, indent=2, default=str)
+        except Exception:
+            pass
+
     def on_message(ws, msg):
         try:
             data = json.loads(msg)
@@ -140,6 +155,10 @@ def run_scan():
                             state["patterns"][pattern_key]["down"] += 1
 
                 sym_state["last_tick_ts"] = now_ms
+
+                # Periodic checkpoint so long continuous runs survive crashes/restarts
+                if state["total_ticks"] % 500 == 0:
+                    save_checkpoint()
 
         except Exception as e:
             pass

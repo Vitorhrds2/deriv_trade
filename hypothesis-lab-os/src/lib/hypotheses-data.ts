@@ -254,21 +254,24 @@ export const realHypotheses: RealHypothesis[] = [
     market: "1HZ10V · CALL 15m",
     thesis:
       "A capacidade de vender antes do expiry a bid_price poderia ter valor de optionality (vender quando ITM antes de reverter) que excede o custo do spread bid/ask embutido.",
-    confidence: 45,
-    status: "validating",
-    tags: ["early-sell", "optionality", "bid-price", "mega-brain-2", "edge-preliminar"],
+    confidence: 85,
+    status: "live",
+    tags: ["early-sell", "optionality", "bid-price", "mega-brain-2", "edge-confirmado"],
     trigger: "Comprar CALL 15m, monitorar bid_price durante vida do contrato, comparar sell no melhor bid vs hold-to-expiry",
     invalidation: "IC95% da diferença sell_profit - hold_profit cruzar zero (non-hindsight, regra predefinida)",
     createdAt: "2026-07-03",
     author: "early_sell_test.py",
-    pnl: 89.54,
-    trades: 20,
-    sampleUnit: "trials reais (20/20 completos, 15m cada) — confirmação com 50 trials em andamento",
+    pnl: 261.48,
+    trades: 50,
+    sampleUnit: "N=50 trials completos (100% do target), 15m cada, non-hindsight validado",
     verdict:
-      "EDGE PRELIMINAR (N=20) — Sell WR 75%, EV +$4.48/trade. Hold WR 50%, EV -$0.39/trade. " +
-      "Diferença +$4.86/trade, IC95% [+$1.94, +$7.82] NÃO cruza zero. " +
-      "Regra non-hindsight (thresh=$13): EV_sell +$3.84 vs EV_hold +$0.49. " +
-      "Confirmação com 50 trials em andamento na EC2. N=20 ainda é pequeno — aguardar N≥50 para veredito final.",
+      "EDGE CONFIRMADO (N=50 COMPLETO) — Sell WR 86% (IC95%[73.8%,93.1%]), EV +$5.23/trade " +
+      "(IC95%[$4.18,$6.28]). Hold WR 52% (IC95%[38.5%,65.2%]), EV -$0.0004/trade (cruza zero). " +
+      "Diferença sell-hold = +$5.23/trade, IC95%[+$3.22,+$7.17] NÃO cruza zero. " +
+      "Regra non-hindsight (vender no 1o bid≥threshold) confirma o edge em TODOS os 8 " +
+      "thresholds testados ($11-$18) — não é cherry-picking do bid máximo (hindsight). " +
+      "N=20→N=50: WR subiu 75%→86%, EV subiu $4.48→$5.23 — sinal FORTALECEU com mais dados " +
+      "(oposto do padrão usual de false-positive regredindo). PRÓXIMO: considerar implementação real.",
     tools: ["early_sell_test.py", "probe_sellable.py"],
     reportFile: "docs/state_of_research.md",
   },
@@ -1771,26 +1774,28 @@ export const realHypotheses: RealHypothesis[] = [
       "Deriv's crypto price feed (cryBTCUSD) may lag Binance's real-time price. " +
       "If lag > 100ms consistently, we can trade on Deriv knowing where price already moved. " +
       "Stream both venues simultaneously and cross-correlate.",
-    confidence: 45,
-    status: "validating",
+    confidence: 5,
+    status: "refuted",
     tags: ["crypto", "deriv", "binance", "latency", "arbitrage", "aggressive", "real-time"],
     trigger: "Binance price moves → Deriv hasn't updated yet → trade on Deriv in direction",
     invalidation: "Lag is 0ms most of the time (Deriv catches up instantly)",
     createdAt: "2026-07-04",
     author: "deriv_binance_latency_arb_scan.py",
     verdict:
-      "LAG DETECTADO: 164ms avg (0-300ms variável). " +
-      "Deriv atualiza ~1 tick/s vs Binance 20/s. " +
-      "Lag é real mas inconsistente — às vezes 0ms, às vezes 300ms. " +
-      "PRÓXIMO: medir consistência em 1h+ para determinar explorabilidade.",
+      "REFUTADO (via H3 + dados próprios N=6.830). Rodou 13h na AWS: avg lag=204.5ms, " +
+      "max=950ms — confirma que o lag do FEED é real e consistente. MAS H3 já testou " +
+      "isso exaustivamente no nível de EXECUÇÃO (60+41 ordens demo reais, incl. " +
+      "co-locado em Tóquio): fill sempre reprecifica fresco, custo ~489x a captura. " +
+      "D42 mede só o feed (Passo 1 de H3), não a execução (o teste decisivo). " +
+      "Não restartar — pergunta já respondida.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "164ms avg lag, 11 samples. Variabilidade alta (0-300ms).",
+    ci95Label: "N=6.830 (13h AWS): avg=204.5ms, max=950ms. Refutado via H3 execution-level test.",
     tools: ["deriv_binance_latency_arb_scan.py"],
     reportFile: "deriv_binance_latency_arb_results.json",
     pnl: 0,
-    trades: 0,
-    sampleUnit: "60s dual-venue scan (1,367 Binance trades, 63 Deriv ticks, 164ms avg lag)",
+    trades: 6830,
+    sampleUnit: "13h continuous AWS run (6,830 lag samples, avg 204.5ms) — refuted via H3",
   },
   {
     id: "D43",
@@ -1800,27 +1805,27 @@ export const realHypotheses: RealHypothesis[] = [
       "When bid volume >> ask volume (or vice versa) in the top 20 order book levels, " +
       "price moves in the direction of the imbalance within 30s. " +
       "Imbalance > 70% → predict direction → trade and close after 30s.",
-    confidence: 70,
-    status: "validating",
+    confidence: 5,
+    status: "refuted",
     tags: ["crypto", "binance", "orderbook", "microstructure", "aggressive", "real-time", "edge"],
     trigger: "Bid/ask volume imbalance > 70% → trade in imbalance direction, close 30s",
     invalidation: "Accuracy drops below 60% with larger sample (N=500+)",
     createdAt: "2026-07-04",
     author: "orderbook_imbalance_scan.py",
     verdict:
-      "⚡ EDGE DETECTADO: 75.4% accuracy em 30s (N=98). " +
-      "10s: 71.9%, 5s: 54.3%, 1s: 22.4%. " +
-      "Order book imbalance > 70% prediz direção do preço. " +
-      "Diretamente negociável: detectar imbalance → trade → close 30s. " +
-      "PRÓXIMO: validar N=500+, implementar bot de execução.",
+      "REFUTADO (auto-concluído, N=24.994). Processo rodou 33.487s (9.3h) na AWS e " +
+      "concluiu sozinho: 756 predictions resolvidas, accuracy 30s CAIU de 75.4%→58.8% " +
+      "(abaixo do próprio threshold de 60%). Confirma D33 (mesma tese, refutado por " +
+      "fees: WR direcional real mas 0% lucrativo). N=98 inicial era false positive " +
+      "de amostra pequena, regressão à média com N maior.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "75.4% at 30s (N=98), 71.9% at 10s (N=89). Need N=500+ for Wilson CI.",
+    ci95Label: "N=24.994 (9.3h AWS), 756 resolved: 58.8% at 30s (was 75.4% at N=98). Refuted.",
     tools: ["orderbook_imbalance_scan.py"],
     reportFile: "orderbook_imbalance_results.json",
     pnl: 0,
-    trades: 98,
-    sampleUnit: "120s scan (98 predictions, 75.4% accuracy at 30s horizon)",
+    trades: 24994,
+    sampleUnit: "9.3h continuous AWS run (24,994 predictions, 756 resolved, self-concluded)",
   },
   {
     id: "D44",
@@ -1858,25 +1863,27 @@ export const realHypotheses: RealHypothesis[] = [
       "When 3+ liquidations occur in 10s on the same side, a cascade forms that amplifies " +
       "the price move. Joining the cascade direction for 30-60s captures the forced flow. " +
       "Stream liquidation orders via WebSocket in real-time.",
-    confidence: 25,
-    status: "validating",
-    tags: ["crypto", "binance", "liquidation", "cascade", "momentum", "aggressive", "real-time"],
+    confidence: 10,
+    status: "archived",
+    tags: ["crypto", "binance", "liquidation", "cascade", "momentum", "aggressive", "real-time", "redundant"],
     trigger: "3+ liquidations in 10s same direction → join cascade, exit 30-60s",
     invalidation: "Price reverses immediately after cascade (cascade exhaustion)",
     createdAt: "2026-07-04",
     author: "liquidation_cascade_predictor.py",
     verdict:
-      "AGUARDANDO: 0 liquidations em 120s (mercado calmo). " +
-      "Cascades são eventos raros — precisam dias de monitoramento. " +
-      "Mais prováveis durante flash crashes e high leverage flushouts.",
+      "REDUNDANTE com D34 — retirado. Mesma tese exata (3+ liquidações/10s = cascade) " +
+      "que D34 (liquidation_cascade_scan.py), que já roda há mais tempo com design mais " +
+      "rigoroso (fee-adjusted P&L, 4 hold periods testados: 30/60/120/300s). D34 confirma " +
+      "0 cascades em TODOS os ciclos ao longo de dias de dados. Não restartar D45, " +
+      "usar D34 como fonte única desta tese.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "0 cascades in 120s. Need days of monitoring for rare events.",
+    ci95Label: "0 cascades (120s local + 0 in AWS run). Superseded by D34 (more rigorous).",
     tools: ["liquidation_cascade_predictor.py"],
     reportFile: "liquidation_cascade_results.json",
     pnl: 0,
     trades: 0,
-    sampleUnit: "120s WS scan (0 liquidations, 0 cascades — market calm)",
+    sampleUnit: "Retired — duplicate of D34, see liquidation_cascade_scan.py instead",
   },
   {
     id: "D46",
@@ -1886,7 +1893,7 @@ export const realHypotheses: RealHypothesis[] = [
       "Deriv's synthetic price feed may have exploitable patterns at the tick level. " +
       "Track 3-tick sequential patterns (e.g., ==D, ==U) and predict next tick direction. " +
       "If pattern > 55% accuracy → executable 1-tick CALL/PUT trade.",
-    confidence: 55,
+    confidence: 50,
     status: "weak-signal",
     tags: ["deriv", "synthetic", "ticks", "pattern", "mean-reversion", "aggressive", "real-time"],
     trigger: "==D pattern (flat-flat-down) → CALL | ==U pattern (flat-flat-up) → PUT",
@@ -1894,18 +1901,20 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "deriv_tick_pattern_scan.py",
     verdict:
-      "⚡ EDGE PRELIMINAR: Mean reversion pattern detectado. " +
-      "==D → UP: 55.4% (N=542). ==U → DOWN: 56.7% (N=300). " +
-      "Quando 2 ticks idênticos seguidos de directional tick, próximo tick tende a REVERTER. " +
-      "PRÓXIMO: acumular N=5000+ em 24h para validação estatística.",
+      "SINAL PRELIMINAR, dados perdidos e restart com fix. Rodou ~8h na AWS mas SEM " +
+      "checkpoint periódico — processo morreu no crash de memória da AWS (2026-07-05) " +
+      "e todo progresso em memória foi perdido (log só tinha os dados do teste local " +
+      "inicial N=542/300: ==D→UP 55.4%, ==U→DOWN 56.7%). CORRIGIDO: agora salva " +
+      "checkpoint a cada 500 ticks (deriv_tick_pattern_results.json). Restartado do " +
+      "zero — precisa 24h+ para N=5000+ e validação Wilson CI real.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "==D: 55.4% (N=542), ==U: 56.7% (N=300). Need N=5000+ for Wilson CI.",
+    ci95Label: "==D: 55.4% (N=542), ==U: 56.7% (N=300) — local test only, AWS data lost to crash.",
     tools: ["deriv_tick_pattern_scan.py"],
     reportFile: "deriv_tick_pattern_results.json",
     pnl: 0,
     trades: 880,
-    sampleUnit: "120s scan (880 ticks, 10 symbols, 2 patterns > 55%)",
+    sampleUnit: "120s local scan (880 ticks) — restarted on AWS 2026-07-05 with checkpoint fix",
   },
 ];
 

@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**46 hipóteses testadas. 36 refutadas, 2 com sinal fraco/marginal (D13, D14), 1 com edge validado em 3 períodos (D17 — token unlock short), 1 com edge parcialmente confirmado (D36 — IV surface BUY side 100% WR), 1 aguardando eventos (D34 — liquidation cascade), 5 novas em validação inicial (D37-D41 — hipóteses agressivas).**
+**46 hipóteses testadas. 39 refutadas, 2 com sinal fraco/marginal (D13, D14), 2 com edge validado (D17 — token unlock short; Early Sell Optionality — N=50 confirmado), 1 com edge parcialmente confirmado (D36 — IV surface BUY side 100% WR), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas), 1 sinal preliminar (D46 — Deriv tick mean-reversion).**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -19,7 +19,8 @@ independente, exceto D17 (edge validado) e D36 (anomalias reverting, aguardando 
 O ecossistema Deriv está fechado para mispricing de produtos. O Polymarket também está fechado
 (PA1-PA5 todos refutados). As frentes **ainda em aberto** são: D17 (token unlock, bot em paper),
 D34 (liquidation cascade, loop contínuo na AWS), D36 (IV surface anomaly, paper bot ativo na AWS),
-e Early sell optionality (trial 32/50 na AWS).
+D44 (funding rate extremo, aguardando evento) e D46 (Deriv tick mean-reversion, N=880 preliminar,
+acumulando para N=5000+). **Early sell optionality FECHOU com edge confirmado (N=50, ver tabela).**
 
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
@@ -280,22 +281,22 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 
 | # | Hipótese | Status | Notas |
 |---|----------|--------|-------|
-| 14 | Early sell optionality | Trial 32/50 na AWS | 15 sell wins vs 17 hold wins. Tendência mudou — era 75% sell antes, agora hold está vencendo. Aguardando N=50 |
+| 14 | Early sell optionality | **N=50 COMPLETO — EDGE CONFIRMADO** | HOLD: WR 52.0% (IC95%[38.5,65.2]), EV=-$0.0004. SELL (melhor bid): WR 86.0% (IC95%[73.8,93.1]), EV=+$5.2296 (IC95%[$4.18,$6.28]). Diff=+$5.23/trade IC95%[$3.22,$7.17] não cruza zero. Regra non-hindsight (vender no 1o bid≥threshold) confirma em TODOS os thresholds $11-$18 testados. Contrato: CALL 15min, is_valid_to_sell (duration≥60s). Ver `early_sell_confirm.log` na AWS |
 | 15 | Synthetic Anomaly Monitor | Rodando 24/7 (Carlos) | Inacessível neste servidor; sem achado confirmado reportado |
 | 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
 | 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
 | 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
 | 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | 6/6 anomalias reverting (0 stale). Backtest BS: BUY 7/7 wins +$4,500 (100% WR), SELL 0/9 wins -$792 (bid-ask spread artifact). **Edge parcialmente confirmado — BUY only** |
-| 20 | D37 — Exchange outflow signal | Funcionando (API key) | Whale Alert autenticado. 0 outflows >$1M na última 1h (mercado calmo). Necessário rodar continuamente |
-| 21 | D38 — Binance announcement front-run | Scanner funcional | API Binance retorna 80 anúncios em 8 catalogs. Polling 3s. 0 novos em 120s (esperado). Deploy AWS para capturar listing real |
-| 22 | D39 — Options max pain magnet | Dados em tempo real | Max pain 10JUL26: BTC $61k vs spot $63.5k (+3.87%), ETH $1,700 vs $1,787 (+4.85%). SHORT toward max pain. Trackear até expiry |
-| 23 | D40 — Stablecoin mint signal | Funcionando (Etherscan V2) | DefiLlama: $309.5B supply, 3d change -$337M (redemption). Etherscan V2: 14 large USDT transfers, $100M from Tether treasury |
-| 24 | D41 — WS trade anomaly detector | Funcionando (thresholds ajustados) | 2,388 trades em 120s. 0 dup IDs. 9 clusters (0.38%, TWAP/VWAP). 7 vol bursts. BTC buy 4.6:1 |
-| 25 | D42 — Deriv vs Binance latency arb | Lag detectado | 164ms avg lag (0-300ms variável). Deriv atualiza ~1 tick/s vs Binance 20/s. Necessário medir consistência 1h+ |
-| 26 | D43 — Order book imbalance | ⚡ EDGE DETECTADO | 75.4% accuracy em 30s (N=98). Imbalance >70% bid/ask prediz direção. Diretamente negociável |
-| 27 | D44 — Funding rate arb | Aguardando | 0 sinais (mercado estável). Monitorando 20 perps a cada 5min |
-| 28 | D45 — Liquidation cascade | Aguardando | 0 cascades em 120s. Eventos raros, precisa dias de monitoramento |
-| 29 | D46 — Deriv tick patterns | ⚡ EDGE PRELIMINAR | ==D→UP 55.4% (N=542), ==U→DOWN 56.7% (N=300). Mean reversion nos ticks sintéticos |
+| 20 | D37 — Exchange outflow signal | Rodando 13h+ na AWS | 82 checks horários: 78 NO SIGNAL, 3 WEAK LONG, 0 STRONG. Nenhum outflow >$1M detectado ainda. Aguardando evento real para testar a tese preço-pós-outflow |
+| 21 | D38 — Binance announcement front-run | Rodando 13h+ na AWS | 0 novos anúncios detectados (script é silencioso por design, só loga em evento novo — não dá pra distinguir "0 eventos" de eventual falha de rede silenciosa). Considerar heartbeat log |
+| 22 | D39 — Options max pain magnet | **Rodando — expiry se aproxima** | 11 leituras horárias consistentes: BTC spot ~2-2.5% ABOVE max pain $61.500-62.000, ETH ~2-3.4% above $1.725-1.750. Expiry atual rastreado: **6JUL26** (~16h de agora). Gap de 08:49-16:12 UTC por outage AWS (ver nota incidente) — restartável a tempo do expiry |
+| 23 | D40 — Stablecoin mint signal | Rodando 13h+ na AWS | 64 ciclos completos. Sinal consistente: NEUTRAL (score=0). Sem mint/redemption anormal detectado no período |
+| 24 | D41 — WS trade anomaly detector | Rodando 13h+ na AWS | Múltiplos ciclos completos (WS reconecta), milhares de trades processados por ciclo, dezenas de clusters/vol bursts por ciclo (ex: 33 clusters, 26 bursts, 4042 timestamp anomalies em uma janela de 317s). Ainda exploratório/descritivo — falta simulação de P&L com fees (como D33/D34 já fizeram) para veredito estatístico definitivo |
+| 25 | D42 — Deriv vs Binance latency arb | **REFUTADO** (via H3 + dados próprios) | N=6.830 amostras em 13h: avg lag=204.5ms, max=950ms — confirma que o lag do FEED é real e consistente. MAS H3 já testou isso exaustivamente no nível de EXECUÇÃO (60+41 ordens demo reais, incl. co-locado em Tóquio): fill sempre reprecifica fresco, custo ~489x a captura. D42 mede só o feed (equivalente ao Passo 1 de H3), não a execução (Passo 2/3, o teste decisivo). Não restartar — pergunta já respondida |
+| 26 | D43 — Order book imbalance | **REFUTADO** (auto-concluído, N=24.994) | Processo rodou 33.487s (9.3h) e concluiu sozinho: 756 predictions resolvidas, accuracy 30s CAIU de 75.4%→**58.8%** (abaixo do próprio threshold de 60%). Confirma D33 (mesma tese, refutado por fees: WR direcional real mas 0% lucrativo). N=98 inicial era false positive de amostra pequena |
+| 27 | D44 — Funding rate arb | Aguardando evento extremo | 113 ciclos completos em 13h (a cada 5min). Único sinal persistente: ATOMUSDT LONG_FUT, funding ~-0.03%/8h (bem na borda do threshold, magnitude pequena). Nenhum extremo real. Dominio parcialmente sobreposto com D35 (refutado) mas mecanismo diferente (reversão vs momentum) |
+| 28 | D45 — Liquidation cascade | **REDUNDANTE com D34** — retirado | Mesma tese exata (3+ liquidações/10s = cascade) que D34, que já roda há mais tempo com design mais rigoroso (fee-adjusted, 4 hold periods). D34 confirma 0 cascades em todos os ciclos (dias de dados). Não restartar D45, usar D34 como fonte única |
+| 29 | D46 — Deriv tick patterns | Sinal preliminar, dados perdidos e restart com fix | Rodou ~8h mas SEM checkpoint periódico — processo morreu no crash da AWS e todo o progresso em memória foi perdido (log só tinha os dados do teste local inicial N=542/300). Corrigido: agora salva checkpoint a cada 500 ticks. Restartado do zero — precisa 24h+ para N=5000+ |
 
 ## Recomendação
 
@@ -379,10 +380,21 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).
     Precisa dias/semanas para capturar eventos durante volatilidade alta.
-24. **Status consolidado**: 46 hipóteses, 36 refutadas, 2 com sinal fraco/marginal,
-    1 com edge validado (D17), 1 com edge parcialmente confirmado (D36 BUY only),
-    1 aguardando eventos (D34), 5 novas em validação inicial (D37-D41).
-    **Foco: D17 go live + D36 paper bot settles + D39 max pain trackear até 10JUL26 +
-    D38/D41 deploy AWS em loop contínuo + D37/D40 obter API keys.**
+24. **Status consolidado (atualizado 2026-07-05 pós-auditoria AWS)**: 46 hipóteses,
+    39 refutadas, 2 com sinal fraco/marginal, 2 com edge validado (D17, Early Sell N=50),
+    1 com edge parcialmente confirmado (D36 BUY only), 2 aguardando eventos (D34, D44),
+    4 em validação inicial (D37/D38/D40/D41), 1 sinal preliminar (D46).
+    **Foco: D17 go live + D36 paper bot settles + D39 max pain trackear até 6JUL26 +
+    Early Sell edge confirmado → considerar implementação real + D46 acumular N=5000+.**
 25. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
     `hft_arbitrage_bot.py` de novo.
+26. **INCIDENTE AWS 2026-07-05**: instância t3.micro (911MB RAM, sem swap) ficou
+    impossível de acessar via SSH por ~5h (09:26-15:46 UTC) devido a pressão de memória
+    severa causada por ~20 processos Python concorrentes (D37-D46 + paper bots + hft_bot).
+    Sem OOM-kill explícito nos logs, mas `systemd-journald`/`resolved` reportaram
+    "under memory pressure" repetidamente; rede/SSH ficaram não-responsivos. Resolvido via
+    reboot + 2GB swapfile (`/swapfile`, persistente via `/etc/fstab`). D42/D43/D45 NÃO
+    foram religados (concluídos/refutados/redundantes, ver tabela). D46 corrigido com
+    checkpoint periódico (a cada 500 ticks) para não perder dados em crashes futuros.
+    Supervisor (`aggressive_monitor_supervisor.sh`) atualizado para a lista reduzida de
+    14 processos + hft_bot/liq_bot (wrappers while-true separados).
