@@ -1248,6 +1248,21 @@ class StrategyTournament:
         model = self.current_model()
         if not model:
             return
+        if self.args.stop_on_pivot:
+            model["status"] = reason
+            model["pivot_reason"] = reason
+            model["stopped_at"] = utc_now()
+            self.state["status"] = reason
+            self.logger.warning(
+                "STOP_ON_PIVOT model=%s reason=%s trades=%s pnl=%.2f",
+                model["id"],
+                reason,
+                model["trades"],
+                model["pnl"],
+            )
+            self.log_event("stop_on_pivot", model_id=model["id"], reason=reason, trades=model["trades"], pnl=model["pnl"])
+            self.done.set()
+            return
         model["status"] = "backlog"
         model["pivot_reason"] = reason
         model["stopped_at"] = utc_now()
@@ -1570,7 +1585,12 @@ class StrategyTournament:
                 recent_pnl=block_pnl,
                 pause_seconds=pause_seconds,
             )
-        elif not self.rotation_enabled() and "max_gain" in guard and block_pnl >= float(guard["max_gain"]):
+        elif (
+            not self.args.disable_gain_block
+            and not self.rotation_enabled()
+            and "max_gain" in guard
+            and block_pnl >= float(guard["max_gain"])
+        ):
             model["blocked_until_ts"] = time.time() + pause_seconds
             model["blocked_reason"] = f"recent_gain_block_{window}_pnl_{block_pnl}"
             self.log_event(
@@ -2221,6 +2241,8 @@ def parse_args():
     parser.add_argument("--global-target-trades", type=int, default=0)
     parser.add_argument("--global-target-pnl", type=float, default=0.0)
     parser.add_argument("--global-hard-drawdown-stop", type=float, default=0.0)
+    parser.add_argument("--stop-on-pivot", action="store_true")
+    parser.add_argument("--disable-gain-block", action="store_true")
     return parser.parse_args()
 
 
