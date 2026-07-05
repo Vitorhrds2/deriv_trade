@@ -1570,7 +1570,7 @@ class StrategyTournament:
                 recent_pnl=block_pnl,
                 pause_seconds=pause_seconds,
             )
-        elif "max_gain" in guard and block_pnl >= float(guard["max_gain"]):
+        elif not self.rotation_enabled() and "max_gain" in guard and block_pnl >= float(guard["max_gain"]):
             model["blocked_until_ts"] = time.time() + pause_seconds
             model["blocked_reason"] = f"recent_gain_block_{window}_pnl_{block_pnl}"
             self.log_event(
