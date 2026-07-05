@@ -929,6 +929,7 @@ class StrategyTournament:
         self.logger = logger
         self.client = None
         self.model_specs = select_model_specs(args.model_set)
+        self.apply_rotation_model_filter()
         self.ticks_by_symbol = {spec["symbol"]: [] for spec in self.model_specs}
         self.adaptive_agents = {}
         self.last_trade_at = 0.0
@@ -939,6 +940,41 @@ class StrategyTournament:
         self.state_path.parent.mkdir(parents=True, exist_ok=True)
         self.events_path.parent.mkdir(parents=True, exist_ok=True)
         self.state = self.load_or_init_state()
+
+    def rotation_model_ids(self):
+        return [value.strip() for value in self.args.rotation_model_ids.split(",") if value.strip()]
+
+    def rotation_enabled(self):
+        return bool(self.rotation_model_ids())
+
+    def apply_rotation_model_filter(self):
+        ids = self.rotation_model_ids()
+        if not ids:
+            return
+        specs_by_id = {spec["id"]: spec for spec in self.model_specs}
+        missing = [model_id for model_id in ids if model_id not in specs_by_id]
+        if missing:
+            raise RuntimeError(f"rotation model id(s) not found in selected model set: {', '.join(missing)}")
+        self.model_specs = [specs_by_id[model_id] for model_id in ids]
+
+    def rotation_state_template(self):
+        return {
+            "enabled": self.rotation_enabled(),
+            "model_ids": self.rotation_model_ids(),
+            "global_trades": 0,
+            "global_pnl": 0.0,
+            "global_peak_pnl": 0.0,
+            "global_max_drawdown": 0.0,
+            "target_trades": self.args.global_target_trades,
+            "target_pnl": self.args.global_target_pnl,
+            "hard_drawdown_stop": self.args.global_hard_drawdown_stop,
+            "peak_drop_trigger": self.args.rotation_peak_drop,
+            "recent_window": self.args.rotation_recent_window,
+            "recent_loss_trigger": self.args.rotation_recent_loss,
+            "min_trades": self.args.rotation_min_trades,
+            "model_cooldown_seconds": self.args.rotation_model_cooldown_seconds,
+            "switches": [],
+        }
 
     def load_or_init_state(self):
         if self.state_path.exists() and not self.args.reset:
@@ -954,7 +990,11 @@ class StrategyTournament:
 
         models = [empty_model_state(spec) for spec in self.model_specs]
         state = {
-            "goal": "PnL positivo apos 100 trades, com gate positivo em 30 trades",
+            "goal": (
+                "PnL +500 em ate 1000 trades com rotacao sequencial de modelos"
+                if self.rotation_enabled()
+                else "PnL positivo apos 100 trades, com gate positivo em 30 trades"
+            ),
             "model_set": self.args.model_set,
             "status": "collecting",
             "job_id": self.args.job_id,
@@ -985,6 +1025,8 @@ class StrategyTournament:
                 "api_token_env": self.args.api_token_env,
             },
         }
+        if self.rotation_enabled():
+            state["rotation"] = self.rotation_state_template()
         if self.args.seed_failed_ledger:
             self.seed_failed_trend_model(state, Path(self.args.seed_failed_ledger))
         if self.args.start_model_id:
@@ -1007,6 +1049,22 @@ class StrategyTournament:
         state["post_target_max_trades"] = self.args.post_target_max_trades
         state["post_target_kill_loss"] = self.args.post_target_kill_loss
         state["stake_override"] = self.args.stake_override
+        if self.rotation_enabled():
+            rotation = state.setdefault("rotation", self.rotation_state_template())
+            rotation.update(
+                {
+                    "enabled": True,
+                    "model_ids": self.rotation_model_ids(),
+                    "target_trades": self.args.global_target_trades,
+                    "target_pnl": self.args.global_target_pnl,
+                    "hard_drawdown_stop": self.args.global_hard_drawdown_stop,
+                    "peak_drop_trigger": self.args.rotation_peak_drop,
+                    "recent_window": self.args.rotation_recent_window,
+                    "recent_loss_trigger": self.args.rotation_recent_loss,
+                    "min_trades": self.args.rotation_min_trades,
+                    "model_cooldown_seconds": self.args.rotation_model_cooldown_seconds,
+                }
+            )
         state.setdefault("runtime", {}).update(
             {
                 "pid": os.getpid(),
@@ -1178,8 +1236,8 @@ class StrategyTournament:
             self.done.set()
             return None
         if model["status"] == "pending":
-            model["status"] = "collecting_gate30"
-            model["phase"] = "gate30"
+            model["status"] = "collecting_rotation" if self.rotation_enabled() else "collecting_gate30"
+            model["phase"] = "rotation" if self.rotation_enabled() else "gate30"
             model["started_at"] = utc_now()
             self.logger.info("MODEL_START id=%s phase=%s rationale=%s", model["id"], model["phase"], model["rationale"])
             self.log_event("model_start", model_id=model["id"], phase=model["phase"], rationale=model["rationale"])
@@ -1200,6 +1258,153 @@ class StrategyTournament:
         self.log_event("pivot", model_id=model["id"], reason=reason, trades=model["trades"], pnl=model["pnl"])
         self.state["current_model_index"] += 1
         self.start_current_model()
+
+    def rotate_current_model(self, reason):
+        model = self.current_model()
+        if not model:
+            return
+
+        now_ts = time.time()
+        cooldown = max(0.0, float(self.args.rotation_model_cooldown_seconds))
+        model["status"] = "rotation_cooldown"
+        model["rotation_last_reason"] = reason
+        model["rotation_cooldown_until_ts"] = now_ts + cooldown
+        model["rotation_stopped_at"] = utc_now()
+
+        rotation = self.state.setdefault("rotation", self.rotation_state_template())
+        rotation.setdefault("switches", []).append(
+            {
+                "ts": utc_now(),
+                "from_model_id": model["id"],
+                "reason": reason,
+                "trades": model["trades"],
+                "pnl": model["pnl"],
+                "peak_pnl": model["peak_pnl"],
+                "global_trades": rotation.get("global_trades", 0),
+                "global_pnl": rotation.get("global_pnl", 0.0),
+            }
+        )
+        self.logger.warning(
+            "ROTATE_OUT model=%s reason=%s trades=%s pnl=%.2f peak=%.2f",
+            model["id"],
+            reason,
+            model["trades"],
+            model["pnl"],
+            model["peak_pnl"],
+        )
+        self.log_event(
+            "rotation_switch_out",
+            model_id=model["id"],
+            reason=reason,
+            trades=model["trades"],
+            pnl=model["pnl"],
+            peak_pnl=model["peak_pnl"],
+        )
+
+        models = self.state.get("models", [])
+        if not models:
+            self.state["status"] = "exhausted_rotation_models"
+            self.done.set()
+            return
+
+        current_index = int(self.state.get("current_model_index", 0))
+        next_index = None
+        for offset in range(1, len(models) + 1):
+            candidate_index = (current_index + offset) % len(models)
+            candidate = models[candidate_index]
+            if float(candidate.get("rotation_cooldown_until_ts", 0.0)) <= now_ts:
+                next_index = candidate_index
+                break
+
+        if next_index is None:
+            next_index = (current_index + 1) % len(models)
+
+        next_model = models[next_index]
+        self.state["current_model_index"] = next_index
+        self.state["status"] = "collecting_rotation"
+        next_model["status"] = "collecting_rotation"
+        next_model["phase"] = "rotation"
+        next_model.setdefault("started_at", utc_now())
+        next_model["rotation_resumed_at"] = utc_now()
+        self.logger.info("ROTATE_IN model=%s trades=%s pnl=%.2f", next_model["id"], next_model["trades"], next_model["pnl"])
+        self.log_event(
+            "rotation_switch_in",
+            model_id=next_model["id"],
+            trades=next_model["trades"],
+            pnl=next_model["pnl"],
+            prior_reason=reason,
+        )
+        self.write_state()
+
+    def update_rotation_after_settlement(self, model, profit):
+        rotation = self.state.setdefault("rotation", self.rotation_state_template())
+        rotation["global_trades"] = int(rotation.get("global_trades", 0)) + 1
+        rotation["global_pnl"] = round(float(rotation.get("global_pnl", 0.0)) + float(profit), 4)
+        rotation["global_peak_pnl"] = max(float(rotation.get("global_peak_pnl", 0.0)), rotation["global_pnl"])
+        global_dd = round(rotation["global_pnl"] - rotation["global_peak_pnl"], 4)
+        rotation["global_max_drawdown"] = min(float(rotation.get("global_max_drawdown", 0.0)), global_dd)
+        self.write_state()
+
+        if self.args.global_target_pnl > 0 and rotation["global_pnl"] >= self.args.global_target_pnl:
+            model["status"] = "rotation_target_pnl_reached"
+            model["stopped_at"] = utc_now()
+            self.state["status"] = "rotation_target_pnl_reached"
+            self.log_event(
+                "rotation_target_pnl_reached",
+                model_id=model["id"],
+                global_trades=rotation["global_trades"],
+                global_pnl=rotation["global_pnl"],
+                target_pnl=self.args.global_target_pnl,
+            )
+            self.done.set()
+            return True
+
+        if self.args.global_target_trades > 0 and rotation["global_trades"] >= self.args.global_target_trades:
+            model["status"] = "rotation_target_trades_reached"
+            model["stopped_at"] = utc_now()
+            self.state["status"] = "rotation_target_trades_reached"
+            self.log_event(
+                "rotation_target_trades_reached",
+                model_id=model["id"],
+                global_trades=rotation["global_trades"],
+                global_pnl=rotation["global_pnl"],
+                target_trades=self.args.global_target_trades,
+            )
+            self.done.set()
+            return True
+
+        if self.args.global_hard_drawdown_stop > 0 and abs(rotation["global_max_drawdown"]) >= abs(self.args.global_hard_drawdown_stop):
+            model["status"] = "rotation_global_drawdown_stop"
+            model["stopped_at"] = utc_now()
+            self.state["status"] = "rotation_global_drawdown_stop"
+            self.log_event(
+                "rotation_global_drawdown_stop",
+                model_id=model["id"],
+                global_trades=rotation["global_trades"],
+                global_pnl=rotation["global_pnl"],
+                global_max_drawdown=rotation["global_max_drawdown"],
+                stop=self.args.global_hard_drawdown_stop,
+            )
+            self.done.set()
+            return True
+
+        if model["trades"] < self.args.rotation_min_trades:
+            return False
+
+        giveback = round(float(model["pnl"]) - float(model["peak_pnl"]), 4)
+        if self.args.rotation_peak_drop > 0 and giveback <= -abs(self.args.rotation_peak_drop):
+            self.rotate_current_model(f"rotation_peak_giveback_{abs(self.args.rotation_peak_drop):.2f}")
+            return True
+
+        window = int(self.args.rotation_recent_window)
+        recent = model.get("recent_profits", [])
+        if window > 0 and len(recent) >= window:
+            recent_pnl = round(sum(float(value) for value in recent[-window:]), 4)
+            if self.args.rotation_recent_loss > 0 and recent_pnl <= -abs(self.args.rotation_recent_loss):
+                self.rotate_current_model(f"rotation_recent_loss_{window}_{abs(self.args.rotation_recent_loss):.2f}")
+                return True
+
+        return False
 
     def promote_current_model(self):
         model = self.current_model()
@@ -1273,6 +1478,10 @@ class StrategyTournament:
         self.apply_loss_streak_pause_after_settlement(model)
         self.apply_target100_trailing_pause_after_settlement(model)
         self.write_state()
+
+        if self.rotation_enabled():
+            self.update_rotation_after_settlement(model, profit)
+            return
 
         if model["pnl"] <= -abs(self.args.model_kill_loss):
             self.pivot_current_model("model_kill_loss")
@@ -2003,6 +2212,15 @@ def parse_args():
     parser.add_argument("--post-target-max-trades", type=int, default=0)
     parser.add_argument("--post-target-kill-loss", type=float, default=50.0)
     parser.add_argument("--stake-override", type=float, default=0.0)
+    parser.add_argument("--rotation-model-ids", default="")
+    parser.add_argument("--rotation-peak-drop", type=float, default=0.0)
+    parser.add_argument("--rotation-recent-window", type=int, default=0)
+    parser.add_argument("--rotation-recent-loss", type=float, default=0.0)
+    parser.add_argument("--rotation-min-trades", type=int, default=0)
+    parser.add_argument("--rotation-model-cooldown-seconds", type=float, default=0.0)
+    parser.add_argument("--global-target-trades", type=int, default=0)
+    parser.add_argument("--global-target-pnl", type=float, default=0.0)
+    parser.add_argument("--global-hard-drawdown-stop", type=float, default=0.0)
     return parser.parse_args()
 
 
