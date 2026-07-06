@@ -248,7 +248,7 @@ the forced flow.
 
 ## D46 — Deriv Tick Pattern Exploitation ⚡ EDGE DETECTED
 
-> ⚠️ **DADOS PERDIDOS em 2026-07-05** (crash sem checkpoint) — corrigido e restartado do zero. Achado abaixo (N=542/300) ainda não confirmado em amostra maior. Ver seção "UPDATE 2026-07-05" no final deste documento.
+> ⚠️ **REFUTADO em 2026-07-06** com N=190.000 (o restart de 2026-07-05 rodou limpo por 7h e deu veredito conclusivo). Achado abaixo (N=542/300) era ruído de amostra pequena. Ver seção "UPDATE 2026-07-06" no final deste documento.
 
 **Tese:** Deriv's synthetic price feed may have exploitable patterns at the tick level.
 Duplicate ticks (==) followed by a directional tick (U or D) may predict reversion.
@@ -342,7 +342,7 @@ de dias de dados — mesmo resultado do D45 (0 em 120s), só que com muito mais 
 observação. Rodar os dois em paralelo desperdiça recursos (críticos agora, ver incidente).
 **D45 não restartado — D34 é a fonte única desta tese daqui em diante.**
 
-### D46 — Dados perdidos, restart com fix (era "⚡ EDGE PRELIMINAR")
+### D46 — Dados perdidos, restart com fix em 2026-07-05 (era "⚡ EDGE PRELIMINAR") — **ver desfecho final na seção UPDATE 2026-07-06 abaixo**
 
 O script rodou ~8h na AWS mas **nunca escreveu nenhum checkpoint** — o design original só
 salva o JSON de resultado DEPOIS que `ws.run_forever()` retorna (ou seja, só numa desconexão
@@ -370,3 +370,73 @@ threshold) em todos os 8 thresholds testados. Ver `docs/state_of_research.md` it
 Adicionado swapfile de 2GB (`/swapfile`, persistente via `/etc/fstab`) para dar margem de
 segurança contra pressão de memória futura. Supervisor (`aggressive_monitor_supervisor.sh`)
 atualizado para NÃO religar D42/D43/D45 automaticamente.
+
+---
+
+## UPDATE 2026-07-06 — Checagem de resultados 24h depois
+
+**Contexto:** rotina de "checar processos AWS pra ver resultados de ontem pra hoje". Memória
+estava crítica de novo (71MB disponíveis, swap em uso) por dois problemas novos encontrados
+antes de conseguir ler os resultados com segurança.
+
+### D46 — REFUTADO (era "⚡ EDGE PRELIMINAR")
+
+O restart de 2026-07-05 rodou de forma limpa por ~7h (25.338s) até um WS drop às 05:38 de
+2026-07-06, acumulando **N=190.000 ticks** de forma contínua antes de cair — amostra bem acima
+do N=5000 que eu tinha estimado como suficiente. Resultado com a amostra grande:
+
+- **Pattern `==D` → UP: 50.44%** (54.366/107.784) — z≈2.89 vs 50% (tecnicamente fora do ruído
+  estatístico), mas **0.44 pontos percentuais** — ordens de magnitude abaixo de qualquer custo
+  de transação em produtos Deriv (multiplier/digit sempre tem margem de casa de vários pontos
+  percentuais).
+- **Pattern `==U` → UP: 49.82%** (39.871/80.033) — z≈-1.02, nem estatisticamente diferente de
+  50%.
+
+Os 55.4%/56.7% de ontem (N=542/N=300) eram exatamente o tipo de falso positivo de amostra
+pequena que este programa já catalogou várias vezes (Jump Indices N=14, D43 N=98 — mesma
+história se repetindo). **Veredito: sem edge.** Bot parado (`tmux kill-session d46_pattern`) e
+removido do supervisor — não restartar.
+
+Antes de encerrar, corrigi também um bug real no script: modo `--continuous` não tinha loop de
+reconexão (mesma classe de bug do D43/D42 — um WS drop mata o processo Python inteiro, e só o
+supervisor externo percebe e recria a sessão do zero, perdendo os contadores). Corrigido no
+código para referência futura, mesmo com o bot desligado.
+
+### D41 — vazamento de memória encontrado e corrigido (sem mudança de veredito)
+
+Durante a checagem de saúde da instância, achei que `wash_trading_scan.py` estava consumindo
+344MB RSS (36.8% da RAM) após ~24h rodando, com CPU também anormalmente alta (39.6%). Causa
+raiz: a lista `volume_timeline` (usada para detectar volume bursts) crescia sem nenhum limite
+— diferente da lista `trades` do mesmo script, que já era corretamente limitada a 5000 entradas.
+Como a lógica só precisa dos últimos 100 registros (média) e de uma janela de 30s (burst), o
+fix foi limitar `volume_timeline` a 2000 entradas — mesmo padrão já usado pra `trades`. Isso
+também corrige um `sum()` que rodava O(n) crescente a cada trade (explica a CPU alta). Processo
+reiniciado; memória disponível da instância voltou de 71MB para ~400MB. Como o restart zera os
+contadores internos (mesmo design do D46, sem persistência entre reconexões), o último ciclo
+antes do fix (N=157.000 trades, timestamp_anomalies=24.2%) ficou registrado em
+`docs/state_of_research.md` item 24 antes de ser perdido.
+
+### Bug do supervisor: edição de arquivo não afeta processo já rodando
+
+`unlock_status_api.py` (porta 8788, parado no dia anterior por ser código morto — todo tráfego
+`/api/*` vai pra `status_api.py` na porta 8787 via `vercel.json`) **voltou sozinho**. Causa: o
+supervisor (`aggressive_monitor_supervisor.sh`) já estava rodando havia horas com a lista de
+sessões antiga carregada em memória (bash lê o array `SESSIONS` uma vez no início do script);
+editar o arquivo no disco no dia anterior não teve efeito no processo bash já em execução, que
+continuou recriando `unlock_api` sempre que a sessão desaparecia. Corrigido reiniciando a
+própria sessão `aggressive_supervisor` para carregar a lista atualizada. **Lição: sempre
+reiniciar o supervisor depois de editar seu script, nunca só editar o arquivo.**
+
+### Achados de resultado (sem veredito fechado, mas dados novos relevantes)
+
+- **D38** (announcement front-run): primeiros anúncios reais capturados — 3 no total, 1 deles
+  LISTING (delist TST/IOTX, sentimento bullish) com price-reaction tracking em andamento.
+- **D39** (max pain magnet): expiry 6JUL26 rolou pra 7JUL26 **sem convergência** — diff BTC
+  spot-vs-max-pain foi de +2.00% pra +3.04% (divergiu) nas ~7h antes do rollover.
+- **D36** (IV surface): paper bot ao vivo com 7 settles reais mostra WR=42.9%, bem abaixo do
+  100% do backtest histórico, embora EV/trade continue positivo (+$137.52) com 115 posições
+  ainda abertas. Vale acompanhar antes de qualquer decisão de capital real.
+- **D29** (basis/funding arb paper bot): 19 trades settled, WR=68.4%, EV/trade=+0.36%, total
+  +6.85% — resultado promissor, ainda sem relatório dedicado.
+
+Ver `docs/state_of_research.md` itens 19, 21, 22, 24 e 27 para os dados completos.

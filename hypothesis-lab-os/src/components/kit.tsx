@@ -113,7 +113,7 @@ export function Mono({ children, className }: { children: ReactNode; className?:
 
 // Banner honesto para páginas que mostram um preview de UI/UX de uma feature ainda sem
 // backend real (ex.: strategy builder, event feed). O ecossistema real hoje é hft_bot +
-// unlock_bot (únicos com API de status dedicada) + 12 bots de validação de hipótese rodando
+// unlock_bot (únicos com API de status dedicada) + 11 bots de validação de hipótese rodando
 // em tmux na mesma EC2 sem UI própria (ver /paper, docs/state_of_research.md) + um catálogo
 // de hipóteses fechadas testadas manualmente via scripts (ver /simulations).
 export function ConceptBanner({ children }: { children: ReactNode }) {

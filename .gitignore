@@ -15,3 +15,9 @@ trading-engine/*.log
 trading-engine/*_trades.jsonl
 trading-engine/strategy_tournament_state.json
 trading-engine/strategy_tournament_events.jsonl
+
+# Snapshots de resultado dos scans/paper bots (regeraveis a cada run local ou na AWS,
+# fonte de verdade e o log + docs/*.md, nao o JSON local que pode ficar dessincronizado)
+trading-engine/*_results.json
+trading-engine/*_stats.json
+trading-engine/*_trades.json

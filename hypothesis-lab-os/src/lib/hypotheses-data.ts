@@ -1893,28 +1893,28 @@ export const realHypotheses: RealHypothesis[] = [
       "Deriv's synthetic price feed may have exploitable patterns at the tick level. " +
       "Track 3-tick sequential patterns (e.g., ==D, ==U) and predict next tick direction. " +
       "If pattern > 55% accuracy → executable 1-tick CALL/PUT trade.",
-    confidence: 50,
-    status: "weak-signal",
+    confidence: 3,
+    status: "refuted",
     tags: ["deriv", "synthetic", "ticks", "pattern", "mean-reversion", "aggressive", "real-time"],
     trigger: "==D pattern (flat-flat-down) → CALL | ==U pattern (flat-flat-up) → PUT",
     invalidation: "Pattern accuracy drops below 52% with N=5000+ (Wilson CI crosses 50%)",
     createdAt: "2026-07-04",
     author: "deriv_tick_pattern_scan.py",
     verdict:
-      "SINAL PRELIMINAR, dados perdidos e restart com fix. Rodou ~8h na AWS mas SEM " +
-      "checkpoint periódico — processo morreu no crash de memória da AWS (2026-07-05) " +
-      "e todo progresso em memória foi perdido (log só tinha os dados do teste local " +
-      "inicial N=542/300: ==D→UP 55.4%, ==U→DOWN 56.7%). CORRIGIDO: agora salva " +
-      "checkpoint a cada 500 ticks (deriv_tick_pattern_results.json). Restartado do " +
-      "zero — precisa 24h+ para N=5000+ e validação Wilson CI real.",
+      "REFUTADO (2026-07-06, N=190.000). Restart de 2026-07-05 (pós fix de checkpoint) " +
+      "rodou limpo por 7h contínuas até um WS drop natural. Com amostra grande, o edge " +
+      "de N=542/300 desapareceu: ==D→UP 50.44% (54.366/107.784, z≈2.89 mas só 0.44pp — " +
+      "muito abaixo de qualquer custo de transação), ==U→UP 49.82% (39.871/80.033, " +
+      "z≈-1.02, nem significante). Mesmo padrão do resto do programa: sinal, quando " +
+      "existe, é menor que o custo. Bot parado e removido do supervisor.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "==D: 55.4% (N=542), ==U: 56.7% (N=300) — local test only, AWS data lost to crash.",
+    ci95Label: "N=190.000 (7h AWS): ==D→UP 50.44% (z≈2.89, econ. irrelevante), ==U→UP 49.82% (n.s.). Refuted.",
     tools: ["deriv_tick_pattern_scan.py"],
     reportFile: "deriv_tick_pattern_results.json",
     pnl: 0,
-    trades: 880,
-    sampleUnit: "120s local scan (880 ticks) — restarted on AWS 2026-07-05 with checkpoint fix",
+    trades: 190000,
+    sampleUnit: "7h continuous AWS run (190,000 ticks) — refuted, bot stopped 2026-07-06",
   },
 ];
 

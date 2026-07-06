@@ -54,7 +54,7 @@ function StrategiesPage() {
         <Stat
           label="Bots ativos"
           value={(hftLive ? 1 : 0) + (unlockConnected ? 1 : 0)}
-          hint="com API de status (+14 outros sem live status, ver /bots)"
+          hint="com API de status (+13 outros sem live status, ver /bots)"
         />
         <Stat
           label="hft_bot trades"

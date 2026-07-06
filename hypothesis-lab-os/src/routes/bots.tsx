@@ -11,14 +11,15 @@ export const Route = createFileRoute("/bots")({
   component: BotsPage,
 });
 
-// trading-engine/*.py fora dos 15 scripts com sessao tmux ativa hoje na EC2 (hft_arbitrage_bot.py,
-// status_api.py, unlock_short_bot.py, liquidation_cascade_scan.py, e as 11 hypothesis bots
-// D37-D41/D44/D46 + iv_anomaly/basis/options/twap paper bots -- ver /paper e state_of_research.md).
-// Contagem real do repo verificada em 2026-07-05 (scripts historicos, testados uma vez ou em
-// standby), atualizar se o inventario mudar:
+// trading-engine/*.py fora dos 14 scripts com sessao tmux ativa hoje na EC2 (hft_arbitrage_bot.py,
+// status_api.py, unlock_short_bot.py, liquidation_cascade_scan.py, e as 10 hypothesis bots
+// D37-D41/D44 + iv_anomaly/basis/options/twap paper bots -- ver /paper e state_of_research.md).
+// D46 (deriv_tick_pattern_scan.py) rodou e foi refutado/parado em 2026-07-06, nao conta mais
+// como ativo. Contagem real do repo verificada em 2026-07-06 (scripts historicos, testados uma
+// vez ou em standby), atualizar se o inventario mudar:
 // find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l   -> 181 total
-// menos os 15 ativos acima                                       -> 166
-const OTHER_SCRIPTS_COUNT = 166;
+// menos os 14 ativos acima                                       -> 167
+const OTHER_SCRIPTS_COUNT = 167;
 
 function BotsPage() {
   const statusQuery = useQuery({
@@ -41,7 +42,7 @@ function BotsPage() {
       <PageHeader
         eyebrow="execution › bot orchestrator"
         title="Bot Orchestrator"
-        description="Status real do hft_bot (AWS) via API dedicada na EC2 — detalhe completo abaixo. Há mais 12 bots de validação de hipótese rodando na mesma instância sem UI dedicada ainda (ver /paper e docs/state_of_research.md). Deploy é manual (scp + tmux) para todos."
+        description="Status real do hft_bot (AWS) via API dedicada na EC2 — detalhe completo abaixo. Há mais 11 bots de validação de hipótese rodando na mesma instância sem UI dedicada ainda (ver /paper e docs/state_of_research.md). Deploy é manual (scp + tmux) para todos."
         actions={
           <Button
             variant="outline"
@@ -65,7 +66,7 @@ function BotsPage() {
           label="hft_bot"
           value={isLive ? "rodando" : "parado"}
           tone={isLive ? "pos" : "neutral"}
-          hint="+12 outros bots na mesma EC2, ver /paper"
+          hint="+11 outros bots na mesma EC2, ver /paper"
         />
         <Stat label="Trades hoje (total)" value={trades?.total.n ?? "—"} hint="ALIGNED + ANTI" />
         <Stat
@@ -226,8 +227,9 @@ function BotsPage() {
             <Mono>forex_imbalance_exploit</Mono>, <Mono>rng_smoothing_exploit</Mono>, etc.) —
             testados uma vez (veredito fechado) ou em standby, sem sessão tmux ativa hoje. Deploy é
             manual (scp + tmux); orquestração automática de fleet ainda não existe. Isso NÃO inclui
-            os 12 bots de hipótese em validação ativa (D37-D41, D44, D46, D34, D36, D29,
-            options/twap) — esses têm sessão tmux rodando agora, ver <Mono>/paper</Mono>.
+            os 11 bots de hipótese em validação ativa (D37-D41, D44, D34, D36, D29,
+            options/twap) — esses têm sessão tmux rodando agora, ver <Mono>/paper</Mono>. (D46
+            rodou, foi refutado com N=190.000, e foi parado em 2026-07-06.)
           </div>
         </Panel>
       </div>

@@ -108,7 +108,7 @@ export function AppSidebar() {
         <div className="px-2 py-2 text-[10px] font-mono text-muted-foreground flex items-center justify-between">
           <span className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-            cluster: us-east-1
+            cluster: eu-central-1
           </span>
           <span>p99 81ms</span>
         </div>

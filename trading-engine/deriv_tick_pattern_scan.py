@@ -270,5 +270,12 @@ if __name__ == "__main__":
     import sys
     if "--continuous" in sys.argv:
         RUN_DURATION = 0
-        print("CONTINUOUS MODE")
-    run_scan()
+        print("CONTINUOUS MODE — infinite monitoring, auto-reconnect on WS close")
+        while True:
+            try:
+                run_scan()
+            except Exception as e:
+                print(f"  Scan error: {e}, restarting in 5s...")
+                time.sleep(5)
+    else:
+        run_scan()

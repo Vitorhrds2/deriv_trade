@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { PageHeader, Panel, Stat, Dot } from "@/components/kit";
+import { PageHeader, Panel, Stat, Dot, Mono } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { fmtMoney } from "@/lib/mock-data";
@@ -414,15 +414,16 @@ function PaperPage() {
               <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Tmux Sessions</div>
               <div className="text-sm font-mono mt-1 flex items-center gap-1">
                 <Cpu className="h-3 w-3" />
-                16 ativas (hft_bot, unlock_bot, status_api, supervisor + 12 hypothesis bots)
+                15 ativas (hft_bot, unlock_bot, status_api, supervisor + 11 hypothesis bots)
               </div>
             </div>
           </div>
           <div className="px-4 pb-4 text-[11px] text-muted-foreground">
-            Só hft_bot e unlock_bot têm API de status ao vivo (painéis acima). Os outros 12
-            (D37-D41, D44, D46, D34 liq_bot, D36 iv_anomaly, D29 basis, options/twap paper bots)
+            Só hft_bot e unlock_bot têm API de status ao vivo (painéis acima). Os outros 11
+            (D37-D41, D44, D34 liq_bot, D36 iv_anomaly, D29 basis, options/twap paper bots)
             rodam na mesma instância validando hipóteses de pesquisa, sem UI dedicada ainda —
-            status real em <Mono>docs/state_of_research.md</Mono>.
+            status real em <Mono>docs/state_of_research.md</Mono>. (D46 rodou, foi refutado com
+            N=190.000 em 2026-07-06, e foi parado.)
           </div>
         </Panel>
       </div>

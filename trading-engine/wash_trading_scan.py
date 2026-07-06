@@ -129,7 +129,14 @@ def on_message(ws, message, state):
     # 4. Volume burst detection
     now_s = now_ms // 1000
     state["symbols"][symbol]["volume_timeline"].append((now_s, qty * price))
-    
+
+    # Keep only recent entries -- recent_vol only needs VOLUME_BURST_WINDOW seconds and
+    # avg_window_vol only needs the last 100, so 2000 is a generous bound. Unbounded growth
+    # here was the root cause of the 2026-07-06 memory leak (344MB RSS after ~24h / 141k trades)
+    # and the matching O(n) blowup in the sum() below (full-list scan on every trade).
+    if len(state["symbols"][symbol]["volume_timeline"]) > 2000:
+        state["symbols"][symbol]["volume_timeline"] = state["symbols"][symbol]["volume_timeline"][-2000:]
+
     # Compute volume in last VOLUME_BURST_WINDOW seconds
     recent_vol = sum(v for t, v in state["symbols"][symbol]["volume_timeline"] 
                      if now_s - t < VOLUME_BURST_WINDOW)
