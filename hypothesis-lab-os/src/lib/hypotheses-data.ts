@@ -1361,30 +1361,29 @@ export const realHypotheses: RealHypothesis[] = [
       "ganha basis convergence + recebe funding. Quando perp < spot E funding positivo, " +
       "short perp é carry grátis. O 'disconnect' é quando ambos componentes favorevem o mesmo lado. " +
       "Scan: 19 pares analisados, roundtrip fees 0.14% (spot 0.1% + futures 0.04%).",
-    confidence: 4,
-    status: "weak-signal",
+    confidence: 35,
+    status: "validating",
     tags: ["binance", "futures", "funding-rate", "basis", "carry-trade", "arbitrage"],
     trigger: "Basis > 0 E funding < 0 (long carry) ou basis < 0 E funding > 0 (short carry). " +
       "Profit per 8h = |basis%| + funding% - 0.14% fees > 0.",
-    invalidation: "Apenas 2 disconnects profitable após fees em 19 pares. " +
-      "ARPAUSDT: +0.28%/8h (backwardation + pos funding). SYNUSDT: +0.01%/8h (marginal). " +
-      "Funding rate muda a cada período — não é garantido.",
+    invalidation: "WR real cair pra perto de 50% ou EV/trade ficar negativo com N maior (amostra atual N=21 ainda pequena).",
     createdAt: "2026-07-05",
-    author: "basis_funding_disconnect_scan.py",
+    author: "basis_paper_bot.py",
     verdict:
-      "SINAL FRACO. 2/19 pares com disconnect profitable após fees. " +
-      "ARPAUSDT: basis -0.41% + funding +0.01%/8h = +0.28% net per 8h (annualized ~+307%). " +
-      "SYNUSDT: +0.01%/8h (marginal). 12 SHORT disconnects vs 1 LONG — mercado em backwardation geral. " +
-      "CUIDADO: funding rate varia a cada 8h, basis converge mas timing é incerto. " +
-      "Annualized carry IC95%: [-107%, +472%] — alta incerteza, poucos pontos.",
-    evPerTrade: 0.15,
-    ci95: [-0.14, 0.29],
-    ci95Label: "Profit per 8h (%) for 2 profitable disconnects, net of 0.14% fees",
-    tools: ["basis_funding_disconnect_scan.py"],
-    reportFile: "basis_funding_disconnect_scan.log",
-    pnl: 0,
-    trades: 19,
-    sampleUnit: "pares spot+perp analisados",
+      "VALIDANDO — scan inicial (basis_funding_disconnect_scan.py, N=19 pares) achou só " +
+      "sinal fraco (2/19 profitable). Promovido a paper bot dedicado rodando na AWS desde " +
+      "2026-07-05: com dados ao vivo (2026-07-06), N=21 trades settled, WR=71.4% (15W/6L), " +
+      "EV=+0.357%/trade, total=+7.49% (best +10.33%, worst -4.46%), duração média 1.33h. " +
+      "Resultado bem mais forte que o scan inicial, mas amostra ainda pequena — acompanhar " +
+      "mais settles antes de considerar capital real.",
+    evPerTrade: 0.357,
+    ci95: [0, 0],
+    ci95Label: "EV=+0.357%/trade, WR=71.4% (N=21). CI95 ainda não computado (amostra pequena).",
+    tools: ["basis_funding_disconnect_scan.py", "basis_paper_bot.py"],
+    reportFile: "basis_paper_stats.json",
+    pnl: 7.49,
+    trades: 21,
+    sampleUnit: "trades settled ao vivo (retorno % por trade, não $ — ver verdict)",
   },
   {
     id: "HYP-DEPEG-01",
@@ -1589,29 +1588,30 @@ export const realHypotheses: RealHypothesis[] = [
       "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
       "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
       "Compara IV de cada option vs média ponderada dos vizinhos.",
-    confidence: 55,
+    confidence: 40,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
     trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50% (BUY only)",
-    invalidation: "SELL anomalies são bid-ask spread artifacts em deep ITM",
+    invalidation: "SELL anomalies são bid-ask spread artifacts em deep ITM. WR ao vivo cair pra perto de 50% com EV negativo em N maior.",
     createdAt: "2026-07-04",
     author: "iv_surface_anomaly_scan.py + iv_anomaly_paper_bot.py + iv_anomaly_backtest.py",
     verdict:
-      "EDGE PARCIALMENTE CONFIRMADO (backtest BS). BUY side: 7/7 wins, +$4,500 (100% WR). " +
-      "SELL side: 0/9 wins, -$792 (0% WR — artefatos de bid-ask spread em deep ITM). " +
-      "Top BUY: BTC-26MAR27-115000-C +$1,289 (172% ROI, IV 41.8→54.2). " +
-      "Theta decay mínimo: após 7d P&L ainda +$3,512. " +
-      "Reversion test: 6/6 anomalias reverting (0 stale). " +
-      "PRÓXIMO: ajustar paper bot para BUY only, validar settles reais na AWS. " +
-      "Se confirmado, PRIMEIRO edge estrutural em opções crypto do projeto.",
-    evPerTrade: 232,
+      "DIVERGINDO — backtest BS (histórico): BUY side 7/7 wins, +$4,500 (100% WR). SELL side " +
+      "0/9 wins, -$792 (artefatos de bid-ask spread em deep ITM). Reversion test: 6/6 " +
+      "anomalias reverting (0 stale). " +
+      "UPDATE 2026-07-06 (paper bot ao vivo na AWS, BUY only): N=7 settled, WR=42.9% (3/7) " +
+      "— bem abaixo do 100% do backtest — mas EV/trade ainda positivo (+$137.52), total " +
+      "+$962.66, com 115 posições ainda abertas. Backtest pode ter sido otimista (sample " +
+      "pequeno ou look-ahead). Acompanhar mais settles ao vivo antes de qualquer decisão " +
+      "de capital real.",
+    evPerTrade: 137.52,
     ci95: [0, 0],
-    ci95Label: "BUY 100% WR (7/7), SELL 0% WR (0/9). Backtest BS model-based, N=16.",
+    ci95Label: "Ao vivo: WR=42.9% (N=7 settled), EV=+$137.52/trade, 115 posições abertas. Backtest (N=16): BUY 100% WR, SELL 0% WR.",
     tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_backtest.py"],
-    reportFile: "iv_anomaly_backtest_results.json",
-    pnl: 3708,
-    trades: 16,
-    sampleUnit: "BS backtest (7 BUY wins + 9 SELL losses = +$3,708 net)",
+    reportFile: "iv_anomaly_paper_stats.json",
+    pnl: 962.66,
+    trades: 7,
+    sampleUnit: "settled ao vivo na AWS (115 posições ainda abertas, não contadas aqui)",
   },
   {
     id: "HYP-OUTFLOW-01",
@@ -1658,19 +1658,20 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "announcement_front_run_scan.py",
     verdict:
-      "SCANNER FUNCIONANDO — API Binance cms/article/list/query retorna 80 anúncios " +
-      "em 8 catalogs (New Listing, Delisting, Maintenance, etc). " +
-      "Polling a cada 3s. 0 novos anúncios em 60s (esperado, ~3-10/dia). " +
-      "Necessário rodar por horas/dias para capturar listing event real. " +
-      "PRÓXIMO: deploy AWS em loop contínuo, comprar token automaticamente ao detectar 'Will List'.",
+      "VALIDANDO — rodando 24h+ na AWS. Primeiros anúncios reais capturados em 2026-07-06: " +
+      "3 no total (2 sem token associado: 'Binance Adds... Stock Trading', 'Binance Turns 9'; " +
+      "1 LISTING real: Poll delist TST & IOTX, sentimento bullish, preço TST=$0.01001 " +
+      "registrado em t0). Price-reaction tracking em andamento para o TST. " +
+      "Ainda cedo para veredito — precisa de um listing/delisting com movimento de preço " +
+      "claro para testar a tese de front-run.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Scanner funcional, aguardando primeiro listing event",
+    ci95Label: "3 anúncios reais capturados (1 LISTING), price-reaction tracking em andamento",
     tools: ["announcement_front_run_scan.py"],
     reportFile: "announcement_scan_results.json",
     pnl: 0,
-    trades: 0,
-    sampleUnit: "60s scan (0 novos anúncios — esperado)",
+    trades: 3,
+    sampleUnit: "anúncios reais capturados (0 ainda com reação de preço medida)",
   },
   {
     id: "HYP-MAXPAIN-01",
@@ -1689,20 +1690,20 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "max_pain_scan.py",
     verdict:
-      "DADOS EM TEMPO REAL — Max pain computado para 6 expiries BTC + ETH. " +
-      "Próximo expiry 10JUL26 (5.5d): BTC max pain $61k vs spot $63.4k (+3.86%), " +
-      "ETH max pain $1,700 vs spot $1,788 (+4.90%). " +
-      "SIGNAL: SHORT toward max pain se magnet effect funcionar. " +
-      "Edge potencial: ~4% - 0.1% fees = ~3.9% net. " +
-      "PRÓXIMO: trackear preço até 10JUL26 08:00 UTC. Se convergir, edge confirmado.",
+      "VALIDANDO — rodando 24h+ na AWS, leitura horária. Primeiro ciclo completo (expiry " +
+      "6JUL26) rolou pra 7JUL26 em 2026-07-06T00:12 SEM convergência: diff BTC spot-vs-max-pain " +
+      "foi de +2.00% pra +3.04% (divergiu) nas ~7h antes do rollover. Ciclo atual (7JUL26): " +
+      "diff BTC oscilando entre -1.15% e +0.90% ao longo do dia, ETH entre -2.03% e +1.04% " +
+      "— sem tendência clara de convergência ainda, mas expiry ainda a ~1 dia de distância. " +
+      "Um ciclo completo não sustenta a tese de 'magnet' — precisa observar múltiplos expiries.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Max pain 4% abaixo spot em próximo expiry. Aguardando convergência.",
+    ci95Label: "Ciclo 1 (6JUL26): divergiu (+2.00%→+3.04%). Ciclo 2 (7JUL26) em andamento.",
     tools: ["max_pain_scan.py"],
     reportFile: "max_pain_scan_results.json",
     pnl: 0,
     trades: 0,
-    sampleUnit: "6 expiries BTC + ETH (próximo: 10JUL26, 5.5d)",
+    sampleUnit: "leituras horárias, 1 rollover de expiry completo sem convergência",
   },
   {
     id: "HYP-STABLECOIN-01",
@@ -1751,20 +1752,21 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "wash_trading_scan.py",
     verdict:
-      "SCAN FUNCIONANDO (thresholds ajustados) — 2,388 trades em 120s (19.8/s). " +
-      "0 duplicate trade IDs (não há wash trading). " +
-      "9 trade clusters (0.38%, cooldown 500ms): TWAP/VWAP de MMs. " +
-      "7 volume bursts (10x avg em 30s, cooldown). " +
-      "BTC buy/sell ratio 4.6:1, SOL 2:1, ETH sell volume dominante. " +
-      "PRÓXIMO: correlacionar clusters com preço, deploy AWS 24h+.",
+      "VALIDANDO — rodando na AWS desde 2026-07-04. Ciclo de referência antes de um " +
+      "restart (2026-07-06): N=157.000 trades, clusters=1.128 (0.72%), volume_bursts=125 " +
+      "(0.08%), dup_ids=0, timestamp_anomalies=38.068 (24.2% dos trades!) — taxa alta, " +
+      "mas ainda sem análise de reação de preço pós-anomalia (falta simulação de P&L com " +
+      "fees, como D33/D34 já fizeram). Vazamento de memória encontrado em `volume_timeline` " +
+      "(lista sem limite, 344MB RSS) e corrigido; processo reiniciado, contadores zeraram. " +
+      "PRÓXIMO: correlacionar clusters/anomalias com reação de preço.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "9 clusters (0.38%), 7 vol bursts, 0 dup IDs. BTC buy 4.6:1.",
+    ci95Label: "N=157k trades: clusters 0.72%, vol_bursts 0.08%, timestamp_anomalies 24.2%. Sem P&L ainda.",
     tools: ["wash_trading_scan.py"],
     reportFile: "wash_trading_scan_results.json",
     pnl: 0,
-    trades: 2388,
-    sampleUnit: "120s WS scan (2,388 trades, 9 clusters, 7 vol bursts, 0 dup IDs)",
+    trades: 157000,
+    sampleUnit: "AWS WS run (157,000 trades no ciclo antes do restart por vazamento de memória)",
   },
   {
     id: "D42",

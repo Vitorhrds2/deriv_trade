@@ -18,12 +18,17 @@ import argparse
 import json
 import math
 import os
+import threading
 import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
 TRADE_LOG = "twap_paper_trades.json"
 STATS_LOG = "twap_paper_stats.json"
+# BTC e ETH compartilham a mesma janela 07:30-08:00 UTC (ver run_twap_cycle) e agora rodam
+# em threads paralelas (main()); esse lock evita race condition no load-modify-save do
+# TRADE_LOG/STATS_LOG compartilhado quando os dois ciclos terminam quase ao mesmo tempo.
+_trades_lock = threading.Lock()
 FEE_PCT = 0.03  # Deribit taker fee % per side
 TWAP_ERROR_THRESHOLD = 0.05  # % — 90% of the time within this at 20min
 MIN_MISPRICING_PCT = TWAP_ERROR_THRESHOLD + FEE_PCT  # 0.08% total threshold
@@ -263,23 +268,25 @@ def run_twap_cycle(currency="BTC", once=False):
         print(f"  Wins: {len(wins)}/{len(trades_made)} | Total P&L: ${sum(pnls):.4f} | "
               f"Avg: ${sum(pnls)/len(pnls):.4f}")
 
-    # Save trades
-    all_trades = load_trades()
-    all_trades.extend(trades_made)
-    save_trades(all_trades)
+    # Save trades (locked: BTC/ETH threads podem terminar quase ao mesmo tempo e
+    # compartilham o mesmo TRADE_LOG/STATS_LOG)
+    with _trades_lock:
+        all_trades = load_trades()
+        all_trades.extend(trades_made)
+        save_trades(all_trades)
 
-    # Print running stats
-    stats = compute_stats(all_trades)
-    print(f"\n  === RUNNING STATS ({currency}) ===")
-    print(f"  Total settled trades: {stats['n']}")
-    if stats["n"] > 0:
-        print(f"  Win rate: {stats['wr']:.1f}%")
-        print(f"  EV/trade: ${stats['ev']:.4f}")
-        print(f"  Total P&L: ${stats['total_pnl']:.4f}")
-        print(f"  Best: ${stats['best_trade']:.4f} | Worst: ${stats['worst_trade']:.4f}")
+        # Print running stats
+        stats = compute_stats(all_trades)
+        print(f"\n  === RUNNING STATS ({currency}) ===")
+        print(f"  Total settled trades: {stats['n']}")
+        if stats["n"] > 0:
+            print(f"  Win rate: {stats['wr']:.1f}%")
+            print(f"  EV/trade: ${stats['ev']:.4f}")
+            print(f"  Total P&L: ${stats['total_pnl']:.4f}")
+            print(f"  Best: ${stats['best_trade']:.4f} | Worst: ${stats['worst_trade']:.4f}")
 
-    with open(STATS_LOG, "w") as f:
-        json.dump(stats, f, indent=2)
+        with open(STATS_LOG, "w") as f:
+            json.dump(stats, f, indent=2)
 
     return trades_made
 
@@ -405,14 +412,24 @@ def main():
             else:
                 print()
     else:
+        def _run_cycle_safe(c):
+            try:
+                run_twap_cycle(c, once=False)
+            except Exception as e:
+                print(f"ERROR in {c} cycle: {e}")
+                import traceback
+                traceback.print_exc()
+
         while True:
-            for c in currencies:
-                try:
-                    run_twap_cycle(c, once=False)
-                except Exception as e:
-                    print(f"ERROR in {c} cycle: {e}")
-                    import traceback
-                    traceback.print_exc()
+            # BTC e ETH compartilham a mesma janela 07:30-08:00 UTC -- precisam rodar em
+            # paralelo (threads), senao o primeiro consome os 30min inteiros e o segundo
+            # comeca a coleta so quando a janela ja fechou (bug observado 2026-07-05/06:
+            # ETH coletava so 1 preco em vez de 30).
+            threads = [threading.Thread(target=_run_cycle_safe, args=(c,)) for c in currencies]
+            for t in threads:
+                t.start()
+            for t in threads:
+                t.join()
             # After both currencies processed, wait until next day
             now = datetime.now(timezone.utc)
             next_run = (now + timedelta(days=1)).replace(hour=7, minute=28, second=0, microsecond=0)
