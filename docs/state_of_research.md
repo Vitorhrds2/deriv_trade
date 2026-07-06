@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**46 hipóteses testadas. 40 refutadas, 2 com sinal fraco/marginal (D13, D14), 2 com edge validado (D17 — token unlock short; Early Sell Optionality — N=50 confirmado), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, backtest 100% WR mas paper trading ao vivo em 42.9% WR N=7, ver nota), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000** (era sinal preliminar de N=542/300, sumiu com amostra real).**
+**50 hipóteses testadas. 44 refutadas, 2 com sinal fraco/marginal (D13, D14), 2 com edge validado (D17 — token unlock short; Early Sell Optionality — N=50 confirmado, agora generalizando para 10 símbolos/contratos), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, backtest 100% WR mas paper trading ao vivo em 42.9% WR N=7, ver nota), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000** (era sinal preliminar de N=542/300, sumiu com amostra real). **D47-D50 (execução/plataforma: stale proposal buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out slippage) todos REFUTADOS em 2026-07-06.** **D51/D53/D54 (replicação estática, duplicate-buy race, streamed proposal staleness) REFUTADOS. D52 (Deal Cancellation mispricing) tem sinal PRELIMINAR baseado em modelo Monte Carlo (~10% acima do fee cobrado, persistente apos corrigir viés de bootstrap e triplicar amostra) mas AINDA NAO validado com trades reais -- unico "quase-edge" nativo da Deriv em 54 hipóteses, tratado com máxima cautela ate confirmação ao vivo.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -20,7 +20,12 @@ independente, exceto D17 (edge validado) e D36 (anomalias reverting, aguardando 
 mispricing de produtos. O Polymarket também está fechado (PA1-PA5 todos refutados). As frentes
 **ainda em aberto** são: D17 (token unlock, bot em paper), D34 (liquidation cascade, loop contínuo
 na AWS), D36 (IV surface anomaly, paper bot ativo na AWS) e D44 (funding rate extremo, aguardando
-evento). **Early sell optionality FECHOU com edge confirmado (N=50, ver tabela).**
+evento). **Early sell optionality FECHOU com edge confirmado (N=50, ver tabela) e está em fase de
+generalização multi-símbolo.** **Quatro hipóteses de execução/plataforma (D47-D50: stale proposal
+buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out
+slippage) também foram testadas e refutadas em 2026-07-06** — nenhum bug de execução, race
+condition ou segmentação de canal se mostrou explorável (detalhes na tabela abaixo e itens 28-31
+da Recomendação).
 
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
@@ -281,7 +286,7 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 
 | # | Hipótese | Status | Notas |
 |---|----------|--------|-------|
-| 14 | Early sell optionality | **N=50 COMPLETO — EDGE CONFIRMADO** | HOLD: WR 52.0% (IC95%[38.5,65.2]), EV=-$0.0004. SELL (melhor bid): WR 86.0% (IC95%[73.8,93.1]), EV=+$5.2296 (IC95%[$4.18,$6.28]). Diff=+$5.23/trade IC95%[$3.22,$7.17] não cruza zero. Regra non-hindsight (vender no 1o bid≥threshold) confirma em TODOS os thresholds $11-$18 testados. Contrato: CALL 15min, is_valid_to_sell (duration≥60s). Ver `early_sell_confirm.log` na AWS |
+| 14 | Early sell optionality | **N=50 COMPLETO — EDGE CONFIRMADO** (1HZ10V CALL) + **generalização em andamento** | HOLD: WR 52.0% (IC95%[38.5,65.2]), EV=-$0.0004. SELL (melhor bid): WR 86.0% (IC95%[73.8,93.1]), EV=+$5.2296 (IC95%[$4.18,$6.28]). Diff=+$5.23/trade IC95%[$3.22,$7.17] não cruza zero. Regra non-hindsight (vender no 1o bid≥threshold) confirma em TODOS os thresholds $11-$18 testados. Contrato: CALL 15min, is_valid_to_sell (duration≥60s). Ver `early_sell_confirm.log` na AWS. **Extensão multi-símbolo (`early_sell_multi.py`, iniciado 2026-07-06)**: 10 streams concorrentes (1HZ10V PUT, 1HZ25V-100V CALL, R_10-100 CALL) rodando na AWS. Em N=50 total (5/stream): **10/10 streams com diff_ev positivo**, 6/10 já com IC95% excluindo zero (R_100, R_25, R_75, 1HZ50V, 1HZ10V:PUT, R_10) — edge parece ser mecanismo universal do produto tick-duration, não específico de 1HZ10V/CALL. Coleta contínua em `early_sell_multi_stats.json` |
 | 15 | Synthetic Anomaly Monitor | Rodando 24/7 (Carlos) | Inacessível neste servidor; sem achado confirmado reportado |
 | 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
 | 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
@@ -297,6 +302,14 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 27 | D44 — Funding rate arb | Aguardando evento extremo | 113 ciclos completos em 13h (a cada 5min). Único sinal persistente: ATOMUSDT LONG_FUT, funding ~-0.03%/8h (bem na borda do threshold, magnitude pequena). Nenhum extremo real. Dominio parcialmente sobreposto com D35 (refutado) mas mecanismo diferente (reversão vs momentum) |
 | 28 | D45 — Liquidation cascade | **REDUNDANTE com D34** — retirado | Mesma tese exata (3+ liquidações/10s = cascade) que D34, que já roda há mais tempo com design mais rigoroso (fee-adjusted, 4 hold periods). D34 confirma 0 cascades em todos os ciclos (dias de dados). Não restartar D45, usar D34 como fonte única |
 | 29 | D46 — Deriv tick patterns | **REFUTADO** (2026-07-06, N=190.000) | Amostra pequena de 2026-07-05 (N=542/300) mostrava ==D→UP 55.4%, ==U→DOWN 56.7% — pareciam edges. Com N=190.000 em uma única sessão contínua de 7h: ==D→UP **50.44%** (z≈2.89, tecnicamente fora do ruído mas 0.44pp — muito abaixo de qualquer custo de transação), ==U→UP **49.82%** (z≈-1.02, não significante). Mesmo padrão de todo o programa: sinal, quando existe, é menor que o custo. Bot parado, removido do supervisor. Bug de reconexão (mesmo do D43) também corrigido no script antes de encerrar |
+| 30 | D47 — Stale proposal buy race | **REFUTADO** (N=40) | `stale_proposal_probe.py`: pede proposal, espera delay (TREAT=20s vs CONTROL=0s), compra com `proposal_id` antigo, compara barrier antigo vs barrier real do contrato. Barrier **SEMPRE recalculado** no momento da compra (39/40 rounds "RECALC(new)"; o 1/40 "STALE(old)" restante foi coincidência de preço parado, não cache). TREAT WR=45% IC95%[25.8,65.8] vs CONTROL WR=55% IC95%[34.2,74.2] — diferença dentro do ruído, consistente com custo de esperar 20s num random walk simétrico, não com exploit de preço obsoleto. HIGHER/LOWER R_100, 10 ticks |
+| 31 | D48 — Accumulator tick-barrier race | **REFUTADO** | `accu_tick_race_probe.py`: testa se um sell manual consegue "vencer" o servidor quando um tick recebido localmente já rompeu a barreira do ACCU antes do knockout ser confirmado. Primeira versão teve falso positivo (client-side bid_price desatualizado); corrigido com fresh-check (`poll_open_contract` imediatamente antes de vender). Com o fix: toda vez que o breach é detectado localmente, o servidor **já** registra `is_sold=True`/`bid_price=0` -- o knockout é atômico com a ingestão do tick no back-end, sem janela de corrida client-side explorável |
+| 32 | D49 — App ID / canal pricing arbitrage | **REFUTADO** | `app_id_pricing_probe.py`: pede `proposal` idêntica em paralelo por 2-3 canais. **Mesmo gateway** (`api.derivws.com/trading/v1/options/ws/public`), app_id do projeto (OAuth) vs app_id público genérico `1089`: **40/40 rounds com ask_price/payout/spot idênticos** (byte-a-byte) -- app_id não afeta preço dentro do mesmo canal. **Gateway legado** (`ws.derivws.com/websockets/v3`, app_id=1089, mesmo IP AWS-Europa): rejeita **todos** os sintéticos testados (R_10, 1HZ10V, WLDAUD, JD10 — `"Trading is not offered for this asset"`, campo=`symbol`) e só oferece categoria `multiplier` para forex (CALL/PUT rejeitado com campo=`contract_category`, qualquer duration). Isso é segmentação regulatória de entidade/jurisdição (compatível com restrição ESMA a binários/sintéticos para clientes EU) roteada por IP, não um bug de precificação — onde o mesmo produto é oferecido nos dois canais, o preço é idêntico |
+| 33 | D50 — Multiplier stop-out slippage | **REFUTADO** (N=20) | `multiplier_stopout_probe.py`: compra MULTUP (1HZ100V, 400x, $10), poll a cada 0.3s até fechar, compara `stop_out_level` teórico vs `exit_spot` real. 6/20 trials foram stop-outs genuínos (profit≈-stake; os outros 14 bateram o timeout do probe com preço favorável e foram fechados manualmente, profit variável +$0.13 a +$27.28). Slippage nos 6 genuínos: média=+0.127 pts, min=-0.03, max=+0.39 (ruído bidirecional, sem viés direcional consistente) — mas o **profit realizado foi EXATAMENTE -$10.0000 (a perda teórica) em todos os 6 casos**: a Deriv absorve esse micro-overshoot e garante o cap de perda exato no stake, sem repassar slippage ao cliente. Não há excesso de perda nem espaço para "intervenção manual" melhorar o resultado |
+| 34 | D51 — Static replication arbitrage | **REFUTADO** | `static_replication_probe.py`: CALL+PUT e HIGHER+LOWER(+0.5) no mesmo underlying/duration, `basis=payout` ($100 alvo), pedidos em paralelo (2 conexões, mesmo spot). Resultado **perfeitamente determinístico**: soma dos ask_price = $102.40 em TODAS as 39+14 rodadas com spot batendo, **arb_$=-$2.40 constante, variância zero**. Margem da casa é uma % fixa (2.4%) aplicada simetricamente às duas pernas complementares — nenhuma arbitragem estática possível |
+| 35 | D52 — Deal Cancellation mispricing | **SINAL PRELIMINAR (não confirmado ao vivo)** | `deal_cancellation_edge_scan.py`: a feature paga "Deal Cancellation" dos Multipliers (reembolso integral do stake se cancelado dentro de 5-60min) é uma put europeia embutida (strike=entry, notional=stake×multiplier). Fair value via Monte Carlo (bootstrap em sub-blocos de 60 ticks, 60k ticks histórico, 60k sims) vs fee cobrado ao vivo: **17/20 células (multiplier 400x/1000x × MULTUP/MULTDOWN × 5 durações) com fee < fair_value (IC95%)**, edge relativo ~8-12%, agora simétrico entre MULTUP/MULTDOWN (assimetria inicial de até 180% era artefato de block bootstrap com histórico insuficiente p/ blocos de 3600 ticks — corrigido). **Não é um edge confirmado**: depende de suposições de modelo (vol histórica, aproximação European≈American, retornos aditivos). Requer validação com trades reais (comprar+cancelar sistematicamente) antes de qualquer conclusão — próximo passo natural |
+| 36 | D53 — Concurrent duplicate-buy race | **REFUTADO** | `duplicate_buy_race_probe.py`: 2 buys simultâneos (`asyncio.gather`, sem delay) referenciando o MESMO `proposal_id`. Testado em 2 variantes: (a) 2 conexões autenticadas separadas, mesma conta — 0/15 trials com ambos aceitos, leg B sempre rejeitado instantaneamente com "Unknown contract proposal" (proposal_id é **escopado à sessão/conexão** que o criou, nem chega a competir); (b) mesma conexão, 2 buys concorrentes via req_id diferentes — 0/8 trials com ambos aceitos, sempre exatamente 1 sucesso + 1 rejeição, debitado sempre = 1x stake. Consumo do proposal_id é atômico, sem janela de corrida |
+| 37 | D54 — Streamed proposal staleness | **REFUTADO** (+ achado inesperado) | `proposal_stream_staleness_probe.py`: assinar `proposal` com `subscribe:1` deveria realimentar a cada tick (~1/s), mas **nunca reenviou uma segunda atualização em 50+s** (confirmado via subscription id válido + `stream_client` seguindo responsivo a outros requests na mesma conexão) — comportamento inesperado do gateway novo, não um lag sutil. Como consequência, `proposal_id` do stream ficou obsoleto rapidamente: 2/3 tentativas de compra contra ele foram rejeitadas ("Unknown contract proposal"); a 1 aceita não deu para confirmar honra/recálculo de forma limpa (entry_spot ainda não populado no poll imediato). Sem janela de staleness explorável — proposals antigos expiram e são rejeitados, consistente com D47 |
 
 ## Recomendação
 
@@ -383,12 +396,18 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).
     Precisa dias/semanas para capturar eventos durante volatilidade alta.
-24. **Status consolidado (atualizado 2026-07-06)**: 46 hipóteses, **40 refutadas** (D46 novo),
+24. **Status consolidado (atualizado 2026-07-06)**: 54 hipóteses, **48 refutadas** (D46-D51,D53,D54 novos),
     2 com sinal fraco/marginal, 2 com edge validado (D17, Early Sell N=50),
     1 com edge parcialmente confirmado mas divergindo (D36 BUY only, ver nota),
+    1 com sinal preliminar não confirmado (D52 — Deal Cancellation, pendente validação ao vivo),
     2 aguardando eventos (D34, D44), 4 em validação inicial (D37/D38/D40/D41).
     **Foco: D17 go live + D36 acompanhar settles ao vivo (WR caindo vs backtest) +
-    D39 seguir ciclo 7JUL26 + Early Sell edge confirmado → considerar implementação real.**
+    D39 seguir ciclo 7JUL26 + Early Sell generalização multi-símbolo em coleta +
+    D52 validar com trades reais (comprar Multiplier+cancellation, medir valor
+    extraído vs fee) → considerar implementação real. Categorias "execução/
+    plataforma" (D47-D50) e "replicação/concorrência/streaming" (D51,D53,D54)
+    fechadas: nenhum race condition, buy/sell timing exploit, canal de pricing
+    alternativo ou arbitragem estática sobreviveu ao teste.**
 25. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
     `hft_arbitrage_bot.py` de novo.
 26. **INCIDENTE AWS 2026-07-05**: instância t3.micro (911MB RAM, sem swap) ficou
@@ -415,3 +434,69 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     dava veredito claro (REFUTADO), o bot foi encerrado em vez de mantido rodando.
     **Lição operacional: reiniciar o supervisor após editar sua lista de sessões; considerar
     um teste/alerta de memória disponível < 150MB.**
+28. **Stale proposal buy race — REFUTADO** (D47). `stale_proposal_probe.py`, N=40 (20 TREAT
+    delay=20s / 20 CONTROL delay=0s) em HIGHER/LOWER R_100 10-tick. O barrier do contrato
+    comprado é **sempre recalculado** no momento da compra (39/40 "RECALC(new)"), nunca honra
+    o preço da proposal antiga — mesmo dando 20s de vantagem para o mercado se mover a favor
+    do barrier antigo. WR/EV TREAT vs CONTROL não significativo (IC95% sobrepostos), consistente
+    com custo puro de esperar 20s, sem exploit de preço obsoleto.
+29. **Accumulator tick-barrier race — REFUTADO** (D48). `accu_tick_race_probe.py` tenta vender
+    manualmente no instante em que um tick recebido via WS local rompe a barreira do ACCU, antes
+    do servidor confirmar o knockout. Versão inicial reportou "vitórias" que eram falso positivo
+    (bid_price client-side desatualizado); com fresh-check server-side imediatamente antes do
+    sell, toda tentativa encontra o contrato **já** knocked-out (`is_sold=True`, `bid_price=0`).
+    O knockout é atômico com a ingestão do tick no back-end da Deriv — sem janela de corrida
+    explorável do lado do cliente.
+30. **App ID / canal pricing arbitrage — REFUTADO** (D49). `app_id_pricing_probe.py` comparou
+    `proposal` idêntica (mesmo symbol/contract_type/duration/stake, mesmo instante) entre
+    app_ids e gateways. Dentro do **mesmo gateway** (`api.derivws.com/trading/v1/options`),
+    app_id do projeto vs app_id público `1089`: 40/40 rounds com ask_price/payout/spot
+    **idênticos**. O **gateway legado** (`ws.derivws.com/websockets/v3`, app_id=1089, mesmo IP
+    AWS-Europa) rejeitou todos os sintéticos testados e só ofereceu Multipliers para forex —
+    segmentação regulatória de entidade/jurisdição (coerente com restrições ESMA na UE), não
+    diferença de preço. Nenhuma arbitragem de canal encontrada.
+31. **Multiplier stop-out slippage — REFUTADO** (D50). `multiplier_stopout_probe.py`, N=20
+    MULTUP (1HZ100V, 400x, $10), 6 stop-outs genuínos identificados por profit≈-stake.
+    `exit_spot` vs `stop_out_level` mostra micro-slippage de +0.127pts em média (min=-0.03,
+    max=+0.39) mas **sem efeito no profit realizado**: exatamente -$10.00 em todos os 6 casos.
+    A Deriv garante o cap de perda no stake independente do overshoot de 1 tick — não há
+    slippage repassado ao cliente nem espaço para melhorar o resultado com fechamento manual.
+32. **Static replication arbitrage — REFUTADO** (D51). `static_replication_probe.py`: comprar
+    as duas pernas de um par complementar (CALL+PUT, ou HIGHER+LOWER no mesmo barrier),
+    ambas com `basis=payout` fixado em $100, deveria ser risco-zero (exatamente uma ganha).
+    Resultado determinístico: soma dos ask_price = $102.40 em 100% das rodadas com spot
+    idêntico entre as pernas (39 + 14 rodadas), **arb_$=-$2.40 sem nenhuma variância** —
+    margem da casa de 2.4% aplicada simetricamente, sem brecha de replicação estática.
+33. **Deal Cancellation mispricing — SINAL PRELIMINAR, requer validação ao vivo** (D52).
+    `deal_cancellation_edge_scan.py`: a "Deal Cancellation" dos Multipliers é uma put
+    europeia embutida (protege o stake integral por 5-60min). Primeira tentativa de Monte
+    Carlo (block bootstrap contíguo, 20k ticks) mostrou assimetria MULTUP vs MULTDOWN de
+    até 180% — sinal claro de artefato (poucos comprimentos-de-bloco efetivos no histórico
+    disponível para janelas de 3600 ticks). Corrigido com bootstrap em sub-blocos de 60
+    ticks concatenados (mixing estatístico adequado mesmo p/ janelas longas) e ampliado
+    para 60k ticks / 60k simulações: a assimetria **quase desaparece** (MULTUP≈MULTDOWN a
+    cada duração), mas um edge residual **simétrico e persistente de ~8-12%** (fee cobrado
+    abaixo do fair value MC, IC95% não cruza zero em 17/20 células) permanece mesmo após
+    a correção e o aumento de amostra — diferente do padrão usual deste programa (onde
+    mais rigor sempre derrubou o sinal). Ainda assim, é **só um modelo teórico** (depende
+    de vol histórica de uma janela específica, aproximação European≈American, retornos
+    aditivos) — não uma medição ao vivo como o Early Sell. **Não tratar como edge
+    confirmado.** Próximo passo natural: comprar Multiplier+cancellation de verdade em
+    demo e medir o valor extraído real (ao invés de simulado) contra o fee pago.
+34. **Concurrent duplicate-buy race — REFUTADO** (D53). `duplicate_buy_race_probe.py`:
+    disparar 2 `buy` simultâneos (mesmo proposal_id, zero delay) via 2 conexões
+    autenticadas separadas (0/15 com ambos aceitos — proposal_id é escopado à sessão que
+    o criou, o segundo leg nem compete, é rejeitado na hora) e via a mesma conexão com
+    2 req_id concorrentes (0/8 com ambos aceitos — sempre 1 sucesso + 1 rejeição, débito
+    sempre = 1x stake). Consumo de proposal_id é atômico dos dois jeitos testados.
+35. **Streamed proposal staleness — REFUTADO, achado lateral inesperado** (D54).
+    `proposal_stream_staleness_probe.py`: assinatura `proposal` com `subscribe:1` no
+    gateway novo (`api.derivws.com/trading/v1/options`) recebeu a confirmação da
+    subscription (id válido) mas **nunca reenviou uma segunda atualização em 50+ segundos**
+    apesar do underlying tickar ~1x/s — a conexão seguiu viva e respondendo normalmente a
+    outros requests na mesma sessão, então não foi uma queda de rede. Isso torna a
+    proposta de "comprar do preço desatualizado que a tela mostra" moot: 2/3 tentativas de
+    compra contra o proposal_id antigo do stream foram rejeitadas (`"Unknown contract
+    proposal"`) por expiração normal, igual ao D47. Vale registrar como comportamento de
+    plataforma a investigar separadamente (não é um exploit, mas pode afetar UX de bots/
+    dashboards que dependem dessa subscription para preço "ao vivo").
