@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**50 hipóteses testadas. 44 refutadas, 2 com sinal fraco/marginal (D13, D14), 2 com edge validado (D17 — token unlock short; Early Sell Optionality — N=50 confirmado, agora generalizando para 10 símbolos/contratos), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, backtest 100% WR mas paper trading ao vivo em 42.9% WR N=7, ver nota), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000** (era sinal preliminar de N=542/300, sumiu com amostra real). **D47-D50 (execução/plataforma: stale proposal buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out slippage) todos REFUTADOS em 2026-07-06.** **D51/D53/D54 (replicação estática, duplicate-buy race, streamed proposal staleness) REFUTADOS. D52 (Deal Cancellation mispricing) tem sinal PRELIMINAR baseado em modelo Monte Carlo (~10% acima do fee cobrado, persistente apos corrigir viés de bootstrap e triplicar amostra) mas AINDA NAO validado com trades reais -- unico "quase-edge" nativo da Deriv em 54 hipóteses, tratado com máxima cautela ate confirmação ao vivo.**
+**55 hipóteses testadas. 44 refutadas, 2 com sinal fraco/marginal (D13, D14), 2 com edge validado (D17 — token unlock short; Early Sell Optionality — N=50 confirmado, agora generalizando para 10 símbolos/contratos), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, backtest 100% WR mas paper trading ao vivo em 42.9% WR N=7, ver nota), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000** (era sinal preliminar de N=542/300, sumiu com amostra real). **D47-D50 (execução/plataforma: stale proposal buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out slippage) todos REFUTADOS em 2026-07-06.** **D51/D53/D54 (replicação estática, duplicate-buy race, streamed proposal staleness) REFUTADOS. D52 (Deal Cancellation mispricing) tem sinal PRELIMINAR baseado em modelo Monte Carlo (~10% acima do fee cobrado, persistente apos corrigir viés de bootstrap e triplicar amostra) mas AINDA NAO validado com trades reais -- unico "quase-edge" nativo da Deriv em 54 hipóteses, tratado com máxima cautela ate confirmação ao vivo.** **D55 (2026-07-06) é a primeira hipótese fora de Deriv/Polymarket/CEX-CEX: Hyperliquid (perp DEX) vs Binance. Funding rate arb perp-perp sobreviveu split IS/OOS em 4/10 ativos (ETH, SOL, OP, LINK — 8/10 pareciam positivos no período inteiro, igual falso-positivo do D9); divergência oraclePx/markPx/midPx (D55b) não mostrou edge nos primeiros 5min (prêmio parece estrutural). VALIDANDO, ver `docs/hyperliquid_report.md`.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -19,8 +19,9 @@ independente, exceto D17 (edge validado) e D36 (anomalias reverting, aguardando 
 **incluindo tick-level (D46, N=190.000, 2026-07-06).** O ecossistema Deriv está fechado para
 mispricing de produtos. O Polymarket também está fechado (PA1-PA5 todos refutados). As frentes
 **ainda em aberto** são: D17 (token unlock, bot em paper), D34 (liquidation cascade, loop contínuo
-na AWS), D36 (IV surface anomaly, paper bot ativo na AWS) e D44 (funding rate extremo, aguardando
-evento). **Early sell optionality FECHOU com edge confirmado (N=50, ver tabela) e está em fase de
+na AWS), D36 (IV surface anomaly, paper bot ativo na AWS), D44 (funding rate extremo, aguardando
+evento) e **D55 (Hyperliquid vs Binance, primeira plataforma nova pós-Deriv/Polymarket — ver
+item 36)**. **Early sell optionality FECHOU com edge confirmado (N=50, ver tabela) e está em fase de
 generalização multi-símbolo.** **Quatro hipóteses de execução/plataforma (D47-D50: stale proposal
 buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out
 slippage) também foram testadas e refutadas em 2026-07-06** — nenhum bug de execução, race
@@ -396,16 +397,18 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).
     Precisa dias/semanas para capturar eventos durante volatilidade alta.
-24. **Status consolidado (atualizado 2026-07-06)**: 54 hipóteses, **48 refutadas** (D46-D51,D53,D54 novos),
+24. **Status consolidado (atualizado 2026-07-06)**: 55 hipóteses, **48 refutadas** (D46-D51,D53,D54 novos),
     2 com sinal fraco/marginal, 2 com edge validado (D17, Early Sell N=50),
     1 com edge parcialmente confirmado mas divergindo (D36 BUY only, ver nota),
     1 com sinal preliminar não confirmado (D52 — Deal Cancellation, pendente validação ao vivo),
-    2 aguardando eventos (D34, D44), 4 em validação inicial (D37/D38/D40/D41).
+    2 aguardando eventos (D34, D44), 4 em validação inicial (D37/D38/D40/D41),
+    1 em validação com sinal parcial OOS-confirmado (D55 — Hyperliquid vs Binance, ver item 36).
     **Foco: D17 go live + D36 acompanhar settles ao vivo (WR caindo vs backtest) +
     D39 seguir ciclo 7JUL26 + Early Sell generalização multi-símbolo em coleta +
     D52 validar com trades reais (comprar Multiplier+cancellation, medir valor
-    extraído vs fee) → considerar implementação real. Categorias "execução/
-    plataforma" (D47-D50) e "replicação/concorrência/streaming" (D51,D53,D54)
+    extraído vs fee) → considerar implementação real + D55 walk-forward multi-janela
+    em ETH/SOL/OP/LINK e acompanhar D55b (divergência) rodando 12h na AWS. Categorias
+    "execução/plataforma" (D47-D50) e "replicação/concorrência/streaming" (D51,D53,D54)
     fechadas: nenhum race condition, buy/sell timing exploit, canal de pricing
     alternativo ou arbitragem estática sobreviveu ao teste.**
 25. Sincronizar com o Carlos sobre `feat/operate-demo-synthetic` antes de tocar em
@@ -500,3 +503,19 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     proposal"`) por expiração normal, igual ao D47. Vale registrar como comportamento de
     plataforma a investigar separadamente (não é um exploit, mas pode afetar UX de bots/
     dashboards que dependem dessa subscription para preço "ao vivo").
+36. **Hyperliquid vs Binance — VALIDANDO, sinal parcial** (D55). `hyperliquid_probe.py`.
+    Primeira hipótese fora de Deriv/Polymarket/CEX-CEX (ver `docs/hyperliquid_report.md`).
+    **D55a (funding arb perp-perp, 90d, N=270 janelas/ativo):** 8/10 ativos pareciam
+    lucrativos somando o período inteiro (mesmo padrão de falso-positivo do D9: 14/20 →
+    0/19 na validação real) — mas ao aplicar a MESMA disciplina IS/OOS do D9-validação/D17
+    (direção decidida na 1ª metade cronológica, testada só na 2ª), **4/10 sobrevivem**:
+    ETH (+11.4bps líquido OOS), SOL (+16.9bps), OP (+62.3bps), LINK (+42.1bps), todos com
+    IC95% da metade OOS não cruzando zero. Round-trip assumido 19bps (HL taker 4.5bps +
+    Binance ~5bps, abre+fecha) — mais barato que o do D9 (40bps) por não precisar da perna
+    spot. **D55b (oraclePx/markPx/midPx da HL vs mid Binance, polling 3s):** primeiros 5min
+    (N=100) mostram basis persistente e positivo (BTC +4.0bps, ETH +8.4bps, SOL +4.5bps)
+    mas com CI95% apertado ao redor da média (não oscila em torno de zero) — parece prêmio
+    estrutural, não mispricing mean-reverting explorável; só ETH passou de 10% das amostras
+    acima do custo round-trip (9.5bps). Rodando 12h contínuas na AWS para julgar com amostra
+    maior. **Não tratar D55a como edge confirmado** — só 1 split IS/OOS, falta walk-forward
+    multi-janela e custo de capital/margem antes de cogitar paper-trade.

@@ -1918,6 +1918,45 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 190000,
     sampleUnit: "7h continuous AWS run (190,000 ticks) — refuted, bot stopped 2026-07-06",
   },
+  {
+    id: "D55",
+    title: "Hyperliquid (perp DEX) vs Binance — funding arb + oracle/mid divergence",
+    market: "Hyperliquid perps (BTC/ETH/SOL/ARB/OP/AVAX/LINK/DOGE/SUI/APT) vs Binance USDT-M",
+    thesis:
+      "Primeira plataforma nova pós-fechamento de Deriv/Polymarket/CEX-CEX. Construção " +
+      "perp-perp (sem perna spot) entre Hyperliquid e Binance tem round-trip ~19bps " +
+      "(vs 40bps do D9 CEX-CEX) — se o funding divergir persistentemente, dá pra capturar. " +
+      "Hyperliquid também expõe oraclePx/markPx/midPx juntos (mecanismo que CEX não tem) — " +
+      "se midPx atrasar vs oraclePx/Binance, há janela de preço defasado no livro.",
+    confidence: 35,
+    status: "validating",
+    tags: ["hyperliquid", "perp-dex", "funding-arb", "cross-venue", "oracle-divergence", "nova-plataforma"],
+    trigger:
+      "D55a: funding HL acumulado (8h) vs funding Binance, mesmo ativo, direção fixada na " +
+      "metade IS e testada na OOS. D55b: |hl_midPx - binance_mid| > custo round-trip (9.5bps)",
+    invalidation:
+      "D55a: IC95% da metade OOS cruzar zero (aplicado, derrubou 6/10 candidatos iniciais). " +
+      "D55b: % de amostras acima do custo round-trip não superar ruído de curto prazo",
+    createdAt: "2026-07-06",
+    author: "hyperliquid_probe.py",
+    verdict:
+      "VALIDANDO — sinal parcial, não confirmado. D55a (funding arb, 90d, N=270 janelas/ativo): " +
+      "8/10 ativos pareciam lucrativos somando o período inteiro (mesmo padrão de falso-positivo " +
+      "do D9: 14/20 → 0/19 na validação real), mas só 4/10 sobrevivem split IS/OOS (direção " +
+      "decidida na 1ª metade, testada só na 2ª): ETH +11.4bps, SOL +16.9bps, OP +62.3bps, " +
+      "LINK +42.1bps líquidos, todos com CI95% OOS não cruzando zero. D55b (divergência " +
+      "oraclePx/markPx/midPx vs Binance): primeiros 5min (N=100) mostram basis persistente " +
+      "e positivo mas com CI apertado ao redor da média (não oscila em torno de zero) — parece " +
+      "prêmio estrutural, não mispricing explorável; rodando 12h na AWS para confirmar com " +
+      "amostra maior. Não tratar D55a como edge confirmado: só 1 split IS/OOS, falta " +
+      "walk-forward multi-janela e custo de capital/margem.",
+    ci95Label: "OOS net apos custos, bps (ETH/SOL/OP/LINK, ver reportFile)",
+    tools: ["hyperliquid_probe.py", "stats_utils.py"],
+    reportFile: "docs/hyperliquid_report.md",
+    pnl: 0,
+    trades: 270,
+    sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + polls 3s (D55b, N=100 inicial, 12h rodando na AWS)",
+  },
 ];
 
 export function hypStatusBadgeClass(s: HypStatus) {
