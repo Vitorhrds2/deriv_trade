@@ -3,7 +3,9 @@
 **Data:** 2026-07-06
 **Status:** VALIDANDO (sinal parcial em D55a, precisa mais rigor antes de considerar live)
 **Autor:** `trading-engine/hyperliquid_probe.py`
-**Confiança:** 35% (sinal real em 4/10 ativos sobreviveu 1 split IS/OOS; D55b sem edge aparente)
+**Confiança:** 30% (sinal real em 4/10 ativos sobreviveu 1 split IS/OOS; D55b confirmado sem
+edge de reversão simples com N=10k — provavelmente o mesmo mecanismo do D55a, não um
+segundo edge independente, o que reduz um pouco a confiança de que D55a seja "grátis")
 
 ## Contexto
 
@@ -65,20 +67,37 @@ defasado antes da convergência, líquida de ~9.5bps round-trip (1 taker de cada
 14/20 → 4/19). Só 4/10 sobrevivem o split IS/OOS: ETH, SOL, OP, LINK — todos com CI95%
 da metade OOS não cruzando zero.**
 
-### D55b — Divergência oraclePx/markPx/midPx vs Binance (5min inicial, N=100, AWS rodando p/ N maior)
+### D55b — Divergência oraclePx/markPx/midPx vs Binance
 
-| Ativo | basis_mid médio | CI95% | max abs | % amostras > custo (9.5bps) | Veredito |
-|---|---|---|---|---|---|
-| BTC | +4.00bps | [+3.77,+4.21] | 6.26bps | 0% | sem edge |
-| ETH | +8.40bps | [+8.13,+8.67] | 13.01bps | 11% | limítrofe |
-| SOL | +4.45bps | [+4.14,+4.75] | 8.36bps | 0% | sem edge |
+**Atualização (N=10.021, ~8.3h contínuas na AWS, run ainda ativo rumo a 12h):**
 
-Basis é **persistente e positivo** (CI apertado ao redor da média, não oscila em torno de
-zero) — parece prêmio estrutural (mecanismo de funding da própria HL provavelmente
-compensa isso), não ruído mean-reverting explorável. Diferente do que se esperava
-(divergência tipo "livro desatualizado"), a HL parece precificar corretamente, só que
-com um viés de prêmio persistente. Rodando 12h contínuas na AWS para confirmar com
-amostra maior antes de descartar de vez.
+| Ativo | basis_mid médio | CI95% | min / max | % positivo | % amostras > custo (9.5bps) | Veredito |
+|---|---|---|---|---|---|---|
+| BTC | +4.82bps | [+4.79,+4.84] | -10.4 / +18.3bps | 99.8% | 0.26% | sem edge |
+| ETH | +8.43bps | [+8.39,+8.47] | -18.5 / +23.5bps | 99.9% | **25.96%** | limítrofe, ver nota |
+| SOL | +4.32bps | [+4.28,+4.37] | -23.3 / +17.0bps | 98.7% | 1.39% | sem edge |
+
+(Amostra inicial de 5min/N=100 já apontava a mesma direção: BTC +4.00, ETH +8.40,
+SOL +4.45bps — números praticamente idênticos com 100x mais dados, o que já era um
+indício forte de que não era ruído de curto prazo.)
+
+Com amostra grande fica claro: o basis **não cruza zero** (98.7-99.9% das amostras do
+mesmo sinal) — não é divergência tipo "livro desatualizado" que reverte, é um **prêmio
+estrutural persistente** do midPx da HL sobre o mid da Binance. Isso é economicamente
+consistente com o próprio mecanismo de funding da HL: `markPx` da Hyperliquid é uma EMA
+do prêmio do livro sobre o `oraclePx`, e é esse prêmio que alimenta o `funding` pago/
+recebido (D55a) — **o basis do D55b e o funding do D55a provavelmente são duas medidas
+do MESMO fenômeno subjacente**, não dois edges independentes e empilháveis. Isso é
+especialmente visível no ETH: é o ativo com o prêmio mais alto no D55b (+8.43bps, mais
+perto do custo) **e também um dos 4 que sobreviveram o IS/OOS no D55a** — não é coincidência.
+
+Um prêmio constante por si só não é capturável via reversão simples (comprar
+Binance/vender HL uma vez não gera lucro recorrente, só captura o prêmio na entrada,
+uma única vez). O que teria alguma chance seria uma estratégia de reversão **em torno
+da média não-zero** (entrar quando o prêmio foge muito acima/abaixo dos +8.4bps do ETH,
+apostando que volta pra média) — isso explicaria os 26% de amostras do ETH acima do
+custo, mas **não foi testado como regra de entrada/saída de verdade**, só caracterizada
+a distribuição. Não tratar como sinal até um backtest de uma regra específica.
 
 ## Veredito preliminar
 
@@ -91,13 +110,17 @@ ainda, ao contrário do D9 que incluía explicitamente); (c) confirmar que o fun
 listado via API reflete o que seria realmente pago/recebido (mecanismo de HL é hourly,
 Binance 8h — a soma pode ter erro de alinhamento nas bordas).
 
-**D55b: sem edge aparente até agora**, prêmio parece estrutural/não capturável via
-reversão simples. Aguardando amostra maior (rodando na AWS) antes de fechar veredito.
+**D55b: sem edge de reversão simples, confirmado com N=10.021 (~8.3h).** O prêmio é
+estrutural (98.7-99.9% das amostras do mesmo sinal, não oscila em torno de zero) e
+provavelmente é o mesmo mecanismo que gera o funding do D55a, não um segundo edge
+independente. ETH é o caso mais próximo do custo (26% das amostras > 9.5bps) mas isso
+não foi testado como estratégia real — só caracterização de distribuição. Deixar o run
+chegar em 12h para o registro, mas a conclusão qualitativa já não deve mudar.
 
 ## Próximos passos
 
-1. Deixar `hyperliquid_probe.py --mode divergence` rodando na AWS (12h) e reavaliar D55b
-   com N maior.
+1. ~~Deixar `hyperliquid_probe.py --mode divergence` rodando na AWS e reavaliar D55b com
+   N maior~~ — feito, N=10.021 confirma prêmio estrutural, sem edge de reversão simples.
 2. Walk-forward multi-janela em D55a para ETH/SOL/OP/LINK especificamente (não só 1 split).
 3. Se sobreviver, considerar paper-trade ao vivo (análogo ao D34/D36) antes de qualquer
    capital real — este ecossistema já tem infra de guardrails/telegram pronta

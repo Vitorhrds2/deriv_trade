@@ -1928,7 +1928,7 @@ export const realHypotheses: RealHypothesis[] = [
       "(vs 40bps do D9 CEX-CEX) — se o funding divergir persistentemente, dá pra capturar. " +
       "Hyperliquid também expõe oraclePx/markPx/midPx juntos (mecanismo que CEX não tem) — " +
       "se midPx atrasar vs oraclePx/Binance, há janela de preço defasado no livro.",
-    confidence: 35,
+    confidence: 30,
     status: "validating",
     tags: ["hyperliquid", "perp-dex", "funding-arb", "cross-venue", "oracle-divergence", "nova-plataforma"],
     trigger:
@@ -1945,17 +1945,20 @@ export const realHypotheses: RealHypothesis[] = [
       "do D9: 14/20 → 0/19 na validação real), mas só 4/10 sobrevivem split IS/OOS (direção " +
       "decidida na 1ª metade, testada só na 2ª): ETH +11.4bps, SOL +16.9bps, OP +62.3bps, " +
       "LINK +42.1bps líquidos, todos com CI95% OOS não cruzando zero. D55b (divergência " +
-      "oraclePx/markPx/midPx vs Binance): primeiros 5min (N=100) mostram basis persistente " +
-      "e positivo mas com CI apertado ao redor da média (não oscila em torno de zero) — parece " +
-      "prêmio estrutural, não mispricing explorável; rodando 12h na AWS para confirmar com " +
-      "amostra maior. Não tratar D55a como edge confirmado: só 1 split IS/OOS, falta " +
-      "walk-forward multi-janela e custo de capital/margem.",
+      "oraclePx/markPx/midPx vs Binance), CONFIRMADO com N=10.021 (~8.3h AWS): basis " +
+      "persistente e quase sempre positivo (BTC +4.82bps 99.8% positivo, ETH +8.43bps 99.9%, " +
+      "SOL +4.32bps 98.7%) — não cruza zero, é prêmio estrutural, não mispricing reversível. " +
+      "Provavelmente é o MESMO mecanismo que gera o funding do D55a (markPx = EMA do prêmio " +
+      "sobre oraclePx, alimenta o funding) — ETH tem o prêmio mais alto no D55b E é um dos " +
+      "4 que sobrevivem OOS no D55a, não é coincidência. Reduz confiança em D55a ser \"grátis\": " +
+      "o funding capturado pode só compensar o prêmio pago na entrada. Não tratar D55a como " +
+      "edge confirmado: só 1 split IS/OOS, falta walk-forward multi-janela e custo de capital/margem.",
     ci95Label: "OOS net apos custos, bps (ETH/SOL/OP/LINK, ver reportFile)",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],
     reportFile: "docs/hyperliquid_report.md",
     pnl: 0,
     trades: 270,
-    sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + polls 3s (D55b, N=100 inicial, 12h rodando na AWS)",
+    sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + polls 3s (D55b, N=10.021, ~8.3h AWS)",
   },
 ];
 

@@ -512,10 +512,15 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     ETH (+11.4bps líquido OOS), SOL (+16.9bps), OP (+62.3bps), LINK (+42.1bps), todos com
     IC95% da metade OOS não cruzando zero. Round-trip assumido 19bps (HL taker 4.5bps +
     Binance ~5bps, abre+fecha) — mais barato que o do D9 (40bps) por não precisar da perna
-    spot. **D55b (oraclePx/markPx/midPx da HL vs mid Binance, polling 3s):** primeiros 5min
-    (N=100) mostram basis persistente e positivo (BTC +4.0bps, ETH +8.4bps, SOL +4.5bps)
-    mas com CI95% apertado ao redor da média (não oscila em torno de zero) — parece prêmio
-    estrutural, não mispricing mean-reverting explorável; só ETH passou de 10% das amostras
-    acima do custo round-trip (9.5bps). Rodando 12h contínuas na AWS para julgar com amostra
-    maior. **Não tratar D55a como edge confirmado** — só 1 split IS/OOS, falta walk-forward
-    multi-janela e custo de capital/margem antes de cogitar paper-trade.
+    spot. **D55b (oraclePx/markPx/midPx da HL vs mid Binance, polling 3s), CONFIRMADO com
+    N=10.021 (~8.3h AWS):** basis persistente e quase sempre positivo (BTC +4.82bps 99.8%
+    positivo, ETH +8.43bps 99.9% positivo, SOL +4.32bps 98.7% positivo) — **não cruza
+    zero**, ou seja, não é mispricing tipo "livro desatualizado" que reverte, é prêmio
+    estrutural. Insight importante: isso é consistente com o próprio mecanismo de funding
+    da HL (markPx = EMA do prêmio sobre oraclePx, é esse prêmio que gera o funding) —
+    **D55a e D55b provavelmente medem o MESMO fenômeno**, não dois edges independentes
+    (ETH é o ativo com prêmio mais alto no D55b E um dos 4 que sobrevivem OOS no D55a,
+    não é coincidência). Isso reduz confiança em D55a ser "grátis" — o funding capturado
+    pode só ser compensação pelo prêmio que você paga pra entrar. **Não tratar D55a como
+    edge confirmado** — só 1 split IS/OOS, falta walk-forward multi-janela e custo de
+    capital/margem antes de cogitar paper-trade. Ver `docs/hyperliquid_report.md` atualizado.
