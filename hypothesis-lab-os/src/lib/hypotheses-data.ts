@@ -1928,7 +1928,7 @@ export const realHypotheses: RealHypothesis[] = [
       "(vs 40bps do D9 CEX-CEX) — se o funding divergir persistentemente, dá pra capturar. " +
       "Hyperliquid também expõe oraclePx/markPx/midPx juntos (mecanismo que CEX não tem) — " +
       "se midPx atrasar vs oraclePx/Binance, há janela de preço defasado no livro.",
-    confidence: 50,
+    confidence: 55,
     status: "validating",
     tags: ["hyperliquid", "perp-dex", "funding-arb", "cross-venue", "oracle-divergence", "nova-plataforma", "link"],
     trigger:
@@ -1949,11 +1949,15 @@ export const realHypotheses: RealHypothesis[] = [
       "suficiente pra que o custo por flip (19bps) coma o edge (net -44 a -112bps/90d). " +
       "SÓ LINK sobrevive, de forma robusta: ZERO flips em 90 dias (fold de 7d E 5d, mesmo " +
       "resultado), 100% win rate, net +96-100bps, CI95% bem longe de zero. Direção: short HL " +
-      "LINK-PERP + long Binance LINK-PERP. D55b (divergência oraclePx/markPx/midPx vs Binance), " +
-      "CONFIRMADO com N=10.021 (~8.3h AWS): basis persistente e quase sempre positivo " +
-      "(BTC/ETH/SOL, LINK ainda não monitorado nesse teste) — não cruza zero, é prêmio " +
-      "estrutural, mesmo mecanismo que provavelmente gera o funding do D55a (reduz confiança " +
-      "de que seja \"grátis\"). Falta: custo de capital/margem, e o walk-forward ainda é sobre " +
+      "LINK-PERP + long Binance LINK-PERP. Custo de capital testado (T-bill 5% APR, premissa " +
+      "do D9): perp-perp só exige margem (não notional cheio como a perna spot do D9) — LINK " +
+      "sobrevive a partir de ~3x de alavancagem/perna (net-net +19.6 a +84.8bps entre 3x-20x), " +
+      "só fica negativo em capital 100%-cash-secured (≤2x). D55b (divergência " +
+      "oraclePx/markPx/midPx vs Binance), CONFIRMADO com N=10.021 (~8.3h AWS) em BTC/ETH/SOL " +
+      "E checado especificamente no LINK (N=100, 5min local, +7.64bps, mesmo padrão): basis " +
+      "persistente e quase sempre positivo — não cruza zero, é prêmio estrutural, mesmo " +
+      "mecanismo que provavelmente gera o funding do D55a (reduz um pouco a confiança de que " +
+      "seja \"grátis\", mas não invalida ser capturável). Falta: walk-forward ainda é sobre " +
       "os mesmos 90d do screening (robustez interna, não OOS temporal de verdade).",
     ci95Label: "Net apos custos walk-forward (fold 7d), bps -- LINK +96.3 [+71.6,+121.6]",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],

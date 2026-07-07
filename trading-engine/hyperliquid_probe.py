@@ -60,6 +60,7 @@ HL_TAKER_BPS = 4.5        # tier 0 (0.045%), sem volume/staking discount
 BINANCE_TAKER_BPS = 5.0   # USDT-M futures, retail (VIP0)
 FUNDING_ARB_ROUNDTRIP_BPS = 2 * (HL_TAKER_BPS + BINANCE_TAKER_BPS)   # abre+fecha, perp-perp
 DIVERGENCE_ROUNDTRIP_BPS = HL_TAKER_BPS + BINANCE_TAKER_BPS          # 1 leg cada lado
+CAPITAL_COST_APR = 0.05  # T-bill opportunity cost -- MESMA premissa do D9 (funding_rate_validate.py)
 
 SYMBOLS = ["BTC", "ETH", "SOL", "ARB", "OP", "AVAX", "LINK", "DOGE", "SUI", "APT"]
 
@@ -324,7 +325,30 @@ def run_walkforward_validation(days=90, fold_days=7, symbols=None):
     if confirmed:
         print("Confirmados:", ", ".join(f"{r['symbol']}(net={r['net_total_bps']:+.1f}bps, "
                                          f"{r['n_flips']} flips)" for r in confirmed))
+        print("\nCusto de capital (nao incluido acima -- sensibilidade por alavancagem):")
+        for r in confirmed:
+            capital_cost_sensitivity(r["symbol"], r["net_total_bps"], r["n_weeks_held"] * fold_days)
     print("=" * 90)
+    return results
+
+
+def capital_cost_sensitivity(symbol, net_total_bps, period_days, leverages=(2, 3, 5, 10, 20)):
+    """Custo de capital = oportunidade (T-bill 5% APR, mesma premissa do D9) sobre a MARGEM
+    efetivamente travada nos dois venues -- perp-perp NAO precisa notional cheio como o D9
+    precisava pra perna spot (comprar o ativo). Margem nao e nettable entre exchanges
+    diferentes, entao capital travado = notional/leverage EM CADA perna (2 pernas)."""
+    print(f"  {symbol}: custo de capital (T-bill {CAPITAL_COST_APR*100:.0f}% APR, premissa D9) "
+          f"sobre margem travada, {period_days:.0f}d, net pre-capital={net_total_bps:+.1f}bps:")
+    results = []
+    for lev in leverages:
+        margin_fraction = 2.0 / lev  # 1/lev cada perna, 2 pernas nao-nettable entre venues
+        capital_cost_bps = CAPITAL_COST_APR * 10000 * (period_days / 365) * margin_fraction
+        net_net_bps = net_total_bps - capital_cost_bps
+        verdict = "sobrevive" if net_net_bps > 0 else "NAO sobrevive"
+        results.append({"leverage": lev, "capital_cost_bps": round(capital_cost_bps, 1),
+                         "net_net_bps": round(net_net_bps, 1), "verdict": verdict})
+        print(f"    {lev:2d}x cada perna (margem={margin_fraction*100:4.0f}% notional): "
+              f"custo={capital_cost_bps:6.1f}bps net-net={net_net_bps:+7.1f}bps -> {verdict}")
     return results
 
 
@@ -370,9 +394,10 @@ def run_divergence_scan(duration_s=600, interval_s=3.0, symbols=("BTC", "ETH", "
             f.write(json.dumps(row) + "\n")
 
         if i % 20 == 0:
-            btc = row.get("BTC", {})
-            print(f"  [{i}/{n_polls}] BTC hl_mid={btc.get('hl_mid')} binance={btc.get('binance_mid')} "
-                  f"basis_mid={btc.get('basis_mid_bps')}bps basis_oracle={btc.get('basis_oracle_bps')}bps")
+            ref_sym = symbols[0]
+            ref = row.get(ref_sym, {})
+            print(f"  [{i}/{n_polls}] {ref_sym} hl_mid={ref.get('hl_mid')} binance={ref.get('binance_mid')} "
+                  f"basis_mid={ref.get('basis_mid_bps')}bps basis_oracle={ref.get('basis_oracle_bps')}bps")
 
         elapsed = time.time() - t0
         time.sleep(max(0, interval_s - elapsed))
@@ -420,7 +445,8 @@ def main():
     if args.mode in ("divergence", "both"):
         print()
         run_divergence_scan(duration_s=args.divergence_duration_s,
-                             interval_s=args.divergence_interval_s)
+                             interval_s=args.divergence_interval_s,
+                             symbols=tuple(args.symbols) if args.symbols else ("BTC", "ETH", "SOL"))
 
 
 if __name__ == "__main__":

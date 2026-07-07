@@ -517,14 +517,20 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     90 dias (testado com fold de 7d E 5d, mesmo resultado), 100% win rate, net
     +96-100bps, IC95% bem longe de zero** — funding da HL pro LINK-PERP é
     consistentemente mais alto que o da Binance toda semana, sem exceção. Direção:
-    short HL LINK-PERP + long Binance LINK-PERP. **D55b (oraclePx/markPx/midPx da HL
-    vs mid Binance, polling 3s), CONFIRMADO com N=10.021 (~8.3h AWS):** basis
-    persistente e quase sempre positivo (BTC/ETH/SOL, LINK ainda não monitorado nesse
-    teste) — não cruza zero, é prêmio estrutural, não mispricing tipo "livro
+    short HL LINK-PERP + long Binance LINK-PERP. **Custo de capital testado**
+    (`capital_cost_sensitivity()`, mesma premissa T-bill 5% APR do D9): como é
+    perp-perp (só margem, não notional cheio como a perna spot do D9), **LINK
+    sobrevive a partir de ~3x de alavancagem por perna** (net-net +19.6 a +84.8bps
+    entre 3x-20x); só fica negativo em capital 100%-cash-secured (≤2x) — diferença
+    importante vs D9, que exigia capital pleno e por isso morria mesmo com números
+    brutos maiores. **D55b (oraclePx/markPx/midPx da HL vs mid Binance, polling 3s),
+    CONFIRMADO com N=10.021 (~8.3h AWS) em BTC/ETH/SOL E checado especificamente no
+    LINK (N=100, 5min local, +7.64bps, mesmo padrão):** basis persistente e quase
+    sempre positivo — não cruza zero, é prêmio estrutural, não mispricing tipo "livro
     desatualizado" que reverte. Consistente com o próprio mecanismo de funding da HL
     (markPx = EMA do prêmio sobre oraclePx, é esse prêmio que gera o funding) —
-    **D55a e D55b provavelmente medem o MESMO fenômeno**, o que reduz confiança em
-    D55a ser "grátis" (pode ser compensação por segurar o prêmio, não uma ineficiência
-    pura). Falta: custo de capital/margem nos dois venues, e o walk-forward ainda é
-    sobre os mesmos 90d do screening (robustez interna, não OOS temporal de verdade).
-    Ver `docs/hyperliquid_report.md` atualizado.
+    **D55a e D55b provavelmente medem o MESMO fenômeno**, o que reduz um pouco a
+    confiança em D55a ser "grátis" (pode ser compensação por segurar o prêmio, não
+    uma ineficiência pura), mas não invalida ser capturável na prática. Falta: o
+    walk-forward ainda é sobre os mesmos 90d do screening (robustez interna, não OOS
+    temporal de verdade). Ver `docs/hyperliquid_report.md` atualizado.
