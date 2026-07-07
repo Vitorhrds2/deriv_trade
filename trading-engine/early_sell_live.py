@@ -1,5 +1,14 @@
 """Early Sell Optionality -- EXECUTOR AO VIVO (capital real ou demo).
 
+*** RE-REFUTADO em 2026-07-07 -- NAO USAR COM --live ***
+A hipotese que este executor implementa foi RE-REFUTADA depois de corrigir um bug de
+hindsight bias em early_sell_multi.py/early_sell_test.py (o "edge" media max(bid) sobre
+toda a vida do contrato, que e trivialmente >= hold para qualquer preco com ruido --
+nao evidencia de mispricing real). Comparacao pareada correta em N=550 (10 simbolos):
+diff EV cruza zero em 7/8 thresholds e e SIGNIFICATIVAMENTE NEGATIVO no 8o. Ver
+docs/state_of_research.md item 14 e hypotheses-data.ts (HYP-SELL-01, status=refuted).
+Por isso a flag --live aborta incondicionalmente logo abaixo ate nova validacao real.
+
 Diferenca fundamental para early_sell_multi.py (script de PESQUISA): aquele script so
 OBSERVA (compra, espera o contrato expirar, registra o melhor bid que teria dado para
 vender) -- nunca chama "sell" de verdade. Este arquivo EXECUTA: monitora bid_price/
@@ -9,8 +18,9 @@ Deliberadamente AUTOCONTIDO (nao importa de early_sell_multi.py): um bot de dinh
 real nao deve depender de um script de pesquisa que pode ser editado/experimentado
 (ex: alguem muda DEFAULT_MATRIX de early_sell_multi.py para um novo sweep e sem querer
 muda tambem o universo de simbolos deste executor). LIVE_MATRIX abaixo e uma copia
-congelada dos 10 pares (symbol, contract_type) ja validados (N=13-50 cada, diff_ev
-CI95 > 0 em TODOS, ver early_sell_multi_stats.json / docs/state_of_research.md).
+congelada dos 10 pares (symbol, contract_type) que PARECIAM validados (N=13-50 cada,
+diff_ev CI95 > 0 em TODOS) mas essa metrica tinha o bug de hindsight descrito acima --
+ver aviso no topo do arquivo antes de reativar --live.
 
 MODELO DE SEGURANCA (defesa em profundidade, ver tambem risk_guardrails.py):
   1. Por padrao roda em DEMO (use_demo=True). So opera com dinheiro real se a flag
@@ -228,6 +238,11 @@ async def main():
         return
 
     if args.live:
+        print("ERRO: hipotese RE-REFUTADA em 2026-07-07 (bug de hindsight bias corrigido, "
+              "diff EV cruza zero/negativo em N=550 -- ver docstring deste arquivo e "
+              "docs/state_of_research.md item 14). --live desabilitado ate nova validacao "
+              "real com metrica pareada correta. Abortando.", flush=True)
+        return
         if os.getenv("CONFIRM_REAL_MONEY", "").strip().upper() != "YES":
             print("ERRO: --live exige CONFIRM_REAL_MONEY=YES no .env. Abortando por seguranca.", flush=True)
             return

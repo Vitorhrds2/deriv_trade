@@ -243,6 +243,23 @@ def load_all_results():
 
 
 def compute_stream_stats(records):
+    """ATENCAO -- correcao de 2026-07-07 (ver docs/state_of_research.md item 14):
+
+    Os campos `sell_profit`/`sell_wr`/`sell_ev`/`diff_ev` abaixo usam `best_bid` = MAX
+    do bid_price observado em TODAS as amostras do contrato (hindsight). Isso e um
+    LIMITE SUPERIOR nao-acionavel (max(caminho) >= qualquer ponto fixo, incl. o valor
+    terminal, e trivialmente positivo para qualquer processo de preco com ruido -- nao e
+    evidencia de mispricing da Deriv). Mantidos so por compatibilidade/contexto historico.
+
+    A regra `rule_by_ratio` (vender no 1o bid tal que bid/buy_price >= ratio) E
+    non-hindsight, mas o EV "ev_sell" ali tambem e enganoso sozinho: e a media
+    CONDICIONAL A TER DISPARADO, que e quase tautologicamente positiva (so dispara
+    quando bid > buy_price). A pergunta certa e se a regra (vender se disparar, senao
+    segurar) bate o EV de simplesmente segurar SEMPRE -- isso e o novo campo
+    `diff_ev_vs_hold`/`diff_ci95_vs_hold` (pareado por trial, bootstrap na diferenca,
+    nao-triggered = mesmo valor que hold em ambos os lados => diff=0 nesses casos).
+    Resultado ao rodar isso pela 1a vez em N=550 (10 simbolos): cruza zero em 7/8
+    ratios, e SIGNIFICATIVAMENTE NEGATIVO no ratio=1.8 -- sem edge confirmado."""
     sellable = [r for r in records if r["n_valid_bids"] > 0]
     hold_profits = [r["profit_hold"] for r in sellable]
     sell_profits = [r["sell_profit"] for r in sellable if r["sell_profit"] is not None]
@@ -255,27 +272,38 @@ def compute_stream_stats(records):
         out["hold_ev"] = statistics.mean(hold_profits)
     if sell_profits:
         wins_sell = sum(1 for p in sell_profits if p > 0)
-        out["sell_wr"] = wins_sell / len(sell_profits)
-        out["sell_wr_ci95"] = list(wilson_ci(wins_sell, len(sell_profits)))
-        out["sell_ev"] = statistics.mean(sell_profits)
+        out["sell_wr_HINDSIGHT"] = wins_sell / len(sell_profits)
+        out["sell_wr_ci95_HINDSIGHT"] = list(wilson_ci(wins_sell, len(sell_profits)))
+        out["sell_ev_HINDSIGHT"] = statistics.mean(sell_profits)
     if sell_profits and hold_profits and len(sell_profits) == len(hold_profits):
         diffs = [s - h for s, h in zip(sell_profits, hold_profits)]
         lo, mean_d, hi = bootstrap_ci(diffs)
-        out["diff_ev"] = mean_d
-        out["diff_ci95"] = [lo, hi]
+        out["diff_ev_HINDSIGHT_not_actionable"] = mean_d
+        out["diff_ci95_HINDSIGHT_not_actionable"] = [lo, hi]
 
     rule_stats = {}
     for ratio in RATIO_THRESHOLDS:
         sp = []
+        paired_diffs = []
         for r in sellable:
             if r["buy_price"] <= 0:
                 continue
+            triggered_profit = None
             for bd in r["bids"]:
                 if bd["is_valid_to_sell"] and (bd["bid_price"] / r["buy_price"]) >= ratio:
-                    sp.append(bd["bid_price"] - r["buy_price"])
+                    triggered_profit = bd["bid_price"] - r["buy_price"]
                     break
+            if triggered_profit is not None:
+                sp.append(triggered_profit)
+                paired_diffs.append(triggered_profit - r["profit_hold"])
+            else:
+                paired_diffs.append(0.0)  # regra nao disparou -> segura, diff=0 vs baseline hold
         if sp:
-            rule_stats[str(ratio)] = {"n_triggered": len(sp), "ev_sell": statistics.mean(sp)}
+            lo_r, mean_r, hi_r = bootstrap_ci(paired_diffs)
+            rule_stats[str(ratio)] = {
+                "n_triggered": len(sp), "ev_sell_CONDITIONAL_on_trigger": statistics.mean(sp),
+                "diff_ev_vs_hold": mean_r, "diff_ci95_vs_hold": [lo_r, hi_r],
+            }
     out["rule_by_ratio"] = rule_stats
     return out
 
@@ -303,10 +331,16 @@ async def periodic_summary(interval_s):
             summary = write_summary()
             print("\n" + "=" * 90, flush=True)
             print(f"[SUMMARY @ {summary['generated_at']}] total_trials={summary['total_trials']}", flush=True)
+            print("  (diff_ev_HINDSIGHT usa melhor bid observado -- limite superior nao-acionavel, ver docstring)", flush=True)
             for k, s in summary["streams"].items():
                 print(f"  {k}: n={s['n_trials']} sellable={s['n_sellable']} "
-                      f"hold_wr={s.get('hold_wr', 0) * 100:.1f}% sell_wr={s.get('sell_wr', 0) * 100:.1f}% "
-                      f"diff_ev={s.get('diff_ev', 0):+.4f} ci95={s.get('diff_ci95')}", flush=True)
+                      f"hold_wr={s.get('hold_wr', 0) * 100:.1f}% sell_wr_HINDSIGHT={s.get('sell_wr_HINDSIGHT', 0) * 100:.1f}% "
+                      f"diff_ev_HINDSIGHT={s.get('diff_ev_HINDSIGHT_not_actionable', 0):+.4f}", flush=True)
+                rb = s.get("rule_by_ratio", {})
+                if "1.3" in rb:
+                    r13 = rb["1.3"]
+                    print(f"      regra REAL (ratio=1.3, non-hindsight vs hold): "
+                          f"diff_ev={r13['diff_ev_vs_hold']:+.4f} ci95={r13['diff_ci95_vs_hold']}", flush=True)
             print("=" * 90 + "\n", flush=True)
         except Exception as e:
             print(f"[SUMMARY erro] {e}", flush=True)

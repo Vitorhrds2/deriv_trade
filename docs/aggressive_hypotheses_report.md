@@ -440,3 +440,75 @@ reiniciar o supervisor depois de editar seu script, nunca só editar o arquivo.*
   +6.85% — resultado promissor, ainda sem relatório dedicado.
 
 Ver `docs/state_of_research.md` itens 19, 21, 22, 24 e 27 para os dados completos.
+
+---
+
+## UPDATE 2026-07-07 — Correção crítica: Early Sell Optionality RE-REFUTADO
+
+**Contexto:** rotina de checar todos os processos/resultados da AWS (D47-D52, early_sell_multi,
+D55b). Memória ok (196-317MB disponíveis, sem incidente desta vez).
+
+### Early Sell Optionality (HYP-SELL-01) — bug de hindsight bias encontrado
+
+O "EDGE CONFIRMADO" reportado na seção acima (2026-07-05, N=50) e a extensão multi-símbolo
+(`early_sell_multi.py`, N=550 acumulados em 10 símbolos até 2026-07-07) **tinham um bug
+metodológico que invalida a conclusão**:
+
+- `sell_profit = best_bid - buy_price`, onde `best_bid = max(bid_price em TODAS as amostras
+  coletadas durante a vida do contrato)`. Isso é **viés de hindsight**: o máximo de um caminho
+  de preço com ruído é, por construção matemática, sempre >= qualquer ponto fixo do mesmo
+  caminho (incluindo o valor terminal/hold) — "vender no melhor ponto (visto em retrospecto)
+  bate segurar" é quase uma tautologia, não evidência de mispricing da Deriv. Qualquer produto
+  com optionality e ruído de preço mostraria o mesmo padrão em qualquer corretora.
+- A checagem "non-hindsight" que supostamente confirmava o edge (vender no 1º bid >= threshold,
+  já presente em `early_sell_test.py` desde a v1) tinha um bug relacionado: `EV_sell` era
+  calculado só sobre os trials que DISPARARAM a regra (média condicional, também quase
+  tautologicamente positiva, já que só dispara quando bid > buy_price) e o "EV_hold
+  correspondente" pegava os primeiros N elementos de uma lista por ÍNDICE — não os hold-profits
+  PAREADOS dos mesmos trials que dispararam. Uma comparação inválida que nunca de fato testou
+  se a regra bate o hold.
+
+**Correção aplicada e resultado:** comparação pareada por trial (se a regra dispara, usa o
+profit da venda; senão, usa o profit do hold — sempre comparado contra "sempre segurar" como
+baseline), bootstrap na diferença. Rodado em N=550 (10 símbolos, 8 thresholds ratio=1.1-1.8):
+
+- **7/8 thresholds: diff EV cruza zero** (ex. ratio=1.3: n_triggered=367/550, diff=+0.05bps
+  IC95%=[-0.54,+0.65]).
+- **1/8 (ratio=1.8, o mais extremo): diff SIGNIFICATIVAMENTE NEGATIVO** (-0.20bps,
+  IC95%=[-0.35,-0.01]).
+- Nenhum dos 10 símbolos individualmente mostra IC95% excluindo zero em nenhum threshold.
+
+Interpretação: vender cedo aumenta a win rate (trava lucro pequeno com mais frequência) mas
+reduz o tamanho médio do ganho (perde os movimentos grandes que só aparecem segurando até o
+expiry) — os dois efeitos se cancelam, sem EV líquido. **Sem edge.**
+
+**Ações tomadas:**
+1. `trading-engine/early_sell_multi.py`: `compute_stream_stats()` corrigido para expor
+   `diff_ev_vs_hold`/`diff_ci95_vs_hold` (pareado, correto) por threshold; campos antigos
+   (baseados em `best_bid`) renomeados com sufixo `_HINDSIGHT` e docstring explicando o viés,
+   mantidos só por compatibilidade/contexto histórico. `periodic_summary()` agora imprime a
+   métrica correta.
+2. Redeployado na AWS, processo reiniciado (tmux `early_sell_multi`) — dados antigos
+   preservados (`early_sell_multi_results.jsonl` é append-only).
+3. `docs/state_of_research.md` (item 14, TL;DR, status consolidado) e `hypotheses-data.ts`
+   (HYP-SELL-01: `status: live→refuted`, `confidence: 85→5`) atualizados.
+4. **`early_sell_live.py` (executor real-money-ready) NÃO deve ser ativado** com este sinal.
+
+### Checagem geral dos demais processos AWS (D47-D54, D52 live, D55b)
+
+Tudo consistente com `docs/state_of_research.md` (itens 30-37), sem surpresas, exceto:
+- **D48 (Accumulator tick-barrier race):** doc já descrevia o mecanismo (knockout atômico,
+  sem janela de corrida) mas não tinha o EV agregado. Computado agora: N=20, 11/20 vendas
+  genuínas mas EV total negativo (-$6.51, média -$0.3255/trial, IC95%=[-0.585,-0.060]) —
+  reforça REFUTADO com número, não só mecanismo.
+- **D52 (Deal Cancellation):** validação ao vivo (`deal_cancellation_live.py`, N=20 trades
+  reais) já tinha sido rodada desde a última atualização do relatório — EV líquido
+  +$0.147/trade, IC95%=[-$0.1415,+$0.4775] cruza zero, **INCONCLUSIVO** (script já imprime
+  esse veredito). Ainda o único "quase-edge" nativo da Deriv na lista, mas precisa de mais
+  amostra ao vivo.
+- **D55b:** rodada original BTC/ETH/SOL (12h) a ~77% concluída. Nova rodada dedicada ao LINK
+  (6h, motivada pelo LINK ter isolado como único sobrevivente do walk-forward de D55a) iniciada
+  em paralelo (tmux `d55b_link`) — ver `docs/hyperliquid_report.md`.
+
+Todos os outros (D37/D38/D39/D40/D41/D44/hft_bot/liq_bot/unlock_bot) seguem rodando sem
+mudança de veredito relevante desde a última checagem.

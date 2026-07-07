@@ -251,28 +251,38 @@ export const realHypotheses: RealHypothesis[] = [
   {
     id: "HYP-SELL-01",
     title: "Early sell optionality — bid_price vs hold-to-expiry",
-    market: "1HZ10V · CALL 15m",
+    market: "1HZ10V · CALL 15m + 9 outros símbolos/contract types",
     thesis:
       "A capacidade de vender antes do expiry a bid_price poderia ter valor de optionality (vender quando ITM antes de reverter) que excede o custo do spread bid/ask embutido.",
-    confidence: 85,
-    status: "live",
-    tags: ["early-sell", "optionality", "bid-price", "mega-brain-2", "edge-confirmado"],
+    confidence: 5,
+    status: "refuted",
+    tags: ["early-sell", "optionality", "bid-price", "mega-brain-2", "hindsight-bias", "refutado"],
     trigger: "Comprar CALL 15m, monitorar bid_price durante vida do contrato, comparar sell no melhor bid vs hold-to-expiry",
-    invalidation: "IC95% da diferença sell_profit - hold_profit cruzar zero (non-hindsight, regra predefinida)",
+    invalidation: "IC95% da diferença sell_profit - hold_profit cruzar zero (non-hindsight, regra predefinida, PAREADA por trial)",
     createdAt: "2026-07-03",
-    author: "early_sell_test.py",
-    pnl: 261.48,
-    trades: 50,
-    sampleUnit: "N=50 trials completos (100% do target), 15m cada, non-hindsight validado",
+    author: "early_sell_test.py / early_sell_multi.py",
+    pnl: 0,
+    trades: 550,
+    sampleUnit: "N=550 (10 símbolos x 55), corrigido 2026-07-07 -- ver verdict",
     verdict:
-      "EDGE CONFIRMADO (N=50 COMPLETO) — Sell WR 86% (IC95%[73.8%,93.1%]), EV +$5.23/trade " +
-      "(IC95%[$4.18,$6.28]). Hold WR 52% (IC95%[38.5%,65.2%]), EV -$0.0004/trade (cruza zero). " +
-      "Diferença sell-hold = +$5.23/trade, IC95%[+$3.22,+$7.17] NÃO cruza zero. " +
-      "Regra non-hindsight (vender no 1o bid≥threshold) confirma o edge em TODOS os 8 " +
-      "thresholds testados ($11-$18) — não é cherry-picking do bid máximo (hindsight). " +
-      "N=20→N=50: WR subiu 75%→86%, EV subiu $4.48→$5.23 — sinal FORTALECEU com mais dados " +
-      "(oposto do padrão usual de false-positive regredindo). PRÓXIMO: considerar implementação real.",
-    tools: ["early_sell_test.py", "probe_sellable.py"],
+      "RE-REFUTADO (2026-07-07) — a confirmação original (N=50, status=live, confidence=85) e a " +
+      "extensão multi-símbolo (N=550) tinham um BUG METODOLÓGICO: 'sell_profit' usava " +
+      "best_bid=max(bid observado em TODA a vida do contrato) — viés de HINDSIGHT, já que " +
+      "max(caminho) é trivialmente >= qualquer ponto fixo do mesmo caminho (incl. hold), " +
+      "positivo pra qualquer preço com ruído independente de mispricing real. A checagem " +
+      "'non-hindsight' secundária (vender no 1o bid>=threshold) tinha um bug relacionado: " +
+      "EV_sell só sobre trials que DISPARARAM (condicional, quase tautológico) comparado " +
+      "com hold via slice por ÍNDICE, não pareado pelos mesmos trials — comparação inválida. " +
+      "CORRIGIDO: comparação pareada por trial (regra dispara->vende, senão segura; diff = " +
+      "regra - hold_sempre), bootstrap na diferença. Resultado em N=550 (10 símbolos), 8 " +
+      "thresholds (ratio bid/buy 1.1-1.8): diff EV cruza zero em 7/8 (ex. ratio=1.3: " +
+      "+0.05bps IC95%[-0.54,+0.65]) e é SIGNIFICATIVAMENTE NEGATIVO no ratio=1.8 " +
+      "(-0.20 IC95%[-0.35,-0.01]). Nenhum símbolo individual mostra IC95% excluindo zero. " +
+      "Mecanismo: vender cedo aumenta win rate mas reduz tamanho médio do ganho (perde os " +
+      "movimentos grandes que só aparecem segurando) — efeitos se cancelam, sem EV líquido. " +
+      "Script corrigido (compute_stream_stats() expõe diff_ev_vs_hold pareado; campos antigos " +
+      "renomeados *_HINDSIGHT) e redeployado na AWS. NÃO usar early_sell_live.py com capital real.",
+    tools: ["early_sell_test.py", "early_sell_multi.py", "stats_utils.py"],
     reportFile: "docs/state_of_research.md",
   },
   {
