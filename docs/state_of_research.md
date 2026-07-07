@@ -503,24 +503,28 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     proposal"`) por expiração normal, igual ao D47. Vale registrar como comportamento de
     plataforma a investigar separadamente (não é um exploit, mas pode afetar UX de bots/
     dashboards que dependem dessa subscription para preço "ao vivo").
-36. **Hyperliquid vs Binance — VALIDANDO, sinal parcial** (D55). `hyperliquid_probe.py`.
-    Primeira hipótese fora de Deriv/Polymarket/CEX-CEX (ver `docs/hyperliquid_report.md`).
-    **D55a (funding arb perp-perp, 90d, N=270 janelas/ativo):** 8/10 ativos pareciam
-    lucrativos somando o período inteiro (mesmo padrão de falso-positivo do D9: 14/20 →
-    0/19 na validação real) — mas ao aplicar a MESMA disciplina IS/OOS do D9-validação/D17
-    (direção decidida na 1ª metade cronológica, testada só na 2ª), **4/10 sobrevivem**:
-    ETH (+11.4bps líquido OOS), SOL (+16.9bps), OP (+62.3bps), LINK (+42.1bps), todos com
-    IC95% da metade OOS não cruzando zero. Round-trip assumido 19bps (HL taker 4.5bps +
-    Binance ~5bps, abre+fecha) — mais barato que o do D9 (40bps) por não precisar da perna
-    spot. **D55b (oraclePx/markPx/midPx da HL vs mid Binance, polling 3s), CONFIRMADO com
-    N=10.021 (~8.3h AWS):** basis persistente e quase sempre positivo (BTC +4.82bps 99.8%
-    positivo, ETH +8.43bps 99.9% positivo, SOL +4.32bps 98.7% positivo) — **não cruza
-    zero**, ou seja, não é mispricing tipo "livro desatualizado" que reverte, é prêmio
-    estrutural. Insight importante: isso é consistente com o próprio mecanismo de funding
-    da HL (markPx = EMA do prêmio sobre oraclePx, é esse prêmio que gera o funding) —
-    **D55a e D55b provavelmente medem o MESMO fenômeno**, não dois edges independentes
-    (ETH é o ativo com prêmio mais alto no D55b E um dos 4 que sobrevivem OOS no D55a,
-    não é coincidência). Isso reduz confiança em D55a ser "grátis" — o funding capturado
-    pode só ser compensação pelo prêmio que você paga pra entrar. **Não tratar D55a como
-    edge confirmado** — só 1 split IS/OOS, falta walk-forward multi-janela e custo de
-    capital/margem antes de cogitar paper-trade. Ver `docs/hyperliquid_report.md` atualizado.
+36. **Hyperliquid vs Binance — VALIDANDO, LINK isolado como candidato forte** (D55).
+    `hyperliquid_probe.py`. Primeira hipótese fora de Deriv/Polymarket/CEX-CEX (ver
+    `docs/hyperliquid_report.md`). **D55a screening (funding arb perp-perp, 90d, N=270
+    janelas/ativo):** 8/10 ativos pareciam lucrativos somando o período inteiro (mesmo
+    padrão de falso-positivo do D9: 14/20 → 0/19 na validação real) — split IS/OOS único
+    (direção decidida na 1ª metade, testada na 2ª) deixou 4/10: ETH, SOL, OP, LINK.
+    **Walk-forward multi-janela (sem look-ahead, custo só em entrada/saída/flip de
+    direção — cobrar round-trip toda semana seria simular a estratégia errada):
+    derruba 3 dos 4.** ETH/SOL/OP têm win rate real (50-75%) mas trocam de lado com
+    frequência suficiente pra que o custo por flip (19bps) coma o edge semanal pequeno
+    (net -44 a -112bps em 90d). **Só LINK sobrevive, de forma robusta: ZERO flips em
+    90 dias (testado com fold de 7d E 5d, mesmo resultado), 100% win rate, net
+    +96-100bps, IC95% bem longe de zero** — funding da HL pro LINK-PERP é
+    consistentemente mais alto que o da Binance toda semana, sem exceção. Direção:
+    short HL LINK-PERP + long Binance LINK-PERP. **D55b (oraclePx/markPx/midPx da HL
+    vs mid Binance, polling 3s), CONFIRMADO com N=10.021 (~8.3h AWS):** basis
+    persistente e quase sempre positivo (BTC/ETH/SOL, LINK ainda não monitorado nesse
+    teste) — não cruza zero, é prêmio estrutural, não mispricing tipo "livro
+    desatualizado" que reverte. Consistente com o próprio mecanismo de funding da HL
+    (markPx = EMA do prêmio sobre oraclePx, é esse prêmio que gera o funding) —
+    **D55a e D55b provavelmente medem o MESMO fenômeno**, o que reduz confiança em
+    D55a ser "grátis" (pode ser compensação por segurar o prêmio, não uma ineficiência
+    pura). Falta: custo de capital/margem nos dois venues, e o walk-forward ainda é
+    sobre os mesmos 90d do screening (robustez interna, não OOS temporal de verdade).
+    Ver `docs/hyperliquid_report.md` atualizado.

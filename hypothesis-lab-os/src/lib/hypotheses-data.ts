@@ -1928,9 +1928,9 @@ export const realHypotheses: RealHypothesis[] = [
       "(vs 40bps do D9 CEX-CEX) — se o funding divergir persistentemente, dá pra capturar. " +
       "Hyperliquid também expõe oraclePx/markPx/midPx juntos (mecanismo que CEX não tem) — " +
       "se midPx atrasar vs oraclePx/Binance, há janela de preço defasado no livro.",
-    confidence: 30,
+    confidence: 50,
     status: "validating",
-    tags: ["hyperliquid", "perp-dex", "funding-arb", "cross-venue", "oracle-divergence", "nova-plataforma"],
+    tags: ["hyperliquid", "perp-dex", "funding-arb", "cross-venue", "oracle-divergence", "nova-plataforma", "link"],
     trigger:
       "D55a: funding HL acumulado (8h) vs funding Binance, mesmo ativo, direção fixada na " +
       "metade IS e testada na OOS. D55b: |hl_midPx - binance_mid| > custo round-trip (9.5bps)",
@@ -1940,25 +1940,27 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-06",
     author: "hyperliquid_probe.py",
     verdict:
-      "VALIDANDO — sinal parcial, não confirmado. D55a (funding arb, 90d, N=270 janelas/ativo): " +
-      "8/10 ativos pareciam lucrativos somando o período inteiro (mesmo padrão de falso-positivo " +
-      "do D9: 14/20 → 0/19 na validação real), mas só 4/10 sobrevivem split IS/OOS (direção " +
-      "decidida na 1ª metade, testada só na 2ª): ETH +11.4bps, SOL +16.9bps, OP +62.3bps, " +
-      "LINK +42.1bps líquidos, todos com CI95% OOS não cruzando zero. D55b (divergência " +
-      "oraclePx/markPx/midPx vs Binance), CONFIRMADO com N=10.021 (~8.3h AWS): basis " +
-      "persistente e quase sempre positivo (BTC +4.82bps 99.8% positivo, ETH +8.43bps 99.9%, " +
-      "SOL +4.32bps 98.7%) — não cruza zero, é prêmio estrutural, não mispricing reversível. " +
-      "Provavelmente é o MESMO mecanismo que gera o funding do D55a (markPx = EMA do prêmio " +
-      "sobre oraclePx, alimenta o funding) — ETH tem o prêmio mais alto no D55b E é um dos " +
-      "4 que sobrevivem OOS no D55a, não é coincidência. Reduz confiança em D55a ser \"grátis\": " +
-      "o funding capturado pode só compensar o prêmio pago na entrada. Não tratar D55a como " +
-      "edge confirmado: só 1 split IS/OOS, falta walk-forward multi-janela e custo de capital/margem.",
-    ci95Label: "OOS net apos custos, bps (ETH/SOL/OP/LINK, ver reportFile)",
+      "VALIDANDO — LINK isolado como candidato forte, ETH/SOL/OP caíram na validação mais " +
+      "rigorosa. D55a screening (funding arb, 90d, N=270 janelas/ativo): 8/10 ativos pareciam " +
+      "lucrativos no período inteiro (falso-positivo tipo D9), split IS/OOS único deixou 4/10 " +
+      "(ETH, SOL, OP, LINK). Walk-forward multi-janela (sem look-ahead, custo só em " +
+      "entrada/saída/flip de direção — cobrar toda semana seria simular a estratégia errada) " +
+      "derruba 3 dos 4: ETH/SOL/OP têm win rate real (50-75%) mas trocam de lado com frequência " +
+      "suficiente pra que o custo por flip (19bps) coma o edge (net -44 a -112bps/90d). " +
+      "SÓ LINK sobrevive, de forma robusta: ZERO flips em 90 dias (fold de 7d E 5d, mesmo " +
+      "resultado), 100% win rate, net +96-100bps, CI95% bem longe de zero. Direção: short HL " +
+      "LINK-PERP + long Binance LINK-PERP. D55b (divergência oraclePx/markPx/midPx vs Binance), " +
+      "CONFIRMADO com N=10.021 (~8.3h AWS): basis persistente e quase sempre positivo " +
+      "(BTC/ETH/SOL, LINK ainda não monitorado nesse teste) — não cruza zero, é prêmio " +
+      "estrutural, mesmo mecanismo que provavelmente gera o funding do D55a (reduz confiança " +
+      "de que seja \"grátis\"). Falta: custo de capital/margem, e o walk-forward ainda é sobre " +
+      "os mesmos 90d do screening (robustez interna, não OOS temporal de verdade).",
+    ci95Label: "Net apos custos walk-forward (fold 7d), bps -- LINK +96.3 [+71.6,+121.6]",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],
     reportFile: "docs/hyperliquid_report.md",
     pnl: 0,
     trades: 270,
-    sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + polls 3s (D55b, N=10.021, ~8.3h AWS)",
+    sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + walk-forward folds 7d/5d + polls 3s (D55b, N=10.021, ~8.3h AWS)",
   },
 ];
 

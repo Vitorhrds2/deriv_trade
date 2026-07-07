@@ -65,6 +65,9 @@ SYMBOLS = ["BTC", "ETH", "SOL", "ARB", "OP", "AVAX", "LINK", "DOGE", "SUI", "APT
 
 RESULTS_FILE_FUNDING = "hyperliquid_funding_arb_results.json"
 RESULTS_FILE_DIVERGENCE = "hyperliquid_divergence_results.jsonl"
+RESULTS_FILE_WALKFORWARD = "hyperliquid_walkforward_results.json"
+
+WALKFORWARD_CANDIDATES = ["ETH", "SOL", "OP", "LINK"]  # sobreviventes do split IS/OOS inicial
 
 
 def _post(body, timeout=10):
@@ -132,6 +135,27 @@ def binance_book_ticker(symbol):
     return (float(d["bidPrice"]) + float(d["askPrice"])) / 2
 
 
+def _compute_diffs_with_ts(sym, start_ms):
+    """Retorna lista de (timestamp_ms, diff_bps) -- mesma logica de alinhamento HL(hourly)
+    vs Binance(8h) usada no screening, mas preservando o timestamp pra permitir bucketing
+    em folds temporais (walk-forward)."""
+    binance_sym = f"{sym}USDT"
+    hl_hist = hl_funding_history(sym, start_ms)
+    bn_hist = binance_funding_history(binance_sym, start_ms)
+    if len(hl_hist) < 10 or len(bn_hist) < 10:
+        return []
+    out = []
+    for bn in bn_hist:
+        window_start = bn["time"] - 8 * 3600 * 1000
+        hl_in_window = [h["rate"] for h in hl_hist if window_start < h["time"] <= bn["time"]]
+        if not hl_in_window:
+            continue
+        hl_accum_bps = sum(hl_in_window) * 10000
+        bn_bps = bn["rate"] * 10000
+        out.append((bn["time"], hl_accum_bps - bn_bps))
+    return out
+
+
 def run_funding_scan(days=30):
     print("=" * 90)
     print("D55a -- Hyperliquid vs Binance funding rate arb (perp-perp, sem perna spot)")
@@ -153,33 +177,11 @@ def run_funding_scan(days=30):
         if sym not in hl_ctxs:
             print(f"  {sym}: nao listado na Hyperliquid, pulando")
             continue
-        binance_sym = f"{sym}USDT"
         try:
-            hl_hist = hl_funding_history(sym, start_ms)
+            diffs_bps = [d for _, d in _compute_diffs_with_ts(sym, start_ms)]
         except Exception as e:
-            print(f"  {sym}: erro historico HL ({e})")
+            print(f"  {sym}: erro ao buscar historico ({e})")
             continue
-        try:
-            bn_hist = binance_funding_history(binance_sym, start_ms)
-        except Exception as e:
-            print(f"  {sym}: erro historico Binance ({e})")
-            continue
-
-        if len(hl_hist) < 10 or len(bn_hist) < 10:
-            print(f"  {sym}: historico insuficiente (HL={len(hl_hist)}, Binance={len(bn_hist)})")
-            continue
-
-        # Funding HL e mais frequente que o da Binance (8h) -- soma o acumulado HL
-        # dentro de cada janela de 8h que termina no timestamp do funding Binance.
-        diffs_bps = []
-        for bn in bn_hist:
-            window_start = bn["time"] - 8 * 3600 * 1000
-            hl_in_window = [h["rate"] for h in hl_hist if window_start < h["time"] <= bn["time"]]
-            if not hl_in_window:
-                continue
-            hl_accum_bps = sum(hl_in_window) * 10000
-            bn_bps = bn["rate"] * 10000
-            diffs_bps.append(hl_accum_bps - bn_bps)
 
         if len(diffs_bps) < 20:
             print(f"  {sym}: poucas janelas alinhadas (N={len(diffs_bps)})")
@@ -232,6 +234,96 @@ def run_funding_scan(days=30):
           f"{len(oos_confirmed)}/{len(results)} CONFIRMADOS na metade OOS (direcao fixada na IS)")
     if oos_confirmed:
         print("Confirmados OOS:", ", ".join(f"{r['symbol']}({r['direction']})" for r in oos_confirmed))
+    print("=" * 90)
+    return results
+
+
+def run_walkforward_validation(days=90, fold_days=7, symbols=None):
+    """Walk-forward multi-janela (mesma unidade de 7d que o D9 usou pra validar: "0% das
+    janelas 7d lucrativas"). 1 unico split IS/OOS (run_funding_scan) e fraco -- aqui a
+    direcao e decidida usando SOMENTE o fold anterior (k), aplicada de verdade no fold
+    seguinte (k+1), deslizando por todo o periodo -- sem look-ahead.
+
+    Custo: modelado como posicao MANTIDA (nao fechada/reaberta toda semana) -- so paga
+    round-trip (19bps) na entrada inicial, EXIT final, e quando a direcao realmente VIRA
+    (flip = fechar+abrir de novo). Cobrar 19bps TODA semana (mesmo sem trocar de lado)
+    seria uma simulacao de estrategia errada (puniria um sinal estavel tipo LINK, que na
+    pratica nunca flipa de sinal em 13 semanas, tanto quanto um sinal ruidoso tipo OP)."""
+    symbols = symbols or WALKFORWARD_CANDIDATES
+    print("=" * 90)
+    print(f"D55a walk-forward -- folds de {fold_days}d, direcao decidida no fold anterior, "
+          f"testada no seguinte (sem look-ahead). Custo so na entrada/saida/flip de direcao.")
+    print("=" * 90)
+
+    start_ms = int((time.time() - days * 86400) * 1000)
+    fold_ms = fold_days * 86400 * 1000
+    results = []
+
+    for sym in symbols:
+        try:
+            pairs = _compute_diffs_with_ts(sym, start_ms)
+        except Exception as e:
+            print(f"  {sym}: erro ao buscar historico ({e})")
+            continue
+        if len(pairs) < 20:
+            print(f"  {sym}: historico insuficiente (N={len(pairs)})")
+            continue
+
+        first_ts = pairs[0][0]
+        folds = {}
+        for ts, diff in pairs:
+            idx = (ts - first_ts) // fold_ms
+            folds.setdefault(idx, []).append(diff)
+        fold_idxs = sorted(i for i in folds if len(folds[i]) >= 5)
+
+        if len(fold_idxs) < 4:
+            print(f"  {sym}: poucos folds validos (N={len(fold_idxs)})")
+            continue
+
+        # Fold 0 so forma o sinal inicial (nao ha posicao pra render P&L nele ainda).
+        position = 1 if sum(folds[fold_idxs[0]]) > 0 else -1
+        weekly_pnl = []  # P&L bruto (sem custo) de cada fold, ja com sinal da posicao vigente
+        n_flips = 0
+        for prev_idx, cur_idx in zip(fold_idxs, fold_idxs[1:]):
+            weekly_pnl.append(sum(folds[cur_idx]) * position)
+            new_position = 1 if sum(folds[cur_idx]) > 0 else -1
+            if new_position != position:
+                n_flips += 1
+                position = new_position
+
+        total_cost = FUNDING_ARB_ROUNDTRIP_BPS * (1 + n_flips)  # entrada+saida (=1 RT) + 1 RT por flip
+        gross_total = sum(weekly_pnl)
+        net_total = gross_total - total_cost
+        # bootstrap no P&L semanal BRUTO, custo total debitado uma vez do agregado (custo
+        # nao e i.i.d. por semana, e concentrado nos eventos de flip)
+        lo_gross, mean_gross, hi_gross = bootstrap_ci(weekly_pnl)
+        lo_net, hi_net = lo_gross * len(weekly_pnl) - total_cost, hi_gross * len(weekly_pnl) - total_cost
+        n_win = sum(1 for p in weekly_pnl if p > 0)
+        win_rate = n_win / len(weekly_pnl) * 100
+        confirms = net_total > 0 and lo_net > 0
+
+        results.append({
+            "symbol": sym, "n_folds": len(fold_idxs), "n_weeks_held": len(weekly_pnl),
+            "n_flips": n_flips, "win_rate_pct": win_rate, "gross_total_bps": gross_total,
+            "total_cost_bps": total_cost, "net_total_bps": net_total,
+            "net_ci95": [lo_net, hi_net], "confirms": confirms,
+        })
+        tag = "CONFIRMA (net>0, IC95% nao cruza zero)" if confirms else "NAO confirma"
+        print(f"  {sym:6s} folds={len(fold_idxs):2d} semanas_seguradas={len(weekly_pnl):2d} "
+              f"flips={n_flips} win_rate={win_rate:5.1f}% ({n_win}/{len(weekly_pnl)}) "
+              f"gross={gross_total:+7.2f}bps custo={total_cost:5.1f}bps "
+              f"net={net_total:+7.2f}bps CI95=[{lo_net:+.2f},{hi_net:+.2f}] -> {tag}")
+
+    with open(RESULTS_FILE_WALKFORWARD, "w") as f:
+        json.dump(results, f, indent=2)
+
+    confirmed = [r for r in results if r["confirms"]]
+    print("\n" + "=" * 90)
+    print(f"RESUMO walk-forward: {len(confirmed)}/{len(results)} confirmam com folds de {fold_days}d "
+          f"(vs {len(symbols)} candidatos testados), custo so em entrada/saida/flip")
+    if confirmed:
+        print("Confirmados:", ", ".join(f"{r['symbol']}(net={r['net_total_bps']:+.1f}bps, "
+                                         f"{r['n_flips']} flips)" for r in confirmed))
     print("=" * 90)
     return results
 
@@ -312,14 +404,19 @@ def run_divergence_scan(duration_s=600, interval_s=3.0, symbols=("BTC", "ETH", "
 
 def main():
     ap = argparse.ArgumentParser(description="D55 -- Hyperliquid cross-venue mispricing probe")
-    ap.add_argument("--mode", choices=["funding", "divergence", "both"], default="both")
+    ap.add_argument("--mode", choices=["funding", "walkforward", "divergence", "both"], default="both")
     ap.add_argument("--funding-days", type=int, default=30)
+    ap.add_argument("--fold-days", type=int, default=7)
+    ap.add_argument("--symbols", nargs="*", default=None,
+                     help="Restringe walkforward a esses simbolos (default: candidatos D55a)")
     ap.add_argument("--divergence-duration-s", type=int, default=600)
     ap.add_argument("--divergence-interval-s", type=float, default=3.0)
     args = ap.parse_args()
 
     if args.mode in ("funding", "both"):
         run_funding_scan(days=args.funding_days)
+    if args.mode == "walkforward":
+        run_walkforward_validation(days=args.funding_days, fold_days=args.fold_days, symbols=args.symbols)
     if args.mode in ("divergence", "both"):
         print()
         run_divergence_scan(duration_s=args.divergence_duration_s,

@@ -1,11 +1,14 @@
 # D55 — Hyperliquid (perp DEX on-chain) vs Binance: funding arb + oracle/mid divergence
 
 **Data:** 2026-07-06
-**Status:** VALIDANDO (sinal parcial em D55a, precisa mais rigor antes de considerar live)
+**Status:** VALIDANDO — LINK isolado como candidato forte após walk-forward; ETH/SOL/OP
+não sobrevivem custo realista de flip; D55b sem edge de reversão simples
 **Autor:** `trading-engine/hyperliquid_probe.py`
-**Confiança:** 30% (sinal real em 4/10 ativos sobreviveu 1 split IS/OOS; D55b confirmado sem
-edge de reversão simples com N=10k — provavelmente o mesmo mecanismo do D55a, não um
-segundo edge independente, o que reduz um pouco a confiança de que D55a seja "grátis")
+**Confiança:** 50% para LINK especificamente (0 flips em 90d, 2 tamanhos de fold, net
++96-100bps, CI95% longe de zero); ~10% para ETH/SOL/OP (sinal real mas custo de flip
+domina); D55b sem edge de reversão simples com N=10k, provavelmente o mesmo mecanismo
+que gera o funding do LINK (reduz confiança de que seja "grátis" — pode ser compensação
+por segurar o prêmio, não uma ineficiência pura)
 
 ## Contexto
 
@@ -67,6 +70,39 @@ defasado antes da convergência, líquida de ~9.5bps round-trip (1 taker de cada
 14/20 → 4/19). Só 4/10 sobrevivem o split IS/OOS: ETH, SOL, OP, LINK — todos com CI95%
 da metade OOS não cruzando zero.**
 
+### D55a — Walk-forward multi-janela (ETH, SOL, OP, LINK + todos os 10 pra contexto)
+
+Um único split IS/OOS é fraco (só 1 corte no tempo). Walk-forward de verdade: direção
+decidida usando SÓ o fold anterior (sem look-ahead), testada no fold seguinte, deslizando
+por todo o período. Duas versões testadas:
+
+1. **Custo cobrado toda semana** (assume fechar/reabrir a posição toda semana): **0/4
+   confirmam** — ETH, SOL, LINK, OP todos negativos. Mas isso é uma simulação de
+   estratégia ERRADA: pune um sinal estável (que não precisa trocar de lado) exatamente
+   igual a um sinal ruidoso (que troca toda hora).
+2. **Custo só na entrada/saída/flip de direção** (posição mantida enquanto o sinal não
+   virar — a forma correta de simular isso): resultado muda completamente.
+
+| Ativo | Folds 7d | Flips | Win rate | Gross | Custo total | **Net** | CI95% | Veredito |
+|---|---|---|---|---|---|---|---|---|
+| **LINK** | 13 | **0** | **100%** (12/12) | +115.3bps | 19.0bps | **+96.3bps** | **[+71.6,+121.6]** | **CONFIRMA** |
+| ETH | 13 | 4 | 66.7% (8/12) | +35.0bps | 95.0bps | -60.0bps | [-123.9,+0.3] | não confirma |
+| SOL | 13 | 3 | 75.0% (9/12) | +31.8bps | 76.0bps | -44.3bps | [-89.6,-2.6] | não confirma |
+| OP | 13 | 6 | 50.0% (6/12) | +21.0bps | 133.0bps | -112.0bps | [-235.2,+9.1] | não confirma |
+
+**Robustez (fold de 5d em vez de 7d, todos os 10 ativos):** LINK se mantém idêntico —
+**0 flips em 17 transições, 100% win rate, net +99.6bps, CI95%=[+84.4,+115.2]**. Nenhum
+outro ativo confirma (ARB chega perto: net +5.9bps mas CI95% cruza zero). BTC, AVAX,
+DOGE, SUI, APT — todos negativos líquidos, alguns fortemente (APT: 11 flips, net -295bps).
+
+**LINK é qualitativamente diferente dos outros 3 candidatos**: o sinal nunca precisou
+trocar de lado em 90 dias (13-18 folds, 2 tamanhos de fold testados) — ou seja, o funding
+da Hyperliquid pro LINK-PERP é consistentemente mais alto que o da Binance, toda semana,
+sem exceção. ETH/SOL/OP têm win rate majoritário (50-75%) mas trocam de lado com
+frequência suficiente pra que o custo de cada flip (19bps) coma o edge semanal pequeno
+(~3-9bps/semana). Direção do trade: **short Hyperliquid LINK-PERP + long Binance
+LINK-PERP** (Hyperliquid funding > Binance funding para LINK, persistentemente).
+
 ### D55b — Divergência oraclePx/markPx/midPx vs Binance
 
 **Atualização (N=10.021, ~8.3h contínuas na AWS, run ainda ativo rumo a 12h):**
@@ -101,14 +137,22 @@ a distribuição. Não tratar como sinal até um backtest de uma regra específi
 
 ## Veredito preliminar
 
-**D55a: sinal real, mas não confirmado o suficiente para live.** 4/10 ativos (ETH, SOL,
-OP, LINK) sobreviveram 1 split IS/OOS com magnitude não-trivial (11-62bps líquidos em
-~45 dias). Isso é qualitativamente diferente do colapso total do D9 (0/19). Mas 1 split
-não é validação robusta — precisa: (a) walk-forward com múltiplas janelas, não um único
-corte IS/OOS; (b) considerar custo de capital/margem em ambos os venues (não incluído
-ainda, ao contrário do D9 que incluía explicitamente); (c) confirmar que o funding da HL
-listado via API reflete o que seria realmente pago/recebido (mecanismo de HL é hourly,
-Binance 8h — a soma pode ter erro de alinhamento nas bordas).
+**D55a: LINK é um sinal robusto; ETH/SOL/OP NÃO sobrevivem validação rigorosa.** O split
+IS/OOS único tinha sugerido 4 candidatos (ETH, SOL, OP, LINK), mas o walk-forward
+multi-janela (com custo modelado corretamente — só em entrada/saída/flip, não toda
+semana) derruba 3 dos 4: ETH, SOL e OP têm sinal real (win rate 50-75%) mas ele é pequeno
+demais e o sinal troca de lado com frequência suficiente pra que os custos de flip
+dominem. **Só LINK sobrevive**, e sobrevive de forma robusta: 0 flips em 90 dias
+(testado com fold de 7d E 5d, mesmo resultado), 100% win rate, net +96-100bps, CI95%
+bem longe de zero. Isso é qualitativamente diferente do colapso total do D9 (0/19) —
+é um sinal único, limpo, específico de um ativo, sobrevivendo dois tamanhos de fold
+diferentes sem look-ahead. Ainda falta: (a) considerar custo de capital/margem em ambos
+os venues (não incluído ainda, ao contrário do D9 que incluía explicitamente); (b)
+confirmar que o funding da HL listado via API reflete o que seria realmente pago/recebido
+(mecanismo de HL é hourly, Binance 8h — a soma pode ter erro de alinhamento nas bordas);
+(c) walk-forward é só sobre os mesmos 90 dias já vistos no screening — ainda não é OOS
+no sentido temporal (dados novos, futuros) — só é uma validação de robustez interna mais
+forte que 1 split.
 
 **D55b: sem edge de reversão simples, confirmado com N=10.021 (~8.3h).** O prêmio é
 estrutural (98.7-99.9% das amostras do mesmo sinal, não oscila em torno de zero) e
@@ -121,10 +165,15 @@ chegar em 12h para o registro, mas a conclusão qualitativa já não deve mudar.
 
 1. ~~Deixar `hyperliquid_probe.py --mode divergence` rodando na AWS e reavaliar D55b com
    N maior~~ — feito, N=10.021 confirma prêmio estrutural, sem edge de reversão simples.
-2. Walk-forward multi-janela em D55a para ETH/SOL/OP/LINK especificamente (não só 1 split).
-3. Se sobreviver, considerar paper-trade ao vivo (análogo ao D34/D36) antes de qualquer
-   capital real — este ecossistema já tem infra de guardrails/telegram pronta
-   (`risk_guardrails.py`, `telegram_alerts.py`) que pode ser reaproveitada.
+2. ~~Walk-forward multi-janela em D55a para ETH/SOL/OP/LINK especificamente~~ — feito,
+   2 tamanhos de fold (7d, 5d). Só LINK sobrevive (0 flips, 100% win rate, net +96-100bps).
+3. Checar se o prêmio D55b (oraclePx/midPx vs Binance) também é visível especificamente
+   no LINK — ainda não monitorado (D55b só rodou BTC/ETH/SOL). Se o LINK também mostrar
+   prêmio estrutural alto, reforça a hipótese de que é o mesmo mecanismo.
+4. Considerar paper-trade ao vivo do LINK especificamente (análogo ao D34/D36) antes de
+   qualquer capital real — este ecossistema já tem infra de guardrails/telegram pronta
+   (`risk_guardrails.py`, `telegram_alerts.py`) que pode ser reaproveitada. Ainda falta
+   custo de capital/margem no cálculo antes disso.
 
 ## Arquivos
 
