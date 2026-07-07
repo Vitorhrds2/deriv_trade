@@ -89,9 +89,13 @@ BINANCE_SPOT_DEMO = "https://demo-api.binance.com/api/v3"
 
 UA = {"User-Agent": "unlock-short-bot/1.0"}
 
-TRADE_LOG = os.path.join(os.path.dirname(__file__), "unlock_short_trades.json")
-STATE_FILE = os.path.join(os.path.dirname(__file__), "unlock_short_state.json")
-LOG_FILE = os.path.join(os.path.dirname(__file__), "unlock_bot.log")
+_TAG = os.getenv("UNLOCK_BOT_TAG", "").strip()
+_SUFFIX = f"_{_TAG}" if _TAG else ""
+_HERE = os.path.dirname(__file__)
+TRADE_LOG = os.path.join(_HERE, f"unlock_short_trades{_SUFFIX}.json")
+STATE_FILE = os.path.join(_HERE, f"unlock_short_state{_SUFFIX}.json")
+LOG_FILE = os.path.join(_HERE, f"unlock_bot{_SUFFIX}.log")
+DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK_URL", "").strip() or None
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logger = logging.getLogger("unlock_bot")
@@ -104,6 +108,24 @@ _console_handler.setLevel(logging.INFO)
 _console_handler.setFormatter(logging.Formatter("%(asctime)s %(message)s", datefmt="%H:%M:%S"))
 logger.addHandler(_file_handler)
 logger.addHandler(_console_handler)
+
+
+def send_discord(message, username="D17 Unlock Bot"):
+    if not DISCORD_WEBHOOK:
+        return
+    try:
+        data = json.dumps({"content": message, "username": username}).encode()
+        req = urllib.request.Request(
+            DISCORD_WEBHOOK, data=data,
+            headers={
+                "User-Agent": "Mozilla/5.0 (compatible; D17UnlockBot/1.0)",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as e:
+        logger.debug(f"  [DISCORD] notify failed: {e}")
 
 
 # ─── Binance API helpers ─────────────────────────────────────────────────────
@@ -327,6 +349,9 @@ def paper_open_short(symbol, notional, entry_price, state, unlock_info):
     }
     state["open_positions"].append(position)
     logger.info(f"  [PAPER] OPENED SHORT {symbol} @ ${entry_price:.4f}, notional=${notional:.2f}, qty={position['quantity']:.4f}")
+    send_discord(f"**[ABERTURA] SHORT {symbol}** (PAPER) @ ${entry_price:.4f}\n"
+                 f"notional ${notional:.2f} | qty {position['quantity']:.4f} | "
+                 f"unlock {unlock_info['unlock_date']} (${unlock_info['unlock_value_mm']:.0f}M)")
     return position
 
 
@@ -356,6 +381,8 @@ def paper_close_short(position, exit_price, state, reason="scheduled"):
     
     logger.info(f"  [PAPER] CLOSED SHORT {position['symbol']} @ ${exit_price:.4f}, "
                 f"PnL=${net_pnl:+.2f} ({pnl_pct:+.2f}%) [{reason}]")
+    send_discord(f"**[FECHAMENTO] {position['symbol']}** (PAPER) @ ${exit_price:.4f}\n"
+                 f"PnL ${net_pnl:+.2f} ({pnl_pct:+.2f}%) | motivo: {reason}")
     return trade
 
 
@@ -397,6 +424,9 @@ def live_open_short(symbol, notional, api_key, api_secret, state, unlock_info):
         }
         state["open_positions"].append(position)
         logger.info(f"  [LIVE] OPENED SHORT {symbol} @ ${entry_price:.4f}, notional=${notional:.2f}, qty={quantity}")
+        send_discord(f"**[ABERTURA] SHORT {symbol}** (LIVE) @ ${entry_price:.4f}\n"
+                     f"notional ${notional:.2f} | qty {quantity} | "
+                     f"unlock {unlock_info['unlock_date']} (${unlock_info['unlock_value_mm']:.0f}M)")
         return position
     except Exception as e:
         logger.error(f"  [LIVE] ERROR opening short {symbol}: {e}")
@@ -429,6 +459,8 @@ def live_close_short(position, api_key, api_secret, state, reason="scheduled"):
         append_trade_log(trade)
         logger.info(f"  [LIVE] CLOSED SHORT {position['symbol']} @ ${exit_price:.4f}, "
                     f"PnL=${net_pnl:+.2f} ({pnl_pct:+.2f}%) [{reason}]")
+        send_discord(f"**[FECHAMENTO] {position['symbol']}** (LIVE) @ ${exit_price:.4f}\n"
+                     f"PnL ${net_pnl:+.2f} ({pnl_pct:+.2f}%) | motivo: {reason}")
         return trade
     except Exception as e:
         logger.error(f"  [LIVE] ERROR closing short {position['symbol']}: {e}")
@@ -496,6 +528,8 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
         logger.info(f"  Closed trades in log: {len(state['closed_trades'])}")
         return
 
+    send_discord(f"**[START] D17 Unlock Bot ({mode.upper()})** | equity ${equity:,.2f} | "
+                 f"min unlock ${MIN_UNLOCK_VALUE_MM}M | {len(upcoming)} unlocks na fila")
     logger.info(f"  Starting main loop (checking every {CHECK_INTERVAL_S}s)...")
     logger.info(f"  Press Ctrl+C to stop.\n")
     
