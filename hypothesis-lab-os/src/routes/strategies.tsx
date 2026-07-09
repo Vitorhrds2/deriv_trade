@@ -3,7 +3,8 @@ import { PageHeader, Panel, Mono, Stat, Dot } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { getUnlockStatus, getUnlockStats } from "@/lib/unlock-api";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
+import { getActiveResearchBots } from "@/lib/hypotheses-data";
 import { CircuitBoard, Cpu, Radio, Unlock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 
@@ -54,7 +55,7 @@ function StrategiesPage() {
         <Stat
           label="Bots ativos"
           value={(hftLive ? 1 : 0) + (unlockConnected ? 1 : 0)}
-          hint="com API de status (+13 outros sem live status, ver /bots)"
+          hint={`com API de status (+${getActiveResearchBots().length} outros sem live status, ver /bots)`}
         />
         <Stat
           label="hft_bot trades"

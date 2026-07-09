@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import {
   CommandDialog,
@@ -22,14 +22,18 @@ import {
   Plus,
   Radio,
   Shield,
+  Unlock,
   Workflow,
 } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { toast } from "sonner";
+import { Dot } from "@/components/kit";
+import { realHypotheses, type HypStatus } from "@/lib/hypotheses-data";
 
 const routes = [
   { to: "/",            label: "Command Center", icon: Gauge },
   { to: "/hypotheses",  label: "Hypothesis Engine", icon: FlaskConical },
+  { to: "/d17",         label: "D17 Dashboard", icon: Unlock },
   { to: "/strategies",  label: "Strategy Builder", icon: Workflow },
   { to: "/simulations", label: "Simulations", icon: Beaker },
   { to: "/paper",       label: "Paper Trading", icon: LineChart },
@@ -41,11 +45,23 @@ const routes = [
   { to: "/analytics",   label: "Analytics", icon: BarChart3 },
 ] as const;
 
+function hypDotTone(s: HypStatus): "pos" | "neg" | "warn" | "muted" | "info" {
+  switch (s) {
+    case "live": return "pos";
+    case "validating": return "warn";
+    case "weak-signal": return "info";
+    case "refuted": return "neg";
+    default: return "muted";
+  }
+}
+
 export function CommandPalette() {
   const open = useApp((s) => s.paletteOpen);
   const setOpen = useApp((s) => s.setPaletteOpen);
   const setKillOpen = useApp((s) => s.setKillOpen);
+  const selectHyp = useApp((s) => s.selectHyp);
   const navigate = useNavigate();
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -58,14 +74,38 @@ export function CommandPalette() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, setOpen]);
 
+  // Reset the query whenever the palette closes so it doesn't reopen mid-search.
+  useEffect(() => {
+    if (!open) setSearch("");
+  }, [open]);
+
   const go = (to: string) => {
     setOpen(false);
     navigate({ to });
   };
 
+  const goHyp = (id: string) => {
+    setOpen(false);
+    selectHyp(id);
+    navigate({ to: "/hypotheses" });
+  };
+
+  const hypItems = useMemo(
+    () =>
+      realHypotheses.map((h) => ({
+        h,
+        searchValue: `${h.id} ${h.title} ${h.market} ${h.tags.join(" ")}`,
+      })),
+    [],
+  );
+
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Buscar páginas, ações, hipóteses…" />
+      <CommandInput
+        value={search}
+        onValueChange={setSearch}
+        placeholder="Buscar páginas, ações, hipóteses, bots…"
+      />
       <CommandList>
         <CommandEmpty>Nada encontrado.</CommandEmpty>
         <CommandGroup heading="Navegar">
@@ -101,6 +141,20 @@ export function CommandPalette() {
             Acionar kill switch
           </CommandItem>
         </CommandGroup>
+        {search.trim() !== "" && (
+          <>
+            <CommandSeparator />
+            <CommandGroup heading={`Hipóteses (${realHypotheses.length} no catálogo)`}>
+              {hypItems.map(({ h, searchValue }) => (
+                <CommandItem key={h.id} value={searchValue} onSelect={() => goHyp(h.id)}>
+                  <Dot tone={hypDotTone(h.status)} className="mr-1" />
+                  <span className="font-mono text-[11px] text-muted-foreground shrink-0">{h.id}</span>
+                  <span className="truncate">{h.title}</span>
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </>
+        )}
       </CommandList>
     </CommandDialog>
   );

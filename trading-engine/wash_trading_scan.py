@@ -36,6 +36,24 @@ except ImportError:
     import sys
     sys.exit(1)
 
+import forward_return_tracker as frt
+
+# Achado estrutural do audit 2026-07-08: este script sempre contou anomalias
+# por ciclo mas nunca conferiu o que o preço fez depois -- então nunca poderia
+# produzir um veredito de EV/WR, não importa quanto tempo rodasse. Ver
+# forward_return_tracker.py e docs/aggressive_hypotheses_report.md UPDATE 2026-07-08.
+# Horizontes curtos (segundos) pq a tese é microestrutura/HFT, não macro.
+FORWARD_RETURN_HORIZONS_S = [10, 30, 60]
+
+
+def _latest_price_fn(state, symbol):
+    """Usa o próprio stream do WS como fonte de preço (sem chamada HTTP extra)."""
+    def _fn():
+        trades = state["symbols"][symbol]["trades"]
+        return trades[-1]["price"] if trades else None
+    return _fn
+
+
 # Binance WebSocket endpoints
 WS_BASE = "wss://stream.binance.com:9443/ws"
 SYMBOLS = ["btcusdt", "ethusdt", "solusdt"]
@@ -118,6 +136,8 @@ def on_message(ws, message, state):
                     state["symbols"][symbol]["last_cluster_ts"] = now_ms
                     if state["anomalies"]["clusters"] <= 20:
                         print(f"  [CLUSTER] {symbol} {len(cluster_trades)} trades @ {price} x {qty} in <100ms ({direction})")
+                    frt.record(f"d41_signal_history_{symbol}.json", price, 1 if direction == "BUY" else -1,
+                               FORWARD_RETURN_HORIZONS_S, meta={"type": "cluster", "n": len(cluster_trades)})
 
     # 3. Timestamp anomaly
     time_diff = abs(now_ms - ts)
@@ -153,12 +173,23 @@ def on_message(ws, message, state):
                 if state["anomalies"]["volume_bursts"] <= 20:
                     print(f"  [VOL_BURST] {symbol} ${recent_vol:,.0f} in {VOLUME_BURST_WINDOW}s "
                           f"(avg ${avg_window_vol:,.0f}, {recent_vol/avg_window_vol:.1f}x)")
+                # Direção proxy: maioria compradora ou vendedora nos últimos 20 trades
+                burst_buys = sum(1 for t in recent if not t["buyer_maker"])
+                burst_direction = 1 if burst_buys >= len(recent) - burst_buys else -1
+                frt.record(f"d41_signal_history_{symbol}.json", price, burst_direction,
+                           FORWARD_RETURN_HORIZONS_S, meta={"type": "volume_burst", "mult": recent_vol / avg_window_vol})
 
-    # Log progress
+    # Log progress + resolve/reporta forward-return pendente (barato: só lê preço
+    # do próprio stream, sem chamada de rede -- ver forward_return_tracker.py)
     if state["total_trades"] % 1000 == 0:
         elapsed = time.time() - state["start_time"]
         print(f"  [{elapsed:.0f}s] {state['total_trades']} trades processed | "
               f"anomalies: {state['anomalies']}")
+        for sym in state["symbols"]:
+            frt.resolve_due(f"d41_signal_history_{sym}.json", _latest_price_fn(state, sym))
+    if state["total_trades"] % 50000 == 0:
+        for sym in state["symbols"]:
+            frt.report(f"d41_signal_history_{sym}.json", FORWARD_RETURN_HORIZONS_S, label_prefix=f"D41 {sym}")
 
 
 def on_error(ws, error, state):

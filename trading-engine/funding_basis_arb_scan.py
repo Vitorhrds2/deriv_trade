@@ -28,6 +28,17 @@ import urllib.request
 from datetime import datetime, timezone
 from collections import defaultdict
 
+import carry_return_tracker as crt
+
+# Achado estrutural do audit 2026-07-08: este script sempre printou "VERDICT"
+# mas nunca trackeou basis reversion + funding coletado vs horizonte -- era
+# puramente descritivo, sem caminho para EV/WR real. Ver carry_return_tracker.py
+# e docs/aggressive_hypotheses_report.md UPDATE 2026-07-08.
+# Horizontes em segundos: 8h (1 funding period), 24h (3 periods), 72h (9 periods).
+CARRY_HORIZONS_S = [8 * 3600, 24 * 3600, 72 * 3600]
+CARRY_STATE_FILE = "d44_carry_signal_history.json"
+ROUNDTRIP_FEE_PCT = 0.12  # futures taker 0.04% x 2 + slippage 0.02% x 2
+
 BINANCE_FAPI = "https://fapi.binance.com/fapi/v1"
 BINANCE_API = "https://api.binance.com/api/v3"
 POLL_INTERVAL_S = 300  # 5 min
@@ -86,6 +97,31 @@ def fetch_spot_prices():
         return prices
     except:
         return {}
+
+
+def _market_snapshot(funding_data=None):
+    """Busca funding rate + basis atuais para resolve_due do carry tracker.
+    Só é chamado quando há registros vencidos (não a cada ciclo).
+    Retorna (funding_rate, basis_pct) médios across all symbols com sinal,
+    ou None em caso de falha.
+    """
+    try:
+        rates = fetch_funding_rates()
+        if not rates:
+            return None
+        # Média ponderada pelos que tinham sinal (qualquer um com funding extremo)
+        # Como o tracker grava por-symbol, mas resolve_due usa um callable global,
+        # retornamos a média dos que têm |funding| > threshold como proxy.
+        active = [(d["funding_rate"], d["basis_pct"]) for d in rates.values()
+                  if abs(d["funding_rate"]) > FUNDING_THRESHOLD_LOW]
+        if not active:
+            return (0.0, 0.0)
+        avg_funding = sum(f for f, _ in active) / len(active)
+        avg_basis = sum(b for _, b in active) / len(active)
+        return (avg_funding, avg_basis)
+    except Exception as e:
+        print(f"  [carry] market_snapshot error: {e}")
+        return None
 
 
 def run_scan():
@@ -174,6 +210,24 @@ def run_scan():
             print(f"    Daily carry: ~{daily_profit:.3f}% if funding persists")
             print(f"    Risk: funding flips sign, basis widens further")
 
+    # Loga cada sinal (e não-sinais como controle) pro carry tracker
+    for sym, data in funding.items():
+        sig = "NONE"
+        for s in signals:
+            if s["symbol"] == sym:
+                sig = s["signal"]
+                break
+        crt.record(
+            CARRY_STATE_FILE,
+            sig,
+            data["funding_rate"],
+            data["basis_pct"],
+            data["mark_price"],
+            CARRY_HORIZONS_S,
+            roundtrip_fee_pct=ROUNDTRIP_FEE_PCT,
+            meta={"symbol": sym},
+        )
+
     # Save
     with open("funding_basis_arb_results.json", "w") as f:
         json.dump({
@@ -183,7 +237,7 @@ def run_scan():
             "all_rates": {sym: data for sym, data in funding.items()},
         }, f, indent=2, default=str)
 
-    return signals
+    return signals, funding
 
 
 if __name__ == "__main__":
@@ -193,7 +247,15 @@ if __name__ == "__main__":
         print(f"CONTINUOUS MODE — polling every {POLL_INTERVAL_S}s")
         while True:
             try:
-                run_scan()
+                result = run_scan()
+                # Resolve carry returns vencidos + reporta a cada ciclo
+                if isinstance(result, tuple):
+                    _, funding_data = result
+                    crt.resolve_due(
+                        CARRY_STATE_FILE,
+                        lambda: _market_snapshot(funding_data),
+                    )
+                    crt.report(CARRY_STATE_FILE, CARRY_HORIZONS_S, label_prefix="D44 carry")
             except Exception as e:
                 print(f"  Error: {e}")
             time.sleep(POLL_INTERVAL_S)

@@ -35,7 +35,17 @@ if _env_path.exists():
             k, v = line.split("=", 1)
             os.environ.setdefault(k.strip(), v.strip())
 
+import forward_return_tracker as frt
+
 ETHERSCAN_API_KEY = os.environ.get("ETHERSCAN_API_KEY", "YourApiKeyToken")
+
+# Achado estrutural do audit 2026-07-08: este script sempre logou um signal_score
+# por ciclo mas nunca conferiu o que o preço fez depois -- então nunca poderia
+# produzir um veredito de EV/WR, não importa quanto tempo rodasse (nem quantas
+# vezes o regime mudasse de STRONG LONG pra STRONG SHORT). Ver
+# forward_return_tracker.py e docs/aggressive_hypotheses_report.md UPDATE 2026-07-08.
+SIGNAL_HISTORY_FILE = "d40_signal_history.json"
+HORIZONS_S = [3600, 4 * 3600, 24 * 3600]  # 1h / 4h / 24h, conforme a tese original
 
 # USDT contract on Ethereum: 0xdac17f958d2ee523a2206206994597c13d831ec7
 # USDC contract on Ethereum: 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48
@@ -276,6 +286,11 @@ def run_scan():
     print(f"  For real-time detection, need Etherscan API key + WebSocket monitoring")
     print(f"  of USDT/USDC Transfer events from minting addresses.")
 
+    # Loga esta leitura pro forward-return tracker (SEMPRE, mesmo NEUTRAL --
+    # precisamos do grupo de controle).
+    direction = 1 if "LONG" in signal else (-1 if "SHORT" in signal else 0)
+    frt.record(SIGNAL_HISTORY_FILE, btc, direction, HORIZONS_S, meta={"signal": signal, "signal_score": signal_score})
+
     # Save
     with open("stablecoin_mint_scan_results.json", "w") as f:
         json.dump({
@@ -305,6 +320,8 @@ if __name__ == "__main__":
                 with open(LOG_FILE, "a") as f:
                     ts = datetime.now(timezone.utc).isoformat()
                     f.write(f"[{ts}] signal={signal}\n")
+                frt.resolve_due(SIGNAL_HISTORY_FILE, lambda: fetch_binance_price("BTCUSDT"))
+                frt.report(SIGNAL_HISTORY_FILE, HORIZONS_S, label_prefix="D40 stablecoin")
             except Exception as e:
                 print(f"  Scan error: {e}")
             time.sleep(POLL_INTERVAL_S)

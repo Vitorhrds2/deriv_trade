@@ -7,7 +7,7 @@ import { getUnlockSchedule, getUnlockStatus, type UpcomingUnlock } from "@/lib/u
 import { CalendarClock, Search, RefreshCw } from "lucide-react";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 
 export const Route = createFileRoute("/events")({
   head: () => ({ meta: [{ title: "Event Intelligence — TradeLab OS" }] }),
@@ -121,6 +121,7 @@ function EventsPage() {
             </div>
           }
         >
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
               <tr>
@@ -165,6 +166,7 @@ function EventsPage() {
               )}
             </tbody>
           </table>
+          </div>
         </Panel>
 
         <Panel

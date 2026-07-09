@@ -9,7 +9,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useApp } from "@/lib/store";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { useQuery } from "@tanstack/react-query";
 import { motion, AnimatePresence } from "framer-motion";

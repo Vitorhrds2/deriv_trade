@@ -36,7 +36,16 @@ if _env_path.exists():
             k, v = line.split("=", 1)
             os.environ.setdefault(k.strip(), v.strip())
 
+import forward_return_tracker as frt
+
 WHALE_ALERT_API_KEY = os.environ.get("WHALE_ALERT_API_KEY", "demo")
+
+# Achado estrutural do audit 2026-07-08: este script sempre logou um signal_score
+# por ciclo mas nunca conferiu o que o preço fez depois -- então nunca poderia
+# produzir um veredito de EV/WR, não importa quanto tempo rodasse. Ver
+# forward_return_tracker.py e docs/aggressive_hypotheses_report.md UPDATE 2026-07-08.
+SIGNAL_HISTORY_FILE = "d37_signal_history.json"
+HORIZONS_S = [3600, 4 * 3600, 24 * 3600]  # 1h / 4h / 24h, conforme a tese original
 
 # Known exchange hot wallet addresses (subset)
 EXCHANGE_WALLETS_BTC = {
@@ -256,6 +265,11 @@ def analyze_outflow_signal():
     print(f"\n  NOTE: This is a point-in-time snapshot. For proper backtest,")
     print(f"  need to run continuously and track price after signals.")
 
+    # Loga esta leitura pro forward-return tracker (SEMPRE, mesmo sem sinal --
+    # precisamos do grupo de controle). direction=+1 pq a tese é LONG-only.
+    direction = 1 if signal_score > 0 else 0
+    frt.record(SIGNAL_HISTORY_FILE, btc_price, direction, HORIZONS_S, meta={"signal": signal})
+
     return results
 
 
@@ -266,6 +280,7 @@ if __name__ == "__main__":
         POLL_INTERVAL_S = 600  # 10 min between scans
         LOG_FILE = "d37_outflow_monitor.log"
         print(f"CONTINUOUS MODE — polling every {POLL_INTERVAL_S}s, logging to {LOG_FILE}")
+        cycle = 0
         while True:
             try:
                 results = analyze_outflow_signal()
@@ -274,6 +289,10 @@ if __name__ == "__main__":
                         f.write(f"[{results['timestamp']}] SIGNAL: {results['signal']} score={results['signal_score']} | BTC=${results['btc_price']:,.0f}\n")
                         for r in results.get("signal_reasons", []):
                             f.write(f"  - {r}\n")
+                frt.resolve_due(SIGNAL_HISTORY_FILE, lambda: fetch_binance_price("BTCUSDT"))
+                cycle += 1
+                if cycle % 6 == 0:  # ~1h (6 x 10min)
+                    frt.report(SIGNAL_HISTORY_FILE, HORIZONS_S, label_prefix="D37 outflow")
             except Exception as e:
                 print(f"  Scan error: {e}")
             time.sleep(POLL_INTERVAL_S)

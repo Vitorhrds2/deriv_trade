@@ -22,6 +22,8 @@ import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
+from stats_utils import wilson_ci, bootstrap_ci
+
 TRADE_LOG = "basis_paper_trades.json"
 STATS_LOG = "basis_paper_stats.json"
 ROUNDTRIP_FEE_PCT = 0.14  # spot 0.1% + futures 0.04%
@@ -88,16 +90,28 @@ def compute_stats(trades):
         return {"n": 0, "wr": 0, "ev": 0, "total_pnl": 0}
     wins = [t for t in settled if t["pnl_pct"] > 0]
     pnls = [t["pnl_pct"] for t in settled]
+    n = len(settled)
+    wr = len(wins) / n * 100
+    ev = sum(pnls) / n
+
+    # IC95% Wilson no win rate (mesmo padrao do resto do repo)
+    wr_lo, wr_hi = wilson_ci(len(wins), n)
+
+    # IC95% bootstrap no EV/trade (pnl_pct por trade)
+    ev_lo, ev_mid, ev_hi = bootstrap_ci(pnls)
+
     return {
-        "n": len(settled),
-        "wr": len(wins) / len(settled) * 100,
-        "ev_pct": sum(pnls) / len(settled),
+        "n": n,
+        "wr": wr,
+        "wr_ci95": [wr_lo * 100, wr_hi * 100],
+        "ev_pct": ev,
+        "ev_ci95": [ev_lo, ev_hi],
         "total_pnl_pct": sum(pnls),
         "wins": len(wins),
-        "losses": len(settled) - len(wins),
+        "losses": n - len(wins),
         "best_pct": max(pnls),
         "worst_pct": min(pnls),
-        "avg_duration_h": sum(t.get("duration_h", 8) for t in settled) / len(settled),
+        "avg_duration_h": sum(t.get("duration_h", 8) for t in settled) / n,
     }
 
 
@@ -219,11 +233,20 @@ def scan_and_trade(once=False):
     print(f"\n  === RUNNING STATS ===")
     print(f"  Total settled: {stats['n']}")
     if stats["n"] > 0:
-        print(f"  Win rate: {stats['wr']:.1f}%")
-        print(f"  EV/trade: {stats['ev_pct']:+.4f}%")
+        wr_ci = stats["wr_ci95"]
+        ev_ci = stats["ev_ci95"]
+        print(f"  Win rate: {stats['wr']:.1f}% (IC95% [{wr_ci[0]:.1f}%, {wr_ci[1]:.1f}%])")
+        print(f"  EV/trade: {stats['ev_pct']:+.4f}% (IC95% [{ev_ci[0]:+.4f}%, {ev_ci[1]:+.4f}%])")
         print(f"  Total P&L: {stats['total_pnl_pct']:+.4f}%")
         print(f"  Best: {stats['best_pct']:+.4f}% | Worst: {stats['worst_pct']:+.4f}%")
         print(f"  Avg duration: {stats['avg_duration_h']:.1f}h")
+        # Veredito formal: IC95% do EV exclui zero?
+        if ev_ci[0] > 0:
+            print(f"  >>> EDGE CONFIRMADO: IC95% EV exclui zero (lower={ev_ci[0]:+.4f}%)")
+        elif ev_ci[1] < 0:
+            print(f"  >>> REFUTADO: IC95% EV inteiramente negativo (upper={ev_ci[1]:+.4f}%)")
+        else:
+            print(f"  >>> INCONCLUSIVO: IC95% EV cruza zero ([{ev_ci[0]:+.4f}%, {ev_ci[1]:+.4f}%])")
 
     open_count = len([t for t in all_trades if t.get("status") == "open"])
     print(f"  Open positions: {open_count}")

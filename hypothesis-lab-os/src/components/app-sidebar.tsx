@@ -1,4 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import {
   Activity,
   BarChart3,
@@ -27,6 +28,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
+import { percentile } from "@/lib/format";
 
 const research = [
   { title: "Command Center", url: "/",            icon: Gauge },
@@ -84,6 +87,17 @@ function NavSection({
 }
 
 export function AppSidebar() {
+  // Mesmas queryKeys usadas em topbar.tsx/index.tsx — React Query dedupe garante que isso
+  // não gera requisição extra (compartilha o cache), só lê o resultado já buscado.
+  const statusQuery = useQuery({ queryKey: ["hft-status"], queryFn: () => getHftStatus(), refetchInterval: 5000 });
+  const tradesQuery = useQuery({ queryKey: ["hft-trades"], queryFn: () => getHftTrades(), refetchInterval: 5000 });
+  const isLive = statusQuery.data ? isHftLive(statusQuery.data) : false;
+  const execTimes = (tradesQuery.data?.recentTrades ?? [])
+    .map((t) => t.execMs)
+    .filter((v): v is number => v != null)
+    .sort((a, b) => a - b);
+  const p99 = percentile(execTimes, 99);
+
   return (
     <Sidebar collapsible="icon" className="border-r">
       <SidebarHeader>
@@ -107,10 +121,10 @@ export function AppSidebar() {
       <SidebarFooter>
         <div className="px-2 py-2 text-[10px] font-mono text-muted-foreground flex items-center justify-between">
           <span className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-            cluster: eu-central-1
+            <span className={`h-1.5 w-1.5 rounded-full ${isLive ? "bg-success animate-pulse" : "bg-muted-foreground/50"}`} />
+            eu-central-1 · hft_bot {isLive ? "ao vivo" : "offline"}
           </span>
-          <span>p99 81ms</span>
+          <span>{p99 != null ? `p99 ${p99}ms` : "—"}</span>
         </div>
       </SidebarFooter>
     </Sidebar>

@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Dot, Mono } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import { getHftStatus, getHftTrades, isHftLive, type HftTrade } from "@/lib/hft-api";
 import { realHypotheses, hypStatusBadgeClass } from "@/lib/hypotheses-data";
 import {
@@ -23,6 +23,7 @@ import { ArrowUpRight, FlaskConical, Plug, Workflow } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -113,13 +114,29 @@ function CommandCenter() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Stat
           label="PnL acumulado (hft_bot)"
-          value={trades ? <span className="tabular-nums">{fmtMoney(trades.total.pnlTotal)}</span> : "—"}
+          value={
+            trades ? (
+              <span className="tabular-nums">{fmtMoney(trades.total.pnlTotal)}</span>
+            ) : tradesQuery.isLoading ? (
+              <Skeleton className="h-7 w-24" />
+            ) : (
+              "—"
+            )
+          }
           tone={trades && trades.total.pnlTotal < 0 ? "neg" : "neutral"}
           hint="conta demo Deriv"
         />
         <Stat
           label="Win rate"
-          value={trades ? `${Math.round(trades.total.winRate * 100)}%` : "—"}
+          value={
+            trades ? (
+              `${Math.round(trades.total.winRate * 100)}%`
+            ) : tradesQuery.isLoading ? (
+              <Skeleton className="h-7 w-14" />
+            ) : (
+              "—"
+            )
+          }
           hint={`N=${trades?.total.n ?? 0}`}
         />
         <Stat
@@ -159,9 +176,11 @@ function CommandCenter() {
                   <Area type="monotone" dataKey="equity" stroke="oklch(0.65 0.22 25)" strokeWidth={2} fill="url(#g1)" isAnimationActive={false} />
                 </AreaChart>
               </ResponsiveContainer>
+            ) : tradesQuery.isLoading ? (
+              <Skeleton className="h-full w-full" />
             ) : (
               <div className="h-full flex items-center justify-center text-sm text-muted-foreground">
-                {tradesQuery.isLoading ? "carregando…" : "Sem trades ainda, ou API inacessível."}
+                Sem trades ainda, ou API inacessível.
               </div>
             )}
           </div>
@@ -227,6 +246,7 @@ function CommandCenter() {
           className="col-span-12 xl:col-span-8"
           actions={<Button size="sm" variant="outline" asChild><Link to="/bots"><Workflow className="h-4 w-4" />Orquestrar</Link></Button>}
         >
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">
               <tr className="border-b border-border/70">
@@ -258,6 +278,7 @@ function CommandCenter() {
               </tr>
             </tbody>
           </table>
+          </div>
           <div className="px-4 py-3 text-[11px] text-muted-foreground border-t border-border/60">
             Único bot em produção hoje. 60+ scripts exploratórios em <Mono>trading-engine/</Mono> não deployados — ver <Link to="/bots" className="underline hover:text-primary">Bot Orchestrator</Link>.
           </div>

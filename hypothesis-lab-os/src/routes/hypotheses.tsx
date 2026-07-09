@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Panel, Mono, Stat } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import { realHypotheses, hypStatusBadgeClass, type HypStatus } from "@/lib/hypotheses-data";
 import { Filter, FlaskConical, FileText, Sparkles, X } from "lucide-react";
 import { useApp } from "@/lib/store";
@@ -35,6 +35,12 @@ function HypothesesPage() {
   const selectedId = useApp((s) => s.selectedHypId);
   const select = useApp((s) => s.selectHyp);
 
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: hypotheses.length };
+    for (const h of hypotheses) counts[h.status] = (counts[h.status] ?? 0) + 1;
+    return counts;
+  }, []);
+
   const filtered = useMemo(() => {
     const q = filter.trim().toLowerCase();
     return hypotheses.filter((h) => {
@@ -56,7 +62,13 @@ function HypothesesPage() {
       <PageHeader
         eyebrow="research › hypothesis engine"
         title="Hypothesis Engine"
-        description="Estruture teses operacionais como objetos versionados, com gatilhos, invalidações e métricas."
+        description={
+          <>
+            Catálogo de pesquisa — tese, gatilho, invalidação e veredito completo de cada
+            hipótese. Para comparar N/EV/PnL lado a lado, veja o{" "}
+            <Link to="/simulations" className="underline hover:text-primary">leaderboard em Simulations</Link>.
+          </>
+        }
         actions={
           <>
             <Button
@@ -92,7 +104,7 @@ function HypothesesPage() {
         <Stat
           label="Confiança média"
           value={`${Math.round(hypotheses.reduce((a, h) => a + h.confidence, 0) / hypotheses.length)}%`}
-          hint="crença residual de edge real"
+          hint="blend refutadas+ativas, ver por hipótese"
         />
       </div>
 
@@ -134,10 +146,11 @@ function HypothesesPage() {
                     : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                 }`}
               >
-                {s}
+                {s} <span className="opacity-60">({statusCounts[s] ?? 0})</span>
               </button>
             ))}
           </div>
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
               <tr>
@@ -228,6 +241,7 @@ function HypothesesPage() {
               )}
             </tbody>
           </table>
+          </div>
         </Panel>
 
         <Panel

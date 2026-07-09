@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Dot } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { getHftStatus, getHftTrades, isHftLive, type HftTrade } from "@/lib/hft-api";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import {
   Area,
   AreaChart,
@@ -144,6 +144,7 @@ function LivePage() {
           title="Trades recentes (reais)"
           subtitle={`${trades?.total.n ?? 0} trades totais · conta demo Deriv`}
         >
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
               <tr>
@@ -199,6 +200,7 @@ function LivePage() {
               )}
             </tbody>
           </table>
+          </div>
         </Panel>
       </div>
     </div>

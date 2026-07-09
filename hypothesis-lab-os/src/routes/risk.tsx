@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono, Dot } from "@/components/kit";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { OctagonX } from "lucide-react";

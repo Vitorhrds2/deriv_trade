@@ -33,6 +33,13 @@ app_id/canal pricing arbitrage, multiplier stop-out slippage) também foram test
 refutadas em 2026-07-06** — nenhum bug de execução, race condition ou segmentação de canal
 se mostrou explorável (detalhes na tabela abaixo e itens 28-31 da Recomendação).
 
+**Auditoria completa dos 16 processos ativos na AWS em 2026-07-08 (ver item 37 da Recomendação):**
+`hft_bot` reconfirmado negativo com trades reais (não só H3 por analogia). `d41_wash`/`d37_outflow`/
+`d38_announce`/`d40_stable` identificados como **estruturalmente incapazes de gerar veredito** no
+design atual (nunca correlacionam sinal com retorno de preço). `D36` mostrando tendência de
+enfraquecimento (WR 50%→40.5% conforme N cresceu). `basis_paper_bot.py` (D29) é o
+lead mais promissor entre os processos em andamento (N=33, WR 72.7%, estável/melhorando).
+
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
 | # | Hipótese | Produto | Relatório | Achado central |
@@ -75,7 +82,7 @@ se mostrou explorável (detalhes na tabela abaixo e itens 28-31 da Recomendaçã
 | 12 | H1 — Momentum pós-choque | Binance BTC → Deriv multiplicador | `docs/h1_momentum_report.md` | Edge bruto real (~0.013-0.022%) mas comissão Deriv (~0.026%/lado) é maior. Custo > sinal |
 | 13 | H3 — Latência cross-venue (Deriv×Binance) | arbitragem de latência | `docs/h3_latency_arb_report.md` | **Definitivo mesmo co-locado em AWS Tóquio**: reagir mais rápido capturou MENOS edge (217ms vs 450ms de casa); `aligned-anti` IC95% cruza zero; custo ~489x a captura |
 | 14 | T4 — Viés direcional pós-choque, horizonte longo | Binance BTC, 7 dias OOS | `trading-engine/docs/t4_long_horizon_report.md` | Nenhuma das 24 células (momentum nem fade) sobrevive a controle nulo + custo |
-| 15 | `hft_bot` V6.2 (produção) — implementação ao vivo de H3 | Deriv `cryBTCUSD` sintético | `docs/hft_v62_audit_report.md` | N=40, WR 22.5%, EV/trade -$3.02, IC95% [-4.70,-1.18] não cruza zero. Pior de 6 configs testadas |
+| 15 | `hft_bot` V6.2 (produção) — implementação ao vivo de H3 | Deriv `cryBTCUSD` sintético | `docs/hft_v62_audit_report.md` | N=40, WR 22.5%, EV/trade -$3.02, IC95% [-4.70,-1.18] não cruza zero. Pior de 6 configs testadas. **Reconfirmado 2026-07-08** via `audit_hft_trades.py` (trades reais dedup por contract_id): todas versões N=34, WR 23.5%, EV -$3.35 IC95%[-5.35,-1.21]; subset V6.2-por-parâmetro N=12, WR 8.3%, EV -$3.62 IC95%[-6.01,-0.81] — ambos negativos e estatisticamente significativos, não mais "inconclusivo por N baixo" |
 | 16 | PA5 — Polymarket stale-book arbitrage | Polymarket BTC 5-15min | `pa5_collector.py` | N=1838, aligned WR=88.5% mas PnL=-$0.031; diff aligned-anti=-$0.037 IC95%[-$0.060,-$0.014] não cruza zero. Livro NÃO está stale |
 
 **Implicação direta para o `hft_bot`:** ele é a hipótese H3 rodando em produção. O item 13 (H3
@@ -124,6 +131,25 @@ Ver "Estado ao vivo — Shadow A/B do hft_bot" abaixo para o estado atual dele.
 - **Conclusão:** pergunta original (bug de filtro vs. mercado quieto) **respondida com dado de 1h,
   golden hour, gate saudável**: é mercado quieto. Não investigar mais o timing gate — não é aqui
   que está o problema.
+
+### Update 2026-07-08 — trades reais existem agora, veredito reconfirmado negativo
+
+O "veredito fechado" acima (2026-07-02, zero trades desde o deploy do shadow A/B) estava
+**desatualizado**: `audit_hft_trades.py` re-rodado em 2026-07-08 encontra **32 ALIGNED / 2 ANTI**
+trades reais já fechados (bot não foi reiniciado nem tocado, só rodou mais tempo). Resultado por
+versão/corte (Wilson + bootstrap CI, dedup por `contract_id`):
+
+| Corte | N | WR | EV/trade | IC95% |
+|---|---|---|---|---|
+| Todas as versões (V4.0-V6.2) | 34 | 23.5% | -$3.35 | [-$5.35, -$1.21] |
+| V6.x (Momentum Rider + Ultra-Momentum) | 25 | 24.0% | -$2.18 | [-$4.54, +$0.40] |
+| **V6.2-equivalente por parâmetro** (threshold=45 confirmado empiricamente, desde 2026-06-30) | **12** | **8.3%** | **-$3.62** | **[-$6.01, -$0.81]** |
+
+**As duas leituras mais confiáveis (todas-versões N=34 e V6.2-por-parâmetro N=12) têm IC95%
+inteiramente negativo.** Shadow A/B (ALIGNED N=32 vs ANTI N=2): diff=$3.21 IC95%[-$1.83,+$8.29],
+cruza zero — sem sinal direcional, e **ambos os grupos são negativos** (ANTI EV=-$6.37),
+reconfirmando o diagnóstico do H3/item 13: o problema é custo de execução/timing, não a escolha
+de direção. **Veredito mantido: sem edge.**
 
 ## Proposto, nunca testado
 
@@ -295,17 +321,18 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 14 | Early sell optionality | **RE-REFUTADO (2026-07-07) — correção metodológica** | **Bug encontrado:** a métrica usada tanto no teste original (N=50) quanto na extensão multi-símbolo (`early_sell_multi.py`, N=550/10 símbolos) era `sell_profit = max(bid_price observado em TODAS as amostras) - buy_price` — isso é **viés de hindsight**: `max(caminho)` é trivialmente ≥ qualquer ponto fixo do mesmo caminho (incl. o valor terminal/hold), então "sell no melhor bid > hold" é quase uma tautologia matemática pra qualquer preço com ruído, independente de a Deriv ter algum mispricing. A checagem "non-hindsight" secundária (vender no 1º bid≥threshold) tinha um bug relacionado: calculava `EV_sell` só sobre os trials QUE DISPARARAM (condicional, também tautologicamente positivo já que só dispara quando bid>buy_price) e comparava contra um "EV_hold correspondente" que pegava os primeiros N elementos de uma lista por ÍNDICE, não os hold-profits pareados dos MESMOS trials que dispararam — uma comparação inválida. **Correção:** comparação pareada por trial (regra: vende se disparar, senão segura; diff = regra − hold sempre-segura) com bootstrap na diferença. **Resultado corrigido, N=550 (10 símbolos), pooled, 8 thresholds (ratio bid/buy=1.1 a 1.8):** diff EV cruza zero em 7/8 thresholds (ex. ratio=1.3: diff=+0.05bps IC95%[-0.54,+0.65]; ratio=1.5: diff=-0.29 IC95%[-0.71,+0.15]) e é **significativamente NEGATIVO** no ratio=1.8 (diff=-0.20 IC95%[-0.35,-0.01]). Nenhum dos 10 símbolos individualmente mostra IC95% excluindo zero. Interpretação: a regra de venda antecipada AUMENTA o win rate (vender trava lucro pequeno com mais frequência) mas DIMINUI o tamanho médio do ganho (perde os movimentos grandes que só aparecem segurando até o expiry) — os dois efeitos se cancelam, sem EV líquido. Script corrigido (`compute_stream_stats()` agora expõe `diff_ev_vs_hold` pareado, com os campos antigos renomeados p/ `*_HINDSIGHT` deixando claro que não são acionáveis) e redeployado na AWS. Ver `hypotheses-data.ts` (HYP-SELL-01, `status: refuted`) |
 | 15 | Synthetic Anomaly Monitor | Rodando 24/7 (Carlos) | Inacessível neste servidor; sem achado confirmado reportado |
 | 16 | PA1-PA4 Polymarket | Refutado | PA3: 940 mercados, 0 arb. PA2: diff=0bps. PA1: spread=100bps desde criação. PA4: refutado via PA5 |
-| 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. Próximo: depositar USDT e ir live |
-| 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos |
-| 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | Backtest BS (histórico): BUY 7/7 wins +$4,500 (100% WR). **Paper trading ao vivo (2026-07-06)**: 7 settled, WR=42.9% (3/7), EV/trade=+$137.52, total=+$962.66, 115 posições abertas — WR ao vivo bem abaixo do backtest, mas EV segue positivo. Amostra pequena, **veredito ainda aberto** — acompanhar mais settles |
-| 20 | D37 — Exchange outflow signal | Rodando 13h+ na AWS | 82 checks horários: 78 NO SIGNAL, 3 WEAK LONG, 0 STRONG. Nenhum outflow >$1M detectado ainda. Aguardando evento real para testar a tese preço-pós-outflow |
-| 21 | D38 — Binance announcement front-run | Rodando 21h+ na AWS | Primeiros anúncios reais capturados (2026-07-06): 3 no total (2 sem token associado, 1 LISTING — delist TST/IOTX, sentimento bullish, preço $0.01001 registrado em t0). Price-reaction tracking em andamento para o TST. Ainda cedo para veredito |
+| 17 | D17 — Token unlock short | Bot em paper na AWS | Edge validado IS+OOS-2025+OOS-2026. unlock_short_bot.py rodando, primeiro trade APTUSDT 9 Jul. **Tokenomist API integrada (2026-07-08)**: unlock_data.py busca eventos via api.tokenomist.ai com fallback hardcoded. Whitelist de 8 símbolos validados. Próximo: depositar USDT e ir live |
+| 18 | D34 — Liquidation cascade | Loop contínuo na AWS | 0 cascades em 30min (mercado calmo). Bot reiniciado em loop infinito. Precisa dias para capturar eventos. **Reconfirmado 2026-07-08**: ainda 0 liquidações/cascades na janela mais recente monitorada (20min+). Framework fee-adjusted pronto, só falta o evento real |
+| 19 | D36 — IV surface anomaly | Paper bot ativo na AWS | Backtest BS (histórico): BUY 7/7 wins +$4,500 (100% WR). **Paper trading ao vivo (2026-07-06)**: 7 settled, WR=42.9% (3/7), EV/trade=+$137.52, total=+$962.66, 115 posições abertas — WR ao vivo bem abaixo do backtest, mas EV segue positivo. Amostra pequena, **veredito ainda aberto** — acompanhar mais settles. **Update 2026-07-08**: N=37 settled, WR caiu para **40.5%**, trajetória monotonicamente decrescente (50.0%@N24 → 42.9%@N28 → 41.9%@N31 → 41.2%@N34 → 40.5%@N37). Total ainda positivo (+$1517.90) só por skew de poucos winners grandes; últimos 2 settles foram losses (maior: -$420.94), caindo de um pico de +$2074.76@N35. Mesmo padrão de decaimento que desmascarou o early-sell original — tratar como candidato a falso-positivo, não como confirmação parcial |
+| 20 | D37 — Exchange outflow signal | Rodando 13h+ na AWS | 82 checks horários: 78 NO SIGNAL, 3 WEAK LONG, 0 STRONG. Nenhum outflow >$1M detectado ainda. Aguardando evento real para testar a tese preço-pós-outflow. **Update 2026-07-08**: amostra cresceu bastante (~1000 snapshots), maioria ainda NO SIGNAL/WEAK LONG. **Achado estrutural**: o script nunca correlaciona o signal score com retorno de preço subsequente — não existe caminho para EV/win-rate/veredito no design atual, precisaria de lógica de forward-return nova, não mais tempo rodando |
+| 21 | D38 — Binance announcement front-run | Rodando 21h+ na AWS | Primeiros anúncios reais capturados (2026-07-06): 3 no total (2 sem token associado, 1 LISTING — delist TST/IOTX, sentimento bullish, preço $0.01001 registrado em t0). Price-reaction tracking em andamento para o TST. Ainda cedo para veredito. **Update 2026-07-08**: mais anúncios capturados (torneios/promoções/caridade, categoria OTHER, sentimento neutro), nenhum LISTING novo com token associado desde o TST. Amostra tradeable continua ~0-1, veredito impossível até um LISTING real aparecer |
 | 22 | D39 — Options max pain magnet | Rodando 21h+ na AWS | Expiry 6JUL26 rolou para 7JUL26 em 2026-07-06T00:12 **sem convergência**: diff BTC spot-vs-max-pain foi de +2.00% para +3.04% (divergiu) nas ~7h antes do rollover. Primeiro ciclo completo não sustenta a tese de "magnet". Seguindo para o ciclo 7JUL26 |
-| 23 | D40 — Stablecoin mint signal | Rodando 13h+ na AWS | 64 ciclos completos. Sinal consistente: NEUTRAL (score=0). Sem mint/redemption anormal detectado no período |
-| 24 | D41 — WS trade anomaly detector | Rodando 21h+ na AWS (reiniciado 2026-07-06, ver incidente) | Ciclo de referência antes do restart: N=157.000 trades, clusters=1128 (0.72%), volume_bursts=125 (0.08%), dup_ids=0, **timestamp_anomalies=38.068 (24.2% dos trades!)** — taxa alta, ainda sem análise de reação de preço pós-anomalia. `volume_timeline` tinha vazamento de memória sem limite (344MB RSS/~24h) que exigiu restart; corrigido (bound a 2000 entradas), contadores zeraram. Ainda exploratório — falta simulação de P&L com fees para veredito |
+| 23 | D40 — Stablecoin mint signal | Rodando 13h+ na AWS | **ATUALIZADO 07-07: 108 ciclos.** Regime mudou: ~29 ciclos NEUTRAL(0) → 9 ciclos STRONG LONG(2) → agora MODERATE LONG(1), 3d supply +$342M. Score interno dispara em sub-limiares (~+$100M/24h) bem abaixo do trigger formal do dashboard (±$500M/3d) — nenhum sinal formal LONG/SHORT disparou ainda. BTC caiu ~$64.0k→$62.9k durante a janela LONG (N=1, não conclusivo). Ainda sem framework de P&L sinal-vs-retorno. **Update 2026-07-08**: regime virou STRONG SHORT (3d supply -$1704M, grande redemption). Mesmo problema estrutural do D37 — score muda de sinal ao longo do tempo mas nunca é testado contra retorno futuro real; sem esse framework não há caminho para veredito |
+| 24 | D41 — WS trade anomaly detector | Rodando 21h+ na AWS (reiniciado 2026-07-06, ver incidente) | Ciclo de referência antes do restart: N=157.000 trades, clusters=1128 (0.72%), volume_bursts=125 (0.08%), dup_ids=0, **timestamp_anomalies=38.068 (24.2% dos trades!)** — taxa alta, ainda sem análise de reação de preço pós-anomalia. `volume_timeline` tinha vazamento de memória sem limite (344MB RSS/~24h) que exigiu restart; corrigido (bound a 2000 entradas), contadores zeraram. Ainda exploratório — falta simulação de P&L com fees para veredito. **Update 2026-07-08**: confirmado nos 15 blocos "VERDICT" já impressos — nenhum jamais correlaciona anomalia com retorno de preço, é puramente contador de frequência (ciclo mais recente: ~15M trades/48.6h, clusters 0.401%, timestamp_anomalies 1.383%, volume_bursts 0.107%). **Não existe caminho para veredito no design atual, independente de tempo de execução** — precisaria de lógica nova (preço antes/depois de cada anomalia), não mais amostra |
 | 25 | D42 — Deriv vs Binance latency arb | **REFUTADO** (via H3 + dados próprios) | N=6.830 amostras em 13h: avg lag=204.5ms, max=950ms — confirma que o lag do FEED é real e consistente. MAS H3 já testou isso exaustivamente no nível de EXECUÇÃO (60+41 ordens demo reais, incl. co-locado em Tóquio): fill sempre reprecifica fresco, custo ~489x a captura. D42 mede só o feed (equivalente ao Passo 1 de H3), não a execução (Passo 2/3, o teste decisivo). Não restartar — pergunta já respondida |
 | 26 | D43 — Order book imbalance | **REFUTADO** (auto-concluído, N=24.994) | Processo rodou 33.487s (9.3h) e concluiu sozinho: 756 predictions resolvidas, accuracy 30s CAIU de 75.4%→**58.8%** (abaixo do próprio threshold de 60%). Confirma D33 (mesma tese, refutado por fees: WR direcional real mas 0% lucrativo). N=98 inicial era false positive de amostra pequena |
-| 27 | D44 — Funding rate arb | Aguardando evento extremo | 113 ciclos completos em 13h (a cada 5min). Único sinal persistente: ATOMUSDT LONG_FUT, funding ~-0.03%/8h (bem na borda do threshold, magnitude pequena). Nenhum extremo real. Dominio parcialmente sobreposto com D35 (refutado) mas mecanismo diferente (reversão vs momentum) |
+| 27 | D44 — Funding rate arb | Aguardando evento extremo | 113 ciclos completos em 13h (a cada 5min). Único sinal persistente: ATOMUSDT LONG_FUT, funding ~-0.03%/8h (bem na borda do threshold, magnitude pequena). Nenhum extremo real. Dominio parcialmente sobreposto com D35 (refutado) mas mecanismo diferente (reversão vs momentum). **Reconfirmado 2026-07-08**: ainda sem sinal extremo, monitor barato segue rodando. **AUDIT 2026-07-08**: confirmado o MESMO GAP estrutural do D37/D40/D41 — o script printava "VERDICT" mas nunca trackeava basis reversion + funding coletado vs horizonte; a docstring dizia "Track basis reversion over 1h, 4h, 24h" mas steps 4-5 nunca foram implementados. **CORRIGIDO**: criado `carry_return_tracker.py` (delta-neutral específico: grava funding_rate + basis_pct, resolve carry_pnl = basis_reversion + funding_collected - fees em 8h/24h/72h), integrado e reiniciado às ~15:30 UTC |
+| 38 | D29 — Basis-Funding Disconnect (Binance carry trade) | Paper bot ativo na AWS (`basis_paper_bot.py`, tmux `basis_bot`) | Scan inicial (19 pares) achou sinal fraco. Paper bot ao vivo evoluiu: N=19 WR68.4%→N=24 WR70.8%→**N=33 WR72.7%** (2026-07-08), EV/trade +0.2635%, total +8.70%, avg duração 1.2h — tendência estável/melhorando conforme N cresce (oposto do decaimento do D36). **IC95% formal implementado 2026-07-08** (Wilson no WR + bootstrap no EV, mesmo padrão do repo): WR=72.7% IC95%[55.8%, 84.9%] — **exclui 50%, estatisticamente significativo**. EV=+0.2635% IC95%[-0.7964%, +1.4311%] — **CRUZA ZERO, INCONCLUSIVO**. O WR é real (não é sorte), mas o EV ainda não é estatisticamente positivo: losses grandes (worst -5.96%) offsetam wins. Precisa N~60-80 pra o IC do EV convergir. **Lead mais promissor entre os processos em andamento**, mas NÃO é edge confirmado ainda. Ver `hypotheses-data.ts` HYP-BASIS-02 |
 | 28 | D45 — Liquidation cascade | **REDUNDANTE com D34** — retirado | Mesma tese exata (3+ liquidações/10s = cascade) que D34, que já roda há mais tempo com design mais rigoroso (fee-adjusted, 4 hold periods). D34 confirma 0 cascades em todos os ciclos (dias de dados). Não restartar D45, usar D34 como fonte única |
 | 29 | D46 — Deriv tick patterns | **REFUTADO** (2026-07-06, N=190.000) | Amostra pequena de 2026-07-05 (N=542/300) mostrava ==D→UP 55.4%, ==U→DOWN 56.7% — pareciam edges. Com N=190.000 em uma única sessão contínua de 7h: ==D→UP **50.44%** (z≈2.89, tecnicamente fora do ruído mas 0.44pp — muito abaixo de qualquer custo de transação), ==U→UP **49.82%** (z≈-1.02, não significante). Mesmo padrão de todo o programa: sinal, quando existe, é menor que o custo. Bot parado, removido do supervisor. Bug de reconexão (mesmo do D43) também corrigido no script antes de encerrar |
 | 30 | D47 — Stale proposal buy race | **REFUTADO** (N=40) | `stale_proposal_probe.py`: pede proposal, espera delay (TREAT=20s vs CONTROL=0s), compra com `proposal_id` antigo, compara barrier antigo vs barrier real do contrato. Barrier **SEMPRE recalculado** no momento da compra (39/40 rounds "RECALC(new)"; o 1/40 "STALE(old)" restante foi coincidência de preço parado, não cache). TREAT WR=45% IC95%[25.8,65.8] vs CONTROL WR=55% IC95%[34.2,74.2] — diferença dentro do ruído, consistente com custo de esperar 20s num random walk simétrico, não com exploit de preço obsoleto. HIGHER/LOWER R_100, 10 ticks |
@@ -398,6 +425,12 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     EV/trade ainda positivo (+$137.52) com 115 posições abertas. Backtest pode ter sido
     otimista (look-ahead ou seleção de amostra) — **acompanhar settles reais antes de
     qualquer decisão de capital real.**
+    **Update 2026-07-08**: WR caiu mais, para 40.5% (N=37), trajetória monotonicamente
+    decrescente (50.0%→42.9%→41.9%→41.2%→40.5% conforme N cresceu 24→37). Total ainda
+    positivo (+$1517.90) só por skew de poucos winners grandes; últimos 2 settles foram
+    losses (maior: -$420.94). Mesmo padrão de decaimento que desmascarou o early-sell
+    original — **tratar como candidato a falso-positivo até a trajetória estabilizar ou
+    reverter**, não como confirmação parcial.
 23. **Liquidation cascade — AGUARDANDO EVENTOS** (D34). 0 cascades em 30min
     (mercado calmo). Bot rodando em loop contínuo na AWS. Cascades são raras
     mas quando ocorrem, continuation é quase garantida (forced selling).
@@ -541,4 +574,82 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     confiança em D55a ser "grátis" (pode ser compensação por segurar o prêmio, não
     uma ineficiência pura), mas não invalida ser capturável na prática. Falta: o
     walk-forward ainda é sobre os mesmos 90d do screening (robustez interna, não OOS
-    temporal de verdade). Ver `docs/hyperliquid_report.md` atualizado.
+    temporal de verdade). Ver `docs/hyperliquid_report.md` atualizado. **PAPER TRADING
+    OOS INICIADO 2026-07-08 16:50 UTC**: `hyperliquid_paper_bot.py` (tmux `d55_paper`,
+    adicionado ao `aggressive_supervisor`) abriu posição simulada SHORT HL LINK @ $7.6071
+    + LONG BN LINKUSDT @ $7.6033, $1000 notional, 19bps roundtrip debitado. A cada ciclo
+    de funding da Binance (8h) settle: funding coletado em ambos venues + mark-to-mark
+    P&L. Report com Wilson/bootstrap a cada 5 ciclos. Primeiro ciclo às 00:00 UTC
+    (~7h após abertura). Dados daqui em diante são OOS temporal real (não overlap com
+    os 90d do screening).
+37. **Auditoria completa dos 16 processos ativos na AWS (2026-07-08)** — sem reiniciar/parar
+    nada, checado `tmux ls` + `ps` + logs + `audit_hft_trades.py` para todo o fleet. Categorizado
+    em 3 grupos:
+    - **Estruturalmente incapaz de gerar veredito** (sem redesign): `d41_wash` (~15M trades/ciclo,
+      "VERDICT" só conta % de anomalias, nunca correlaciona com preço), `d37_outflow` (~1000
+      snapshots, só heurística), `d38_announce` (só loga anúncios), `d40_stable` (mesmo padrão de
+      `d37`). Nenhum tem lógica de forward-return — precisam de código novo, não mais N.
+    - **Esperando evento raro/agendado, framework pronto**: `liq_bot`/D34 (0 cascades),
+      `twap_bot` (0 trades em 2 dias, próxima janela real 09JUL 07:30 UTC),
+      `options_paper_bot` (9 posições abertas, 0 settled, primeira expiry em ~1 dia),
+      `d39_maxpain` (aguardando expiry 9JUL26).
+    - **Amostra real acumulando, tendência informativa**: `basis_paper_bot`/D29 (N=33, WR 72.7%,
+      melhorando — ver item 38) e D36/`iv_anomaly_paper_bot` (N=37, WR 40.5%, piorando — ver
+      item 19/22).
+    - `hft_bot` reconfirmado com trades reais (não só por analogia a H3): N=34 todas-versões e
+      N=12 V6.2-por-parâmetro, ambos IC95% negativo (ver item 15 e "Update 2026-07-08" na seção
+      Shadow A/B). **Nenhum processo no fleet tem edge confirmado em execução ao vivo agora;
+      D17 segue sendo o único backtest-validado, mas com N=0 trades paper até o momento.**
+38. **Follow-up 2026-07-08 (parte 2) — corrigido o gap estrutural + esclarecido D17:**
+    - **Código corrigido e redeployado**: criado `trading-engine/forward_return_tracker.py`
+      (grava preço+direção do sinal a cada ciclo, resolve retorno no horizonte certo, reporta
+      com o mesmo Wilson/bootstrap de `stats_utils.py`) e integrado em `exchange_outflow_scan.py`
+      (D37, horizontes 1h/4h/24h), `stablecoin_mint_scan.py` (D40, 1h/4h/24h) e
+      `wash_trading_scan.py` (D41, 10s/30s/60s — usa o próprio preço do stream WS, sem custo de
+      rede extra). Os 3 processos (`d37_outflow`, `d40_stable`, `d41_wash`) foram reiniciados na
+      AWS às ~15h UTC com o código novo (verificado sem erro pós-restart); todos os outros 13
+      processos do fleet foram deixados intocados. A partir de agora, esses 3 PODEM produzir um
+      veredito real de EV/WR — só falta tempo/amostra.
+    - **D17 (unlock_bot) não é um gap** — investigado a fundo: o log só mostra "no open
+      positions" porque o próximo entry (APTUSDT, unlock 2026-07-12, entry = unlock−3d =
+      **2026-07-09, amanhã**) ainda não chegou; `unlock_short_bot.py` confirmado rodando em
+      `--paper` (sem `--live`), checando a cada hora, vai disparar sozinho no horário certo. Sem
+      bug, sem ação necessária — só esperar 1 dia.
+    - **`early_sell_multi` (HYP-SELL-01)**: já tinha sido re-refutado em N=550 (2026-07-07), mas
+      o processo continuou rodando na AWS e mais que triplicou a amostra (N=187/combo, ~1870
+      trials). Mesmo resultado em 10/10 combos — recomendado **parar o processo**, é redundante.
+      **PARADO 2026-07-08** (tmux `early_sell_multi` e `hft_bot` killados; fleet agora tem 14
+      sessões, só as que ainda têm potencial).
+    - **D29 IC95% formal implementado**: `basis_paper_bot.py` agora usa `stats_utils.wilson_ci`
+      no WR + `bootstrap_ci` no EV (mesmo padrão do repo). Resultado em N=33: WR=72.7%
+      IC95%[55.8%, 84.9%] (exclui 50%, significativo), EV=+0.2635% IC95%[-0.7964%, +1.4311%]
+      (cruza zero, INCONCLUSIVO). O WR é real mas o EV ainda não é estatisticamente positivo —
+      losses grandes offsetam wins. Precisa N~60-80 pra convergir. Bot reiniciado com o código
+      novo, imprimindo o veredito formal a cada ciclo.
+    - **D40 STRONG SHORT**: confirmado persistente por 5+ leituras seguidas antes do restart
+      (score=-2, 3d supply −$1.704M) — não foi um blip de uma leitura só.
+    - **D44 funding arb**: auditado e confirmado o MESMO GAP estrutural. A docstring dizia
+      "Track basis reversion over 1h, 4h, 24h" mas steps 4-5 nunca foram implementados — o
+      "VERDICT" impresso era só descrição do sinal atual. CORRIGIDO: criado
+      `carry_return_tracker.py` (tracker delta-neutral específico: grava funding_rate +
+      basis_pct no momento do sinal, resolve `carry_pnl = basis_reversion + funding_collected
+      - fees` em 8h/24h/72h, reporta com Wilson/bootstrap). Integrado em
+      `funding_basis_arb_scan.py`, redeployado e reiniciado às ~15:30 UTC.
+39. **Follow-up 2026-07-08 (parte 3) — Tokenomist API integrada ao D17:**
+    - **Tokenomist API ativa**: `unlock_data.py` agora busca eventos de unlock via
+      `api.tokenomist.ai` (com fallback para `api.unlocks.app` e depois hardcoded).
+      Requer `TOKENOMIST_API_KEY` no `.env` (configurado na AWS 2026-07-08).
+    - **Descoberta de formato**: free trial não aceita `maxUnlockDate` nem
+      `minTotalUnlockAmount` (HTTP 422). Solução: usar apenas `minUnlockDate` e filtrar
+      client-side por data e valor. `cliffUnlocks` é um dict (não lista) com
+      `totalCliffValue`/`totalCliffAmount` + `allocationBreakdown`.
+    - **Whitelist de símbolos**: `VALIDATED_SYMBOLS` em `unlock_short_bot.py` restringe
+      trades aos 8 tokens com edge backtestado (APT, ARB, AXS, DYDX, IMX, OP, SEI, STRK).
+      Símbolos novos da API (ex: MOVE) são filtrados — sem edge validado, sem trade.
+    - **Diferença de dados**: API mostra cliff-only value (APT $7M vs hardcoded $50M
+      que incluía linear releases). Mais preciso para o sinal de cliff unlock.
+    - **Primeiro evento API**: APTUSDT 2026-07-12 ($7M cliff), entry 2026-07-09.
+      Bot confirmado rodando, API respondendo OK, whitelist ativa.
+    - **D55 paper trading**: `hyperliquid_paper_bot.py` deployado e rodando na AWS
+      (sessão `d55_paper`). Delta-neutral short HL + long Binance LINK funding arb.
+      Aguardando ciclos de funding para acumular P&L.

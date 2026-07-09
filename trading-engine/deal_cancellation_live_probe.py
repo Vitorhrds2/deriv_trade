@@ -59,7 +59,7 @@ SLOW_POLL_INTERVAL_S = 3.0   # durante a maior parte da janela, so p/ log
 FAST_POLL_INTERVAL_S = 0.3   # nos ultimos segundos antes do date_expiry
 FAST_POLL_WINDOW_S = 8.0     # entra em modo "decisao" quando faltar <= isso p/ expirar
 MAX_POLLS = 700          # ~350s de folga sobre os 300s da janela de 5m
-N_TRIALS = 20
+N_TRIALS = 120
 CONTRACT_TYPES = ["MULTUP", "MULTDOWN"]  # alterna para nao ter vies direcional
 
 RESULTS_FILE = "deal_cancellation_live_results.jsonl"
@@ -181,7 +181,7 @@ async def main():
     print("=" * 100, flush=True)
 
     results = []
-    with open(RESULTS_FILE, "w") as f:
+    with open(RESULTS_FILE, "a") as f:
         for i in range(N_TRIALS):
             contract_type = CONTRACT_TYPES[i % len(CONTRACT_TYPES)]
             rec = await run_trial(client, i, contract_type)

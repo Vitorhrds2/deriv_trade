@@ -2,7 +2,7 @@
 // Fonte de verdade: docs/*.md no repo `hypothesis`. Cada entrada aqui corresponde a um
 // relatório real com script(s) executado(s) e veredito fechado — nada aqui é simulado.
 // Atualize manualmente quando uma nova hipótese for testada ou um veredito mudar
-// (ex.: shadow A/B do hft_bot acumular N suficiente para fechar veredito).
+// (ex.: shadow A/B de algum bot acumular N suficiente para fechar veredito).
 
 export type HypStatus = "live" | "validating" | "refuted" | "weak-signal" | "draft" | "paused" | "archived";
 
@@ -45,16 +45,25 @@ export const realHypotheses: RealHypothesis[] = [
       "IC95% bootstrap do shadow A/B (ALIGNED vs ANTI) não cruzar zero de forma consistente e a favor de ALIGNED",
     createdAt: "2026-06-30",
     author: "hft_arbitrage_bot.py (V6.2 Ultra-Momentum)",
-    pnl: -120.66,
-    trades: 40,
-    sampleUnit: "trades reais (conta demo)",
+    pnl: -113.9,
+    trades: 34,
+    sampleUnit: "trades reais (conta demo, dedup por contract_id)",
     verdict:
       "Refutado — 40 trades reais (conta demo), EV/trade -$3.02, IC95% [-$4.70, -$1.18] (não cruza zero). " +
       "WR 22.5% (9/40). V6.2 com golden-hour filter produziu zero trades em 33h+ (threshold muito restritivo). " +
-      "Consistente com H3: gargalo é a perna de execução da Deriv (~180-220ms), não a qualidade do sinal.",
-    evPerTrade: -3.02,
-    ci95: [-4.7, -1.18],
-    ci95Label: "EV/trade (bootstrap)",
+      "Consistente com H3: gargalo é a perna de execução da Deriv (~180-220ms), não a qualidade do sinal. " +
+      "ATUALIZADO 2026-07-08 (audit_hft_trades.py, dedup por contract_id): N=34 trades reais " +
+      "todas-versões, WR 23.5%, EV/trade -$3.35, IC95%[-$5.35,-$1.21]. Subset V6.2-por-parâmetro " +
+      "(threshold=45 confirmado empírico, desde 2026-06-30) N=12, WR 8.3%, EV/trade -$3.62, " +
+      "IC95%[-$6.01,-$0.81] — ambos os cortes têm IC95% inteiramente negativo, não mais " +
+      "'inconclusivo por N baixo'. Shadow A/B (32 ALIGNED/2 ANTI): diff=$3.21 IC95%[-$1.83,+$8.29] " +
+      "cruza zero, sem sinal direcional, ambos os grupos negativos — reconfirma H3. " +
+      "PROCESSO PARADO 2026-07-08: tmux `hft_bot` killado e removido do " +
+      "`aggressive_supervisor` (auto-restart) — o supervisor recriou a sessão uma vez " +
+      "após o kill manual, por isso foi necessário remover do script do supervisor também.",
+    evPerTrade: -3.35,
+    ci95: [-5.35, -1.21],
+    ci95Label: "EV/trade (bootstrap) — todas versões N=34; V6.2-por-parâmetro N=12 é [-$6.01,-$0.81]",
     tools: ["hft_arbitrage_bot.py", "audit_hft_trades.py", "stats_utils.py"],
     reportFile: "docs/hft_v62_audit_report.md",
   },
@@ -281,7 +290,13 @@ export const realHypotheses: RealHypothesis[] = [
       "Mecanismo: vender cedo aumenta win rate mas reduz tamanho médio do ganho (perde os " +
       "movimentos grandes que só aparecem segurando) — efeitos se cancelam, sem EV líquido. " +
       "Script corrigido (compute_stream_stats() expõe diff_ev_vs_hold pareado; campos antigos " +
-      "renomeados *_HINDSIGHT) e redeployado na AWS. NÃO usar early_sell_live.py com capital real.",
+      "renomeados *_HINDSIGHT) e redeployado na AWS. NÃO usar early_sell_live.py com capital real. " +
+      "ATUALIZADO 2026-07-08: `early_sell_multi.py` seguiu rodando na AWS e mais que TRIPLICOU " +
+      "a amostra por combo (N=55→N=187/símbolo:tipo, ~1870 trials no total, ratio=1.3) — mesmo " +
+      "resultado qualitativo em TODOS os 10 combos (CALL/PUT × 5 símbolos): diff_ev cruza zero " +
+      "ou é levemente negativo, nenhum combo escapa. Amostra adicional não mudou a conclusão — " +
+      "recomendado parar o processo (tmux `early_sell_multi` na AWS), já é redundante. " +
+      "PROCESSO PARADO 2026-07-08.",
     tools: ["early_sell_test.py", "early_sell_multi.py", "stats_utils.py"],
     reportFile: "docs/state_of_research.md",
   },
@@ -659,8 +674,8 @@ export const realHypotheses: RealHypothesis[] = [
       "events are routine and the dump is gradual, not instant.",
     confidence: 88,
     status: "validating",
-    tags: ["event-driven", "token-unlock", "vesting", "supply-pressure", "short", "binance", "significant", "oos-validated", "costs-tested", "timing-optimized", "2026-validated"],
-    trigger: "Known token unlock date → short 3d before, exit 3d after. Filter: unlock value ≥$200M or ≥5% supply",
+    tags: ["event-driven", "token-unlock", "vesting", "supply-pressure", "short", "binance", "significant", "oos-validated", "costs-tested", "timing-optimized", "2026-validated", "tokenomist-api", "symbol-whitelist"],
+    trigger: "Tokenomist API unlock date → short 3d before, exit 3d after. Whitelist: 8 validated symbols only (APT, ARB, AXS, DYDX, IMX, OP, SEI, STRK). Fallback: hardcoded list if API unavailable.",
     invalidation: "Market may learn and arbitrage the edge. Bull market may reduce effect. Execution slippage on low-liquidity tokens.",
     createdAt: "2026-07-03",
     author: "token_unlock_scan.py + shorting_cost_scan.py + timing_optimization_scan.py",
@@ -673,8 +688,15 @@ export const realHypotheses: RealHypothesis[] = [
       "OOS-2026: WR 67%, +384bps, t=2.59 (mais fraco mas significativo). " +
       "Timing optimization (25 combos): -3d/+3d é o ótimo. " +
       "Funding cost: -4bps OOS (irrelevante). NET OOS-2025: +656bps, t=5.38. " +
-      "Large unlocks (≥$200M): 7/7 negativos. OPUSDT OOS-2025: 6/6 wins.",
-    tools: ["token_unlock_scan.py", "shorting_cost_scan.py", "timing_optimization_scan.py"],
+      "Large unlocks (≥$200M): 7/7 negativos (ou seja, 7/7 POSITIVOS pro short). OPUSDT OOS-2025: 6/6 wins. " +
+      "Backtest com Kelly sizing (half-Kelly, cap 25%/posicao, $10k inicial): N=155, WR=63%, " +
+      "$10k -> $19.093 (+90.9%). DEPLOY: unlock_short_bot.py rodando em PAPER na AWS (filtro " +
+      "MIN_UNLOCK_VALUE_MM=20, sem teto). Tokenomist API integrada (2026-07-08): unlock_data.py " +
+      "busca eventos via api.tokenomist.ai com fallback hardcoded. Whitelist de 8 símbolos " +
+      "validados apenas (APT, ARB, AXS, DYDX, IMX, OP, SEI, STRK) — símbolos não-validados da API " +
+      "são filtrados. Primeiro evento API: APTUSDT 2026-07-12 ($7M cliff, entry 2026-07-09). " +
+      "Bloqueado apenas por deposito de capital real (decisao do usuario).",
+    tools: ["token_unlock_scan.py", "shorting_cost_scan.py", "timing_optimization_scan.py", "unlock_data.py (Tokenomist API)"],
     reportFile: "docs/event_driven_report.md",
   },
   {
@@ -848,7 +870,7 @@ export const realHypotheses: RealHypothesis[] = [
     reportFile: "cex_liquidation_scan.log",
   },
   {
-    id: "HYP-JUMP-01",
+    id: "HYP-T2J-02",
     title: "T2-Jump — Jump Indices spike-timing (memory vs memoryless)",
     market: "Deriv Jump Indices (JD10/25/50/75/100), 400k ticks",
     thesis:
@@ -1166,7 +1188,10 @@ export const realHypotheses: RealHypothesis[] = [
       "Melhor: ETH DTE=54, EV +$308, ROI +109%, WR 92%, N=36. " +
       "CUIDADO: payoffs históricos assumem K=S_0 (ATM straddle) e podem refletir drift de bull market " +
       "em vez de VRP estrutural. Necessita validação out-of-sample com execução real ou paper trading. " +
-      "DTE curto (1d) negativo — fees dominam. Edge cresce com DTE (mais tempo para RV > IV).",
+      "DTE curto (1d) negativo — fees dominam. Edge cresce com DTE (mais tempo para RV > IV). " +
+      "ATUALIZADO 2026-07-07: options_paper_bot.py (HYP-OPTBUY-01) DEPLOYADO e rodando na AWS " +
+      "desde 2026-07-04/05. 9 posicoes abertas (straddles BTC/ETH, DTE 4-26 na entrada), 0 " +
+      "settled ainda -- primeiro settlement esperado ~10-Jul-2026. Sem confirmacao ao vivo ainda.",
     evPerTrade: 308.45,
     ci95: [-35.02, 5860.87],
     ci95Label: "EV net range across 16 expiries (BTC+ETH, DTE 1-82)",
@@ -1363,7 +1388,7 @@ export const realHypotheses: RealHypothesis[] = [
     sampleUnit: "pares call+put (BTC 457 + ETH 362)",
   },
   {
-    id: "HYP-BASIS-01",
+    id: "HYP-BASIS-02",
     title: "D29 — Basis-Funding Disconnect (Binance carry trade)",
     market: "BINANCE FUTURES · Top 30 USDT perps · spot + perp carry",
     thesis:
@@ -1371,28 +1396,38 @@ export const realHypotheses: RealHypothesis[] = [
       "ganha basis convergence + recebe funding. Quando perp < spot E funding positivo, " +
       "short perp é carry grátis. O 'disconnect' é quando ambos componentes favorevem o mesmo lado. " +
       "Scan: 19 pares analisados, roundtrip fees 0.14% (spot 0.1% + futures 0.04%).",
-    confidence: 35,
+    confidence: 40,
     status: "validating",
     tags: ["binance", "futures", "funding-rate", "basis", "carry-trade", "arbitrage"],
     trigger: "Basis > 0 E funding < 0 (long carry) ou basis < 0 E funding > 0 (short carry). " +
       "Profit per 8h = |basis%| + funding% - 0.14% fees > 0.",
-    invalidation: "WR real cair pra perto de 50% ou EV/trade ficar negativo com N maior (amostra atual N=21 ainda pequena).",
+    invalidation: "WR real cair pra perto de 50% ou EV/trade ficar negativo com N maior (amostra atual N=24 ainda pequena).",
     createdAt: "2026-07-05",
     author: "basis_paper_bot.py",
     verdict:
       "VALIDANDO — scan inicial (basis_funding_disconnect_scan.py, N=19 pares) achou só " +
       "sinal fraco (2/19 profitable). Promovido a paper bot dedicado rodando na AWS desde " +
-      "2026-07-05: com dados ao vivo (2026-07-06), N=21 trades settled, WR=71.4% (15W/6L), " +
-      "EV=+0.357%/trade, total=+7.49% (best +10.33%, worst -4.46%), duração média 1.33h. " +
-      "Resultado bem mais forte que o scan inicial, mas amostra ainda pequena — acompanhar " +
-      "mais settles antes de considerar capital real.",
-    evPerTrade: 0.357,
-    ci95: [0, 0],
-    ci95Label: "EV=+0.357%/trade, WR=71.4% (N=21). CI95 ainda não computado (amostra pequena).",
+      "2026-07-05. ATUALIZADO 2026-07-07: N=24 trades settled, WR=70.8%, EV=+0.329%/trade, " +
+      "total=+7.91% (best +10.33%, worst -4.46%), duração média 1.29h. " +
+      "ATUALIZADO 2026-07-08 (bot ainda rodando ao vivo — reverificar antes de reusar): " +
+      "N=33 trades settled, WR SUBIU para 72.7%, EV=+0.2635%/trade, total=+8.6958%, " +
+      "duração média 1.2h. Trajetória WR 68.4%(N19)→70.8%(N24)→72.7%(N33) — estável/melhorando " +
+      "conforme N cresce, oposto do padrão de decaimento visto no D36. Capital real exigiria as " +
+      "DUAS pernas (spot + margem do perp), não só um lado. ATUALIZADO 2026-07-08 (parte 2): " +
+      "IC95% formal implementado no basis_paper_bot.py (Wilson no WR + bootstrap no EV, mesmo " +
+      "padrão do repo). Resultado: WR=72.7% IC95%[55.8%, 84.9%] — exclui 50%, estatisticamente " +
+      "significativo. EV=+0.2635% IC95%[-0.7964%, +1.4311%] — CRUZA ZERO, ainda INCONCLUSIVO. " +
+      "O WR é real (não é sorte), mas o EV ainda não é estatisticamente positivo: as losses " +
+      "(worst -5.96%) são grandes o suficiente pra offsetar os wins. Precisa de mais amostra " +
+      "(N~60-80 estimado) pra o IC do EV convergir. Ainda é o lead mais promissor, mas NÃO é " +
+      "edge confirmado ainda.",
+    evPerTrade: 0.2635,
+    ci95: [-0.7964, 1.4311],
+    ci95Label: "WR=72.7% IC95%[55.8%,84.9%] (exclui 50%) | EV=+0.2635% IC95%[-0.7964%,+1.4311%] (cruza zero, INCONCLUSIVO) — N=33, 2026-07-08",
     tools: ["basis_funding_disconnect_scan.py", "basis_paper_bot.py"],
     reportFile: "basis_paper_stats.json",
-    pnl: 7.49,
-    trades: 21,
+    pnl: 8.6958,
+    trades: 33,
     sampleUnit: "trades settled ao vivo (retorno % por trade, não $ — ver verdict)",
   },
   {
@@ -1450,7 +1485,9 @@ export const realHypotheses: RealHypothesis[] = [
       "CUIDADO: (1) precisa de option com bid-ask spread > 0.08% para lucrar; " +
       "(2) capital lockup é mínimo (10min até settlement); " +
       "(3) precisa validar que options realmente estão mispriced vs forming TWAP em tempo real. " +
-      "PRÓXIMO PASSO: paper trade em expiries reais — monitorar options market prices nos últimos 30min antes de settlement.",
+      "PRÓXIMO PASSO: paper trade em expiries reais — monitorar options market prices nos últimos 30min antes de settlement. " +
+      "ATUALIZADO 2026-07-07: twap_paper_bot.py DEPLOYADO e rodando na AWS desde 2026-07-06 13:21 UTC. " +
+      "Ainda 0 trades -- aguardando primeira janela TWAP (07:30-08:00 UTC).",
     evPerTrade: 0.08,
     ci95: [0.05, 0.11],
     ci95Label: "TWAP prediction accuracy at 20min: 90% within 0.05% (BTC), 87% (ETH), N=30 each",
@@ -1524,7 +1561,7 @@ export const realHypotheses: RealHypothesis[] = [
     sampleUnit: "signals OBI (600 samples × 3 símbolos × horizons 1s/5s/10s)",
   },
   {
-    id: "HYP-LIQ-01",
+    id: "HYP-LIQ-02",
     title: "D34 — Liquidation Cascade Detection & Front-Run",
     market: "BINANCE FUTURES · BTC/ETH/SOL · 2s polling · 30min",
     thesis:
@@ -1544,7 +1581,8 @@ export const realHypotheses: RealHypothesis[] = [
       "Bot reiniciado em loop infinito (30min scan + 60s pause + repeat) para capturar eventos " +
       "ao longo de dias. Cascades são eventos raros — precisam volatilidade alta (crash/pump). " +
       "Quando detectar: cascade continuation é o edge mais agressivo possível (front-run forced selling). " +
-      "Monitorar liquidation_cascade_scan.log na AWS para eventos.",
+      "Monitorar liquidation_cascade_scan.log na AWS para eventos. " +
+      "Reconfirmado 2026-07-08: ainda 0 liquidações/cascades na janela mais recente monitorada.",
     evPerTrade: 0,
     ci95: [0, 0],
     ci95Label: "0 cascades em 30min. Bot rodando em loop contínuo na AWS.",
@@ -1598,7 +1636,7 @@ export const realHypotheses: RealHypothesis[] = [
       "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
       "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
       "Compara IV de cada option vs média ponderada dos vizinhos.",
-    confidence: 40,
+    confidence: 15,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
     trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50% (BUY only)",
@@ -1609,19 +1647,27 @@ export const realHypotheses: RealHypothesis[] = [
       "DIVERGINDO — backtest BS (histórico): BUY side 7/7 wins, +$4,500 (100% WR). SELL side " +
       "0/9 wins, -$792 (artefatos de bid-ask spread em deep ITM). Reversion test: 6/6 " +
       "anomalias reverting (0 stale). " +
-      "UPDATE 2026-07-06 (paper bot ao vivo na AWS, BUY only): N=7 settled, WR=42.9% (3/7) " +
-      "— bem abaixo do 100% do backtest — mas EV/trade ainda positivo (+$137.52), total " +
-      "+$962.66, com 115 posições ainda abertas. Backtest pode ter sido otimista (sample " +
-      "pequeno ou look-ahead). Acompanhar mais settles ao vivo antes de qualquer decisão " +
-      "de capital real.",
-    evPerTrade: 137.52,
+      "UPDATE 2026-07-06: N=7 settled, WR=42.9% (3/7), EV/trade=+$137.52, total=+$962.66. " +
+      "ATUALIZADO 2026-07-07: N=14 settled, WR=42.857%, EV/trade=+$84.32, total=+$1.180,47. " +
+      "ATUALIZADO 2026-07-08 (bot ainda rodando ao vivo): N=37 settled, WR caiu mais para " +
+      "40.5% — 5ª leitura consecutiva em queda (50.0%@N24→42.9%@N28→41.9%@N31→41.2%@N34→" +
+      "40.5%@N37), agora é trajetória monotonicamente decrescente clara, não mais 'ruído vs " +
+      "convergência'. EV/trade=+$41.02 (caiu de +$84.32@N14), total=+$1.517,90 (caiu de um " +
+      "pico de +$2.074,76@N35 após 2 losses seguidas, a maior de -$420,94). Mesmo padrão de " +
+      "decaimento que desmascarou o early-sell original — tratar como candidato a " +
+      "falso-positivo, confidence reduzida. Não normalizável a 'stake fixo': opções Deribit " +
+      "têm prêmio variável por contrato. ATUALIZADO 2026-07-08 (poucas horas depois): N=38, WR " +
+      "caiu mais pra 39.5%, total caiu de +$1.517,90 pra +$1.187,68 (-$330 em 1 trade só) — 6a " +
+      "leitura seguida em queda. Decisão recomendada: parar de contar como lead e tratar D29 " +
+      "como o único paper bot em produção real; considerar encerrar posições abertas restantes.",
+    evPerTrade: 31.25,
     ci95: [0, 0],
-    ci95Label: "Ao vivo: WR=42.9% (N=7 settled), EV=+$137.52/trade, 115 posições abertas. Backtest (N=16): BUY 100% WR, SELL 0% WR.",
+    ci95Label: "Ao vivo: WR=39.5% (N=38, 2026-07-08), EV=+$31.25/trade — 6a leitura seguida em queda desde N=24 (50%). Backtest (N=16): BUY 100% WR, SELL 0% WR.",
     tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_backtest.py"],
     reportFile: "iv_anomaly_paper_stats.json",
-    pnl: 962.66,
-    trades: 7,
-    sampleUnit: "settled ao vivo na AWS (115 posições ainda abertas, não contadas aqui)",
+    pnl: 1187.68,
+    trades: 38,
+    sampleUnit: "settled ao vivo na AWS (posições ainda abertas não contadas aqui)",
   },
   {
     id: "HYP-OUTFLOW-01",
@@ -1631,7 +1677,7 @@ export const realHypotheses: RealHypothesis[] = [
       "Saídas grandes de BTC/ETH de exchanges = holders movendo para cold storage = " +
       "redução de supply vendável = bullish. Se detectarmos outflows > $5M em tempo real, " +
       "compramos antes do mercado precificar a redução de supply.",
-    confidence: 20,
+    confidence: 8,
     status: "validating",
     tags: ["crypto", "on-chain", "whale", "exchange-flow", "aggressive"],
     trigger: "Net exchange outflow > $5M in 1h → LONG BTC",
@@ -1642,15 +1688,23 @@ export const realHypotheses: RealHypothesis[] = [
       "SCAN FUNCIONANDO — Whale Alert API key configurada. " +
       "0 outflows >$1M na última 1h (mercado calmo). " +
       "Blockchain.com fallback sem dados. " +
-      "Preço BTC: $63,302. API funcional, necessário rodar continuamente.",
+      "Preço BTC: $63,302. API funcional, necessário rodar continuamente. " +
+      "ATUALIZADO 2026-07-08: ~1000 snapshots horários acumulados, maioria NO SIGNAL/WEAK LONG, " +
+      "nenhum outflow >$1M ainda. Achado estrutural: o script nunca correlaciona o signal score " +
+      "com retorno de preço subsequente — não há caminho para EV/win-rate/veredito no design " +
+      "atual, precisaria de lógica de forward-return nova, não mais tempo rodando. CORRIGIDO " +
+      "2026-07-08: `forward_return_tracker.py` criado e integrado (grava preço+sinal a cada " +
+      "ciclo, resolve retorno em 1h/4h/24h, reporta com o mesmo Wilson/bootstrap do resto do " +
+      "repo); redeployado e reiniciado na AWS às ~15h UTC. A partir de agora o processo PODE " +
+      "produzir um veredito real — só falta tempo/amostra (0 resolvidos ainda no restart).",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "API funcional. 0 outflows na última 1h. Aguardando whale movements.",
+    ci95Label: "~1000 snapshots pré-fix. Forward-return tracking ativo desde 2026-07-08 15h UTC.",
     tools: ["exchange_outflow_scan.py"],
     reportFile: "exchange_outflow_scan_results.json",
     pnl: 0,
-    trades: 0,
-    sampleUnit: "scan com API key (0 outflows na última 1h)",
+    trades: 1000,
+    sampleUnit: "scan com API key (~1000 snapshots horários, atualizado 2026-07-08)",
   },
   {
     id: "HYP-ANNOUNCE-01",
@@ -1672,11 +1726,13 @@ export const realHypotheses: RealHypothesis[] = [
       "3 no total (2 sem token associado: 'Binance Adds... Stock Trading', 'Binance Turns 9'; " +
       "1 LISTING real: Poll delist TST & IOTX, sentimento bullish, preço TST=$0.01001 " +
       "registrado em t0). Price-reaction tracking em andamento para o TST. " +
+      "ATUALIZADO 2026-07-08: mais anúncios capturados (torneios/promoções/caridade, categoria " +
+      "OTHER, sentimento neutro), nenhum LISTING novo com token associado desde o TST. " +
       "Ainda cedo para veredito — precisa de um listing/delisting com movimento de preço " +
       "claro para testar a tese de front-run.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "3 anúncios reais capturados (1 LISTING), price-reaction tracking em andamento",
+    ci95Label: "Poucos anúncios reais tradeable (1 LISTING até agora), price-reaction tracking em andamento",
     tools: ["announcement_front_run_scan.py"],
     reportFile: "announcement_scan_results.json",
     pnl: 0,
@@ -1705,7 +1761,9 @@ export const realHypotheses: RealHypothesis[] = [
       "foi de +2.00% pra +3.04% (divergiu) nas ~7h antes do rollover. Ciclo atual (7JUL26): " +
       "diff BTC oscilando entre -1.15% e +0.90% ao longo do dia, ETH entre -2.03% e +1.04% " +
       "— sem tendência clara de convergência ainda, mas expiry ainda a ~1 dia de distância. " +
-      "Um ciclo completo não sustenta a tese de 'magnet' — precisa observar múltiplos expiries.",
+      "Um ciclo completo não sustenta a tese de 'magnet' — precisa observar múltiplos expiries. " +
+      "ATUALIZADO 2026-07-08: expiry 9JUL26 se aproxima (~1 dia), diffs BTC/ETH oscilando " +
+      "abaixo de 1% nas últimas leituras — ainda sem padrão de convergência claro o suficiente.",
     evPerTrade: 0,
     ci95: [0, 0],
     ci95Label: "Ciclo 1 (6JUL26): divergiu (+2.00%→+3.04%). Ciclo 2 (7JUL26) em andamento.",
@@ -1731,20 +1789,30 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-04",
     author: "stablecoin_mint_scan.py",
     verdict:
-      "DADOS EM TEMPO REAL — DefiLlama supply: $309.5B total. " +
-      "3-day change: -$337M (REDEMPTION, não mint). " +
-      "Etherscan V2 funcional: 14 large USDT transfers detectados, " +
-      "incluindo $100M e $40M from Tether treasury (2026-07-03). " +
-      "Sinal: NEUTRAL/BEARISH (capital saindo). " +
-      "PRÓXIMO: monitorar daily. Quando 3d change > +$500M → LONG BTC.",
+      "ATUALIZADO 2026-07-07 (108 ciclos horários corridos, bot ainda rodando ao vivo — reverificar antes de " +
+      "reusar estes números). Regime mudou 3x desde o snapshot anterior (-$337M/NEUTRAL): ~29 ciclos NEUTRAL " +
+      "(score=0) → 9 ciclos STRONG LONG (score=2) → agora MODERATE LONG (score=1, 3 ciclos), com 3d supply " +
+      "change em +$342.29M (média diária +$114.10M). IMPORTANTE: o score composto interno dispara com " +
+      "sub-limiares (~+$100M/24h) BEM abaixo do trigger formal documentado (±$500M/3d) — o campo `trigger` " +
+      "acima nunca foi de fato atingido até agora, então nenhum sinal LONG/SHORT formal chegou a disparar. " +
+      "Observação crua (não é teste estatístico): BTC caiu de ~$64.0k para ~$62.9k durante as últimas horas " +
+      "de leitura MODERATE/STRONG LONG — na direção OPOSTA ao sinal, N=1 janela, não refuta nem confirma. " +
+      "Ainda SEM framework de P&L (o script não compara sinal vs retorno futuro de forma sistemática) — " +
+      "confidence 25 reflete isso. NÃO tratar como edge, apenas monitor macro em validação. " +
+      "ATUALIZADO 2026-07-08: regime virou STRONG SHORT (3d supply -$1.704M, grande redemption) " +
+      "— mesmo problema estrutural persiste, nunca testado contra retorno futuro real. CORRIGIDO " +
+      "2026-07-08: `forward_return_tracker.py` integrado (mesmo padrão do D37/D41), redeployado " +
+      "e reiniciado às ~15h UTC. Regime STRONG SHORT confirmado PERSISTENTE por 5+ leituras " +
+      "seguidas (score=-2, 3d supply -$1.704M) antes do restart — sinal real, não um blip. " +
+      "A partir de agora o processo PODE produzir um veredito real de EV/WR.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "3d change -$337M (redemption). Etherscan V2: $100M USDT transfer detectado.",
+    ci95Label: "STRONG SHORT persistente (5+ leituras, -$1.704M/3d). Forward-return tracking ativo desde 2026-07-08 15h UTC.",
     tools: ["stablecoin_mint_scan.py"],
     reportFile: "stablecoin_mint_scan_results.json",
     pnl: 0,
-    trades: 14,
-    sampleUnit: "7d supply + Etherscan V2 (14 large USDT transfers, 3d change -$337M)",
+    trades: 108,
+    sampleUnit: "ciclos horários (108 e contando, ver nota de regime no verdict)",
   },
   {
     id: "HYP-WASH-01",
@@ -1754,7 +1822,7 @@ export const realHypotheses: RealHypothesis[] = [
       "Padrões anômalos no Binance trade stream (clusters de trades idênticos em <100ms, " +
       "volume bursts, duplicate trade IDs) revelam operações coordenadas, algoritmos de " +
       "execução de MMs, ou wash trading. Seguir a direção dos clusters = seguir smart money.",
-    confidence: 35,
+    confidence: 10,
     status: "validating",
     tags: ["crypto", "binance", "websocket", "wash-trading", "anomaly", "aggressive", "real-time"],
     trigger: "5+ identical trades in <100ms → follow direction | Volume burst 5x avg → track price",
@@ -1768,15 +1836,24 @@ export const realHypotheses: RealHypothesis[] = [
       "mas ainda sem análise de reação de preço pós-anomalia (falta simulação de P&L com " +
       "fees, como D33/D34 já fizeram). Vazamento de memória encontrado em `volume_timeline` " +
       "(lista sem limite, 344MB RSS) e corrigido; processo reiniciado, contadores zeraram. " +
-      "PRÓXIMO: correlacionar clusters/anomalias com reação de preço.",
+      "ATUALIZADO 2026-07-08: confirmado nos 15 blocos 'VERDICT' já impressos pelo script — " +
+      "nenhum jamais correlaciona anomalia com retorno de preço, é puramente contador de " +
+      "frequência (ciclo mais recente: ~15M trades/48.6h, clusters 0.401%, timestamp_anomalies " +
+      "1.383%, volume_bursts 0.107%). Não existe caminho para veredito no design atual, " +
+      "independente de tempo de execução — precisaria de lógica nova (preço antes/depois de " +
+      "cada anomalia), não mais amostra. CORRIGIDO 2026-07-08: `forward_return_tracker.py` " +
+      "integrado direto no `on_message` (grava preço+direção a cada cluster/volume_burst, " +
+      "resolve em 10s/30s/60s usando o próprio preço do stream, sem custo de rede extra); " +
+      "redeployado e reiniciado às ~15h UTC. Horizontes curtos pq a tese é microestrutura, não " +
+      "macro — deve produzir os primeiros pontos resolvidos já na primeira hora.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "N=157k trades: clusters 0.72%, vol_bursts 0.08%, timestamp_anomalies 24.2%. Sem P&L ainda.",
+    ci95Label: "~15M trades/48.6h pré-fix. Forward-return tracking (10s/30s/60s) ativo desde 2026-07-08 15h UTC.",
     tools: ["wash_trading_scan.py"],
     reportFile: "wash_trading_scan_results.json",
     pnl: 0,
-    trades: 157000,
-    sampleUnit: "AWS WS run (157,000 trades no ciclo antes do restart por vazamento de memória)",
+    trades: 15000000,
+    sampleUnit: "AWS WS run (ciclo mais recente ~15M trades/48.6h, atualizado 2026-07-08)",
   },
   {
     id: "D42",
@@ -1857,15 +1934,25 @@ export const realHypotheses: RealHypothesis[] = [
     verdict:
       "AGUARDANDO: 0 sinais em 20 perps (mercado estável). " +
       "Funding rates extremos ocorrem em alta volatilidade. " +
-      "Monitorando continuamente a cada 5min.",
+      "Monitorando continuamente a cada 5min. Único sinal persistente: ATOMUSDT LONG_FUT " +
+      "(funding ~-0.03% a -0.04%/8h, na borda do threshold). " +
+      "ATUALIZADO 2026-07-08: audit estrutural confirmou o MESMO GAP do D37/D40/D41 — o script " +
+      "printava 'VERDICT' mas nunca trackeava basis reversion + funding coletado vs horizonte, " +
+      "era puramente descritivo. A docstring dizia 'Track basis reversion over 1h, 4h, 24h' mas " +
+      "steps 4-5 nunca foram implementados. CORRIGIDO 2026-07-08: criado `carry_return_tracker.py" +
+      "` (tracker específico para delta-neutral: grava funding_rate + basis_pct no momento do " +
+      "sinal, resolve carry_pnl = basis_reversion + funding_collected - fees em 8h/24h/72h, " +
+      "reporta com Wilson/bootstrap). Integrado em `funding_basis_arb_scan.py`, redeployado e " +
+      "reiniciado às ~15:30 UTC. A partir de agora o processo PODE produzir um veredito real " +
+      "de carry P&L — só falta tempo/amostra (0 resolvidos ainda no restart).",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "0 signals in 20 perpetuals. All funding rates within normal range.",
+    ci95Label: "ATOMUSDT LONG_FUT persistente (borderline). Carry-return tracking ativo desde 2026-07-08 15:30 UTC.",
     tools: ["funding_basis_arb_scan.py"],
     reportFile: "funding_basis_arb_results.json",
     pnl: 0,
     trades: 0,
-    sampleUnit: "20 perpetuals scanned, 0 extreme funding signals",
+    sampleUnit: "20 perpetuals scanned a cada 5min (~800+ ciclos desde 2026-07-04). Carry-return tracking ativo desde 2026-07-08 15:30 UTC.",
   },
   {
     id: "D45",
@@ -1929,6 +2016,269 @@ export const realHypotheses: RealHypothesis[] = [
     sampleUnit: "7h continuous AWS run (190,000 ticks) — refuted, bot stopped 2026-07-06",
   },
   {
+    id: "D47",
+    title: "Stale Proposal Buy Race (execution exploit)",
+    market: "DERIV · HIGHER/LOWER · R_100 · 10 ticks",
+    thesis:
+      "Um proposal_id antigo poderia ser comprado a um barrier desatualizado se o servidor " +
+      "não recalcular no momento do buy — abrindo uma janela de preço obsoleto explorável " +
+      "esperando o mercado se mover a favor do barrier antigo antes de comprar.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "execution", "race-condition", "stale-price", "higher-lower"],
+    trigger: "TREAT: pedir proposal, esperar 20s, comprar com proposal_id antigo. CONTROL: comprar imediato (0s delay).",
+    invalidation: "Barrier sempre recalculado no momento da compra (RECALC), nunca honra o preço da proposal antiga.",
+    createdAt: "2026-07-06",
+    author: "stale_proposal_probe.py",
+    verdict:
+      "REFUTADO (N=40: 20 TREAT/20 CONTROL). Barrier SEMPRE recalculado no momento da compra " +
+      "(39/40 rounds 'RECALC(new)'; o 1/40 'STALE(old)' restante foi coincidência de preço " +
+      "parado, não cache real). TREAT WR=45% IC95%[25.8,65.8] vs CONTROL WR=55% " +
+      "IC95%[34.2,74.2] — diferença dentro do ruído, consistente com o custo puro de esperar " +
+      "20s num random walk simétrico, não com exploit de preço obsoleto.",
+    evPerTrade: 0,
+    ci95: [25.8, 65.8],
+    ci95Label: "TREAT WR% (delay=20s) IC95%, N=20. CONTROL WR=55% IC95%[34.2,74.2].",
+    tools: ["stale_proposal_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 40,
+    sampleUnit: "rounds (20 TREAT delay=20s / 20 CONTROL delay=0s), HIGHER/LOWER R_100 10 ticks",
+  },
+  {
+    id: "D48",
+    title: "Accumulator Tick-Barrier Race (client-side sell timing)",
+    market: "DERIV · ACCU · 1HZ10V",
+    thesis:
+      "Um sell manual disparado no instante em que um tick recebido via WS local já rompeu a " +
+      "barreira do ACCU, antes do servidor confirmar o knockout, poderia 'vencer' a corrida " +
+      "e capturar valor residual que seria perdido no knockout.",
+    confidence: 3,
+    status: "refuted",
+    tags: ["deriv", "accumulator", "execution", "race-condition", "knockout"],
+    trigger: "Detectar breach da barreira via tick WS local, enviar sell imediatamente, validar contra fresh-check server-side (poll_open_contract) logo antes do sell.",
+    invalidation: "EV agregado negativo mesmo nos casos em que o sell venceu a corrida e executou a bid fresco > 0.",
+    createdAt: "2026-07-06",
+    author: "accu_tick_race_probe.py",
+    verdict:
+      "REFUTADO (N=20, EV negativo confirmado). Primeira versão teve falso positivo " +
+      "(bid_price client-side desatualizado); corrigida com fresh-check imediatamente antes " +
+      "do sell. Com o fix: 5/20 trials o breach local era falso positivo (servidor já tinha " +
+      "is_sold=True/bid_price=0 — knockout atômico, sem janela de corrida). Nos outros 11/20 " +
+      "(55% WR) o sell REALMENTE executou a um bid fresco>0, capturando valor genuíno — mas " +
+      "EV AGREGADO É NEGATIVO: total=-$6.51/20 trials, média=-$0.3255/trial, bootstrap " +
+      "IC95%=[-0.585,-0.060] (não cruza zero, do lado negativo) — vitórias pequenas " +
+      "(~$0.10-0.41) não compensam o stake integral perdido nas derrotas.",
+    evPerTrade: -0.3255,
+    ci95: [-0.585, -0.060],
+    ci95Label: "EV por trial ($) bootstrap IC95%, N=20",
+    tools: ["accu_tick_race_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -6.51,
+    trades: 20,
+    sampleUnit: "trials (tentativas de vender no instante de breach local da barreira)",
+  },
+  {
+    id: "D49",
+    title: "App ID / Canal Pricing Arbitrage",
+    market: "DERIV · api.derivws.com vs ws.derivws.com (gateway legado) · multi-símbolo",
+    thesis:
+      "Preços de proposal poderiam divergir entre app_id (OAuth do projeto vs público 1089) " +
+      "ou entre gateways (novo vs legado) para o mesmo contrato — abrindo arbitragem de canal " +
+      "se um dos dois cotar sistematicamente mais barato.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "execution", "app-id", "gateway", "pricing-arbitrage"],
+    trigger: "Pedir proposal idêntica (mesmo symbol/contract_type/duration/stake, mesmo instante) em paralelo por 2-3 canais/app_ids.",
+    invalidation: "Preços idênticos byte-a-byte dentro do mesmo gateway; gateway legado só segmenta por jurisdição, não por preço.",
+    createdAt: "2026-07-06",
+    author: "app_id_pricing_probe.py",
+    verdict:
+      "REFUTADO. Mesmo gateway (api.derivws.com/trading/v1/options/ws/public), app_id do " +
+      "projeto (OAuth) vs app_id público genérico 1089: 40/40 rounds com ask_price/payout/" +
+      "spot idênticos (byte-a-byte) — app_id não afeta preço dentro do mesmo canal. Gateway " +
+      "legado (ws.derivws.com/websockets/v3, app_id=1089, mesmo IP AWS-Europa): rejeita TODOS " +
+      "os sintéticos testados (R_10, 1HZ10V, WLDAUD, JD10 — \"Trading is not offered for this " +
+      "asset\") e só oferece Multipliers para forex. Segmentação regulatória de " +
+      "entidade/jurisdição (compatível com restrição ESMA a binários/sintéticos na UE) roteada " +
+      "por IP, não bug de precificação — onde o mesmo produto é oferecido nos dois canais, o " +
+      "preço é idêntico.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "40/40 rounds com preço idêntico entre app_ids no mesmo gateway",
+    tools: ["app_id_pricing_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 40,
+    sampleUnit: "rounds de proposal paralela (2-3 canais/app_ids testados)",
+  },
+  {
+    id: "D50",
+    title: "Multiplier Stop-Out Slippage",
+    market: "DERIV · MULTUP · 1HZ100V · 400x · $10 stake",
+    thesis:
+      "O overshoot de 1 tick no momento do stop-out de um Multiplier poderia gerar slippage " +
+      "não repassado corretamente ao cliente, ou abrir espaço para um fechamento manual " +
+      "melhorar o resultado vs. o stop-out automático do servidor.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "multiplier", "execution", "slippage", "stop-out"],
+    trigger: "Comprar MULTUP, poll a cada 0.3s até fechar, comparar stop_out_level teórico vs exit_spot real.",
+    invalidation: "Profit realizado sempre exatamente -stake nos stop-outs genuínos, sem excesso de perda repassado.",
+    createdAt: "2026-07-06",
+    author: "multiplier_stopout_probe.py",
+    verdict:
+      "REFUTADO (N=20). 6/20 trials foram stop-outs genuínos (profit≈-stake; os outros 14 " +
+      "bateram o timeout do probe com preço favorável e foram fechados manualmente, profit " +
+      "variável +$0.13 a +$27.28). Slippage nos 6 genuínos: média=+0.127pts (min=-0.03, " +
+      "max=+0.39, ruído bidirecional sem viés direcional) — mas o profit realizado foi " +
+      "EXATAMENTE -$10.0000 (a perda teórica) em TODOS os 6 casos: a Deriv absorve o " +
+      "micro-overshoot e garante o cap de perda exato no stake, sem repassar slippage ao " +
+      "cliente. Não há excesso de perda nem espaço para intervenção manual melhorar o " +
+      "resultado.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Slippage médio +0.127pts (min-0.03,max+0.39) mas profit sempre = -stake exato (N=6 stop-outs genuínos)",
+    tools: ["multiplier_stopout_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 20,
+    sampleUnit: "trials (6 stop-outs genuínos identificados de 20 tentativas)",
+  },
+  {
+    id: "D51",
+    title: "Static Replication Arbitrage (complementary legs)",
+    market: "DERIV · CALL+PUT / HIGHER+LOWER(+0.5) · mesmo underlying/duration",
+    thesis:
+      "Comprar as duas pernas complementares de um payoff binário (CALL+PUT, ou HIGHER+LOWER " +
+      "no mesmo barrier), ambas com basis=payout fixo, deveria ser risco-zero (exatamente uma " +
+      "ganha). Se a soma dos ask_price for menor que o payout alvo, há arbitragem estática livre.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "execution", "static-replication", "arbitrage", "put-call"],
+    trigger: "Pedir as duas pernas em paralelo (2 conexões, mesmo spot), basis=payout fixado em $100, comparar soma(ask_price) vs payout alvo.",
+    invalidation: "Soma dos ask_price determinística e constante acima do payout em toda a amostra, variância zero.",
+    createdAt: "2026-07-06",
+    author: "static_replication_probe.py",
+    verdict:
+      "REFUTADO. Resultado perfeitamente determinístico: soma dos ask_price = $102.40 em " +
+      "TODAS as 39 (CALL+PUT) + 14 (HIGHER+LOWER) rodadas com spot batendo entre as pernas, " +
+      "arb_$=-$2.40 CONSTANTE, variância zero. Margem da casa é uma % fixa (2.4%) aplicada " +
+      "simetricamente às duas pernas complementares — nenhuma arbitragem estática possível.",
+    evPerTrade: -2.40,
+    ci95: [-2.40, -2.40],
+    ci95Label: "arb_$ = soma(ask_price) - payout($100), constante em 53/53 rodadas",
+    tools: ["static_replication_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 53,
+    sampleUnit: "rodadas pareadas (39 CALL+PUT + 14 HIGHER+LOWER)",
+  },
+  {
+    id: "D52",
+    title: "Deal Cancellation Mispricing (embedded put on Multipliers)",
+    market: "DERIV · Multipliers · 1HZ10V · 400x/1000x · MULTUP/MULTDOWN · cancellation 5-60min",
+    thesis:
+      "A feature 'Deal Cancellation' dos Multipliers (reembolso integral do stake se cancelado " +
+      "dentro de 5-60min) é uma put europeia embutida (strike=entry, notional=stake×multiplier). " +
+      "Se o fee cobrado for menor que o fair value Monte Carlo dessa put, há edge sistemático.",
+    confidence: 20,
+    status: "validating",
+    tags: ["deriv", "multiplier", "deal-cancellation", "options", "quase-edge", "nativo-deriv"],
+    trigger: "Fee cobrado < fair_value Monte Carlo (IC95%, bootstrap em sub-blocos de 60 ticks) → comprar Multiplier+cancellation e cancelar se o valor da put ficar positivo.",
+    invalidation: "EV líquido (valor_realizado − fee) IC95% cruzar zero com amostra ao vivo maior.",
+    createdAt: "2026-07-06",
+    author: "deal_cancellation_edge_scan.py + deal_cancellation_live.py",
+    verdict:
+      "SINAL PRELIMINAR, teste ao vivo INCONCLUSIVO (N pequeno). Fair value via Monte Carlo " +
+      "(bootstrap em sub-blocos de 60 ticks, 60k ticks histórico, 60k sims) vs fee cobrado: " +
+      "17/20 células (multiplier 400x/1000x × MULTUP/MULTDOWN × 5 durações) com fee < " +
+      "fair_value (IC95%), edge relativo ~8-12%, simétrico entre MULTUP/MULTDOWN (assimetria " +
+      "inicial de até 180% era artefato de block bootstrap com histórico insuficiente, " +
+      "corrigido). VALIDADO COM TRADES REAIS (N=20, 1HZ10V multiplier=400x stake=$10, " +
+      "cancellation=5min, MULTUP/MULTDOWN alternados): 12/20 cancelados com valor realizado " +
+      "positivo, 8/20 nunca ficaram negativos (fee 'desperdiçado', action=expired_held_to_" +
+      "profit). Fee médio pago=$0.44, valor realizado médio na cancelação=$0.587. EV LÍQUIDO " +
+      "(valor_realizado − fee) = +$0.147/trade, IC95%=[-$0.1415,+$0.4775] — CRUZA ZERO, " +
+      "INCONCLUSIVO (mesmo veredito impresso pelo próprio script). N=20 é pequeno demais pra " +
+      "decidir; ainda o único 'quase-edge' nativo da Deriv em 54 hipóteses testadas, mas " +
+      "precisa de bem mais amostra ao vivo antes de qualquer conclusão real ou capital.",
+    evPerTrade: 0.147,
+    ci95: [-0.1415, 0.4775],
+    ci95Label: "EV líquido (valor_realizado - fee) $/trade, N=20 trades reais. Cruza zero.",
+    tools: ["deal_cancellation_edge_scan.py", "deal_cancellation_live.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 2.94,
+    trades: 20,
+    sampleUnit: "trades reais (Multiplier + Deal Cancellation, N=20, alternando MULTUP/MULTDOWN)",
+  },
+  {
+    id: "D53",
+    title: "Concurrent Duplicate-Buy Race (proposal_id double-fill)",
+    market: "DERIV · mesmo proposal_id · 2 conexões autenticadas / mesma conexão 2 req_id",
+    thesis:
+      "Disparar 2 compras simultâneas referenciando o MESMO proposal_id poderia, por race " +
+      "condition no backend, resultar nos dois aceitos (double-fill) — duplicando o contrato " +
+      "pelo preço de um só.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "execution", "race-condition", "duplicate-buy", "proposal-id"],
+    trigger: "asyncio.gather com 2 buys simultâneos, zero delay: (a) 2 conexões autenticadas separadas mesma conta, (b) mesma conexão com 2 req_id diferentes.",
+    invalidation: "Sempre exatamente 1 sucesso + 1 rejeição em ambas as variantes, nunca os dois aceitos.",
+    createdAt: "2026-07-06",
+    author: "duplicate_buy_race_probe.py",
+    verdict:
+      "REFUTADO. Variante (a) 2 conexões separadas: 0/15 trials com ambos aceitos — leg B " +
+      "sempre rejeitado instantaneamente com 'Unknown contract proposal' (proposal_id é " +
+      "escopado à SESSÃO/CONEXÃO que o criou, nem chega a competir). Variante (b) mesma " +
+      "conexão, 2 req_id concorrentes: 0/8 trials com ambos aceitos, sempre exatamente 1 " +
+      "sucesso + 1 rejeição, débito sempre = 1x stake. Consumo do proposal_id é atômico nos " +
+      "dois casos testados, sem janela de corrida.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "0/15 (cross-connection) e 0/8 (same-connection) com double-fill",
+    tools: ["duplicate_buy_race_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 23,
+    sampleUnit: "trials (15 cross-connection + 8 same-connection concurrent buys)",
+  },
+  {
+    id: "D54",
+    title: "Streamed Proposal Staleness (subscribe:1 lag)",
+    market: "DERIV · api.derivws.com/trading/v1/options · proposal subscribe:1",
+    thesis:
+      "Um proposal_id de uma subscription 'ao vivo' (subscribe:1) que a tela mostra " +
+      "desatualizado em relação ao underlying poderia ainda ser aceito na compra, permitindo " +
+      "comprar a um preço obsoleto favorável antes do servidor reagir.",
+    confidence: 2,
+    status: "refuted",
+    tags: ["deriv", "execution", "streaming", "proposal-staleness", "websocket"],
+    trigger: "Assinar proposal com subscribe:1, aguardar tick(s) do underlying sem re-pedir, tentar comprar contra o proposal_id do stream original.",
+    invalidation: "Proposal_id do stream expira e é rejeitado na compra, igual ao padrão do D47.",
+    createdAt: "2026-07-06",
+    author: "proposal_stream_staleness_probe.py",
+    verdict:
+      "REFUTADO + achado lateral inesperado. Assinar proposal com subscribe:1 no gateway novo " +
+      "deveria realimentar a cada tick (~1/s), mas NUNCA reenviou uma segunda atualização em " +
+      "50+s (confirmado via subscription id válido + conexão seguindo responsiva a outros " +
+      "requests na mesma sessão — não foi queda de rede). Consequência: o proposal_id do " +
+      "stream ficou obsoleto rapidamente — 2/3 tentativas de compra contra ele foram " +
+      "rejeitadas ('Unknown contract proposal'); a 1 aceita não deu pra confirmar honra/" +
+      "recálculo de forma limpa (entry_spot ainda não populado no poll imediato). Sem janela " +
+      "de staleness explorável — proposals antigos expiram e são rejeitados, consistente com " +
+      "D47. Vale registrar como comportamento de plataforma a investigar separadamente (pode " +
+      "afetar UX de bots/dashboards que dependem dessa subscription para preço 'ao vivo').",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "2/3 tentativas de compra contra proposal_id de stream rejeitadas (N pequeno, achado qualitativo)",
+    tools: ["proposal_stream_staleness_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 3,
+    sampleUnit: "tentativas de compra contra proposal_id de subscription ao vivo",
+  },
+  {
     id: "D55",
     title: "Hyperliquid (perp DEX) vs Binance — funding arb + oracle/mid divergence",
     market: "Hyperliquid perps (BTC/ETH/SOL/ARB/OP/AVAX/LINK/DOGE/SUI/APT) vs Binance USDT-M",
@@ -1968,7 +2318,14 @@ export const realHypotheses: RealHypothesis[] = [
       "persistente e quase sempre positivo — não cruza zero, é prêmio estrutural, mesmo " +
       "mecanismo que provavelmente gera o funding do D55a (reduz um pouco a confiança de que " +
       "seja \"grátis\", mas não invalida ser capturável). Falta: walk-forward ainda é sobre " +
-      "os mesmos 90d do screening (robustez interna, não OOS temporal de verdade).",
+      "os mesmos 90d do screening (robustez interna, não OOS temporal de verdade). " +
+      "NOTA 2026-07-08: probe parou sozinho em 2026-07-07 (coleta de N=10.021 concluída), " +
+      "sem processo rodando na AWS desde então. PAPER TRADING OOS INICIADO 2026-07-08 16:50 UTC: " +
+      "`hyperliquid_paper_bot.py` (tmux `d55_paper`) abriu posição simulada SHORT HL LINK @ $7.6071 " +
+      "+ LONG BN LINKUSDT @ $7.6033, $1000 notional, 19bps roundtrip debitado. A cada ciclo de " +
+      "funding da Binance (8h) settle: funding coletado em ambos venues + mark-to-mark P&L. " +
+      "Report com Wilson/bootstrap a cada 5 ciclos. Primeiro ciclo às 00:00 UTC. Adicionado ao " +
+      "`aggressive_supervisor` (auto-restart).",
     ci95Label: "Net apos custos walk-forward (fold 7d), bps -- LINK +96.3 [+71.6,+121.6]",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],
     reportFile: "docs/hyperliquid_report.md",
@@ -1977,6 +2334,20 @@ export const realHypotheses: RealHypothesis[] = [
     sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + walk-forward folds 7d/5d + polls 3s (D55b, N=10.021, ~8.3h AWS)",
   },
 ];
+
+// Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".
+// Nesta base, status="validating" corresponde 1:1 aos scripts que ainda estão coletando
+// amostra (paper bots, scans contínuos) -- é o proxy mais confiável que temos sem um
+// endpoint de status dedicado para cada um. HYP-UNLOCK-01 (D17) tem dashboard/API dedicados
+// (/d17, /live, /bots) e é excluído daqui para não duplicar contagem. HYP-HFT-01 foi
+// refutado e o processo parado (2026-07-08), mas mantido no filtro por segurança.
+// Atualiza sozinha conforme hipóteses mudam de status: não hardcode este número em nenhuma
+// página (ver bots.tsx, strategies.tsx, paper.tsx).
+export function getActiveResearchBots(): RealHypothesis[] {
+  return realHypotheses.filter(
+    (h) => h.status === "validating" && h.id !== "HYP-UNLOCK-01" && h.id !== "HYP-HFT-01",
+  );
+}
 
 export function hypStatusBadgeClass(s: HypStatus) {
   switch (s) {

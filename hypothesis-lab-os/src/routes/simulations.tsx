@@ -1,10 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { realHypotheses, hypStatusBadgeClass, type RealHypothesis } from "@/lib/hypotheses-data";
-import { fmtMoney } from "@/lib/mock-data";
-import { Search, FileText, FlaskConical } from "lucide-react";
+import { fmtMoney } from "@/lib/format";
+import { Search, FileText, FlaskConical, ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 import { useMemo, useState } from "react";
 
 export const Route = createFileRoute("/simulations")({
@@ -13,15 +13,33 @@ export const Route = createFileRoute("/simulations")({
 });
 
 const STATUS_FILTERS = ["all", "refuted", "validating", "live"] as const;
+type SortKey = "trades" | "evPerTrade" | "pnl";
 
 function SimulationsPage() {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<(typeof STATUS_FILTERS)[number]>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+
+  const statusCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: realHypotheses.length };
+    for (const h of realHypotheses) counts[h.status] = (counts[h.status] ?? 0) + 1;
+    return counts;
+  }, []);
+
+  const toggleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "desc" ? "asc" : "desc"));
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
+    }
+  };
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return realHypotheses.filter((h) => {
+    const base = realHypotheses.filter((h) => {
       if (statusFilter !== "all" && h.status !== statusFilter) return false;
       if (q && !(
         h.id.toLowerCase().includes(q) ||
@@ -31,28 +49,57 @@ function SimulationsPage() {
       )) return false;
       return true;
     });
-  }, [query, statusFilter]);
+    if (!sortKey) return base;
+    const sign = sortDir === "asc" ? 1 : -1;
+    return [...base].sort((a, b) => {
+      const av = sortKey === "evPerTrade" ? (a.evPerTrade ?? 0) : a[sortKey];
+      const bv = sortKey === "evPerTrade" ? (b.evPerTrade ?? 0) : b[sortKey];
+      return (av - bv) * sign;
+    });
+  }, [query, statusFilter, sortKey, sortDir]);
 
   const selected = useMemo(
     () => realHypotheses.find((h) => h.id === selectedId) ?? null,
     [selectedId]
   );
 
-  const refutedCount = realHypotheses.filter((h) => h.status === "refuted").length;
-  const validatingCount = realHypotheses.filter((h) => h.status === "validating").length;
-  const liveCount = realHypotheses.filter((h) => h.status === "live").length;
+  const refutedCount = statusCounts.refuted ?? 0;
+  const validatingCount = statusCounts.validating ?? 0;
+  const liveCount = statusCounts.live ?? 0;
   const totalSample = realHypotheses.reduce((a, h) => a + h.trades, 0);
+
+  const SortHeader = ({ label, k, align = "right" }: { label: string; k: SortKey; align?: "left" | "right" }) => (
+    <th className={`px-4 py-2 ${align === "right" ? "text-right" : "text-left"}`}>
+      <button
+        onClick={() => toggleSort(k)}
+        className={`inline-flex items-center gap-1 hover:text-foreground transition-colors ${sortKey === k ? "text-primary" : ""}`}
+      >
+        {label}
+        {sortKey === k ? (
+          sortDir === "desc" ? <ArrowDown className="h-3 w-3" /> : <ArrowUp className="h-3 w-3" />
+        ) : (
+          <ArrowUpDown className="h-3 w-3 opacity-40" />
+        )}
+      </button>
+    </th>
+  );
 
   return (
     <div className="max-w-[1600px] mx-auto">
       <PageHeader
         eyebrow="research › hypothesis test suite"
         title="Hypothesis Test Suite"
-        description={`${realHypotheses.length} hipóteses testadas com scripts Python reais — veredictos fechados com Wilson CI, bootstrap, e validação independente.`}
+        description={
+          <>
+            Leaderboard quantitativo — ordene {realHypotheses.length} hipóteses por N, EV/trade ou
+            PnL. Para a tese completa (thesis/trigger/invalidation) de cada uma, veja o{" "}
+            <Link to="/hypotheses" className="underline hover:text-primary">catálogo em Hypothesis Engine</Link>.
+          </>
+        }
       />
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-        <Stat label="Total testadas" value={realHypotheses.length} hint="36 hipóteses, 26 no catálogo" />
+        <Stat label="Total testadas" value={realHypotheses.length} hint={`${refutedCount} refutadas · ${validatingCount} validando · ${liveCount} edge validado`} />
         <Stat label="Refutadas" value={refutedCount} tone="neg" hint="sem edge após teste rigoroso" />
         <Stat label="Validando" value={validatingCount} tone="neutral" hint="em andamento ou amostra insuficiente" />
         <Stat label="Edge validado" value={liveCount} tone="pos" hint="D17 token unlock" />
@@ -90,19 +137,20 @@ function SimulationsPage() {
                     : "border-border text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {s}
+                {s} <span className="opacity-60">({statusCounts[s] ?? 0})</span>
               </button>
             ))}
           </div>
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
               <tr>
                 <th className="text-left px-4 py-2">ID</th>
                 <th className="text-left px-4 py-2">Hipótese</th>
                 <th className="text-left px-4 py-2">Mercado</th>
-                <th className="text-right px-4 py-2">N</th>
-                <th className="text-right px-4 py-2">EV/trade</th>
-                <th className="text-right px-4 py-2">PnL</th>
+                <SortHeader label="N" k="trades" />
+                <SortHeader label="EV/trade" k="evPerTrade" />
+                <SortHeader label="PnL" k="pnl" />
                 <th className="text-left px-4 py-2">Status</th>
               </tr>
             </thead>
@@ -162,6 +210,7 @@ function SimulationsPage() {
               )}
             </tbody>
           </table>
+          </div>
         </Panel>
 
         <Panel

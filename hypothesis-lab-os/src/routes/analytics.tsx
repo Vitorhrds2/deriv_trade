@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono } from "@/components/kit";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney, percentile } from "@/lib/format";
 import { getHftTrades, type HftTrade } from "@/lib/hft-api";
 import { realHypotheses } from "@/lib/hypotheses-data";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
@@ -35,12 +35,6 @@ function pnlByHour(trades: HftTrade[]) {
     buckets[h].n += 1;
   }
   return buckets;
-}
-
-function percentile(sorted: number[], p: number) {
-  if (sorted.length === 0) return null;
-  const idx = Math.min(sorted.length - 1, Math.floor((p / 100) * sorted.length));
-  return sorted[idx];
 }
 
 function AnalyticsPage() {

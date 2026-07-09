@@ -63,6 +63,7 @@ function BrokersPage() {
           title="Conexões reais"
           subtitle="Deriv + feeds do hft_bot"
         >
+          <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground border-b border-border/70">
               <tr>
@@ -122,6 +123,7 @@ function BrokersPage() {
               ))}
             </tbody>
           </table>
+          </div>
         </Panel>
 
         <Panel

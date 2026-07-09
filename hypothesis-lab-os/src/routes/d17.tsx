@@ -35,7 +35,7 @@ import {
   getUnlockSchedule,
   getUnlockStats,
 } from "@/lib/unlock-api";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import {
   TIMING_RESULTS,
   FUNDING_COST,

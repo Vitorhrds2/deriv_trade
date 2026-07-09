@@ -1,8 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Mono, Dot } from "@/components/kit";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
+import { getActiveResearchBots, hypStatusBadgeClass } from "@/lib/hypotheses-data";
+import { useApp } from "@/lib/store";
 import { useQuery } from "@tanstack/react-query";
 import { RefreshCw, Terminal } from "lucide-react";
 
@@ -11,14 +14,11 @@ export const Route = createFileRoute("/bots")({
   component: BotsPage,
 });
 
-// trading-engine/*.py fora dos 14 scripts com sessao tmux ativa hoje na EC2 (hft_arbitrage_bot.py,
-// status_api.py, unlock_short_bot.py, liquidation_cascade_scan.py, e as 10 hypothesis bots
-// D37-D41/D44 + iv_anomaly/basis/options/twap paper bots -- ver /paper e state_of_research.md).
-// D46 (deriv_tick_pattern_scan.py) rodou e foi refutado/parado em 2026-07-06, nao conta mais
-// como ativo. Contagem real do repo verificada em 2026-07-06 (scripts historicos, testados uma
-// vez ou em standby), atualizar se o inventario mudar:
-// find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l   -> 181 total
-// menos os 14 ativos acima                                       -> 167
+// trading-engine/*.py fora dos scripts com sessao tmux ativa hoje na EC2 (hft_arbitrage_bot.py,
+// status_api.py, unlock_short_bot.py, e os bots de validacao listados abaixo via
+// getActiveResearchBots()). Contagem real do repo verificada em 2026-07-06 (scripts historicos,
+// testados uma vez ou em standby), atualizar se o inventario mudar:
+// find trading-engine -maxdepth 1 -name "*.py" -type f | wc -l
 const OTHER_SCRIPTS_COUNT = 167;
 
 function BotsPage() {
@@ -36,13 +36,15 @@ function BotsPage() {
   const status = statusQuery.data;
   const trades = tradesQuery.data;
   const isLive = status ? isHftLive(status) : false;
+  const activeBots = getActiveResearchBots();
+  const selectHyp = useApp((s) => s.selectHyp);
 
   return (
     <div className="max-w-[1600px] mx-auto">
       <PageHeader
         eyebrow="execution › bot orchestrator"
         title="Bot Orchestrator"
-        description="Status real do hft_bot (AWS) via API dedicada na EC2 — detalhe completo abaixo. Há mais 11 bots de validação de hipótese rodando na mesma instância sem UI dedicada ainda (ver /paper e docs/state_of_research.md). Deploy é manual (scp + tmux) para todos."
+        description={`Status real do hft_bot (AWS) via API dedicada na EC2 — detalhe completo abaixo. Há mais ${activeBots.length} bots de validação de hipótese rodando na mesma instância, listados abaixo. Deploy é manual (scp + tmux) para todos.`}
         actions={
           <Button
             variant="outline"
@@ -66,7 +68,7 @@ function BotsPage() {
           label="hft_bot"
           value={isLive ? "rodando" : "parado"}
           tone={isLive ? "pos" : "neutral"}
-          hint="+11 outros bots na mesma EC2, ver /paper"
+          hint={`+${activeBots.length} outros bots na mesma EC2, ver abaixo`}
         />
         <Stat label="Trades hoje (total)" value={trades?.total.n ?? "—"} hint="ALIGNED + ANTI" />
         <Stat
@@ -218,6 +220,51 @@ function BotsPage() {
 
         <Panel
           className="col-span-12"
+          title={
+            <div className="flex items-center gap-2">
+              Bot Fleet — hipóteses em validação ativa
+              <Mono className="text-muted-foreground">({activeBots.length} rodando)</Mono>
+            </div>
+          }
+          subtitle="sessão tmux ativa na mesma EC2 agora, sem API de status dedicada ainda — clique para ver o veredito completo"
+        >
+          <div className="divide-y divide-border/60">
+            {activeBots.map((h) => (
+              <Link
+                key={h.id}
+                to="/hypotheses"
+                onClick={() => selectHyp(h.id)}
+                className="px-4 py-3 flex items-start gap-3 hover:bg-muted/30 transition-colors group"
+              >
+                <Dot tone="warn" className="mt-1.5 animate-pulse shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Mono className="text-muted-foreground text-[11px]">{h.id}</Mono>
+                    <span className="text-sm font-medium group-hover:text-primary transition-colors">
+                      {h.title}
+                    </span>
+                    <Badge variant="outline" className={`${hypStatusBadgeClass(h.status)} text-[10px] font-mono uppercase ml-auto shrink-0`}>
+                      {h.status}
+                    </Badge>
+                  </div>
+                  <div className="text-[11px] text-muted-foreground mt-1 flex items-center gap-2">
+                    <Terminal className="h-3 w-3 shrink-0" />
+                    <Mono className="truncate">{h.author}</Mono>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1.5 line-clamp-1">{h.verdict}</p>
+                </div>
+              </Link>
+            ))}
+            {activeBots.length === 0 && (
+              <div className="px-4 py-8 text-center text-sm text-muted-foreground">
+                Nenhum bot em validação ativa no momento.
+              </div>
+            )}
+          </div>
+        </Panel>
+
+        <Panel
+          className="col-span-12"
           title="Outros scripts do repo"
           subtitle="não deployados / sem execução ativa no momento"
         >
@@ -225,11 +272,8 @@ function BotsPage() {
             {OTHER_SCRIPTS_COUNT}+ scripts exploratórios em <Mono>trading-engine/</Mono> (variantes
             de <Mono>oracle_diff_bot</Mono>, <Mono>straddle_multiplier_exploit</Mono>,{" "}
             <Mono>forex_imbalance_exploit</Mono>, <Mono>rng_smoothing_exploit</Mono>, etc.) —
-            testados uma vez (veredito fechado) ou em standby, sem sessão tmux ativa hoje. Deploy é
-            manual (scp + tmux); orquestração automática de fleet ainda não existe. Isso NÃO inclui
-            os 11 bots de hipótese em validação ativa (D37-D41, D44, D34, D36, D29,
-            options/twap) — esses têm sessão tmux rodando agora, ver <Mono>/paper</Mono>. (D46
-            rodou, foi refutado com N=190.000, e foi parado em 2026-07-06.)
+            testados uma vez (veredito fechado, ver <Link to="/hypotheses" className="underline hover:text-primary">Hypothesis Engine</Link>) ou em standby, sem sessão tmux ativa
+            hoje. Deploy é manual (scp + tmux); orquestração automática de fleet ainda não existe.
           </div>
         </Panel>
       </div>

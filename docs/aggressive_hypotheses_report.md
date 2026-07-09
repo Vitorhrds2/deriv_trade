@@ -512,3 +512,65 @@ Tudo consistente com `docs/state_of_research.md` (itens 30-37), sem surpresas, e
 
 Todos os outros (D37/D38/D39/D40/D41/D44/hft_bot/liq_bot/unlock_bot) seguem rodando sem
 mudança de veredito relevante desde a última checagem.
+
+---
+
+## UPDATE 2026-07-08 — Auditoria completa dos 16 processos ativos (hft_bot + D29 + D34 + D36-D41)
+
+**Contexto:** auditoria completa de todos os 16 processos tmux ativos na AWS (nada reiniciado
+ou parado), cruzando `tmux ls` + `ps` + logs + `audit_hft_trades.py`. Ver `docs/state_of_research.md`
+item 37 da Recomendação para o resumo consolidado em 3 categorias (estruturalmente sem caminho
+pra veredito / esperando evento raro / amostra real acumulando).
+
+### hft_bot — reconfirmado negativo com trades reais (não só H3 por analogia)
+
+`audit_hft_trades.py` re-rodado encontra **32 ALIGNED / 2 ANTI** trades reais já fechados desde
+o último check (2026-07-02, quando o shadow A/B ainda tinha 0 trades registrados). Segmentado
+por versão (Wilson + bootstrap, dedup por `contract_id`): todas-versões N=34 (WR 23.5%, EV -$3.35,
+IC95%[-$5.35,-$1.21]); subset V6.2-por-parâmetro (threshold=45 confirmado empírico, já que o
+banner de restart não foi reimpresso após a mudança 50→45) N=12 (WR 8.3%, EV -$3.62,
+IC95%[-$6.01,-$0.81]). **Ambos os cortes têm IC95% inteiramente negativo** — não é mais
+"inconclusivo por N baixo". Shadow A/B ALIGNED vs ANTI: diff cruza zero e **ambos os grupos são
+negativos** — reconfirma H3 (o problema é custo/timing de execução, não a direção escolhida).
+Ver `docs/hft_v62_audit_report.md` e `hypotheses-data.ts` (HYP-HFT-01).
+
+### D29 (basis_paper_bot.py) — segue melhorando com N maior
+
+N=33 (subiu de 24), WR subiu para **72.7%** (de 70.8%), EV/trade +0.2635%, total +8.6958%,
+duração média 1.2h. Trajetória 68.4%(N19)→70.8%(N24)→72.7%(N33) é o padrão saudável — oposto
+do decaimento do D36. Ainda o lead mais promissor entre os processos em andamento, mas sem
+IC95% formal computado (N ainda pequeno). Nota: este bot **não é D44** — são scripts e teses
+diferentes (D29 = basis/funding disconnect persistente tipo carry trade; D44 = funding
+extremo pontual) que compartilham o mesmo domínio. `docs/state_of_research.md` corrigido para
+não confundir os dois (ver item 38).
+
+### D36 (iv_anomaly_paper_bot.py) — decaimento agora é claro, não mais "ruído vs convergência"
+
+N=37 (subiu de 14), WR caiu para **40.5%**. Com 5 leituras consecutivas em queda
+(50.0%@N24→42.9%@N28→41.9%@N31→41.2%@N34→40.5%@N37), a trajetória é monotonicamente
+decrescente — já não dá pra atribuir a ruído de amostra pequena como antes. Total ainda
+positivo (+$1.517,90) só por skew (poucos winners grandes); os últimos 2 settles foram losses,
+uma delas de -$420,94, derrubando o total de um pico de +$2.074,76@N35. Mesmo padrão de
+decaimento que desmascarou o early-sell original. `hypotheses-data.ts`: confidence reduzida
+40→20.
+
+### D34, D38, D39, D40 — sem mudança de veredito, dados frescos
+
+D34: ainda 0 cascades na janela mais recente. D38: mais anúncios capturados (torneios/promoções/
+caridade, categoria OTHER), nenhum LISTING novo desde o TST. D39: expiry 9JUL26 se aproxima
+(~1 dia), diffs BTC/ETH oscilando abaixo de 1%. D40: regime virou **STRONG SHORT** (3d supply
+-$1.704M, grande redemption) — terceira mudança de regime em poucos dias.
+
+### D37 e D41 — achado estrutural: não existe caminho para veredito no design atual
+
+Revisando o código/output de `exchange_outflow_scan.py` (D37) e `wash_trading_scan.py` (D41) em
+detalhe: **nenhum dos dois jamais correlaciona o signal score/anomalia com o retorno de preço
+subsequente** — são scanners/contadores puros que só imprimem um score ou uma contagem de
+anomalias a cada ciclo. D41 especificamente: revisados os 15 blocos "VERDICT" já impressos pelo
+script desde que começou a rodar — todos contam só % de anomalias (ciclo mais recente: ~15M
+trades/48.6h, clusters 0.401%, timestamp_anomalies 1.383%, volume_bursts 0.107%), nunca preço
+antes/depois. **Isso significa que, como estão desenhados hoje, não existe caminho para produzir
+um veredito de EV/win-rate nesses dois — precisariam de lógica nova (comparar retorno de preço
+antes/depois de cada sinal), não mais tempo rodando ou mais amostra.** O mesmo problema estrutural
+já existia em D40 (ver acima). `hypotheses-data.ts` atualizado com essa ressalva e confidence
+reduzida (D37: 20→8, D41: 35→10).

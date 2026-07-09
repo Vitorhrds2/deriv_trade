@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { PageHeader, Panel, Stat, Dot, Mono } from "@/components/kit";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { fmtMoney } from "@/lib/mock-data";
+import { fmtMoney } from "@/lib/format";
 import { useQuery } from "@tanstack/react-query";
 import {
   Area,
@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import { getUnlockStatus, getUnlockTrades, getUnlockSchedule } from "@/lib/unlock-api";
 import { getHftStatus, getHftTrades, isHftLive } from "@/lib/hft-api";
+import { getActiveResearchBots } from "@/lib/hypotheses-data";
 
 export const Route = createFileRoute("/paper")({
   head: () => ({ meta: [{ title: "Paper Trading — TradeLab OS" }] }),
@@ -119,6 +120,7 @@ function PaperPage() {
     },
   ];
 
+  const researchBots = getActiveResearchBots();
   const activeBots = allBots.filter((b) => b.running).length;
 
   return (
@@ -414,16 +416,15 @@ function PaperPage() {
               <div className="text-[10px] font-mono uppercase tracking-wider text-muted-foreground">Tmux Sessions</div>
               <div className="text-sm font-mono mt-1 flex items-center gap-1">
                 <Cpu className="h-3 w-3" />
-                15 ativas (hft_bot, unlock_bot, status_api, supervisor + 11 hypothesis bots)
+                {researchBots.length + 4} ativas (hft_bot, unlock_bot, status_api, supervisor + {researchBots.length} hypothesis bots)
               </div>
             </div>
           </div>
           <div className="px-4 pb-4 text-[11px] text-muted-foreground">
-            Só hft_bot e unlock_bot têm API de status ao vivo (painéis acima). Os outros 11
-            (D37-D41, D44, D34 liq_bot, D36 iv_anomaly, D29 basis, options/twap paper bots)
-            rodam na mesma instância validando hipóteses de pesquisa, sem UI dedicada ainda —
-            status real em <Mono>docs/state_of_research.md</Mono>. (D46 rodou, foi refutado com
-            N=190.000 em 2026-07-06, e foi parado.)
+            Só hft_bot e unlock_bot têm API de status ao vivo (painéis acima). Os outros{" "}
+            {researchBots.length} rodam na mesma instância validando hipóteses de pesquisa, sem UI
+            de status ao vivo ainda — lista completa (id, script, veredito atual) em{" "}
+            <Link to="/bots" className="underline hover:text-primary">Bot Orchestrator</Link>.
           </div>
         </Panel>
       </div>

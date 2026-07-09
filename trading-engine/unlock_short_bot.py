@@ -65,11 +65,19 @@ STOP_LOSS_PCT = 15 # -15% stop loss (emergency)
 MAX_CONCURRENT = 5
 MAX_POSITION_PCT = 0.25  # 25% of equity per position
 MIN_UNLOCK_VALUE_MM = 20  # Lowered from $50M to capture more trades (OP, ARB, IMX, STRK)
+
+# Whitelist of validated symbols (from backtest with t-stat > 2.5 in OOS)
+# Only these tokens have statistically validated edge from the backtest
+VALIDATED_SYMBOLS = {
+    "APTUSDT", "ARBUSDT", "AXSUSDT", "DYDXUSDT", "IMXUSDT",
+    "OPUSDT", "SEIUSDT", "STRKUSDT",
+}
 KELLY_FRACTION = 0.5  # Half-Kelly for safety
 CHECK_INTERVAL_S = 3600  # Check every hour
 ENTRY_TIME_UTC = "00:05"  # Entry/exit at 00:05 UTC
 
 BINANCE_FAPI_PROD = "https://fapi.binance.com/fapi/v1"
+BINANCE_FAPI_PROD_V2 = "https://fapi.binance.com/fapi/v2"  # account/balance only (v1 blocked in EU)
 BINANCE_FAPI_TESTNET = "https://demo-fapi.binance.com/fapi/v1"
 BINANCE_FAPI = BINANCE_FAPI_PROD  # Default; switched via --testnet/--demo flags
 
@@ -106,13 +114,14 @@ def binance_get(endpoint, params=None, timeout=15):
         return json.loads(r.read().decode())
 
 
-def binance_signed(endpoint, params, api_key, api_secret, method="POST", timeout=15):
+def binance_signed(endpoint, params, api_key, api_secret, method="POST", timeout=15, use_v2=False):
     """Binance USDT-M signed request."""
     params["timestamp"] = int(time.time() * 1000)
     query = urllib.parse.urlencode(params)
     signature = hmac.new(api_secret.encode(), query.encode(), hashlib.sha256).hexdigest()
     params["signature"] = signature
-    url = f"{BINANCE_FAPI}/{endpoint}"
+    base = BINANCE_FAPI_PROD_V2 if (use_v2 and BINANCE_FAPI == BINANCE_FAPI_PROD) else BINANCE_FAPI
+    url = f"{base}/{endpoint}"
     if method == "GET":
         url += "?" + urllib.parse.urlencode(params)
         req = urllib.request.Request(url, headers={**UA, "X-MBX-APIKEY": api_key})
@@ -131,7 +140,7 @@ def get_current_price(symbol):
 
 def get_position_info(symbol, api_key, api_secret):
     """Get current position for a symbol."""
-    data = binance_signed("positionRisk", {"symbol": symbol}, api_key, api_secret, method="GET")
+    data = binance_signed("positionRisk", {"symbol": symbol}, api_key, api_secret, method="GET", use_v2=True)
     for pos in data:
         if float(pos["positionAmt"]) != 0:
             return {
@@ -211,14 +220,20 @@ def get_upcoming_unlocks(days_ahead=3, days_window=1):
     target_date = now + timedelta(days=days_ahead)
     target_str = target_date.strftime("%Y-%m-%d")
 
-    # Use dynamic fetcher (API + hardcoded fallback)
-    all_upcoming = fetch_upcoming_unlocks(min_value_mm=MIN_UNLOCK_VALUE_MM)
+    # Use dynamic fetcher (API + hardcoded fallback) with symbol whitelist
+    all_upcoming = fetch_upcoming_unlocks(
+        min_value_mm=MIN_UNLOCK_VALUE_MM,
+        symbol_whitelist=VALIDATED_SYMBOLS,
+    )
     return [u for u in all_upcoming if u["unlock_date"] == target_str]
 
 
 def get_all_upcoming_unlocks():
     """Get all future unlock events (dynamic fetch with hardcoded fallback)."""
-    return fetch_upcoming_unlocks(min_value_mm=MIN_UNLOCK_VALUE_MM)
+    return fetch_upcoming_unlocks(
+        min_value_mm=MIN_UNLOCK_VALUE_MM,
+        symbol_whitelist=VALIDATED_SYMBOLS,
+    )
 
 
 # ─── Position sizing (Kelly) ──────────────────────────────────────────────────
@@ -409,8 +424,13 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
     logger.info(f"  Max position: {MAX_POSITION_PCT*100:.0f}% of equity")
     logger.info(f"  Stop loss: -{STOP_LOSS_PCT}%")
     logger.info(f"  Min unlock size: ${MIN_UNLOCK_VALUE_MM}M")
+    logger.info(f"  Validated symbols: {len(VALIDATED_SYMBOLS)} ({', '.join(sorted(VALIDATED_SYMBOLS))})")
     logger.info(f"  Kelly fraction: {KELLY_FRACTION} (half-Kelly)")
     logger.info(f"  Fees: {FEE_BPS}bps round trip")
+    if os.getenv("TOKENOMIST_API_KEY"):
+        logger.info(f"  Data source: Tokenomist API (key detected)")
+    else:
+        logger.info(f"  Data source: Hardcoded fallback (no TOKENOMIST_API_KEY)")
     
     # Show upcoming unlocks
     upcoming = get_all_upcoming_unlocks()

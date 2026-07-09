@@ -1,6 +1,5 @@
-// Global mock-app store: bots, selections, filters, kill switch, live tick.
+// Global app store: selections, filters, kill switch, live tick, notifications.
 import { create } from "zustand";
-import { bots as seedBots, type Bot } from "./mock-data";
 import { realHypotheses as seedHyp, type HypStatus } from "./hypotheses-data";
 
 export type Notif = {
@@ -16,11 +15,6 @@ type State = {
   // Live tick counter (driven by ticker)
   tick: number;
   bumpTick: () => void;
-
-  // Bots
-  bots: Bot[];
-  setBotState: (id: string, state: Bot["state"]) => void;
-  restartBot: (id: string) => void;
 
   // Hypotheses
   selectedHypId: string;
@@ -55,26 +49,6 @@ export const useApp = create<State>((set) => ({
   tick: 0,
   bumpTick: () => set((s) => ({ tick: s.tick + 1 })),
 
-  bots: seedBots,
-  setBotState: (id, state) =>
-    set((s) => ({
-      bots: s.bots.map((b) =>
-        b.id === id
-          ? {
-              ...b,
-              state,
-              uptime: state === "running" ? (b.uptime === "—" ? "00d 00h" : b.uptime) : "—",
-              cpu: state === "running" ? Math.max(b.cpu, 5) : 0,
-              memory: state === "running" ? Math.max(b.memory, 12) : 0,
-            }
-          : b,
-      ),
-    })),
-  restartBot: (id) =>
-    set((s) => ({
-      bots: s.bots.map((b) => (b.id === id ? { ...b, state: "recovering" } : b)),
-    })),
-
   selectedHypId: seedHyp[0].id,
   selectHyp: (id) => set({ selectedHypId: id }),
   hypFilter: "",
@@ -94,7 +68,7 @@ export const useApp = create<State>((set) => ({
     set((s) => ({
       killed: true,
       killOpen: false,
-      bots: s.bots.map((b) =>
+      bots: s.bots.map((b: any) =>
         b.env === "live" ? { ...b, state: "stopped", cpu: 0, memory: 0 } : b,
       ),
     })),
@@ -109,14 +83,3 @@ export const useApp = create<State>((set) => ({
     })),
   markAllRead: () => set((s) => ({ notifs: s.notifs.map((n) => ({ ...n, read: true })) })),
 }));
-
-// Helper: live equity / pnl derived from base + tick
-export function liveDerivedPnl(tick: number, base = 2118.43) {
-  return base + Math.sin(tick / 4) * 84 + Math.cos(tick / 7) * 56;
-}
-export function liveDerivedEquity(tick: number, base = 118_403.21) {
-  return base + Math.sin(tick / 3) * 142 + tick * 0.7;
-}
-export function liveDerivedMid(tick: number, base = 67_412.7) {
-  return base + Math.sin(tick / 2) * 12 + Math.cos(tick / 5) * 7;
-}
