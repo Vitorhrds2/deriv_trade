@@ -1636,7 +1636,7 @@ export const realHypotheses: RealHypothesis[] = [
       "desvia > 2 vol points dos vizinhos são mispriced. Comprar IV barato (dev < 0), " +
       "vender IV caro (dev > 0). Scan: 533 BTC + 516 ETH opções líquidas, 13 expiries cada. " +
       "Compara IV de cada option vs média ponderada dos vizinhos.",
-    confidence: 15,
+    confidence: 20,
     status: "validating",
     tags: ["crypto", "options", "deribit", "iv-surface", "mispricing", "aggressive"],
     trigger: "|IV - fair_IV| > 3 vol points com bid≥0.001, OI≥50, spread<50% (BUY only)",
@@ -1649,24 +1649,20 @@ export const realHypotheses: RealHypothesis[] = [
       "anomalias reverting (0 stale). " +
       "UPDATE 2026-07-06: N=7 settled, WR=42.9% (3/7), EV/trade=+$137.52, total=+$962.66. " +
       "ATUALIZADO 2026-07-07: N=14 settled, WR=42.857%, EV/trade=+$84.32, total=+$1.180,47. " +
-      "ATUALIZADO 2026-07-08 (bot ainda rodando ao vivo): N=37 settled, WR caiu mais para " +
-      "40.5% — 5ª leitura consecutiva em queda (50.0%@N24→42.9%@N28→41.9%@N31→41.2%@N34→" +
-      "40.5%@N37), agora é trajetória monotonicamente decrescente clara, não mais 'ruído vs " +
-      "convergência'. EV/trade=+$41.02 (caiu de +$84.32@N14), total=+$1.517,90 (caiu de um " +
-      "pico de +$2.074,76@N35 após 2 losses seguidas, a maior de -$420,94). Mesmo padrão de " +
-      "decaimento que desmascarou o early-sell original — tratar como candidato a " +
-      "falso-positivo, confidence reduzida. Não normalizável a 'stake fixo': opções Deribit " +
-      "têm prêmio variável por contrato. ATUALIZADO 2026-07-08 (poucas horas depois): N=38, WR " +
-      "caiu mais pra 39.5%, total caiu de +$1.517,90 pra +$1.187,68 (-$330 em 1 trade só) — 6a " +
-      "leitura seguida em queda. Decisão recomendada: parar de contar como lead e tratar D29 " +
-      "como o único paper bot em produção real; considerar encerrar posições abertas restantes.",
-    evPerTrade: 31.25,
+      "ATUALIZADO 2026-07-08: N=38, WR caiu para 39.5% (6a leitura seguida em queda desde " +
+      "50.0%@N24), total=+$1.187,68. Padrão de decaimento monotônico preocupante. " +
+      "ATUALIZADO 2026-07-10: N=58 settled, WR RECUPOU para 41.4% (subiu de 39.5%@N38 e " +
+      "35.4%@N48), EV/trade=+$50.84, total=+$2.948,65 (novo pico). A recuperação da WR é " +
+      "incomum para falso-positivos (que tipicamente só decaem) — pode haver edge real " +
+      "intermitente. Ainda não conclusivo: precisa N=100+ para confirmar. Não normalizável " +
+      "a 'stake fixo': opções Deribit têm prêmio variável por contrato.",
+    evPerTrade: 50.84,
     ci95: [0, 0],
-    ci95Label: "Ao vivo: WR=39.5% (N=38, 2026-07-08), EV=+$31.25/trade — 6a leitura seguida em queda desde N=24 (50%). Backtest (N=16): BUY 100% WR, SELL 0% WR.",
+    ci95Label: "Ao vivo: WR=41.4% (N=58, 2026-07-10), EV=+$50.84/trade, total=+$2,948.65. WR recuperou de 35.4%@N48. Backtest (N=16): BUY 100% WR, SELL 0% WR.",
     tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_backtest.py"],
     reportFile: "iv_anomaly_paper_stats.json",
-    pnl: 1187.68,
-    trades: 38,
+    pnl: 2948.65,
+    trades: 58,
     sampleUnit: "settled ao vivo na AWS (posições ainda abertas não contadas aqui)",
   },
   {
@@ -1781,38 +1777,27 @@ export const realHypotheses: RealHypothesis[] = [
       "Quando Tether/Circle emitem (mint) grandes quantidades de stablecoins, " +
       "esse capital novo entra no ecossistema crypto → pressão compradora → BTC up. " +
       "Se detectarmos mints > $500M em 3d, LONG BTC. Redemptions > $500M = BEARISH.",
-    confidence: 25,
-    status: "validating",
+    confidence: 0,
+    status: "refuted",
     tags: ["crypto", "stablecoin", "macro", "capital-flow", "aggressive"],
     trigger: "3d supply change > +$500M → LONG BTC | < -$500M → SHORT BTC",
     invalidation: "Supply changes não predizem preço em 1d/7d/30d",
     createdAt: "2026-07-04",
     author: "stablecoin_mint_scan.py",
     verdict:
-      "ATUALIZADO 2026-07-07 (108 ciclos horários corridos, bot ainda rodando ao vivo — reverificar antes de " +
-      "reusar estes números). Regime mudou 3x desde o snapshot anterior (-$337M/NEUTRAL): ~29 ciclos NEUTRAL " +
-      "(score=0) → 9 ciclos STRONG LONG (score=2) → agora MODERATE LONG (score=1, 3 ciclos), com 3d supply " +
-      "change em +$342.29M (média diária +$114.10M). IMPORTANTE: o score composto interno dispara com " +
-      "sub-limiares (~+$100M/24h) BEM abaixo do trigger formal documentado (±$500M/3d) — o campo `trigger` " +
-      "acima nunca foi de fato atingido até agora, então nenhum sinal LONG/SHORT formal chegou a disparar. " +
-      "Observação crua (não é teste estatístico): BTC caiu de ~$64.0k para ~$62.9k durante as últimas horas " +
-      "de leitura MODERATE/STRONG LONG — na direção OPOSTA ao sinal, N=1 janela, não refuta nem confirma. " +
-      "Ainda SEM framework de P&L (o script não compara sinal vs retorno futuro de forma sistemática) — " +
-      "confidence 25 reflete isso. NÃO tratar como edge, apenas monitor macro em validação. " +
-      "ATUALIZADO 2026-07-08: regime virou STRONG SHORT (3d supply -$1.704M, grande redemption) " +
-      "— mesmo problema estrutural persiste, nunca testado contra retorno futuro real. CORRIGIDO " +
-      "2026-07-08: `forward_return_tracker.py` integrado (mesmo padrão do D37/D41), redeployado " +
-      "e reiniciado às ~15h UTC. Regime STRONG SHORT confirmado PERSISTENTE por 5+ leituras " +
-      "seguidas (score=-2, 3d supply -$1.704M) antes do restart — sinal real, não um blip. " +
-      "A partir de agora o processo PODE produzir um veredito real de EV/WR.",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "STRONG SHORT persistente (5+ leituras, -$1.704M/3d). Forward-return tracking ativo desde 2026-07-08 15h UTC.",
-    tools: ["stablecoin_mint_scan.py"],
+      "REFUTADO (2026-07-10). Forward-return tracker ativo desde 2026-07-08 produziu veredito: " +
+      "4h horizon: N=47, WR=27.66%, EV/trade=-$0.2965, IC95%[-$0.4712,-$0.1260] — inteiramente negativo. " +
+      "24h horizon: N=27, WR=0.00% (0 wins em 27!), EV/trade=-$2.0615, IC95%[-$2.2863,-$1.8453] — " +
+      "catastrófico, sinal na direção oposta. Stablecoin mint/burn NÃO tem poder preditivo de preço. " +
+      "PROCESSO PARADO 2026-07-10: tmux d40_stable killado.",
+    evPerTrade: -0.2965,
+    ci95: [-0.4712, -0.126],
+    ci95Label: "EV/trade 4h horizon (bootstrap), N=47. 24h: EV=-$2.06 IC95%[-$2.29,-$1.85], WR=0%.",
+    tools: ["stablecoin_mint_scan.py", "forward_return_tracker.py"],
     reportFile: "stablecoin_mint_scan_results.json",
-    pnl: 0,
-    trades: 108,
-    sampleUnit: "ciclos horários (108 e contando, ver nota de regime no verdict)",
+    pnl: -13.93,
+    trades: 47,
+    sampleUnit: "sinais resolvidos pelo forward-return tracker (4h: N=47, 24h: N=27)",
   },
   {
     id: "HYP-WASH-01",
@@ -1822,38 +1807,29 @@ export const realHypotheses: RealHypothesis[] = [
       "Padrões anômalos no Binance trade stream (clusters de trades idênticos em <100ms, " +
       "volume bursts, duplicate trade IDs) revelam operações coordenadas, algoritmos de " +
       "execução de MMs, ou wash trading. Seguir a direção dos clusters = seguir smart money.",
-    confidence: 10,
-    status: "validating",
+    confidence: 5,
+    status: "refuted",
     tags: ["crypto", "binance", "websocket", "wash-trading", "anomaly", "aggressive", "real-time"],
     trigger: "5+ identical trades in <100ms → follow direction | Volume burst 5x avg → track price",
     invalidation: "Clusters são apenas TWAP/VWAP de retails, não predizem direção",
     createdAt: "2026-07-04",
     author: "wash_trading_scan.py",
     verdict:
-      "VALIDANDO — rodando na AWS desde 2026-07-04. Ciclo de referência antes de um " +
-      "restart (2026-07-06): N=157.000 trades, clusters=1.128 (0.72%), volume_bursts=125 " +
-      "(0.08%), dup_ids=0, timestamp_anomalies=38.068 (24.2% dos trades!) — taxa alta, " +
-      "mas ainda sem análise de reação de preço pós-anomalia (falta simulação de P&L com " +
-      "fees, como D33/D34 já fizeram). Vazamento de memória encontrado em `volume_timeline` " +
-      "(lista sem limite, 344MB RSS) e corrigido; processo reiniciado, contadores zeraram. " +
-      "ATUALIZADO 2026-07-08: confirmado nos 15 blocos 'VERDICT' já impressos pelo script — " +
-      "nenhum jamais correlaciona anomalia com retorno de preço, é puramente contador de " +
-      "frequência (ciclo mais recente: ~15M trades/48.6h, clusters 0.401%, timestamp_anomalies " +
-      "1.383%, volume_bursts 0.107%). Não existe caminho para veredito no design atual, " +
-      "independente de tempo de execução — precisaria de lógica nova (preço antes/depois de " +
-      "cada anomalia), não mais amostra. CORRIGIDO 2026-07-08: `forward_return_tracker.py` " +
-      "integrado direto no `on_message` (grava preço+direção a cada cluster/volume_burst, " +
-      "resolve em 10s/30s/60s usando o próprio preço do stream, sem custo de rede extra); " +
-      "redeployado e reiniciado às ~15h UTC. Horizontes curtos pq a tese é microestrutura, não " +
-      "macro — deve produzir os primeiros pontos resolvidos já na primeira hora.",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "~15M trades/48.6h pré-fix. Forward-return tracking (10s/30s/60s) ativo desde 2026-07-08 15h UTC.",
-    tools: ["wash_trading_scan.py"],
+      "REFUTADO POR CUSTOS (2026-07-08, forward-return tracker ativo). Sinal direcional REAL " +
+      "confirmado mas magnitude insuficiente: BTC WR=66.3% (IC95%[64.9%,67.6%]) em 10s, " +
+      "ETH WR=62.1% em 10s — ambos excluem 50%. MAS EV/trade=~1bps (0.01%), fee round-trip " +
+      "taker=10bps. EV líquido=-9bps/trade. WR decai com horizonte (66%→58% BTC em 10s→60s). " +
+      "SOLUSDT sem edge (WR~47-49%, IC95% cruza 50%). Mesmo padrão D33/D43: sinal real mas " +
+      "10x menor que custo de transação. Forward-return tracker produziu veredito formal " +
+      "com IC95% em ~9000 sinais (BTC N=4708, ETH N=3032, SOL N=1138).",
+    evPerTrade: 0.0105,
+    ci95: [0.0091, 0.0113],
+    ci95Label: "EV/trade BTC 10s (bootstrap, N=4712): $0.0105 IC95%[$0.0091,$0.0113]. WR=66.3% mas EV < fees (10bps).",
+    tools: ["wash_trading_scan.py", "forward_return_tracker.py"],
     reportFile: "wash_trading_scan_results.json",
     pnl: 0,
-    trades: 15000000,
-    sampleUnit: "AWS WS run (ciclo mais recente ~15M trades/48.6h, atualizado 2026-07-08)",
+    trades: 9000,
+    sampleUnit: "sinais resolvidos pelo forward-return tracker (BTC N=4708, ETH N=3032, SOL N=1138, 10s/30s/60s horizons)",
   },
   {
     id: "D42",
@@ -1924,35 +1900,27 @@ export const realHypotheses: RealHypothesis[] = [
       "When perpetual futures funding rate is extreme, basis reverts. " +
       "Short futures + long spot when funding > 0.05%/8h (delta neutral, collect funding). " +
       "Monitor 20 perpetuals for extreme funding conditions.",
-    confidence: 30,
-    status: "validating",
+    confidence: 0,
+    status: "refuted",
     tags: ["crypto", "binance", "futures", "funding", "basis", "delta-neutral", "aggressive"],
     trigger: "Funding > 0.05%/8h → SHORT futures + LONG spot | Funding < -0.03%/8h → LONG futures",
     invalidation: "Funding flips sign before basis reverts, or basis widens further",
     createdAt: "2026-07-04",
     author: "funding_basis_arb_scan.py",
     verdict:
-      "AGUARDANDO: 0 sinais em 20 perps (mercado estável). " +
-      "Funding rates extremos ocorrem em alta volatilidade. " +
-      "Monitorando continuamente a cada 5min. Único sinal persistente: ATOMUSDT LONG_FUT " +
-      "(funding ~-0.03% a -0.04%/8h, na borda do threshold). " +
-      "ATUALIZADO 2026-07-08: audit estrutural confirmou o MESMO GAP do D37/D40/D41 — o script " +
-      "printava 'VERDICT' mas nunca trackeava basis reversion + funding coletado vs horizonte, " +
-      "era puramente descritivo. A docstring dizia 'Track basis reversion over 1h, 4h, 24h' mas " +
-      "steps 4-5 nunca foram implementados. CORRIGIDO 2026-07-08: criado `carry_return_tracker.py" +
-      "` (tracker específico para delta-neutral: grava funding_rate + basis_pct no momento do " +
-      "sinal, resolve carry_pnl = basis_reversion + funding_collected - fees em 8h/24h/72h, " +
-      "reporta com Wilson/bootstrap). Integrado em `funding_basis_arb_scan.py`, redeployado e " +
-      "reiniciado às ~15:30 UTC. A partir de agora o processo PODE produzir um veredito real " +
-      "de carry P&L — só falta tempo/amostra (0 resolvidos ainda no restart).",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "ATOMUSDT LONG_FUT persistente (borderline). Carry-return tracking ativo desde 2026-07-08 15:30 UTC.",
-    tools: ["funding_basis_arb_scan.py"],
+      "REFUTADO (2026-07-10). Carry-return tracker ativo desde 2026-07-08 produziu veredito: " +
+      "24h horizon: N=36, WR=22.22%, EV/trade=-$0.0479, IC95%[-$0.0663,-$0.0279] — inteiramente " +
+      "negativo, não cruza zero. Controle (sem sinal): N=6084, carry médio=-0.1103% — o carry " +
+      "com sinal é PIOR que o controle. Funding extremo não tem edge sobre basis reversion. " +
+      "PROCESSO PARADO 2026-07-10: tmux d44_funding killado.",
+    evPerTrade: -0.0479,
+    ci95: [-0.0663, -0.0279],
+    ci95Label: "EV/trade 24h carry (bootstrap), N=36. IC95% inteiramente negativo. Controle N=6084 carry=-0.11%.",
+    tools: ["funding_basis_arb_scan.py", "carry_return_tracker.py"],
     reportFile: "funding_basis_arb_results.json",
-    pnl: 0,
-    trades: 0,
-    sampleUnit: "20 perpetuals scanned a cada 5min (~800+ ciclos desde 2026-07-04). Carry-return tracking ativo desde 2026-07-08 15:30 UTC.",
+    pnl: -1.73,
+    trades: 36,
+    sampleUnit: "sinais resolvidos pelo carry-return tracker (24h: N=36, 72h: N=0 ainda)",
   },
   {
     id: "D45",
@@ -2182,35 +2150,30 @@ export const realHypotheses: RealHypothesis[] = [
       "A feature 'Deal Cancellation' dos Multipliers (reembolso integral do stake se cancelado " +
       "dentro de 5-60min) é uma put europeia embutida (strike=entry, notional=stake×multiplier). " +
       "Se o fee cobrado for menor que o fair value Monte Carlo dessa put, há edge sistemático.",
-    confidence: 20,
-    status: "validating",
-    tags: ["deriv", "multiplier", "deal-cancellation", "options", "quase-edge", "nativo-deriv"],
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "multiplier", "deal-cancellation", "options", "refutado"],
     trigger: "Fee cobrado < fair_value Monte Carlo (IC95%, bootstrap em sub-blocos de 60 ticks) → comprar Multiplier+cancellation e cancelar se o valor da put ficar positivo.",
     invalidation: "EV líquido (valor_realizado − fee) IC95% cruzar zero com amostra ao vivo maior.",
     createdAt: "2026-07-06",
-    author: "deal_cancellation_edge_scan.py + deal_cancellation_live.py",
+    author: "deal_cancellation_edge_scan.py + deal_cancellation_live_probe.py",
     verdict:
-      "SINAL PRELIMINAR, teste ao vivo INCONCLUSIVO (N pequeno). Fair value via Monte Carlo " +
-      "(bootstrap em sub-blocos de 60 ticks, 60k ticks histórico, 60k sims) vs fee cobrado: " +
-      "17/20 células (multiplier 400x/1000x × MULTUP/MULTDOWN × 5 durações) com fee < " +
-      "fair_value (IC95%), edge relativo ~8-12%, simétrico entre MULTUP/MULTDOWN (assimetria " +
-      "inicial de até 180% era artefato de block bootstrap com histórico insuficiente, " +
-      "corrigido). VALIDADO COM TRADES REAIS (N=20, 1HZ10V multiplier=400x stake=$10, " +
-      "cancellation=5min, MULTUP/MULTDOWN alternados): 12/20 cancelados com valor realizado " +
-      "positivo, 8/20 nunca ficaram negativos (fee 'desperdiçado', action=expired_held_to_" +
-      "profit). Fee médio pago=$0.44, valor realizado médio na cancelação=$0.587. EV LÍQUIDO " +
-      "(valor_realizado − fee) = +$0.147/trade, IC95%=[-$0.1415,+$0.4775] — CRUZA ZERO, " +
-      "INCONCLUSIVO (mesmo veredito impresso pelo próprio script). N=20 é pequeno demais pra " +
-      "decidir; ainda o único 'quase-edge' nativo da Deriv em 54 hipóteses testadas, mas " +
-      "precisa de bem mais amostra ao vivo antes de qualquer conclusão real ou capital.",
-    evPerTrade: 0.147,
-    ci95: [-0.1415, 0.4775],
-    ci95Label: "EV líquido (valor_realizado - fee) $/trade, N=20 trades reais. Cruza zero.",
-    tools: ["deal_cancellation_edge_scan.py", "deal_cancellation_live.py"],
+      "REFUTADO (2026-07-09, N=120 trades reais). O 'quase-edge' de N=20 (EV=+$0.147) era viés " +
+      "de amostra pequena. Com N=120: EV/trade caiu para +$0.08, IC95%[-$0.04,+$0.08] — cruza " +
+      "zero e o lower bound ficou MAIS negativo que em N=20. Trajetória monotônica decrescente: " +
+      "EV $0.14(N20)→$0.14(N76)→$0.08(N120), IC95% lower -$0.03→-$0.04. WR(net>0) caiu de " +
+      "39.5%→37.5%. Cancel rate estável em ~57%. Fee=$0.44/trade é corretamente precificado — " +
+      "o modelo teórico de Monte Carlo que sugeria 8-12% de mispricing estava errado. Mesmo " +
+      "padrão de decaimento que matou o early-sell (D14) e o D36. PROCESSO PARADO 2026-07-09: " +
+      "tmux d52_live killado. Deriv ecossistema 100% fechado para mispricing de produtos.",
+    evPerTrade: 0.08,
+    ci95: [-0.04, 0.08],
+    ci95Label: "EV líquido (valor_realizado - fee) $/trade, N=120 trades reais. IC95% cruza zero, EV encolhendo monotonicamente.",
+    tools: ["deal_cancellation_edge_scan.py", "deal_cancellation_live_probe.py"],
     reportFile: "docs/state_of_research.md",
-    pnl: 2.94,
-    trades: 20,
-    sampleUnit: "trades reais (Multiplier + Deal Cancellation, N=20, alternando MULTUP/MULTDOWN)",
+    pnl: 9.69,
+    trades: 120,
+    sampleUnit: "trades reais (Multiplier + Deal Cancellation, N=120, alternando MULTUP/MULTDOWN)",
   },
   {
     id: "D53",

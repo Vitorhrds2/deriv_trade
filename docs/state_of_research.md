@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**55 hipóteses testadas. 45 refutadas (Early Sell Optionality RE-REFUTADO em 2026-07-07 após correção metodológica, ver item 14), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, backtest 100% WR mas paper trading ao vivo em 42.9% WR N=7, ver nota), 2 aguardando eventos (D34/D44 — liquidation cascade / funding extremo), 4 em validação inicial (D37, D38, D40, D41 — hipóteses agressivas). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000** (era sinal preliminar de N=542/300, sumiu com amostra real). **D47-D50 (execução/plataforma: stale proposal buy race, accumulator tick-barrier race, app_id/canal pricing arbitrage, multiplier stop-out slippage) todos REFUTADOS em 2026-07-06.** **D51/D53/D54 (replicação estática, duplicate-buy race, streamed proposal staleness) REFUTADOS. D52 (Deal Cancellation mispricing) tem sinal PRELIMINAR baseado em modelo Monte Carlo (~10% acima do fee cobrado, persistente apos corrigir viés de bootstrap e triplicar amostra) mas AINDA NAO validado com trades reais -- unico "quase-edge" nativo da Deriv em 54 hipóteses, tratado com máxima cautela ate confirmação ao vivo.** **D55 (2026-07-06) é a primeira hipótese fora de Deriv/Polymarket/CEX-CEX: Hyperliquid (perp DEX) vs Binance. Funding rate arb perp-perp sobreviveu split IS/OOS em 4/10 ativos (ETH, SOL, OP, LINK — 8/10 pareciam positivos no período inteiro, igual falso-positivo do D9); divergência oraclePx/markPx/midPx (D55b) não mostrou edge nos primeiros 5min (prêmio parece estrutural). VALIDANDO, ver `docs/hyperliquid_report.md`.**
+**57 hipóteses testadas. 50 refutadas (D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D54 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -33,12 +33,8 @@ app_id/canal pricing arbitrage, multiplier stop-out slippage) também foram test
 refutadas em 2026-07-06** — nenhum bug de execução, race condition ou segmentação de canal
 se mostrou explorável (detalhes na tabela abaixo e itens 28-31 da Recomendação).
 
-**Auditoria completa dos 16 processos ativos na AWS em 2026-07-08 (ver item 37 da Recomendação):**
-`hft_bot` reconfirmado negativo com trades reais (não só H3 por analogia). `d41_wash`/`d37_outflow`/
-`d38_announce`/`d40_stable` identificados como **estruturalmente incapazes de gerar veredito** no
-design atual (nunca correlacionam sinal com retorno de preço). `D36` mostrando tendência de
-enfraquecimento (WR 50%→40.5% conforme N cresceu). `basis_paper_bot.py` (D29) é o
-lead mais promissor entre os processos em andamento (N=33, WR 72.7%, estável/melhorando).
+**Auditoria completa dos 13 processos ativos na AWS em 2026-07-10:**
+`hft_bot` reconfirmado negativo e parado. `d41_wash` REFUTADO por fees (WR 66% real mas EV < 10bps). `d40_stable` REFUTADO e parado (WR=0% 24h). `d44_funding` REFUTADO e parado (IC95% negativo). `d52_live` REFUTADO e parado (N=120, EV encolhendo). `D36` mostrando RECUPERAÇÃO inesperada (WR 35.4%@N48 → 41.4%@N58, total=+$2,948) — pode não ser falso-positivo. `basis_paper_bot.py` (D29) continua INCONCLUSIVO (WR 72.7% mas EV cruza zero). `D17` com POSIÇÃO AO VIVO (APTUSDT short desde 2026-07-09, exit 2026-07-12). `D55` paper trading OOS ativo (LINK funding arb).
 
 ## Hipóteses refutadas — sem edge (margem da casa embutida no payout)
 
