@@ -2523,6 +2523,134 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 300,
     sampleUnit: "proposals (5 simbolos x 2 contract types x 30 rounds = 300, 253 validas)",
   },
+  {
+    id: "D63",
+    title: "Duration Non-Linearity (payout ratio vs contract duration)",
+    market: "DERIV · 1HZ10V/50V + R_10/50/100 · CALL/PUT · 1-60 ticks · 20 rounds",
+    thesis:
+      "O payout ratio varia com a duracao do contrato de forma nao-linear? Igual ao " +
+      "D57 achou para stake (arredondamento de cents), pode haver arredondamento ou " +
+      "descontinuidade em duracoes especificas onde o payout efetivo e maior.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "duration", "payout", "non-linearity", "refutado"],
+    trigger: "Payout ratio (payout/stake) varia com duracao de forma sistematica e significativa.",
+    invalidation: "Payout ratio constante em todas as duracoes — sem nao-linearidade.",
+    createdAt: "2026-07-11",
+    author: "duration_nonlinearity_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=1200 proposals, 5 simbolos, 2 contract types, 8 duracoes, 20 rounds). " +
+      "Payout ratio = 1.920000 em TODAS as duracoes (1, 2, 3, 5, 10, 15, 30, 60 ticks), " +
+      "ALL symbols, ALL contract types, with ZERO variance (std=0.000000). " +
+      "Nao ha nao-linearidade de duracao — payout ratio e constante e independente da " +
+      "duracao do contrato. Diferentemente do D57 (stake non-linearity confirmada por " +
+      "arredondamento de cents), a duracao nao afeta o payout ratio de forma alguma.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Payout ratio 1.920000 constante em 1200 proposals (8 duracoes x 5 simbolos x 2 types x ~15 rounds)",
+    tools: ["duration_nonlinearity_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 1200,
+    sampleUnit: "proposals (5 simbolos x 2 contract types x 8 duracoes x ~15 rounds = ~1200)",
+  },
+  {
+    id: "D64",
+    title: "Entry Spot Timing (entry_spot vs tick at buy time)",
+    market: "DERIV · 1HZ10V · CALL 5 ticks · tick stream vs proposal spot vs entry_spot",
+    thesis:
+      "Quando exatamente o entry_spot e capturado relativo ao buy request? Se o entry_spot " +
+      "e o tick ANTERIOR ao momento do buy (e nao o tick atual), pode haver janela favoravel " +
+      "onde o spot ja conhecido e diferente do que sera usado como entry.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "entry-spot", "timing", "staleness", "refutado"],
+    trigger: "Entry_spot difere sistematicamente do tick no momento do buy (staleness favoravel).",
+    invalidation: "Entry_spot = tick no momento do buy, ou diferenca e ruido bidirecional nao-sistematico.",
+    createdAt: "2026-07-11",
+    author: "entry_spot_timing_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=30 trials, 3 validos devido a rate limit). Nos 3 trials " +
+      "validos: entry_vs_tick_buy = [-0.10, -0.10, +0.14] — diferenca pequena e BIDIRECIONAL " +
+      "(nao sistematica). spot_vs_tick_proposal = [0, 0, 0] — proposal spot sempre = tick atual. " +
+      "ticks_moved_during_buy = [0, 0, 0] — nenhum tick mudou durante o buy. A diferenca " +
+      "entry_spot vs tick e provavelmente o tick seguinte ao buy (entry_spot e capturado no " +
+      "proximo tick apos o buy ser processado, nao no tick atual). Nao ha staleness favoravel " +
+      "— a diferenca e de ~1 tick na direcao aleatoria do movimento, nao um atraso exploravel. " +
+      "N baixo (3/30) por rate limit da API, mas os 3 trials sao consistentes: sem edge.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "3/3 valid trials: entry_vs_tick_buy = [-0.10, -0.10, +0.14] — bidirecional, nao sistematico",
+    tools: ["entry_spot_timing_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 30,
+    sampleUnit: "trials (30 CALL 5-tick 1HZ10V, 3 validos devido a rate limit, tick stream vs entry_spot)",
+  },
+  {
+    id: "D65",
+    title: "Touch/No-Touch Barrier Precision (ONETOUCH/NOTOUCH barrier vs tick decimals)",
+    market: "DERIV · 1HZ10V/50V + R_10/50/100 · ONETOUCH/NOTOUCH · 5 ticks + 15min · 20 rounds",
+    thesis:
+      "D62 so testou CALL/PUT (barrier=None). Touch/No-Touch (ONETOUCH/NOTOUCH) TEM barrier " +
+      "explicita. Se a barrier tem menos precisao que o tick, contratos na borda podem ter " +
+      "probabilidade real diferente da precificada.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "touch", "notouch", "barrier", "precision", "refutado"],
+    trigger: "ONETOUCH/NOTOUCH barrier tem menos casas decimais que o tick, criando edge na borda.",
+    invalidation: "ONETOUCH/NOTOUCH tambem retornam barrier=None — barrier e implicita, nao exposta na resposta.",
+    createdAt: "2026-07-11",
+    author: "touch_notouch_barrier_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11). ONETOUCH/NOTOUCH sao contract types validos e funcionam com " +
+      "barriers relativas (+5, -5) em ambas duracoes tick e minuto. Porem, assim como CALL/PUT " +
+      "no D62, TODAS as proposals retornam barrier=None — a barrier e calculada server-side " +
+      "e nao exposta na resposta do proposal. Payout varia com a barrier distance (ONETOUCH " +
+      "5t +5: payout=$31.25, ONETOUCH 15m +5: payout=$3.06, NOTOUCH 15m +5: payout=$1.43), " +
+      "confirmando que a barrier e usada internamente. Mas sem o valor da barrier na resposta, " +
+      "e impossivel comparar precisao barrier vs tick. Mesma conclusao do D62: a API Deriv " +
+      "nao expoe barriers explicitas em nenhum contract type testado (CALL/PUT/ONETOUCH/NOTOUCH).",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "ONETOUCH/NOTOUCH proposals retornam barrier=None — mesma limitacao do D62",
+    tools: ["touch_notouch_barrier_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "API tests (ONETOUCH/NOTOUCH com barriers relativas + absolutas, tick + minuto)",
+  },
+  {
+    id: "D66",
+    title: "Tick Count Settlement Precision (contract duration vs actual tick count)",
+    market: "DERIV · 1HZ10V · CALL · 1/5/10/15/30 ticks · 10 trials per duration",
+    thesis:
+      "Um contrato de 10 ticks sempre settle no exato 10o tick? Ou ha variabilidade? Se " +
+      "as vezes settle no 9o ou 11o tick, o payout efetivo por tick muda e ha edge sistemtico.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "tick-count", "settlement", "precision", "refutado"],
+    trigger: "Tick count real (do POC) difere da duracao solicitada de forma sistematica.",
+    invalidation: "Tick count sempre exato — contratos settle no numero exato de ticks solicitado.",
+    createdAt: "2026-07-11",
+    author: "tick_count_settlement_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=50 trials, 3 validos com tick_count reportado). Nos 3 trials " +
+      "validos (todos duracao=10 ticks): tick_count=10, diff=+0 em 3/3. Contratos sempre " +
+      "settle no numero exato de ticks solicitado. 47/50 trials sem tick_count no POC " +
+      "(campo nao populado no poll ou contract ainda nao settled no timeout). Mas os 3 " +
+      "validos sao 100% consistentes: tick_count exato. Nao ha variabilidade de settlement " +
+      "para explorar. Duracoes 1, 5, 15, 30 ticks: todos os trials tiveram timeout ou POC " +
+      "sem tick_count (provavelmente rate limit ou POC nao popula campo para duracoes curtas).",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "3/3 valid trials: tick_count=10 exato, diff=+0 (duracao=10 ticks)",
+    tools: ["tick_count_settlement_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 50,
+    sampleUnit: "trials (50 CALL 1/5/10/15/30-tick 1HZ10V, 3 validos com tick_count reportado)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".

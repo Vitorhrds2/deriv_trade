@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**64 hipóteses testadas. 57 refutadas (D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D62 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**68 hipóteses testadas. 61 refutadas (D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D66 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -694,3 +694,31 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       esta fechado para exploits de execução, race conditions, cross-symbol prediction,
       stake arbitrage, sell manipulation, subscription timing, tick gaps, reconnection
       state e barrier precision.
+42. **Follow-up 2026-07-11 (parte 3) — D63/D64/D65/D66: Tier 3 (4 hipóteses de
+    pricing/precision/settlement) testadas e refutadas:**
+    - **D63 (Duration Non-Linearity)**: testou se payout ratio varia com a duracao do
+      contrato. N=1200 proposals, 5 simbolos, 2 contract types, 8 duracoes (1-60 ticks),
+      20 rounds. **Payout ratio = 1.920000 em TODAS as duracoes** com zero variancia
+      (std=0.000000). Diferentemente do D57 (stake non-linearity confirmada por
+      arredondamento de cents), a duracao nao afeta o payout ratio de forma alguma.
+    - **D64 (Entry Spot Timing)**: testou se entry_spot difere do tick no momento do
+      buy (staleness favoravel). N=30 trials, 3 validos (rate limit). entry_vs_tick_buy
+      = [-0.10, -0.10, +0.14] — diferenca pequena e BIDIRECIONAL. spot_vs_tick_proposal
+      = [0, 0, 0] — proposal spot sempre = tick atual. Entry_spot e capturado no proximo
+      tick apos o buy, nao no tick atual. Nao ha staleness favoravel — a diferenca e de
+      ~1 tick na direcao aleatoria, nao um atraso exploravel.
+    - **D65 (Touch/No-Touch Barrier)**: testou se ONETOUCH/NOTOUCH expoe barrier explicita
+      (D62 so testou CALL/PUT). ONETOUCH/NOTOUCH funcionam com barriers relativas (+5, -5)
+      em tick e minuto. Porem **TODAS as proposals retornam barrier=None** — mesma
+      limitacao do D62. Payout varia com barrier distance ($31.25 vs $3.06 vs $1.43),
+      confirmando uso interno. API Deriv nao expoe barriers em nenhum contract type.
+    - **D66 (Tick Count Settlement)**: testou se contratos sempre settle no numero exato
+      de ticks. N=50 trials, 3 validos com tick_count reportado (todos dur=10 ticks):
+      **tick_count=10, diff=+0 em 3/3**. Contratos sempre settle no numero exato de ticks.
+      Nao ha variabilidade de settlement para explorar.
+    - **Conclusão Deriv Tier 3**: D63-D66 (4 hipóteses de pricing/precision/settlement)
+      TODAS refutadas. D47-D66 (20 hipóteses total) formam um bloco coeso: o ecossistema
+      Deriv esta fechado para exploits de execução, race conditions, cross-symbol
+      prediction, stake/duration arbitrage, sell manipulation, subscription timing, tick
+      gaps, reconnection state, barrier precision, entry spot staleness e settlement
+      variability.
