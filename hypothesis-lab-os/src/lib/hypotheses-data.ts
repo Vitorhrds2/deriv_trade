@@ -2832,6 +2832,41 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 30,
     sampleUnit: "trials (30 CALL/PUT 5m 1HZ10V, bid monitorado via POC polling 2s, nao vendido de verdade)",
   },
+  {
+    id: "D72",
+    title: "Early-Sell REAL Validation (A/B pareado com sells reais) — fase 2 do D71",
+    market: "DERIV · 1HZ10V · CALL/PUT 5m alternados · 40 trials · stake $1.00",
+    thesis:
+      "D71 encontrou edge em simulacao non-hindsight (monitorou bid mas nao vendeu). " +
+      "D72 valida com sells REAIS: grupo A vende quando bid >= threshold, grupo B hold. " +
+      "Alternancia A/B por trial. Elimina concern de superestimacao do sell price.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "early-sell", "resale", "real-sell", "ab-test", "falso-positivo"],
+    trigger: "IC95% da diferenca sell_EV - hold_EV exclui zero e e positivo.",
+    invalidation: "IC95% cruza zero ou point estimate negativo — sell cedo nao tem EV positivo.",
+    createdAt: "2026-07-11",
+    author: "early_sell_real_validation.py",
+    verdict:
+      "REFUTADO / FALSO-POSITIVO D71 (2026-07-11, N=40, threshold 1.30, A/B pareado). " +
+      "Sell: EV=-$0.037, WR=65% (15 sold, 5 expired). Hold: EV=+$0.248, WR=65%. " +
+      "Diff (sell - hold)=-$0.285 CI95%[-$0.689,+$0.140] — INCONCLUSIVO mas point estimate NEGATIVO. " +
+      "CAUSA RAIZ: vender a bid_ratio ~1.30 trava lucro em ~$0.30, mas upside do hold e $0.92. " +
+      "Mesma WR (65%), hold tem EV muito maior. D71 superestimou sell price porque: " +
+      "(1) poll de 2s capturava picos de bid que nao seriam realizados em sell real; " +
+      "(2) metodologia pareada de D71 usava mesmo contrato para sell_rule e hold, " +
+      "amplificando a diferenca quando contrato perdia (sell salva de -$1.00, hold perde $1.00) " +
+      "mas ignorando que sell tambem corta upside (+$0.92 -> +$0.30). " +
+      "Segunda rodada com threshold 1.50 em andamento para confirmar.",
+    evPerTrade: -0.285,
+    ci95: [-0.689, 0.14],
+    ci95Label: "Diff sell - hold: -$0.285 CI95%[-$0.689,+$0.140] — point estimate negativo",
+    tools: ["early_sell_real_validation.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -5.7,
+    trades: 40,
+    sampleUnit: "trials (20 sell + 20 hold, CALL/PUT 5m 1HZ10V, sells reais executados)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".
