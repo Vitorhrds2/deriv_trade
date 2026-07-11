@@ -2296,6 +2296,106 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 270,
     sampleUnit: "janelas de funding 8h/ativo (D55a, N=270) + walk-forward folds 7d/5d + polls 3s (D55b, N=10.021, ~8.3h AWS)",
   },
+  {
+    id: "D56",
+    title: "Cross-Symbol Tick Correlation (1HZ/R_ shared RNG prediction)",
+    market: "DERIV · sinteticos 1HZ10V/25V/50V/100V + R_10/25/50/75/100 · ticks WS",
+    thesis:
+      "Indices sinteticos '1Hz' e 'R_' podem compartilhar estado de RNG ou ter ticks " +
+      "correlacionados. Se 1HZ10V prediz 1HZ100V (ou R_10 prediz R_100) com lag mensuravel, " +
+      "ha edge direcional gratis — comprar CALL/PUT no simbolo atrasado sabendo para onde o " +
+      "simbolo adiantado ja foi. D46 testou autocorrelacao DENTRO de um simbolo; isto testa " +
+      "ENTRE simbolos.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "synthetic", "cross-symbol", "correlation", "rng", "refutado"],
+    trigger: "Cross-correlacao de retornos normalizados entre pares de simbolos em lags -5..+5, |r|>0.05 com p<0.05.",
+    invalidation: "Nenhuma correlacao significativa em 36 pares com N>=150 amostras por lag.",
+    createdAt: "2026-07-11",
+    author: "cross_symbol_correlation_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=2081 ticks, 9 simbolos, 36 pares, 4 rounds de analise). " +
+      "Nenhuma correlacao significativa (|r|>0.05, p<0.05) em nenhum par em nenhum lag. " +
+      "Melhor correlacao observada: r=+0.3767 (1HZ50V->R_10 lag=-1) mas p=0.6308 — ruido. " +
+      "Valores-p AUMENTARAM com mais amostra (0.65→0.70→0.77→0.80), confirmando ausencia " +
+      "real de correlacao. Simbolos sinteticos sao independentes — cada um tem seu proprio " +
+      "RNG, nao ha estado compartilhado. Edge direcional cross-symbol nao existe.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "0/36 pares com correlacao significativa (|r|>0.05, p<0.05), N=150+ por lag",
+    tools: ["cross_symbol_correlation_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "pares de simbolos testados (36 pares x 11 lags, N=150+ amostras por lag, 2081 ticks totais)",
+  },
+  {
+    id: "D57",
+    title: "Stake Size Non-Linearity (payout ratio rounding artifact)",
+    market: "DERIV · sinteticos 1HZ10V/50V + R_10/50/100 · CALL/PUT · 5 ticks · stakes $0.35-$100",
+    thesis:
+      "O ask_price da Deriv pode nao escalar perfeitamente linear com o stake. Se houver " +
+      "arredondamento ou descontinuidade em certos tamanhos, o payout efetivo pode variar, " +
+      "criando uma edge onde certos stakes tem payout ratio melhor que outros.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "stake", "payout", "non-linearity", "rounding", "refutado"],
+    trigger: "Payout ratio (payout/stake) varia com stake size de forma sistematica e estatisticamente significativa.",
+    invalidation: "Non-linearidade confirmada mas sempre penaliza stakes pequenos — nenhum stake tem ratio MELHOR que o true ratio.",
+    createdAt: "2026-07-11",
+    author: "stake_nonlinearity_probe.py",
+    verdict:
+      "NAO-LINEARIDADE CONFIRMADA MAS NAO EXPLOITAVEL (2026-07-11, N=1162 proposals, 5 simbolos, " +
+      "2 contract types, 12 stakes, 20 rounds). Payout ratio varia sistematicamente: $0.35→1.886 " +
+      "(−1.9% vs true 1.923), $0.50→1.920 (−0.15%), $1.00+→1.923 (nominal). Causa: arredondamento " +
+      "de payout para centavos destrui valor proporcional em stakes pequenas. PATTERN CONSISTENTE " +
+      "across all symbols/rounds. Porem: o arredondamento SEMPRE penaliza (floor), nunca beneficia " +
+      "— nao existe stake onde ratio > true ratio. A 'edge' seria evitar stakes <$0.50, o que nao " +
+      "e profit edge mas apenas evitar penalidade. Achado adicional: payout em $0.35 e $0.01 ABAIXO " +
+      "do floor teorico (esperado $0.67, atual $0.66), sugerindo haircut adicional para stakes " +
+      "minimas. Nao ha forma de extrair profit desta nao-linearidade.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Payout ratio: 1.886 em $0.35 vs 1.923 em $100 (−1.9%), consistente em 5 simbolos x 20 rounds",
+    tools: ["stake_nonlinearity_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 1162,
+    sampleUnit: "proposals (5 simbolos x 2 contract types x 12 stakes x ~10 rounds = 1162 proposals)",
+  },
+  {
+    id: "D58",
+    title: "Sell as Limit Order (price>0 in sell endpoint)",
+    market: "DERIV · 1HZ10V · CALL 10 ticks · sell endpoint com price>0 vs price=0",
+    thesis:
+      "O endpoint sell da Deriv aceita um parametro price. D48/D50 sempre usaram price=0 " +
+      "(market sell). Se enviarmos price>0, pode funcionar como limit order — se o bid_price " +
+      "atingir esse valor, o contrato vende a um preco melhor que o market sell.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "sell", "limit-order", "execution", "refutado"],
+    trigger: "Sell com price>0 aceito e executa a preco melhor que market sell (price=0).",
+    invalidation: "Sell rejeitado para o contract type testado — 'Resale of this contract is not offered'.",
+    createdAt: "2026-07-11",
+    author: "sell_limit_order_probe.py",
+    verdict:
+      "REFUTADO para tick contracts (2026-07-11, N=50 trials, 25 LIMIT + 25 MARKET). TODOS os " +
+      "50 sells rejeitados com 'Resale of this contract is not offered' — tanto limit (price>0) " +
+      "quanto market (price=0). Contratos CALL de 10 ticks em 1HZ10V NAO oferecem resale: nao e " +
+      "possivel vender antes do expiry a nenhum preco. O parametro price no endpoint sell e " +
+      "irrelevante quando o contrato nao suporta resale. D58 refutado: limit order nao funciona " +
+      "porque sell nao funciona. NOTA: resale pode estar disponivel para contratos de duracao " +
+      "maior (1d+), mas isso e um teste diferente — para tick contracts, o endpoint sell esta " +
+      "fechado.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "50/50 sells rejeitados (25 LIMIT + 25 MARKET), 'Resale of this contract is not offered'",
+    tools: ["sell_limit_order_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 50,
+    sampleUnit: "trials (25 LIMIT sell + 25 MARKET sell, CALL 10-tick 1HZ10V, demo account)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".

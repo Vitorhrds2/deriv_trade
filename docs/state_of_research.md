@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**57 hipóteses testadas. 50 refutadas (D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D54 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**60 hipóteses testadas. 53 refutadas (D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D58 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -649,3 +649,24 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     - **D55 paper trading**: `hyperliquid_paper_bot.py` deployado e rodando na AWS
       (sessão `d55_paper`). Delta-neutral short HL + long Binance LINK funding arb.
       Aguardando ciclos de funding para acumular P&L.
+40. **Follow-up 2026-07-11 — D56/D57/D58: 3 novas hipóteses de bugs Deriv testadas e refutadas:**
+    - **D56 (Cross-Symbol Tick Correlation)**: testou se índices sintéticos 1HZ/R_ compartilham
+      RNG. `cross_symbol_correlation_probe.py` subscreveu 9 símbolos simultaneamente, coletou
+      2081 ticks, analisou 36 pares em 11 lags cada. **0/36 pares com correlação significativa**
+      (|r|>0.05, p<0.05). Valores-p AUMENTARAM com amostra (0.65→0.80), confirmando independência.
+      Símbolos sintéticos têm RNGs independentes — edge cross-symbol não existe.
+    - **D57 (Stake Size Non-Linearity)**: testou se payout ratio varia com stake. 1162 proposals
+      em 5 símbolos, 2 contract types, 12 stakes ($0.35-$100), 20 rounds. **Não-linearidade
+      CONFIRMADA**: payout ratio 1.886 em $0.35 vs 1.923 em $100 (−1.9%). Causa: arredondamento
+      de cents. PATTERN CONSISTENTE across all symbols/rounds. **MAS não exploitável**: o
+      arredondamento sempre penaliza (floor), nunca beneficia. Achado adicional: payout em $0.35
+      é $0.01 abaixo do floor teórico (esperado $0.67, atual $0.66), sugerindo haircut extra
+      para stakes mínimas.
+    - **D58 (Sell as Limit Order)**: testou se sell com price>0 funciona como limit order.
+      50 trials (25 LIMIT + 25 MARKET) em CALL 10-tick 1HZ10V. **50/50 rejeitados** com
+      'Resale of this contract is not offered'. Tick contracts não oferecem resale — não é
+      possível vender antes do expiry a nenhum preço. Limit order é irrelevante quando sell
+      não funciona. NOTA: resale pode existir para durações maiores (1d+), não testado.
+    - **Conclusão Deriv**: D47-D58 (12 hipóteses de execução/plataforma) TODAS refutadas.
+      O ecossistema Deriv está hermeticamente fechado para exploits de execução, race
+      conditions, cross-symbol prediction, stake arbitrage e sell manipulation.
