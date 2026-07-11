@@ -2867,6 +2867,104 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 40,
     sampleUnit: "trials (20 sell + 20 hold, CALL/PUT 5m 1HZ10V, sells reais executados)",
   },
+  {
+    id: "D73",
+    title: "Lookback Contract Fair Value Mispricing",
+    market: "DERIV · 5 symbols · contracts_for scan",
+    thesis:
+      "LOOKBACKHIGH/LOOKBACKLOW sao contratos path-dependent com fair value significativamente " +
+      "maior que vanilla. Se Deriv mispricing com modelo simplificado, ha edge.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "lookback", "path-dependent", "non-existent"],
+    trigger: "Contratos LOOKBACK existem na API e tem EV > 0.",
+    invalidation: "Contratos LOOKBACK nao existem na Deriv.",
+    createdAt: "2026-07-11",
+    author: "lookback_edge_probe.py",
+    verdict:
+      "REFUTADO por nao-existencia (2026-07-11). Nenhum contract type LOOKBACK " +
+      "encontrado em 5 simbolos (1HZ10V, 1HZ50V, 1HZ100V, R_10, R_100). " +
+      "Tipos disponiveis: ACCU, ASIAND, ASIANU, CALL, CALLE, DIGITDIFF, DIGITEVEN, " +
+      "DIGITMATCH, DIGITODD, DIGITOVER, DIGITUNDER, EXPIRYMISS, EXPIRYMISSE, " +
+      "EXPIRYRANGE, EXPIRYRANGEE, HIGHER, LOWER, MULTDOWN, MULTUP, NOTOUCH, " +
+      "ONETOUCH, PUT, PUTE, RANGE, RESETCALL, RESETPUT, RUNHIGH, RUNLOW, " +
+      "TICKHIGH, TICKLOW, TURBOSLONG, TURBOSSHORT, UPORDOWN, VANILLALONGCALL, " +
+      "VANILLALONGPUT (35 tipos, nenhum LOOKBACK).",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — produto nao existe",
+    tools: ["lookback_edge_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "contracts_for scan em 5 simbolos",
+  },
+  {
+    id: "D74",
+    title: "Proposal Expiry Window (Free Optionality)",
+    market: "DERIV · 1HZ10V · CALL 5t · 45 trials · 9 delays (0-30s)",
+    thesis:
+      "Se proposal_id permanece valido por >5s, pode-se esperar o tick mover a favor " +
+      "antes de comprar. Isso e optionality gratuita no proposal ID.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "proposal", "optionality", "entry-spot", "t-plus-1"],
+    trigger: "Entry_spot = tick do buy (nao da proposal) e delay melhora EV.",
+    invalidation: "Entry_spot sempre = T+1 (proximo tick apos buy), independente do delay.",
+    createdAt: "2026-07-11",
+    author: "proposal_expiry_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=45, 9 delays 0-30s). Proposal IDs permanecem validos " +
+      "por 30+ segundos (todos buys sucederam). Mas entry_spot e SEMPRE T+1 " +
+      "(proximo tick apos buy) — nunca igual ao proposal_spot (0/45) nem ao " +
+      "tick_at_buy (0/45). Delaying buy nao da optionality porque entry e sempre " +
+      "o proximo tick, independente de quando a proposal foi feita. " +
+      "WR por delay varia de 20% a 80% mas e puro ruido (N=5 por delay).",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — entry_spot sempre T+1, sem optionality",
+    tools: ["proposal_expiry_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -15.0,
+    trades: 45,
+    sampleUnit: "trials (5 per delay x 9 delays, CALL 5t 1HZ10V)",
+  },
+  {
+    id: "D75",
+    title: "Tick Spectral Analysis (FFT / Entropy / Hurst / Ljung-Box / VR)",
+    market: "DERIV · 8 symbols · 1000 ticks each · spectral analysis",
+    thesis:
+      "D46 testou apenas 3-tick patterns. Analise de dominio de frequencia (FFT, " +
+      "entropia, Hurst, Ljung-Box, VR) pode revelar periodicidade ou nao-aleatoriedade " +
+      "que padroes simples nao capturam.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "spectral", "fft", "hurst", "ljung-box", "variance-ratio", "random-walk"],
+    trigger: "Hurst != 0.5 ou Ljung-Box rejeita RW ou VR rejeita RW em multiplos simbolos.",
+    invalidation: "Todos testes confirmam random walk (Hurst~0.5, Ljung-Box nao rejeita, VR nao rejeita).",
+    createdAt: "2026-07-11",
+    author: "tick_spectral_analysis_probe.py",
+    verdict:
+      "MARGINAL/REFUTADO (2026-07-11, N=1000 ticks/symbol, 8 symbols). " +
+      "Hurst em returns: 0.62-0.65 (acima de 0.5 = mild trending) em TODOS os 8 simbolos. " +
+      "VR rejeita RW em q=10 para 3/8 (1HZ10V z=-2.63 p=0.009, R_25 z=-2.73, R_100 z=-2.17). " +
+      "MAS: Ljung-Box nao rejeita em nenhum (Q=9-18 < crit 31.41), FFT spectral entropy " +
+      "0.93-0.94 (quase white noise), max autocorrelation apenas 0.05. " +
+      "Shannon entropy normalizada 0.86-0.88. " +
+      "Conclusao: existe um sinal MUITO fraco de trending (H~0.65) consistente em todos " +
+      "os simbolos, mas e pequeno demais para ser exploravel — autocorrelacao maxima de " +
+      "0.05 e house margin de ~4% consomem qualquer edge. Consistente com D46 (N=190k) " +
+      "que encontrou micro-sinal menor que custo de transacao. " +
+      "CAVEAT: apenas 1000 ticks (limite da API), N=10000 seria mais robusto.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Hurst=0.62-0.65 (marginal trending), VR z=-2.63 (q=10), mas autocorr max=0.05",
+    tools: ["tick_spectral_analysis_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "8 symbols x 1000 ticks (spectral analysis, sem trades)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".
