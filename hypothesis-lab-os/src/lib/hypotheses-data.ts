@@ -2965,6 +2965,123 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 0,
     sampleUnit: "8 symbols x 1000 ticks (spectral analysis, sem trades)",
   },
+  {
+    id: "D77",
+    title: "Untested Contract Types Mispricing (CALLE/PUTE/RESET/TURBOS/UPORDOWN)",
+    market: "DERIV · 1HZ10V · 7 contract types · 16 cells · MC N=10000",
+    thesis:
+      "35 contract types na API, varios nunca testados: CALLE/PUTE (European), " +
+      "RESETCALL/RESETPUT (reset options), TURBOSLONG/TURBOSSHORT (turbos), UPORDOWN. " +
+      "Estrutura de payoff mais complexa pode ter mispricing.",
+    confidence: 0,
+    status: "validating",
+    tags: ["deriv", "untested", "calle", "pute", "reset", "turbos", "upordown", "directional-bias"],
+    trigger: "EV > 0 em pelo menos um contract type com CI95% excluindo zero.",
+    invalidation: "EV <= 0 em todos os tipos (house margin presente).",
+    createdAt: "2026-07-11",
+    author: "untested_contracts_probe.py",
+    verdict:
+      "SINAL EM PUTE (2026-07-11, MC N=10000, 5000 ticks 1HZ10V). " +
+      "PUTE 5t: P(win)=55% EV=+$0.056; PUTE 1m: P(win)=70% EV=+$0.338; " +
+      "PUTE 5m: P(win)=92% EV=+$0.764. CALLE tem espelho (P(win)=30%). " +
+      "RESETCALL/RESETPUT: EV negativo ou marginal. TURBOS: nao disponivel. " +
+      "UPORDOWN: requer barrier (double barrier). " +
+      "CAVEAT: MC pode ter viés de amostra (downtrend no periodo). " +
+      "D82 valida com trades reais.",
+    evPerTrade: 0.344,
+    ci95: [-0.04, 0.73],
+    ci95Label: "PUTE 5t MC EV=+$0.056; validacao real D82: WR=70% EV=+$0.344 CI95%[-$0.04,+$0.73]",
+    tools: ["untested_contracts_probe.py", "pute_drift_validation.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -2.0,
+    trades: 20,
+    sampleUnit: "MC: 16 cells x 10000 sims; Real: 20 PUTE 5t trades",
+  },
+  {
+    id: "D80",
+    title: "Weekend/Holiday Synthetic Volatility Shift",
+    market: "DERIV · 8 symbols · 20000 ticks each · volatility by day/hour",
+    thesis:
+      "Sinteticos sao RNG. Se volatilidade muda em weekend mas payout nao ajusta, ha edge.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "volatility", "weekend", "rng", "constant"],
+    trigger: "Diferenca de volatilidade >10% entre weekend e weekday.",
+    invalidation: "Volatilidade constante 24/7 (RNG nao muda).",
+    createdAt: "2026-07-11",
+    author: "weekend_volatility_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, 8 symbols, 20000 ticks each). " +
+      "Dados insuficientes para weekend analysis (API so retorna ~5000 ticks " +
+      "recentes = ~1.4h, nao cobre weekend). Max/Min vol ratio por hora = 1.03x " +
+      "(praticamente constante). RNG da Deriv e constante 24/7. " +
+      "Para testar weekend propriamente, precisaria coletar dados continuamente " +
+      "por varios dias.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — volatilidade constante (ratio 1.03x)",
+    tools: ["weekend_volatility_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "8 symbols x 20000 ticks (volatility analysis, sem trades)",
+  },
+  {
+    id: "D81",
+    title: "Buy Limit Order (price < ask_price)",
+    market: "DERIV · 1HZ10V · CALL 5t · 40 trials · 8 price fractions",
+    thesis:
+      "Se buy com price < ask_price suceder, age como limit order — optionality gratuita.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "buy-limit", "execution", "rejected"],
+    trigger: "Buy com price < ask_price suceder e dar discount.",
+    invalidation: "Deriv rejeita buy com price < ask_price.",
+    createdAt: "2026-07-11",
+    author: "buy_limit_test_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=40, 8 fracoes 0.01x-0.95x). Deriv rejeita 100% dos " +
+      "buys com price < ask_price com erro 'Contract stake amount is more than " +
+      "maximum purchase price'. Apenas price = ask_price (1.00x) sucede (5/5). " +
+      "Sem optionality no buy — Deriv sempre cobra ask price completa.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — buy limit rejeitado em 100% dos trials",
+    tools: ["buy_limit_test_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -2.0,
+    trades: 5,
+    sampleUnit: "40 trials (5 per fraction x 8 fractions, CALL 5t 1HZ10V)",
+  },
+  {
+    id: "D86",
+    title: "CALL+PUT Simultaneous Arbitrage (Straddle)",
+    market: "DERIV · 8 symbols · 2 pairs (CALL/PUT, CALLE/PUTE) · 5 durations · 330 samples",
+    thesis:
+      "Se ask_CALL + ask_PUT < payout, comprar ambos garante lucro independente da direcao.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "straddle", "arbitrage", "house-margin"],
+    trigger: "ask_CALL + ask_PUT < min(payout) em pelo menos uma amostra.",
+    invalidation: "ask_CALL + ask_PUT >= min(payout) em 100% das amostras.",
+    createdAt: "2026-07-11",
+    author: "straddle_arb_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=330 amostras, 8 symbols, 2 pairs, 5 durations). " +
+      "0/330 oportunidades de arbitrage. Spread sempre negativo: " +
+      "CALL+PUT: -$0.0800 (ask_total=$2.00, payout=$1.92). " +
+      "CALLE+PUTE: -$0.0800 a -$0.0900. " +
+      "Deriv precifica straddle corretamente: ask_CALL + ask_PUT = 2 * stake, " +
+      "payout = 1.92 * stake, spread = -0.08 * stake = house margin.",
+    evPerTrade: -0.08,
+    ci95: [-0.09, -0.08],
+    ci95Label: "Spread straddle: -$0.08 a -$0.09 (house margin, sem arb)",
+    tools: ["straddle_arb_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "330 amostras (8 symbols x 2 pairs x 5 durations x ~4-10 samples)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".
