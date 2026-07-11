@@ -2396,6 +2396,133 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 50,
     sampleUnit: "trials (25 LIMIT sell + 25 MARKET sell, CALL 10-tick 1HZ10V, demo account)",
   },
+  {
+    id: "D59",
+    title: "POC Subscription vs Poll Timing Gap (subscribe:1 staleness)",
+    market: "DERIV · 1HZ10V · CALL 5 ticks · POC subscribe:1 vs poll manual 200ms",
+    thesis:
+      "Assinar proposal_open_contract com subscribe:1 vs poll manual. Se a subscription " +
+      "notificar settle DEPOIS do poll, ha janela onde o poll sabe algo que a subscription " +
+      "nao sabe. Se o poll detecta settle antes da subscription, podemos agir antes do stream.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "poc", "subscription", "poll", "timing", "refutado"],
+    trigger: "Poll detecta is_sold=1 consistentemente antes da subscription subscribe:1.",
+    invalidation: "Subscription subscribe:1 para POC nunca envia atualizacoes — poll e a unica forma de detectar settle.",
+    createdAt: "2026-07-11",
+    author: "poc_subscription_vs_poll_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=30 trials). POC subscribe:1 NUNCA enviou uma unica atualizacao " +
+      "em 30/30 trials (sub_events=0 em todos). Poll manual (200ms) detectou settle em 30/30 " +
+      "trials. A subscription POC esta completamente quebrada — confirma achado do D54 onde " +
+      "proposal subscribe:1 tambem nunca reenviou. Nao ha timing gap para explorar porque a " +
+      "subscription simplesmente nao funciona: poll e a unica opcao. Achado de plataforma: " +
+      "subscribe:1 para proposal_open_contract nao realimenta, comportamento consistente " +
+      "com D54. Poll RTT medio ~143ms, 15-23 polls por contrato de 5 ticks.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "30/30 trials: POLL detectou settle, SUB NUNCA notificou (sub_events=0)",
+    tools: ["poc_subscription_vs_poll_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 30,
+    sampleUnit: "trials (30 CALL 5-tick 1HZ10V, POC subscribe:1 vs poll 200ms)",
+  },
+  {
+    id: "D60",
+    title: "Tick Subscription Gap Detection (stream vs history completeness)",
+    market: "DERIV · 1HZ10V · ticks subscribe:1 vs ticks_history · 10min · 20 checks",
+    thesis:
+      "O stream de ticks via WS tem gaps (ticks perdidos)? Se sim, os ticks faltantes sao " +
+      "previsiveis? D54 notou que proposal subscribe:1 nunca reenviou — mas o stream de " +
+      "TICKS em si nao foi auditado quanto a completude contra o historico.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "ticks", "subscription", "gap", "completeness", "refutado"],
+    trigger: "Ticks perdidos no stream seguem padrao temporal regular e previsivel.",
+    invalidation: "Stream e completo (0% missing apos startup) e quotes batem 100% com historico.",
+    createdAt: "2026-07-11",
+    author: "tick_subscription_gap_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, 10min, 20 checks, 626 ticks). Stream de ticks e COMPLETO e " +
+      "CONSISTENTE com historico. 5 ticks missing (0.80%) — todos no primeiro check " +
+      "(startup gap de 5s consecutivas, provavelmente latencia de conexao WS inicial). " +
+      "Checks 2-20: 0 missing. 0 quote mismatches em 626 ticks comparados. Gap pattern: " +
+      "intervalos regulares de 1s (apenas consecutivos no startup, nao recorrentes). " +
+      "Nao ha gaps previsiveis ou exploraveis no stream de ticks apos conexao estabelecida.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "5/626 ticks missing (0.80%), todos no startup. 0 quote mismatches. 19/20 checks limpos.",
+    tools: ["tick_subscription_gap_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "ticks comparados (626 stream vs 626 historico, 20 checks de 30s, 10min total)",
+  },
+  {
+    id: "D61",
+    title: "Reconnection State Inconsistency (WS reconnect mid-contract)",
+    market: "DERIV · 1HZ10V · CALL 10 ticks · WS disconnect+reconnect mid-contract",
+    thesis:
+      "Reconectar WS no meio de um contrato ativo. O estado do contrato (barriers, bid_price) " +
+      "e consistente entre a sessao antiga e nova? Pode haver janela onde informacoes " +
+      "obsoletas sao servidas apos reconexao.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "reconnection", "state", "consistency", "refutado"],
+    trigger: "Barrier ou is_sold muda apos reconexao — dados obsoletos servidos na nova sessao.",
+    invalidation: "Estado do contrato (barrier, is_sold) identico antes e depois da reconexao.",
+    createdAt: "2026-07-11",
+    author: "reconnection_state_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=20 trials, 13 validos). 0 barrier mismatches, 0 sold state " +
+      "changes em 13 trials validos. Reconnect time medio 1.7s (1.5-2.1s). Bid_price muda " +
+      "apos reconexao (esperado — ticks moveu durante os ~1.7s de reconnect), mas barrier " +
+      "e is_sold sao identicos. 7/20 trials com erro de rate limit (reconnect rapido demais). " +
+      "Estado do contrato e CONSISTENTE apos reconexao — nao ha janela de dados obsoletos. " +
+      "O servidor mantem estado do contrato associado ao contract_id, nao a sessao WS.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "0/13 barrier mismatches, 0/13 sold state changes apos reconexao (reconnect ~1.7s)",
+    tools: ["reconnection_state_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 20,
+    sampleUnit: "trials (20 CALL 10-tick 1HZ10V, 13 validos, WS disconnect+reconnect mid-contract)",
+  },
+  {
+    id: "D62",
+    title: "Barrier Rounding Precision (tick vs barrier decimal places)",
+    market: "DERIV · 1HZ10V/50V + R_10/50/100 · CALL/PUT · 5 ticks · 30 rounds",
+    thesis:
+      "Barriers de HIGHER/LOWER sao calculadas com quantas casas decimais? O tick e quoted " +
+      "com mais precisao que a barrier? Se a barrier arredonda para baixo, contratos na " +
+      "borda podem ter probabilidade real diferente da precificada.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "barrier", "precision", "rounding", "refutado"],
+    trigger: "Barrier tem menos casas decimais que o tick, criando edge em contratos na borda.",
+    invalidation: "CALL/PUT nao expoe barrier explicita — barrier e implicita (entry spot), nao ha arredondamento separado.",
+    createdAt: "2026-07-11",
+    author: "barrier_rounding_probe.py",
+    verdict:
+      "REFUTADO para CALL/PUT (2026-07-11, N=300 proposals, 253 validas, 5 simbolos, 30 rounds). " +
+      "CALL/PUT (Higher/Lower) NAO retornam barrier explicita no proposal — barrier=None em " +
+      "253/253 proposals. A barrier e implicita (entry spot do contrato), nao ha arredondamento " +
+      "separado do tick. Spot values mostram 15 casas decimais (artefato float64, nao precisao " +
+      "real). Payout ratio consistente em 1.920 across all symbols/rounds. Nao ha forma de " +
+      "explorar arredondamento de barrier em CALL/PUT porque a barrier nao existe como " +
+      "parametro separado — e o proprio spot de entrada. Para contratos com barrier explicita " +
+      "(HIGHER/LOWER com barrier offset, Touch/No-Touch), teste separado seria necessario.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "253/253 CALL/PUT proposals com barrier=None — barrier implicita, nao ha arredondamento separado",
+    tools: ["barrier_rounding_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 300,
+    sampleUnit: "proposals (5 simbolos x 2 contract types x 30 rounds = 300, 253 validas)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".

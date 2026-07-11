@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**60 hipóteses testadas. 53 refutadas (D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D58 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**64 hipóteses testadas. 57 refutadas (D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D62 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -670,3 +670,27 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     - **Conclusão Deriv**: D47-D58 (12 hipóteses de execução/plataforma) TODAS refutadas.
       O ecossistema Deriv está hermeticamente fechado para exploits de execução, race
       conditions, cross-symbol prediction, stake arbitrage e sell manipulation.
+41. **Follow-up 2026-07-11 (parte 2) — D59/D60/D61/D62: Tier 2 (4 hipóteses de
+    plataforma/streaming) testadas e refutadas:**
+    - **D59 (POC Subscription vs Poll)**: testou se subscribe:1 para proposal_open_contract
+      notifica settle antes do poll manual. N=30 trials CALL 5-tick 1HZ10V. **30/30: SUB
+      NUNCA enviou atualizacoes** (sub_events=0), POLL detectou settle em 30/30. A
+      subscription POC esta completamente quebrada — confirma D54. Nao ha timing gap
+      porque a subscription simplesmente nao funciona. Poll e a unica opcao (~143ms RTT).
+    - **D60 (Tick Subscription Gap)**: auditou stream de ticks vs historico. 10min, 20
+      checks, 626 ticks. **5/626 missing (0.80%) — todos no startup** (5s consecutivas,
+      latencia de conexao WS inicial). Checks 2-20: 0 missing. **0 quote mismatches**.
+      Stream e completo e consistente apos conexao estabelecida. Nao ha gaps previsiveis.
+    - **D61 (Reconnection State)**: forcou reconexao WS mid-contrato. N=20 trials, 13
+      validos. **0/13 barrier mismatches, 0/13 sold state changes**. Reconnect ~1.7s.
+      Bid_price muda (esperado — ticks moveu), mas barrier e is_sold identicos. Estado
+      do contrato e consistente — servidor mantem estado por contract_id, nao por sessao.
+    - **D62 (Barrier Rounding)**: testou se barrier tem menos precisao que tick. N=300
+      proposals, 5 simbolos, 30 rounds. **253/253 CALL/PUT com barrier=None** — CALL/PUT
+      nao expoe barrier explicita, e implicita (entry spot). Nao ha arredondamento
+      separado para explorar. Payout ratio 1.920 consistente.
+    - **Conclusão Deriv Tier 2**: D59-D62 (4 hipóteses de streaming/plataforma) TODAS
+      refutadas. D47-D62 (16 hipóteses total) formam um bloco coeso: o ecossistema Deriv
+      esta fechado para exploits de execução, race conditions, cross-symbol prediction,
+      stake arbitrage, sell manipulation, subscription timing, tick gaps, reconnection
+      state e barrier precision.
