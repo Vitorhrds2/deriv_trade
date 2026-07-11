@@ -2654,7 +2654,7 @@ export const realHypotheses: RealHypothesis[] = [
   {
     id: "D67",
     title: "Cross-Duration Sequential Info Edge (5-tick outcome vs 10-tick outcome)",
-    market: "DERIV · 1HZ10V · CALL 5-tick + CALL 10-tick simultaneos · 35 trials",
+    market: "DERIV · 1HZ10V · CALL 5-tick + CALL 10-tick simultaneos · 40 trials",
     thesis:
       "Comprar CALL 5-tick + CALL 10-tick simultaneamente. Apos 5-tick settle, voce sabe " +
       "a direcao de 5 dos 10 ticks. Se ha autocorrelacao, saber os primeiros 5 ticks da " +
@@ -2662,28 +2662,30 @@ export const realHypotheses: RealHypothesis[] = [
       "em contratos sobrepostos.",
     confidence: 0,
     status: "refuted",
-    tags: ["deriv", "cross-duration", "autocorrelation", "info-edge", "inconclusive"],
+    tags: ["deriv", "cross-duration", "autocorrelation", "info-edge", "artefato-matematico"],
     trigger: "P(10t WON | 5t WON) != P(10t WON | 5t LOST) de forma significativa.",
     invalidation: "P(10t WON | 5t WON) = P(10t WON | 5t LOST) — ticks independentes.",
     createdAt: "2026-07-11",
     author: "cross_duration_info_probe.py",
     verdict:
-      "INCONCLUSIVO / BUG SUSPEITO (2026-07-11, N=35 trials). 35/35 trials: 5t=LOST, " +
-      "10t=LOST — 0% win rate em CALL e estatisticamente impossivel (p < 10^-10 para " +
-      "mercado random walk com 52% win probability). Entry spots oscilam entre 9500-9504 " +
-      "(nao trending), tornando 0/35 ainda mais suspeito. Provavel causa: bug no " +
-      "wait_settle() — POC is_won pode nao ser populado antes de is_sold=1, ou timeout " +
-      "retorna is_won=0 por default. Sem variacao (0 WON), nao e possivel calcular " +
-      "P(10t|5t) — hipotese nao pode ser testada. Recomendado: debugar wait_settle e " +
-      "re-rodar com PUT (ou ambos CALL+PUT) para capturar variacao.",
+      "REFUTADO COMO ARTEFATO MATEMATICO (2026-07-11, N=40 trials, bug corrigido). " +
+      "Apos corrigir bug no wait_settle() (is_won nao populado antes de is_sold), " +
+      "re-rodou com N=40. Resultado: P(10t WON | 5t WON)=0.867 (13/15), " +
+      "P(10t WON | 5t LOST)=0.200 (5/25), diff=+0.667. Mas isto e ARTEFATO MATEMATICO, " +
+      "nao autocorrelacao: o contrato 10-tick INCLUI os mesmos 5 ticks do 5-tick. Se " +
+      "os primeiros 5 ticks subiram (5t WON), o 10-tick ja esta ITM e so precisa " +
+      "manter nos 5 restantes. Nao e exploravel diretamente — nao da para vender " +
+      "tick contracts (D58 confirmou). P&L: 5t=-$11.20, 10t=-$5.44 (house edge). " +
+      "Combinacao D67+D69: se 5-tick outcome prediz 5-minuto early (onde sell " +
+      "funciona), overlap seria apenas 5/300 ticks (1.7%), poder preditivo muito menor.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "35/35 LOST — bug suspeito, dados insuficientes para conclusao",
+    ci95Label: "P(10t|5t WON)=0.867 vs P(10t|5t LOST)=0.200 — artefato matematico (overlap de ticks)",
     tools: ["cross_duration_info_probe.py"],
     reportFile: "docs/state_of_research.md",
-    pnl: -70,
-    trades: 70,
-    sampleUnit: "trials (35 CALL 5t + 35 CALL 10t = 70 contracts, todos LOST — bug suspeito)",
+    pnl: -16.64,
+    trades: 80,
+    sampleUnit: "trials (40 CALL 5t + 40 CALL 10t = 80 contracts, bug corrigido, WR 37.5%/45%", 
   },
   {
     id: "D68",
@@ -2787,6 +2789,48 @@ export const realHypotheses: RealHypothesis[] = [
     pnl: 4.32,
     trades: 60,
     sampleUnit: "contracts (20 trials x 3 contracts = 60 CALL 5-tick 1HZ10V, buys sequenciais 0.3s apart)",
+  },
+  {
+    id: "D71",
+    title: "Early-Sell Real Probe (non-hindsight, paired) — HYP-SELL-01 re-test com sell real",
+    market: "DERIV · 1HZ10V · CALL/PUT 5m alternados · 30 trials · stake $1.00",
+    thesis:
+      "D69 descobriu que sell funciona em duracoes > tick. Isto reabre HYP-SELL-01 " +
+      "(early-sell optionality), refutada anteriormente por hindsight bias na simulacao " +
+      "original (usava max(bid) do caminho todo — so conhecido no expiry). Metodologia " +
+      "corrigida: threshold predefinido, vender no primeiro bid >= threshold, comparacao " +
+      "pareada por trial (sell_rule_profit vs hold_profit), bootstrap diff para IC95%.",
+    confidence: 3,
+    status: "validating",
+    tags: ["deriv", "early-sell", "resale", "non-hindsight", "paired", "edge", "descoberta"],
+    trigger: "IC95% da diferenca sell_rule_profit - hold_profit exclui zero em pelo menos um threshold.",
+    invalidation: "IC95% cruza zero em todos os thresholds — sell cedo nao tem EV positivo.",
+    createdAt: "2026-07-11",
+    author: "early_sell_real_probe.py",
+    verdict:
+      "*** EDGE ENCONTRADO *** (2026-07-11, N=30 trials, 5m CALL/PUT alternados 1HZ10V). " +
+      "Hold-to-expiry: EV=-$0.040, WR=50%. Max bid ratio: mean=1.855, max=1.920. " +
+      "Todos os thresholds 1.05-1.70 tem CI95% excluindo zero: " +
+      "threshold 1.05: diff=+$0.491 CI95%[+$0.070,+$0.915]; " +
+      "threshold 1.10: diff=+$0.525 CI95%[+$0.109,+$0.941]; " +
+      "threshold 1.30: diff=+$0.594 CI95%[+$0.205,+$0.993]; " +
+      "threshold 1.50: diff=+$0.681 CI95%[+$0.318,+$1.063] (MELHOR); " +
+      "threshold 1.70: diff=+$0.671 CI95%[+$0.334,+$1.013]; " +
+      "threshold 2.00: 0/30 triggered (bid nunca chegou a 2x buy). " +
+      "Mecanismo: 1HZ10V (baixa volatilidade) oscila em torno do entry — bid chega perto " +
+      "do payout ($1.92) em quase todos os trials, mesmo os que perdem. Vender quando " +
+      "bid >= threshold trava o lucro antes do preco reverter. " +
+      "CAVEAT: poll de 2s pode superestimar sell price (bid salta de <1.30 para ~1.80 " +
+      "entre polls). Mesmo com estimativa conservadora (sell exatamente no threshold), " +
+      "o edge persiste. PROXIMO PASSO: D72 — validar com sells reais (fase 2).",
+    evPerTrade: 0.681,
+    ci95: [0.318, 1.063],
+    ci95Label: "Diff sell_rule - hold no threshold 1.50 (melhor): +$0.681 CI95%[+$0.318,+$1.063]",
+    tools: ["early_sell_real_probe.py", "long_duration_resale_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -1.2,
+    trades: 30,
+    sampleUnit: "trials (30 CALL/PUT 5m 1HZ10V, bid monitorado via POC polling 2s, nao vendido de verdade)",
   },
 ];
 

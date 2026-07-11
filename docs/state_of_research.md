@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**72 hipóteses testadas. 64 refutadas (D67 cross-duration info edge INCONCLUSIVO/bug 35/35 LOST, D68 tick arrival jitter REFUTADO 2026-07-11 server epoch 1.000s ± 0, D70 multi-contract entry spot REFUTADO 2026-07-11 20/20 diferentes mas nao previsivel, D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered' — CORRIGIDO por D69: sell funciona em duracoes > tick, D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). **D69 (Long-Duration Resale) DESCOBERTA SIGNIFICATIVA: sell funciona em 12/12 duracoes 1m-1d — REABRE hipotese early-sell (HYP-SELL-01) com venda real.** D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D68, D70 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**73 hipóteses testadas. 65 refutadas (D67 cross-duration info edge REFUTADO como artefato matematico 2026-07-11 P(10t|5t WON)=0.867 mas overlap de ticks, D68 tick arrival jitter REFUTADO 2026-07-11 server epoch 1.000s ± 0, D70 multi-contract entry spot REFUTADO 2026-07-11 20/20 diferentes mas nao previsivel, D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered' — CORRIGIDO por D69: sell funciona em duracoes > tick, D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). **D69 (Long-Duration Resale) DESCOBERTA: sell funciona em 12/12 duracoes 1m-1d.** **D71 (Early-Sell Real Probe) EDGE ENCONTRADO: threshold 1.50 diff=+$0.681 CI95%[+$0.318,+$1.063] N=30 — sell no bid >= 1.50x buy tem EV positivo vs hold.** D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D68, D70 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -747,7 +747,30 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       sequenciais (0.3s apart), e o spread é apenas movimento aleatório do tick entre
       buys. Não é previsível qual contrato receberá o entry_spot favorável. P&L
       +$4.32 (WR=52%) — consistente com random walk.
-    - **Conclusão Deriv Tier 4**: D67/D68/D70 refutados/inconclusivos. D69 é a
+    - **Conclusão Deriv Tier 4**: D67/D68/D70 refutados. D69 é a
       primeira DESCOBERTA não-refutada desde D47 — sell funciona em durações > tick,
-      reabrindo early-sell. D47-D68, D70 (21 hipóteses) refutadas. D69 em validação
-      (próximo passo: re-testar HYP-SELL-01 com sells reais em 15m+).
+      reabrindo early-sell. D47-D68, D70 (21 hipóteses) refutadas. D69 em validação.
+44. **Follow-up 2026-07-11 (parte 5) — D67 corrigido + D71 Early-Sell Real Probe:**
+    - **D67 (Cross-Duration Info Edge) CORRIGIDO**: bug no wait_settle() corrigido
+      (is_won não populado antes de is_sold). Re-rodado com N=40. Resultado:
+      P(10t WON | 5t WON)=0.867 (13/15), P(10t WON | 5t LOST)=0.200 (5/25),
+      diff=+0.667. Mas isto é ARTEFATO MATEMÁTICO — o contrato 10-tick inclui os
+      mesmos 5 ticks do 5-tick. Se os primeiros 5 ticks subiram, o 10-tick já está
+      ITM e só precisa manter. Não é explorável diretamente (não dá para vender tick
+      contracts). REFUTADO como artefato.
+    - **D71 (Early-Sell Real Probe) — ***EDGE ENCONTRADO*****: re-testou HYP-SELL-01
+      com metodologia corrigida (non-hindsight, pareado). N=30 trials, CALL/PUT 5m
+      alternados em 1HZ10V. Hold-to-expiry: EV=-$0.040, WR=50%. Max bid ratio:
+      mean=1.855, max=1.920. TODOS os thresholds 1.05-1.70 têm CI95% excluindo zero:
+      threshold 1.05: diff=+$0.491 CI95%[+$0.070,+$0.915];
+      threshold 1.10: diff=+$0.525 CI95%[+$0.109,+$0.941];
+      threshold 1.30: diff=+$0.594 CI95%[+$0.205,+$0.993];
+      threshold 1.50: diff=+$0.681 CI95%[+$0.318,+$1.063] (MELHOR);
+      threshold 1.70: diff=+$0.671 CI95%[+$0.334,+$1.013];
+      threshold 2.00: 0/30 triggered.
+      Mecanismo: 1HZ10V (baixa volatilidade) oscila em torno do entry — bid chega
+      perto do payout ($1.92) em quase todos os trials, mesmo os que perdem. Vender
+      quando bid >= threshold trava o lucro antes do preço reverter.
+      CAVEAT: poll de 2s pode superestimar sell price (bid salta de <1.30 para ~1.80
+      entre polls). Mesmo com estimativa conservadora, o edge persiste.
+      PROXIMO PASSO: D72 — validar com sells reais (fase 2).

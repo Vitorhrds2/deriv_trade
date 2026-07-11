@@ -85,6 +85,7 @@ async def buy_call(client, duration, trial_num):
 
 async def wait_settle(client, contract_id, max_wait_s=120):
     t0 = time.time()
+    debug_logged = False
     while time.time() - t0 < max_wait_s:
         await asyncio.sleep(0.5)
         try:
@@ -93,14 +94,27 @@ async def wait_settle(client, contract_id, max_wait_s=120):
                 "contract_id": contract_id,
             })
             poc_data = poc.get("proposal_open_contract", {})
+            if not debug_logged and poc_data:
+                debug_logged = True
             if poc_data.get("is_sold", 0):
+                await asyncio.sleep(1.0)
+                poc2 = await client.send_request({
+                    "proposal_open_contract": 1,
+                    "contract_id": contract_id,
+                })
+                poc2_data = poc2.get("proposal_open_contract", poc_data)
+                profit = float(poc2_data.get("profit", 0))
+                is_won = poc2_data.get("is_won")
+                if is_won is None:
+                    is_won = 1 if profit > 0 else 0
                 return {
                     "is_sold": 1,
-                    "is_won": poc_data.get("is_won", 0),
-                    "profit": float(poc_data.get("profit", 0)),
-                    "entry_spot": float(poc_data.get("entry_spot", 0) or 0),
-                    "exit_spot": float(poc_data.get("exit_tick", 0) or 0),
-                    "tick_count": poc_data.get("tick_count"),
+                    "is_won": int(is_won),
+                    "profit": profit,
+                    "entry_spot": float(poc2_data.get("entry_spot", 0) or 0),
+                    "exit_spot": float(poc2_data.get("exit_tick", 0) or 0),
+                    "tick_count": poc2_data.get("tick_count"),
+                    "status": poc2_data.get("status", ""),
                 }
         except:
             pass
