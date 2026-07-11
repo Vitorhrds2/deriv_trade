@@ -2974,28 +2974,29 @@ export const realHypotheses: RealHypothesis[] = [
       "RESETCALL/RESETPUT (reset options), TURBOSLONG/TURBOSSHORT (turbos), UPORDOWN. " +
       "Estrutura de payoff mais complexa pode ter mispricing.",
     confidence: 0,
-    status: "validating",
+    status: "refuted",
     tags: ["deriv", "untested", "calle", "pute", "reset", "turbos", "upordown", "directional-bias"],
     trigger: "EV > 0 em pelo menos um contract type com CI95% excluindo zero.",
     invalidation: "EV <= 0 em todos os tipos (house margin presente).",
     createdAt: "2026-07-11",
     author: "untested_contracts_probe.py",
     verdict:
-      "SINAL EM PUTE (2026-07-11, MC N=10000, 5000 ticks 1HZ10V). " +
-      "PUTE 5t: P(win)=55% EV=+$0.056; PUTE 1m: P(win)=70% EV=+$0.338; " +
-      "PUTE 5m: P(win)=92% EV=+$0.764. CALLE tem espelho (P(win)=30%). " +
-      "RESETCALL/RESETPUT: EV negativo ou marginal. TURBOS: nao disponivel. " +
-      "UPORDOWN: requer barrier (double barrier). " +
-      "CAVEAT: MC pode ter viés de amostra (downtrend no periodo). " +
-      "D82 valida com trades reais.",
-    evPerTrade: 0.344,
-    ci95: [-0.04, 0.73],
-    ci95Label: "PUTE 5t MC EV=+$0.056; validacao real D82: WR=70% EV=+$0.344 CI95%[-$0.04,+$0.73]",
+      "REFUTADO (2026-07-11, MC N=10000 + validacao real N=40). MC mostrou PUTE P(win)=70% " +
+      "(1m) aparentando edge, mas D82 validacao com trades reais refutou: " +
+      "Run 1 (N=20): WR=70% EV=+$0.344 CI95%[-$0.04,+$0.73] (falso-positivo). " +
+      "Run 2 (N=20): WR=45% EV=-$0.136 CI95%[-$0.52,+$0.25] (regressao a media). " +
+      "Combinado: WR=57.5% (23W/17L) EV=+$0.104 — nao significativo. " +
+      "CALLE espelho (P(win)=30%) tambem era viés de amostra. " +
+      "RESETCALL/RESETPUT: EV negativo. TURBOS: nao disponivel. UPORDOWN: requer barrier. " +
+      "Todos os 7 tipos testados refutados — house margin presente.",
+    evPerTrade: -0.136,
+    ci95: [-0.52, 0.25],
+    ci95Label: "D82 run 2: WR=45% EV=-$0.136 CI95%[-$0.52,+$0.25] — viés de amostra confirmado",
     tools: ["untested_contracts_probe.py", "pute_drift_validation.py"],
     reportFile: "docs/state_of_research.md",
-    pnl: -2.0,
-    trades: 20,
-    sampleUnit: "MC: 16 cells x 10000 sims; Real: 20 PUTE 5t trades",
+    pnl: -4.0,
+    trades: 40,
+    sampleUnit: "MC: 16 cells x 10000 sims; Real: 40 PUTE 5t trades (2 runs x 20)",
   },
   {
     id: "D80",
