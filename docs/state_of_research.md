@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**68 hipóteses testadas. 61 refutadas (D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered', D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D66 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**72 hipóteses testadas. 64 refutadas (D67 cross-duration info edge INCONCLUSIVO/bug 35/35 LOST, D68 tick arrival jitter REFUTADO 2026-07-11 server epoch 1.000s ± 0, D70 multi-contract entry spot REFUTADO 2026-07-11 20/20 diferentes mas nao previsivel, D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered' — CORRIGIDO por D69: sell funciona em duracoes > tick, D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). **D69 (Long-Duration Resale) DESCOBERTA SIGNIFICATIVA: sell funciona em 12/12 duracoes 1m-1d — REABRE hipotese early-sell (HYP-SELL-01) com venda real.** D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D68, D70 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -722,3 +722,32 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       prediction, stake/duration arbitrage, sell manipulation, subscription timing, tick
       gaps, reconnection state, barrier precision, entry spot staleness e settlement
       variability.
+43. **Follow-up 2026-07-11 (parte 4) — D67/D68/D69/D70: Tier 4 (4 hipóteses de
+    info-edge/timing/resale/multi-contract) testadas:**
+    - **D67 (Cross-Duration Info Edge)**: testou se saber o outcome de um contrato
+      5-tick da edge em um contrato 10-tick simultaneo. N=35 trials. **35/35 LOST**
+      em ambos 5t e 10t — 0% WR em CALL é estatisticamente impossível (p < 10^-10).
+      Provável bug no wait_settle() (POC is_won não populado ou timeout). Sem
+      variação (0 WON), não foi possível calcular P(10t|5t). INCONCLUSIVO.
+    - **D68 (Tick Arrival Jitter)**: testou se há jitter sub-segundo na geração de
+      ticks. N=300 ticks, 5min. **Server-side epoch diffs: 1.000s ± 0.000s** —
+      servidor gera ticks perfeitamente regulares. Jitter local: 26.6ms (rede).
+      Autocorrelação lag-1 = -0.72 (ping-pong de latência de rede, não servidor).
+      Sem jitter previsível para explorar.
+    - **D69 (Long-Duration Resale)**: ***DESCOBERTA SIGNIFICATIVA***. D58 concluiu
+      "Resale not offered" mas só testou tick contracts. Sell ACEITO em 12/12 tests
+      across ALL durations: 1m, 5m, 15m, 1h, 4h, 1d. Sell prices $0.87-$0.95,
+      bid prices $0.87-$1.22, is_valid_to_sell=1 em todos. **ISTO REABRE a hipotese
+      early-sell (HYP-SELL-01)** — agora pode ser re-testada com capacidade REAL de
+      venda em durações 15m+. A pergunta mudou de "sell funciona?" para "sell no
+      momento certo tem EV positivo vs hold-to-expiry?".
+    - **D70 (Multi-Contract Entry Spot)**: testou se contratos simultaneos no mesmo
+      símbolo recebem o mesmo entry_spot. N=20 trials, 60 contracts. **20/20 trials:
+      entry_spots DIFERENTES** (spread médio 0.176, max 0.36). Mas os buys são
+      sequenciais (0.3s apart), e o spread é apenas movimento aleatório do tick entre
+      buys. Não é previsível qual contrato receberá o entry_spot favorável. P&L
+      +$4.32 (WR=52%) — consistente com random walk.
+    - **Conclusão Deriv Tier 4**: D67/D68/D70 refutados/inconclusivos. D69 é a
+      primeira DESCOBERTA não-refutada desde D47 — sell funciona em durações > tick,
+      reabrindo early-sell. D47-D68, D70 (21 hipóteses) refutadas. D69 em validação
+      (próximo passo: re-testar HYP-SELL-01 com sells reais em 15m+).

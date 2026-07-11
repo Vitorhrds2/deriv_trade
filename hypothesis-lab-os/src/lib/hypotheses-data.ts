@@ -2651,6 +2651,143 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 50,
     sampleUnit: "trials (50 CALL 1/5/10/15/30-tick 1HZ10V, 3 validos com tick_count reportado)",
   },
+  {
+    id: "D67",
+    title: "Cross-Duration Sequential Info Edge (5-tick outcome vs 10-tick outcome)",
+    market: "DERIV · 1HZ10V · CALL 5-tick + CALL 10-tick simultaneos · 35 trials",
+    thesis:
+      "Comprar CALL 5-tick + CALL 10-tick simultaneamente. Apos 5-tick settle, voce sabe " +
+      "a direcao de 5 dos 10 ticks. Se ha autocorrelacao, saber os primeiros 5 ticks da " +
+      "edge nos 5 restantes. D46 testou padroes de 3 ticks — isto testa informacao parcial " +
+      "em contratos sobrepostos.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "cross-duration", "autocorrelation", "info-edge", "inconclusive"],
+    trigger: "P(10t WON | 5t WON) != P(10t WON | 5t LOST) de forma significativa.",
+    invalidation: "P(10t WON | 5t WON) = P(10t WON | 5t LOST) — ticks independentes.",
+    createdAt: "2026-07-11",
+    author: "cross_duration_info_probe.py",
+    verdict:
+      "INCONCLUSIVO / BUG SUSPEITO (2026-07-11, N=35 trials). 35/35 trials: 5t=LOST, " +
+      "10t=LOST — 0% win rate em CALL e estatisticamente impossivel (p < 10^-10 para " +
+      "mercado random walk com 52% win probability). Entry spots oscilam entre 9500-9504 " +
+      "(nao trending), tornando 0/35 ainda mais suspeito. Provavel causa: bug no " +
+      "wait_settle() — POC is_won pode nao ser populado antes de is_sold=1, ou timeout " +
+      "retorna is_won=0 por default. Sem variacao (0 WON), nao e possivel calcular " +
+      "P(10t|5t) — hipotese nao pode ser testada. Recomendado: debugar wait_settle e " +
+      "re-rodar com PUT (ou ambos CALL+PUT) para capturar variacao.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "35/35 LOST — bug suspeito, dados insuficientes para conclusao",
+    tools: ["cross_duration_info_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -70,
+    trades: 70,
+    sampleUnit: "trials (35 CALL 5t + 35 CALL 10t = 70 contracts, todos LOST — bug suspeito)",
+  },
+  {
+    id: "D68",
+    title: "Tick Arrival Jitter (sub-second timing precision of tick generation)",
+    market: "DERIV · 1HZ10V · 300 ticks coletados por 5 minutos",
+    thesis:
+      "Ticks sinteticos chegam a exatamente 1 segundo de intervalo? Se ha jitter sub-segundo " +
+      "no relogio de geracao de ticks, voce pode prever quando o proximo tick chega e " +
+      "timingar o buy para capturar entry_spot favoravel. D60 testou ticks faltantes, mas " +
+      "nao jitter.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "tick", "jitter", "timing", "latency", "refutado"],
+    trigger: "Jitter sub-segundo nos inter-arrival times que e previsivel (autocorrelacionado).",
+    invalidation: "Server-side epoch diffs = 1.000s exato, jitter e apenas ruido de rede nao-previsivel.",
+    createdAt: "2026-07-11",
+    author: "tick_arrival_jitter_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=300 ticks, 5min). Server-side epoch diffs: exatamente 1.000s " +
+      "com std=0.000s — servidor gera ticks em intervalos perfeitamente regulares. Jitter " +
+      "local: mean=-0.14ms, std=26.6ms, 92.7% dentro de [0.95, 1.05]s. Latencia rede: " +
+      "mean=145ms, std=16.4ms. Autocorrelacao lag-1 = -0.72 (forte negativa) — mas isto e " +
+      "ping-pong de latencia de rede (se um tick chega atrasado, o proximo chega adiantado " +
+      "porque o buffer de rede esvaziou), NAO e do servidor. Server-side jitter = 0. " +
+      "Nao ha jitter previsivel para explorar no timing do buy.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "Server epoch diffs: 1.000s ± 0.000s (N=300). Jitter local 26.6ms = ruido de rede.",
+    tools: ["tick_arrival_jitter_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "ticks (300 ticks 1HZ10V coletados em 5min, inter-arrival + epoch + latencia)",
+  },
+  {
+    id: "D69",
+    title: "Long-Duration Resale (sell funciona para duracoes > tick?)",
+    market: "DERIV · 1HZ10V · CALL · 1m/5m/15m/1h/4h/1d · 2 trials per duration",
+    thesis:
+      "D58 so testou tick contracts (resale rejeitado: 'Resale not offered on this contract'). " +
+      "O veredito notou que 'resale pode existir para duracoes maiores (1d+)'. Se sell " +
+      "funciona para contratos longos, a hipotese early-sell (HYP-SELL-01) pode ser " +
+      "re-testada com capacidade real de venda.",
+    confidence: 0,
+    status: "validating",
+    tags: ["deriv", "resale", "sell", "long-duration", "early-sell", "descoberta"],
+    trigger: "Sell aceito em duracoes > tick — reabre early-sell com venda real.",
+    invalidation: "Sell rejeitado em todas as duracoes — D58 confirmado.",
+    createdAt: "2026-07-11",
+    author: "long_duration_resale_probe.py",
+    verdict:
+      "DESCOBERTA SIGNIFICATIVA (2026-07-11, N=12 tests, 2 per duration). Sell ACEITO em " +
+      "12/12 tests across ALL durations: 1m, 5m, 15m, 1h, 4h, 1d. Sell prices: $0.87-$0.95 " +
+      "(buy $1.00, spread 5-13 cents). Bid prices disponiveis no POC: $0.87-$1.22. " +
+      "is_valid_to_sell=1 em todos. D58 estava ERRADO ao concluir 'Resale not offered' — " +
+      "so testou tick contracts. Sell funciona para minute/hour/day durations. " +
+      "ISTO REABRE a hipotese early-sell (HYP-SELL-01, refutada com hindsight bias em " +
+      "simulacao). Agora pode ser re-testada com capacidade REAL de venda: comprar CALL " +
+      "15m, monitorar bid_price, vender quando bid > threshold. A pergunta nao e mais " +
+      "'sell funciona?' mas 'sell no momento certo tem EV positivo vs hold-to-expiry?'. " +
+      "PROXIMO PASSO: re-testar HYP-SELL-01 com sells reais em duracoes 15m+.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "12/12 sells aceitos (1m a 1d). Sell prices $0.87-$0.95, bid prices $0.87-$1.22.",
+    tools: ["long_duration_resale_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -1.08,
+    trades: 12,
+    sampleUnit: "tests (6 duracoes x 2 trials = 12 contracts, todos vendidos com sell real)",
+  },
+  {
+    id: "D70",
+    title: "Multi-Contract Entry Spot Consistency (contratos simultaneos mesmo entry_spot?)",
+    market: "DERIV · 1HZ10V · CALL 5-tick · 3 contracts/trial · 20 trials",
+    thesis:
+      "Comprar 2+ contratos no mesmo simbolo simultaneamente. Todos recebem o mesmo " +
+      "entry_spot? Se nao, ha discrepancia exploravel — sempre comprar o contrato com " +
+      "entry_spot favoravel. D64 testou 1 contrato vs tick; isto testa consistencia " +
+      "entre multiplos contratos concorrentes.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "multi-contract", "entry-spot", "consistency", "refutado"],
+    trigger: "Contratos simultaneos recebem entry_spots diferentes de forma previsivel.",
+    invalidation: "Entry_spots diferem apenas por movimento de tick entre buys sequenciais — nao previsivel.",
+    createdAt: "2026-07-11",
+    author: "multi_contract_entry_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=20 trials, 60 contracts). 20/20 trials: entry_spots DIFERENTES " +
+      "(0/20 identicos). Spread medio: 0.176, max: 0.36. Mas os buys sao sequenciais (0.3s " +
+      "apart), e cada buy captura o tick atual no momento do processamento. O spread e " +
+      "apenas o movimento aleatorio do tick entre buys — ~1-2 ticks de movimento. Nao e " +
+      "previsivel qual contrato recebera o entry_spot favoravel. P&L: +$4.32 (60 contracts, " +
+      "WR=52%) — consistente com random walk. Se os buys fossem verdadeiramente simultaneos " +
+      "(mesmo milissegundo), poderiam receber o mesmo entry_spot, mas a API processa " +
+      "requests sequencialmente. Nao ha discrepancia exploravel.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "20/20 trials: entry_spots diferentes, spread medio 0.176 — movimento de tick, nao previsivel",
+    tools: ["multi_contract_entry_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 4.32,
+    trades: 60,
+    sampleUnit: "contracts (20 trials x 3 contracts = 60 CALL 5-tick 1HZ10V, buys sequenciais 0.3s apart)",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".
