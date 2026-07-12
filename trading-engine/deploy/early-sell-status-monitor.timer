@@ -1,0 +1,12 @@
+[Unit]
+Description=Snapshot Early Sell and OOS test status every five minutes
+
+[Timer]
+OnCalendar=*:2/5
+AccuracySec=15s
+RandomizedDelaySec=15s
+Persistent=true
+Unit=early-sell-status-monitor.service
+
+[Install]
+WantedBy=timers.target
