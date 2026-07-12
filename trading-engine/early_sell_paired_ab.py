@@ -7,12 +7,13 @@ import statistics
 import sys
 import time
 import urllib.request
+from collections import Counter
 from datetime import datetime, timezone
 
 from dotenv import load_dotenv
 
 from deriv_client import DerivClient
-from stats_utils import bootstrap_ci
+from stats_utils import bootstrap_ci, wilson_ci
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(HERE, ".env"))
@@ -329,9 +330,21 @@ def analyze(records, target_pairs, min_trigger_rate=0.25, min_fill_rate=0.95):
     t_ci = bootstrap_ci(treatment) if treatment else (0.0, 0.0, 0.0)
     c_ci = bootstrap_ci(control) if control else (0.0, 0.0, 0.0)
     d_ci = bootstrap_ci(diffs) if diffs else (0.0, 0.0, 0.0)
+    treatment_wins = sum(profit > 0 for profit in treatment)
+    control_wins = sum(profit > 0 for profit in control)
+    treatment_wr_ci = wilson_ci(treatment_wins, len(valid))
+    control_wr_ci = wilson_ci(control_wins, len(valid))
+    treatment_better = sum(diff > 0 for diff in diffs)
+    control_better = sum(diff < 0 for diff in diffs)
+    ties = sum(diff == 0 for diff in diffs)
+    paired_wr_ci = wilson_ci(treatment_better, len(valid))
     triggered = [r for r in valid if r["treatment"].get("trigger")]
     sold = [r for r in triggered if r["treatment"].get("exit") in ("sell", "sell_confirmed")]
     slippage = [r["treatment"].get("slippage") for r in sold if r["treatment"].get("slippage") is not None]
+    sell_latency = [r["treatment"].get("sell_latency_s") for r in sold if r["treatment"].get("sell_latency_s") is not None]
+    buy_response_gaps = [r.get("buy_response_gap_s") for r in valid if r.get("buy_response_gap_s") is not None]
+    expiry_gaps = [r.get("expiry_gap_s") for r in valid if r.get("expiry_gap_s") is not None]
+    entry_spot_gaps = [r.get("entry_spot_gap_abs") for r in valid if r.get("entry_spot_gap_abs") is not None]
     trigger_rate = len(triggered) / len(valid) if valid else 0.0
     fill_rate = len(sold) / len(triggered) if triggered else 0.0
     gate = (
@@ -343,6 +356,8 @@ def analyze(records, target_pairs, min_trigger_rate=0.25, min_fill_rate=0.95):
     )
     return {
         "updated_utc": utc_now(),
+        "attempts": len(records),
+        "status_counts": dict(sorted(Counter(r.get("status", "missing") for r in records).items())),
         "valid_pairs": len(valid),
         "target_pairs": target_pairs,
         "treatment_ev_ci95": list(t_ci),
@@ -350,13 +365,33 @@ def analyze(records, target_pairs, min_trigger_rate=0.25, min_fill_rate=0.95):
         "paired_diff_ci95": list(d_ci),
         "treatment_total_pnl": sum(treatment),
         "control_total_pnl": sum(control),
+        "treatment_wins": treatment_wins,
+        "treatment_win_rate": treatment_wins / len(valid) if valid else 0.0,
+        "treatment_win_rate_wilson_ci95": list(treatment_wr_ci),
+        "control_wins": control_wins,
+        "control_win_rate": control_wins / len(valid) if valid else 0.0,
+        "control_win_rate_wilson_ci95": list(control_wr_ci),
+        "treatment_better_pairs": treatment_better,
+        "control_better_pairs": control_better,
+        "tied_pairs": ties,
+        "paired_treatment_better_rate": treatment_better / len(valid) if valid else 0.0,
+        "paired_treatment_better_wilson_ci95": list(paired_wr_ci),
         "triggered": len(triggered),
         "trigger_rate": trigger_rate,
         "minimum_trigger_rate": min_trigger_rate,
         "sold": len(sold),
+        "triggered_not_filled": len(triggered) - len(sold),
         "fill_rate": fill_rate,
         "minimum_fill_rate": min_fill_rate,
         "mean_slippage": statistics.mean(slippage) if slippage else None,
+        "minimum_slippage": min(slippage) if slippage else None,
+        "maximum_slippage": max(slippage) if slippage else None,
+        "mean_sell_latency_s": statistics.mean(sell_latency) if sell_latency else None,
+        "maximum_sell_latency_s": max(sell_latency) if sell_latency else None,
+        "mean_buy_response_gap_s": statistics.mean(buy_response_gaps) if buy_response_gaps else None,
+        "maximum_buy_response_gap_s": max(buy_response_gaps) if buy_response_gaps else None,
+        "maximum_entry_spot_gap": max(entry_spot_gaps) if entry_spot_gaps else None,
+        "maximum_expiry_gap_s": max(expiry_gaps) if expiry_gaps else None,
         "demo_gate_pass": gate,
         "decision": "DEMO_SIGNAL" if gate else "NOT_VALIDATED",
     }

@@ -17,12 +17,16 @@ class AnalyzeTests(unittest.TestCase):
         if sold:
             treatment["exit"] = "sell"
             treatment["slippage"] = 0.0
+            treatment["sell_latency_s"] = 0.2
         return {
             "status": "complete",
             "treatment_profit": treatment_profit,
             "control_profit": control_profit,
             "paired_diff": treatment_profit - control_profit,
             "treatment": treatment,
+            "buy_response_gap_s": 0.1,
+            "entry_spot_gap_abs": 0.0,
+            "expiry_gap_s": 0.0,
         }
 
     def test_gate_passes_only_with_positive_paired_evidence(self):
@@ -30,8 +34,19 @@ class AnalyzeTests(unittest.TestCase):
         stats = ab.analyze(records, 20)
         self.assertTrue(stats["demo_gate_pass"])
         self.assertEqual(stats["decision"], "DEMO_SIGNAL")
+        self.assertEqual(stats["attempts"], 20)
+        self.assertEqual(stats["status_counts"], {"complete": 20})
         self.assertEqual(stats["valid_pairs"], 20)
+        self.assertEqual(stats["treatment_win_rate"], 1.0)
+        self.assertEqual(stats["control_win_rate"], 0.0)
+        self.assertEqual(stats["paired_treatment_better_rate"], 1.0)
+        self.assertEqual(stats["treatment_better_pairs"], 20)
+        self.assertEqual(stats["control_better_pairs"], 0)
+        self.assertEqual(stats["tied_pairs"], 0)
         self.assertEqual(stats["fill_rate"], 1.0)
+        self.assertEqual(stats["mean_sell_latency_s"], 0.2)
+        self.assertEqual(stats["maximum_buy_response_gap_s"], 0.1)
+        self.assertGreater(stats["treatment_win_rate_wilson_ci95"][0], 0)
         self.assertGreater(stats["paired_diff_ci95"][0], 0)
 
     def test_gate_fails_without_trigger_volume(self):
