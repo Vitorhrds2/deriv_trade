@@ -1,0 +1,21 @@
+[Unit]
+Description=D34 Binance liquidation cascade OOS paper collector
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/parallel-strategy-oos/d34
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /home/ec2-user/parallel-strategy-oos/d34/liquidation_cascade_live.py --symbols BTCUSDT ETHUSDT SOLUSDT --horizons 30 60 120 300 --window-s 10 --min-count 3 --cooldown-s 30 --min-notional-usd 0 --taker-fee-pct 0.05 --target-per-horizon 30 --primary-horizon 30 --max-settlement-delay-s 5 --state-file /home/ec2-user/parallel-strategy-oos/d34/state.json --events-file /home/ec2-user/parallel-strategy-oos/d34/liquidations.jsonl --cascades-file /home/ec2-user/parallel-strategy-oos/d34/cascades.jsonl --results-file /home/ec2-user/parallel-strategy-oos/d34/results.jsonl --stats-file /home/ec2-user/parallel-strategy-oos/d34/stats.json
+Restart=on-failure
+RestartSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+MemoryMax=128M
+
+[Install]
+WantedBy=multi-user.target

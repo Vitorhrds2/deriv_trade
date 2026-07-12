@@ -1,0 +1,21 @@
+[Unit]
+Description=D36 Deribit IV anomaly OOS paper runner
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/parallel-strategy-oos/d36
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /home/ec2-user/parallel-strategy-oos/d36/iv_anomaly_oos_runner.py --threshold-iv 3 --reversion-iv 1 --position-usd 100 --max-positions 10 --max-entries-per-cycle 2 --max-hold-hours 168 --target-settled 30 --target-clusters 15 --interval-s 3600 --state-file /home/ec2-user/parallel-strategy-oos/d36/state.json --stats-file /home/ec2-user/parallel-strategy-oos/d36/stats.json
+Restart=on-failure
+RestartSec=30
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+MemoryMax=256M
+
+[Install]
+WantedBy=multi-user.target
