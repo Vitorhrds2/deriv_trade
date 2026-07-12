@@ -1,0 +1,12 @@
+[Unit]
+Description=Snapshot parallel OOS paper strategies every five minutes
+
+[Timer]
+OnCalendar=*:0/5
+AccuracySec=15s
+RandomizedDelaySec=15s
+Persistent=true
+Unit=parallel-oos-monitor.service
+
+[Install]
+WantedBy=timers.target
