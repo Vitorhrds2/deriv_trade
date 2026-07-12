@@ -2966,6 +2966,38 @@ export const realHypotheses: RealHypothesis[] = [
     sampleUnit: "8 symbols x 1000 ticks (spectral analysis, sem trades)",
   },
   {
+    id: "D76",
+    title: "Early-Sell + Directional Signal Combo",
+    market: "DERIV · 1HZ10V · CALL/PUT 5m · 90 trials · 3 signals · threshold 1.30",
+    thesis:
+      "D72 refutou early-sell com direcao aleatoria. Sinal direcional (momentum, " +
+      "mean reversion, tick direction) pode melhorar WR o suficiente para early-sell " +
+      "virar EV positivo.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "early-sell", "directional", "momentum", "mean-reversion", "tick-direction"],
+    trigger: "Diff (sell - hold) > 0 com CI95% excluindo zero em pelo menos um signal.",
+    invalidation: "CI95% cruza zero em todos os 3 sinais.",
+    createdAt: "2026-07-11",
+    author: "early_sell_signal_combo_probe.py",
+    verdict:
+      "REFUTADO (2026-07-11, N=90, 3 signals x 15 sell + 15 hold each). " +
+      "Momentum: sell EV=+$0.028 vs hold EV=-$0.360, diff=+$0.388 CI95%[-$0.087,+$0.859] " +
+      "— melhor sinal mas CI cruza zero. " +
+      "Mean reversion: sell EV=-$0.269 vs hold EV=-$0.232, diff=-$0.037 CI95%[-$0.507,+$0.456]. " +
+      "Tick direction: sell EV=+$0.067 vs hold EV=+$0.024, diff=+$0.043 CI95%[-$0.570,+$0.665]. " +
+      "Todos os 3 sinais: CI cruza zero. Early-sell + sinal direcional nao tem edge. " +
+      "Consistente com D72 (early-sell refutado) — sinal nao melhora EV suficiente.",
+    evPerTrade: 0.043,
+    ci95: [-0.57, 0.67],
+    ci95Label: "Best signal (tick_direction): diff=+$0.043 CI95%[-$0.57,+$0.67] — inconclusivo",
+    tools: ["early_sell_signal_combo_probe.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: -10.0,
+    trades: 90,
+    sampleUnit: "90 trials (3 signals x 15 sell + 15 hold, CALL/PUT 5m 1HZ10V)",
+  },
+  {
     id: "D77",
     title: "Untested Contract Types Mispricing (CALLE/PUTE/RESET/TURBOS/UPORDOWN)",
     market: "DERIV · 1HZ10V · 7 contract types · 16 cells · MC N=10000",
