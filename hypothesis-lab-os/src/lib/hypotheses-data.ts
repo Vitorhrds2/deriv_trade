@@ -3722,6 +3722,38 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 0,
     sampleUnit: "960 API proposals/ciclo (10 símbolos × 8 contracts × 3 durações × 4 stakes), 60s interval",
   },
+  {
+    id: "D107",
+    title: "High-Multiplier Deal Cancellation Scan (600x-800x, 30m-60m) — PDF 'Arbitragem de Opcionalidade Exótica'",
+    market: "DERIV · 1HZ50V/1HZ100V · MULTUP/MULTDOWN · 200x-800x · cancellation 15m-60m · READ-ONLY",
+    thesis:
+      "PDF externo claima que Deal Cancellation em Multipliers 600x-800x/30m-60m é " +
+      "subprecificada: fee $7.52 vs fair value $17.15, edge +$5.10/trade. Straddle " +
+      "MULTUP+MULTDOWN eliminaria risco direcional. D52 refutou com N=120 até 400x; " +
+      "D107 testa o regime não-explorado 600x-800x.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "multiplier", "deal-cancellation", "straddle", "high-multiplier", "pdf-claim", "refuted"],
+    trigger: "Fee cobrado < fair value MC (IC95% lo > 0) em qualquer célula 600x-800x/30m-60m.",
+    invalidation: "Fee >= fair value em todas as células high-multiplier, OU straddle edge_lo < 0.",
+    createdAt: "2026-07-14",
+    author: "d107_high_multiplier_cancellation_scan.py",
+    verdict:
+      "REFUTADO (2026-07-14, 60k ticks × 2 símbolos × 120k MC/célula). Fee é SUPERIOR " +
+      "ao fair value em TODAS as células high-multiplier. 1HZ50V 800x/60m (claim do PDF): " +
+      "fee=$7.52, fair=$4.55, edge=-$2.97 (não +$5.10). PDF superestimou fair value ~4x " +
+      "(provavelmente não capou payoff em stake — cancellation devolve stake, não stake×mult). " +
+      "Straddle 800x/60m: edge=-$5.94. Único sinal: 1HZ50V 200x/15m straddle edge_lo=+$0.05 " +
+      "(marginal, consistente com D52 que regrediu com N=120). 1HZ100V não suporta 600x+.",
+    evPerTrade: -2.97,
+    ci95: [-3.00, -2.94],
+    ci95Label: "1HZ50V 800x/60m: edge=-$2.97/trade (fee $7.52 vs fair $4.55). Straddle: -$5.94",
+    tools: ["d107_high_multiplier_cancellation_scan.py"],
+    reportFile: "d107_high_multiplier_cancellation_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "60k ticks × 2 símbolos × 5 multipliers × 3 cancellations × 2 directions = 60 células MC",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".

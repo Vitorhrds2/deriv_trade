@@ -1084,3 +1084,19 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       - RNG se desviar da uniformidade (RNG bug)
       - EV_lo cruzar margem de custo com persistência (edge transitório)
       - Spikes Boom/Crash mudarem de cadência (gerador bug)
+
+    - **D107 (High-Multiplier Deal Cancellation Scan — "Arbitragem de Opcionalidade
+      Exótica") — REFUTADO**: PDF externo claimava que Deal Cancellation em Multipliers
+      600x-800x/30m-60m era subprecificada (fee $7.52 vs fair value $17.15, edge +$5.10).
+      D52 já refutou cancellation mispricing com N=120 live trades (até 400x). D95 mostrou
+      400x/60m negativo. D107 testou o regime não-explorado (600x-800x, 30m-60m) em
+      1HZ50V e 1HZ100V com 60k ticks históricos e 120k simulações MC por célula.
+      Resultado: **fee é SUPERIOR ao fair value em TODAS as células high-multiplier**.
+      1HZ50V 800x/60m (a claim específica do PDF): fee=$7.52, fair_value=$4.55,
+      edge=-$2.97 (não +$5.10 como claimado). O PDF superestimou o fair value por ~4x
+      (provavelmente não capou o payoff em stake — a cancellation só devolve o stake,
+      não stake×multiplier). Straddle (MULTUP+MULTDOWN) 800x/60m: total_fee=$15.03,
+      total_fair=$9.09, straddle_edge=-$5.94. Único sinal positivo: 1HZ50V 200x/15m
+      straddle edge_lo=+$0.05 (marginal, ~1.2% do stake, consistente com o sinal
+      preliminar de D52 que regrediu com N=120). 1HZ100V não suporta 600x/800x
+      (multipliers aceitos: 40,100,200,300,400). Scripts: `d107_high_multiplier_cancellation_scan.py`.
