@@ -3690,6 +3690,38 @@ export const realHypotheses: RealHypothesis[] = [
     trades: 0,
     sampleUnit: "56 combinações API proposals (7 símbolos × 2 durações × 2-leg/3-leg)",
   },
+  {
+    id: "D106",
+    title: "Real-Time Pricing/Proposal Anomaly Monitor (24/7 transient bug detection)",
+    market: "DERIV · 10 símbolos · 8 contract types · 3 durações × 4 stakes · 60s cycle",
+    thesis:
+      "Bugs transitórios de pricing na Deriv (payout setado errado, resale arb, " +
+      "spot desincronizado) podem criar edges exploráveis por janelas curtas. " +
+      "Monitor 24/7 pode detectar e alertar em tempo real.",
+    confidence: 5,
+    status: "validating",
+    tags: ["deriv", "real-time", "anomaly", "pricing", "payout", "resale", "monitor", "transient-bug"],
+    trigger: "Payout ratio >15% deviation, OR resale arb >0, OR spot mismatch >0.1%, OR contract availability change",
+    invalidation: "N/A — monitor contínuo, não tem hipótese para refutar. Roda 24/7 e alerta.",
+    createdAt: "2026-07-14",
+    author: "d106_pricing_anomaly_monitor.py",
+    verdict:
+      "ATIVO (2026-07-14). Monitor rodando 24/7 na AWS com 960 proposals/ciclo. " +
+      "6 detectores: PAYOUT_RATIO_ANOMALY, PAYOUT_RATIO_CHANGE, SPOT_MISMATCH, " +
+      "RESALE_ARB, CONTRACT_AVAILABLE/UNAVAILABLE, STAKE_DEPENDENT_PAYOUT. " +
+      "Calibrado com house margin empirica por contract type. " +
+      "1o ciclo: 10 anomalies MEDIUM (DIGITMATCH payout varia por símbolo + " +
+      "contract flickering). Zero CRITICAL, zero RESALE_ARB, zero SPOT_MISMATCH. " +
+      "Nenhum bug transitório detectado nas primeiras horas.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — monitor contínuo, não gera EV/trades",
+    tools: ["d106_pricing_anomaly_monitor.py", "synthetic_anomaly_monitor.py"],
+    reportFile: "logs/d106_pricing_anomalies.jsonl",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "960 API proposals/ciclo (10 símbolos × 8 contracts × 3 durações × 4 stakes), 60s interval",
+  },
 ];
 
 // Fonte única de verdade para "quais bots/scripts estão rodando ao vivo na AWS agora".

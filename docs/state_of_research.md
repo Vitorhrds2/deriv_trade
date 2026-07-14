@@ -1043,3 +1043,44 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       cumulativa. Crypto só suporta Multipliers (sem binary options). Bug/exploit
       transitório permanece a única via possível (monitor de anomalias em tempo real
       é o instrumento correto).
+
+    - **REAL-TIME ANOMALY MONITORING (24/7 na AWS)**: Duas camadas de monitoramento
+      rodando continuamente no EC2 eu-central-1b:
+
+      **Monitor 1: synthetic_anomaly_monitor.py** (tmux: anomaly_monitor)
+      - 17 símbolos: 1HZ10V/25V/50V/75V/100V, R_10/25/50/75/100, BOOM1000, CRASH1000,
+        JD10/25/50/75/100
+      - 5000 ticks de priming por símbolo, janela deslizante de 3000 ticks
+      - Detectores: RNG_BIAS (chi-square digit distribution), RNG_RUNS (runs test
+        up/down), FEED_FREEZE (ticks identicos consecutivos), FEED_TIMING (intervalo
+        anômalo), EV_EDGE (Wilson CI positivo com vet de amostra fresca),
+        SPIKE_TIMING (cadência de spikes Boom/Crash), FEED_STALL (watchdog silencio)
+      - Evidência: logs/anomaly_monitor/anomalies.jsonl
+      - Status: rodando, heartbeats normais (chi2 < 15, bestEV_lo negativo em todos,
+        sem anomalias RNG/feed detectadas)
+
+      **Monitor 2: d106_pricing_anomaly_monitor.py** (tmux: d106_pricing)
+      - 10 símbolos: 1HZ10V/25V/50V/75V/100V, R_10/25/50/75/100
+      - 8 contract types: CALL, PUT, DIGITEVEN, DIGITODD, DIGITOVER:5, DIGITUNDER:4,
+        DIGITDIFF:0, DIGITMATCH:5
+      - 3 durações (1t, 5t, 10t) × 4 stakes ($0.35, $1, $10, $100) = 960 proposals/ciclo
+      - Detectores: PAYOUT_RATIO_ANOMALY (desvio vs expected teórico), PAYOUT_RATIO_CHANGE
+        (mudança súbita vs rolling baseline), SPOT_MISMATCH (proposal spot vs live tick),
+        RESALE_ARB (buy → sell instant profit), CONTRACT_AVAILABLE/UNAVAILABLE
+        (disponibilidade muda entre ciclos), STAKE_DEPENDENT_PAYOUT (payout varia >6%
+        com stake)
+      - Evidência: logs/d106_pricing_anomalies.jsonl
+      - Calibração: house margin empiricamente calibrada por contract type
+        (50/50: ~4%, DIGITMATCH P=10%: ~10.7%, DIGITDIFF P=90%: ~2.2%)
+      - Status: rodando, 10 anomalies MEDIUM no 1o ciclo (DIGITMATCH payout varia por
+        símbolo — estrutural; contract availability flickering — rate limiting).
+        Zero CRITICAL, zero RESALE_ARB, zero SPOT_MISMATCH.
+
+      **Conclusão do monitoramento**: Nenhum bug/exploit transitório detectado nas
+      primeiras horas. Sistema rodando 24/7 e alertará se:
+      - Payout ratio mudar >15% do esperado (mispricing bug)
+      - Buy → instant resale > buy cost (resale arb bug)
+      - Proposal spot divergir do live tick (staleness bug)
+      - RNG se desviar da uniformidade (RNG bug)
+      - EV_lo cruzar margem de custo com persistência (edge transitório)
+      - Spikes Boom/Crash mudarem de cadência (gerador bug)
