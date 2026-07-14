@@ -7,7 +7,7 @@ de pesquisa paralelas. Atualizar esta tabela sempre que uma hipótese nova fecha
 
 ## TL;DR
 
-**104 hipóteses testadas. 94 refutadas (D108 YouTube Rise/Fall REFUTADO 2026-07-14 6/6 estratégias WR<51% EV negativo OOS, D107 high-multiplier cancellation REFUTADO 2026-07-13 fee>fair value em todas células, D96-D105 bug/exploit scan REFUTADO 2026-07-13 house margin ~4% consistente, D89 cross-market pricing REFUTADO 2026-07-14 0/120 forex cells, D90 long-duration early-sell REFUTADO 2026-07-13 hold>sell 40/40, D76 early-sell+signal REFUTADO 2026-07-11 3/3 CI cruza zero, D77 untested contract types REFUTADO 2026-07-11 PUTE WR=70% run1 era viés, WR=45% run2, D86 straddle arb REFUTADO 2026-07-11 0/330 spread=-$0.08, D81 buy limit REFUTADO 2026-07-11 100% rejeitado, D80 weekend vol REFUTADO 2026-07-11 RNG constante 1.03x, D75 tick spectral analysis REFUTADO 2026-07-11 Hurst=0.65 mas autocorr max=0.05, D74 proposal expiry REFUTADO 2026-07-11 entry sempre T+1, D73 lookback REFUTADO 2026-07-11 produto nao existe, D72 early-sell t130 REFUTADO 2026-07-11 sell EV=-$0.037 vs hold EV=+$0.248 diff=-$0.285 falso-positivo D71, D67 cross-duration info edge REFUTADO como artefato matematico 2026-07-11 P(10t|5t WON)=0.867 mas overlap de ticks, D68 tick arrival jitter REFUTADO 2026-07-11 server epoch 1.000s ± 0, D70 multi-contract entry spot REFUTADO 2026-07-11 20/20 diferentes mas nao previsivel, D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered' — CORRIGIDO por D69: sell funciona em duracoes > tick, D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). **D69 (Long-Duration Resale) DESCOBERTA: sell funciona em 12/12 duracoes 1m-1d.** **D71 (Early-Sell Real Probe) EDGE ENCONTRADO: threshold 1.50 diff=+$0.681 CI95%[+$0.318,+$1.063] N=30 — sell no bid >= 1.50x buy tem EV positivo vs hold.** D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D68, D70 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
+**104 hipóteses testadas. 94 refutadas (D108 YouTube Rise/Fall REFUTADO 2026-07-14 6/6 estratégias refutadas com 15 símbolos × 200K candles, EV CI95% inteiramente abaixo de zero, N OOS total=324K, D107 high-multiplier cancellation REFUTADO 2026-07-13 fee>fair value em todas células, D96-D105 bug/exploit scan REFUTADO 2026-07-13 house margin ~4% consistente, D89 cross-market pricing REFUTADO 2026-07-14 0/120 forex cells, D90 long-duration early-sell REFUTADO 2026-07-13 hold>sell 40/40, D76 early-sell+signal REFUTADO 2026-07-11 3/3 CI cruza zero, D77 untested contract types REFUTADO 2026-07-11 PUTE WR=70% run1 era viés, WR=45% run2, D86 straddle arb REFUTADO 2026-07-11 0/330 spread=-$0.08, D81 buy limit REFUTADO 2026-07-11 100% rejeitado, D80 weekend vol REFUTADO 2026-07-11 RNG constante 1.03x, D75 tick spectral analysis REFUTADO 2026-07-11 Hurst=0.65 mas autocorr max=0.05, D74 proposal expiry REFUTADO 2026-07-11 entry sempre T+1, D73 lookback REFUTADO 2026-07-11 produto nao existe, D72 early-sell t130 REFUTADO 2026-07-11 sell EV=-$0.037 vs hold EV=+$0.248 diff=-$0.285 falso-positivo D71, D67 cross-duration info edge REFUTADO como artefato matematico 2026-07-11 P(10t|5t WON)=0.867 mas overlap de ticks, D68 tick arrival jitter REFUTADO 2026-07-11 server epoch 1.000s ± 0, D70 multi-contract entry spot REFUTADO 2026-07-11 20/20 diferentes mas nao previsivel, D63 duration non-linearity REFUTADO 2026-07-11 payout 1.920 constante em 1200 proposals, D64 entry spot timing REFUTADO 2026-07-11 3/3 bidirecional nao sistematico, D65 touch/notouch barrier REFUTADO 2026-07-11 barrier=None mesmo padrao D62, D66 tick count settlement REFUTADO 2026-07-11 3/3 tick_count exato, D59 POC subscription vs poll REFUTADO 2026-07-11 30/30 SUB nunca notificou, D60 tick gap REFUTADO 2026-07-11 626 ticks 0.80% missing apenas startup, D61 reconnection state REFUTADO 2026-07-11 0/13 barrier mismatches, D62 barrier rounding REFUTADO 2026-07-11 253/253 barrier=None CALL/PUT, D56 cross-symbol correlation REFUTADO 2026-07-11 N=2081 ticks 0/36 pares significativos, D57 stake non-linearity CONFIRMADO mas nao exploitavel 2026-07-11 payout ratio 1.886 em $0.35 vs 1.923 em $100, D58 sell limit order REFUTADO 2026-07-11 50/50 sells rejeitados 'Resale not offered' — CORRIGIDO por D69: sell funciona em duracoes > tick, D40 stablecoin mint REFUTADO 2026-07-10 WR=0% 24h, D44 funding extremo REFUTADO 2026-07-10 IC95% negativo, D52 deal cancellation REFUTADO 2026-07-09 N=120 EV encolhendo monotonicamente, D41 wash trading REFUTADO por fees 2026-07-08 WR 66% mas EV < 10bps), 2 com sinal fraco/marginal (D13, D14), 1 com edge validado (D17 — token unlock short, POSIÇÃO AO VIVO APTUSDT desde 2026-07-09), 1 com edge parcialmente confirmado (D36 — IV surface BUY side, N=58 WR RECUPEROU para 41.4%, total=+$2,948, pode não ser falso-positivo), 2 aguardando eventos (D34 — liquidation cascade, D39 — max pain), 3 em validação inicial (D37, D38, D55). **D69 (Long-Duration Resale) DESCOBERTA: sell funciona em 12/12 duracoes 1m-1d.** **D71 (Early-Sell Real Probe) EDGE ENCONTRADO: threshold 1.50 diff=+$0.681 CI95%[+$0.318,+$1.063] N=30 — sell no bid >= 1.50x buy tem EV positivo vs hold.** D46 (Deriv tick mean-reversion) **REFUTADO em 2026-07-06 com N=190.000**. **D47-D68, D70 todos REFUTADOS.** **D55 (Hyperliquid vs Binance) paper trading OOS ativo desde 2026-07-08, LINK como único candidato.**
 O padrão se repete de forma notável: quando existe algum micro-sinal real (H1, H3, T4, PA5, D33, D35), ele é
 **sempre menor que o custo de transação** (comissão/spread). Quando não há sinal real, a causa é
 **margem da casa embutida no payout**, matematicamente presente em todo contrato testado (dígitos,
@@ -1105,24 +1105,34 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     - **D108 (YouTube Rise/Fall Strategy — Deriv Navigator Academy) — REFUTADO**:
       Backtest de 6 estratégias extraídas de 9 vídeos da playlist
       `PLID7aDmxAvGFK2lD6TZLaaNPxBnK4Yuak` (canal "Deriv Navigator Academy",
-      3922s de conteúdo, legendas automáticas em inglês). Dados: 120.000 candles
-      1-min por símbolo, 3 símbolos (1HZ100V, R_100, 1HZ50V), 83 dias
-      (2026-04-21 → 2026-07-14), split 70/30 IS/OOS, payout 1.96x
-      (break-even WR=51,02%). Estratégias: mtf_strict_15m, mtf_majority_15m,
+      3922s de conteúdo, legendas automáticas em inglês). **Backtest estendido:
+      15 símbolos (1HZ100V, R_100, 1HZ50V, 1HZ10V, 1HZ25V, 1HZ75V, R_10, R_25,
+      R_50, R_75, JD10, JD25, JD50, JD75, JD100) × 200.000 candles 1-min cada,
+      ~139 dias de dados, split 70/30 IS/OOS, payout 1.96x (break-even
+      WR=51,02%).** Estratégias: mtf_strict_15m, mtf_majority_15m,
       sr_touch_15m, sr_rejection_15m, indicator_consensus_5m,
-      indicator_consensus_10m. **Nenhuma estratégia atingiu WR≥51,02% nem
-      EV CI95% inteiramente acima de zero no OOS pooled.** Resultados OOS
-      pooled: mtf_strict_15m N=4983 WR=50,43% EV=-1,15% (inconclusive);
-      mtf_majority_15m N=4992 WR=50,40% EV=-1,21% (inconclusive);
-      sr_touch_15m N=3435 WR=48,09% EV=-5,74% (**refuted**, anti-signal
-      EV=+1,57% confirma que a direção está invertida); sr_rejection_15m
-      N=2550 WR=49,25% EV=-3,46% (inconclusive); indicator_consensus_5m
-      N=14638 WR=50,27% EV=-1,48% (inconclusive); indicator_consensus_10m
-      N=7926 WR=50,43% EV=-1,16% (inconclusive). Controles anti_signal e
-      random_direction ambos negativos, confirmando que não há edge
-      direcional. Martingale 2x arruinou em 100% dos casos. Flat-stake
-      arruinou em 4/6 estratégias. **Veredito: as estratégias visuais
-      ensinadas nos vídeos não têm poder preditivo além do acaso; a margem
-      da casa (payout 1.96x → break-even 51%) absorve qualquer micro-sinal.**
+      indicator_consensus_10m. **Todas as 6 estratégias REFUTADAS com EV
+      CI95% inteiramente abaixo de zero no OOS pooled.** Resultados OOS
+      pooled finais: mtf_strict_15m N=41.544 WR=50,19% EV=-1,63%
+      CI95%=[-2,57%, -0,68%] (**refuted**); mtf_majority_15m N=41.587
+      WR=50,16% EV=-1,69% CI95%=[-2,63%, -0,75%] (**refuted**);
+      sr_touch_15m N=28.224 WR=49,73% EV=-2,53% CI95%=[-3,67%, -1,38%]
+      (**refuted**); sr_rejection_15m N=20.986 WR=49,96% EV=-2,07%
+      CI95%=[-3,40%, -0,75%] (**refuted**); indicator_consensus_5m
+      N=124.772 WR=50,01% EV=-1,98% CI95%=[-2,52%, -1,43%] (**refuted**);
+      indicator_consensus_10m N=67.409 WR=50,41% EV=-1,20%
+      CI95%=[-1,94%, -0,46%] (**refuted**). O backtest inicial (3 símbolos
+      × 120K candles) deixou 5/6 estratégias inconclusivas; a extensão
+      para 15 símbolos × 200K candles (aumento de ~8,3x no N OOS) resolveu
+      todos os inconclusivos para refutação. Nota: BOOM1000 e CRASH1000
+      (símbolos estruturais não-RNG) mostraram "confirmed" para
+      indicator_consensus_5m/10m, mas foram excluídos do pooled final por
+      não serem sintéticos memoryless — o edge desaparece sem eles.
+      Controles anti_signal e random_direction ambos negativos, confirmando
+      que não há edge direcional. Martingale 2x arruinou em 100% dos casos.
+      Flat-stake arruinou em 6/6 estratégias. **Veredito: as estratégias
+      visuais ensinadas nos vídeos não têm poder preditivo além do acaso;
+      a margem da casa (payout 1.96x → break-even 51%) absorve qualquer
+      micro-sinal.**
       Scripts: `rise_fall_youtube_strategy.py`, `rise_fall_youtube_backtest.py`,
       `test_rise_fall_youtube_strategy.py`.
