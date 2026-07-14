@@ -1,0 +1,39 @@
+
+==========================================================================================
+>>> frxEURUSD: 20 contratos, 16 contract_types unicos
+==========================================================================================
+CALL, CALLE, EXPIRYMISS, EXPIRYMISSE, EXPIRYRANGE, EXPIRYRANGEE, HIGHER, LOWER, MULTDOWN, MULTUP, NOTOUCH, ONETOUCH, PUT, PUTE, RANGE, UPORDOWN
+
+--- frxEURUSD / EXPIRYMISSE ---
+{
+  "barriers": 2,
+  "contract_category": "endsinout",
+  "contract_type": "EXPIRYMISSE",
+  "default_stake": 10,
+  "expiry_type": "daily",
+  "high_barrier": "1.14302",
+  "low_barrier": "1.13988",
+  "market": "forex",
+  "max_contract_duration": "365d",
+  "min_contract_duration": "1d",
+  "sentiment": "high_vol",
+  "submarket": "major_pairs",
+  "underlying_symbol": "frxEURUSD"
+}
+
+--- frxEURUSD / EXPIRYRANGEE ---
+{
+  "barriers": 2,
+  "contract_category": "endsinout",
+  "contract_type": "EXPIRYRANGEE",
+  "default_stake": 10,
+  "expiry_type": "daily",
+  "high_barrier": "1.14302",
+  "low_barrier": "1.13988",
+  "market": "forex",
+  "max_contract_duration": "365d",
+  "min_contract_duration": "1d",
+  "sentiment": "low_vol",
+  "submarket": "major_pairs",
+  "underlying_symbol": "frxEURUSD"
+}

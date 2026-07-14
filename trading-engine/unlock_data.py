@@ -87,7 +87,7 @@ def fetch_tokenomist_upcoming(min_value_usd=20_000_000, days_ahead=90):
                     total_value += float(cliff.get("cliffValue", 0))
                     pct_supply += float(cliff.get("cliffAmount", 0))
 
-        if total_value / 1e6 < 1:  # skip < $1M (sanity check)
+        if total_value / 1e6 < 1 or total_value < min_value_usd:  # skip < $1M (sanity check)
             continue
 
         # Client-side date filtering (API doesn't accept maxUnlockDate on free trial)

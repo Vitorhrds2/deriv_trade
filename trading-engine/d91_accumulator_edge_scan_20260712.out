@@ -1,0 +1,737 @@
+
+R_10 growth_rate=0.01 (barreira=0.00613%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.010x | EV=$-0.0102 | EV_lo=$-0.0607
+  N=  2 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.020x | EV=$-0.0207 | EV_lo=$-0.0802
+  N=  3 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.030x | EV=$-0.0212 | EV_lo=$-0.0848
+  N=  5 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.051x | EV=$-0.0541 | EV_lo=$-0.1323
+  N=  8 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.083x | EV=$-0.0579 | EV_lo=$-0.1443
+  N= 10 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.105x | EV=$-0.0721 | EV_lo=$-0.1651
+  N= 15 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.161x | EV=$-0.0480 | EV_lo=$-0.1486
+  N= 20 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.220x | EV=$-0.0360 | EV_lo=$-0.1456
+  N= 30 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.348x | EV=$-0.0565 | EV_lo=$-0.1857
+  N= 40 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.489x | EV=$-0.0918 | EV_lo=$-0.2377
+  N= 50 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.645x | EV=$-0.0955 | EV_lo=$-0.2559
+  N= 75 ticks | sobreviveram  42/100 ( 42.0%, IC95%[ 32.8%, 51.8%]) | payout= 2.109x | EV=$-0.1142 | EV_lo=$-0.3082
+  N=100 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 2.705x | EV=$-0.2427 | EV_lo=$-0.4553
+  N=150 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 4.448x | EV=$-0.5107 | EV_lo=$-0.7218
+  N=200 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout= 7.316x | EV=$-0.7805 | EV_lo=$-0.9250
+  N=250 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout=12.032x | EV=$-0.6390 | EV_lo=$-0.8766
+
+R_10 growth_rate=0.02 (barreira=0.00573%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.020x | EV=$-0.0106 | EV_lo=$-0.0662
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.040x | EV=$-0.0116 | EV_lo=$-0.0759
+  N=  3 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.061x | EV=$-0.0025 | EV_lo=$-0.0712
+  N=  5 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.104x | EV=$-0.0284 | EV_lo=$-0.1147
+  N=  8 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.172x | EV=$-0.0627 | EV_lo=$-0.1668
+  N= 10 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.219x | EV=$-0.0614 | EV_lo=$-0.1730
+  N= 15 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.346x | EV=$-0.0579 | EV_lo=$-0.1869
+  N= 20 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.486x | EV=$-0.0490 | EV_lo=$-0.1941
+  N= 30 ticks | sobreviveram  53/100 ( 53.0%, IC95%[ 43.3%, 62.5%]) | payout= 1.811x | EV=$-0.0400 | EV_lo=$-0.2159
+  N= 40 ticks | sobreviveram  43/100 ( 43.0%, IC95%[ 33.7%, 52.8%]) | payout= 2.208x | EV=$-0.0505 | EV_lo=$-0.2552
+  N= 50 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.692x | EV=$-0.0849 | EV_lo=$-0.3147
+  N= 75 ticks | sobreviveram  23/100 ( 23.0%, IC95%[ 15.8%, 32.2%]) | payout= 4.416x | EV=$+0.0156 | EV_lo=$-0.3004
+  N=100 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 7.245x | EV=$+0.0143 | EV_lo=$-0.3823
+
+R_10 growth_rate=0.03 (barreira=0.00537%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.030x | EV=$-0.0112 | EV_lo=$-0.0713
+  N=  2 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.061x | EV=$-0.0028 | EV_lo=$-0.0715
+  N=  3 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.093x | EV=$+0.0272 | EV_lo=$-0.0436
+  N=  5 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.159x | EV=$-0.0030 | EV_lo=$-0.0974
+  N=  8 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.267x | EV=$-0.0246 | EV_lo=$-0.1406
+  N= 10 ticks | sobreviveram  72/100 ( 72.0%, IC95%[ 62.5%, 79.9%]) | payout= 1.344x | EV=$-0.0324 | EV_lo=$-0.1599
+  N= 15 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.558x | EV=$-0.0496 | EV_lo=$-0.2023
+  N= 20 ticks | sobreviveram  51/100 ( 51.0%, IC95%[ 41.3%, 60.6%]) | payout= 1.806x | EV=$-0.0789 | EV_lo=$-0.2532
+  N= 30 ticks | sobreviveram  38/100 ( 38.0%, IC95%[ 29.1%, 47.8%]) | payout= 2.427x | EV=$-0.0776 | EV_lo=$-0.2937
+  N= 40 ticks | sobreviveram  30/100 ( 30.0%, IC95%[ 21.9%, 39.6%]) | payout= 3.262x | EV=$-0.0214 | EV_lo=$-0.2858
+  N= 50 ticks | sobreviveram  20/100 ( 20.0%, IC95%[ 13.3%, 28.9%]) | payout= 4.384x | EV=$-0.1232 | EV_lo=$-0.4153
+  N= 75 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 9.179x | EV=$+0.2850 | EV_lo=$-0.2174
+
+R_10 growth_rate=0.04 (barreira=0.00511%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.040x | EV=$-0.0120 | EV_lo=$-0.0762
+  N=  2 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.082x | EV=$-0.0266 | EV_lo=$-0.1070
+  N=  3 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.125x | EV=$-0.0214 | EV_lo=$-0.1111
+  N=  5 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.217x | EV=$-0.0388 | EV_lo=$-0.1481
+  N=  8 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.369x | EV=$-0.0420 | EV_lo=$-0.1732
+  N= 10 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.480x | EV=$-0.0674 | EV_lo=$-0.2122
+  N= 15 ticks | sobreviveram  53/100 ( 53.0%, IC95%[ 43.3%, 62.5%]) | payout= 1.801x | EV=$-0.0455 | EV_lo=$-0.2204
+  N= 20 ticks | sobreviveram  40/100 ( 40.0%, IC95%[ 30.9%, 49.8%]) | payout= 2.191x | EV=$-0.1236 | EV_lo=$-0.3221
+  N= 30 ticks | sobreviveram  24/100 ( 24.0%, IC95%[ 16.7%, 33.2%]) | payout= 3.243x | EV=$-0.2216 | EV_lo=$-0.4586
+  N= 40 ticks | sobreviveram  16/100 ( 16.0%, IC95%[ 10.1%, 24.4%]) | payout= 4.801x | EV=$-0.2318 | EV_lo=$-0.5153
+  N= 50 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.107x | EV=$-0.2893 | EV_lo=$-0.6075
+
+R_10 growth_rate=0.05 (barreira=0.00486%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.050x | EV=$+0.0080 | EV_lo=$-0.0533
+  N=  2 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.103x | EV=$+0.0253 | EV_lo=$-0.0491
+  N=  3 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.158x | EV=$+0.0303 | EV_lo=$-0.0581
+  N=  5 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.276x | EV=$-0.0045 | EV_lo=$-0.1203
+  N=  8 ticks | sobreviveram  62/100 ( 62.0%, IC95%[ 52.2%, 70.9%]) | payout= 1.477x | EV=$-0.0840 | EV_lo=$-0.2286
+  N= 10 ticks | sobreviveram  56/100 ( 56.0%, IC95%[ 46.2%, 65.3%]) | payout= 1.629x | EV=$-0.0878 | EV_lo=$-0.2470
+  N= 15 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 2.079x | EV=$-0.1476 | EV_lo=$-0.3375
+  N= 20 ticks | sobreviveram  32/100 ( 32.0%, IC95%[ 23.7%, 41.7%]) | payout= 2.653x | EV=$-0.1509 | EV_lo=$-0.3720
+  N= 30 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.322x | EV=$-0.2221 | EV_lo=$-0.4943
+  N= 40 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.040x | EV=$-0.2960 | EV_lo=$-0.6112
+  N= 50 ticks | sobreviveram   6/100 (  6.0%, IC95%[  2.8%, 12.5%]) | payout=11.467x | EV=$-0.3120 | EV_lo=$-0.6814
+
+R_25 growth_rate=0.01 (barreira=0.01531%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.010x | EV=$-0.0001 | EV_lo=$-0.0450
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.020x | EV=$-0.0309 | EV_lo=$-0.0939
+  N=  3 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.030x | EV=$-0.0315 | EV_lo=$-0.0982
+  N=  5 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.051x | EV=$-0.0541 | EV_lo=$-0.1323
+  N=  8 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.083x | EV=$-0.0796 | EV_lo=$-0.1693
+  N= 10 ticks | sobreviveram  81/100 ( 81.0%, IC95%[ 72.2%, 87.5%]) | payout= 1.105x | EV=$-0.1053 | EV_lo=$-0.2022
+  N= 15 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.161x | EV=$-0.1293 | EV_lo=$-0.2373
+  N= 20 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.220x | EV=$-0.1703 | EV_lo=$-0.2882
+  N= 30 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.348x | EV=$-0.1778 | EV_lo=$-0.3099
+  N= 40 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.489x | EV=$-0.2705 | EV_lo=$-0.4131
+  N= 50 ticks | sobreviveram  45/100 ( 45.0%, IC95%[ 35.6%, 54.8%]) | payout= 1.645x | EV=$-0.2599 | EV_lo=$-0.4143
+  N= 75 ticks | sobreviveram  29/100 ( 29.0%, IC95%[ 21.0%, 38.5%]) | payout= 2.109x | EV=$-0.3884 | EV_lo=$-0.5568
+  N=100 ticks | sobreviveram  20/100 ( 20.0%, IC95%[ 13.3%, 28.9%]) | payout= 2.705x | EV=$-0.4590 | EV_lo=$-0.6393
+  N=150 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 4.448x | EV=$-0.5996 | EV_lo=$-0.7862
+  N=200 ticks | sobreviveram   5/100 (  5.0%, IC95%[  2.2%, 11.2%]) | payout= 7.316x | EV=$-0.6342 | EV_lo=$-0.8424
+  N=250 ticks | sobreviveram   1/100 (  1.0%, IC95%[  0.2%,  5.4%]) | payout=12.032x | EV=$-0.8797 | EV_lo=$-0.9787
+
+R_25 growth_rate=0.02 (barreira=0.01431%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.020x | EV=$+0.0098 | EV_lo=$-0.0356
+  N=  2 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.040x | EV=$-0.0324 | EV_lo=$-0.1027
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.061x | EV=$-0.0343 | EV_lo=$-0.1110
+  N=  5 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.104x | EV=$-0.0394 | EV_lo=$-0.1276
+  N=  8 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.172x | EV=$-0.0275 | EV_lo=$-0.1277
+  N= 10 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.219x | EV=$-0.0248 | EV_lo=$-0.1331
+  N= 15 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.346x | EV=$-0.0175 | EV_lo=$-0.1445
+  N= 20 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.486x | EV=$-0.0639 | EV_lo=$-0.2092
+  N= 30 ticks | sobreviveram  46/100 ( 46.0%, IC95%[ 36.6%, 55.7%]) | payout= 1.811x | EV=$-0.1668 | EV_lo=$-0.3378
+  N= 40 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.208x | EV=$-0.2493 | EV_lo=$-0.4378
+  N= 50 ticks | sobreviveram  26/100 ( 26.0%, IC95%[ 18.4%, 35.4%]) | payout= 2.692x | EV=$-0.3002 | EV_lo=$-0.5046
+  N= 75 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 4.416x | EV=$-0.3818 | EV_lo=$-0.6235
+  N=100 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.245x | EV=$-0.3480 | EV_lo=$-0.6517
+
+R_25 growth_rate=0.03 (barreira=0.01342%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.030x | EV=$+0.0094 | EV_lo=$-0.0421
+  N=  2 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.061x | EV=$-0.0346 | EV_lo=$-0.1112
+  N=  3 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.093x | EV=$-0.0384 | EV_lo=$-0.1238
+  N=  5 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.159x | EV=$-0.0262 | EV_lo=$-0.1238
+  N=  8 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.267x | EV=$-0.0246 | EV_lo=$-0.1406
+  N= 10 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.344x | EV=$-0.0189 | EV_lo=$-0.1457
+  N= 15 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.558x | EV=$-0.0029 | EV_lo=$-0.1550
+  N= 20 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.806x | EV=$-0.1150 | EV_lo=$-0.2880
+  N= 30 ticks | sobreviveram  35/100 ( 35.0%, IC95%[ 26.4%, 44.7%]) | payout= 2.427x | EV=$-0.1505 | EV_lo=$-0.3601
+  N= 40 ticks | sobreviveram  23/100 ( 23.0%, IC95%[ 15.8%, 32.2%]) | payout= 3.262x | EV=$-0.2497 | EV_lo=$-0.4832
+  N= 50 ticks | sobreviveram  16/100 ( 16.0%, IC95%[ 10.1%, 24.4%]) | payout= 4.384x | EV=$-0.2986 | EV_lo=$-0.5574
+  N= 75 ticks | sobreviveram   6/100 (  6.0%, IC95%[  2.8%, 12.5%]) | payout= 9.179x | EV=$-0.4493 | EV_lo=$-0.7450
+
+R_25 growth_rate=0.04 (barreira=0.01277%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.040x | EV=$+0.0192 | EV_lo=$-0.0328
+  N=  2 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.082x | EV=$-0.0157 | EV_lo=$-0.0939
+  N=  3 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.125x | EV=$-0.0326 | EV_lo=$-0.1242
+  N=  5 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.217x | EV=$-0.0267 | EV_lo=$-0.1348
+  N=  8 ticks | sobreviveram  69/100 ( 69.0%, IC95%[ 59.4%, 77.2%]) | payout= 1.369x | EV=$-0.0557 | EV_lo=$-0.1874
+  N= 10 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.480x | EV=$-0.0378 | EV_lo=$-0.1821
+  N= 15 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.801x | EV=$-0.0095 | EV_lo=$-0.1852
+  N= 20 ticks | sobreviveram  42/100 ( 42.0%, IC95%[ 32.8%, 51.8%]) | payout= 2.191x | EV=$-0.0797 | EV_lo=$-0.2814
+  N= 30 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 3.243x | EV=$-0.0918 | EV_lo=$-0.3468
+  N= 40 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 4.801x | EV=$-0.3279 | EV_lo=$-0.5907
+  N= 50 ticks | sobreviveram   6/100 (  6.0%, IC95%[  2.8%, 12.5%]) | payout= 7.107x | EV=$-0.5736 | EV_lo=$-0.8025
+
+R_25 growth_rate=0.05 (barreira=0.01216%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.050x | EV=$-0.0025 | EV_lo=$-0.0673
+  N=  2 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.103x | EV=$-0.0298 | EV_lo=$-0.1159
+  N=  3 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.158x | EV=$-0.0507 | EV_lo=$-0.1511
+  N=  5 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.276x | EV=$-0.0045 | EV_lo=$-0.1203
+  N=  8 ticks | sobreviveram  66/100 ( 66.0%, IC95%[ 56.3%, 74.5%]) | payout= 1.477x | EV=$-0.0249 | EV_lo=$-0.1685
+  N= 10 ticks | sobreviveram  56/100 ( 56.0%, IC95%[ 46.2%, 65.3%]) | payout= 1.629x | EV=$-0.0878 | EV_lo=$-0.2470
+  N= 15 ticks | sobreviveram  44/100 ( 44.0%, IC95%[ 34.7%, 53.8%]) | payout= 2.079x | EV=$-0.0853 | EV_lo=$-0.2792
+  N= 20 ticks | sobreviveram  36/100 ( 36.0%, IC95%[ 27.3%, 45.8%]) | payout= 2.653x | EV=$-0.0448 | EV_lo=$-0.2764
+  N= 30 ticks | sobreviveram  23/100 ( 23.0%, IC95%[ 15.8%, 32.2%]) | payout= 4.322x | EV=$-0.0060 | EV_lo=$-0.3153
+  N= 40 ticks | sobreviveram  13/100 ( 13.0%, IC95%[  7.8%, 21.0%]) | payout= 7.040x | EV=$-0.0848 | EV_lo=$-0.4539
+  N= 50 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout=11.467x | EV=$-0.6560 | EV_lo=$-0.8824
+
+R_50 growth_rate=0.01 (barreira=0.03063%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.010x | EV=$-0.0102 | EV_lo=$-0.0607
+  N=  2 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.020x | EV=$-0.0105 | EV_lo=$-0.0661
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.030x | EV=$-0.0006 | EV_lo=$-0.0568
+  N=  5 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.051x | EV=$-0.0121 | EV_lo=$-0.0801
+  N=  8 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.083x | EV=$+0.0071 | EV_lo=$-0.0660
+  N= 10 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.105x | EV=$-0.0058 | EV_lo=$-0.0880
+  N= 15 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.161x | EV=$-0.0248 | EV_lo=$-0.1225
+  N= 20 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.220x | EV=$-0.0849 | EV_lo=$-0.1984
+  N= 30 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.348x | EV=$-0.1778 | EV_lo=$-0.3099
+  N= 40 ticks | sobreviveram  50/100 ( 50.0%, IC95%[ 40.4%, 59.6%]) | payout= 1.489x | EV=$-0.2556 | EV_lo=$-0.3988
+  N= 50 ticks | sobreviveram  44/100 ( 44.0%, IC95%[ 34.7%, 53.8%]) | payout= 1.645x | EV=$-0.2764 | EV_lo=$-0.4298
+  N= 75 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.109x | EV=$-0.2829 | EV_lo=$-0.4630
+  N=100 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 2.705x | EV=$-0.2427 | EV_lo=$-0.4553
+  N=150 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.448x | EV=$-0.3327 | EV_lo=$-0.5860
+  N=200 ticks | sobreviveram   5/100 (  5.0%, IC95%[  2.2%, 11.2%]) | payout= 7.316x | EV=$-0.6342 | EV_lo=$-0.8424
+  N=250 ticks | sobreviveram   4/100 (  4.0%, IC95%[  1.6%,  9.8%]) | payout=12.032x | EV=$-0.5187 | EV_lo=$-0.8115
+
+R_50 growth_rate=0.02 (barreira=0.02863%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.020x | EV=$+0.0098 | EV_lo=$-0.0356
+  N=  2 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.040x | EV=$+0.0196 | EV_lo=$-0.0324
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.061x | EV=$+0.0294 | EV_lo=$-0.0285
+  N=  5 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.104x | EV=$+0.0268 | EV_lo=$-0.0477
+  N=  8 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.172x | EV=$+0.0779 | EV_lo=$-0.0041
+  N= 10 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.219x | EV=$+0.0483 | EV_lo=$-0.0509
+  N= 15 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.346x | EV=$+0.0498 | EV_lo=$-0.0723
+  N= 20 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.486x | EV=$+0.0550 | EV_lo=$-0.0867
+  N= 30 ticks | sobreviveram  56/100 ( 56.0%, IC95%[ 46.2%, 65.3%]) | payout= 1.811x | EV=$+0.0144 | EV_lo=$-0.1626
+  N= 40 ticks | sobreviveram  43/100 ( 43.0%, IC95%[ 33.7%, 52.8%]) | payout= 2.208x | EV=$-0.0505 | EV_lo=$-0.2552
+  N= 50 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.692x | EV=$-0.0849 | EV_lo=$-0.3147
+  N= 75 ticks | sobreviveram  24/100 ( 24.0%, IC95%[ 16.7%, 33.2%]) | payout= 4.416x | EV=$+0.0598 | EV_lo=$-0.2629
+  N=100 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 7.245x | EV=$-0.2031 | EV_lo=$-0.5469
+
+R_50 growth_rate=0.03 (barreira=0.02685%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.030x | EV=$-0.0009 | EV_lo=$-0.0571
+  N=  2 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.061x | EV=$+0.0185 | EV_lo=$-0.0435
+  N=  3 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.093x | EV=$+0.0381 | EV_lo=$-0.0294
+  N=  5 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.159x | EV=$+0.0202 | EV_lo=$-0.0704
+  N=  8 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.267x | EV=$+0.0514 | EV_lo=$-0.0569
+  N= 10 ticks | sobreviveram  74/100 ( 74.0%, IC95%[ 64.6%, 81.6%]) | payout= 1.344x | EV=$-0.0055 | EV_lo=$-0.1314
+  N= 15 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.558x | EV=$-0.0185 | EV_lo=$-0.1708
+  N= 20 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.806x | EV=$-0.0066 | EV_lo=$-0.1828
+  N= 30 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.427x | EV=$-0.0534 | EV_lo=$-0.2714
+  N= 40 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 3.262x | EV=$+0.0112 | EV_lo=$-0.2569
+  N= 50 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 4.384x | EV=$+0.0960 | EV_lo=$-0.2308
+  N= 75 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 9.179x | EV=$+0.0097 | EV_lo=$-0.4259
+
+R_50 growth_rate=0.04 (barreira=0.02554%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.040x | EV=$-0.0016 | EV_lo=$-0.0623
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.082x | EV=$+0.0275 | EV_lo=$-0.0393
+  N=  3 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.125x | EV=$+0.0461 | EV_lo=$-0.0298
+  N=  5 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.217x | EV=$-0.0023 | EV_lo=$-0.1078
+  N=  8 ticks | sobreviveram  74/100 ( 74.0%, IC95%[ 64.6%, 81.6%]) | payout= 1.369x | EV=$+0.0127 | EV_lo=$-0.1155
+  N= 10 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.480x | EV=$-0.0378 | EV_lo=$-0.1821
+  N= 15 ticks | sobreviveram  51/100 ( 51.0%, IC95%[ 41.3%, 60.6%]) | payout= 1.801x | EV=$-0.0815 | EV_lo=$-0.2553
+  N= 20 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 2.191x | EV=$-0.1016 | EV_lo=$-0.3018
+  N= 30 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.243x | EV=$-0.1892 | EV_lo=$-0.4309
+  N= 40 ticks | sobreviveram  21/100 ( 21.0%, IC95%[ 14.2%, 30.0%]) | payout= 4.801x | EV=$+0.0082 | EV_lo=$-0.3199
+  N= 50 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 7.107x | EV=$+0.0660 | EV_lo=$-0.3387
+
+R_50 growth_rate=0.05 (barreira=0.02431%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.050x | EV=$-0.0025 | EV_lo=$-0.0673
+  N=  2 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.103x | EV=$-0.0077 | EV_lo=$-0.0897
+  N=  3 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.158x | EV=$-0.0044 | EV_lo=$-0.0986
+  N=  5 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.276x | EV=$-0.0683 | EV_lo=$-0.1887
+  N=  8 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.477x | EV=$+0.0047 | EV_lo=$-0.1381
+  N= 10 ticks | sobreviveram  57/100 ( 57.0%, IC95%[ 47.2%, 66.3%]) | payout= 1.629x | EV=$-0.0715 | EV_lo=$-0.2309
+  N= 15 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 2.079x | EV=$-0.1476 | EV_lo=$-0.3375
+  N= 20 ticks | sobreviveram  33/100 ( 33.0%, IC95%[ 24.6%, 42.7%]) | payout= 2.653x | EV=$-0.1244 | EV_lo=$-0.3483
+  N= 30 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.322x | EV=$-0.2221 | EV_lo=$-0.4943
+  N= 40 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.040x | EV=$-0.2960 | EV_lo=$-0.6112
+  N= 50 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout=11.467x | EV=$-0.1973 | EV_lo=$-0.6065
+
+R_75 growth_rate=0.01 (barreira=0.04594%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.010x | EV=$-0.0203 | EV_lo=$-0.0754
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.020x | EV=$-0.0309 | EV_lo=$-0.0939
+  N=  3 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.030x | EV=$-0.0418 | EV_lo=$-0.1114
+  N=  5 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.051x | EV=$-0.0541 | EV_lo=$-0.1323
+  N=  8 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.083x | EV=$-0.0687 | EV_lo=$-0.1569
+  N= 10 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.105x | EV=$-0.0832 | EV_lo=$-0.1776
+  N= 15 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.161x | EV=$-0.0712 | EV_lo=$-0.1744
+  N= 20 ticks | sobreviveram  72/100 ( 72.0%, IC95%[ 62.5%, 79.9%]) | payout= 1.220x | EV=$-0.1215 | EV_lo=$-0.2372
+  N= 30 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.348x | EV=$-0.1239 | EV_lo=$-0.2553
+  N= 40 ticks | sobreviveram  52/100 ( 52.0%, IC95%[ 42.3%, 61.5%]) | payout= 1.489x | EV=$-0.2258 | EV_lo=$-0.3700
+  N= 50 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 1.645x | EV=$-0.2106 | EV_lo=$-0.3674
+  N= 75 ticks | sobreviveram  33/100 ( 33.0%, IC95%[ 24.6%, 42.7%]) | payout= 2.109x | EV=$-0.3040 | EV_lo=$-0.4819
+  N=100 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 2.705x | EV=$-0.2427 | EV_lo=$-0.4553
+  N=150 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 4.448x | EV=$-0.5107 | EV_lo=$-0.7218
+  N=200 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout= 7.316x | EV=$-0.7805 | EV_lo=$-0.9250
+  N=250 ticks | sobreviveram   2/100 (  2.0%, IC95%[  0.6%,  7.0%]) | payout=12.032x | EV=$-0.7594 | EV_lo=$-0.9338
+
+R_75 growth_rate=0.02 (barreira=0.04294%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.020x | EV=$-0.0310 | EV_lo=$-0.0940
+  N=  2 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.040x | EV=$-0.0324 | EV_lo=$-0.1027
+  N=  3 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.061x | EV=$-0.0661 | EV_lo=$-0.1490
+  N=  5 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.104x | EV=$-0.0836 | EV_lo=$-0.1780
+  N=  8 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.172x | EV=$-0.0861 | EV_lo=$-0.1924
+  N= 10 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.219x | EV=$-0.0858 | EV_lo=$-0.1992
+  N= 15 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.346x | EV=$-0.0848 | EV_lo=$-0.2149
+  N= 20 ticks | sobreviveram  59/100 ( 59.0%, IC95%[ 49.2%, 68.1%]) | payout= 1.486x | EV=$-0.1233 | EV_lo=$-0.2689
+  N= 30 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 1.811x | EV=$-0.1305 | EV_lo=$-0.3033
+  N= 40 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.208x | EV=$-0.2493 | EV_lo=$-0.4378
+  N= 50 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 2.692x | EV=$-0.1656 | EV_lo=$-0.3869
+  N= 75 ticks | sobreviveram  22/100 ( 22.0%, IC95%[ 15.0%, 31.1%]) | payout= 4.416x | EV=$-0.0285 | EV_lo=$-0.3376
+  N=100 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 7.245x | EV=$+0.3040 | EV_lo=$-0.1524
+
+R_75 growth_rate=0.03 (barreira=0.04027%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.030x | EV=$-0.0112 | EV_lo=$-0.0713
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.061x | EV=$-0.0240 | EV_lo=$-0.0982
+  N=  3 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.093x | EV=$-0.0493 | EV_lo=$-0.1365
+  N=  5 ticks | sobreviveram  81/100 ( 81.0%, IC95%[ 72.2%, 87.5%]) | payout= 1.159x | EV=$-0.0610 | EV_lo=$-0.1628
+  N=  8 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.267x | EV=$-0.1133 | EV_lo=$-0.2347
+  N= 10 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.344x | EV=$-0.1399 | EV_lo=$-0.2711
+  N= 15 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.558x | EV=$-0.1431 | EV_lo=$-0.2951
+  N= 20 ticks | sobreviveram  46/100 ( 46.0%, IC95%[ 36.6%, 55.7%]) | payout= 1.806x | EV=$-0.1692 | EV_lo=$-0.3397
+  N= 30 ticks | sobreviveram  35/100 ( 35.0%, IC95%[ 26.4%, 44.7%]) | payout= 2.427x | EV=$-0.1505 | EV_lo=$-0.3601
+  N= 40 ticks | sobreviveram  21/100 ( 21.0%, IC95%[ 14.2%, 30.0%]) | payout= 3.262x | EV=$-0.3150 | EV_lo=$-0.5379
+  N= 50 ticks | sobreviveram  16/100 ( 16.0%, IC95%[ 10.1%, 24.4%]) | payout= 4.384x | EV=$-0.2986 | EV_lo=$-0.5574
+  N= 75 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 9.179x | EV=$-0.3575 | EV_lo=$-0.6850
+
+R_75 growth_rate=0.04 (barreira=0.03831%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.040x | EV=$-0.0328 | EV_lo=$-0.1030
+  N=  2 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.082x | EV=$-0.0590 | EV_lo=$-0.1453
+  N=  3 ticks | sobreviveram  81/100 ( 81.0%, IC95%[ 72.2%, 87.5%]) | payout= 1.125x | EV=$-0.0889 | EV_lo=$-0.1876
+  N=  5 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.217x | EV=$-0.1118 | EV_lo=$-0.2266
+  N=  8 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.369x | EV=$-0.1652 | EV_lo=$-0.2993
+  N= 10 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.480x | EV=$-0.1859 | EV_lo=$-0.3303
+  N= 15 ticks | sobreviveram  45/100 ( 45.0%, IC95%[ 35.6%, 54.8%]) | payout= 1.801x | EV=$-0.1896 | EV_lo=$-0.3586
+  N= 20 ticks | sobreviveram  37/100 ( 37.0%, IC95%[ 28.2%, 46.8%]) | payout= 2.191x | EV=$-0.1893 | EV_lo=$-0.3825
+  N= 30 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.243x | EV=$-0.1892 | EV_lo=$-0.4309
+  N= 40 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.801x | EV=$-0.2798 | EV_lo=$-0.5532
+  N= 50 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 7.107x | EV=$-0.0051 | EV_lo=$-0.3941
+
+R_75 growth_rate=0.05 (barreira=0.03647%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.050x | EV=$-0.0445 | EV_lo=$-0.1204
+  N=  2 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.103x | EV=$-0.0629 | EV_lo=$-0.1542
+  N=  3 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.158x | EV=$-0.0855 | EV_lo=$-0.1894
+  N=  5 ticks | sobreviveram  67/100 ( 67.0%, IC95%[ 57.3%, 75.4%]) | payout= 1.276x | EV=$-0.1449 | EV_lo=$-0.2686
+  N=  8 ticks | sobreviveram  58/100 ( 58.0%, IC95%[ 48.2%, 67.2%]) | payout= 1.477x | EV=$-0.1431 | EV_lo=$-0.2878
+  N= 10 ticks | sobreviveram  50/100 ( 50.0%, IC95%[ 40.4%, 59.6%]) | payout= 1.629x | EV=$-0.1856 | EV_lo=$-0.3422
+  N= 15 ticks | sobreviveram  37/100 ( 37.0%, IC95%[ 28.2%, 46.8%]) | payout= 2.079x | EV=$-0.2308 | EV_lo=$-0.4141
+  N= 20 ticks | sobreviveram  30/100 ( 30.0%, IC95%[ 21.9%, 39.6%]) | payout= 2.653x | EV=$-0.2040 | EV_lo=$-0.4191
+  N= 30 ticks | sobreviveram  21/100 ( 21.0%, IC95%[ 14.2%, 30.0%]) | payout= 4.322x | EV=$-0.0924 | EV_lo=$-0.3878
+  N= 40 ticks | sobreviveram  12/100 ( 12.0%, IC95%[  7.0%, 19.8%]) | payout= 7.040x | EV=$-0.1552 | EV_lo=$-0.5072
+  N= 50 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout=11.467x | EV=$+0.1467 | EV_lo=$-0.3667
+
+R_100 growth_rate=0.01 (barreira=0.06126%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.010x | EV=$-0.0102 | EV_lo=$-0.0607
+  N=  2 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.020x | EV=$-0.0003 | EV_lo=$-0.0513
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.030x | EV=$-0.0006 | EV_lo=$-0.0568
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.051x | EV=$-0.0331 | EV_lo=$-0.1066
+  N=  8 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.083x | EV=$-0.0363 | EV_lo=$-0.1189
+  N= 10 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.105x | EV=$-0.0390 | EV_lo=$-0.1271
+  N= 15 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.161x | EV=$-0.0364 | EV_lo=$-0.1356
+  N= 20 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.220x | EV=$-0.0483 | EV_lo=$-0.1589
+  N= 30 ticks | sobreviveram  67/100 ( 67.0%, IC95%[ 57.3%, 75.4%]) | payout= 1.348x | EV=$-0.0969 | EV_lo=$-0.2276
+  N= 40 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.489x | EV=$-0.0620 | EV_lo=$-0.2076
+  N= 50 ticks | sobreviveram  54/100 ( 54.0%, IC95%[ 44.3%, 63.4%]) | payout= 1.645x | EV=$-0.1119 | EV_lo=$-0.2720
+  N= 75 ticks | sobreviveram  42/100 ( 42.0%, IC95%[ 32.8%, 51.8%]) | payout= 2.109x | EV=$-0.1142 | EV_lo=$-0.3082
+  N=100 ticks | sobreviveram  29/100 ( 29.0%, IC95%[ 21.0%, 38.5%]) | payout= 2.705x | EV=$-0.2156 | EV_lo=$-0.4316
+  N=150 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 4.448x | EV=$-0.6886 | EV_lo=$-0.8473
+  N=200 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout= 7.316x | EV=$-0.7805 | EV_lo=$-0.9250
+  N=250 ticks | sobreviveram   1/100 (  1.0%, IC95%[  0.2%,  5.4%]) | payout=12.032x | EV=$-0.8797 | EV_lo=$-0.9787
+
+R_100 growth_rate=0.02 (barreira=0.05725%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.020x | EV=$-0.0106 | EV_lo=$-0.0662
+  N=  2 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.040x | EV=$+0.0092 | EV_lo=$-0.0475
+  N=  3 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.061x | EV=$+0.0081 | EV_lo=$-0.0574
+  N=  5 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.104x | EV=$+0.0047 | EV_lo=$-0.0751
+  N=  8 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.172x | EV=$-0.0158 | EV_lo=$-0.1145
+  N= 10 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.219x | EV=$-0.0370 | EV_lo=$-0.1465
+  N= 15 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.346x | EV=$-0.0444 | EV_lo=$-0.1728
+  N= 20 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.486x | EV=$-0.0936 | EV_lo=$-0.2392
+  N= 30 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.811x | EV=$-0.1124 | EV_lo=$-0.2859
+  N= 40 ticks | sobreviveram  40/100 ( 40.0%, IC95%[ 30.9%, 49.8%]) | payout= 2.208x | EV=$-0.1168 | EV_lo=$-0.3168
+  N= 50 ticks | sobreviveram  30/100 ( 30.0%, IC95%[ 21.9%, 39.6%]) | payout= 2.692x | EV=$-0.1925 | EV_lo=$-0.4107
+  N= 75 ticks | sobreviveram  17/100 ( 17.0%, IC95%[ 10.9%, 25.5%]) | payout= 4.416x | EV=$-0.2493 | EV_lo=$-0.5190
+  N=100 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.245x | EV=$-0.2755 | EV_lo=$-0.5999
+
+R_100 growth_rate=0.03 (barreira=0.05369%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.030x | EV=$-0.0215 | EV_lo=$-0.0851
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.061x | EV=$-0.0240 | EV_lo=$-0.0982
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.093x | EV=$-0.0056 | EV_lo=$-0.0846
+  N=  5 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.159x | EV=$-0.0262 | EV_lo=$-0.1238
+  N=  8 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.267x | EV=$-0.1133 | EV_lo=$-0.2347
+  N= 10 ticks | sobreviveram  66/100 ( 66.0%, IC95%[ 56.3%, 74.5%]) | payout= 1.344x | EV=$-0.1130 | EV_lo=$-0.2437
+  N= 15 ticks | sobreviveram  56/100 ( 56.0%, IC95%[ 46.2%, 65.3%]) | payout= 1.558x | EV=$-0.1275 | EV_lo=$-0.2798
+  N= 20 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.806x | EV=$-0.1150 | EV_lo=$-0.2880
+  N= 30 ticks | sobreviveram  38/100 ( 38.0%, IC95%[ 29.1%, 47.8%]) | payout= 2.427x | EV=$-0.0776 | EV_lo=$-0.2937
+  N= 40 ticks | sobreviveram  24/100 ( 24.0%, IC95%[ 16.7%, 33.2%]) | payout= 3.262x | EV=$-0.2171 | EV_lo=$-0.4555
+  N= 50 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.384x | EV=$-0.3424 | EV_lo=$-0.5920
+  N= 75 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 9.179x | EV=$-0.3575 | EV_lo=$-0.6850
+
+R_100 growth_rate=0.04 (barreira=0.05109%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.040x | EV=$-0.0224 | EV_lo=$-0.0898
+  N=  2 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.082x | EV=$-0.0266 | EV_lo=$-0.1070
+  N=  3 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.125x | EV=$+0.0011 | EV_lo=$-0.0847
+  N=  5 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.217x | EV=$-0.0510 | EV_lo=$-0.1614
+  N=  8 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.369x | EV=$-0.0694 | EV_lo=$-0.2016
+  N= 10 ticks | sobreviveram  62/100 ( 62.0%, IC95%[ 52.2%, 70.9%]) | payout= 1.480x | EV=$-0.0822 | EV_lo=$-0.2272
+  N= 15 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.801x | EV=$-0.1175 | EV_lo=$-0.2900
+  N= 20 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 2.191x | EV=$-0.1016 | EV_lo=$-0.3018
+  N= 30 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.243x | EV=$-0.1892 | EV_lo=$-0.4309
+  N= 40 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.801x | EV=$-0.2798 | EV_lo=$-0.5532
+  N= 50 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.107x | EV=$-0.3604 | EV_lo=$-0.6584
+
+R_100 growth_rate=0.05 (barreira=0.04863%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.050x | EV=$-0.0235 | EV_lo=$-0.0944
+  N=  2 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.103x | EV=$-0.0298 | EV_lo=$-0.1159
+  N=  3 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.158x | EV=$-0.0160 | EV_lo=$-0.1119
+  N=  5 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.276x | EV=$-0.0938 | EV_lo=$-0.2156
+  N=  8 ticks | sobreviveram  60/100 ( 60.0%, IC95%[ 50.2%, 69.1%]) | payout= 1.477x | EV=$-0.1135 | EV_lo=$-0.2583
+  N= 10 ticks | sobreviveram  52/100 ( 52.0%, IC95%[ 42.3%, 61.5%]) | payout= 1.629x | EV=$-0.1530 | EV_lo=$-0.3107
+  N= 15 ticks | sobreviveram  42/100 ( 42.0%, IC95%[ 32.8%, 51.8%]) | payout= 2.079x | EV=$-0.1269 | EV_lo=$-0.3181
+  N= 20 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.653x | EV=$-0.0979 | EV_lo=$-0.3244
+  N= 30 ticks | sobreviveram  22/100 ( 22.0%, IC95%[ 15.0%, 31.1%]) | payout= 4.322x | EV=$-0.0492 | EV_lo=$-0.3517
+  N= 40 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.040x | EV=$-0.3664 | EV_lo=$-0.6616
+  N= 50 ticks | sobreviveram   5/100 (  5.0%, IC95%[  2.2%, 11.2%]) | payout=11.467x | EV=$-0.4266 | EV_lo=$-0.7530
+
+1HZ10V growth_rate=0.01 (barreira=0.00433%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.010x | EV=$-0.0102 | EV_lo=$-0.0607
+  N=  2 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.020x | EV=$-0.0003 | EV_lo=$-0.0513
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.030x | EV=$-0.0006 | EV_lo=$-0.0568
+  N=  5 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.051x | EV=$-0.0015 | EV_lo=$-0.0664
+  N=  8 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.083x | EV=$-0.0146 | EV_lo=$-0.0929
+  N= 10 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.105x | EV=$-0.0279 | EV_lo=$-0.1142
+  N= 15 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.161x | EV=$-0.0480 | EV_lo=$-0.1486
+  N= 20 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.220x | EV=$-0.0483 | EV_lo=$-0.1589
+  N= 30 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.348x | EV=$-0.0835 | EV_lo=$-0.2137
+  N= 40 ticks | sobreviveram  57/100 ( 57.0%, IC95%[ 47.2%, 66.3%]) | payout= 1.489x | EV=$-0.1513 | EV_lo=$-0.2970
+  N= 50 ticks | sobreviveram  52/100 ( 52.0%, IC95%[ 42.3%, 61.5%]) | payout= 1.645x | EV=$-0.1448 | EV_lo=$-0.3041
+  N= 75 ticks | sobreviveram  40/100 ( 40.0%, IC95%[ 30.9%, 49.8%]) | payout= 2.109x | EV=$-0.1563 | EV_lo=$-0.3474
+  N=100 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 2.705x | EV=$-0.1615 | EV_lo=$-0.3839
+  N=150 ticks | sobreviveram  21/100 ( 21.0%, IC95%[ 14.2%, 30.0%]) | payout= 4.448x | EV=$-0.0658 | EV_lo=$-0.3699
+  N=200 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 7.316x | EV=$-0.1952 | EV_lo=$-0.5424
+  N=250 ticks | sobreviveram   5/100 (  5.0%, IC95%[  2.2%, 11.2%]) | payout=12.032x | EV=$-0.3984 | EV_lo=$-0.7408
+
+1HZ10V growth_rate=0.02 (barreira=0.00405%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.020x | EV=$+0.0098 | EV_lo=$-0.0356
+  N=  2 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.040x | EV=$+0.0196 | EV_lo=$-0.0324
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.061x | EV=$+0.0294 | EV_lo=$-0.0285
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.104x | EV=$+0.0158 | EV_lo=$-0.0615
+  N=  8 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.172x | EV=$+0.0193 | EV_lo=$-0.0742
+  N= 10 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.219x | EV=$-0.0004 | EV_lo=$-0.1061
+  N= 15 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.346x | EV=$+0.0094 | EV_lo=$-0.1158
+  N= 20 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.486x | EV=$-0.0341 | EV_lo=$-0.1790
+  N= 30 ticks | sobreviveram  54/100 ( 54.0%, IC95%[ 44.3%, 63.4%]) | payout= 1.811x | EV=$-0.0219 | EV_lo=$-0.1982
+  N= 40 ticks | sobreviveram  43/100 ( 43.0%, IC95%[ 33.7%, 52.8%]) | payout= 2.208x | EV=$-0.0505 | EV_lo=$-0.2552
+  N= 50 ticks | sobreviveram  36/100 ( 36.0%, IC95%[ 27.3%, 45.8%]) | payout= 2.692x | EV=$-0.0310 | EV_lo=$-0.2660
+  N= 75 ticks | sobreviveram  21/100 ( 21.0%, IC95%[ 14.2%, 30.0%]) | payout= 4.416x | EV=$-0.0727 | EV_lo=$-0.3745
+  N=100 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.245x | EV=$-0.2755 | EV_lo=$-0.5999
+
+1HZ10V growth_rate=0.03 (barreira=0.00380%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.030x | EV=$+0.0197 | EV_lo=$-0.0261
+  N=  2 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.061x | EV=$+0.0291 | EV_lo=$-0.0288
+  N=  3 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.093x | EV=$+0.0381 | EV_lo=$-0.0294
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.159x | EV=$+0.0665 | EV_lo=$-0.0146
+  N=  8 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.267x | EV=$+0.0641 | EV_lo=$-0.0426
+  N= 10 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.344x | EV=$+0.0348 | EV_lo=$-0.0882
+  N= 15 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.558x | EV=$+0.0594 | EV_lo=$-0.0911
+  N= 20 ticks | sobreviveram  60/100 ( 60.0%, IC95%[ 50.2%, 69.1%]) | payout= 1.806x | EV=$+0.0837 | EV_lo=$-0.0933
+  N= 30 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.427x | EV=$-0.0534 | EV_lo=$-0.2714
+  N= 40 ticks | sobreviveram  24/100 ( 24.0%, IC95%[ 16.7%, 33.2%]) | payout= 3.262x | EV=$-0.2171 | EV_lo=$-0.4555
+  N= 50 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.384x | EV=$-0.2109 | EV_lo=$-0.4871
+  N= 75 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 9.179x | EV=$-0.1739 | EV_lo=$-0.5588
+
+1HZ10V growth_rate=0.04 (barreira=0.00361%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.040x | EV=$+0.0192 | EV_lo=$-0.0328
+  N=  2 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.082x | EV=$+0.0167 | EV_lo=$-0.0534
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.125x | EV=$+0.0236 | EV_lo=$-0.0577
+  N=  5 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.217x | EV=$+0.0463 | EV_lo=$-0.0527
+  N=  8 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.369x | EV=$+0.0949 | EV_lo=$-0.0267
+  N= 10 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.480x | EV=$+0.0510 | EV_lo=$-0.0902
+  N= 15 ticks | sobreviveram  59/100 ( 59.0%, IC95%[ 49.2%, 68.1%]) | payout= 1.801x | EV=$+0.0626 | EV_lo=$-0.1139
+  N= 20 ticks | sobreviveram  45/100 ( 45.0%, IC95%[ 35.6%, 54.8%]) | payout= 2.191x | EV=$-0.0140 | EV_lo=$-0.2196
+  N= 30 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 3.243x | EV=$-0.0918 | EV_lo=$-0.3468
+  N= 40 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.801x | EV=$-0.2798 | EV_lo=$-0.5532
+  N= 50 ticks | sobreviveram  12/100 ( 12.0%, IC95%[  7.0%, 19.8%]) | payout= 7.107x | EV=$-0.1472 | EV_lo=$-0.5026
+
+1HZ10V growth_rate=0.05 (barreira=0.00344%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.050x | EV=$+0.0290 | EV_lo=$-0.0235
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.103x | EV=$+0.0143 | EV_lo=$-0.0629
+  N=  3 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.158x | EV=$+0.0071 | EV_lo=$-0.0853
+  N=  5 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.276x | EV=$-0.0045 | EV_lo=$-0.1203
+  N=  8 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.477x | EV=$-0.0544 | EV_lo=$-0.1987
+  N= 10 ticks | sobreviveram  54/100 ( 54.0%, IC95%[ 44.3%, 63.4%]) | payout= 1.629x | EV=$-0.1204 | EV_lo=$-0.2790
+  N= 15 ticks | sobreviveram  47/100 ( 47.0%, IC95%[ 37.5%, 56.7%]) | payout= 2.079x | EV=$-0.0229 | EV_lo=$-0.2202
+  N= 20 ticks | sobreviveram  33/100 ( 33.0%, IC95%[ 24.6%, 42.7%]) | payout= 2.653x | EV=$-0.1244 | EV_lo=$-0.3483
+  N= 30 ticks | sobreviveram  19/100 ( 19.0%, IC95%[ 12.5%, 27.8%]) | payout= 4.322x | EV=$-0.1788 | EV_lo=$-0.4591
+  N= 40 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.040x | EV=$-0.2960 | EV_lo=$-0.6112
+  N= 50 ticks | sobreviveram   8/100 (  8.0%, IC95%[  4.1%, 15.0%]) | payout=11.467x | EV=$-0.0826 | EV_lo=$-0.5288
+
+1HZ25V growth_rate=0.01 (barreira=0.01083%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.010x | EV=$-0.0102 | EV_lo=$-0.0607
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.020x | EV=$-0.0615 | EV_lo=$-0.1329
+  N=  3 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.030x | EV=$-0.0727 | EV_lo=$-0.1493
+  N=  5 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.051x | EV=$-0.0646 | EV_lo=$-0.1448
+  N=  8 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.083x | EV=$-0.1445 | EV_lo=$-0.2418
+  N= 10 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.105x | EV=$-0.1494 | EV_lo=$-0.2506
+  N= 15 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.161x | EV=$-0.1757 | EV_lo=$-0.2865
+  N= 20 ticks | sobreviveram  62/100 ( 62.0%, IC95%[ 52.2%, 70.9%]) | payout= 1.220x | EV=$-0.2435 | EV_lo=$-0.3629
+  N= 30 ticks | sobreviveram  52/100 ( 52.0%, IC95%[ 42.3%, 61.5%]) | payout= 1.348x | EV=$-0.2991 | EV_lo=$-0.4296
+  N= 40 ticks | sobreviveram  46/100 ( 46.0%, IC95%[ 36.6%, 55.7%]) | payout= 1.489x | EV=$-0.3151 | EV_lo=$-0.4557
+  N= 50 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 1.645x | EV=$-0.3257 | EV_lo=$-0.4759
+  N= 75 ticks | sobreviveram  27/100 ( 27.0%, IC95%[ 19.3%, 36.4%]) | payout= 2.109x | EV=$-0.4305 | EV_lo=$-0.5936
+  N=100 ticks | sobreviveram  24/100 ( 24.0%, IC95%[ 16.7%, 33.2%]) | payout= 2.705x | EV=$-0.3508 | EV_lo=$-0.5485
+  N=150 ticks | sobreviveram  12/100 ( 12.0%, IC95%[  7.0%, 19.8%]) | payout= 4.448x | EV=$-0.4662 | EV_lo=$-0.6886
+  N=200 ticks | sobreviveram   8/100 (  8.0%, IC95%[  4.1%, 15.0%]) | payout= 7.316x | EV=$-0.4147 | EV_lo=$-0.6994
+  N=250 ticks | sobreviveram   2/100 (  2.0%, IC95%[  0.6%,  7.0%]) | payout=12.032x | EV=$-0.7594 | EV_lo=$-0.9338
+
+1HZ25V growth_rate=0.02 (barreira=0.01012%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.020x | EV=$+0.0098 | EV_lo=$-0.0356
+  N=  2 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.040x | EV=$-0.0012 | EV_lo=$-0.0619
+  N=  3 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.061x | EV=$-0.0025 | EV_lo=$-0.0712
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.104x | EV=$+0.0158 | EV_lo=$-0.0615
+  N=  8 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.172x | EV=$-0.0744 | EV_lo=$-0.1796
+  N= 10 ticks | sobreviveram  76/100 ( 76.0%, IC95%[ 66.8%, 83.3%]) | payout= 1.219x | EV=$-0.0736 | EV_lo=$-0.1861
+  N= 15 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.346x | EV=$-0.0444 | EV_lo=$-0.1728
+  N= 20 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.486x | EV=$-0.0936 | EV_lo=$-0.2392
+  N= 30 ticks | sobreviveram  46/100 ( 46.0%, IC95%[ 36.6%, 55.7%]) | payout= 1.811x | EV=$-0.1668 | EV_lo=$-0.3378
+  N= 40 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.208x | EV=$-0.1389 | EV_lo=$-0.3372
+  N= 50 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 2.692x | EV=$-0.1656 | EV_lo=$-0.3869
+  N= 75 ticks | sobreviveram  15/100 ( 15.0%, IC95%[  9.3%, 23.3%]) | payout= 4.416x | EV=$-0.3376 | EV_lo=$-0.5891
+  N=100 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 7.245x | EV=$-0.4929 | EV_lo=$-0.7514
+
+1HZ25V growth_rate=0.03 (barreira=0.00949%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.030x | EV=$+0.0094 | EV_lo=$-0.0421
+  N=  2 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.061x | EV=$-0.0134 | EV_lo=$-0.0850
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.093x | EV=$-0.0056 | EV_lo=$-0.0846
+  N=  5 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.159x | EV=$+0.0318 | EV_lo=$-0.0567
+  N=  8 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.267x | EV=$-0.0499 | EV_lo=$-0.1678
+  N= 10 ticks | sobreviveram  69/100 ( 69.0%, IC95%[ 59.4%, 77.2%]) | payout= 1.344x | EV=$-0.0727 | EV_lo=$-0.2021
+  N= 15 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.558x | EV=$-0.0029 | EV_lo=$-0.1550
+  N= 20 ticks | sobreviveram  52/100 ( 52.0%, IC95%[ 42.3%, 61.5%]) | payout= 1.806x | EV=$-0.0608 | EV_lo=$-0.2357
+  N= 30 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.427x | EV=$-0.0534 | EV_lo=$-0.2714
+  N= 40 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 3.262x | EV=$-0.0866 | EV_lo=$-0.3430
+  N= 50 ticks | sobreviveram  20/100 ( 20.0%, IC95%[ 13.3%, 28.9%]) | payout= 4.384x | EV=$-0.1232 | EV_lo=$-0.4153
+  N= 75 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 9.179x | EV=$+0.0097 | EV_lo=$-0.4259
+
+1HZ25V growth_rate=0.04 (barreira=0.00903%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.040x | EV=$+0.0088 | EV_lo=$-0.0479
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.082x | EV=$+0.0275 | EV_lo=$-0.0393
+  N=  3 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.125x | EV=$+0.0349 | EV_lo=$-0.0438
+  N=  5 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.217x | EV=$+0.0828 | EV_lo=$-0.0100
+  N=  8 ticks | sobreviveram  72/100 ( 72.0%, IC95%[ 62.5%, 79.9%]) | payout= 1.369x | EV=$-0.0146 | EV_lo=$-0.1445
+  N= 10 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.480x | EV=$-0.0674 | EV_lo=$-0.2122
+  N= 15 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.801x | EV=$-0.0095 | EV_lo=$-0.1852
+  N= 20 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.191x | EV=$-0.1455 | EV_lo=$-0.3423
+  N= 30 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.243x | EV=$-0.1892 | EV_lo=$-0.4309
+  N= 40 ticks | sobreviveram  16/100 ( 16.0%, IC95%[ 10.1%, 24.4%]) | payout= 4.801x | EV=$-0.2318 | EV_lo=$-0.5153
+  N= 50 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 7.107x | EV=$-0.2183 | EV_lo=$-0.5555
+
+1HZ25V growth_rate=0.05 (barreira=0.00860%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.050x | EV=$+0.0080 | EV_lo=$-0.0533
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.103x | EV=$+0.0143 | EV_lo=$-0.0629
+  N=  3 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.158x | EV=$+0.0187 | EV_lo=$-0.0717
+  N=  5 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.276x | EV=$+0.0593 | EV_lo=$-0.0498
+  N=  8 ticks | sobreviveram  64/100 ( 64.0%, IC95%[ 54.2%, 72.7%]) | payout= 1.477x | EV=$-0.0544 | EV_lo=$-0.1987
+  N= 10 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.629x | EV=$-0.1041 | EV_lo=$-0.2630
+  N= 15 ticks | sobreviveram  44/100 ( 44.0%, IC95%[ 34.7%, 53.8%]) | payout= 2.079x | EV=$-0.0853 | EV_lo=$-0.2792
+  N= 20 ticks | sobreviveram  32/100 ( 32.0%, IC95%[ 23.7%, 41.7%]) | payout= 2.653x | EV=$-0.1509 | EV_lo=$-0.3720
+  N= 30 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.322x | EV=$-0.2221 | EV_lo=$-0.4943
+  N= 40 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.040x | EV=$-0.2960 | EV_lo=$-0.6112
+  N= 50 ticks | sobreviveram   8/100 (  8.0%, IC95%[  4.1%, 15.0%]) | payout=11.467x | EV=$-0.0826 | EV_lo=$-0.5288
+
+1HZ50V growth_rate=0.01 (barreira=0.02166%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram 100/100 (100.0%, IC95%[ 96.3%,100.0%]) | payout= 1.010x | EV=$+0.0100 | EV_lo=$-0.0274
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.020x | EV=$-0.0309 | EV_lo=$-0.0939
+  N=  3 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.030x | EV=$-0.0418 | EV_lo=$-0.1114
+  N=  5 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.051x | EV=$-0.0436 | EV_lo=$-0.1195
+  N=  8 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.083x | EV=$-0.0796 | EV_lo=$-0.1693
+  N= 10 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.105x | EV=$-0.1163 | EV_lo=$-0.2144
+  N= 15 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.161x | EV=$-0.1757 | EV_lo=$-0.2865
+  N= 20 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.220x | EV=$-0.1703 | EV_lo=$-0.2882
+  N= 30 ticks | sobreviveram  56/100 ( 56.0%, IC95%[ 46.2%, 65.3%]) | payout= 1.348x | EV=$-0.2452 | EV_lo=$-0.3769
+  N= 40 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.489x | EV=$-0.2705 | EV_lo=$-0.4131
+  N= 50 ticks | sobreviveram  47/100 ( 47.0%, IC95%[ 37.5%, 56.7%]) | payout= 1.645x | EV=$-0.2270 | EV_lo=$-0.3831
+  N= 75 ticks | sobreviveram  32/100 ( 32.0%, IC95%[ 23.7%, 41.7%]) | payout= 2.109x | EV=$-0.3251 | EV_lo=$-0.5008
+  N=100 ticks | sobreviveram  22/100 ( 22.0%, IC95%[ 15.0%, 31.1%]) | payout= 2.705x | EV=$-0.4049 | EV_lo=$-0.5942
+  N=150 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 4.448x | EV=$-0.5552 | EV_lo=$-0.7543
+  N=200 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 7.316x | EV=$-0.4879 | EV_lo=$-0.7489
+  N=250 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout=12.032x | EV=$-0.6390 | EV_lo=$-0.8766
+
+1HZ50V growth_rate=0.02 (barreira=0.02024%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram 100/100 (100.0%, IC95%[ 96.3%,100.0%]) | payout= 1.020x | EV=$+0.0200 | EV_lo=$-0.0177
+  N=  2 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.040x | EV=$-0.0012 | EV_lo=$-0.0619
+  N=  3 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.061x | EV=$-0.0131 | EV_lo=$-0.0847
+  N=  5 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.104x | EV=$-0.0174 | EV_lo=$-0.1016
+  N=  8 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.172x | EV=$-0.0275 | EV_lo=$-0.1277
+  N= 10 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.219x | EV=$-0.0248 | EV_lo=$-0.1331
+  N= 15 ticks | sobreviveram  69/100 ( 69.0%, IC95%[ 59.4%, 77.2%]) | payout= 1.346x | EV=$-0.0714 | EV_lo=$-0.2009
+  N= 20 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.486x | EV=$-0.0639 | EV_lo=$-0.2092
+  N= 30 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 1.811x | EV=$-0.1305 | EV_lo=$-0.3033
+  N= 40 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.208x | EV=$-0.1389 | EV_lo=$-0.3372
+  N= 50 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.692x | EV=$-0.0849 | EV_lo=$-0.3147
+  N= 75 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.416x | EV=$-0.2051 | EV_lo=$-0.4833
+  N=100 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.245x | EV=$-0.2755 | EV_lo=$-0.5999
+
+1HZ50V growth_rate=0.03 (barreira=0.01898%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.030x | EV=$+0.0197 | EV_lo=$-0.0261
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.061x | EV=$+0.0079 | EV_lo=$-0.0577
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.093x | EV=$-0.0056 | EV_lo=$-0.0846
+  N=  5 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.159x | EV=$-0.0146 | EV_lo=$-0.1106
+  N=  8 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.267x | EV=$+0.0388 | EV_lo=$-0.0710
+  N= 10 ticks | sobreviveram  77/100 ( 77.0%, IC95%[ 67.8%, 84.2%]) | payout= 1.344x | EV=$+0.0348 | EV_lo=$-0.0882
+  N= 15 ticks | sobreviveram  63/100 ( 63.0%, IC95%[ 53.2%, 71.8%]) | payout= 1.558x | EV=$-0.0185 | EV_lo=$-0.1708
+  N= 20 ticks | sobreviveram  53/100 ( 53.0%, IC95%[ 43.3%, 62.5%]) | payout= 1.806x | EV=$-0.0428 | EV_lo=$-0.2182
+  N= 30 ticks | sobreviveram  37/100 ( 37.0%, IC95%[ 28.2%, 46.8%]) | payout= 2.427x | EV=$-0.1019 | EV_lo=$-0.3159
+  N= 40 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 3.262x | EV=$+0.0112 | EV_lo=$-0.2569
+  N= 50 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 4.384x | EV=$+0.0960 | EV_lo=$-0.2308
+  N= 75 ticks | sobreviveram   8/100 (  8.0%, IC95%[  4.1%, 15.0%]) | payout= 9.179x | EV=$-0.2657 | EV_lo=$-0.6228
+
+1HZ50V growth_rate=0.04 (barreira=0.01806%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.040x | EV=$+0.0192 | EV_lo=$-0.0328
+  N=  2 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.082x | EV=$-0.0049 | EV_lo=$-0.0806
+  N=  3 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.125x | EV=$+0.0124 | EV_lo=$-0.0713
+  N=  5 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.217x | EV=$+0.0463 | EV_lo=$-0.0527
+  N=  8 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.369x | EV=$+0.0675 | EV_lo=$-0.0567
+  N= 10 ticks | sobreviveram  70/100 ( 70.0%, IC95%[ 60.4%, 78.1%]) | payout= 1.480x | EV=$+0.0362 | EV_lo=$-0.1057
+  N= 15 ticks | sobreviveram  58/100 ( 58.0%, IC95%[ 48.2%, 67.2%]) | payout= 1.801x | EV=$+0.0445 | EV_lo=$-0.1318
+  N= 20 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 2.191x | EV=$+0.0517 | EV_lo=$-0.1572
+  N= 30 ticks | sobreviveram  32/100 ( 32.0%, IC95%[ 23.7%, 41.7%]) | payout= 3.243x | EV=$+0.0379 | EV_lo=$-0.2323
+  N= 40 ticks | sobreviveram  27/100 ( 27.0%, IC95%[ 19.3%, 36.4%]) | payout= 4.801x | EV=$+0.2963 | EV_lo=$-0.0749
+  N= 50 ticks | sobreviveram  20/100 ( 20.0%, IC95%[ 13.3%, 28.9%]) | payout= 7.107x | EV=$+0.4213 | EV_lo=$-0.0522
+
+1HZ50V growth_rate=0.05 (barreira=0.01719%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.050x | EV=$+0.0290 | EV_lo=$-0.0235
+  N=  2 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.103x | EV=$+0.0033 | EV_lo=$-0.0764
+  N=  3 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.158x | EV=$-0.0392 | EV_lo=$-0.1381
+  N=  5 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.276x | EV=$+0.0083 | EV_lo=$-0.1063
+  N=  8 ticks | sobreviveram  68/100 ( 68.0%, IC95%[ 58.3%, 76.3%]) | payout= 1.477x | EV=$+0.0047 | EV_lo=$-0.1381
+  N= 10 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.629x | EV=$-0.0064 | EV_lo=$-0.1660
+  N= 15 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 2.079x | EV=$-0.0021 | EV_lo=$-0.2004
+  N= 20 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.653x | EV=$+0.0348 | EV_lo=$-0.2036
+  N= 30 ticks | sobreviveram  19/100 ( 19.0%, IC95%[ 12.5%, 27.8%]) | payout= 4.322x | EV=$-0.1788 | EV_lo=$-0.4591
+  N= 40 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 7.040x | EV=$-0.0144 | EV_lo=$-0.3998
+  N= 50 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout=11.467x | EV=$+0.1467 | EV_lo=$-0.3667
+
+1HZ75V growth_rate=0.01 (barreira=0.03249%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram 100/100 (100.0%, IC95%[ 96.3%,100.0%]) | payout= 1.010x | EV=$+0.0100 | EV_lo=$-0.0274
+  N=  2 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.020x | EV=$+0.0099 | EV_lo=$-0.0355
+  N=  3 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.030x | EV=$-0.0006 | EV_lo=$-0.0568
+  N=  5 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.051x | EV=$-0.0226 | EV_lo=$-0.0935
+  N=  8 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.083x | EV=$-0.0579 | EV_lo=$-0.1443
+  N= 10 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.105x | EV=$-0.0500 | EV_lo=$-0.1399
+  N= 15 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.161x | EV=$-0.0944 | EV_lo=$-0.1998
+  N= 20 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.220x | EV=$-0.1337 | EV_lo=$-0.2501
+  N= 30 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.348x | EV=$-0.1239 | EV_lo=$-0.2553
+  N= 40 ticks | sobreviveram  59/100 ( 59.0%, IC95%[ 49.2%, 68.1%]) | payout= 1.489x | EV=$-0.1216 | EV_lo=$-0.2675
+  N= 50 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.645x | EV=$-0.1941 | EV_lo=$-0.3517
+  N= 75 ticks | sobreviveram  29/100 ( 29.0%, IC95%[ 21.0%, 38.5%]) | payout= 2.109x | EV=$-0.3884 | EV_lo=$-0.5568
+  N=100 ticks | sobreviveram  17/100 ( 17.0%, IC95%[ 10.9%, 25.5%]) | payout= 2.705x | EV=$-0.5402 | EV_lo=$-0.7054
+  N=150 ticks | sobreviveram   7/100 (  7.0%, IC95%[  3.4%, 13.7%]) | payout= 4.448x | EV=$-0.6886 | EV_lo=$-0.8473
+  N=200 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout= 7.316x | EV=$-0.7805 | EV_lo=$-0.9250
+  N=250 ticks | sobreviveram   2/100 (  2.0%, IC95%[  0.6%,  7.0%]) | payout=12.032x | EV=$-0.7594 | EV_lo=$-0.9338
+
+1HZ75V growth_rate=0.02 (barreira=0.03036%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.020x | EV=$-0.0004 | EV_lo=$-0.0514
+  N=  2 ticks | sobreviveram  97/100 ( 97.0%, IC95%[ 91.5%, 99.0%]) | payout= 1.040x | EV=$+0.0092 | EV_lo=$-0.0475
+  N=  3 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.061x | EV=$+0.0081 | EV_lo=$-0.0574
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.104x | EV=$+0.0158 | EV_lo=$-0.0615
+  N=  8 ticks | sobreviveram  84/100 ( 84.0%, IC95%[ 75.6%, 89.9%]) | payout= 1.172x | EV=$-0.0158 | EV_lo=$-0.1145
+  N= 10 ticks | sobreviveram  81/100 ( 81.0%, IC95%[ 72.2%, 87.5%]) | payout= 1.219x | EV=$-0.0126 | EV_lo=$-0.1196
+  N= 15 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.346x | EV=$-0.0175 | EV_lo=$-0.1445
+  N= 20 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.486x | EV=$-0.0936 | EV_lo=$-0.2392
+  N= 30 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 1.811x | EV=$-0.1305 | EV_lo=$-0.3033
+  N= 40 ticks | sobreviveram  42/100 ( 42.0%, IC95%[ 32.8%, 51.8%]) | payout= 2.208x | EV=$-0.0726 | EV_lo=$-0.2758
+  N= 50 ticks | sobreviveram  31/100 ( 31.0%, IC95%[ 22.8%, 40.6%]) | payout= 2.692x | EV=$-0.1656 | EV_lo=$-0.3869
+  N= 75 ticks | sobreviveram  13/100 ( 13.0%, IC95%[  7.8%, 21.0%]) | payout= 4.416x | EV=$-0.4259 | EV_lo=$-0.6575
+  N=100 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.245x | EV=$-0.3480 | EV_lo=$-0.6517
+
+1HZ75V growth_rate=0.03 (barreira=0.02847%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.030x | EV=$+0.0094 | EV_lo=$-0.0421
+  N=  2 ticks | sobreviveram  95/100 ( 95.0%, IC95%[ 88.8%, 97.8%]) | payout= 1.061x | EV=$+0.0079 | EV_lo=$-0.0577
+  N=  3 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.093x | EV=$-0.0165 | EV_lo=$-0.0978
+  N=  5 ticks | sobreviveram  87/100 ( 87.0%, IC95%[ 79.0%, 92.2%]) | payout= 1.159x | EV=$+0.0086 | EV_lo=$-0.0839
+  N=  8 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.267x | EV=$+0.0134 | EV_lo=$-0.0991
+  N= 10 ticks | sobreviveram  74/100 ( 74.0%, IC95%[ 64.6%, 81.6%]) | payout= 1.344x | EV=$-0.0055 | EV_lo=$-0.1314
+  N= 15 ticks | sobreviveram  66/100 ( 66.0%, IC95%[ 56.3%, 74.5%]) | payout= 1.558x | EV=$+0.0283 | EV_lo=$-0.1232
+  N= 20 ticks | sobreviveram  49/100 ( 49.0%, IC95%[ 39.4%, 58.7%]) | payout= 1.806x | EV=$-0.1150 | EV_lo=$-0.2880
+  N= 30 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 2.427x | EV=$-0.3204 | EV_lo=$-0.5112
+  N= 40 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.262x | EV=$-0.1845 | EV_lo=$-0.4277
+  N= 50 ticks | sobreviveram  19/100 ( 19.0%, IC95%[ 12.5%, 27.8%]) | payout= 4.384x | EV=$-0.1671 | EV_lo=$-0.4514
+  N= 75 ticks | sobreviveram  11/100 ( 11.0%, IC95%[  6.3%, 18.6%]) | payout= 9.179x | EV=$+0.0097 | EV_lo=$-0.4259
+
+1HZ75V growth_rate=0.04 (barreira=0.02709%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.040x | EV=$-0.0224 | EV_lo=$-0.0898
+  N=  2 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.082x | EV=$-0.0266 | EV_lo=$-0.1070
+  N=  3 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.125x | EV=$-0.0439 | EV_lo=$-0.1370
+  N=  5 ticks | sobreviveram  80/100 ( 80.0%, IC95%[ 71.1%, 86.7%]) | payout= 1.217x | EV=$-0.0267 | EV_lo=$-0.1348
+  N=  8 ticks | sobreviveram  71/100 ( 71.0%, IC95%[ 61.5%, 79.0%]) | payout= 1.369x | EV=$-0.0283 | EV_lo=$-0.1589
+  N= 10 ticks | sobreviveram  66/100 ( 66.0%, IC95%[ 56.3%, 74.5%]) | payout= 1.480x | EV=$-0.0230 | EV_lo=$-0.1670
+  N= 15 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.801x | EV=$-0.0095 | EV_lo=$-0.1852
+  N= 20 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.191x | EV=$-0.1455 | EV_lo=$-0.3423
+  N= 30 ticks | sobreviveram  22/100 ( 22.0%, IC95%[ 15.0%, 31.1%]) | payout= 3.243x | EV=$-0.2865 | EV_lo=$-0.5135
+  N= 40 ticks | sobreviveram  17/100 ( 17.0%, IC95%[ 10.9%, 25.5%]) | payout= 4.801x | EV=$-0.1838 | EV_lo=$-0.4770
+  N= 50 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.107x | EV=$-0.3604 | EV_lo=$-0.6584
+
+1HZ75V growth_rate=0.05 (barreira=0.02579%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.050x | EV=$-0.0130 | EV_lo=$-0.0810
+  N=  2 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.103x | EV=$-0.0077 | EV_lo=$-0.0897
+  N=  3 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.158x | EV=$-0.0507 | EV_lo=$-0.1511
+  N=  5 ticks | sobreviveram  76/100 ( 76.0%, IC95%[ 66.8%, 83.3%]) | payout= 1.276x | EV=$-0.0300 | EV_lo=$-0.1479
+  N=  8 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.477x | EV=$-0.0397 | EV_lo=$-0.1836
+  N= 10 ticks | sobreviveram  58/100 ( 58.0%, IC95%[ 48.2%, 67.2%]) | payout= 1.629x | EV=$-0.0552 | EV_lo=$-0.2148
+  N= 15 ticks | sobreviveram  46/100 ( 46.0%, IC95%[ 36.6%, 55.7%]) | payout= 2.079x | EV=$-0.0437 | EV_lo=$-0.2399
+  N= 20 ticks | sobreviveram  34/100 ( 34.0%, IC95%[ 25.5%, 43.7%]) | payout= 2.653x | EV=$-0.0979 | EV_lo=$-0.3244
+  N= 30 ticks | sobreviveram  18/100 ( 18.0%, IC95%[ 11.7%, 26.7%]) | payout= 4.322x | EV=$-0.2221 | EV_lo=$-0.4943
+  N= 40 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.040x | EV=$-0.2960 | EV_lo=$-0.6112
+  N= 50 ticks | sobreviveram   5/100 (  5.0%, IC95%[  2.2%, 11.2%]) | payout=11.467x | EV=$-0.4266 | EV_lo=$-0.7530
+
+1HZ100V growth_rate=0.01 (barreira=0.04331%, max_ticks=250, N_amostra=100)
+  N=  1 ticks | sobreviveram  99/100 ( 99.0%, IC95%[ 94.6%, 99.8%]) | payout= 1.010x | EV=$-0.0001 | EV_lo=$-0.0450
+  N=  2 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.020x | EV=$-0.0003 | EV_lo=$-0.0513
+  N=  3 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.030x | EV=$-0.0418 | EV_lo=$-0.1114
+  N=  5 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.051x | EV=$-0.0331 | EV_lo=$-0.1066
+  N=  8 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.083x | EV=$-0.0254 | EV_lo=$-0.1060
+  N= 10 ticks | sobreviveram  89/100 ( 89.0%, IC95%[ 81.4%, 93.7%]) | payout= 1.105x | EV=$-0.0169 | EV_lo=$-0.1012
+  N= 15 ticks | sobreviveram  78/100 ( 78.0%, IC95%[ 68.9%, 85.0%]) | payout= 1.161x | EV=$-0.0944 | EV_lo=$-0.1998
+  N= 20 ticks | sobreviveram  76/100 ( 76.0%, IC95%[ 66.8%, 83.3%]) | payout= 1.220x | EV=$-0.0727 | EV_lo=$-0.1853
+  N= 30 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.348x | EV=$-0.1778 | EV_lo=$-0.3099
+  N= 40 ticks | sobreviveram  55/100 ( 55.0%, IC95%[ 45.2%, 64.4%]) | payout= 1.489x | EV=$-0.1811 | EV_lo=$-0.3264
+  N= 50 ticks | sobreviveram  44/100 ( 44.0%, IC95%[ 34.7%, 53.8%]) | payout= 1.645x | EV=$-0.2764 | EV_lo=$-0.4298
+  N= 75 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 2.109x | EV=$-0.4727 | EV_lo=$-0.6300
+  N=100 ticks | sobreviveram  19/100 ( 19.0%, IC95%[ 12.5%, 27.8%]) | payout= 2.705x | EV=$-0.4861 | EV_lo=$-0.6615
+  N=150 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 4.448x | EV=$-0.5552 | EV_lo=$-0.7543
+  N=200 ticks | sobreviveram   3/100 (  3.0%, IC95%[  1.0%,  8.5%]) | payout= 7.316x | EV=$-0.7805 | EV_lo=$-0.9250
+  N=250 ticks | sobreviveram   1/100 (  1.0%, IC95%[  0.2%,  5.4%]) | payout=12.032x | EV=$-0.8797 | EV_lo=$-0.9787
+
+1HZ100V growth_rate=0.02 (barreira=0.04048%, max_ticks=125, N_amostra=100)
+  N=  1 ticks | sobreviveram  98/100 ( 98.0%, IC95%[ 93.0%, 99.4%]) | payout= 1.020x | EV=$-0.0004 | EV_lo=$-0.0514
+  N=  2 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.040x | EV=$-0.0012 | EV_lo=$-0.0619
+  N=  3 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.061x | EV=$-0.0343 | EV_lo=$-0.1110
+  N=  5 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.104x | EV=$-0.0284 | EV_lo=$-0.1147
+  N=  8 ticks | sobreviveram  85/100 ( 85.0%, IC95%[ 76.7%, 90.7%]) | payout= 1.172x | EV=$-0.0041 | EV_lo=$-0.1011
+  N= 10 ticks | sobreviveram  83/100 ( 83.0%, IC95%[ 74.5%, 89.1%]) | payout= 1.219x | EV=$+0.0118 | EV_lo=$-0.0924
+  N= 15 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.346x | EV=$+0.0094 | EV_lo=$-0.1158
+  N= 20 ticks | sobreviveram  66/100 ( 66.0%, IC95%[ 56.3%, 74.5%]) | payout= 1.486x | EV=$-0.0193 | EV_lo=$-0.1637
+  N= 30 ticks | sobreviveram  48/100 ( 48.0%, IC95%[ 38.5%, 57.7%]) | payout= 1.811x | EV=$-0.1305 | EV_lo=$-0.3033
+  N= 40 ticks | sobreviveram  37/100 ( 37.0%, IC95%[ 28.2%, 46.8%]) | payout= 2.208x | EV=$-0.1830 | EV_lo=$-0.3777
+  N= 50 ticks | sobreviveram  28/100 ( 28.0%, IC95%[ 20.1%, 37.5%]) | payout= 2.692x | EV=$-0.2464 | EV_lo=$-0.4579
+  N= 75 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 4.416x | EV=$-0.3818 | EV_lo=$-0.6235
+  N=100 ticks | sobreviveram   9/100 (  9.0%, IC95%[  4.8%, 16.2%]) | payout= 7.245x | EV=$-0.3480 | EV_lo=$-0.6517
+
+1HZ100V growth_rate=0.03 (barreira=0.03797%, max_ticks=85, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.030x | EV=$-0.0112 | EV_lo=$-0.0713
+  N=  2 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.061x | EV=$-0.0028 | EV_lo=$-0.0715
+  N=  3 ticks | sobreviveram  92/100 ( 92.0%, IC95%[ 85.0%, 95.9%]) | payout= 1.093x | EV=$+0.0053 | EV_lo=$-0.0712
+  N=  5 ticks | sobreviveram  86/100 ( 86.0%, IC95%[ 77.9%, 91.5%]) | payout= 1.159x | EV=$-0.0030 | EV_lo=$-0.0974
+  N=  8 ticks | sobreviveram  79/100 ( 79.0%, IC95%[ 70.0%, 85.8%]) | payout= 1.267x | EV=$+0.0007 | EV_lo=$-0.1130
+  N= 10 ticks | sobreviveram  73/100 ( 73.0%, IC95%[ 63.6%, 80.7%]) | payout= 1.344x | EV=$-0.0189 | EV_lo=$-0.1457
+  N= 15 ticks | sobreviveram  61/100 ( 61.0%, IC95%[ 51.2%, 70.0%]) | payout= 1.558x | EV=$-0.0496 | EV_lo=$-0.2023
+  N= 20 ticks | sobreviveram  51/100 ( 51.0%, IC95%[ 41.3%, 60.6%]) | payout= 1.806x | EV=$-0.0789 | EV_lo=$-0.2532
+  N= 30 ticks | sobreviveram  37/100 ( 37.0%, IC95%[ 28.2%, 46.8%]) | payout= 2.427x | EV=$-0.1019 | EV_lo=$-0.3159
+  N= 40 ticks | sobreviveram  25/100 ( 25.0%, IC95%[ 17.5%, 34.3%]) | payout= 3.262x | EV=$-0.1845 | EV_lo=$-0.4277
+  N= 50 ticks | sobreviveram  13/100 ( 13.0%, IC95%[  7.8%, 21.0%]) | payout= 4.384x | EV=$-0.4301 | EV_lo=$-0.6599
+  N= 75 ticks | sobreviveram   4/100 (  4.0%, IC95%[  1.6%,  9.8%]) | payout= 9.179x | EV=$-0.6328 | EV_lo=$-0.8562
+
+1HZ100V growth_rate=0.04 (barreira=0.03612%, max_ticks=65, N_amostra=100)
+  N=  1 ticks | sobreviveram  96/100 ( 96.0%, IC95%[ 90.2%, 98.4%]) | payout= 1.040x | EV=$-0.0016 | EV_lo=$-0.0623
+  N=  2 ticks | sobreviveram  93/100 ( 93.0%, IC95%[ 86.3%, 96.6%]) | payout= 1.082x | EV=$+0.0059 | EV_lo=$-0.0671
+  N=  3 ticks | sobreviveram  90/100 ( 90.0%, IC95%[ 82.6%, 94.5%]) | payout= 1.125x | EV=$+0.0124 | EV_lo=$-0.0713
+  N=  5 ticks | sobreviveram  82/100 ( 82.0%, IC95%[ 73.3%, 88.3%]) | payout= 1.217x | EV=$-0.0023 | EV_lo=$-0.1078
+  N=  8 ticks | sobreviveram  76/100 ( 76.0%, IC95%[ 66.8%, 83.3%]) | payout= 1.369x | EV=$+0.0401 | EV_lo=$-0.0862
+  N= 10 ticks | sobreviveram  67/100 ( 67.0%, IC95%[ 57.3%, 75.4%]) | payout= 1.480x | EV=$-0.0082 | EV_lo=$-0.1517
+  N= 15 ticks | sobreviveram  51/100 ( 51.0%, IC95%[ 41.3%, 60.6%]) | payout= 1.801x | EV=$-0.0815 | EV_lo=$-0.2553
+  N= 20 ticks | sobreviveram  41/100 ( 41.0%, IC95%[ 31.9%, 50.8%]) | payout= 2.191x | EV=$-0.1016 | EV_lo=$-0.3018
+  N= 30 ticks | sobreviveram  30/100 ( 30.0%, IC95%[ 21.9%, 39.6%]) | payout= 3.243x | EV=$-0.0270 | EV_lo=$-0.2899
+  N= 40 ticks | sobreviveram  19/100 ( 19.0%, IC95%[ 12.5%, 27.8%]) | payout= 4.801x | EV=$-0.0878 | EV_lo=$-0.3992
+  N= 50 ticks | sobreviveram  10/100 ( 10.0%, IC95%[  5.5%, 17.4%]) | payout= 7.107x | EV=$-0.2893 | EV_lo=$-0.6075
+
+1HZ100V growth_rate=0.05 (barreira=0.03438%, max_ticks=50, N_amostra=100)
+  N=  1 ticks | sobreviveram  94/100 ( 94.0%, IC95%[ 87.5%, 97.2%]) | payout= 1.050x | EV=$-0.0130 | EV_lo=$-0.0810
+  N=  2 ticks | sobreviveram  91/100 ( 91.0%, IC95%[ 83.8%, 95.2%]) | payout= 1.103x | EV=$+0.0033 | EV_lo=$-0.0764
+  N=  3 ticks | sobreviveram  88/100 ( 88.0%, IC95%[ 80.2%, 93.0%]) | payout= 1.158x | EV=$+0.0187 | EV_lo=$-0.0717
+  N=  5 ticks | sobreviveram  75/100 ( 75.0%, IC95%[ 65.7%, 82.5%]) | payout= 1.276x | EV=$-0.0428 | EV_lo=$-0.1615
+  N=  8 ticks | sobreviveram  65/100 ( 65.0%, IC95%[ 55.3%, 73.6%]) | payout= 1.477x | EV=$-0.0397 | EV_lo=$-0.1836
+  N= 10 ticks | sobreviveram  54/100 ( 54.0%, IC95%[ 44.3%, 63.4%]) | payout= 1.629x | EV=$-0.1204 | EV_lo=$-0.2790
+  N= 15 ticks | sobreviveram  39/100 ( 39.0%, IC95%[ 30.0%, 48.8%]) | payout= 2.079x | EV=$-0.1892 | EV_lo=$-0.3760
+  N= 20 ticks | sobreviveram  29/100 ( 29.0%, IC95%[ 21.0%, 38.5%]) | payout= 2.653x | EV=$-0.2305 | EV_lo=$-0.4424
+  N= 30 ticks | sobreviveram  14/100 ( 14.0%, IC95%[  8.5%, 22.1%]) | payout= 4.322x | EV=$-0.3949 | EV_lo=$-0.6315
+  N= 40 ticks | sobreviveram   6/100 (  6.0%, IC95%[  2.8%, 12.5%]) | payout= 7.040x | EV=$-0.5776 | EV_lo=$-0.8044
+  N= 50 ticks | sobreviveram   4/100 (  4.0%, IC95%[  1.6%,  9.8%]) | payout=11.467x | EV=$-0.5413 | EV_lo=$-0.8204
+
+======================================================================
+VEREDITO FINAL — 630 celulas testadas (symbol x growth_rate x N)
+======================================================================
+>>> SEM EDGE. 0 celulas com EV_lo>0 em nenhum symbol/growth_rate/N testado.
+    Consistente com o padrao do resto do ecossistema: margem da casa embutida
+    na largura da barreira, calibrada para o growth_rate cobrado.

@@ -339,6 +339,12 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
 | 35 | D52 — Deal Cancellation mispricing | **SINAL PRELIMINAR (teste ao vivo INCONCLUSIVO, N pequeno)** | `deal_cancellation_edge_scan.py`: a feature paga "Deal Cancellation" dos Multipliers (reembolso integral do stake se cancelado dentro de 5-60min) é uma put europeia embutida (strike=entry, notional=stake×multiplier). Fair value via Monte Carlo (bootstrap em sub-blocos de 60 ticks, 60k ticks histórico, 60k sims) vs fee cobrado ao vivo: **17/20 células (multiplier 400x/1000x × MULTUP/MULTDOWN × 5 durações) com fee < fair_value (IC95%)**, edge relativo ~8-12%, agora simétrico entre MULTUP/MULTDOWN (assimetria inicial de até 180% era artefato de block bootstrap com histórico insuficiente p/ blocos de 3600 ticks — corrigido). **Update 2026-07-06/07 — validado com trades reais** (`deal_cancellation_live.py`, N=20, 1HZ10V multiplier=400x stake=$10, cancellation=5min, MULTUP/MULTDOWN alternados): 12/20 cancelados com valor realizado (profit ficaria negativo se segurasse), 8/20 nunca ficaram negativos (fee "desperdiçado", `action=expired_held_to_profit`). Fee médio pago=$0.44, valor realizado médio na cancelação=$0.587. **EV líquido (valor_realizado − fee) = +$0.147/trade, IC95%=[-$0.1415,+$0.4775] — CRUZA ZERO, INCONCLUSIVO** (mesmo veredito impresso pelo próprio script). N=20 é pequeno demais pra decidir; ainda o único "quase-edge" nativo da Deriv nesta lista, mas precisa de bem mais amostra ao vivo antes de qualquer conclusão real |
 | 36 | D53 — Concurrent duplicate-buy race | **REFUTADO** | `duplicate_buy_race_probe.py`: 2 buys simultâneos (`asyncio.gather`, sem delay) referenciando o MESMO `proposal_id`. Testado em 2 variantes: (a) 2 conexões autenticadas separadas, mesma conta — 0/15 trials com ambos aceitos, leg B sempre rejeitado instantaneamente com "Unknown contract proposal" (proposal_id é **escopado à sessão/conexão** que o criou, nem chega a competir); (b) mesma conexão, 2 buys concorrentes via req_id diferentes — 0/8 trials com ambos aceitos, sempre exatamente 1 sucesso + 1 rejeição, debitado sempre = 1x stake. Consumo do proposal_id é atômico, sem janela de corrida |
 | 37 | D54 — Streamed proposal staleness | **REFUTADO** (+ achado inesperado) | `proposal_stream_staleness_probe.py`: assinar `proposal` com `subscribe:1` deveria realimentar a cada tick (~1/s), mas **nunca reenviou uma segunda atualização em 50+s** (confirmado via subscription id válido + `stream_client` seguindo responsivo a outros requests na mesma conexão) — comportamento inesperado do gateway novo, não um lag sutil. Como consequência, `proposal_id` do stream ficou obsoleto rapidamente: 2/3 tentativas de compra contra ele foram rejeitadas ("Unknown contract proposal"); a 1 aceita não deu para confirmar honra/recálculo de forma limpa (entry_spot ainda não populado no poll imediato). Sem janela de staleness explorável — proposals antigos expiram e são rejeitados, consistente com D47 |
+| 38 | D96 — Flat Tick Frequency + RNG Deep Analysis | **REFUTADO** | 50k ticks × 17 símbolos. P(flat) max = JD100 9.06% (breakeven 11.11%). Hurst ~0.55 universal. CRASH1000 Ljung-Box p=0.0047 mas efeito insuficiente. Nenhum desvio explorável de aleatoriedade |
+| 39 | D97 — Payout Curve Deep Scan | **REFUTADO** | 1874 células (23 types × 9 durations × 11 symbols × 3 stakes). 0 straddle arb. House margin ~4% consistente em todos. RUNHIGH/RUNLOW 30.53x ratio era payout alto com P(win) proporcionalmente baixa |
+| 40 | D98 — Instant Resale Flip Scanner | **REFUTADO (v2)** | 250 células, 80 válidas. 17 "flip edges" (≥1/3 trades ITM), 12 com avg_ratio > 1.0. Melhor: R_100 CALL 5t 1.56x. MAS resale é binário ($0.92/$1.88) = exposição direcional, não flip estrutural. Mean ratio 0.9427 < 1.0 = house margin |
+| 41 | D99 — RUNHIGH/RUNLOW Validation | **REFUTADO** | D97 flagou ratio 30.53x. Longcode revelou: "rises/falls successively for 5 ticks" = (0.5)^5 = 3.125% P(win). Breakeven 3.28%. 58 trades DEMO: 1/58 wins (1.72%). House margin 4.8% confirmado |
+| 42 | D100 — Proposal Staleness v2 (ms-scale race) | **REFUTADO** | RACE (0ms, lag 193ms) WR=43.3% vs CONTROL (2000ms) WR=53.3%. Staleness não ajuda. spot_diff aleatório. N=60 |
+| 43 | D101 — Barrier Proximity Edge (DIGITOVER/UNDER) | **INCONCLUSIVO (N=20/barreira)** | Payout ratio 1.09x-8.33x perfeitamente inverso à P(win). 120 trades DEMO: DIGITOVER_0/UNDER_9 WR=95% vs be=91.74%, DIGITOVER_5/UNDER_4 WR=50% vs theo=40%. CI95% cruza breakeven em todas. Nenhuma barreira com edge confirmado |
 
 ## Recomendação
 
@@ -833,3 +839,207 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
     - **D72 t150 (Early-sell threshold 1.50) — INCONCLUSIVO**: N=40, sell EV=+$0.008,
       hold EV=-$0.040, diff=+$0.048, CI95%[-$0.506,+$0.591]. CI cruza zero. Sell WR=60%,
       hold WR=50%. 14/20 sold, 6/20 expired. Precisa mais N para conclusão.
+48. **Follow-up 2026-07-12 — D87-D90: novas hipóteses Deriv:**
+    - **D87 (Complementary Exotic Pair Arbitrage) — REFUTADO no grid calibrado**:
+      80/80 cotações válidas em ONETOUCH/NOTOUCH, EXPIRYRANGE/EXPIRYMISS e RANGE/UPORDOWN
+      para 1HZ10V e R_100. Nenhum `min(payout) - ask_total` positivo. Melhor spread = -$0.24;
+      pior = -$0.99. A margem da casa também aparece nos pares exóticos complementares.
+    - **D88 (E-Suffixed Contract Variants) — REFUTADO no escopo cotável**:
+      `EXPIRYMISSE` e `EXPIRYRANGEE` não foram oferecidos nos símbolos testados. `CALLE/PUTE`
+      produziram 8 células válidas, todas com EV negativo e nenhuma passou o gate DGP. A tentativa
+      em `frxEURUSD` ocorreu com o mercado fechado, sem amostra de preço.
+    - **D89 (Cross-Market Pricing) — INCONCLUSIVO**: o controle sintético teve 24 células válidas,
+      todas negativas, com melhor `EV_lo=-$0.0549`. Nova tentativa (2026-07-12) com `frxEURUSD`
+      retornou *This market is presently closed* (fim de semana). `1HZ10V` 15m CALL/PUT teve EVlo
+      negativo; nenhum gate candidate. Requer nova coleta em horário de mercado aberto.
+    - **D90 (Long-Duration Early-Sell A/B) — EM VALIDAÇÃO DEMO**: o script foi iniciado com
+      `--live`, 20 pares por duração, 15m/1h, threshold 1.5x e stake de US$1. Interim: 3 pares 15m
+      concluídos — sell 0.54/0.51/0.53 vs hold 0.92/0.92/-1.00. O veredito final e o IC95% serão
+      registrados após a coleta.
+    - **D91 (Accumulator Survival Edge) — REFUTADO**: o scan testou 630 células de símbolo,
+      growth rate e ticks-alvo, sem nenhum `EV_lo > 0`. A validação independente com 5.000 ticks
+      reais de `1HZ100V` encontrou P(sobreviver 1 tick) abaixo da probabilidade fair para todos os
+      growth rates. Nenhum ACCU foi comprado.
+    - **D92 (Jump Indices Spike Timing) — REFUTADO**: 50k ticks por símbolo (JD10/JD25/JD50/JD75/JD100),
+      30-34 saltos detectados (>10x mediana). Direção UP: 50.0%-63.3% com IC95% incluindo 50% em todos.
+      CV 0.94-1.53 (compatível com memoryless). Hazard rates 0.000%-0.201% sem tendência crescente.
+      Nenhum sinal de temporizador ou viés direcional.
+    - **D93 (HIGHER/LOWER Barrier Mispricing) — REFUTADO**: 31 células (HIGHER/LOWER × 6/10 barriers
+      × 5/10 ticks) em `1HZ10V`. 0 células com `EV_lo > 0`. EV médio -$0.6981, min -$8.34, max -$0.10.
+      A Deriv cobra margem consistente; razão payout/fair no melhor caso ~0.99. Sem mispricing.
+    - **D94 (E-Suffixed Variants em 1HZ100V) — REFUTADO**: 30 células testadas
+      (EXPIRYMISSE/EXPIRYRANGEE intraday, CALLE/PUTE 5t/10t/1m/5m). EXPIRYMISSE/EXPIRYRANGEE só
+      existem como daily (barreiras absolutas 883.08/964.42) e não aceitam durações intraday.
+      CALLE/PUTE: 8/8 células com EV negativo (melhor EV=+0.053, mas EV_lo=-0.066), 0 gate candidates.
+    - **D95 (Deal Cancellation Mispricing em Volatility Indices) — INCONCLUSIVO (atualizado 2026-07-12)**:
+      scans read-only de 3 símbolos refeitos com **cap no payoff em stake** (a cancellation só devolve o
+      stake, não o multiplicador completo). **Resultado corrigido:** 400x/60m é negativo em todos os
+      símbolos. Células com edge_lo > 0: 40x-200x/5m-15m em 1HZ100V/R_100, 80x/200x/400x 5m-15m em 1HZ50V.
+      **Live 5m DEMO 400x (1HZ100V, MULTUP/MULTDOWN, N=20):** valor realizado médio $0.37 vs fee $0.41,
+      EV -$0.04 por trade, IC95% cruza zero. **Live 5m DEMO 100x (1HZ100V, N=20):** valor realizado médio
+      $0.1705 vs fee $0.1100, EV +$0.0605 por trade, IC95% [$-0.0130, +$0.1510], também cruza zero.
+      Nenhuma célula tem edge confirmado ao vivo; não abrir novo trial sem desenho pré-registrado.
+
+41. **Remediação operacional EC2 (2026-07-12)**:
+    - **D17**: `unlock_data.py` passou a aplicar o mínimo configurado de $20M em respostas Tokenomist;
+      `unlock_short_bot.py` passou a respeitar a janela UTC de entrada/saída. As 2 posições paper
+      legadas abaixo do mínimo foram preservadas e marcadas `out_of_policy_legacy`; nenhuma nova
+      entrada fora da política foi aberta.
+    - **D31**: parser de instrumentos Deribit corrigido para `currency-expiry-strike-type`; validação
+      contra a API retornou 46 opções BTC 13JUL26 com strike numérico e tipo C/P. O bot foi reiniciado
+      e aguarda a janela 13JUL 07:30 UTC.
+    - **D55**: estado sem ciclos foi arquivado, a coorte v2 iniciou com custo de entrada e saída de
+      9.5bps cada, e a liquidação agora usa primeiro histórico Binance de fundings concluídos.
+    - **D36**: 111 settles e 342 posições abertas do período sem limite foram preservados como
+      `legacy_unbounded` e excluídos de inferência; a coorte `capped_v2` começou com 6 de 10 posições.
+    - **D34, D38, D39, D41 e D56**: sessões encerradas e removidas da recuperação automática.
+      D34/D38/D39 ficaram pausados; D41 e D56 já estavam refutados. Backup remoto:
+      `backups/remediation_20260712T171852Z`.
+    - **D90 local**: não foi tocado, interrompido ou migrado.
+
+42. **Auditoria completa da frota AWS (2026-07-13 19:03 UTC)**:
+    - **D39 max_pain_tracker (PID 3339) PARADO**: a doc do item 41 marcou D39 como pausado e
+      removido do supervisor, mas o processo `max_pain_tracker.py --continuous` (tmux
+      `d39_maxpain`, PID 3339 desde 5 Jul) ainda estava rodando — o kill do tmux session
+      na remediação 2026-07-12 não atingiu o processo Python que estava em pts/2. Killado
+      manualmente nesta auditoria. O kill causou crash do tmux server, derrubando todas as
+      11 sessões ativas. Supervisor + 8 processos gerenciados + D90 + d31_d55_monitor
+      foram reiniciados a partir dos state files; todos os 10 processos saudáveis pós-restart.
+    - **D90 (long-duration early sell)**: **COMPLETO (40/40 pares)**. 20 × 15m + 20 × 1h,
+      threshold 1.5, 1HZ10V. **15m:** sell EV +$0.309, hold EV +$0.536, diff −$0.227
+      IC95%[−$0.65, +$0.22]. **1h:** sell EV +$0.019, hold EV +$0.344, diff −$0.326
+      IC95%[−$0.84, +$0.20]. Point estimate NEGATIVO em ambas durações (sell < hold).
+      IC95% cruza zero estatisticamente, mas padrão consistente com early_sell_multi N=1870:
+      hold supera sell. Early-sell optionality refutado em todas as durações testadas
+      (5t/10t/25t/50t N=1870 + 15m/1h N=40). Processo completou e parou naturalmente.
+    - **D55 (Hyperliquid LINK funding arb)**: 4 ciclos v2 completados. Cycle 1: −2.38 bps,
+      Cycle 2: +5.28 bps, Cycle 3: −4.51 bps, Cycle 4: +7.03 bps. Total: −4.08 bps (−$0.41).
+      WR 50% (2/4). Cycle 4 foi o melhor: funding_pnl +0.887bps + mark_pnl +6.144bps.
+      Próximo ciclo às 08:00 UTC. Custo de entrada (−9.5 bps) ainda não recuperado,
+      mas trajetória melhorando (2 últimos ciclos positivos).
+    - **D29/Basis (Basis-funding disconnect)**: N=44, WR 70.5% IC95%[55.8%, 81.8%],
+      EV +0.3284% IC95%[−0.47%, +1.21%]. WR exclui 50% (significativo), EV ainda cruza zero.
+      Precisa N~60-80 para IC do EV convergir. Melhor lead operacional ativo.
+    - **D17/Unlock**: 3 posições paper open (APT $7M out_of_policy_legacy, SEI $2.7M
+      out_of_policy_legacy, ARB $30M in_policy_v2 unlock 2026-07-16). 0 closed trades.
+      Bloqueado apenas por depósito de capital real.
+    - **HYP-OPTBUY-01 (Options paper bot)**: 3 closed (todas loss, −$1507.93 total),
+      13 open. N=3/30 mínimo para veredito preliminar. Próximo ciclo em 6h.
+    - **D31/TWAP**: 1 trade completo (+12.9% PnL). Aguardando próxima janela TWAP
+      (14JUL 07:30 UTC, ~12h). Parser corrigido 2026-07-12.
+    - **D36 (IV anomaly) capped_v2**: 10/10 posições abertas, 0 settled. Próximo scan
+      em 60min. Coorte legacy_unbounded preservada (111 settles, WR 41.4%, +$2.948)
+      mas excluída de inferência.
+    - **D37 (Exchange outflow)**: rodando contínuo, forward-return tracker ativo,
+      0 sinais resolvidos (todos NO SIGNAL). Precisa de evento real de outflow >$5M.
+    - **D89 (Cross-market pricing)**: **REFUTADO (2026-07-14, N=120 células forex)**.
+      10 pares forex (EURUSD, GBPUSD, USDJPY, AUDUSD, USDCAD, USDCHF, NZDUSD, EURGBP,
+      EURJPY, GBPJPY) × 4 types (CALL/PUT/CALLE/PUTE) × 3 durations (15m/1h/4h).
+      40k ticks/símbolo, MC 10k sims. **0 gate candidates** (nenhuma célula com EVlo > 0).
+      Mean EV = -$0.119, best EVlo = -$0.064 (GBPUSD PUT 1h). House margin forex ~12%
+      (MAIOR que sintéticos ~4% — forex tem spread bid-ask + overnight risk).
+      Pemp vs Pmc alinhado (DGP divergence < 0.03). 4h durações têm poucas windows
+      (2-3 non-overlapping) — não confiáveis. 15m e 1h com ~1000+ windows, conclusivos.
+      Scripts: `d89_cross_market_scan.py`.
+    - **Processos confirmados PARADOS/REFUTADOS (não reiniciar)**: D39 (paused,
+      sem convergência), D34 (paused, 0 cascades), D38 (paused, sem amostra tradeable),
+      D41 (refutado por fees), D52 (refutado N=120), D56 (refutado), D89 (refutado,
+      120 células forex, 0 gate candidates), D90 (refutado, 40/40 pares completos,
+      hold > sell), D95 (paused, IC cruza zero), D96-D100 (refutados, house margin
+      consistente), HFT-01 (refutado N=34), early_sell_multi (re-refutado N=1870).
+
+43. **D96-D99: Bug/exploit scan Deriv sintéticos (2026-07-13 20:06-21:00 UTC)**:
+    - **D96 (Flat Tick Frequency + RNG Deep Analysis) — REFUTADO**: 50k ticks baixados
+      para 17 símbolos sintéticos. P(flat tick) medido para todos: max = JD100 9.06%
+      (CI95% [8.81%, 9.31%]), abaixo do breakeven de 11.11% para straddle CALLE+PUTE
+      lucrativo. Todos os 17 símbolos refutados. RNG deep analysis: Hurst ~0.55 universal
+      (slight trending, não explorável), CRASH1000 Ljung-Box p=0.0047 (autocorrelação
+      significativa mas efeito r≈2.25% insuficiente vs house margin 4%), JD100 Runs z=3.016
+      (trending). Nenhum teste estatístico mostrou desvio explorável de aleatoriedade pura.
+      Scripts: `d96_flat_tick_frequency_scan.py`.
+    - **D97 (Payout Curve Deep Scan) — REFUTADO**: 1874 células escaneadas (23 contract
+      types × 9 durations × 11 symbols × 3 stake sizes). 32 anomalias de payout ratio
+      detectadas (>mean+2std), todas RUNHIGH/RUNLOW com ratio 30.53x (5 ticks). 598
+      anomalias de stake-dependence (diferença max 0.0032, insignificante). 0 anomalias
+      de duration curve. 0 oportunidades de straddle arb (CALL+PUT ask >= payout em 100%
+      das células). House margin ~4% consistente em todos os contract types, durations,
+      symbols e stakes. Scripts: `d97_payout_curve_scan.py`.
+    - **D98 (Instant Resale Flip Scanner) — REFUTADO (v2 corrigido)**: v1 teve bug
+      (campo `ask_price` em vez de `bid_price` para resale). v2 corrigida: 250 células,
+      80 células válidas (3 trades/cell). 17 células com "flip edge" (≥1/3 trades com
+      resale > buy), 12 com avg_flip_ratio > 1.0. Melhor: R_100 CALL 5t ratio=1.56x
+      (2/3 flips, +$0.56/cell). MAS: resale price é $0.92 (loss) ou $1.88 (win) —
+      binário, não gradiente. Isso é exposição direcional (contract foi ITM/OTM nos
+      primeiros ticks), não flip estrutural. Mean avg_flip_ratio = 0.9427 (< 1.0),
+      consistente com house margin absorvendo o resale. "Flip edges" são apenas células
+      onde 1-2 dos 3 trades aleatoriamente foram ITM no momento do check. Scripts:
+      `d98_resale_flip_scan.py`.
+    - **D99 (RUNHIGH/RUNLOW Validation) — REFUTADO**: D97 flagou RUNHIGH/RUNLOW 5t com
+      payout ratio 30.53x como anômalo. `longcode` revelou condição real: "rises/falls
+      successively for 5 ticks" (5 ticks consecutivos na mesma direção), não "último
+      tick = máximo". P(win) teórico = (0.5)^5 = 3.125%, breakeven = 3.28%, house margin
+      = 4.8%. Validado com 58 trades DEMO: RUNHIGH 0/28 wins, RUNLOW 1/30 wins (3.33%).
+      WR combinada 1.72% CI95%[0.3%, 9.2%], consistente com 3.125% teórico. Mesmo padrão
+      de house margin ~4.8% em todos os contract types exóticos. Scripts:
+      `d99_runhigh_validation.py`.
+    - **D100 (Proposal Staleness Exploit v2) — REFUTADO**: D47 testou stale proposal
+      com 20s de delay; D54 descobriu que subscribe:1 nunca reenvia. D100 testou a
+      janela crítica em milissegundos: RACE (0ms delay, lag médio 193ms) vs CONTROL
+      (2000ms delay). N=60 trials (30 RACE + 30 CONTROL), 1HZ10V, 10 ticks, CALL/PUT
+      alternados. RACE WR=43.3% EV=-$0.17 vs CONTROL WR=53.3% EV=+$0.02. RACE WR <
+      CONTROL WR — staleness não ajuda, pelo contrário. spot_diff entre proposal e
+      entry é aleatório (sem viés direcional). Lag de ~193ms é insuficiente para
+      capturar movimento favorável. Scripts: `d100_proposal_staleness_v2.py`.
+    - **D101 (Barrier Proximity Edge) — INCONCLUSIVO (N pequeno)**: Scan de payout
+      ratios para DIGITOVER/DIGITUNDER com barreiras 0-9: payout varia de 1.09x
+      (barrier=0/9, 90% P(win)) a 8.33x (barrier=8/1, 10% P(win)) — perfeitamente
+      inverso à probabilidade, house margin consistente. Live DEMO: 6 barreiras × 20
+      trades = 120 trades. DIGITOVER_0 e DIGITUNDER_9: WR=95% (19/20), breakeven=91.74%,
+      EV=+$0.04/trade, CI95% cruza breakeven. DIGITOVER_5 e DIGITUNDER_4: WR=50% vs
+      teórico 40%, breakeven 42.02%, EV=+$0.19/trade — mas CI95% [29.9%, 70.1%] cruza
+      breakeven. Nenhuma barreira tem edge confirmado. Diferença theoretical vs actual
+      WR é +5-10pp em 4/6 barreiras, mas com N=20 isso é dentro do ruído estatístico.
+      Scripts: `d101_barrier_proximity_edge.py`.
+    - **D102 (Crypto Contract House Margin Scan) — REFUTADO por design de API**: Testou
+      cryBTCUSD, cryETHUSD, cryLTCUSD, cryXRPUSD, cryDSHUSD com CALL/PUT/CALLE/PUTE em
+      durações de 1d a 30d. Todos os 140 proposals retornaram "Trading is not offered
+      for this asset." Probe confirmou que crypto na Deriv SÓ suporta Multipliers
+      (MULTUP/MULTDOWN) — não há binary options para crypto. Multipliers não têm payout
+      ratio (payout=0), são produtos de alavancca sem house margin estrutural da mesma
+      forma. Não há edge de house margin para explorar em crypto. Scripts:
+      `d102_crypto_house_margin.py`, `probe_crypto_contracts.py`.
+    - **D103 (Tick Arrival Timing Prediction) — REFUTADO (timing perfeitamente
+      determinístico, sem edge)**: Coletou 4,563 ticks em 6 símbolos (1HZ10V, 1HZ50V,
+      1HZ100V, R_10, R_100, cryBTCUSD) por 15 minutos via subscription callback.
+      Resultado: TODOS os símbolos têm timing perfeitamente determinístico — 1HZ e
+      cryBTCUSD: exatamente 1.0000s entre ticks (std=0, CV=0, jitter=0); R_10/R_100:
+      exatamente 2.0000s. Zero variância, zero autocorrelação. O timing é 100%
+      previsível mas isso não gera edge porque o VALOR dos ticks é o que determina
+      P(win), não o timing. A Deriv entrega ticks em intervalos fixos perfeitos —
+      não há jitter para explorar. Scripts: `d103_tick_timing_prediction.py`.
+    - **D104 (Duration Boundary Pricing Discontinuity) — REFUTADO (payout curve smooth)**:
+      Scan de payout ratios para CALL/PUT/CALLE/PUTE/DIGITEVEN/DIGITODD em 1HZ10V e
+      R_100, durações 1t a 50t. Hipótese: descontinuidade de pricing na fronteira
+      5t→6t (mudança de "short" para "medium" duration). Resultado: payout ratio
+      constante 1.92x em TODAS as durações para TODOS os contract types. Zero
+      descontinuidades. A Deriv precifica duração de forma perfeitamente smooth —
+      não há edge em boundary transitions. Scripts: `d104_duration_boundary.py`.
+    - **D105 (Multi-Leg Digit Combination Arbitrage) — REFUTADO (house margin previne
+      arb)**: Testou combinações 2-leg (DIGITOVER(N) + DIGITUNDER(N+1) = full cover)
+      e 3-leg em 7 símbolos (1HZ10V, 1HZ50V, 1HZ100V, R_10, R_25, R_50, R_100),
+      durações 1t e 10t. Hipótese: combinar múltiplas pernas digit pode cobrir todos
+      os outcomes com payout total > stake. Resultado: 0 arbitragem garantida em
+      todas as 56 combinações. Best EV: -$0.05/trade (2-leg full cover). House margin
+      de ~4% por perna faz o payout total ser sempre < stake quando se cobre todos
+      os outcomes. Scripts: `d105_multi_leg_digit_arb.py`.
+    - **Conclusão D96-D105**: Deriv precifica TODOS os 35+ contract types com house margin
+      consistente de ~4-5%. O payout ratio é inversamente proporcional à probabilidade
+      de vitória, mantendo EV negativo independente do tipo de contrato, duração, símbolo
+      ou stake size. "Anomalias" de payout ratio são apenas contract types com payout
+      alto e probabilidade proporcionalmente baixa — não são mispricing. Edge estrutural
+      fixo confirmado como inexistente em TODOS os contratos Deriv. Tick timing é
+      perfeitamente determinístico (zero jitter) mas não gera edge. Payout curve é
+      smooth em todas as durações. Multi-leg arbitrage é previnido pela house margin
+      cumulativa. Crypto só suporta Multipliers (sem binary options). Bug/exploit
+      transitório permanece a única via possível (monitor de anomalias em tempo real
+      é o instrumento correto).

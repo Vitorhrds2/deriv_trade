@@ -38,6 +38,8 @@ MIN_VOLUME = 0
 MAX_SPREAD_PCT = 50  # max bid-ask spread as % of mid
 MAX_POSITIONS = 10  # max simultaneous paper positions
 HOLD_HOURS = 24  # check if anomaly reverted after 24h
+CURRENT_COHORT = "capped_v2"
+LEGACY_COHORT = "legacy_unbounded"
 LOG_FILE = "iv_anomaly_paper_trades.json"
 STATS_FILE = "iv_anomaly_paper_stats.json"
 
@@ -197,7 +199,7 @@ def save_trades(trades):
 
 
 def compute_stats(trades):
-    settled = [t for t in trades if t["status"] == "settled"]
+    settled = [t for t in trades if t["status"] == "settled" and t.get("validation_cohort") == CURRENT_COHORT]
     if not settled:
         return {"n": 0, "wr": 0, "ev": 0, "total_pnl": 0}
     pnls = [t["pnl_usd"] for t in settled]
@@ -208,6 +210,20 @@ def compute_stats(trades):
         "ev": sum(pnls) / len(pnls),
         "total_pnl": sum(pnls),
     }
+
+
+def migrate_legacy_trades(trades, now):
+    changed = False
+    for trade in trades:
+        if trade.get("validation_cohort") is not None:
+            continue
+        trade["validation_cohort"] = LEGACY_COHORT
+        if trade.get("status") == "open":
+            trade["status"] = "legacy_unbounded"
+            trade["invalidated_at"] = now.isoformat()
+            trade["invalidated_reason"] = "opened before max-position enforcement"
+        changed = True
+    return changed
 
 
 def compute_vega(option, fair_iv):
@@ -243,7 +259,9 @@ def run_bot():
         print(f"{'='*80}")
 
         all_trades = load_trades()
-        open_positions = [t for t in all_trades if t["status"] == "open"]
+        if migrate_legacy_trades(all_trades, now):
+            save_trades(all_trades)
+        open_positions = [t for t in all_trades if t["status"] == "open" and t.get("validation_cohort") == CURRENT_COHORT]
 
         # Check if any open positions should be settled (anomaly reverted)
         for currency in ["BTC", "ETH"]:
@@ -304,6 +322,8 @@ def run_bot():
         save_trades(all_trades)
 
         # Scan for new anomalies
+        open_positions = [t for t in all_trades if t["status"] == "open" and t.get("validation_cohort") == CURRENT_COHORT]
+        available_slots = max(0, MAX_POSITIONS - len(open_positions))
         new_entries = []
         for currency in ["BTC", "ETH"]:
             try:
@@ -371,7 +391,8 @@ def run_bot():
                 anomalies.sort(key=lambda x: x["expected_profit"], reverse=True)
 
                 # Take top 3 per currency
-                for a in anomalies[:3]:
+                remaining_slots = available_slots - len(new_entries)
+                for a in anomalies[:max(0, min(3, remaining_slots))]:
                     entry_price = a["ask"] if a["direction"] == "BUY" else a["bid"]
                     quantity = 1.0  # 1 contract
 
@@ -394,6 +415,7 @@ def run_bot():
                         "vega": a["vega"],
                         "expected_profit": a["expected_profit"],
                         "status": "open",
+                        "validation_cohort": CURRENT_COHORT,
                     }
                     new_entries.append(trade)
                     print(f"  [ENTRY] {a['direction']} {a['instrument']} | "
@@ -411,7 +433,7 @@ def run_bot():
 
         # Stats
         stats = compute_stats(all_trades)
-        open_count = len([t for t in all_trades if t["status"] == "open"])
+        open_count = len([t for t in all_trades if t["status"] == "open" and t.get("validation_cohort") == CURRENT_COHORT])
         print(f"\n  STATS: Open={open_count} | Settled={stats['n']} | "
               f"WR={stats['wr']:.1f}% | EV=${stats['ev']:+.4f} | Total=${stats['total_pnl']:+.4f}")
 

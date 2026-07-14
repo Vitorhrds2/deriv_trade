@@ -1,0 +1,107 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['1HZ10V', 'R_100']
+Pairs: ['touch', 'expiry', 'range'] | Durations: [(5, 't'), (15, 't'), (1, 'm')] | Offsets: [0.005, 0.01]
+Rounds: 2 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V expiry 5t both: quote error
+1HZ10V expiry 5t both: quote error
+1HZ10V range 5t both: quote error
+1HZ10V range 5t both: quote error
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V expiry 5t both: quote error
+1HZ10V expiry 5t both: quote error
+1HZ10V range 5t both: quote error
+1HZ10V range 5t both: quote error
+1HZ10V touch 15t up: quote error
+1HZ10V touch 15t down: quote error
+1HZ10V touch 15t up: quote error
+1HZ10V touch 15t down: quote error
+1HZ10V expiry 15t both: quote error
+1HZ10V expiry 15t both: quote error
+1HZ10V range 15t both: quote error
+1HZ10V range 15t both: quote error
+1HZ10V touch 15t up: quote error
+1HZ10V touch 15t down: quote error
+1HZ10V touch 15t up: quote error
+1HZ10V touch 15t down: quote error
+1HZ10V expiry 15t both: quote error
+1HZ10V expiry 15t both: quote error
+1HZ10V range 15t both: quote error
+1HZ10V range 15t both: quote error
+1HZ10V touch 1m up: quote error
+1HZ10V touch 1m down: quote error
+1HZ10V touch 1m up: quote error
+1HZ10V touch 1m down: quote error
+1HZ10V expiry 1m both: quote error
+1HZ10V expiry 1m both: quote error
+1HZ10V range 1m both: quote error
+1HZ10V range 1m both: quote error
+1HZ10V touch 1m up: quote error
+1HZ10V touch 1m down: quote error
+1HZ10V touch 1m up: quote error
+1HZ10V touch 1m down: quote error
+1HZ10V expiry 1m both: quote error
+1HZ10V expiry 1m both: quote error
+1HZ10V range 1m both: quote error
+1HZ10V range 1m both: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 expiry 5t both: quote error
+R_100 expiry 5t both: quote error
+R_100 range 5t both: quote error
+R_100 range 5t both: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 expiry 5t both: quote error
+R_100 expiry 5t both: quote error
+R_100 range 5t both: quote error
+R_100 range 5t both: quote error
+R_100 touch 15t up: quote error
+R_100 touch 15t down: quote error
+R_100 touch 15t up: quote error
+R_100 touch 15t down: quote error
+R_100 expiry 15t both: quote error
+R_100 expiry 15t both: quote error
+R_100 range 15t both: quote error
+R_100 range 15t both: quote error
+R_100 touch 15t up: quote error
+R_100 touch 15t down: quote error
+R_100 touch 15t up: quote error
+R_100 touch 15t down: quote error
+R_100 expiry 15t both: quote error
+R_100 expiry 15t both: quote error
+R_100 range 15t both: quote error
+R_100 range 15t both: quote error
+R_100 touch 1m up: quote error
+R_100 touch 1m down: quote error
+R_100 touch 1m up: quote error
+R_100 touch 1m down: quote error
+R_100 expiry 1m both: quote error
+R_100 expiry 1m both: quote error
+R_100 range 1m both: quote error
+R_100 range 1m both: quote error
+R_100 touch 1m up: quote error
+R_100 touch 1m down: quote error
+R_100 touch 1m up: quote error
+R_100 touch 1m down: quote error
+R_100 expiry 1m both: quote error
+R_100 expiry 1m both: quote error
+R_100 range 1m both: quote error
+R_100 range 1m both: quote error
+====================================================================================================
+D87 summary: valid=0 raw_candidates=0
+Results: d87_screening_results.jsonl
+Stats: d87_screening_stats.json

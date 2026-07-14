@@ -1,0 +1,23 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['1HZ10V']
+Pairs: ['expiry', 'range'] | Durations: [(2, 'm'), (5, 'm')] | Offsets: [0.0001645]
+Rounds: 3 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V expiry 2m both: quote error
+1HZ10V range 2m both: quote error
+1HZ10V expiry 2m both: quote error
+1HZ10V range 2m both: quote error
+1HZ10V expiry 2m both: quote error
+1HZ10V range 2m both: quote error
+1HZ10V expiry 5m both: quote error
+1HZ10V range 5m both: quote error
+1HZ10V expiry 5m both: quote error
+1HZ10V range 5m both: quote error
+1HZ10V expiry 5m both: quote error
+1HZ10V range 5m both: quote error
+====================================================================================================
+D87 summary: valid=0 raw_candidates=0
+Results: d87_double_1hz_results.jsonl
+Stats: d87_double_1hz_stats.json

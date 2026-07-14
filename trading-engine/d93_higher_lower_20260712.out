@@ -1,0 +1,90 @@
+Baixando 10000 ticks reais de 1HZ10V...
+10000 ticks | drift bruto=-0.000574 (removido) | desvio/tick=0.16859
+
+
+================================================================================
+Duracao=5 ticks
+================================================================================
+
+  HIGHER barriers: ['+0.01', '+0.10', '+0.20', '+0.33', '+0.50', '+1.00']
+    HIGHER barrier=  +0.01 | payout=$19.94 | P(win)_MC=49.65% [IC95% 49.11%, 49.37%] | fair_payout=$20.14 | EV=$-0.0998 (IC95%[$-0.2067,$-0.1566])
+    HIGHER barrier=  +0.10 | payout=$24.53 | P(win)_MC=39.47% [IC95% 39.68%, 39.92%] | fair_payout=$25.34 | EV=$-0.3192 (IC95%[$-0.2674,$-0.2070])
+    HIGHER barrier=  +0.20 | payout=$32.24 | P(win)_MC=30.36% [IC95% 29.83%, 30.05%] | fair_payout=$32.94 | EV=$-0.2119 (IC95%[$-0.3820,$-0.3105])
+    HIGHER barrier=  +0.33 | payout=$49.23 | P(win)_MC=19.53% [IC95% 19.20%, 19.40%] | fair_payout=$51.22 | EV=$-0.3878 (IC95%[$-0.5498,$-0.4513])
+    HIGHER barrier=  +0.50 | payout=$95.44 | P(win)_MC=9.35% [IC95% 9.29%, 9.44%] | fair_payout=$107.01 | EV=$-1.0811 (IC95%[$-1.1303,$-0.9862])
+    HIGHER barrier=  +1.00 | payout=$400.00 | P(win)_MC=0.41% [IC95% 0.38%, 0.41%] | fair_payout=$2409.64 | EV=$-8.3400 (IC95%[$-8.4773,$-8.3493])
+
+  LOWER barriers: ['+0.01', '+0.10', '+0.20', '+0.33', '+0.50', '+1.00', '-0.10', '-0.20', '-0.33', '-0.50']
+    LOWER barrier=  +0.01 | payout=$19.14 | P(win)_MC=50.26% [IC95% 50.71%, 50.97%] | fair_payout=$19.90 | EV=$-0.3812 (IC95%[$-0.2946,$-0.2452])
+    LOWER barrier=  +0.10 | payout=$16.22 | P(win)_MC=60.36% [IC95% 60.14%, 60.37%] | fair_payout=$16.57 | EV=$-0.2096 (IC95%[$-0.2452,$-0.2074])
+    LOWER barrier=  +0.20 | payout=$14.01 | P(win)_MC=70.03% [IC95% 69.83%, 70.06%] | fair_payout=$14.28 | EV=$-0.1888 (IC95%[$-0.2167,$-0.1839])
+    LOWER barrier=  +0.33 | payout=$12.18 | P(win)_MC=80.36% [IC95% 80.64%, 80.84%] | fair_payout=$12.44 | EV=$-0.2115 (IC95%[$-0.1783,$-0.1534])
+    LOWER barrier=  +0.50 | payout=$10.88 | P(win)_MC=90.64% [IC95% 90.59%, 90.74%] | fair_payout=$11.03 | EV=$-0.1389 (IC95%[$-0.1438,$-0.1275])
+    LOWER barrier=+1.00: ERRO This contract offers no return.
+    LOWER barrier=  -0.10 | payout=$24.53 | P(win)_MC=39.08% [IC95% 39.18%, 39.43%] | fair_payout=$25.59 | EV=$-0.4137 (IC95%[$-0.3902,$-0.3272])
+    LOWER barrier=  -0.20 | payout=$32.24 | P(win)_MC=29.65% [IC95% 29.35%, 29.57%] | fair_payout=$33.72 | EV=$-0.4392 (IC95%[$-0.5389,$-0.4671])
+    LOWER barrier=  -0.33 | payout=$49.23 | P(win)_MC=18.60% [IC95% 18.91%, 19.09%] | fair_payout=$53.76 | EV=$-0.8432 (IC95%[$-0.6902,$-0.6041])
+    LOWER barrier=  -0.50 | payout=$95.46 | P(win)_MC=9.23% [IC95% 9.08%, 9.22%] | fair_payout=$108.28 | EV=$-1.1843 (IC95%[$-1.3338,$-1.1995])
+
+================================================================================
+Duracao=10 ticks
+================================================================================
+
+  HIGHER barriers: ['+0.01', '+0.10', '+0.20', '+0.33', '+0.50', '+1.00']
+    HIGHER barrier=  +0.01 | payout=$19.82 | P(win)_MC=49.23% [IC95% 48.99%, 49.22%] | fair_payout=$20.31 | EV=$-0.2426 (IC95%[$-0.2896,$-0.2447])
+    HIGHER barrier=  +0.10 | payout=$22.84 | P(win)_MC=42.96% [IC95% 42.47%, 42.73%] | fair_payout=$23.27 | EV=$-0.1868 (IC95%[$-0.2996,$-0.2394])
+    HIGHER barrier=  +0.20 | payout=$27.32 | P(win)_MC=34.99% [IC95% 35.19%, 35.44%] | fair_payout=$28.58 | EV=$-0.4394 (IC95%[$-0.3861,$-0.3187])
+    HIGHER barrier=  +0.33 | payout=$35.67 | P(win)_MC=26.57% [IC95% 26.65%, 26.88%] | fair_payout=$37.63 | EV=$-0.5207 (IC95%[$-0.4957,$-0.4121])
+    HIGHER barrier=  +0.50 | payout=$53.59 | P(win)_MC=17.65% [IC95% 17.15%, 17.36%] | fair_payout=$56.66 | EV=$-0.5414 (IC95%[$-0.8101,$-0.6970])
+    HIGHER barrier=  +1.00 | payout=$234.84 | P(win)_MC=3.05% [IC95% 2.99%, 3.08%] | fair_payout=$327.87 | EV=$-2.8374 (IC95%[$-2.9759,$-2.7748])
+
+  LOWER barriers: ['+0.01', '+0.10', '+0.20', '+0.33', '+0.50', '+1.00', '-0.10', '-0.20', '-0.33', '-0.50']
+    LOWER barrier=  +0.01 | payout=$19.25 | P(win)_MC=51.01% [IC95% 50.70%, 50.95%] | fair_payout=$19.60 | EV=$-0.1806 (IC95%[$-0.2405,$-0.1925])
+    LOWER barrier=  +0.10 | payout=$17.06 | P(win)_MC=58.03% [IC95% 57.35%, 57.58%] | fair_payout=$17.23 | EV=$-0.1009 (IC95%[$-0.2163,$-0.1765])
+    LOWER barrier=  +0.20 | payout=$15.20 | P(win)_MC=64.36% [IC95% 64.59%, 64.82%] | fair_payout=$15.54 | EV=$-0.2173 (IC95%[$-0.1828,$-0.1469])
+    LOWER barrier=  +0.33 | payout=$13.45 | P(win)_MC=73.59% [IC95% 73.16%, 73.38%] | fair_payout=$13.59 | EV=$-0.1015 (IC95%[$-0.1601,$-0.1310])
+    LOWER barrier=  +0.50 | payout=$11.94 | P(win)_MC=82.72% [IC95% 82.56%, 82.75%] | fair_payout=$12.09 | EV=$-0.1232 (IC95%[$-0.1429,$-0.1201])
+    LOWER barrier=  +1.00 | payout=$10.19 | P(win)_MC=97.06% [IC95% 96.91%, 96.99%] | fair_payout=$10.30 | EV=$-0.1101 (IC95%[$-0.1246,$-0.1165])
+    LOWER barrier=  -0.10 | payout=$22.84 | P(win)_MC=42.88% [IC95% 42.48%, 42.71%] | fair_payout=$23.32 | EV=$-0.2051 (IC95%[$-0.2969,$-0.2441])
+    LOWER barrier=  -0.20 | payout=$27.32 | P(win)_MC=35.65% [IC95% 35.39%, 35.64%] | fair_payout=$28.05 | EV=$-0.2604 (IC95%[$-0.3315,$-0.2621])
+    LOWER barrier=  -0.33 | payout=$35.67 | P(win)_MC=26.57% [IC95% 26.76%, 26.98%] | fair_payout=$37.63 | EV=$-0.5207 (IC95%[$-0.4548,$-0.3752])
+    LOWER barrier=  -0.50 | payout=$53.59 | P(win)_MC=17.54% [IC95% 17.37%, 17.57%] | fair_payout=$57.03 | EV=$-0.6030 (IC95%[$-0.6892,$-0.5860])
+
+================================================================================
+VEREDITO FINAL — 31 celulas testadas (HIGHER/LOWER x barrier x duration)
+================================================================================
+>>> SEM EDGE. 0 celulas com EV_lo>0.
+    EV medio: $-0.6981 (min=$-8.3400, max=$-0.0998)
+
+    Detalhe por celula:
+    HIGHER   +0.01 dur=5t: payout/justo=19.94/20.14 (ratio=0.9900) EV=$-0.0998
+    LOWER   +0.10 dur=10t: payout/justo=17.06/17.23 (ratio=0.9899) EV=$-0.1009
+    LOWER   +0.33 dur=10t: payout/justo=13.45/13.59 (ratio=0.9899) EV=$-0.1015
+    LOWER   +1.00 dur=10t: payout/justo=10.19/10.30 (ratio=0.9890) EV=$-0.1101
+    LOWER   +0.50 dur=10t: payout/justo=11.94/12.09 (ratio=0.9877) EV=$-0.1232
+    LOWER   +0.50 dur=5t: payout/justo=10.88/11.03 (ratio=0.9861) EV=$-0.1389
+    LOWER   +0.01 dur=10t: payout/justo=19.25/19.60 (ratio=0.9819) EV=$-0.1806
+    HIGHER   +0.10 dur=10t: payout/justo=22.84/23.27 (ratio=0.9813) EV=$-0.1868
+    LOWER   +0.20 dur=5t: payout/justo=14.01/14.28 (ratio=0.9811) EV=$-0.1888
+    LOWER   -0.10 dur=10t: payout/justo=22.84/23.32 (ratio=0.9795) EV=$-0.2051
+    LOWER   +0.10 dur=5t: payout/justo=16.22/16.57 (ratio=0.9790) EV=$-0.2096
+    LOWER   +0.33 dur=5t: payout/justo=12.18/12.44 (ratio=0.9788) EV=$-0.2115
+    HIGHER   +0.20 dur=5t: payout/justo=32.24/32.94 (ratio=0.9788) EV=$-0.2119
+    LOWER   +0.20 dur=10t: payout/justo=15.20/15.54 (ratio=0.9783) EV=$-0.2173
+    HIGHER   +0.01 dur=10t: payout/justo=19.82/20.31 (ratio=0.9757) EV=$-0.2426
+    LOWER   -0.20 dur=10t: payout/justo=27.32/28.05 (ratio=0.9740) EV=$-0.2604
+    HIGHER   +0.10 dur=5t: payout/justo=24.53/25.34 (ratio=0.9681) EV=$-0.3192
+    LOWER   +0.01 dur=5t: payout/justo=19.14/19.90 (ratio=0.9619) EV=$-0.3812
+    HIGHER   +0.33 dur=5t: payout/justo=49.23/51.22 (ratio=0.9612) EV=$-0.3878
+    LOWER   -0.10 dur=5t: payout/justo=24.53/25.59 (ratio=0.9586) EV=$-0.4137
+    LOWER   -0.20 dur=5t: payout/justo=32.24/33.72 (ratio=0.9561) EV=$-0.4392
+    HIGHER   +0.20 dur=10t: payout/justo=27.32/28.58 (ratio=0.9561) EV=$-0.4394
+    HIGHER   +0.33 dur=10t: payout/justo=35.67/37.63 (ratio=0.9479) EV=$-0.5207
+    LOWER   -0.33 dur=10t: payout/justo=35.67/37.63 (ratio=0.9479) EV=$-0.5207
+    HIGHER   +0.50 dur=10t: payout/justo=53.59/56.66 (ratio=0.9459) EV=$-0.5414
+    LOWER   -0.50 dur=10t: payout/justo=53.59/57.03 (ratio=0.9397) EV=$-0.6030
+    LOWER   -0.33 dur=5t: payout/justo=49.23/53.76 (ratio=0.9157) EV=$-0.8432
+    HIGHER   +0.50 dur=5t: payout/justo=95.44/107.01 (ratio=0.8919) EV=$-1.0811
+    LOWER   -0.50 dur=5t: payout/justo=95.46/108.28 (ratio=0.8816) EV=$-1.1843
+    HIGHER   +1.00 dur=10t: payout/justo=234.84/327.87 (ratio=0.7163) EV=$-2.8374
+    HIGHER   +1.00 dur=5t: payout/justo=400.00/2409.64 (ratio=0.1660) EV=$-8.3400

@@ -1,0 +1,119 @@
+
+Baixando 50000 ticks de JD10...
+  50000 ticks obtidos, de 1783777529 a 1783827528 (13.9h)
+
+=================================================================
+JD10 — 50000 ticks, mediana |retorno normal|=1.17000
+Saltos detectados (>10.0x mediana): 32
+  Direcao: 16/32 UP (50.0%, IC95%[33.6%,66.4%]) | esperado 50% DENTRO
+  Gap medio entre saltos: 1572s (26.2min) | desvio=2403s | CV(desvio/media)=1.528
+  -> Se memoryless (exponencial/geometrico puro), CV deveria ser ~1.0.
+  <<< CV ALTO: saltos em rajadas/clusters, mais irregular que memoryless.
+  Hazard rate (P[salto no proximo tick] por faixa de 'ticks desde o ultimo salto'):
+    [   0- 100 ticks desde ult. salto] N= 2992 | P(salto)=0.100% (IC95%[0.034%,0.294%])
+    [ 100- 200 ticks desde ult. salto] N= 2896 | P(salto)=0.069% (IC95%[0.019%,0.251%])
+    [ 200- 300 ticks desde ult. salto] N= 2555 | P(salto)=0.117% (IC95%[0.040%,0.345%])
+    [ 300- 400 ticks desde ult. salto] N= 2256 | P(salto)=0.177% (IC95%[0.069%,0.455%])
+    [ 400- 500 ticks desde ult. salto] N= 1975 | P(salto)=0.101% (IC95%[0.028%,0.368%])
+    [ 500- 600 ticks desde ult. salto] N= 1900 | P(salto)=0.000% (IC95%[0.000%,0.202%])
+    [ 600- 700 ticks desde ult. salto] N= 1797 | P(salto)=0.111% (IC95%[0.031%,0.405%])
+    [ 700- 800 ticks desde ult. salto] N= 1489 | P(salto)=0.201% (IC95%[0.069%,0.591%])
+    [ 800- 900 ticks desde ult. salto] N= 1331 | P(salto)=0.075% (IC95%[0.013%,0.424%])
+    [ 900-1000 ticks desde ult. salto] N=30807 | P(salto)=0.039% (IC95%[0.022%,0.068%])
+
+Baixando 50000 ticks de JD25...
+  50000 ticks obtidos, de 1783777565 a 1783827564 (13.9h)
+
+=================================================================
+JD25 — 50000 ticks, mediana |retorno normal|=3.49000
+Saltos detectados (>10.0x mediana): 34
+  Direcao: 18/34 UP (52.9%, IC95%[36.7%,68.5%]) | esperado 50% DENTRO
+  Gap medio entre saltos: 1452s (24.2min) | desvio=1386s | CV(desvio/media)=0.954
+  -> Se memoryless (exponencial/geometrico puro), CV deveria ser ~1.0.
+  CV compativel com processo memoryless (Poisson/geometrico).
+  Hazard rate (P[salto no proximo tick] por faixa de 'ticks desde o ultimo salto'):
+    [   0- 100 ticks desde ult. salto] N= 3420 | P(salto)=0.029% (IC95%[0.005%,0.165%])
+    [ 100- 200 ticks desde ult. salto] N= 3286 | P(salto)=0.061% (IC95%[0.017%,0.222%])
+    [ 200- 300 ticks desde ult. salto] N= 3200 | P(salto)=0.031% (IC95%[0.006%,0.177%])
+    [ 300- 400 ticks desde ult. salto] N= 2881 | P(salto)=0.139% (IC95%[0.054%,0.356%])
+    [ 400- 500 ticks desde ult. salto] N= 2566 | P(salto)=0.039% (IC95%[0.007%,0.220%])
+    [ 500- 600 ticks desde ult. salto] N= 2420 | P(salto)=0.041% (IC95%[0.007%,0.234%])
+    [ 600- 700 ticks desde ult. salto] N= 2307 | P(salto)=0.043% (IC95%[0.008%,0.245%])
+    [ 700- 800 ticks desde ult. salto] N= 2300 | P(salto)=0.000% (IC95%[0.000%,0.167%])
+    [ 800- 900 ticks desde ult. salto] N= 2138 | P(salto)=0.094% (IC95%[0.026%,0.340%])
+    [ 900-1000 ticks desde ult. salto] N=25480 | P(salto)=0.082% (IC95%[0.054%,0.126%])
+
+Baixando 50000 ticks de JD50...
+  50000 ticks obtidos, de 1783777598 a 1783827597 (13.9h)
+
+=================================================================
+JD50 — 50000 ticks, mediana |retorno normal|=4.09000
+Saltos detectados (>10.0x mediana): 30
+  Direcao: 19/30 UP (63.3%, IC95%[45.5%,78.1%]) | esperado 50% DENTRO
+  Gap medio entre saltos: 1687s (28.1min) | desvio=1816s | CV(desvio/media)=1.077
+  -> Se memoryless (exponencial/geometrico puro), CV deveria ser ~1.0.
+  CV compativel com processo memoryless (Poisson/geometrico).
+  Hazard rate (P[salto no proximo tick] por faixa de 'ticks desde o ultimo salto'):
+    [   0- 100 ticks desde ult. salto] N= 2925 | P(salto)=0.068% (IC95%[0.019%,0.249%])
+    [ 100- 200 ticks desde ult. salto] N= 2681 | P(salto)=0.112% (IC95%[0.038%,0.328%])
+    [ 200- 300 ticks desde ult. salto] N= 2500 | P(salto)=0.000% (IC95%[0.000%,0.153%])
+    [ 300- 400 ticks desde ult. salto] N= 2440 | P(salto)=0.041% (IC95%[0.007%,0.232%])
+    [ 400- 500 ticks desde ult. salto] N= 2309 | P(salto)=0.043% (IC95%[0.008%,0.245%])
+    [ 500- 600 ticks desde ult. salto] N= 2189 | P(salto)=0.137% (IC95%[0.047%,0.402%])
+    [ 600- 700 ticks desde ult. salto] N= 1954 | P(salto)=0.102% (IC95%[0.028%,0.372%])
+    [ 700- 800 ticks desde ult. salto] N= 1800 | P(salto)=0.000% (IC95%[0.000%,0.213%])
+    [ 800- 900 ticks desde ult. salto] N= 1616 | P(salto)=0.124% (IC95%[0.034%,0.450%])
+    [ 900-1000 ticks desde ult. salto] N=29584 | P(salto)=0.054% (IC95%[0.033%,0.088%])
+
+Baixando 50000 ticks de JD75...
+  50000 ticks obtidos, de 1783777633 a 1783827632 (13.9h)
+
+=================================================================
+JD75 — 50000 ticks, mediana |retorno normal|=0.67000
+Saltos detectados (>10.0x mediana): 34
+  Direcao: 18/34 UP (52.9%, IC95%[36.7%,68.5%]) | esperado 50% DENTRO
+  Gap medio entre saltos: 1473s (24.6min) | desvio=1392s | CV(desvio/media)=0.945
+  -> Se memoryless (exponencial/geometrico puro), CV deveria ser ~1.0.
+  CV compativel com processo memoryless (Poisson/geometrico).
+  Hazard rate (P[salto no proximo tick] por faixa de 'ticks desde o ultimo salto'):
+    [   0- 100 ticks desde ult. salto] N= 3269 | P(salto)=0.092% (IC95%[0.031%,0.269%])
+    [ 100- 200 ticks desde ult. salto] N= 3191 | P(salto)=0.063% (IC95%[0.017%,0.228%])
+    [ 200- 300 ticks desde ult. salto] N= 2847 | P(salto)=0.105% (IC95%[0.036%,0.309%])
+    [ 300- 400 ticks desde ult. salto] N= 2550 | P(salto)=0.078% (IC95%[0.022%,0.286%])
+    [ 400- 500 ticks desde ult. salto] N= 2475 | P(salto)=0.040% (IC95%[0.007%,0.229%])
+    [ 500- 600 ticks desde ult. salto] N= 2141 | P(salto)=0.187% (IC95%[0.073%,0.479%])
+    [ 600- 700 ticks desde ult. salto] N= 2000 | P(salto)=0.000% (IC95%[0.000%,0.192%])
+    [ 700- 800 ticks desde ult. salto] N= 1955 | P(salto)=0.051% (IC95%[0.009%,0.289%])
+    [ 800- 900 ticks desde ult. salto] N= 1851 | P(salto)=0.054% (IC95%[0.010%,0.305%])
+    [ 900-1000 ticks desde ult. salto] N=27719 | P(salto)=0.061% (IC95%[0.038%,0.098%])
+
+Baixando 50000 ticks de JD100...
+  50000 ticks obtidos, de 1783777666 a 1783827665 (13.9h)
+
+=================================================================
+JD100 — 50000 ticks, mediana |retorno normal|=0.03000
+Saltos detectados (>10.0x mediana): 31
+  Direcao: 18/31 UP (58.1%, IC95%[40.8%,73.6%]) | esperado 50% DENTRO
+  Gap medio entre saltos: 1589s (26.5min) | desvio=1986s | CV(desvio/media)=1.250
+  -> Se memoryless (exponencial/geometrico puro), CV deveria ser ~1.0.
+  CV compativel com processo memoryless (Poisson/geometrico).
+  Hazard rate (P[salto no proximo tick] por faixa de 'ticks desde o ultimo salto'):
+    [   0- 100 ticks desde ult. salto] N= 3098 | P(salto)=0.032% (IC95%[0.006%,0.183%])
+    [ 100- 200 ticks desde ult. salto] N= 3002 | P(salto)=0.033% (IC95%[0.006%,0.188%])
+    [ 200- 300 ticks desde ult. salto] N= 2966 | P(salto)=0.034% (IC95%[0.006%,0.191%])
+    [ 300- 400 ticks desde ult. salto] N= 2883 | P(salto)=0.035% (IC95%[0.006%,0.196%])
+    [ 400- 500 ticks desde ult. salto] N= 2773 | P(salto)=0.036% (IC95%[0.006%,0.204%])
+    [ 500- 600 ticks desde ult. salto] N= 2644 | P(salto)=0.038% (IC95%[0.007%,0.214%])
+    [ 600- 700 ticks desde ult. salto] N= 2490 | P(salto)=0.120% (IC95%[0.041%,0.354%])
+    [ 700- 800 ticks desde ult. salto] N= 2125 | P(salto)=0.094% (IC95%[0.026%,0.343%])
+    [ 800- 900 ticks desde ult. salto] N= 2100 | P(salto)=0.000% (IC95%[0.000%,0.183%])
+    [ 900-1000 ticks desde ult. salto] N=25917 | P(salto)=0.077% (IC95%[0.050%,0.119%])
+
+=================================================================
+RESUMO FINAL — SPIKE_TIMING em Jump Indices
+=================================================================
+JD10: N_saltos=32 | dir_up=50.0% | gap_medio=26.2min | CV=1.53 | faixa_hazard=0.000%-0.201%
+JD25: N_saltos=34 | dir_up=52.9% | gap_medio=24.2min | CV=0.95 | faixa_hazard=0.000%-0.139%
+JD50: N_saltos=30 | dir_up=63.3% | gap_medio=28.1min | CV=1.08 | faixa_hazard=0.000%-0.137%
+JD75: N_saltos=34 | dir_up=52.9% | gap_medio=24.6min | CV=0.94 | faixa_hazard=0.000%-0.187%
+JD100: N_saltos=31 | dir_up=58.1% | gap_medio=26.5min | CV=1.25 | faixa_hazard=0.000%-0.120%

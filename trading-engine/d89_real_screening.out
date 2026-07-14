@@ -1,0 +1,29 @@
+====================================================================================================
+D89 — Cross-Market Deriv Pricing Scan
+Symbols: ['frxEURUSD', 'cryBTCUSD']
+Market classes: ['crypto', 'forex']
+Types: ['CALL', 'PUT', 'CALLE', 'PUTE'] | Durations: [(15, 'm'), (1, 'h')] | chunks=5 | MC=3000
+Read-only: no buy/sell requests
+====================================================================================================
+frxEURUSD [forex]: 5000 ticks, median_dt=1.000s
+frxEURUSD CALL 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUT 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD CALLE 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUTE 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD CALL 1h: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUT 1h: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD CALLE 1h: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUTE 1h: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+cryBTCUSD [crypto]: 5000 ticks, median_dt=1.000s
+cryBTCUSD CALL 15m: Trading is not offered for this duration.
+cryBTCUSD PUT 15m: Trading is not offered for this duration.
+cryBTCUSD CALLE 15m: Trading is not offered for this duration.
+cryBTCUSD PUTE 15m: Trading is not offered for this duration.
+cryBTCUSD CALL 1h: Trading is not offered for this duration.
+cryBTCUSD PUT 1h: Trading is not offered for this duration.
+cryBTCUSD CALLE 1h: Trading is not offered for this duration.
+cryBTCUSD PUTE 1h: Trading is not offered for this duration.
+====================================================================================================
+D89 summary: valid=0 gate_candidates=0
+Results: d89_real_screening_results.jsonl
+Stats: d89_real_screening_stats.json

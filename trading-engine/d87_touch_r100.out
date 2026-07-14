@@ -1,0 +1,35 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['R_100']
+Pairs: ['touch'] | Durations: [(5, 't'), (10, 't'), (2, 'm'), (5, 'm')] | Offsets: [0.000345]
+Rounds: 3 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 touch 5t up: quote error
+R_100 touch 5t down: quote error
+R_100 touch 10t up: quote error
+R_100 touch 10t down: quote error
+R_100 touch 10t up: quote error
+R_100 touch 10t down: quote error
+R_100 touch 10t up: quote error
+R_100 touch 10t down: quote error
+R_100 touch 2m up: quote error
+R_100 touch 2m down: quote error
+R_100 touch 2m up: quote error
+R_100 touch 2m down: quote error
+R_100 touch 2m up: quote error
+R_100 touch 2m down: quote error
+R_100 touch 5m up: quote error
+R_100 touch 5m down: quote error
+R_100 touch 5m up: quote error
+R_100 touch 5m down: quote error
+R_100 touch 5m up: quote error
+R_100 touch 5m down: quote error
+====================================================================================================
+D87 summary: valid=0 raw_candidates=0
+Results: d87_touch_r100_results.jsonl
+Stats: d87_touch_r100_stats.json

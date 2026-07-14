@@ -1,0 +1,35 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['1HZ10V']
+Pairs: ['touch'] | Durations: [(5, 't'), (10, 't'), (2, 'm'), (5, 'm')] | Offsets: [3.4e-05]
+Rounds: 3 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V touch 5t up: quote error
+1HZ10V touch 5t down: quote error
+1HZ10V touch 10t up: quote error
+1HZ10V touch 10t down: quote error
+1HZ10V touch 10t up: quote error
+1HZ10V touch 10t down: quote error
+1HZ10V touch 10t up: quote error
+1HZ10V touch 10t down: quote error
+1HZ10V touch 2m up: quote error
+1HZ10V touch 2m down: quote error
+1HZ10V touch 2m up: quote error
+1HZ10V touch 2m down: quote error
+1HZ10V touch 2m up: quote error
+1HZ10V touch 2m down: quote error
+1HZ10V touch 5m up: quote error
+1HZ10V touch 5m down: quote error
+1HZ10V touch 5m up: quote error
+1HZ10V touch 5m down: quote error
+1HZ10V touch 5m up: quote error
+1HZ10V touch 5m down: quote error
+====================================================================================================
+D87 summary: valid=0 raw_candidates=0
+Results: d87_touch_1hz_results.jsonl
+Stats: d87_touch_1hz_stats.json

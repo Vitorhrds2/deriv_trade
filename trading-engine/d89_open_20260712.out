@@ -1,0 +1,54 @@
+====================================================================================================
+D89 — Cross-Market Deriv Pricing Scan
+Symbols: ['1HZ10V', 'R_100', 'frxEURUSD']
+Market classes: ['forex', 'synthetic']
+Types: ['CALL', 'PUT', 'CALLE', 'PUTE'] | Durations: [(15, 'm'), (1, 'h')] | chunks=100 | MC=10000
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V [synthetic]: 99327 ticks, median_dt=1.000s
+1HZ10V CALL 15m: Pemp=0.5000 Pmc=0.4994 EV=-0.0400 EVlo=-0.2164
+1HZ10V PUT 15m: Pemp=0.5000 Pmc=0.5006 EV=-0.0400 EVlo=-0.2164
+1HZ10V CALLE 15m: Pemp=0.5000 Pmc=0.4994 EV=-0.0400 EVlo=-0.2164
+1HZ10V PUTE 15m: Pemp=0.5000 Pmc=0.5006 EV=-0.0400 EVlo=-0.2164
+1HZ10V CALL 1h: Pemp=0.5185 Pmc=0.5027 EV=-0.0044 EVlo=-0.3475
+Error in listen loop: no close frame received or sent
+Traceback (most recent call last):
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/d89_cross_market_scan.py", line 325, in <module>
+    main()
+    ~~~~^^
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/d89_cross_market_scan.py", line 321, in main
+    asyncio.run(scan(args))
+    ~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.13/3.13.3/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/usr/local/Cellar/python@3.13/3.13.3/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/local/Cellar/python@3.13/3.13.3/Frameworks/Python.framework/Versions/3.13/lib/python3.13/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/d89_cross_market_scan.py", line 196, in scan
+    proposal, error = await get_proposal(
+                      ^^^^^^^^^^^^^^^^^^^
+        client, symbol, contract_type, duration, duration_unit
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/d89_cross_market_scan.py", line 151, in get_proposal
+    response = await client.send_request({
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<8 lines>...
+    })
+    ^^
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/deriv_client.py", line 178, in send_request
+    await self.ws.send(json.dumps(payload))
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/.venv/lib/python3.13/site-packages/websockets/asyncio/connection.py", line 478, in send
+    async with self.send_context():
+               ~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/Cellar/python@3.13/3.13.3/Frameworks/Python.framework/Versions/3.13/lib/python3.13/contextlib.py", line 214, in __aenter__
+    return await anext(self.gen)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vitorhrds/Documents/Github/hypothesis/trading-engine/.venv/lib/python3.13/site-packages/websockets/asyncio/connection.py", line 965, in send_context
+    raise self.protocol.close_exc from original_exc
+websockets.exceptions.ConnectionClosedError: no close frame received or sent

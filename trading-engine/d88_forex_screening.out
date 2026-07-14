@@ -1,0 +1,17 @@
+====================================================================================================
+D88 — E-Suffixed Contract Variant Scan
+Symbols: ['frxEURUSD'] | Types: ['EXPIRYMISSE', 'EXPIRYRANGEE', 'CALLE', 'PUTE'] | Durations: [(15, 'm')]
+Barrier offsets: [0.001, 0.002] | chunks=5 | MC=3000
+Read-only: no buy/sell requests
+====================================================================================================
+frxEURUSD: 5000 ticks, median_dt=1.000s, spot=1.14145
+frxEURUSD EXPIRYMISSE 15m: Trading is not offered for this duration.
+frxEURUSD EXPIRYMISSE 15m: Trading is not offered for this duration.
+frxEURUSD EXPIRYRANGEE 15m: Trading is not offered for this duration.
+frxEURUSD EXPIRYRANGEE 15m: Trading is not offered for this duration.
+frxEURUSD CALLE 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUTE 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+====================================================================================================
+D88 summary: valid=0 gate_candidates=0
+Results: d88_forex_screening_results.jsonl
+Stats: d88_forex_screening_stats.json

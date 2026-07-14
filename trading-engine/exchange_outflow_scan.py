@@ -44,7 +44,7 @@ WHALE_ALERT_API_KEY = os.environ.get("WHALE_ALERT_API_KEY", "demo")
 # por ciclo mas nunca conferiu o que o preço fez depois -- então nunca poderia
 # produzir um veredito de EV/WR, não importa quanto tempo rodasse. Ver
 # forward_return_tracker.py e docs/aggressive_hypotheses_report.md UPDATE 2026-07-08.
-SIGNAL_HISTORY_FILE = "d37_signal_history.json"
+SIGNAL_HISTORY_FILE = "d37_preregistered_signal_history.json"
 HORIZONS_S = [3600, 4 * 3600, 24 * 3600]  # 1h / 4h / 24h, conforme a tese original
 
 # Known exchange hot wallet addresses (subset)
@@ -159,7 +159,7 @@ def analyze_outflow_signal():
     print("=" * 80)
     print("  Tese: Large exchange outflows → bullish (supply reduction)")
     print("  Method: Whale Alert API + Binance price")
-    print("  Signal: Net outflow > $1M in 1h → LONG BTC")
+    print("  Signal: Net outflow > $5M in 1h → LONG BTC")
     print("  Test: Price change 1h/4h/24h after signal")
     print()
 
@@ -213,6 +213,7 @@ def analyze_outflow_signal():
 
     signal_score = 0
     signal_reasons = []
+    total_outflow_usd = 0.0
 
     if outflows:
         total_outflow_usd = sum(o["amount_usd"] for o in outflows if o["to_type"] != "exchange")
@@ -229,7 +230,9 @@ def analyze_outflow_signal():
             signal_score += 1
             signal_reasons.append(f"Large unconfirmed txs: {total_large_btc:.1f} BTC")
 
-    if signal_score >= 3:
+    if total_outflow_usd > 5_000_000:
+        signal = "PREREGISTERED LONG"
+    elif signal_score >= 3:
         signal = "STRONG LONG"
     elif signal_score >= 2:
         signal = "MODERATE LONG"
@@ -256,6 +259,8 @@ def analyze_outflow_signal():
         "signal": signal,
         "signal_score": signal_score,
         "signal_reasons": signal_reasons,
+        "total_outflow_usd": total_outflow_usd,
+        "preregistered_trigger": total_outflow_usd > 5_000_000,
     }
 
     with open("exchange_outflow_scan_results.json", "w") as f:
@@ -267,8 +272,18 @@ def analyze_outflow_signal():
 
     # Loga esta leitura pro forward-return tracker (SEMPRE, mesmo sem sinal --
     # precisamos do grupo de controle). direction=+1 pq a tese é LONG-only.
-    direction = 1 if signal_score > 0 else 0
-    frt.record(SIGNAL_HISTORY_FILE, btc_price, direction, HORIZONS_S, meta={"signal": signal})
+    direction = 1 if total_outflow_usd > 5_000_000 else 0
+    frt.record(
+        SIGNAL_HISTORY_FILE,
+        btc_price,
+        direction,
+        HORIZONS_S,
+        meta={
+            "signal": signal,
+            "total_outflow_usd": total_outflow_usd,
+            "preregistered_trigger": bool(direction),
+        },
+    )
 
     return results
 
@@ -284,9 +299,9 @@ if __name__ == "__main__":
         while True:
             try:
                 results = analyze_outflow_signal()
-                if results.get("signal_score", 0) > 0:
+                if results.get("preregistered_trigger"):
                     with open(LOG_FILE, "a") as f:
-                        f.write(f"[{results['timestamp']}] SIGNAL: {results['signal']} score={results['signal_score']} | BTC=${results['btc_price']:,.0f}\n")
+                        f.write(f"[{results['timestamp']}] PREREGISTERED SIGNAL: {results['signal']} score={results['signal_score']} | BTC=${results['btc_price']:,.0f}\n")
                         for r in results.get("signal_reasons", []):
                             f.write(f"  - {r}\n")
                 frt.resolve_due(SIGNAL_HISTORY_FILE, lambda: fetch_binance_price("BTCUSDT"))

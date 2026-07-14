@@ -62,8 +62,8 @@ def fetch_deribit_options(currency, expiry_date_str):
         name = opt.get("instrument_name", "")
         parts = name.split("-")
         if len(parts) == 4 and parts[1] == expiry_date_str:
-            opt["type"] = parts[2]  # C or P
-            opt["strike"] = float(parts[3])
+            opt["type"] = parts[3]  # C or P
+            opt["strike"] = float(parts[2])
             opt["bid"] = float(opt.get("bid_price", 0) or 0)
             opt["ask"] = float(opt.get("ask_price", 0) or 0)
             opt["mid"] = (opt["bid"] + opt["ask"]) / 2 if opt["bid"] > 0 and opt["ask"] > 0 else 0

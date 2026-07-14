@@ -1,0 +1,63 @@
+Baixando 5000 ticks reais de 1HZ100V...
+Total de ticks obtidos: 5000
+
+growth_rate=0.01 | barreira/tick=0.04331%
+  P(sobreviver 1 tick) EMPIRICO (historico real, N=4999): 98.340% (IC95%[97.947%,98.659%])
+  P(sobreviver 1 tick) NECESSARIO p/ EV=0 (fair, sem margem): 99.010%
+  Diferenca (emp - fair): -0.6702pp | IC_lo: -1.0634pp
+    N=  5: P_sobrevive(fair)= 95.1% | P_sobrevive(emp, extrapolado i.i.d.)= 92.0% | EV=$-0.0334 | EV_lo=$-0.0526
+    N=  8: P_sobrevive(fair)= 92.3% | P_sobrevive(emp, extrapolado i.i.d.)= 87.5% | EV=$-0.0529 | EV_lo=$-0.0828
+    N= 10: P_sobrevive(fair)= 90.5% | P_sobrevive(emp, extrapolado i.i.d.)= 84.6% | EV=$-0.0657 | EV_lo=$-0.1024
+    N= 15: P_sobrevive(fair)= 86.1% | P_sobrevive(emp, extrapolado i.i.d.)= 77.8% | EV=$-0.0969 | EV_lo=$-0.1495
+    N= 20: P_sobrevive(fair)= 82.0% | P_sobrevive(emp, extrapolado i.i.d.)= 71.5% | EV=$-0.1270 | EV_lo=$-0.1942
+    N= 30: P_sobrevive(fair)= 74.2% | P_sobrevive(emp, extrapolado i.i.d.)= 60.5% | EV=$-0.1844 | EV_lo=$-0.2767
+    N= 50: P_sobrevive(fair)= 60.8% | P_sobrevive(emp, extrapolado i.i.d.)= 43.3% | EV=$-0.2880 | EV_lo=$-0.4172
+
+growth_rate=0.02 | barreira/tick=0.04048%
+  P(sobreviver 1 tick) EMPIRICO (historico real, N=4999): 97.700% (IC95%[97.246%,98.080%])
+  P(sobreviver 1 tick) NECESSARIO p/ EV=0 (fair, sem margem): 98.039%
+  Diferenca (emp - fair): -0.3397pp | IC_lo: -0.7933pp
+    N=  5: P_sobrevive(fair)= 90.6% | P_sobrevive(emp, extrapolado i.i.d.)= 89.0% | EV=$-0.0172 | EV_lo=$-0.0398
+    N=  8: P_sobrevive(fair)= 85.3% | P_sobrevive(emp, extrapolado i.i.d.)= 83.0% | EV=$-0.0274 | EV_lo=$-0.0629
+    N= 10: P_sobrevive(fair)= 82.0% | P_sobrevive(emp, extrapolado i.i.d.)= 79.2% | EV=$-0.0341 | EV_lo=$-0.0780
+    N= 15: P_sobrevive(fair)= 74.3% | P_sobrevive(emp, extrapolado i.i.d.)= 70.5% | EV=$-0.0507 | EV_lo=$-0.1147
+    N= 20: P_sobrevive(fair)= 67.3% | P_sobrevive(emp, extrapolado i.i.d.)= 62.8% | EV=$-0.0671 | EV_lo=$-0.1500
+    N= 30: P_sobrevive(fair)= 55.2% | P_sobrevive(emp, extrapolado i.i.d.)= 49.7% | EV=$-0.0989 | EV_lo=$-0.2163
+    N= 50: P_sobrevive(fair)= 37.2% | P_sobrevive(emp, extrapolado i.i.d.)= 31.2% | EV=$-0.1593 | EV_lo=$-0.3339
+
+growth_rate=0.03 | barreira/tick=0.03797%
+  P(sobreviver 1 tick) EMPIRICO (historico real, N=4999): 96.699% (IC95%[96.167%,97.160%])
+  P(sobreviver 1 tick) NECESSARIO p/ EV=0 (fair, sem margem): 97.087%
+  Diferenca (emp - fair): -0.3880pp | IC_lo: -0.9203pp
+    N=  5: P_sobrevive(fair)= 86.3% | P_sobrevive(emp, extrapolado i.i.d.)= 84.6% | EV=$-0.0198 | EV_lo=$-0.0465
+    N=  8: P_sobrevive(fair)= 78.9% | P_sobrevive(emp, extrapolado i.i.d.)= 76.5% | EV=$-0.0315 | EV_lo=$-0.0734
+    N= 10: P_sobrevive(fair)= 74.4% | P_sobrevive(emp, extrapolado i.i.d.)= 71.5% | EV=$-0.0393 | EV_lo=$-0.0908
+    N= 15: P_sobrevive(fair)= 64.2% | P_sobrevive(emp, extrapolado i.i.d.)= 60.4% | EV=$-0.0583 | EV_lo=$-0.1331
+    N= 20: P_sobrevive(fair)= 55.4% | P_sobrevive(emp, extrapolado i.i.d.)= 51.1% | EV=$-0.0770 | EV_lo=$-0.1734
+    N= 30: P_sobrevive(fair)= 41.2% | P_sobrevive(emp, extrapolado i.i.d.)= 36.5% | EV=$-0.1132 | EV_lo=$-0.2485
+    N= 50: P_sobrevive(fair)= 22.8% | P_sobrevive(emp, extrapolado i.i.d.)= 18.7% | EV=$-0.1815 | EV_lo=$-0.3789
+
+growth_rate=0.04 | barreira/tick=0.03612%
+  P(sobreviver 1 tick) EMPIRICO (historico real, N=4999): 95.919% (IC95%[95.335%,96.433%])
+  P(sobreviver 1 tick) NECESSARIO p/ EV=0 (fair, sem margem): 96.154%
+  Diferenca (emp - fair): -0.2347pp | IC_lo: -0.8193pp
+    N=  5: P_sobrevive(fair)= 82.2% | P_sobrevive(emp, extrapolado i.i.d.)= 81.2% | EV=$-0.0121 | EV_lo=$-0.0419
+    N=  8: P_sobrevive(fair)= 73.1% | P_sobrevive(emp, extrapolado i.i.d.)= 71.7% | EV=$-0.0194 | EV_lo=$-0.0662
+    N= 10: P_sobrevive(fair)= 67.6% | P_sobrevive(emp, extrapolado i.i.d.)= 65.9% | EV=$-0.0241 | EV_lo=$-0.0820
+    N= 15: P_sobrevive(fair)= 55.5% | P_sobrevive(emp, extrapolado i.i.d.)= 53.5% | EV=$-0.0360 | EV_lo=$-0.1205
+    N= 20: P_sobrevive(fair)= 45.6% | P_sobrevive(emp, extrapolado i.i.d.)= 43.5% | EV=$-0.0477 | EV_lo=$-0.1573
+    N= 30: P_sobrevive(fair)= 30.8% | P_sobrevive(emp, extrapolado i.i.d.)= 28.7% | EV=$-0.0707 | EV_lo=$-0.2264
+    N= 50: P_sobrevive(fair)= 14.1% | P_sobrevive(emp, extrapolado i.i.d.)= 12.5% | EV=$-0.1150 | EV_lo=$-0.3481
+
+growth_rate=0.05 | barreira/tick=0.03438%
+  P(sobreviver 1 tick) EMPIRICO (historico real, N=4999): 94.499% (IC95%[93.832%,95.097%])
+  P(sobreviver 1 tick) NECESSARIO p/ EV=0 (fair, sem margem): 95.238%
+  Diferenca (emp - fair): -0.7392pp | IC_lo: -1.4061pp
+    N=  5: P_sobrevive(fair)= 78.4% | P_sobrevive(emp, extrapolado i.i.d.)= 75.4% | EV=$-0.0382 | EV_lo=$-0.0717
+    N=  8: P_sobrevive(fair)= 67.7% | P_sobrevive(emp, extrapolado i.i.d.)= 63.6% | EV=$-0.0604 | EV_lo=$-0.1122
+    N= 10: P_sobrevive(fair)= 61.4% | P_sobrevive(emp, extrapolado i.i.d.)= 56.8% | EV=$-0.0750 | EV_lo=$-0.1382
+    N= 15: P_sobrevive(fair)= 48.1% | P_sobrevive(emp, extrapolado i.i.d.)= 42.8% | EV=$-0.1103 | EV_lo=$-0.2000
+    N= 20: P_sobrevive(fair)= 37.7% | P_sobrevive(emp, extrapolado i.i.d.)= 32.3% | EV=$-0.1443 | EV_lo=$-0.2573
+    N= 30: P_sobrevive(fair)= 23.1% | P_sobrevive(emp, extrapolado i.i.d.)= 18.3% | EV=$-0.2084 | EV_lo=$-0.3600
+    N= 50: P_sobrevive(fair)=  8.7% | P_sobrevive(emp, extrapolado i.i.d.)=  5.9% | EV=$-0.3227 | EV_lo=$-0.5247
+

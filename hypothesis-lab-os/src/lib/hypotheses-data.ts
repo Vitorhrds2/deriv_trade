@@ -695,7 +695,10 @@ export const realHypotheses: RealHypothesis[] = [
       "busca eventos via api.tokenomist.ai com fallback hardcoded. Whitelist de 8 símbolos " +
       "validados apenas (APT, ARB, AXS, DYDX, IMX, OP, SEI, STRK) — símbolos não-validados da API " +
       "são filtrados. Primeiro evento API: APTUSDT 2026-07-12 ($7M cliff, entry 2026-07-09). " +
-      "Bloqueado apenas por deposito de capital real (decisao do usuario).",
+      "Bloqueado apenas por deposito de capital real (decisao do usuario). " +
+      "REMEDIAÇÃO 2026-07-12: filtro Tokenomist passou a aplicar mínimo configurado de $20M; " +
+      "janela de entrada/saída UTC foi aplicada; 2 posições paper legadas abaixo do mínimo foram " +
+      "preservadas e marcadas out_of_policy_legacy, sem abrir novas posições fora da política.",
     tools: ["token_unlock_scan.py", "shorting_cost_scan.py", "timing_optimization_scan.py", "unlock_data.py (Tokenomist API)"],
     reportFile: "docs/event_driven_report.md",
   },
@@ -1414,20 +1417,20 @@ export const realHypotheses: RealHypothesis[] = [
       "duração média 1.2h. Trajetória WR 68.4%(N19)→70.8%(N24)→72.7%(N33) — estável/melhorando " +
       "conforme N cresce, oposto do padrão de decaimento visto no D36. Capital real exigiria as " +
       "DUAS pernas (spot + margem do perp), não só um lado. ATUALIZADO 2026-07-08 (parte 2): " +
-      "IC95% formal implementado no basis_paper_bot.py (Wilson no WR + bootstrap no EV, mesmo " +
-      "padrão do repo). Resultado: WR=72.7% IC95%[55.8%, 84.9%] — exclui 50%, estatisticamente " +
-      "significativo. EV=+0.2635% IC95%[-0.7964%, +1.4311%] — CRUZA ZERO, ainda INCONCLUSIVO. " +
+      "IC95% formal implementado no basis_paper_bot.py (Wilson no WR + bootstrap no EV). " +
+      "UPDATE 2026-07-13: N=43, WR=69.8% IC95%[54.9%, 81.4%] — exclui 50%, estatisticamente " +
+      "significativo. EV=+0.33% IC95%[-0.50%, +1.22%] — CRUZA ZERO, ainda INCONCLUSIVO. " +
       "O WR é real (não é sorte), mas o EV ainda não é estatisticamente positivo: as losses " +
       "(worst -5.96%) são grandes o suficiente pra offsetar os wins. Precisa de mais amostra " +
-      "(N~60-80 estimado) pra o IC do EV convergir. Ainda é o lead mais promissor, mas NÃO é " +
+      "(N~60-80 estimado) pra o IC do EV convergir. Melhor lead operacional ativo, mas NÃO é " +
       "edge confirmado ainda.",
-    evPerTrade: 0.2635,
-    ci95: [-0.7964, 1.4311],
-    ci95Label: "WR=72.7% IC95%[55.8%,84.9%] (exclui 50%) | EV=+0.2635% IC95%[-0.7964%,+1.4311%] (cruza zero, INCONCLUSIVO) — N=33, 2026-07-08",
+    evPerTrade: 0.33,
+    ci95: [-0.5, 1.22],
+    ci95Label: "N=43: WR=69.8% IC95%[54.9%,81.4%] (exclui 50%) | EV=+0.33% IC95%[-0.50%,+1.22%] (cruza zero, INCONCLUSIVO) — 2026-07-13",
     tools: ["basis_funding_disconnect_scan.py", "basis_paper_bot.py"],
     reportFile: "basis_paper_stats.json",
-    pnl: 8.6958,
-    trades: 33,
+    pnl: 14.3,
+    trades: 43,
     sampleUnit: "trades settled ao vivo (retorno % por trade, não $ — ver verdict)",
   },
   {
@@ -1487,7 +1490,10 @@ export const realHypotheses: RealHypothesis[] = [
       "(3) precisa validar que options realmente estão mispriced vs forming TWAP em tempo real. " +
       "PRÓXIMO PASSO: paper trade em expiries reais — monitorar options market prices nos últimos 30min antes de settlement. " +
       "ATUALIZADO 2026-07-07: twap_paper_bot.py DEPLOYADO e rodando na AWS desde 2026-07-06 13:21 UTC. " +
-      "Ainda 0 trades -- aguardando primeira janela TWAP (07:30-08:00 UTC).",
+      "Ainda 0 trades -- aguardando primeira janela TWAP (07:30-08:00 UTC). " +
+      "REMEDIAÇÃO 2026-07-12: parser do nome Deribit corrigido para currency-expiry-strike-type; " +
+      "validação isolada contra a API retornou 46 opções BTC 13JUL26 com strike numérico e tipo C/P. " +
+      "A próxima execução paper permanece agendada para a janela 13JUL 07:30 UTC.",
     evPerTrade: 0.08,
     ci95: [0.05, 0.11],
     ci95Label: "TWAP prediction accuracy at 20min: 90% within 0.05% (BTC), 87% (ETH), N=30 each",
@@ -1569,9 +1575,9 @@ export const realHypotheses: RealHypothesis[] = [
       "Se longs sendo liquidados, preço continua caindo → short e ride cascade. " +
       "Scan: monitora liquidations em tempo real, detecta cascades, simula P&L a 30s/60s/120s/300s hold. " +
       "Net após 0.1% taker fee por lado.",
-    confidence: 25,
-    status: "validating",
-    tags: ["crypto", "liquidation", "cascade", "futures", "aggressive", "front-run"],
+    confidence: 10,
+    status: "paused",
+    tags: ["crypto", "liquidation", "cascade", "futures", "aggressive", "front-run", "paused"],
     trigger: "Cascade continuation WR > 60% após fees com N > 5",
     invalidation: "Cascades são raras ou não continuam após detecção + fees",
     createdAt: "2026-07-04",
@@ -1582,10 +1588,12 @@ export const realHypotheses: RealHypothesis[] = [
       "ao longo de dias. Cascades são eventos raros — precisam volatilidade alta (crash/pump). " +
       "Quando detectar: cascade continuation é o edge mais agressivo possível (front-run forced selling). " +
       "Monitorar liquidation_cascade_scan.log na AWS para eventos. " +
-      "Reconfirmado 2026-07-08: ainda 0 liquidações/cascades na janela mais recente monitorada.",
+      "Reconfirmado 2026-07-08: ainda 0 liquidações/cascades na janela mais recente monitorada. " +
+      "PAUSADO 2026-07-12: vários dias sem liquidações/cascades não produzem uma amostra de sinal; " +
+      "o loop foi removido do supervisor. Retomar somente em evento de volatilidade pré-definido.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "0 cascades em 30min. Bot rodando em loop contínuo na AWS.",
+    ci95Label: "0 cascades observadas; processo pausado em 2026-07-12 até gatilho de volatilidade pré-definido.",
     tools: ["liquidation_cascade_scan.py"],
     reportFile: "liquidation_cascade_scan.log",
     pnl: 0,
@@ -1655,15 +1663,19 @@ export const realHypotheses: RealHypothesis[] = [
       "35.4%@N48), EV/trade=+$50.84, total=+$2.948,65 (novo pico). A recuperação da WR é " +
       "incomum para falso-positivos (que tipicamente só decaem) — pode haver edge real " +
       "intermitente. Ainda não conclusivo: precisa N=100+ para confirmar. Não normalizável " +
-      "a 'stake fixo': opções Deribit têm prêmio variável por contrato.",
-    evPerTrade: 50.84,
+      "a 'stake fixo': opções Deribit têm prêmio variável por contrato. " +
+      "REMEDIAÇÃO 2026-07-12: 111 settles e 342 posições abertas da execução sem limite foram " +
+      "preservados como coorte legacy_unbounded e excluídos da validação. A nova coorte capped_v2 " +
+      "iniciou com máximo global de 10. UPDATE 2026-07-13: 10/10 posições abertas, 0 settled. " +
+      "Próximo scan em 60min. Aguardando settles da coorte capped_v2 para validação.",
+    evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Ao vivo: WR=41.4% (N=58, 2026-07-10), EV=+$50.84/trade, total=+$2,948.65. WR recuperou de 35.4%@N48. Backtest (N=16): BUY 100% WR, SELL 0% WR.",
+    ci95Label: "Coorte capped_v2: 10/10 posições abertas, 0 settles. Coorte legacy_unbounded (111 settles, WR 41.4%, +$2.948) excluída por exposição sem limite.",
     tools: ["iv_surface_anomaly_scan.py", "iv_anomaly_paper_bot.py", "iv_anomaly_backtest.py"],
     reportFile: "iv_anomaly_paper_stats.json",
-    pnl: 2948.65,
-    trades: 58,
-    sampleUnit: "settled ao vivo na AWS (posições ainda abertas não contadas aqui)",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "coorte paper capped_v2 na AWS: 10/10 posições abertas, 0 settles; coorte legacy_unbounded preservada mas não inferenciais",
   },
   {
     id: "HYP-OUTFLOW-01",
@@ -1710,9 +1722,9 @@ export const realHypotheses: RealHypothesis[] = [
       "Binance posta anúncios de listings/delistings em sua página de suporte. " +
       "Se detectarmos 'Will List XXX' em segundos via polling a cada 3s, podemos comprar " +
       "o token antes do pump instantâneo que segue listings da Binance.",
-    confidence: 30,
-    status: "validating",
-    tags: ["crypto", "binance", "listing", "front-run", "aggressive", "information-edge"],
+    confidence: 5,
+    status: "paused",
+    tags: ["crypto", "binance", "listing", "front-run", "aggressive", "information-edge", "paused"],
     trigger: "New 'Will List' announcement detected → BUY token immediately",
     invalidation: "Mercado precifica listing em < 3s (polling muito lento) ou slippage > edge",
     createdAt: "2026-07-04",
@@ -1725,10 +1737,11 @@ export const realHypotheses: RealHypothesis[] = [
       "ATUALIZADO 2026-07-08: mais anúncios capturados (torneios/promoções/caridade, categoria " +
       "OTHER, sentimento neutro), nenhum LISTING novo com token associado desde o TST. " +
       "Ainda cedo para veredito — precisa de um listing/delisting com movimento de preço " +
-      "claro para testar a tese de front-run.",
+      "claro para testar a tese de front-run. PAUSADO 2026-07-12: o coletor registrava anúncios, " +
+      "mas não possuía amostra tradeable nem retorno pós-evento validado; removido do supervisor até redesign.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Poucos anúncios reais tradeable (1 LISTING até agora), price-reaction tracking em andamento",
+    ci95Label: "Nenhum anúncio tradeable com retorno validado; processo pausado em 2026-07-12.",
     tools: ["announcement_front_run_scan.py"],
     reportFile: "announcement_scan_results.json",
     pnl: 0,
@@ -1744,9 +1757,9 @@ export const realHypotheses: RealHypothesis[] = [
       "(preço onde máximo de opções expira worthless, beneficiando option writers/MMs). " +
       "MMs têm incentivo e capital para empurrar preço toward max pain. " +
       "Se |spot - max_pain| > 2% no expiry day, trade toward max pain.",
-    confidence: 40,
-    status: "validating",
-    tags: ["crypto", "options", "deribit", "max-pain", "expiry", "aggressive", "structural"],
+    confidence: 10,
+    status: "paused",
+    tags: ["crypto", "options", "deribit", "max-pain", "expiry", "aggressive", "structural", "paused"],
     trigger: "|spot - max_pain| > 2% on expiry day → trade toward max pain",
     invalidation: "Preço não converge para max pain em expiries consecutivos",
     createdAt: "2026-07-04",
@@ -1759,10 +1772,11 @@ export const realHypotheses: RealHypothesis[] = [
       "— sem tendência clara de convergência ainda, mas expiry ainda a ~1 dia de distância. " +
       "Um ciclo completo não sustenta a tese de 'magnet' — precisa observar múltiplos expiries. " +
       "ATUALIZADO 2026-07-08: expiry 9JUL26 se aproxima (~1 dia), diffs BTC/ETH oscilando " +
-      "abaixo de 1% nas últimas leituras — ainda sem padrão de convergência claro o suficiente.",
+      "abaixo de 1% nas últimas leituras — ainda sem padrão de convergência claro o suficiente. " +
+      "PAUSADO 2026-07-12: leituras repetidas não estabeleceram convergência e o coletor foi removido do supervisor.",
     evPerTrade: 0,
     ci95: [0, 0],
-    ci95Label: "Ciclo 1 (6JUL26): divergiu (+2.00%→+3.04%). Ciclo 2 (7JUL26) em andamento.",
+    ci95Label: "Ciclo 1 divergiu; sem convergência reproduzível. Processo pausado em 2026-07-12.",
     tools: ["max_pain_scan.py"],
     reportFile: "max_pain_scan_results.json",
     pnl: 0,
@@ -2288,8 +2302,13 @@ export const realHypotheses: RealHypothesis[] = [
       "+ LONG BN LINKUSDT @ $7.6033, $1000 notional, 19bps roundtrip debitado. A cada ciclo de " +
       "funding da Binance (8h) settle: funding coletado em ambos venues + mark-to-mark P&L. " +
       "Report com Wilson/bootstrap a cada 5 ciclos. Primeiro ciclo às 00:00 UTC. Adicionado ao " +
-      "`aggressive_supervisor` (auto-restart).",
-    ci95Label: "Net apos custos walk-forward (fold 7d), bps -- LINK +96.3 [+71.6,+121.6]",
+      "`aggressive_supervisor` (auto-restart). REMEDIAÇÃO 2026-07-12: coorte v2 iniciou com " +
+      "custo de entrada/saída 9.5bps cada. UPDATE 2026-07-13: 3 ciclos v2 completados. " +
+      "Cycle 1: −2.38 bps, Cycle 2: +5.28 bps, Cycle 3: −4.51 bps. Total: −11.11 bps (−$1.11). " +
+      "Funding coletado líquido: +1.45 bps. Mark P&L: −3.05 bps. Custo de entrada (−9.5 bps) " +
+      "ainda não recuperado. WR 33% (1/3). Posição OPEN. Precisa ~10+ ciclos para o funding " +
+      "acumulado superar custo de entrada + mark divergence.",
+    ci95Label: "3 ciclos v2: total −11.11 bps (−$1.11). Walk-forward histórico: LINK +96.3 [+71.6,+121.6]. OOS em coleta.",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],
     reportFile: "docs/hyperliquid_report.md",
     pnl: 0,
@@ -3114,6 +3133,562 @@ export const realHypotheses: RealHypothesis[] = [
     pnl: 0,
     trades: 0,
     sampleUnit: "330 amostras (8 symbols x 2 pairs x 5 durations x ~4-10 samples)",
+  },
+  {
+    id: "D87",
+    title: "Complementary Exotic Pair Arbitrage",
+    market: "DERIV · ONETOUCH/NOTOUCH · EXPIRYRANGE/EXPIRYMISS · RANGE/UPORDOWN · 1HZ10V/R_100",
+    thesis:
+      "Pares de contratos com eventos complementares poderiam ter ask_total menor que o menor " +
+      "payout, criando lucro garantido sem depender da direção do underlying.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "exotic", "complementary", "arbitrage", "house-margin"],
+    trigger: "min(payout_left, payout_right) > ask_left + ask_right.",
+    invalidation: "Spread garantido <= 0 em todas as células válidas do grid.",
+    createdAt: "2026-07-12",
+    author: "d87_exotic_complement_scan.py",
+    verdict:
+      "REFUTADO no screening calibrado read-only: 80/80 cotações válidas, 0 candidatos. " +
+      "Melhor spread observado foi -$0.24 e o pior -$0.99. A margem permanece em ONETOUCH/NOTOUCH, " +
+      "EXPIRYRANGE/EXPIRYMISS e RANGE/UPORDOWN.",
+    ci95: [0, 0],
+    ci95Label: "Sem IC necessário: condição de arbitragem determinística não ocorreu em 80 células.",
+    tools: ["d87_exotic_complement_scan.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 80,
+    sampleUnit: "células de quote read-only (2 símbolos, 3 pares, durações tick/intraday)",
+  },
+  {
+    id: "D88",
+    title: "E-Suffixed Contract Variants",
+    market: "DERIV · EXPIRYMISSE/EXPIRYRANGEE/CALLE/PUTE · 1HZ10V/R_100/frxEURUSD",
+    thesis:
+      "Variantes com sufixo E poderiam ter settlement ou margem diferente das variantes normais " +
+      "e deixar uma célula com EV positivo.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "e-suffix", "expirymiss", "expiryrange", "calle", "pute"],
+    trigger: "EV_lo > 0 com DGP consistente em alguma variante E.",
+    invalidation: "Variantes não oferecidas ou EV negativo em todas as variantes cotáveis.",
+    createdAt: "2026-07-12",
+    author: "d88_e_variant_scan.py",
+    verdict:
+      "REFUTADO no escopo cotável: EXPIRYMISSE/EXPIRYRANGEE não foram oferecidos nos símbolos " +
+      "testados; CALLE/PUTE tiveram 8/8 células válidas com EV negativo e nenhum gate candidate. " +
+      "A tentativa forex ocorreu com o mercado fechado e não produziu amostra de preço.",
+    ci95: [0, 0],
+    ci95Label: "8 células CALLE/PUTE válidas; 0 gate candidates; variantes EXPIRY E sem quote.",
+    tools: ["d88_e_variant_scan.py", "probe_contracts_for.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 8,
+    sampleUnit: "células de quote/replay read-only; variantes EXPIRY E sem oferta nos símbolos testados",
+  },
+  {
+    id: "D89",
+    title: "Cross-Market Deriv Pricing",
+    market: "DERIV · 10 forex pairs · CALL/PUT/CALLE/PUTE · 15m/1h/4h",
+    thesis:
+      "A margem ou arredondamento da Deriv poderia diferir entre índices sintéticos e underlyings " +
+      "de forex reais. Forex tem tick size diferente e sessões de mercado — possível mispricing.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "cross-market", "forex", "pricing", "house-margin"],
+    trigger: "EV_lo positivo em mercado real com pelo menos 50 janelas independentes.",
+    invalidation: "Mercados reais cotáveis sem edge e com DGP consistente.",
+    createdAt: "2026-07-12",
+    author: "d89_cross_market_scan.py",
+    verdict:
+      "REFUTADO (2026-07-14, N=120 células). 10 pares forex (EURUSD, GBPUSD, USDJPY, AUDUSD, " +
+      "USDCAD, USDCHF, NZDUSD, EURGBP, EURJPY, GBPJPY) × 4 types × 3 durations (15m/1h/4h). " +
+      "40k ticks/símbolo, MC 10k sims. 0 gate candidates (nenhuma célula com EVlo > 0). " +
+      "Mean EV = -$0.119, best EVlo = -$0.064 (GBPUSD PUT 1h). House margin forex ~12% " +
+      "(MAIOR que sintéticos ~4% — forex tem spread bid-ask + overnight risk). " +
+      "Pemp vs Pmc alinhado (DGP divergence < 0.03 em todas). 4h durações têm poucas windows " +
+      "(2-3 non-overlapping) — não confiáveis. 15m e 1h com ~1000+ windows, conclusivos.",
+    ci95: [-0.06, 0],
+    ci95Label: "Best EVlo = -$0.064 (GBPUSD PUT 1h). Mean EVlo = -$0.546. N=120 cells, 0 gate candidates.",
+    tools: ["d89_cross_market_scan.py", "check_forex.py", "check_crypto.py"],
+    reportFile: "d89_forex_full_20260714_stats.json",
+    pnl: 0,
+    trades: 120,
+    sampleUnit: "120 células forex (10 pairs × 4 types × 3 durations), 40k ticks/symbol, MC 10k sims",
+  },
+  {
+    id: "D90",
+    title: "Long-Duration Early-Sell A/B Validation",
+    market: "DERIV · 1HZ10V · CALL/PUT · 15m/1h · DEMO",
+    thesis:
+      "A venda real em contratos de 15 minutos ou 1 hora poderia superar hold-to-expiry com " +
+      "threshold fixo e comparação A/B alternada.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "early-sell", "resale", "long-duration", "ab-test"],
+    trigger: "IC95% bootstrap de sell_profit - hold_profit totalmente acima de zero.",
+    invalidation: "IC95% cruza zero ou fica abaixo de zero nas durações testadas.",
+    createdAt: "2026-07-12",
+    author: "d90_long_duration_early_sell.py",
+    verdict:
+      "REFUTADO (2026-07-13, N=40 pares A/B completos). 15m: sell EV +$0.309, hold EV +$0.536, " +
+      "diff −$0.227 IC95%[−$0.65, +$0.22]. 1h: sell EV +$0.019, hold EV +$0.344, diff −$0.326 " +
+      "IC95%[−$0.84, +$0.20]. Point estimate NEGATIVO em ambas durações (sell < hold). " +
+      "IC95% cruza zero estatisticamente, mas padrão consistente: hold supera sell em ambas " +
+      "durações — mesmo resultado do early_sell_multi N=1870. Early-sell optionality não tem " +
+      "valor em nenhuma duração testada (5t/10t/25t/50t N=1870, 15m/1h N=40). Processo " +
+      "completou e parou naturalmente.",
+    ci95: [-0.84, 0.22],
+    ci95Label: "Diff sell-hold: 15m −$0.227 IC95%[−$0.65, +$0.22] | 1h −$0.326 IC95%[−$0.84, +$0.20]. N=40 pares.",
+    tools: ["d90_long_duration_early_sell.py", "stats_utils.py"],
+    reportFile: "d90_live_20260712_stats.json",
+    pnl: 0,
+    trades: 80,
+    sampleUnit: "40 pares A/B DEMO completos (20 × 15m + 20 × 1h), threshold 1.5, 1HZ10V",
+  },
+  {
+    id: "D91",
+    title: "Accumulator Survival Edge",
+    market: "DERIV · ACCU · synthetic indices · R_10/R_25/R_50/R_75/R_100/1HZ",
+    thesis:
+      "A probabilidade de sobreviver dentro da barreira tick a tick poderia superar a taxa fair " +
+      "necessária para o crescimento composto do stake.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "accumulator", "growth-rate", "survival", "house-margin"],
+    trigger: "EV_lo > 0 para algum growth_rate e número de ticks-alvo.",
+    invalidation: "EV_lo <= 0 em todo o grid e P_emp abaixo da probabilidade fair.",
+    createdAt: "2026-07-12",
+    author: "accumulator_edge_scan.py",
+    verdict:
+      "REFUTADO read-only: 630 células de símbolo x growth_rate x ticks foram testadas, " +
+      "sem nenhum EV_lo positivo. A validação independente com 5.000 ticks reais de 1HZ100V " +
+      "também encontrou P(sobreviver 1 tick) abaixo da taxa fair em todos os growth rates.",
+    ci95: [0, 0],
+    ci95Label: "0/630 candidatos; validação independente N=4.999 por growth rate.",
+    tools: ["probe_accumulator.py", "accumulator_edge_scan.py", "accumulator_validate.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "630 células read-only + 4.999 transições tick-a-tick por growth rate em 1HZ100V",
+  },
+  {
+    id: "D92",
+    title: "Jump Indices Spike Timing",
+    market: "DERIV · JD10/JD25/JD50/JD75/JD100 · 50k ticks por símbolo",
+    thesis:
+      "Jump Indices pulam em média a cada ~20 minutos, direção 50/50. Se o processo tiver memória " +
+      "(hazard crescente com o tempo desde o último salto) ou viés de direção, dá para posicionar " +
+      "antes do próximo salto. Extende a metodologia T2 de Boom/Crash para uma nova família de símbolos.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "jump-index", "spike-timing", "memoryless", "refutado"],
+    trigger: "CV < 0.8 ou hazard crescente; ou direção UP significativamente diferente de 50%.",
+    invalidation: "CV ~1.0, hazard constante e direção 50/50 dentro do IC95%.",
+    createdAt: "2026-07-12",
+    author: "jump_index_spike_scan.py",
+    verdict:
+      "REFUTADO read-only: 50k ticks por símbolo, 30-34 saltos detectados (>10x mediana). Direção UP " +
+      "50.0%-63.3% (IC95% inclui 50% em todos). CV 0.94-1.53, compatível com memoryless. Hazard rates " +
+      "0.000%-0.201% sem tendência crescente. Nenhum sinal de temporizador ou viés direcional.",
+    ci95: [0.94, 1.53],
+    ci95Label: "CV range 0.94-1.53; hazard constante; direção UP 50-63% dentro do IC95%",
+    tools: ["jump_index_spike_scan.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 161,
+    sampleUnit: "spikes (161 gaps, 30-34 saltos por símbolo, 50k ticks/símbolo)",
+  },
+  {
+    id: "D93",
+    title: "HIGHER/LOWER Barrier Mispricing",
+    market: "DERIV · 1HZ10V · HIGHER/LOWER · 5/10 ticks",
+    thesis:
+      "Contratos HIGHER/LOWER com barreira percentual poderiam ter payout desalinhado vs. a probabilidade " +
+      "real de cruzar a barreira, gerando EV positivo em alguma combinação de barrier × duration.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "higher-lower", "barrier", "mispricing", "refutado"],
+    trigger: "Payout real > fair payout (stake/P(win)) com EV_lo > 0 em alguma célula barrier × duration.",
+    invalidation: "Todas as células têm EV negativo; nenhum EV_lo > 0.",
+    createdAt: "2026-07-12",
+    author: "higher_lower_edge_scan.py",
+    verdict:
+      "REFUTADO read-only: 31 células testadas (HIGHER/LOWER × 6/10 barriers × 5/10 ticks) em 1HZ10V. " +
+      "0 células com EV_lo > 0. EV médio -$0.6981, min -$8.34, max -$0.10. A Deriv cobra margem " +
+      "consistente em todas as combinações, com razão payout/fair no melhor caso ~0.99 (pior 0.17). " +
+      "Sem mispricing detectável.",
+    ci95: [0, 0],
+    ci95Label: "0/31 células com EV_lo > 0; EV range [-$8.34, -$0.10]",
+    tools: ["higher_lower_edge_scan.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 31,
+    sampleUnit: "células barrier×duration (31 combinações read-only, 10k ticks reais)",
+  },
+  {
+    id: "D94",
+    title: "E-Suffixed Contract Variants em 1HZ100V",
+    market: "DERIV · EXPIRYMISSE/EXPIRYRANGEE/CALLE/PUTE · 1HZ100V",
+    thesis:
+      "1HZ100V oferece EXPIRYMISSE/EXPIRYRANGEE e CALLE/PUTE — a hipótese D88 não tinha " +
+      "cotado essas variantes nesse símbolo. Teste read-only com 10k ticks reais e 10k simulações Monte Carlo.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "e-suffix", "expirymisse", "expiryrangee", "calle", "pute", "1hz100v"],
+    trigger: "EV_lo > 0 com DGP consistente em alguma variante E.",
+    invalidation: "EXPIRYMISSE/EXPIRYRANGEE não cotáveis intraday ou EV negativo em todas as variantes.",
+    createdAt: "2026-07-12",
+    author: "d88_e_variant_scan.py",
+    verdict:
+      "REFUTADO. 30 células testadas (EXPIRYMISSE/EXPIRYRANGEE intraday, CALLE/PUTE 5t/10t/1m/5m). " +
+      "EXPIRYMISSE/EXPIRYRANGEE só existem como daily (barreiras absolutas 883.08/964.42) e não aceitam " +
+      "durações intraday; CALLE/PUTE: 8/8 células com EV negativo (melhor EV=+0.053, mas EV_lo=-0.066), " +
+      "0 gate candidates. Sem edge.",
+    ci95: [0, 0],
+    ci95Label: "8 células CALLE/PUTE válidas; 0 gate candidates; EXPIRY E não oferecidos intraday",
+    tools: ["d88_e_variant_scan.py", "probe_new_contracts.py"],
+    reportFile: "docs/state_of_research.md",
+    pnl: 0,
+    trades: 8,
+    sampleUnit: "células de quote/replay read-only (1HZ100V, 4 durações, 2 tipos, 2 barreiras)",
+  },
+  {
+    id: "D95",
+    title: "Deal Cancellation Mispricing em Volatility Indices",
+    market: "DERIV · 1HZ100V / R_100 / 1HZ50V · MULTUP/MULTDOWN · cancellation 5-60m",
+    thesis:
+      "A feature 'Deal Cancellation' dos Multipliers em 1HZ100V pode estar subprecificada: " +
+      "o fee cobrado (cancellation ask_price) pode ser menor que o valor justo de uma put europeia " +
+      "(stake × multiplier, vencimento = duração da cancellation). 1HZ100V é 100x mais volátil por tick que 1HZ10V, " +
+      "mas o fee parece não escalonar com a volatilidade do símbolo.",
+    confidence: 20,
+    status: "paused",
+    tags: ["deriv", "multiplier", "deal-cancellation", "1hz100v", "r100", "1hz50v", "inconclusive"],
+    trigger: "fair_value_MC (IC95% lo) > cancellation_fee em múltiplas células (multiplier × duration × direction).",
+    invalidation: "EV líquido ao vivo (valor_realizado − fee) IC95% cruzar zero ou ser negativo.",
+    createdAt: "2026-07-12",
+    author: "d95_deal_cancellation_1hz100v.py",
+    verdict:
+      "CORRIGIDO: read-only anterior nao capava payoff em stake; 400x60m refutado em 3 símbolos. " +
+      "Live 5m 400x (N=20): EV -$0.04, IC95% cruza zero. Live 5m 100x (N=20): valor realizado medio $0.1705, " +
+      "fee $0.1100, EV +$0.0605, IC95% [-$0.0130, +$0.1510]. Nenhum trial confirmou edge; pausado.",
+    ci95: [-0.013, 0.151],
+    ci95Label: "DEMO 1HZ100V 100x/5m, N=20: EV líquido +$0.0605; IC95% cruza zero",
+    tools: ["d95_deal_cancellation_1hz100v.py", "d95_deal_cancellation_r100.py", "d95_deal_cancellation_1hz50v.py", "d95_deal_cancellation_live_1hz100v.py"],
+    reportFile: "d95_deal_cancellation_live_results.jsonl",
+    pnl: 1.21,
+    trades: 20,
+    sampleUnit: "20 live DEMO trades 100x/5m + trial 400x N=20 + scans capped read-only",
+  },
+  {
+    id: "D96",
+    title: "Flat Tick Frequency + RNG Deep Analysis (50k ticks × 17 symbols)",
+    market: "DERIV · 17 synthetic symbols · 50k ticks each · ticks_history",
+    thesis:
+      "P(tick == tick_anterior) > 11.11% torna straddle CALLE+PUTE em 1-tick lucrativo " +
+      "(flat: +$1.60, non-flat: -$0.20, breakeven 11.11%). flat_tick_bot só rodou 4 trades " +
+      "em JD100 — amostra irrisória. Adicionalmente, testes estatísticos comprehensivos " +
+      "(autocorrelação, Hurst, Ljung-Box, Runs, spectral density) podem revelar desvios " +
+      "de aleatoriedade pura exploráveis.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "flat-tick", "rng", "autocorrelation", "hurst", "ljung-box", "runs-test"],
+    trigger: "P(flat) CI95% lo > 11.11% para qualquer símbolo, OU Ljung-Box p<0.01 com efeito > house margin.",
+    invalidation: "P(flat) CI95% hi < 11.11% para todos os símbolos E nenhum teste estatístico com efeito explorável.",
+    createdAt: "2026-07-13",
+    author: "d96_flat_tick_frequency_scan.py",
+    verdict:
+      "REFUTADO (2026-07-13, N=50k ticks × 17 symbols). P(flat) max = JD100 9.06% " +
+      "CI95%[8.81%, 9.31%], abaixo do breakeven 11.11%. Todos os 17 símbolos refutados. " +
+      "Hurst ~0.55 universal (slight trending, não explorável). CRASH1000 Ljung-Box " +
+      "p=0.0047 mas efeito r≈2.25% insuficiente vs house margin 4%. JD100 Runs z=3.016 " +
+      "(trending). Nenhum desvio explorável de aleatoriedade pura.",
+    evPerTrade: -0.16,
+    ci95: [-0.20, -0.12],
+    ci95Label: "EV médio do straddle CALLE+PUTE 1-tick across 17 symbols (P(flat) max 9.06% vs breakeven 11.11%)",
+    tools: ["d96_flat_tick_frequency_scan.py"],
+    reportFile: "d96_flat_tick_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "50k ticks × 17 símbolos (read-only, 850k ticks total)",
+  },
+  {
+    id: "D97",
+    title: "Payout Curve Deep Scan (23 types × 9 durations × 11 symbols × 3 stakes)",
+    market: "DERIV · 11 symbols · 23 contract types · 9 durations · 3 stake sizes",
+    thesis:
+      "D86 testou straddle em 5 durações/8 símbolos. Scan sistemático completo de TODOS " +
+      "os durations, contract types, symbols e stake sizes pode encontrar mispricing " +
+      "anômalo em qualquer célula. Se payout_ratio variar com stake size (scaling exploit) " +
+      "ou com duration (transient mispricing), é explorável.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "payout-ratio", "mispricing", "straddle", "scan", "house-margin"],
+    trigger: "Payout ratio anômalo (>mean+2std) em célula com P(win) teórico > breakeven, OU stake-dependence > 1%.",
+    invalidation: "House margin consistente em todas as células, 0 straddle arb, stake-dependence < 0.1%.",
+    createdAt: "2026-07-13",
+    author: "d97_payout_curve_scan.py",
+    verdict:
+      "REFUTADO (2026-07-13, N=1874 células). 0 straddle arb (CALL+PUT ask >= payout " +
+      "em 100% das células). 32 anomalias de payout ratio (>mean+2std), todas RUNHIGH/" +
+      "RUNLOW 30.53x — mas P(win) = (0.5)^5 = 3.125% vs breakeven 3.28%, house margin " +
+      "4.8%. 598 anomalias de stake-dependence (max diff 0.0032, insignificante). 0 " +
+      "anomalias de duration curve. House margin ~4% consistente em todos os contract " +
+      "types, durations, symbols e stakes.",
+    evPerTrade: -0.04,
+    ci95: [-0.05, -0.03],
+    ci95Label: "House margin ~4% consistente em 1874 células (23 types × 9 durations × 11 symbols × 3 stakes)",
+    tools: ["d97_payout_curve_scan.py"],
+    reportFile: "d97_payout_curve_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "1874 células de proposal read-only (23 types × 9 durations × 11 symbols × 3 stakes)",
+  },
+  {
+    id: "D98",
+    title: "Instant Resale Flip Scanner (buy → check resale price immediately)",
+    market: "DERIV · 5 symbols · 10 contract types · 5 durations · DEMO trades",
+    thesis:
+      "O preço de resale de um contrato imediatamente após compra pode exceder o preço " +
+      "de compra para certos tipos de contrato ou condições de mercado. Se resale > buy " +
+      "para qualquer combinação, é flip instantâneo (dinheiro grátis). Nunca testado " +
+      "sistematicamente.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "resale", "flip", "demo", "house-margin"],
+    trigger: "resale_price > buy_price para qualquer célula (flip instantâneo).",
+    invalidation: "resale_price / buy_price < 0.99 para todas as células (house margin absorve resale).",
+    createdAt: "2026-07-13",
+    author: "d98_resale_flip_scan.py",
+    verdict:
+      "REFUTADO v2 (2026-07-13, 250 células, 80 válidas). v1 teve bug (ask_price vs " +
+      "bid_price). v2 corrigida: 17 células com 'flip edge' (≥1/3 trades ITM), 12 com " +
+      "avg_ratio > 1.0. Melhor: R_100 CALL 5t 1.56x. MAS resale é binário ($0.92/$1.88) " +
+      "= exposição direcional, não flip estrutural. Mean ratio 0.9427 < 1.0 = house " +
+      "margin absorvendo resale. 'Flip edges' são apenas trades que aleatoriamente " +
+      "foram ITM nos primeiros ticks.",
+    evPerTrade: -0.06,
+    ci95: [-0.08, -0.04],
+    ci95Label: "Mean avg_flip_ratio 0.9427 across 80 cells (house margin ~5.7% on resale)",
+    tools: ["d98_resale_flip_scan.py"],
+    reportFile: "d98_resale_flip_results.json",
+    pnl: 0,
+    trades: 240,
+    sampleUnit: "80 células válidas × 3 trades/cell = 240 DEMO trades (5 symbols × 10 types × 5 durations)",
+  },
+  {
+    id: "D99",
+    title: "RUNHIGH/RUNLOW Validation (30.53x payout ratio anomaly from D97)",
+    market: "DERIV · 1HZ10V · RUNHIGH/RUNLOW · 5 ticks · DEMO trades",
+    thesis:
+      "D97 flagou RUNHIGH/RUNLOW 5t com payout ratio 30.53x como anômalo. Se P(win) " +
+      "= 1/n (último tick = máximo por simetria), EV = 0.2 × $30.53 - $1 = +$5.11. " +
+      "Validar com trades reais DEMO.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "runhigh", "runlow", "payout-ratio", "validation", "demo"],
+    trigger: "Win rate CI95% lo > breakeven 3.28% após N=30 trades por tipo.",
+    invalidation: "Win rate CI95% hi < breakeven 3.28% OU longcode revelar P(win) teórico < breakeven.",
+    createdAt: "2026-07-13",
+    author: "d99_runhigh_validation.py",
+    verdict:
+      "REFUTADO (2026-07-13, N=58 trades DEMO). Longcode revelou condição real: " +
+      "'rises/falls successively for 5 ticks' = 5 ticks consecutivos na mesma direção. " +
+      "P(win) = (0.5)^5 = 3.125%, breakeven = 3.28%, house margin = 4.8%. RUNHIGH: " +
+      "0/28 wins. RUNLOW: 1/30 wins (3.33%). WR combinada 1.72% CI95%[0.3%, 9.2%], " +
+      "consistente com 3.125% teórico. 'Anomalia' de payout ratio era apenas payout " +
+      "alto com P(win) proporcionalmente baixa — não mispricing.",
+    evPerTrade: -0.48,
+    ci95: [-0.82, -0.14],
+    ci95Label: "58 trades DEMO: 1 win ($29.53) vs 57 losses ($-57.00), net -$27.47, EV -$0.47/trade",
+    tools: ["d99_runhigh_validation.py"],
+    reportFile: "d99_runhigh_validation_results.json",
+    pnl: -27.47,
+    trades: 58,
+    sampleUnit: "58 trades DEMO (28 RUNHIGH + 30 RUNLOW, 1HZ10V, 5 ticks, $1 stake)",
+  },
+  {
+    id: "D100",
+    title: "Proposal Staleness Exploit v2 (ms-scale race between proposal and buy)",
+    market: "DERIV · 1HZ10V · CALL/PUT · 10 ticks · RACE vs CONTROL · DEMO",
+    thesis:
+      "D47 testou stale proposal com 20s de delay e D54 descobriu que subscribe:1 " +
+      "nunca reenvia. D100 testa a janela crítica em milissegundos: se o spot se move " +
+      "favoravelmente entre proposal e buy (mesmo ~100ms), o ask_price pode estar " +
+      "desatualizado e podemos comprar abaixo do fair value.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "proposal", "staleness", "race", "latency", "ms-scale"],
+    trigger: "RACE WR > CONTROL WR by >5% with IC95% excluding zero.",
+    invalidation: "RACE WR <= CONTROL WR (staleness doesn't help or hurts).",
+    createdAt: "2026-07-13",
+    author: "d100_proposal_staleness_v2.py",
+    verdict:
+      "REFUTADO (2026-07-13, N=60). RACE (0ms delay, lag médio 193ms) WR=43.3% " +
+      "EV=-$0.17 vs CONTROL (2000ms delay) WR=53.3% EV=+$0.02. RACE WR < CONTROL " +
+      "WR — staleness não ajuda, pelo contrário. spot_diff entre proposal e entry " +
+      "é aleatório (sem viés direcional). Lag de ~193ms é insuficiente para capturar " +
+      "movimento favorável.",
+    evPerTrade: -0.17,
+    ci95: [-0.42, 0.08],
+    ci95Label: "RACE EV -$0.17/trade vs CONTROL EV +$0.02/trade (N=30 each, 1HZ10V 10t)",
+    tools: ["d100_proposal_staleness_v2.py"],
+    reportFile: "d100_proposal_staleness_v2_results.json",
+    pnl: -4.8,
+    trades: 60,
+    sampleUnit: "60 DEMO trades (30 RACE 0ms + 30 CONTROL 2000ms, CALL/PUT alternated)",
+  },
+  {
+    id: "D101",
+    title: "Barrier Proximity Edge (DIGITOVER/DIGITUNDER payout by barrier)",
+    market: "DERIV · 1HZ10V · DIGITOVER/DIGITUNDER · barriers 0-9 · 5 ticks · DEMO",
+    thesis:
+      "Para DIGITOVER/DIGITUNDER, o contrato ganha se o último dígito está acima/abaixo " +
+      "da barreira. Se o tick size é assimétrico em relação ao dígito, a probabilidade " +
+      "de cruzar pode não ser 50/50 perto da barreira. Adicionalmente, testa se a Deriv " +
+      "precifica todas as barreiras corretamente (0-9).",
+    confidence: 10,
+    status: "paused",
+    tags: ["deriv", "digit", "barrier", "proximity", "payout-ratio", "inconclusive"],
+    trigger: "WR CI95% lo > breakeven para qualquer barreira após N=20 trades.",
+    invalidation: "WR CI95% hi < breakeven para todas as barreiras, OU payout ratio perfeitamente inverso à P(win).",
+    createdAt: "2026-07-13",
+    author: "d101_barrier_proximity_edge.py",
+    verdict:
+      "INCONCLUSIVO (2026-07-13, N=120 trades). Payout ratio 1.09x-8.33x perfeitamente " +
+      "inverso à P(win) — house margin consistente. Live DEMO: DIGITOVER_0/UNDER_9 " +
+      "WR=95% (19/20) vs breakeven 91.74%, EV=+$0.04 — CI95% cruza. DIGITOVER_5/UNDER_4 " +
+      "WR=50% vs teórico 40%, EV=+$0.19 — CI95% [29.9%, 70.1%] cruza breakeven. " +
+      "Diferença theo vs actual +5-10pp em 4/6 barreiras mas dentro do ruído com N=20. " +
+      "Pausado — precisaria N=100+/barreira para confirmar ou refutar.",
+    evPerTrade: 0.06,
+    ci95: [-0.05, 0.17],
+    ci95Label: "6 barreiras × 20 trades: EV médio +$0.06/trade, CI95% cruza zero em todas",
+    tools: ["d101_barrier_proximity_edge.py"],
+    reportFile: "d101_barrier_proximity_results.json",
+    pnl: 7.42,
+    trades: 120,
+    sampleUnit: "120 DEMO trades (6 barreiras × 20 trades, 1HZ10V, 5 ticks, $1 stake)",
+  },
+  {
+    id: "D102",
+    title: "Crypto Contract House Margin Scan (cryBTCUSD/cryETHUSD)",
+    market: "DERIV · cryBTCUSD/cryETHUSD/cryLTCUSD/cryXRPUSD/cryDSHUSD · CALL/PUT/CALLE/PUTE · 1d-30d",
+    thesis:
+      "Crypto contracts na Deriv podem ter house margin diferente de sintéticos (~4%) " +
+      "ou forex (~12%). Se crypto tiver house margin menor ou mispricing, pode haver " +
+      "edge em contratos binários crypto.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "crypto", "house-margin", "payout-ratio", "api-design"],
+    trigger: "Payout ratio crypto > payout ratio sintético para mesma P(win).",
+    invalidation: "Crypto não suporta binary options (CALL/PUT/etc.), OU house margin >= sintéticos.",
+    createdAt: "2026-07-14",
+    author: "d102_crypto_house_margin.py",
+    verdict:
+      "REFUTADO por design de API (2026-07-14). Todos os 140 proposals para cryBTCUSD, " +
+      "cryETHUSD, cryLTCUSD, cryXRPUSD, cryDSHUSD com CALL/PUT/CALLE/PUTE em 7 durações " +
+      "(1d-30d) retornaram 'Trading is not offered for this asset.' Probe confirmou que " +
+      "crypto na Deriv SÓ suporta Multipliers (MULTUP/MULTDOWN) — não há binary options. " +
+      "Multipliers não têm payout ratio (payout=0). Não há edge de house margin em crypto.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — crypto não suporta binary options",
+    tools: ["d102_crypto_house_margin.py", "probe_crypto_contracts.py"],
+    reportFile: "d102_crypto_house_margin_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "140 API proposals (5 crypto symbols × 4 contract types × 7 durations)",
+  },
+  {
+    id: "D103",
+    title: "Tick Arrival Timing Prediction (predict WHEN not WHAT)",
+    market: "DERIV · 1HZ10V/1HZ50V/1HZ100V/R_10/R_100/cryBTCUSD · 15min live subscription",
+    thesis:
+      "Se o timing de chegada dos ticks não for perfeitamente regular (Poisson process), " +
+      "pode haver padrões previsíveis em QUANDO o próximo tick chega, permitindo timing " +
+      "de entrada/saída otimizado.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "tick-timing", "poisson", "autocorrelation", "jitter", "deterministic"],
+    trigger: "Autocorrelação significativa (p<0.05) nos intervalos entre ticks, OU CV > 0.1.",
+    invalidation: "Timing perfeitamente determinístico (CV=0, zero autocorrelação) sem edge explorável.",
+    createdAt: "2026-07-14",
+    author: "d103_tick_timing_prediction.py",
+    verdict:
+      "REFUTADO (2026-07-14, N=4,563 ticks, 6 símbolos, 15min). TODOS os símbolos têm " +
+      "timing perfeitamente determinístico: 1HZ e cryBTCUSD = exatamente 1.0000s entre " +
+      "ticks (std=0, CV=0, jitter=0); R_10/R_100 = exatamente 2.0000s. Zero variância, " +
+      "zero autocorrelação. Timing é 100% previsível mas não gera edge — o VALOR dos " +
+      "ticks determina P(win), não o timing. Deriv entrega ticks em intervalos fixos " +
+      "perfeitos, sem jitter para explorar.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — timing determinístico não gera edge de valor",
+    tools: ["d103_tick_timing_prediction.py"],
+    reportFile: "d103_tick_timing_results.json",
+    pnl: 0,
+    trades: 4563,
+    sampleUnit: "4,563 ticks (6 símbolos × 15min subscription, intervalos medidos em ms)",
+  },
+  {
+    id: "D104",
+    title: "Duration Boundary Pricing Discontinuity (edge at 5t→6t transition)",
+    market: "DERIV · 1HZ10V/R_100 · CALL/PUT/CALLE/PUTE/DIGITEVEN/DIGITODD · 1t-50t",
+    thesis:
+      "Se a Deriv precifica durações em categorias (short/medium/long), pode haver " +
+      "descontinuidade de payout ratio na fronteira entre categorias (e.g., 5t→6t). " +
+      "Uma descontinuidade criaria um edge local na duração ótima.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "duration", "boundary", "payout-ratio", "smooth", "discontinuity"],
+    trigger: "Payout ratio descontinuidade > 2% entre durações adjacentes.",
+    invalidation: "Payout ratio constante/smooth em todas as durações — sem descontinuidade.",
+    createdAt: "2026-07-14",
+    author: "d104_duration_boundary.py",
+    verdict:
+      "REFUTADO (2026-07-14, 2 símbolos × 6 contract types × 50 durações). Payout ratio " +
+      "constante 1.92x em TODAS as durações (1t-50t) para TODOS os contract types. Zero " +
+      "descontinuidades. A Deriv precifica duração de forma perfeitamente smooth — não " +
+      "há edge em boundary transitions.",
+    evPerTrade: 0,
+    ci95: [0, 0],
+    ci95Label: "N/A — payout ratio constante 1.92x em todas as durações",
+    tools: ["d104_duration_boundary.py"],
+    reportFile: "d104_duration_boundary_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "600 API proposals (2 símbolos × 6 contract types × 50 durações)",
+  },
+  {
+    id: "D105",
+    title: "Multi-Leg Digit Combination Arbitrage (DIGITOVER + DIGITUNDER)",
+    market: "DERIV · 7 símbolos · DIGITOVER/DIGITUNDER · 2-leg e 3-leg · 1t/10t",
+    thesis:
+      "Combinar múltiplas pernas digit (e.g., DIGITOVER(N) + DIGITUNDER(N+1) = full " +
+      "cover) pode resultar em payout total > stake se a house margin por perna for " +
+      "menor que a cobertura combinada.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "multi-leg", "arbitrage", "digit", "house-margin", "combination"],
+    trigger: "Arbitragem garantida > 0 em qualquer combinação multi-leg.",
+    invalidation: "House margin cumulativa faz payout total < stake em todas as combinações full-cover.",
+    createdAt: "2026-07-14",
+    author: "d105_multi_leg_digit_arb.py",
+    verdict:
+      "REFUTADO (2026-07-14, 56 combinações). 0 arbitragem garantida em todas as " +
+      "combinações 2-leg e 3-leg. Best EV: -$0.05/trade (2-leg full cover, 1t). " +
+      "House margin de ~4% por perna faz o payout total ser sempre < stake quando " +
+      "se cobre todos os outcomes. Cumulativamente, a house margin previne arbitrage.",
+    evPerTrade: -0.05,
+    ci95: [-0.08, -0.02],
+    ci95Label: "Best EV -$0.05/trade (2-leg full cover), todas as combinações negativas",
+    tools: ["d105_multi_leg_digit_arb.py"],
+    reportFile: "d105_multi_leg_digit_arb_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "56 combinações API proposals (7 símbolos × 2 durações × 2-leg/3-leg)",
   },
 ];
 

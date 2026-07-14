@@ -1,0 +1,48 @@
+====================================================================================================
+D88 — E-Suffixed Contract Variant Scan
+Symbols: ['1HZ10V', 'R_100'] | Types: ['EXPIRYMISSE', 'EXPIRYRANGEE', 'CALLE', 'PUTE'] | Durations: [(5, 't'), (15, 't'), (1, 'm')]
+Barrier offsets: [0.005, 0.01] | chunks=5 | MC=3000
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V: 5000 ticks, median_dt=1.000s, spot=9482.16
+1HZ10V EXPIRYMISSE 5t: Trading is not offered for this duration.
+1HZ10V EXPIRYMISSE 5t: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 5t: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 5t: Trading is not offered for this duration.
+1HZ10V CALLE 5t bar=0.0000: Pemp=0.4825 Pmc=0.4933 EV=-0.0736 EVlo=-0.1329
+1HZ10V PUTE 5t bar=0.0000: Pemp=0.5035 Pmc=0.5067 EV=-0.0333 EVlo=-0.0927
+1HZ10V EXPIRYMISSE 15t: Trading is not offered for this duration.
+1HZ10V EXPIRYMISSE 15t: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 15t: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 15t: Trading is not offered for this duration.
+1HZ10V CALLE 15t: Number of ticks must be between 1 and 10.
+1HZ10V PUTE 15t: Number of ticks must be between 1 and 10.
+1HZ10V EXPIRYMISSE 1m: Trading is not offered for this duration.
+1HZ10V EXPIRYMISSE 1m: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 1m: Trading is not offered for this duration.
+1HZ10V EXPIRYRANGEE 1m: Trading is not offered for this duration.
+1HZ10V CALLE 1m bar=0.0000: Pemp=0.5060 Pmc=0.4937 EV=-0.0284 EVlo=-0.2308
+1HZ10V PUTE 1m bar=0.0000: Pemp=0.4819 Pmc=0.5063 EV=-0.0747 EVlo=-0.2750
+R_100: 5000 ticks, median_dt=2.000s, spot=463.27
+R_100 EXPIRYMISSE 5t: Trading is not offered for this duration.
+R_100 EXPIRYMISSE 5t: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 5t: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 5t: Trading is not offered for this duration.
+R_100 CALLE 5t bar=0.0000: Pemp=0.4895 Pmc=0.4867 EV=-0.0651 EVlo=-0.1241
+R_100 PUTE 5t bar=0.0000: Pemp=0.4945 Pmc=0.5133 EV=-0.0555 EVlo=-0.1146
+R_100 EXPIRYMISSE 15t: Trading is not offered for this duration.
+R_100 EXPIRYMISSE 15t: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 15t: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 15t: Trading is not offered for this duration.
+R_100 CALLE 15t: Number of ticks must be between 1 and 10.
+R_100 PUTE 15t: Number of ticks must be between 1 and 10.
+R_100 EXPIRYMISSE 1m: Trading is not offered for this duration.
+R_100 EXPIRYMISSE 1m: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 1m: Trading is not offered for this duration.
+R_100 EXPIRYRANGEE 1m: Trading is not offered for this duration.
+R_100 CALLE 1m bar=0.0000: Pemp=0.4880 Pmc=0.4940 EV=-0.0680 EVlo=-0.2111
+R_100 PUTE 1m bar=0.0000: Pemp=0.4880 Pmc=0.5060 EV=-0.0680 EVlo=-0.2111
+====================================================================================================
+D88 summary: valid=8 gate_candidates=0
+Results: d88_screening_results.jsonl
+Stats: d88_screening_stats.json

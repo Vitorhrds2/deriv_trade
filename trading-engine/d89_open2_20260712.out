@@ -1,0 +1,18 @@
+====================================================================================================
+D89 — Cross-Market Deriv Pricing Scan
+Symbols: ['1HZ10V', 'frxEURUSD']
+Market classes: ['forex', 'synthetic']
+Types: ['CALL', 'PUT'] | Durations: [(15, 'm')] | chunks=20 | MC=10000
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V [synthetic]: 20000 ticks, median_dt=1.000s
+1HZ10V CALL 15m: Pemp=0.4545 Pmc=0.4966 EV=-0.1273 EVlo=-0.4831
+1HZ10V PUT 15m: Pemp=0.5455 Pmc=0.5034 EV=+0.0473 EVlo=-0.3345
+frxEURUSD [forex]: 20000 ticks, median_dt=1.000s
+frxEURUSD CALL 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+frxEURUSD PUT 15m: This market is presently closed. Market will open at 2026-07-13 00:00:00.
+====================================================================================================
+D89 summary: valid=2 gate_candidates=0
+synthetic: n=2 mean_EV=-0.0400 best_EVlo=-0.3345
+Results: d89_open2_20260712_results.jsonl
+Stats: d89_open2_20260712_stats.json

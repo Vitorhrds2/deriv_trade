@@ -1,0 +1,80 @@
+====================================================================================================
+D89 — Cross-Market Deriv Pricing Scan
+Symbols: ['1HZ10V', 'R_100', 'frxEURUSD', 'cryBTCUSD']
+Market classes: ['crypto', 'forex', 'synthetic']
+Types: ['CALL', 'PUT', 'CALLE', 'PUTE'] | Durations: [(1, 't'), (5, 't'), (15, 't'), (1, 'm')] | chunks=5 | MC=3000
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V [synthetic]: 5000 ticks, median_dt=1.000s
+1HZ10V CALL 1t: Pemp=0.4982 Pmc=0.5157 EV=-0.0435 EVlo=-0.0704
+1HZ10V PUT 1t: Pemp=0.5018 Pmc=0.4843 EV=-0.0365 EVlo=-0.0633
+1HZ10V CALLE 1t: Pemp=0.4982 Pmc=0.5157 EV=-0.0435 EVlo=-0.0704
+1HZ10V PUTE 1t: Pemp=0.5018 Pmc=0.4843 EV=-0.0365 EVlo=-0.0633
+1HZ10V CALL 5t: Pemp=0.4813 Pmc=0.5007 EV=-0.0758 EVlo=-0.1353
+1HZ10V PUT 5t: Pemp=0.5187 Pmc=0.4993 EV=-0.0042 EVlo=-0.0639
+1HZ10V CALLE 5t: Pemp=0.4813 Pmc=0.5007 EV=-0.0758 EVlo=-0.1353
+1HZ10V PUTE 5t: Pemp=0.5187 Pmc=0.4993 EV=-0.0042 EVlo=-0.0639
+1HZ10V CALL 15t: Number of ticks must be between 1 and 10.
+1HZ10V PUT 15t: Number of ticks must be between 1 and 10.
+1HZ10V CALLE 15t: Number of ticks must be between 1 and 10.
+1HZ10V PUTE 15t: Number of ticks must be between 1 and 10.
+1HZ10V CALL 1m: Pemp=0.5244 Pmc=0.5057 EV=+0.0068 EVlo=-0.1981
+1HZ10V PUT 1m: Pemp=0.4756 Pmc=0.4943 EV=-0.0868 EVlo=-0.2876
+1HZ10V CALLE 1m: Pemp=0.5244 Pmc=0.5057 EV=+0.0068 EVlo=-0.1981
+1HZ10V PUTE 1m: Pemp=0.4756 Pmc=0.4943 EV=-0.0868 EVlo=-0.2876
+R_100 [synthetic]: 5000 ticks, median_dt=2.000s
+R_100 CALL 1t: Pemp=0.5063 Pmc=0.5000 EV=-0.0279 EVlo=-0.0549
+R_100 PUT 1t: Pemp=0.4937 Pmc=0.5000 EV=-0.0521 EVlo=-0.0792
+R_100 CALLE 1t: Pemp=0.5063 Pmc=0.5000 EV=-0.0329 EVlo=-0.0599
+R_100 PUTE 1t: Pemp=0.4937 Pmc=0.5000 EV=-0.0571 EVlo=-0.0840
+R_100 CALL 5t: Pemp=0.4970 Pmc=0.5177 EV=-0.0458 EVlo=-0.1056
+R_100 PUT 5t: Pemp=0.5030 Pmc=0.4823 EV=-0.0342 EVlo=-0.0940
+R_100 CALLE 5t: Pemp=0.4970 Pmc=0.5177 EV=-0.0508 EVlo=-0.1103
+R_100 PUTE 5t: Pemp=0.5030 Pmc=0.4823 EV=-0.0392 EVlo=-0.0987
+R_100 CALL 15t: Number of ticks must be between 1 and 10.
+R_100 PUT 15t: Number of ticks must be between 1 and 10.
+R_100 CALLE 15t: Number of ticks must be between 1 and 10.
+R_100 PUTE 15t: Number of ticks must be between 1 and 10.
+R_100 CALL 1m: Pemp=0.4727 Pmc=0.5003 EV=-0.0924 EVlo=-0.2358
+R_100 PUT 1m: Pemp=0.5273 Pmc=0.4997 EV=+0.0124 EVlo=-0.1334
+R_100 CALLE 1m: Pemp=0.4727 Pmc=0.5003 EV=-0.0971 EVlo=-0.2397
+R_100 PUTE 1m: Pemp=0.5273 Pmc=0.4997 EV=+0.0071 EVlo=-0.1379
+frxEURUSD [forex]: 5000 ticks, median_dt=1.000s
+frxEURUSD CALL 1t: Trading is not offered for this duration.
+frxEURUSD PUT 1t: Trading is not offered for this duration.
+frxEURUSD CALLE 1t: Trading is not offered for this duration.
+frxEURUSD PUTE 1t: Trading is not offered for this duration.
+frxEURUSD CALL 5t: Trading is not offered for this duration.
+frxEURUSD PUT 5t: Trading is not offered for this duration.
+frxEURUSD CALLE 5t: Trading is not offered for this duration.
+frxEURUSD PUTE 5t: Trading is not offered for this duration.
+frxEURUSD CALL 15t: Trading is not offered for this duration.
+frxEURUSD PUT 15t: Trading is not offered for this duration.
+frxEURUSD CALLE 15t: Trading is not offered for this duration.
+frxEURUSD PUTE 15t: Trading is not offered for this duration.
+frxEURUSD CALL 1m: Trading is not offered for this duration.
+frxEURUSD PUT 1m: Trading is not offered for this duration.
+frxEURUSD CALLE 1m: Trading is not offered for this duration.
+frxEURUSD PUTE 1m: Trading is not offered for this duration.
+cryBTCUSD [crypto]: 5000 ticks, median_dt=1.000s
+cryBTCUSD CALL 1t: Trading is not offered for this duration.
+cryBTCUSD PUT 1t: Trading is not offered for this duration.
+cryBTCUSD CALLE 1t: Trading is not offered for this duration.
+cryBTCUSD PUTE 1t: Trading is not offered for this duration.
+cryBTCUSD CALL 5t: Trading is not offered for this duration.
+cryBTCUSD PUT 5t: Trading is not offered for this duration.
+cryBTCUSD CALLE 5t: Trading is not offered for this duration.
+cryBTCUSD PUTE 5t: Trading is not offered for this duration.
+cryBTCUSD CALL 15t: Trading is not offered for this duration.
+cryBTCUSD PUT 15t: Trading is not offered for this duration.
+cryBTCUSD CALLE 15t: Trading is not offered for this duration.
+cryBTCUSD PUTE 15t: Trading is not offered for this duration.
+cryBTCUSD CALL 1m: Trading is not offered for this duration.
+cryBTCUSD PUT 1m: Trading is not offered for this duration.
+cryBTCUSD CALLE 1m: Trading is not offered for this duration.
+cryBTCUSD PUTE 1m: Trading is not offered for this duration.
+====================================================================================================
+D89 summary: valid=24 gate_candidates=0
+synthetic: n=24 mean_EV=-0.0413 best_EVlo=-0.0549
+Results: d89_screening_results.jsonl
+Stats: d89_screening_stats.json

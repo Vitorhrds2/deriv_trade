@@ -1,0 +1,422 @@
+
+==========================================================================================
+>>> 1HZ100V: 65 contratos, 35 contract_types unicos
+==========================================================================================
+ACCU, ASIAND, ASIANU, CALL, CALLE, DIGITDIFF, DIGITEVEN, DIGITMATCH, DIGITODD, DIGITOVER, DIGITUNDER, EXPIRYMISS, EXPIRYMISSE, EXPIRYRANGE, EXPIRYRANGEE, HIGHER, LOWER, MULTDOWN, MULTUP, NOTOUCH, ONETOUCH, PUT, PUTE, RANGE, RESETCALL, RESETPUT, RUNHIGH, RUNLOW, TICKHIGH, TICKLOW, TURBOSLONG, TURBOSSHORT, UPORDOWN, VANILLALONGCALL, VANILLALONGPUT
+
+--- 1HZ100V / ASIAND ---
+{
+  "barriers": 0,
+  "contract_category": "asian",
+  "contract_type": "ASIAND",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "10t",
+  "min_contract_duration": "5t",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / ASIANU ---
+{
+  "barriers": 0,
+  "contract_category": "asian",
+  "contract_type": "ASIANU",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "10t",
+  "min_contract_duration": "5t",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / RESETCALL ---
+{
+  "barrier": "+0.62",
+  "barriers": 1,
+  "contract_category": "reset",
+  "contract_type": "RESETCALL",
+  "default_stake": 10,
+  "expiry_type": "intraday",
+  "market": "synthetic_index",
+  "max_contract_duration": "2h",
+  "min_contract_duration": "20s",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / RESETPUT ---
+{
+  "barrier": "+0.62",
+  "barriers": 1,
+  "contract_category": "reset",
+  "contract_type": "RESETPUT",
+  "default_stake": 10,
+  "expiry_type": "intraday",
+  "market": "synthetic_index",
+  "max_contract_duration": "2h",
+  "min_contract_duration": "20s",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / RUNHIGH ---
+{
+  "barrier": "+0.20",
+  "barriers": 1,
+  "contract_category": "runs",
+  "contract_type": "RUNHIGH",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "2t",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / RUNLOW ---
+{
+  "barrier": "+0.20",
+  "barriers": 1,
+  "contract_category": "runs",
+  "contract_type": "RUNLOW",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "2t",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / TICKHIGH ---
+{
+  "barriers": 0,
+  "contract_category": "highlowticks",
+  "contract_type": "TICKHIGH",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "5t",
+  "sentiment": "high",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / TICKLOW ---
+{
+  "barriers": 0,
+  "contract_category": "highlowticks",
+  "contract_type": "TICKLOW",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "5t",
+  "sentiment": "low",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / TURBOSLONG ---
+{
+  "barrier": "48.08",
+  "barrier_choices": [
+    "2.85",
+    "5.01",
+    "8.82",
+    "15.52",
+    "27.32",
+    "48.08",
+    "84.62",
+    "148.93",
+    "262.13",
+    "461.36"
+  ],
+  "barriers": 1,
+  "contract_category": "turbos",
+  "contract_type": "TURBOSLONG",
+  "default_stake": 10,
+  "display_number_of_contracts": 1.8,
+  "expiry_type": "daily",
+  "market": "synthetic_index",
+  "max_contract_duration": "365d",
+  "max_stake": 20842.95,
+  "min_contract_duration": "1d",
+  "min_stake": 1.04,
+  "payout_choices": [
+    3,
+    2.4,
+    1.8,
+    1.2,
+    0.6
+  ],
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+--- 1HZ100V / TURBOSSHORT ---
+{
+  "barrier": "48.08",
+  "barrier_choices": [
+    "2.85",
+    "5.01",
+    "8.82",
+    "15.52",
+    "27.32",
+    "48.08",
+    "84.62",
+    "148.93",
+    "262.13",
+    "461.36"
+  ],
+  "barriers": 1,
+  "contract_category": "turbos",
+  "contract_type": "TURBOSSHORT",
+  "default_stake": 10,
+  "display_number_of_contracts": 1.8,
+  "expiry_type": "daily",
+  "market": "synthetic_index",
+  "max_contract_duration": "365d",
+  "max_stake": 20842.95,
+  "min_contract_duration": "1d",
+  "min_stake": 1.04,
+  "payout_choices": [
+    3,
+    2.4,
+    1.8,
+    1.2,
+    0.6
+  ],
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "1HZ100V"
+}
+
+==========================================================================================
+>>> R_100: 65 contratos, 35 contract_types unicos
+==========================================================================================
+ACCU, ASIAND, ASIANU, CALL, CALLE, DIGITDIFF, DIGITEVEN, DIGITMATCH, DIGITODD, DIGITOVER, DIGITUNDER, EXPIRYMISS, EXPIRYMISSE, EXPIRYRANGE, EXPIRYRANGEE, HIGHER, LOWER, MULTDOWN, MULTUP, NOTOUCH, ONETOUCH, PUT, PUTE, RANGE, RESETCALL, RESETPUT, RUNHIGH, RUNLOW, TICKHIGH, TICKLOW, TURBOSLONG, TURBOSSHORT, UPORDOWN, VANILLALONGCALL, VANILLALONGPUT
+
+--- R_100 / ASIAND ---
+{
+  "barriers": 0,
+  "contract_category": "asian",
+  "contract_type": "ASIAND",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "10t",
+  "min_contract_duration": "5t",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / ASIANU ---
+{
+  "barriers": 0,
+  "contract_category": "asian",
+  "contract_type": "ASIANU",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "10t",
+  "min_contract_duration": "5t",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / RESETCALL ---
+{
+  "barrier": "+0.31",
+  "barriers": 1,
+  "contract_category": "reset",
+  "contract_type": "RESETCALL",
+  "default_stake": 10,
+  "expiry_type": "intraday",
+  "market": "synthetic_index",
+  "max_contract_duration": "2h",
+  "min_contract_duration": "20s",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / RESETPUT ---
+{
+  "barrier": "+0.31",
+  "barriers": 1,
+  "contract_category": "reset",
+  "contract_type": "RESETPUT",
+  "default_stake": 10,
+  "expiry_type": "intraday",
+  "market": "synthetic_index",
+  "max_contract_duration": "2h",
+  "min_contract_duration": "20s",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / RUNHIGH ---
+{
+  "barrier": "+0.10",
+  "barriers": 1,
+  "contract_category": "runs",
+  "contract_type": "RUNHIGH",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "2t",
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / RUNLOW ---
+{
+  "barrier": "+0.10",
+  "barriers": 1,
+  "contract_category": "runs",
+  "contract_type": "RUNLOW",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "2t",
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / TICKHIGH ---
+{
+  "barriers": 0,
+  "contract_category": "highlowticks",
+  "contract_type": "TICKHIGH",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "5t",
+  "sentiment": "high",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / TICKLOW ---
+{
+  "barriers": 0,
+  "contract_category": "highlowticks",
+  "contract_type": "TICKLOW",
+  "default_stake": 10,
+  "expiry_type": "tick",
+  "market": "synthetic_index",
+  "max_contract_duration": "5t",
+  "min_contract_duration": "5t",
+  "sentiment": "low",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / TURBOSLONG ---
+{
+  "barrier": "24.13",
+  "barrier_choices": [
+    "1.43",
+    "2.52",
+    "4.43",
+    "7.79",
+    "13.71",
+    "24.13",
+    "42.47",
+    "74.76",
+    "131.57",
+    "231.57"
+  ],
+  "barriers": 1,
+  "contract_category": "turbos",
+  "contract_type": "TURBOSLONG",
+  "default_stake": 10,
+  "display_number_of_contracts": 3,
+  "expiry_type": "daily",
+  "market": "synthetic_index",
+  "max_contract_duration": "365d",
+  "max_stake": 20840.35,
+  "min_contract_duration": "1d",
+  "min_stake": 1.04,
+  "payout_choices": [
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+  ],
+  "sentiment": "up",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+--- R_100 / TURBOSSHORT ---
+{
+  "barrier": "24.13",
+  "barrier_choices": [
+    "1.43",
+    "2.52",
+    "4.43",
+    "7.79",
+    "13.71",
+    "24.13",
+    "42.47",
+    "74.76",
+    "131.57",
+    "231.57"
+  ],
+  "barriers": 1,
+  "contract_category": "turbos",
+  "contract_type": "TURBOSSHORT",
+  "default_stake": 10,
+  "display_number_of_contracts": 3,
+  "expiry_type": "daily",
+  "market": "synthetic_index",
+  "max_contract_duration": "365d",
+  "max_stake": 20840.35,
+  "min_contract_duration": "1d",
+  "min_stake": 1.04,
+  "payout_choices": [
+    6,
+    5,
+    4,
+    3,
+    2,
+    1
+  ],
+  "sentiment": "down",
+  "submarket": "random_index",
+  "underlying_symbol": "R_100"
+}
+
+==========================================================================================
+>>> cryBTCUSD: 2 contratos, 2 contract_types unicos
+==========================================================================================
+MULTDOWN, MULTUP
+
+==========================================================================================
+>>> frxEURUSD: 20 contratos, 16 contract_types unicos
+==========================================================================================
+CALL, CALLE, EXPIRYMISS, EXPIRYMISSE, EXPIRYRANGE, EXPIRYRANGEE, HIGHER, LOWER, MULTDOWN, MULTUP, NOTOUCH, ONETOUCH, PUT, PUTE, RANGE, UPORDOWN

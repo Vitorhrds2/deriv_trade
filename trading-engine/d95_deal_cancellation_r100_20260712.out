@@ -1,0 +1,140 @@
+Baixando 60000 ticks reais de R_100...
+60000 ticks | drift bruto=+0.000002 (removido) | desvio/tick=0.11394 | spot_ref=452.75 | intervalo mediano entre ticks=2.00s
+
+
+====================================================================================================
+Multiplier=40x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$0.4400 | fair_value_MC=$0.4835 (IC95%[$0.4796,$0.4875]) | edge=$+0.0435 (edge_lo=$+0.0396) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$0.6600 | fair_value_MC=$0.6817 (IC95%[$0.6760,$0.6873]) | edge=$+0.0217 (edge_lo=$+0.0160) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$0.8200 | fair_value_MC=$0.8298 (IC95%[$0.8229,$0.8367]) | edge=$+0.0098 (edge_lo=$+0.0029) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$1.1900 | fair_value_MC=$1.1884 (IC95%[$1.1785,$1.1982]) | edge=$-0.0016 (edge_lo=$-0.0115)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$1.7200 | fair_value_MC=$1.6684 (IC95%[$1.6546,$1.6822]) | edge=$-0.0516 (edge_lo=$-0.0654)
+
+  MULTDOWN
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$0.4400 | fair_value_MC=$0.4821 (IC95%[$0.4781,$0.4861]) | edge=$+0.0421 (edge_lo=$+0.0381) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$0.6600 | fair_value_MC=$0.6848 (IC95%[$0.6791,$0.6905]) | edge=$+0.0248 (edge_lo=$+0.0191) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$0.8200 | fair_value_MC=$0.8362 (IC95%[$0.8293,$0.8431]) | edge=$+0.0162 (edge_lo=$+0.0093) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$1.1900 | fair_value_MC=$1.1893 (IC95%[$1.1794,$1.1991]) | edge=$-0.0007 (edge_lo=$-0.0106)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$1.7100 | fair_value_MC=$1.6777 (IC95%[$1.6637,$1.6916]) | edge=$-0.0323 (edge_lo=$-0.0463)
+
+====================================================================================================
+Multiplier=100x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$1.1100 | fair_value_MC=$1.2065 (IC95%[$1.1965,$1.2164]) | edge=$+0.0965 (edge_lo=$+0.0865) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$1.6400 | fair_value_MC=$1.7085 (IC95%[$1.6944,$1.7226]) | edge=$+0.0685 (edge_lo=$+0.0544) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$2.0500 | fair_value_MC=$2.0868 (IC95%[$2.0695,$2.1040]) | edge=$+0.0368 (edge_lo=$+0.0195) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$2.9700 | fair_value_MC=$2.9438 (IC95%[$2.9194,$2.9682]) | edge=$-0.0262 (edge_lo=$-0.0506)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$4.1600 | fair_value_MC=$4.1642 (IC95%[$4.1296,$4.1988]) | edge=$+0.0042 (edge_lo=$-0.0304)
+
+  MULTDOWN
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$1.1100 | fair_value_MC=$1.2093 (IC95%[$1.1993,$1.2193]) | edge=$+0.0993 (edge_lo=$+0.0893) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$1.6400 | fair_value_MC=$1.7087 (IC95%[$1.6945,$1.7229]) | edge=$+0.0687 (edge_lo=$+0.0545) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$2.0500 | fair_value_MC=$2.0959 (IC95%[$2.0785,$2.1132]) | edge=$+0.0459 (edge_lo=$+0.0285) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$2.9700 | fair_value_MC=$2.9728 (IC95%[$2.9481,$2.9974]) | edge=$+0.0028 (edge_lo=$-0.0219)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$4.1500 | fair_value_MC=$4.1717 (IC95%[$4.1372,$4.2063]) | edge=$+0.0217 (edge_lo=$-0.0128)
+
+====================================================================================================
+Multiplier=200x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$2.2200 | fair_value_MC=$2.4169 (IC95%[$2.3970,$2.4368]) | edge=$+0.1969 (edge_lo=$+0.1770) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$3.2500 | fair_value_MC=$3.4058 (IC95%[$3.3776,$3.4340]) | edge=$+0.1558 (edge_lo=$+0.1276) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$3.9700 | fair_value_MC=$4.1689 (IC95%[$4.1343,$4.2034]) | edge=$+0.1989 (edge_lo=$+0.1643) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$5.2600 | fair_value_MC=$5.8987 (IC95%[$5.8498,$5.9476]) | edge=$+0.6387 (edge_lo=$+0.5898) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$6.4500 | fair_value_MC=$8.3936 (IC95%[$8.3246,$8.4627]) | edge=$+1.9436 (edge_lo=$+1.8746) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+  MULTDOWN
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$2.2200 | fair_value_MC=$2.4140 (IC95%[$2.3939,$2.4341]) | edge=$+0.1940 (edge_lo=$+0.1739) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$3.2500 | fair_value_MC=$3.4295 (IC95%[$3.4011,$3.4579]) | edge=$+0.1795 (edge_lo=$+0.1511) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$3.9600 | fair_value_MC=$4.1891 (IC95%[$4.1544,$4.2239]) | edge=$+0.2291 (edge_lo=$+0.1944) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$5.2500 | fair_value_MC=$5.8985 (IC95%[$5.8497,$5.9473]) | edge=$+0.6485 (edge_lo=$+0.5997) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$6.4300 | fair_value_MC=$8.3832 (IC95%[$8.3140,$8.4524]) | edge=$+1.9532 (edge_lo=$+1.8840) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+====================================================================================================
+Multiplier=300x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$3.2700 | fair_value_MC=$3.6288 (IC95%[$3.5989,$3.6587]) | edge=$+0.3588 (edge_lo=$+0.3289) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$4.5400 | fair_value_MC=$5.1381 (IC95%[$5.0957,$5.1805]) | edge=$+0.5981 (edge_lo=$+0.5557) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$5.2800 | fair_value_MC=$6.2553 (IC95%[$6.2035,$6.3071]) | edge=$+0.9753 (edge_lo=$+0.9235) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$6.4300 | fair_value_MC=$8.8455 (IC95%[$8.7722,$8.9187]) | edge=$+2.4155 (edge_lo=$+2.3422) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$7.3500 | fair_value_MC=$12.4548 (IC95%[$12.3511,$12.5585]) | edge=$+5.1048 (edge_lo=$+5.0011) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+  MULTDOWN
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$3.2700 | fair_value_MC=$3.6127 (IC95%[$3.5826,$3.6428]) | edge=$+0.3427 (edge_lo=$+0.3126) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$4.5300 | fair_value_MC=$5.1489 (IC95%[$5.1060,$5.1918]) | edge=$+0.6189 (edge_lo=$+0.5760) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$5.2700 | fair_value_MC=$6.3151 (IC95%[$6.2629,$6.3672]) | edge=$+1.0451 (edge_lo=$+0.9929) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$6.4200 | fair_value_MC=$8.9024 (IC95%[$8.8289,$8.9758]) | edge=$+2.4824 (edge_lo=$+2.4089) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$7.3300 | fair_value_MC=$12.6356 (IC95%[$12.5313,$12.7398]) | edge=$+5.3056 (edge_lo=$+5.2013) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+====================================================================================================
+Multiplier=400x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$4.1400 | fair_value_MC=$4.8160 (IC95%[$4.7762,$4.8557]) | edge=$+0.6760 (edge_lo=$+0.6362) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$5.3900 | fair_value_MC=$6.8821 (IC95%[$6.8252,$6.9389]) | edge=$+1.4921 (edge_lo=$+1.4352) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$6.0500 | fair_value_MC=$8.3264 (IC95%[$8.2572,$8.3955]) | edge=$+2.2764 (edge_lo=$+2.2072) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$7.0100 | fair_value_MC=$11.7650 (IC95%[$11.6670,$11.8630]) | edge=$+4.7550 (edge_lo=$+4.6570) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$7.7300 | fair_value_MC=$16.7788 (IC95%[$16.6404,$16.9172]) | edge=$+9.0488 (edge_lo=$+8.9104) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+  MULTDOWN
+    cancellation=  5m ( 150 ticks) | fee_cobrado=$4.1400 | fair_value_MC=$4.8163 (IC95%[$4.7761,$4.8565]) | edge=$+0.6763 (edge_lo=$+0.6361) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 300 ticks) | fee_cobrado=$5.3800 | fair_value_MC=$6.8037 (IC95%[$6.7471,$6.8603]) | edge=$+1.4237 (edge_lo=$+1.3671) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 450 ticks) | fee_cobrado=$6.0400 | fair_value_MC=$8.3996 (IC95%[$8.3300,$8.4693]) | edge=$+2.3596 (edge_lo=$+2.2900) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m ( 900 ticks) | fee_cobrado=$6.9900 | fair_value_MC=$11.8851 (IC95%[$11.7869,$11.9834]) | edge=$+4.8951 (edge_lo=$+4.7969) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (1800 ticks) | fee_cobrado=$7.7200 | fair_value_MC=$16.6611 (IC95%[$16.5228,$16.7995]) | edge=$+8.9411 (edge_lo=$+8.8028) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+====================================================================================================
+VEREDITO FINAL — 50 celulas testadas (multiplier x contract_type x cancellation)
+====================================================================================================
+>>> 42 candidato(s) a edge (fee cobrado < fair value, IC95%):
+    MULTUP 40x cancellation=5m: fee=$0.4400 fair=$0.4835 edge_lo=$+0.0396
+    MULTUP 40x cancellation=10m: fee=$0.6600 fair=$0.6817 edge_lo=$+0.0160
+    MULTUP 40x cancellation=15m: fee=$0.8200 fair=$0.8298 edge_lo=$+0.0029
+    MULTDOWN 40x cancellation=5m: fee=$0.4400 fair=$0.4821 edge_lo=$+0.0381
+    MULTDOWN 40x cancellation=10m: fee=$0.6600 fair=$0.6848 edge_lo=$+0.0191
+    MULTDOWN 40x cancellation=15m: fee=$0.8200 fair=$0.8362 edge_lo=$+0.0093
+    MULTUP 100x cancellation=5m: fee=$1.1100 fair=$1.2065 edge_lo=$+0.0865
+    MULTUP 100x cancellation=10m: fee=$1.6400 fair=$1.7085 edge_lo=$+0.0544
+    MULTUP 100x cancellation=15m: fee=$2.0500 fair=$2.0868 edge_lo=$+0.0195
+    MULTDOWN 100x cancellation=5m: fee=$1.1100 fair=$1.2093 edge_lo=$+0.0893
+    MULTDOWN 100x cancellation=10m: fee=$1.6400 fair=$1.7087 edge_lo=$+0.0545
+    MULTDOWN 100x cancellation=15m: fee=$2.0500 fair=$2.0959 edge_lo=$+0.0285
+    MULTUP 200x cancellation=5m: fee=$2.2200 fair=$2.4169 edge_lo=$+0.1770
+    MULTUP 200x cancellation=10m: fee=$3.2500 fair=$3.4058 edge_lo=$+0.1276
+    MULTUP 200x cancellation=15m: fee=$3.9700 fair=$4.1689 edge_lo=$+0.1643
+    MULTUP 200x cancellation=30m: fee=$5.2600 fair=$5.8987 edge_lo=$+0.5898
+    MULTUP 200x cancellation=60m: fee=$6.4500 fair=$8.3936 edge_lo=$+1.8746
+    MULTDOWN 200x cancellation=5m: fee=$2.2200 fair=$2.4140 edge_lo=$+0.1739
+    MULTDOWN 200x cancellation=10m: fee=$3.2500 fair=$3.4295 edge_lo=$+0.1511
+    MULTDOWN 200x cancellation=15m: fee=$3.9600 fair=$4.1891 edge_lo=$+0.1944
+    MULTDOWN 200x cancellation=30m: fee=$5.2500 fair=$5.8985 edge_lo=$+0.5997
+    MULTDOWN 200x cancellation=60m: fee=$6.4300 fair=$8.3832 edge_lo=$+1.8840
+    MULTUP 300x cancellation=5m: fee=$3.2700 fair=$3.6288 edge_lo=$+0.3289
+    MULTUP 300x cancellation=10m: fee=$4.5400 fair=$5.1381 edge_lo=$+0.5557
+    MULTUP 300x cancellation=15m: fee=$5.2800 fair=$6.2553 edge_lo=$+0.9235
+    MULTUP 300x cancellation=30m: fee=$6.4300 fair=$8.8455 edge_lo=$+2.3422
+    MULTUP 300x cancellation=60m: fee=$7.3500 fair=$12.4548 edge_lo=$+5.0011
+    MULTDOWN 300x cancellation=5m: fee=$3.2700 fair=$3.6127 edge_lo=$+0.3126
+    MULTDOWN 300x cancellation=10m: fee=$4.5300 fair=$5.1489 edge_lo=$+0.5760
+    MULTDOWN 300x cancellation=15m: fee=$5.2700 fair=$6.3151 edge_lo=$+0.9929
+    MULTDOWN 300x cancellation=30m: fee=$6.4200 fair=$8.9024 edge_lo=$+2.4089
+    MULTDOWN 300x cancellation=60m: fee=$7.3300 fair=$12.6356 edge_lo=$+5.2013
+    MULTUP 400x cancellation=5m: fee=$4.1400 fair=$4.8160 edge_lo=$+0.6362
+    MULTUP 400x cancellation=10m: fee=$5.3900 fair=$6.8821 edge_lo=$+1.4352
+    MULTUP 400x cancellation=15m: fee=$6.0500 fair=$8.3264 edge_lo=$+2.2072
+    MULTUP 400x cancellation=30m: fee=$7.0100 fair=$11.7650 edge_lo=$+4.6570
+    MULTUP 400x cancellation=60m: fee=$7.7300 fair=$16.7788 edge_lo=$+8.9104
+    MULTDOWN 400x cancellation=5m: fee=$4.1400 fair=$4.8163 edge_lo=$+0.6361
+    MULTDOWN 400x cancellation=10m: fee=$5.3800 fair=$6.8037 edge_lo=$+1.3671
+    MULTDOWN 400x cancellation=15m: fee=$6.0400 fair=$8.3996 edge_lo=$+2.2900
+    MULTDOWN 400x cancellation=30m: fee=$6.9900 fair=$11.8851 edge_lo=$+4.7969
+    MULTDOWN 400x cancellation=60m: fee=$7.7200 fair=$16.6611 edge_lo=$+8.8028

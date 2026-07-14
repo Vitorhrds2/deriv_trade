@@ -1,0 +1,41 @@
+====================================================================================================
+D88 — E-Suffixed Contract Variant Scan
+Symbols: ['1HZ100V'] | Types: ['EXPIRYMISSE', 'EXPIRYRANGEE', 'CALLE', 'PUTE'] | Durations: [(5, 't'), (10, 't'), (15, 't'), (1, 'm'), (5, 'm')]
+Barrier offsets: [0.005, 0.01] | chunks=10 | MC=10000
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ100V: 10000 ticks, median_dt=1.000s, spot=922.51
+1HZ100V EXPIRYMISSE 5t: Trading is not offered for this duration.
+1HZ100V EXPIRYMISSE 5t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 5t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 5t: Trading is not offered for this duration.
+1HZ100V CALLE 5t bar=0.0000: Pemp=0.4917 Pmc=0.4969 EV=-0.0558 EVlo=-0.0979
+1HZ100V PUTE 5t bar=0.0000: Pemp=0.4942 Pmc=0.5031 EV=-0.0510 EVlo=-0.0931
+1HZ100V EXPIRYMISSE 10t: Trading is not offered for this duration.
+1HZ100V EXPIRYMISSE 10t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 10t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 10t: Trading is not offered for this duration.
+1HZ100V CALLE 10t bar=0.0000: Pemp=0.5175 Pmc=0.4943 EV=-0.0064 EVlo=-0.0659
+1HZ100V PUTE 10t bar=0.0000: Pemp=0.4715 Pmc=0.5057 EV=-0.0948 EVlo=-0.1539
+1HZ100V EXPIRYMISSE 15t: Trading is not offered for this duration.
+1HZ100V EXPIRYMISSE 15t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 15t: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 15t: Trading is not offered for this duration.
+1HZ100V CALLE 15t: Number of ticks must be between 1 and 10.
+1HZ100V PUTE 15t: Number of ticks must be between 1 and 10.
+1HZ100V EXPIRYMISSE 1m: Trading is not offered for this duration.
+1HZ100V EXPIRYMISSE 1m: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 1m: Trading is not offered for this duration.
+1HZ100V EXPIRYRANGEE 1m: Trading is not offered for this duration.
+1HZ100V CALLE 1m bar=0.0000: Pemp=0.4880 Pmc=0.5011 EV=-0.0631 EVlo=-0.2069
+1HZ100V PUTE 1m bar=0.0000: Pemp=0.5120 Pmc=0.4989 EV=-0.0169 EVlo=-0.1617
+1HZ100V EXPIRYMISSE 5m: Low barrier offset can not have more than 2 decimal places.
+1HZ100V EXPIRYMISSE 5m: Low barrier offset can not have more than 2 decimal places.
+1HZ100V EXPIRYRANGEE 5m: Low barrier offset can not have more than 2 decimal places.
+1HZ100V EXPIRYRANGEE 5m: Low barrier offset can not have more than 2 decimal places.
+1HZ100V CALLE 5m bar=0.0000: Pemp=0.5455 Pmc=0.4953 EV=+0.0527 EVlo=-0.2669
+1HZ100V PUTE 5m bar=0.0000: Pemp=0.4545 Pmc=0.5047 EV=-0.1273 EVlo=-0.4270
+====================================================================================================
+D88 summary: valid=8 gate_candidates=0
+Results: d88_1hz100v_20260712_results.jsonl
+Stats: d88_1hz100v_20260712_stats.json

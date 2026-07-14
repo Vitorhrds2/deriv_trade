@@ -1,0 +1,44 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['1HZ10V']
+Pairs: ['touch'] | Durations: [(5, 't'), (10, 't'), (2, 'm'), (5, 'm')] | Offsets: [3.4e-05, 6.7e-05]
+Rounds: 2 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V touch 5t up off=0.0000: spread=$-0.69000
+1HZ10V touch 5t down off=0.0000: spread=$-0.69000
+1HZ10V touch 5t up off=0.0001: spread=$-0.98000
+1HZ10V touch 5t down off=0.0001: spread=$-0.98000
+1HZ10V touch 5t up off=0.0000: spread=$-0.69000
+1HZ10V touch 5t down off=0.0000: spread=$-0.69000
+1HZ10V touch 5t up off=0.0001: spread=$-0.98000
+1HZ10V touch 5t down off=0.0001: spread=$-0.98000
+1HZ10V touch 10t up off=0.0000: spread=$-0.33000
+1HZ10V touch 10t down off=0.0000: spread=$-0.33000
+1HZ10V touch 10t up off=0.0001: spread=$-0.84000
+1HZ10V touch 10t down off=0.0001: spread=$-0.84000
+1HZ10V touch 10t up off=0.0000: spread=$-0.33000
+1HZ10V touch 10t down off=0.0000: spread=$-0.33000
+1HZ10V touch 10t up off=0.0001: spread=$-0.84000
+1HZ10V touch 10t down off=0.0001: spread=$-0.84000
+1HZ10V touch 2m up off=0.0000: spread=$-0.81000
+1HZ10V touch 2m down off=0.0000: spread=$-0.81000
+1HZ10V touch 2m up off=0.0001: spread=$-0.58000
+1HZ10V touch 2m down off=0.0001: spread=$-0.58000
+1HZ10V touch 2m up off=0.0000: spread=$-0.81000
+1HZ10V touch 2m down off=0.0000: spread=$-0.81000
+1HZ10V touch 2m up off=0.0001: spread=$-0.58000
+1HZ10V touch 2m down off=0.0001: spread=$-0.58000
+1HZ10V touch 5m up off=0.0000: spread=$-0.89000
+1HZ10V touch 5m down off=0.0000: spread=$-0.89000
+1HZ10V touch 5m up off=0.0001: spread=$-0.78000
+1HZ10V touch 5m down off=0.0001: spread=$-0.78000
+1HZ10V touch 5m up off=0.0000: spread=$-0.89000
+1HZ10V touch 5m down off=0.0000: spread=$-0.89000
+1HZ10V touch 5m up off=0.0001: spread=$-0.78000
+1HZ10V touch 5m down off=0.0001: spread=$-0.78000
+====================================================================================================
+D87 summary: valid=32 raw_candidates=0
+Spread min=$-0.98000 mean=$-0.73750
+Results: d87_touch_1hz_v2_results.jsonl
+Stats: d87_touch_1hz_v2_stats.json

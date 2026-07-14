@@ -1,0 +1,23 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['R_100']
+Pairs: ['expiry', 'range'] | Durations: [(2, 'm'), (5, 'm')] | Offsets: [0.00164]
+Rounds: 3 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+R_100 expiry 2m both: quote error
+R_100 range 2m both: quote error
+R_100 expiry 2m both: quote error
+R_100 range 2m both: quote error
+R_100 expiry 2m both: quote error
+R_100 range 2m both: quote error
+R_100 expiry 5m both: quote error
+R_100 range 5m both: quote error
+R_100 expiry 5m both: quote error
+R_100 range 5m both: quote error
+R_100 expiry 5m both: quote error
+R_100 range 5m both: quote error
+====================================================================================================
+D87 summary: valid=0 raw_candidates=0
+Results: d87_double_r100_results.jsonl
+Stats: d87_double_r100_stats.json

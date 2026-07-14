@@ -75,6 +75,9 @@ VALIDATED_SYMBOLS = {
 KELLY_FRACTION = 0.5  # Half-Kelly for safety
 CHECK_INTERVAL_S = 3600  # Check every hour
 ENTRY_TIME_UTC = "00:05"  # Entry/exit at 00:05 UTC
+ENTRY_WINDOW_S = CHECK_INTERVAL_S
+OUT_OF_POLICY_STATUS = "out_of_policy_legacy"
+IN_POLICY_STATUS = "in_policy_v2"
 
 BINANCE_FAPI_PROD = "https://fapi.binance.com/fapi/v1"
 BINANCE_FAPI_PROD_V2 = "https://fapi.binance.com/fapi/v2"  # account/balance only (v1 blocked in EU)
@@ -236,6 +239,28 @@ def get_all_upcoming_unlocks():
     )
 
 
+def is_entry_window(now):
+    hour, minute = (int(part) for part in ENTRY_TIME_UTC.split(":", 1))
+    target = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    return target <= now < target + timedelta(seconds=ENTRY_WINDOW_S)
+
+
+def mark_out_of_policy_positions(state, now=None):
+    now = now or datetime.now(timezone.utc)
+    marked = []
+    for position in state["open_positions"]:
+        if position.get("policy_status") is not None:
+            continue
+        if float(position.get("unlock_value_mm", 0)) < MIN_UNLOCK_VALUE_MM:
+            position["policy_status"] = OUT_OF_POLICY_STATUS
+            position["policy_reason"] = f"unlock below ${MIN_UNLOCK_VALUE_MM}M minimum"
+            position["policy_marked_at"] = now.isoformat()
+            marked.append(position)
+        else:
+            position["policy_status"] = "legacy_in_policy"
+    return marked
+
+
 # ─── Position sizing (Kelly) ──────────────────────────────────────────────────
 
 def kelly_position_size(equity, win_rate, avg_win_bps, avg_loss_bps):
@@ -285,6 +310,7 @@ def paper_open_short(symbol, notional, entry_price, state, unlock_info):
         "unlock_date": unlock_info["unlock_date"],
         "unlock_value_mm": unlock_info["unlock_value_mm"],
         "mode": "PAPER",
+        "policy_status": IN_POLICY_STATUS,
         "stop_loss_price": entry_price * (1 + STOP_LOSS_PCT / 100),
     }
     state["open_positions"].append(position)
@@ -353,6 +379,7 @@ def live_open_short(symbol, notional, api_key, api_secret, state, unlock_info):
             "unlock_date": unlock_info["unlock_date"],
             "unlock_value_mm": unlock_info["unlock_value_mm"],
             "mode": "LIVE",
+            "policy_status": IN_POLICY_STATUS,
             "stop_loss_price": entry_price * (1 + STOP_LOSS_PCT / 100),
             "order_id": result.get("orderId"),
         }
@@ -413,6 +440,9 @@ def live_check_stop_loss(position, api_key, api_secret, state):
 def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=False):
     """Main bot loop."""
     state = load_state()
+    marked_positions = mark_out_of_policy_positions(state)
+    if marked_positions:
+        save_state(state)
     stats = get_historical_stats()
     
     logger.info(f"{'='*80}")
@@ -426,7 +456,9 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
     logger.info(f"  Min unlock size: ${MIN_UNLOCK_VALUE_MM}M")
     logger.info(f"  Validated symbols: {len(VALIDATED_SYMBOLS)} ({', '.join(sorted(VALIDATED_SYMBOLS))})")
     logger.info(f"  Kelly fraction: {KELLY_FRACTION} (half-Kelly)")
-    logger.info(f"  Fees: {FEE_BPS}bps round trip")
+    logger.info(f"  Entry window: {ENTRY_TIME_UTC} UTC through +{ENTRY_WINDOW_S // 60}min")
+    if marked_positions:
+        logger.warning(f"  Marked {len(marked_positions)} legacy position(s) out of policy")
     if os.getenv("TOKENOMIST_API_KEY"):
         logger.info(f"  Data source: Tokenomist API (key detected)")
     else:
@@ -463,7 +495,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
             logger.debug(f"Check cycle: {now.isoformat()}")
 
             # ─── 1. Check for entries (3d before unlock) ──────────────────────
-            entry_unlocks = get_upcoming_unlocks(days_ahead=abs(ENTRY_DAYS))
+            entry_unlocks = get_upcoming_unlocks(days_ahead=abs(ENTRY_DAYS)) if is_entry_window(now) else []
             if entry_unlocks:
                 logger.info(f"  [{now_str}] {len(entry_unlocks)} entry signal(s) today")
 
@@ -476,7 +508,8 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                     logger.debug(f"  Already have position for {sym} {unlock['unlock_date']}, skipping")
                     continue
 
-                if len(state["open_positions"]) >= MAX_CONCURRENT:
+                managed_positions = [p for p in state["open_positions"] if p.get("policy_status") != OUT_OF_POLICY_STATUS]
+                if len(managed_positions) >= MAX_CONCURRENT:
                     logger.warning(f"  [{now_str}] Max concurrent positions reached, skipping {sym}")
                     continue
 
@@ -504,7 +537,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                 unlock_date = datetime.strptime(position["unlock_date"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
                 exit_date = unlock_date + timedelta(days=EXIT_DAYS)
 
-                if now >= exit_date:
+                if now >= exit_date and (is_entry_window(now) or now.date() > exit_date.date()):
                     logger.info(f"  [{now.isoformat()}] EXIT SIGNAL: {position['symbol']} (unlock was {position['unlock_date']}, +{EXIT_DAYS}d reached)")
                     if position.get("mode") == "PAPER":
                         try:

@@ -47,6 +47,8 @@ UA = {"User-Agent": "hyperliquid-paper-bot/1.0 (research; paper-only)"}
 HL_TAKER_BPS = 4.5
 BINANCE_TAKER_BPS = 5.0
 ROUNDTRIP_BPS = 2 * (HL_TAKER_BPS + BINANCE_TAKER_BPS)  # 19bps abre+fecha
+ENTRY_COST_BPS = ROUNDTRIP_BPS / 2
+EXIT_COST_BPS = ROUNDTRIP_BPS / 2
 
 SYMBOL_HL = "LINK"
 SYMBOL_BN = "LINKUSDT"
@@ -56,6 +58,7 @@ LOG_FILE = "d55_paper_bot.log"
 
 DEFAULT_POSITION_USD = 1000
 DEFAULT_MAX_CYCLES = 0  # 0 = infinito
+STATE_VERSION = 2
 
 
 def _post(body, timeout=10):
@@ -111,7 +114,10 @@ def binance_funding_history(start_ms):
     url = (f"{BINANCE_FAPI}/fundingRate?symbol={SYMBOL_BN}"
            f"&startTime={start_ms}&limit=1000")
     data = _get(url)
-    return [{"time": int(d["fundingTime"]), "rate": float(d["fundingRate"])} for d in data]
+    return sorted(
+        [{"time": int(d["fundingTime"]), "rate": float(d["fundingRate"])} for d in data],
+        key=lambda event: event["time"],
+    )
 
 
 def binance_mark_price():
@@ -156,10 +162,12 @@ def init_position(position_usd):
     if not hl or not bn:
         raise RuntimeError("Nao foi possivel buscar precos iniciais")
 
-    entry_cost_bps = ROUNDTRIP_BPS  # 19bps (abertura)
+    entry_cost_bps = ENTRY_COST_BPS
     entry_cost_usd = position_usd * entry_cost_bps / 10000
+    entry_ts = datetime.now(timezone.utc)
 
     state = {
+        "state_version": STATE_VERSION,
         "symbol_hl": SYMBOL_HL,
         "symbol_bn": SYMBOL_BN,
         "direction_hl": "SHORT",
@@ -167,7 +175,8 @@ def init_position(position_usd):
         "position_usd": position_usd,
         "entry_hl_mark": hl["markPx"],
         "entry_bn_mark": bn["markPrice"],
-        "entry_ts": datetime.now(timezone.utc).isoformat(),
+        "entry_ts": entry_ts.isoformat(),
+        "last_bn_funding_time_ms": int(entry_ts.timestamp() * 1000),
         "entry_cost_bps": entry_cost_bps,
         "entry_cost_usd": entry_cost_usd,
         "cycles": [],
@@ -185,7 +194,7 @@ def init_position(position_usd):
     return state
 
 
-def settle_cycle(state, bn_funding, hl_funding_accum_bps, hl_mark, bn_mark):
+def settle_cycle(state, bn_funding, hl_funding_accum_bps, hl_mark, bn_mark, funding_time_ms):
     """Registra P&L de um ciclo de funding (8h Binance)."""
     # Funding coletado:
     # - SHORT HL: se funding HL > 0, longs pagam shorts -> coletamos +funding
@@ -219,6 +228,7 @@ def settle_cycle(state, bn_funding, hl_funding_accum_bps, hl_mark, bn_mark):
 
     cycle = {
         "ts": datetime.now(timezone.utc).isoformat(),
+        "funding_time_ms": funding_time_ms,
         "hl_funding_bps": hl_funding_bps,
         "bn_funding_bps": bn_funding_bps,
         "hl_collect_bps": hl_collect_bps,
@@ -260,19 +270,25 @@ def run_bot(position_usd=DEFAULT_POSITION_USD, max_cycles=DEFAULT_MAX_CYCLES):
     log("=" * 80)
 
     state = load_state()
-    if not state or state.get("status") != "open":
+    if state and state.get("status") == "open" and state.get("state_version") != STATE_VERSION:
+        archive_file = f"{STATE_FILE}.legacy_{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
+        with open(archive_file, "w") as f:
+            json.dump(state, f, indent=2, default=str)
+        log(f"Estado legado arquivado em {archive_file}; iniciando coorte v{STATE_VERSION}.")
+        state = init_position(position_usd)
+    elif not state or state.get("status") != "open":
         state = init_position(position_usd)
     else:
         log(f"Posicao existente encontrada: {len(state['cycles'])} ciclos, "
             f"net={state['total_net_pnl_bps']:+.2f}bps")
 
     entry_ts = datetime.fromisoformat(state["entry_ts"])
-    last_bn_funding_time = entry_ts.timestamp() * 1000
+    last_bn_funding_time = int(state.get("last_bn_funding_time_ms", entry_ts.timestamp() * 1000))
 
     while True:
         if max_cycles and len(state["cycles"]) >= max_cycles:
             # Sair: debita custo de saida
-            exit_cost_bps = ROUNDTRIP_BPS / 2  # so saida (metade do roundtrip)
+            exit_cost_bps = EXIT_COST_BPS
             state["total_net_pnl_bps"] -= exit_cost_bps
             state["total_net_pnl_usd"] -= state["position_usd"] * exit_cost_bps / 10000
             state["status"] = "closed"
@@ -299,7 +315,9 @@ def run_bot(position_usd=DEFAULT_POSITION_USD, max_cycles=DEFAULT_MAX_CYCLES):
                 continue
 
             now_ms = time.time() * 1000
-            if now_ms < next_funding_ms:
+            bn_hist = [event for event in binance_funding_history(last_bn_funding_time + 1)
+                       if event["time"] > last_bn_funding_time]
+            if not bn_hist and now_ms < next_funding_ms:
                 # Ainda nao chegou o proximo funding da Binance
                 sleep_s = (next_funding_ms - now_ms) / 1000 + 30  # +30s margem
                 log(f"Aguardando proximo funding Binance em {sleep_s/60:.1f}min "
@@ -309,23 +327,27 @@ def run_bot(position_usd=DEFAULT_POSITION_USD, max_cycles=DEFAULT_MAX_CYCLES):
 
             # Funding da Binance acabou de acontecer -- coletar dados
             # Buscar funding history da Binance desde o ultimo ciclo
-            bn_hist = binance_funding_history(int(last_bn_funding_time))
             if not bn_hist:
                 log("Sem funding history da Binance, tentando novamente...")
                 time.sleep(60)
                 continue
 
             # Ultimo funding rate da Binance
-            latest_bn_funding = bn_hist[-1]
+            latest_bn_funding = bn_hist[0]
             bn_funding_rate = latest_bn_funding["rate"]
-            last_bn_funding_time = latest_bn_funding["time"]
+            cycle_start_ms = last_bn_funding_time + 1
+            funding_time_ms = latest_bn_funding["time"]
 
-            # Buscar funding history da HL no mesmo periodo (8h anteriores)
+            # Buscar funding history da HL desde a abertura/settlement anterior.
             hl_hist = hl_funding_history(
-                int(last_bn_funding_time - 8 * 3600 * 1000),
-                int(last_bn_funding_time + 60 * 1000)
+                cycle_start_ms,
+                int(funding_time_ms + 60 * 1000)
             )
-            hl_funding_accum = sum(h["rate"] for h in hl_hist) if hl_hist else 0
+            if not hl_hist:
+                log("Sem funding history da Hyperliquid, tentando novamente...")
+                time.sleep(60)
+                continue
+            hl_funding_accum = sum(h["rate"] for h in hl_hist)
             hl_funding_accum_bps = hl_funding_accum * 10000
 
             # Precos mark atuais
@@ -339,7 +361,9 @@ def run_bot(position_usd=DEFAULT_POSITION_USD, max_cycles=DEFAULT_MAX_CYCLES):
                 continue
 
             # Settle ciclo
-            settle_cycle(state, bn_funding_rate, hl_funding_accum_bps, hl_mark, bn_mark)
+            settle_cycle(state, bn_funding_rate, hl_funding_accum_bps, hl_mark, bn_mark, funding_time_ms)
+            last_bn_funding_time = funding_time_ms
+            state["last_bn_funding_time_ms"] = last_bn_funding_time
             save_state(state)
 
             # Report a cada 5 ciclos

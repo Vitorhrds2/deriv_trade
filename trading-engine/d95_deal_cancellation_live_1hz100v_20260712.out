@@ -1,0 +1,6 @@
+====================================================================================================
+Deal Cancellation LIVE -- 1HZ100V multiplier=400x stake=$1.0 cancellation=5m N=20 (trades reais, demo)
+====================================================================================================
+  [0] MULTUP cid=5089723859 fee=$0.41 action=expired_unsellable_at_loss realized_value=$0.0 (poll=14)
+  [1] MULTDOWN cid=5089786139 fee=$0.41 action=expired_unsellable_at_loss realized_value=$0.0 (poll=10)
+  [2] MULTUP cid=5089836119 fee=$0.41 action=cancelled realized_value=$0.22999999999999998 (poll=90)

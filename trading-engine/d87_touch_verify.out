@@ -1,0 +1,14 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['1HZ10V']
+Pairs: ['touch'] | Durations: [(5, 't')] | Offsets: [3.4e-05]
+Rounds: 1 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+1HZ10V touch 5t up off=0.0000: spread=$-0.69000
+1HZ10V touch 5t down off=0.0000: spread=$-0.69000
+====================================================================================================
+D87 summary: valid=2 raw_candidates=0
+Spread min=$-0.69000 mean=$-0.69000
+Results: d87_touch_verify_results.jsonl
+Stats: d87_touch_verify_stats.json

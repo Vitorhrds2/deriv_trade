@@ -1,0 +1,44 @@
+====================================================================================================
+D87 — Exotic Complementary Contract Arbitrage
+Symbols: ['R_100']
+Pairs: ['touch'] | Durations: [(5, 't'), (10, 't'), (2, 'm'), (5, 'm')] | Offsets: [0.000345, 0.00069]
+Rounds: 2 | Stake per leg: $1.00
+Read-only: no buy/sell requests
+====================================================================================================
+R_100 touch 5t up off=0.0003: spread=$-0.46000
+R_100 touch 5t down off=0.0003: spread=$-0.46000
+R_100 touch 5t up off=0.0007: spread=$-0.88000
+R_100 touch 5t down off=0.0007: spread=$-0.88000
+R_100 touch 5t up off=0.0003: spread=$-0.46000
+R_100 touch 5t down off=0.0003: spread=$-0.46000
+R_100 touch 5t up off=0.0007: spread=$-0.88000
+R_100 touch 5t down off=0.0007: spread=$-0.88000
+R_100 touch 10t up off=0.0003: spread=$-0.24000
+R_100 touch 10t down off=0.0003: spread=$-0.24000
+R_100 touch 10t up off=0.0007: spread=$-0.65000
+R_100 touch 10t down off=0.0007: spread=$-0.65000
+R_100 touch 10t up off=0.0003: spread=$-0.24000
+R_100 touch 10t down off=0.0003: spread=$-0.24000
+R_100 touch 10t up off=0.0007: spread=$-0.65000
+R_100 touch 10t down off=0.0007: spread=$-0.65000
+R_100 touch 2m up off=0.0003: spread=$-0.77000
+R_100 touch 2m down off=0.0003: spread=$-0.77000
+R_100 touch 2m up off=0.0007: spread=$-0.52000
+R_100 touch 2m down off=0.0007: spread=$-0.52000
+R_100 touch 2m up off=0.0003: spread=$-0.77000
+R_100 touch 2m down off=0.0003: spread=$-0.77000
+R_100 touch 2m up off=0.0007: spread=$-0.52000
+R_100 touch 2m down off=0.0007: spread=$-0.52000
+R_100 touch 5m up off=0.0003: spread=$-0.88000
+R_100 touch 5m down off=0.0003: spread=$-0.88000
+R_100 touch 5m up off=0.0007: spread=$-0.75000
+R_100 touch 5m down off=0.0007: spread=$-0.75000
+R_100 touch 5m up off=0.0003: spread=$-0.88000
+R_100 touch 5m down off=0.0003: spread=$-0.88000
+R_100 touch 5m up off=0.0007: spread=$-0.75000
+R_100 touch 5m down off=0.0007: spread=$-0.75000
+====================================================================================================
+D87 summary: valid=32 raw_candidates=0
+Spread min=$-0.88000 mean=$-0.64375
+Results: d87_touch_r100_v2_results.jsonl
+Stats: d87_touch_r100_v2_stats.json

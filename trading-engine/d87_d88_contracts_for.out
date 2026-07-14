@@ -1,0 +1,74 @@
+
+>>> 1HZ10V: 65 contratos
+  CALL         cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  PUT          cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  CALL         cat=callput    expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.55
+  PUT          cat=callput    expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.55
+  CALL         cat=callput    expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.14
+  PUT          cat=callput    expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.14
+  CALLE        cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  PUTE         cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  CALLE        cat=callputequal expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.55
+  PUTE         cat=callputequal expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.55
+  CALLE        cat=callputequal expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.14
+  PUTE         cat=callputequal expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.14
+  EXPIRYMISS   cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=9442.64 high=9526.20 barrier=None
+  EXPIRYRANGE  cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=9442.64 high=9526.20 barrier=None
+  EXPIRYMISS   cat=endsinout  expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-1.56 high=+1.56 barrier=None
+  EXPIRYRANGE  cat=endsinout  expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-1.56 high=+1.56 barrier=None
+  RANGE        cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=9442.64 high=9526.20 barrier=None
+  UPORDOWN     cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=9442.64 high=9526.20 barrier=None
+  RANGE        cat=staysinout expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-1.56 high=+1.56 barrier=None
+  UPORDOWN     cat=staysinout expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-1.56 high=+1.56 barrier=None
+  ONETOUCH     cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  NOTOUCH      cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=9526.20
+  ONETOUCH     cat=touchnotouch expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+1.56
+  NOTOUCH      cat=touchnotouch expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+1.56
+  ONETOUCH     cat=touchnotouch expiry=tick     start=None   dur=[5t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.32
+  NOTOUCH      cat=touchnotouch expiry=tick     start=None   dur=[5t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.32
+
+>>> R_100: 65 contratos
+  CALL         cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  PUT          cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  CALL         cat=callput    expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.27
+  PUT          cat=callput    expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.27
+  CALL         cat=callput    expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.07
+  PUT          cat=callput    expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.07
+  CALLE        cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  PUTE         cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  CALLE        cat=callputequal expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.27
+  PUTE         cat=callputequal expiry=intraday start=None   dur=[15s..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.27
+  CALLE        cat=callputequal expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.07
+  PUTE         cat=callputequal expiry=tick     start=None   dur=[1t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.07
+  EXPIRYMISS   cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=443.09 high=483.90 barrier=None
+  EXPIRYRANGE  cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=443.09 high=483.90 barrier=None
+  EXPIRYMISS   cat=endsinout  expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-0.76 high=+0.76 barrier=None
+  EXPIRYRANGE  cat=endsinout  expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-0.76 high=+0.76 barrier=None
+  RANGE        cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=443.09 high=483.90 barrier=None
+  UPORDOWN     cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=443.09 high=483.90 barrier=None
+  RANGE        cat=staysinout expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-0.76 high=+0.76 barrier=None
+  UPORDOWN     cat=staysinout expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=2 low=-0.76 high=+0.76 barrier=None
+  ONETOUCH     cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  NOTOUCH      cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=483.90
+  ONETOUCH     cat=touchnotouch expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.76
+  NOTOUCH      cat=touchnotouch expiry=intraday start=None   dur=[2m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.76
+  ONETOUCH     cat=touchnotouch expiry=tick     start=None   dur=[5t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.16
+  NOTOUCH      cat=touchnotouch expiry=tick     start=None   dur=[5t..10t] barrier_cat=None barriers=1 low=None high=None barrier=+0.16
+
+>>> frxEURUSD: 20 contratos
+  CALL         cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+  PUT          cat=callput    expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+  CALL         cat=callput    expiry=intraday start=None   dur=[15m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.00016
+  PUT          cat=callput    expiry=intraday start=None   dur=[15m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.00016
+  CALLE        cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+  PUTE         cat=callputequal expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+  CALLE        cat=callputequal expiry=intraday start=None   dur=[15m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.00016
+  PUTE         cat=callputequal expiry=intraday start=None   dur=[15m..1d] barrier_cat=None barriers=1 low=None high=None barrier=+0.00016
+  EXPIRYMISS   cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=1.13988 high=1.14302 barrier=None
+  EXPIRYRANGE  cat=endsinout  expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=1.13988 high=1.14302 barrier=None
+  RANGE        cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=1.13988 high=1.14302 barrier=None
+  UPORDOWN     cat=staysinout expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=2 low=1.13988 high=1.14302 barrier=None
+  ONETOUCH     cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+  NOTOUCH      cat=touchnotouch expiry=daily    start=None   dur=[1d..365d] barrier_cat=None barriers=1 low=None high=None barrier=1.14302
+
+>>> cryBTCUSD: 2 contratos

@@ -1,0 +1,54 @@
+Baixando 60000 ticks reais de 1HZ100V...
+60000 ticks | drift bruto=+0.000288 (removido) | desvio/tick=0.16122 | spot_ref=910.81 | intervalo mediano entre ticks=1.00s
+
+
+====================================================================================================
+Multiplier=400x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m ( 300 ticks) | fee_cobrado=$4.1200 | fair_value_MC=$4.9163 (IC95%[$4.8595,$4.9730]) | edge=$+0.7963 (edge_lo=$+0.7395) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 600 ticks) | fee_cobrado=$5.3400 | fair_value_MC=$6.8908 (IC95%[$6.8107,$6.9709]) | edge=$+1.5508 (edge_lo=$+1.4707) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 900 ticks) | fee_cobrado=$5.9900 | fair_value_MC=$8.3619 (IC95%[$8.2641,$8.4598]) | edge=$+2.3719 (edge_lo=$+2.2741) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m (1800 ticks) | fee_cobrado=$6.9100 | fair_value_MC=$11.9748 (IC95%[$11.8351,$12.1145]) | edge=$+5.0648 (edge_lo=$+4.9251) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (3600 ticks) | fee_cobrado=$7.6200 | fair_value_MC=$16.9433 (IC95%[$16.7457,$17.1408]) | edge=$+9.3233 (edge_lo=$+9.1257) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+  MULTDOWN
+    cancellation=  5m ( 300 ticks) | fee_cobrado=$4.1200 | fair_value_MC=$4.8946 (IC95%[$4.8370,$4.9522]) | edge=$+0.7746 (edge_lo=$+0.7170) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 10m ( 600 ticks) | fee_cobrado=$5.3400 | fair_value_MC=$6.9204 (IC95%[$6.8393,$7.0015]) | edge=$+1.5804 (edge_lo=$+1.4993) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 15m ( 900 ticks) | fee_cobrado=$5.9800 | fair_value_MC=$8.4392 (IC95%[$8.3400,$8.5384]) | edge=$+2.4592 (edge_lo=$+2.3600) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 30m (1800 ticks) | fee_cobrado=$6.9000 | fair_value_MC=$11.9907 (IC95%[$11.8504,$12.1311]) | edge=$+5.0907 (edge_lo=$+4.9504) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+    cancellation= 60m (3600 ticks) | fee_cobrado=$7.6000 | fair_value_MC=$16.8206 (IC95%[$16.6233,$17.0179]) | edge=$+9.2206 (edge_lo=$+9.0233) <<< CANDIDATO A EDGE (fee < fair value, IC95%)
+
+====================================================================================================
+Multiplier=1000x  stake=$10.0
+====================================================================================================
+
+  MULTUP
+    cancellation=  5m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 10m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 15m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 30m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 60m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+
+  MULTDOWN
+    cancellation=  5m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 10m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 15m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 30m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+    cancellation= 60m | ERRO Multiplier is not in acceptable range. Accepts 40,100,200,300,400.
+
+====================================================================================================
+VEREDITO FINAL — 10 celulas testadas (multiplier x contract_type x cancellation)
+====================================================================================================
+>>> 10 candidato(s) a edge (fee cobrado < fair value, IC95%):
+    MULTUP 400x cancellation=5m: fee=$4.1200 fair=$4.9163 edge_lo=$+0.7395
+    MULTUP 400x cancellation=10m: fee=$5.3400 fair=$6.8908 edge_lo=$+1.4707
+    MULTUP 400x cancellation=15m: fee=$5.9900 fair=$8.3619 edge_lo=$+2.2741
+    MULTUP 400x cancellation=30m: fee=$6.9100 fair=$11.9748 edge_lo=$+4.9251
+    MULTUP 400x cancellation=60m: fee=$7.6200 fair=$16.9433 edge_lo=$+9.1257
+    MULTDOWN 400x cancellation=5m: fee=$4.1200 fair=$4.8946 edge_lo=$+0.7170
+    MULTDOWN 400x cancellation=10m: fee=$5.3400 fair=$6.9204 edge_lo=$+1.4993
+    MULTDOWN 400x cancellation=15m: fee=$5.9800 fair=$8.4392 edge_lo=$+2.3600
+    MULTDOWN 400x cancellation=30m: fee=$6.9000 fair=$11.9907 edge_lo=$+4.9504
+    MULTDOWN 400x cancellation=60m: fee=$7.6000 fair=$16.8206 edge_lo=$+9.0233

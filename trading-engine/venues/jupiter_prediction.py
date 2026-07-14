@@ -92,7 +92,10 @@ class JupiterPredictionVenue(PriceFeedVenue):
                 with urllib.request.urlopen(req, timeout=timeout) as r:
                     return json.loads(r.read().decode("utf-8"))
             except urllib.error.HTTPError as e:
-                raise JupiterAuthError(f"Jupiter API retornou {e.code}: {e.read().decode('utf-8', 'ignore')}") from e
+                body = e.read().decode("utf-8", "ignore")
+                if e.code in (401, 403):
+                    raise JupiterAuthError(f"Jupiter API retornou {e.code}: {body}") from e
+                raise JupiterAPIError(f"Jupiter API retornou {e.code} em {path}: {body}") from e
             except (TimeoutError, urllib.error.URLError) as e:
                 last_err = e
                 if attempt < retries:
@@ -113,18 +116,73 @@ class JupiterPredictionVenue(PriceFeedVenue):
         live_only: bool = False,
         start: Optional[int] = None,
         limit: Optional[int] = None,
+        event_filter: Optional[str] = None,
+        include_markets: bool = False,
+        include_all_markets: bool = False,
+        sort_by: Optional[str] = None,
+        sort_direction: Optional[str] = None,
     ) -> list:
         """GET /events -- provider: 'polymarket' (default da API) ou 'kalshi'. `start`/`limit`
         pra paginacao (a API pagina, default parece ser start=0/limit=10 -- confirmado ao vivo
         que ha centenas de eventos por category/provider, ex. 732 pra crypto/polymarket)."""
+        events, _ = self.list_events_page(
+            category=category,
+            provider=provider,
+            live_only=live_only,
+            start=start,
+            limit=limit,
+            event_filter=event_filter,
+            include_markets=include_markets,
+            include_all_markets=include_all_markets,
+            sort_by=sort_by,
+            sort_direction=sort_direction,
+        )
+        return events
+
+    def list_events_page(
+        self,
+        category: str = "crypto",
+        provider: str = "polymarket",
+        live_only: bool = False,
+        start: Optional[int] = None,
+        limit: Optional[int] = None,
+        event_filter: Optional[str] = None,
+        include_markets: bool = False,
+        include_all_markets: bool = False,
+        sort_by: Optional[str] = None,
+        sort_direction: Optional[str] = None,
+    ) -> tuple[list, dict]:
+        if live_only and event_filter and event_filter != "live":
+            raise ValueError("live_only e event_filter divergentes")
         params = {"category": category, "provider": provider}
-        if live_only:
-            params["filter"] = "live"
+        feed_filter = event_filter or ("live" if live_only else None)
+        if feed_filter:
+            params["filter"] = feed_filter
+        if include_markets:
+            params["includeMarkets"] = "true"
+        if include_all_markets:
+            params["includeAllMarkets"] = "true"
+        if sort_by:
+            params["sortBy"] = sort_by
+        if sort_direction:
+            params["sortDirection"] = sort_direction
         if start is not None:
             params["start"] = start
         if limit is not None:
             params["limit"] = limit
         data = self._get("/events", params)
+        if not isinstance(data, dict):
+            return data if isinstance(data, list) else [], {}
+        events = data.get("data", [])
+        pagination = data.get("pagination", {})
+        return events if isinstance(events, list) else [], pagination if isinstance(pagination, dict) else {}
+
+    def get_event(self, event_id: str) -> dict:
+        data = self._get(f"/events/{urllib.parse.quote(str(event_id), safe='')}")
+        return data.get("data", data) if isinstance(data, dict) else data
+
+    def get_orderbook(self, market_id: str) -> dict:
+        data = self._get(f"/orderbook/{urllib.parse.quote(str(market_id), safe='')}")
         return data.get("data", data) if isinstance(data, dict) else data
 
     def get_market(self, market_id: str) -> dict:
