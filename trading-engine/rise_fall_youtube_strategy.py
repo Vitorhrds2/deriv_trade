@@ -77,6 +77,18 @@ STRATEGIES = (
         False,
         "ADX>=25 e consenso 3/4 entre EMA, MACD, RSI e media de 20; contrato de 10m",
     ),
+    StrategySpec(
+        "multifactor_score_5m",
+        5,
+        False,
+        "Multi-factor scoring: RSI(14)+BB(20,2)+ROC(5)+direction reversal+local max/min; score>=6; contrato de 5m",
+    ),
+    StrategySpec(
+        "multifactor_score_10m",
+        10,
+        False,
+        "Multi-factor scoring: RSI(14)+BB(20,2)+ROC(5)+direction reversal+local max/min; score>=6; contrato de 10m",
+    ),
 )
 
 
@@ -199,19 +211,47 @@ def _rolling_adx(candles, period=14):
     return output
 
 
+def _rolling_std(values, period):
+    output = [None] * len(values)
+    for index in range(period - 1, len(values)):
+        window = values[index - period + 1:index + 1]
+        mean = sum(window) / period
+        variance = sum((value - mean) ** 2 for value in window) / period
+        output[index] = variance ** 0.5
+    return output
+
+
+def _rolling_roc(values, period=5):
+    output = [None] * len(values)
+    for index in range(period, len(values)):
+        prev = values[index - period]
+        if prev != 0:
+            output[index] = (values[index] - prev) / prev
+        else:
+            output[index] = 0.0
+    return output
+
+
 def build_context(candles):
     closes = [candle.close for candle in candles]
     ema12 = _ema(closes, 12)
     ema26 = _ema(closes, 26)
     macd = [fast - slow for fast, slow in zip(ema12, ema26)]
     macd_signal = _ema(macd, 9)
+    sma20 = _rolling_sma(closes, 20)
+    std20 = _rolling_std(closes, 20)
+    bb_upper = [s + 2 * sd if s is not None and sd is not None else None for s, sd in zip(sma20, std20)]
+    bb_lower = [s - 2 * sd if s is not None and sd is not None else None for s, sd in zip(sma20, std20)]
     return {
         "ema12": ema12,
         "ema26": ema26,
         "macd_hist": [value - signal for value, signal in zip(macd, macd_signal)],
         "rsi14": _rolling_rsi(closes, 14),
-        "sma20": _rolling_sma(closes, 20),
+        "sma20": sma20,
         "adx14": _rolling_adx(candles, 14),
+        "bb_upper": bb_upper,
+        "bb_lower": bb_lower,
+        "roc5": _rolling_roc(closes, 5),
     }
 
 
@@ -290,6 +330,68 @@ def _indicator_consensus(candles, index, context):
     return None
 
 
+def _multifactor_score(candles, index, context):
+    if index < 25:
+        return None
+    rsi = context["rsi14"][index]
+    bb_upper = context["bb_upper"][index]
+    bb_lower = context["bb_lower"][index]
+    sma = context["sma20"][index]
+    roc = context["roc5"][index]
+    if any(value is None for value in (rsi, bb_upper, bb_lower, sma, roc)):
+        return None
+    close = candles[index].close
+    bb_width = bb_upper - bb_lower
+    if bb_width <= 0:
+        return None
+    upper_70 = sma + 0.7 * (bb_upper - sma)
+    lower_70 = sma - 0.7 * (sma - bb_lower)
+    fall_score = 0
+    rise_score = 0
+    if rsi > 78:
+        fall_score += 3
+    elif rsi > 70:
+        fall_score += 2
+    if rsi < 22:
+        rise_score += 3
+    elif rsi < 30:
+        rise_score += 2
+    if close >= bb_upper:
+        fall_score += 3
+    elif close >= upper_70:
+        fall_score += 1
+    if close <= bb_lower:
+        rise_score += 3
+    elif close <= lower_70:
+        rise_score += 1
+    if roc < -0.02:
+        fall_score += 2
+    if roc > 0.02:
+        rise_score += 2
+    if index >= 2:
+        prev_dir = _sign(candles[index - 1].close - candles[index - 2].close)
+        curr_dir = _sign(close - candles[index - 1].close)
+        if prev_dir > 0 and curr_dir < 0:
+            fall_score += 2
+        if prev_dir < 0 and curr_dir > 0:
+            rise_score += 2
+    if index >= 20:
+        local_max = max(candles[index - 20].close, candles[index].close)
+        local_min = min(candles[index - 20].close, candles[index].close)
+        for candle in candles[index - 19:index]:
+            local_max = max(local_max, candle.close)
+            local_min = min(local_min, candle.close)
+        if close >= local_max:
+            fall_score += 1
+        if close <= local_min:
+            rise_score += 1
+    if fall_score >= 6 and fall_score > rise_score:
+        return PUT
+    if rise_score >= 6 and rise_score > fall_score:
+        return CALL
+    return None
+
+
 SIGNAL_FUNCTIONS: dict[str, Callable] = {
     "mtf_strict_15m": _mtf_strict,
     "mtf_majority_15m": _mtf_majority,
@@ -297,6 +399,8 @@ SIGNAL_FUNCTIONS: dict[str, Callable] = {
     "sr_rejection_15m": _sr_rejection,
     "indicator_consensus_5m": _indicator_consensus,
     "indicator_consensus_10m": _indicator_consensus,
+    "multifactor_score_5m": _multifactor_score,
+    "multifactor_score_10m": _multifactor_score,
 }
 
 
