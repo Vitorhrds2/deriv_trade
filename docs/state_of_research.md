@@ -1157,3 +1157,36 @@ próximo deploy em `hft_arbitrage_bot.py` para não perder trabalho de nenhum do
       multi-factor scoring não tem poder preditivo além do acaso; a margem da casa
       absorve qualquer micro-sinal.**
       Scripts: `rise_fall_youtube_strategy.py`, `rise_fall_youtube_backtest.py`.
+
+51. **D110 — Multiplier-as-Perpetual (date_expiry 2126):**
+    - **D110 (Multiplier Perpetual Edge) — REFUTADO**: Hipótese: transformar
+      contratos MULTUP/MULTDOWN em perpetuals settando `date_expiry` em 2126
+      (~100 anos). Se a commission fosse fixa (não proporcional ao tempo),
+      hold longo amortizaria o custo -> edge estrutural.
+    - **Descoberta chave 1**: A API Deriv **REJEITA** `date_expiry` E `duration`
+      para MULTUP/MULTDOWN com erro `InvalidExpiry` ("Invalid input (duration or
+      date_expiry) for this contract type"). Multipliers **JÁ SÃO PERPETUAL por
+      design** — rodam até stop-out ou sell manual, sem nenhum parâmetro de
+      expiração. A hipótese original (setar expiry longo) é impossível de
+      executar porque a API não aceita expiry em multipliers.
+    - **Descoberta chave 2**: A commission explícita é **$0.0000** em todas as
+      células testadas (4 símbolos × 5 multipliers × 2 direções). O `ask_price`
+      é exatamente igual ao stake ($10.00). Porém, o bid imediato após compra é
+      $9.64 — um spread bid-ask de **$0.36 (3.60%)** que funciona como
+      commission implícita.
+    - **Teste live (N=10, DEMO, 1HZ100V 100x, 120s poll cada)**:
+      Profit/trade = **-$0.8130** IC95%[-$1.86, +$0.186] (IC cruza zero, N baixo).
+      Total P&L = -$8.13. Bid-ask spread consistente = $0.36 em 100% dos trials.
+      Straddle (MULTUP+MULTDOWN) garante perda de 2 × $0.36 = $0.72 (payoff
+      direcional cancela, spread permanece).
+    - **Análise teórica**: Underlying sintético é martingale (driftless) → EV
+      do payoff direcional bruto = 0. Net EV = 0 - 3.60% (spread) = -3.60%/trade.
+      O stop_out protection é "gratuito" (sem commission explícita), mas o
+      spread bid-ask de 3.60% é o custo real embutido. Não há edge: o spread
+      é o preço do stop_out + liquidez, e não pode ser amortizado com hold
+      longo porque o spread é pago na entrada, não pro-rata.
+    - **Veredito: REFUTADO.** Multipliers já são perpetuals nativos; a
+      "transformação" proposta é impossível (API rejeita expiry) e
+      desnecessária (já não têm expiry). O custo real é o spread bid-ask de
+      3.60%, que torna o EV estruturalmente negativo em underlying martingale.
+      Script: `d110_multiplier_perpetual_probe.py`.

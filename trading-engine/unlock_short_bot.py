@@ -64,7 +64,7 @@ FEE_BPS = 20       # 10 bps per side
 STOP_LOSS_PCT = 15 # -15% stop loss (emergency)
 MAX_CONCURRENT = 5
 MAX_POSITION_PCT = 0.25  # 25% of equity per position
-MIN_UNLOCK_VALUE_MM = 20  # Lowered from $50M to capture more trades (OP, ARB, IMX, STRK)
+MIN_UNLOCK_VALUE_MM = 50  # Validated edge threshold ($50M); override via --min-unlock
 
 # Whitelist of validated symbols (from backtest with t-stat > 2.5 in OOS)
 # Only these tokens have statistically validated edge from the backtest
@@ -286,13 +286,25 @@ def kelly_position_size(equity, win_rate, avg_win_bps, avg_loss_bps):
     return min(position, equity * MAX_POSITION_PCT)
 
 
-def get_historical_stats():
-    """Get historical win rate and avg win/loss from backtest data."""
-    # From the validated backtest results
+def get_historical_stats(closed_trades=None):
+    """Win rate and avg win/loss (bps).
+
+    Data-driven from live closed trades once enough accumulate (N>=20);
+    otherwise conservative priors from the validated backtest (discounted
+    for OOS-2026 edge decay, t=1.99)."""
+    if closed_trades and len(closed_trades) >= 20:
+        bps = [t.get("pnl_pct", 0.0) * 100 for t in closed_trades]
+        wins = [b for b in bps if b > 0]
+        losses = [b for b in bps if b <= 0]
+        return {
+            "win_rate": len(wins) / len(bps) * 100,
+            "avg_win_bps": mean(wins) if wins else 400.0,
+            "avg_loss_bps": abs(mean(losses)) if losses else 400.0,
+        }
     return {
-        "win_rate": 66,        # Overall WR
-        "avg_win_bps": 800,    # Approximate avg win
-        "avg_loss_bps": 400,   # Approximate avg loss
+        "win_rate": 63,
+        "avg_win_bps": 550,
+        "avg_loss_bps": 450,
     }
 
 
@@ -443,7 +455,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
     marked_positions = mark_out_of_policy_positions(state)
     if marked_positions:
         save_state(state)
-    stats = get_historical_stats()
+    stats = get_historical_stats(state["closed_trades"])
     
     logger.info(f"{'='*80}")
     logger.info(f"D17 Token Unlock Short Bot — {mode.upper()} MODE")
@@ -514,6 +526,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                     continue
 
                 # Position sizing
+                stats = get_historical_stats(state["closed_trades"])
                 position_size = kelly_position_size(
                     equity, stats["win_rate"], stats["avg_win_bps"], stats["avg_loss_bps"]
                 )
@@ -724,10 +737,14 @@ def main():
     parser.add_argument("--backtest", action="store_true", help="Run historical backtest")
     parser.add_argument("--dry-run", action="store_true", help="Show schedule only, no trades")
     parser.add_argument("--equity", type=float, default=10000, help="Starting equity in USDT")
+    parser.add_argument("--min-unlock", type=float, default=50.0, help="Minimum unlock size in $M to trade (validated: $50M)")
     parser.add_argument("--testnet", action="store_true", help="Use Binance Futures testnet (demo-fapi.binance.com) instead of production")
     parser.add_argument("--demo", action="store_true", help="Use Binance Spot Demo (demo-api.binance.com) with DEMO keys for market data + paper trading")
     args = parser.parse_args()
     
+    global MIN_UNLOCK_VALUE_MM
+    MIN_UNLOCK_VALUE_MM = args.min_unlock
+
     if args.backtest:
         run_backtest(equity=args.equity)
         return
