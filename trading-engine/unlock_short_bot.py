@@ -64,7 +64,7 @@ FEE_BPS = 20       # 10 bps per side
 STOP_LOSS_PCT = 15 # -15% stop loss (emergency)
 MAX_CONCURRENT = 5
 MAX_POSITION_PCT = 0.25  # 25% of equity per position
-MIN_UNLOCK_VALUE_MM = 20  # Lowered from $50M to capture more trades (OP, ARB, IMX, STRK)
+MIN_UNLOCK_VALUE_MM = 50  # Validated edge threshold ($50M); override via --min-unlock
 
 # Whitelist of validated symbols (from backtest with t-stat > 2.5 in OOS)
 # Only these tokens have statistically validated edge from the backtest
@@ -89,9 +89,13 @@ BINANCE_SPOT_DEMO = "https://demo-api.binance.com/api/v3"
 
 UA = {"User-Agent": "unlock-short-bot/1.0"}
 
-TRADE_LOG = os.path.join(os.path.dirname(__file__), "unlock_short_trades.json")
-STATE_FILE = os.path.join(os.path.dirname(__file__), "unlock_short_state.json")
-LOG_FILE = os.path.join(os.path.dirname(__file__), "unlock_bot.log")
+_TAG = os.getenv("UNLOCK_BOT_TAG", "").strip()
+_SUFFIX = f"_{_TAG}" if _TAG else ""
+_HERE = os.path.dirname(__file__)
+TRADE_LOG = os.path.join(_HERE, f"unlock_short_trades{_SUFFIX}.json")
+STATE_FILE = os.path.join(_HERE, f"unlock_short_state{_SUFFIX}.json")
+LOG_FILE = os.path.join(_HERE, f"unlock_bot{_SUFFIX}.log")
+DISCORD_WEBHOOK = os.getenv("DISCORD_WEBHOOK_URL", "").strip() or None
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 logger = logging.getLogger("unlock_bot")
@@ -104,6 +108,24 @@ _console_handler.setLevel(logging.INFO)
 _console_handler.setFormatter(logging.Formatter("%(asctime)s %(message)s", datefmt="%H:%M:%S"))
 logger.addHandler(_file_handler)
 logger.addHandler(_console_handler)
+
+
+def send_discord(message, username="D17 Unlock Bot"):
+    if not DISCORD_WEBHOOK:
+        return
+    try:
+        data = json.dumps({"content": message, "username": username}).encode()
+        req = urllib.request.Request(
+            DISCORD_WEBHOOK, data=data,
+            headers={
+                "User-Agent": "Mozilla/5.0 (compatible; D17UnlockBot/1.0)",
+                "Content-Type": "application/json",
+            },
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=10)
+    except Exception as e:
+        logger.debug(f"  [DISCORD] notify failed: {e}")
 
 
 # ─── Binance API helpers ─────────────────────────────────────────────────────
@@ -286,13 +308,25 @@ def kelly_position_size(equity, win_rate, avg_win_bps, avg_loss_bps):
     return min(position, equity * MAX_POSITION_PCT)
 
 
-def get_historical_stats():
-    """Get historical win rate and avg win/loss from backtest data."""
-    # From the validated backtest results
+def get_historical_stats(closed_trades=None):
+    """Win rate and avg win/loss (bps).
+
+    Data-driven from live closed trades once enough accumulate (N>=20);
+    otherwise conservative priors from the validated backtest (discounted
+    for OOS-2026 edge decay, t=1.99)."""
+    if closed_trades and len(closed_trades) >= 20:
+        bps = [t.get("pnl_pct", 0.0) * 100 for t in closed_trades]
+        wins = [b for b in bps if b > 0]
+        losses = [b for b in bps if b <= 0]
+        return {
+            "win_rate": len(wins) / len(bps) * 100,
+            "avg_win_bps": mean(wins) if wins else 400.0,
+            "avg_loss_bps": abs(mean(losses)) if losses else 400.0,
+        }
     return {
-        "win_rate": 66,        # Overall WR
-        "avg_win_bps": 800,    # Approximate avg win
-        "avg_loss_bps": 400,   # Approximate avg loss
+        "win_rate": 63,
+        "avg_win_bps": 550,
+        "avg_loss_bps": 450,
     }
 
 
@@ -315,6 +349,9 @@ def paper_open_short(symbol, notional, entry_price, state, unlock_info):
     }
     state["open_positions"].append(position)
     logger.info(f"  [PAPER] OPENED SHORT {symbol} @ ${entry_price:.4f}, notional=${notional:.2f}, qty={position['quantity']:.4f}")
+    send_discord(f"**[ABERTURA] SHORT {symbol}** (PAPER) @ ${entry_price:.4f}\n"
+                 f"notional ${notional:.2f} | qty {position['quantity']:.4f} | "
+                 f"unlock {unlock_info['unlock_date']} (${unlock_info['unlock_value_mm']:.0f}M)")
     return position
 
 
@@ -344,6 +381,8 @@ def paper_close_short(position, exit_price, state, reason="scheduled"):
     
     logger.info(f"  [PAPER] CLOSED SHORT {position['symbol']} @ ${exit_price:.4f}, "
                 f"PnL=${net_pnl:+.2f} ({pnl_pct:+.2f}%) [{reason}]")
+    send_discord(f"**[FECHAMENTO] {position['symbol']}** (PAPER) @ ${exit_price:.4f}\n"
+                 f"PnL ${net_pnl:+.2f} ({pnl_pct:+.2f}%) | motivo: {reason}")
     return trade
 
 
@@ -385,6 +424,9 @@ def live_open_short(symbol, notional, api_key, api_secret, state, unlock_info):
         }
         state["open_positions"].append(position)
         logger.info(f"  [LIVE] OPENED SHORT {symbol} @ ${entry_price:.4f}, notional=${notional:.2f}, qty={quantity}")
+        send_discord(f"**[ABERTURA] SHORT {symbol}** (LIVE) @ ${entry_price:.4f}\n"
+                     f"notional ${notional:.2f} | qty {quantity} | "
+                     f"unlock {unlock_info['unlock_date']} (${unlock_info['unlock_value_mm']:.0f}M)")
         return position
     except Exception as e:
         logger.error(f"  [LIVE] ERROR opening short {symbol}: {e}")
@@ -417,6 +459,8 @@ def live_close_short(position, api_key, api_secret, state, reason="scheduled"):
         append_trade_log(trade)
         logger.info(f"  [LIVE] CLOSED SHORT {position['symbol']} @ ${exit_price:.4f}, "
                     f"PnL=${net_pnl:+.2f} ({pnl_pct:+.2f}%) [{reason}]")
+        send_discord(f"**[FECHAMENTO] {position['symbol']}** (LIVE) @ ${exit_price:.4f}\n"
+                     f"PnL ${net_pnl:+.2f} ({pnl_pct:+.2f}%) | motivo: {reason}")
         return trade
     except Exception as e:
         logger.error(f"  [LIVE] ERROR closing short {position['symbol']}: {e}")
@@ -443,7 +487,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
     marked_positions = mark_out_of_policy_positions(state)
     if marked_positions:
         save_state(state)
-    stats = get_historical_stats()
+    stats = get_historical_stats(state["closed_trades"])
     
     logger.info(f"{'='*80}")
     logger.info(f"D17 Token Unlock Short Bot — {mode.upper()} MODE")
@@ -484,6 +528,8 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
         logger.info(f"  Closed trades in log: {len(state['closed_trades'])}")
         return
 
+    send_discord(f"**[START] D17 Unlock Bot ({mode.upper()})** | equity ${equity:,.2f} | "
+                 f"min unlock ${MIN_UNLOCK_VALUE_MM}M | {len(upcoming)} unlocks na fila")
     logger.info(f"  Starting main loop (checking every {CHECK_INTERVAL_S}s)...")
     logger.info(f"  Press Ctrl+C to stop.\n")
     
@@ -514,6 +560,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                     continue
 
                 # Position sizing
+                stats = get_historical_stats(state["closed_trades"])
                 position_size = kelly_position_size(
                     equity, stats["win_rate"], stats["avg_win_bps"], stats["avg_loss_bps"]
                 )
@@ -724,10 +771,14 @@ def main():
     parser.add_argument("--backtest", action="store_true", help="Run historical backtest")
     parser.add_argument("--dry-run", action="store_true", help="Show schedule only, no trades")
     parser.add_argument("--equity", type=float, default=10000, help="Starting equity in USDT")
+    parser.add_argument("--min-unlock", type=float, default=50.0, help="Minimum unlock size in $M to trade (validated: $50M)")
     parser.add_argument("--testnet", action="store_true", help="Use Binance Futures testnet (demo-fapi.binance.com) instead of production")
     parser.add_argument("--demo", action="store_true", help="Use Binance Spot Demo (demo-api.binance.com) with DEMO keys for market data + paper trading")
     args = parser.parse_args()
     
+    global MIN_UNLOCK_VALUE_MM
+    MIN_UNLOCK_VALUE_MM = args.min_unlock
+
     if args.backtest:
         run_backtest(equity=args.equity)
         return
