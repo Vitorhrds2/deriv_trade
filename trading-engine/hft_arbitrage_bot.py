@@ -36,6 +36,9 @@ DERIV_APP_ID = os.getenv("DERIV_APP_ID")
 DERIV_SYMBOL = "cryBTCUSD"
 BINANCE_SYMBOL = "btcusdt"
 
+MAX_DEMO_LOSS_USD = float(os.getenv("HFT_MAX_DEMO_LOSS_USD", "50"))
+MAX_SESSION_TRADES = int(os.getenv("HFT_MAX_SESSION_TRADES", "30"))
+
 STAKE = 10.0
 MULTIPLIER = 800
 PRICE_SHOCK_THRESHOLD = 45.00 # V6.2 Ultra-Momentum: threshold reduzido de 50 para 45 (mais frequência de entradas)
@@ -79,12 +82,37 @@ state = {
     "deriv_client": None,
     "price_history": [],
     "pending_trigger": None,
-    "last_deriv_tick_time": 0.0
+    "last_deriv_tick_time": 0.0,
+    "session_pnl": 0.0,
+    "closed_trades": 0,
+    "halted": False
 }
 
 def is_golden_hour():
     hour_utc = datetime.now(timezone.utc).hour
     return GOLDEN_HOUR_START_UTC <= hour_utc < GOLDEN_HOUR_END_UTC
+
+def record_closed_trade(profit):
+    state["session_pnl"] += profit
+    state["closed_trades"] += 1
+    logger.info(
+        f"SESSION LEDGER | Trades: {state['closed_trades']} | "
+        f"PnL: ${state['session_pnl']:.2f} | MaxLoss: ${MAX_DEMO_LOSS_USD:.2f}"
+    )
+
+    if MAX_DEMO_LOSS_USD > 0 and state["session_pnl"] <= -abs(MAX_DEMO_LOSS_USD):
+        state["halted"] = True
+        logger.critical(
+            f"KILL SWITCH: perda demo de sessao atingiu ${state['session_pnl']:.2f}. "
+            "Novas ordens bloqueadas ate reinicio/configuracao humana."
+        )
+
+    if MAX_SESSION_TRADES > 0 and state["closed_trades"] >= MAX_SESSION_TRADES:
+        state["halted"] = True
+        logger.critical(
+            f"KILL SWITCH: limite de {MAX_SESSION_TRADES} trades demo atingido. "
+            "Novas ordens bloqueadas ate revisao humana."
+        )
 
 async def close_trade(contract_id, direction, group):
     start_time = time.time()
@@ -104,6 +132,7 @@ async def close_trade(contract_id, direction, group):
                 if contract.get("is_sold"):
                     profit = float(contract.get("profit", 0))
                     logger.info(f"✅ TRADE ENCERRADO AUTOMATICAMENTE! Lucro: ${profit:.2f} | Direção: {direction} | Grupo: {group}")
+                    record_closed_trade(profit)
                     state["is_trading"] = False
                     return
 
@@ -139,6 +168,7 @@ async def close_trade(contract_id, direction, group):
                 profit = float(sell_res["sell"]["sold_for"]) - STAKE
                 sold_for = float(sell_res["sell"]["sold_for"])
                 logger.info(f"✅ TRADE ENCERRADO! Retorno: ${sold_for:.2f} | Lucro: ${profit:.2f} | Direção: {direction} | Grupo: {group}")
+                record_closed_trade(profit)
                 break
     except Exception as e:
         logger.error(f"Erro no fechamento agressivo: {e}")
@@ -147,6 +177,10 @@ async def close_trade(contract_id, direction, group):
     logger.info("🤖 Sniper recarregado e pronto para o próximo tiro.")
 
 async def execute_trade(direction, price_shock_amount, elapsed_ms):
+    if state["halted"]:
+        logger.warning("Bot em estado halted; ordem ignorada.")
+        return
+
     if state["is_trading"]:
         return
         
@@ -212,6 +246,9 @@ async def deriv_tick_sync():
 
 async def update_synthetic_price():
     if not all(global_prices.values()):
+        return
+
+    if state["halted"]:
         return
     
     # Calcula o índice sintético com a fórmula da regressão (R2=0.928)
@@ -322,9 +359,17 @@ async def kraken_ws():
 
 async def main():
     logger.info("🚀 INICIANDO BOT HFT - ARBITRAGEM SINTÉTICA (V6.2 Ultra-Momentum + Filtro de Velocidade + Horário de Ouro)")
+    logger.info(
+        f"Guardrails demo: max_loss=${MAX_DEMO_LOSS_USD:.2f}, "
+        f"max_trades={MAX_SESSION_TRADES}, use_demo=True"
+    )
     
     client = DerivClient(app_id=DERIV_APP_ID, api_token=DERIV_API_TOKEN, use_demo=True)
     await client.connect()
+    if not str(client.account_id or "").startswith("DOT"):
+        logger.critical(f"ABORTANDO: conta autenticada nao parece DEMO/DOT: {client.account_id}")
+        await client.disconnect()
+        return
     state["deriv_client"] = client
     
     # Inicia as tasks em background
