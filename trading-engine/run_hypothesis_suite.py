@@ -26,6 +26,12 @@ from pathlib import Path
 
 HERE = Path(__file__).parent
 
+for stream in (sys.stdout, sys.stderr):
+    try:
+        stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
 
 @dataclass
 class HypothesisTest:
@@ -67,7 +73,7 @@ async def run_one(test: HypothesisTest, log_dir: Path):
     log_path = log_dir / f"{test.id}.log"
     print(f"[{test.id}] iniciando -> {' '.join(test.cmd)}  (log: {log_path.name})")
     t0 = time.time()
-    with open(log_path, "w") as logf:
+    with open(log_path, "w", encoding="utf-8", errors="replace") as logf:
         try:
             proc = await asyncio.create_subprocess_exec(
                 *test.cmd, cwd=str(HERE),
@@ -115,7 +121,7 @@ async def main():
         if missing:
             print(f"AVISO: ids nao encontrados no registro: {missing}")
 
-    log_dir = HERE / "logs" / "hypothesis_suite"
+    log_dir = HERE / "data" / "hypothesis_suite"
     log_dir.mkdir(parents=True, exist_ok=True)
 
     print("=" * 70)
@@ -139,8 +145,8 @@ async def main():
         for line in r["tail"]:
             print(f"    {line}")
 
-    report_path = HERE / "logs" / "hypothesis_suite" / "SUMMARY.md"
-    with open(report_path, "w") as f:
+    report_path = log_dir / "SUMMARY.md"
+    with open(report_path, "w", encoding="utf-8", errors="replace") as f:
         f.write("# Mega Brain — Hypothesis Suite Summary\n\n")
         for r in results:
             f.write(f"## {r['id']} — {r['name']}\n\n**Status:** {r['status']} ({r['elapsed_s']:.0f}s)\n\n```\n")
