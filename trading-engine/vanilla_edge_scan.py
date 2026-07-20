@@ -14,11 +14,10 @@ comprovado em T3). Compara payout medio simulado (e seu IC95% via bootstrap) con
 """
 import asyncio
 import os
-import random
 import statistics
+import numpy as np
 from dotenv import load_dotenv
 from deriv_client import DerivClient
-from stats_utils import bootstrap_ci
 
 load_dotenv()
 APP_ID = os.getenv("DERIV_APP_ID")
@@ -71,18 +70,31 @@ async def get_vanilla_quote(client, contract_type, symbol, duration_val, duratio
 
 def monte_carlo_payout(returns_pool, n_ticks, spot, strike, is_call, n_sims, rng):
     """Bootstrap de retornos reais (log-returns demeaned) para simular o preco terminal."""
+    pool = np.asarray(returns_pool, dtype=np.float64)
+    batch_size = max(1, min(n_sims, 2_000_000 // max(1, n_ticks)))
     payoffs = []
-    pool_n = len(returns_pool)
-    for _ in range(n_sims):
+    for start in range(0, n_sims, batch_size):
+        size = min(batch_size, n_sims - start)
         # soma de n_ticks retornos amostrados com reposicao (ja demeaned = driftless)
-        total_return = sum(returns_pool[rng.randrange(pool_n)] for _ in range(n_ticks))
-        terminal = spot + total_return
-        if is_call:
-            payoff = max(0.0, terminal - strike)
-        else:
-            payoff = max(0.0, strike - terminal)
-        payoffs.append(payoff)
+        terminal = spot + rng.choice(pool, size=(size, n_ticks), replace=True).sum(axis=1)
+        payoff = np.maximum(0.0, terminal - strike) if is_call else np.maximum(0.0, strike - terminal)
+        payoffs.extend(payoff.tolist())
     return payoffs
+
+
+def bootstrap_mean_ci(values, n_boot=3000, seed=42):
+    array = np.asarray(values, dtype=np.float64)
+    if array.size == 0:
+        return 0.0, 0.0, 0.0
+    rng = np.random.default_rng(seed)
+    batch_size = max(1, min(n_boot, 2_000_000 // len(array)))
+    means = np.empty(n_boot, dtype=np.float64)
+    for start in range(0, n_boot, batch_size):
+        size = min(batch_size, n_boot - start)
+        indices = rng.integers(0, len(array), size=(size, len(array)))
+        means[start:start + size] = array[indices].mean(axis=1)
+    low, high = np.quantile(means, (0.025, 0.975))
+    return float(low), float(array.mean()), float(high)
 
 
 async def fetch_return_pool():
@@ -103,7 +115,7 @@ async def main(demeaned_returns, all_results, done_keys):
     client = DerivClient(app_id=APP_ID, api_token=TOKEN, use_demo=True)
     await client.connect()
 
-    rng = random.Random(7)
+    rng = np.random.default_rng(7)
 
     for duration_val, duration_unit, duration_secs in DURATIONS:
         n_ticks = int(duration_secs * TICKS_PER_SECOND)
@@ -135,7 +147,7 @@ async def main(demeaned_returns, all_results, done_keys):
                 payoffs = monte_carlo_payout(demeaned_returns, n_ticks, q["spot"], q["strike"],
                                               is_call, N_SIMULATIONS, rng)
                 payout_values = [p * q["payout_per_point"] for p in payoffs]
-                boot_lo, mean_payout, boot_hi = bootstrap_ci(payout_values, n_boot=3000)
+                boot_lo, mean_payout, boot_hi = bootstrap_mean_ci(payout_values, n_boot=3000)
                 ev = mean_payout / STAKE - 1
                 ev_lo = boot_lo / STAKE - 1
                 ev_hi = boot_hi / STAKE - 1

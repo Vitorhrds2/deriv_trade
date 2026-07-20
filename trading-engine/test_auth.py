@@ -1,24 +1,30 @@
 import asyncio
-import json
-import websockets
+import os
+from pathlib import Path
 
-async def test():
-    uri = "wss://api.derivws.com/trading/v1/options/ws/demo?otp=gy2krhKg&app_id=33iJWIKcLfzGYo9IE1Y6f"
-    async with websockets.connect(uri) as ws:
-        await ws.send(json.dumps({
-            "proposal": 1,
-            "amount": 10,
-            "contract_type": "MULTUP",
-            "currency": "USD",
-            "multiplier": 100,
-            "underlying_symbol": "1HZ100V",
-            "req_id": 1
-        }))
-        
-        while True:
-            res = await ws.recv()
-            print("Response:", res)
-            if "proposal" in res or "error" in res:
-                break
+from dotenv import load_dotenv
 
-asyncio.run(test())
+from deriv_client import DerivClient
+
+
+async def check_auth():
+    load_dotenv(Path(__file__).with_name(".env"))
+    app_id = os.getenv("DERIV_APP_ID")
+    token = os.getenv("DERIV_API_TOKEN")
+    if not app_id or not token:
+        raise RuntimeError("DERIV_APP_ID and DERIV_API_TOKEN are required")
+    client = DerivClient(app_id=app_id, api_token=token, use_demo=True)
+    await client.connect()
+    try:
+        response = await client.send_request({"authorize": token})
+        loginid = response.get("authorize", {}).get("loginid", "")
+        account_id = str(client.account_id or "")
+        if not account_id.startswith("DOT") or not loginid.startswith("DOT"):
+            raise RuntimeError("authenticated account is not DEMO")
+        print(f"Demo authentication OK: {loginid[:3]}***")
+    finally:
+        await client.disconnect()
+
+
+if __name__ == "__main__":
+    asyncio.run(check_auth())
