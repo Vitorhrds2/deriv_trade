@@ -30,6 +30,15 @@ if os.path.exists(state_file):
     print(f"\nState: {len(state.get('open_positions', []))} open, "
           f"{len(state.get('closed_trades', []))} closed, "
           f"last_check={state.get('last_check', 'never')}")
+    for p in state.get("open_positions", []):
+        try:
+            from unlock_short_bot import get_current_price
+            cur = get_current_price(p["symbol"])
+            unrl = (p["entry_price"] - cur) * p["quantity"]
+            unrl_pct = (p["entry_price"] - cur) / p["entry_price"] * 100
+            print(f"  -> OPEN: {p['symbol']} SHORT @ ${p['entry_price']:.4f} | Mark=${cur:.4f} | PnL=${unrl:+.2f} ({unrl_pct:+.2f}%) | Stop=${p.get('stop_loss_price', 0):.4f} | Exit={p['unlock_date']}+3d")
+        except Exception:
+            print(f"  -> OPEN: {p['symbol']} SHORT @ ${p['entry_price']:.4f} | Notional=${p['notional']:.2f}")
 else:
     print("\nNo state file found")
 

@@ -14,6 +14,7 @@ import {
   Shield,
   Unlock,
   Workflow,
+  Zap,
 } from "lucide-react";
 
 import {
@@ -33,6 +34,7 @@ import { percentile } from "@/lib/format";
 
 const research = [
   { title: "Command Center", url: "/",            icon: Gauge },
+  { title: "D107 Ladder Bot", url: "/d107",       icon: Zap },
   { title: "Hypotheses",     url: "/hypotheses",  icon: FlaskConical },
   { title: "D17 Dashboard",  url: "/d17",         icon: Unlock },
   { title: "Strategies",     url: "/strategies",  icon: Workflow },

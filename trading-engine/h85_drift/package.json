@@ -1,0 +1,17 @@
+{
+  "name": "h85-drift-swift-scan",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsx h85_swift_subscriber.ts",
+    "scan": "npx tsx h85_swift_subscriber.ts"
+  },
+  "dependencies": {
+    "@drift-labs/sdk": "^2.0.0",
+    "@solana/web3.js": "^1.95.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

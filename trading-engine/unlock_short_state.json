@@ -1,0 +1,19 @@
+{
+  "open_positions": [
+    {
+      "symbol": "SUIUSDT",
+      "side": "SHORT",
+      "entry_price": 0.8611,
+      "notional": 1250.0,
+      "quantity": 1451.6316339565672,
+      "entry_time": "2026-10-30T01:42:09.126257+00:00",
+      "unlock_date": "2026-11-01",
+      "unlock_value_mm": 64.0,
+      "mode": "PAPER",
+      "policy_status": "in_policy_v2",
+      "stop_loss_price": 0.990265
+    }
+  ],
+  "closed_trades": [],
+  "last_check": "2026-11-02T19:50:50.068156+00:00"
+}

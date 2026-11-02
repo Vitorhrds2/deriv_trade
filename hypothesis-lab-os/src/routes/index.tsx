@@ -19,7 +19,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ArrowUpRight, FlaskConical, Plug, Workflow } from "lucide-react";
+import { ArrowUpRight, FlaskConical, Plug, Workflow, Zap } from "lucide-react";
 import { useApp } from "@/lib/store";
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -105,9 +105,14 @@ function CommandCenter() {
             : `${realHypotheses.length} hipóteses catalogadas (${validatingHyp} em validação) · hft_bot rodando em shadow A/B na Deriv (conta demo).`
         }
         actions={
-          <Button variant="outline" size="sm" asChild>
-            <Link to="/hypotheses"><FlaskConical className="h-4 w-4" />Hipóteses</Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button size="sm" className="gap-1.5 bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+              <Link to="/d107"><Zap className="h-4 w-4" />D107 Ladder Bot (task-4831)</Link>
+            </Button>
+            <Button variant="outline" size="sm" asChild>
+              <Link to="/hypotheses"><FlaskConical className="h-4 w-4" />Hipóteses</Link>
+            </Button>
+          </div>
         }
       />
 

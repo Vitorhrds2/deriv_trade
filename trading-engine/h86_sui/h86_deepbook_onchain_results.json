@@ -1,0 +1,161 @@
+{
+  "ts": "2026-07-14T08:08:58.160810+00:00",
+  "hypothesis": "H86",
+  "platform": "Sui DeepBookV3 (on-chain RPC)",
+  "pools_discovered": {
+    "0x18d871e3c3da99046dfc0d3de612c5d88859bc03b8f0568bd127d0e70dbc58be": {
+      "pair": "SUI/WUSDC",
+      "id": "0x18d871e3c3da99046dfc0d3de612c5d88859bc03b8f0568bd127d0e70dbc58be",
+      "base_name": "SUI",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 250.0,
+      "maker_rebate_bps": 150.0
+    },
+    "0x7f526b1263c4b91b43c9e646419b5696f424de28dda3c1e6658cc0a54558baa7": {
+      "pair": "SUI/WUSDC",
+      "id": "0x7f526b1263c4b91b43c9e646419b5696f424de28dda3c1e6658cc0a54558baa7",
+      "base_name": "SUI",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 250.0,
+      "maker_rebate_bps": 150.0
+    },
+    "0x5deafda22b6b86127ea4299503362638bea0ca33bb212ea3a67b029356b8b955": {
+      "pair": "USDT/WUSDC",
+      "id": "0x5deafda22b6b86127ea4299503362638bea0ca33bb212ea3a67b029356b8b955",
+      "base_name": "USDT",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 250.0,
+      "maker_rebate_bps": 150.0
+    },
+    "0xd9e45ab5440d61cc52e3b2bd915cdd643146f7593d587c715bc7bfa48311d826": {
+      "pair": "WAL/WUSDC",
+      "id": "0xd9e45ab5440d61cc52e3b2bd915cdd643146f7593d587c715bc7bfa48311d826",
+      "base_name": "WAL",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 250.0,
+      "maker_rebate_bps": 150.0
+    },
+    "0xf0f663cf87f1eb124da2fc9be813e0ce262146f3df60bc2052d738eb41a25899": {
+      "pair": "DEEP/WUSDC",
+      "id": "0xf0f663cf87f1eb124da2fc9be813e0ce262146f3df60bc2052d738eb41a25899",
+      "base_name": "DEEP",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 250.0,
+      "maker_rebate_bps": 150.0
+    },
+    "0x4405b50d791fd3346754e8171aaab6bc2ed26c2c46efdd033c14b30ae507ac33": {
+      "pair": "SUI/WUSDC",
+      "id": "0x4405b50d791fd3346754e8171aaab6bc2ed26c2c46efdd033c14b30ae507ac33",
+      "base_name": "SUI",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0
+    },
+    "0xd1f0a9baacc1864ab19534e2d4c5d6c14f2e071a1f075e8e7f9d51f2c17dc238": {
+      "pair": "USDT/WUSDC",
+      "id": "0xd1f0a9baacc1864ab19534e2d4c5d6c14f2e071a1f075e8e7f9d51f2c17dc238",
+      "base_name": "USDT",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 10.0,
+      "maker_rebate_bps": 10.0
+    },
+    "0x276ff4d99ecb3175091ba4baffa9b07590f84e2344e3f16e95d30d2c1678b84c": {
+      "pair": "WAL/WUSDC",
+      "id": "0x276ff4d99ecb3175091ba4baffa9b07590f84e2344e3f16e95d30d2c1678b84c",
+      "base_name": "WAL",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 10.0,
+      "maker_rebate_bps": 10.0
+    },
+    "0x17625f1a241d34d2da0dc113086f67a2b832e3e8cd8006887c195cd24d3598a3": {
+      "pair": "DEEP/WUSDC",
+      "id": "0x17625f1a241d34d2da0dc113086f67a2b832e3e8cd8006887c195cd24d3598a3",
+      "base_name": "DEEP",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 10.0,
+      "maker_rebate_bps": 10.0
+    },
+    "0x6e417ee1c12ad5f2600a66bc80c7bd52ff3cb7c072d508700d17cf1325324527": {
+      "pair": "WAL/WUSDC",
+      "id": "0x6e417ee1c12ad5f2600a66bc80c7bd52ff3cb7c072d508700d17cf1325324527",
+      "base_name": "WAL",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0
+    },
+    "0x31d1790e617eef7f516555124155b28d663e5c600317c769a75ee6336a54c07f": {
+      "pair": "DEEP/WUSDC",
+      "id": "0x31d1790e617eef7f516555124155b28d663e5c600317c769a75ee6336a54c07f",
+      "base_name": "DEEP",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0
+    },
+    "0x16601e0e79500b81392830974f827129a8573d3b05dcc22c47ba4da1015357b5": {
+      "pair": "UNKNOWN/SUI",
+      "id": "0x16601e0e79500b81392830974f827129a8573d3b05dcc22c47ba4da1015357b5",
+      "base_name": "UNKNOWN",
+      "quote_name": "SUI",
+      "taker_fee_bps": 500.0,
+      "maker_rebate_bps": 0.0
+    },
+    "0xc0833efe1d86978ebf57a3ce4a41b2c2b9e20faf802305f1eda306c8fc64ee40": {
+      "pair": "UNKNOWN/SUI",
+      "id": "0xc0833efe1d86978ebf57a3ce4a41b2c2b9e20faf802305f1eda306c8fc64ee40",
+      "base_name": "UNKNOWN",
+      "quote_name": "SUI",
+      "taker_fee_bps": 500.0,
+      "maker_rebate_bps": 0.0
+    },
+    "0x656a0a5bf0cee2b30c4f9477c07b663df5ab5b0825199017bc2651158db1b039": {
+      "pair": "USDY/WUSDC",
+      "id": "0x656a0a5bf0cee2b30c4f9477c07b663df5ab5b0825199017bc2651158db1b039",
+      "base_name": "USDY",
+      "quote_name": "WUSDC",
+      "taker_fee_bps": 10.0,
+      "maker_rebate_bps": 10.0
+    },
+    "0x05ab94d2ad795c90c13a1e7b7c9adda547b9e1b11119ad67846879e3438a9cba": {
+      "pair": "SUI/UNKNOWN",
+      "id": "0x05ab94d2ad795c90c13a1e7b7c9adda547b9e1b11119ad67846879e3438a9cba",
+      "base_name": "SUI",
+      "quote_name": "UNKNOWN",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0
+    },
+    "0x39f2f7c126189b9b5cda6b770ab34031dde22307d19842e95ab576873c77fa14": {
+      "pair": "WUSDC/USDC",
+      "id": "0x39f2f7c126189b9b5cda6b770ab34031dde22307d19842e95ab576873c77fa14",
+      "base_name": "WUSDC",
+      "quote_name": "USDC",
+      "taker_fee_bps": 0.0,
+      "maker_rebate_bps": 0.0
+    }
+  },
+  "coinbase_sui_price": 0.73005,
+  "results": {
+    "SUI/WUSDC": {
+      "pool_id": "0x4405b50d791fd3346754e8171aaab6bc2ed26c2c46efdd033c14b30ae507ac33",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0,
+      "n_samples": 11,
+      "last_sample": {
+        "ts": 1784016404.2546146,
+        "best_bid_key": 1680000,
+        "best_ask_key": 5800000,
+        "n_bid_levels": 6,
+        "n_ask_levels": 6,
+        "tick_size": 100,
+        "coinbase_price": 0.7304,
+        "matching_scale": null
+      }
+    },
+    "SUI/UNKNOWN": {
+      "pool_id": "0x05ab94d2ad795c90c13a1e7b7c9adda547b9e1b11119ad67846879e3438a9cba",
+      "taker_fee_bps": 20.0,
+      "maker_rebate_bps": 20.0,
+      "n_samples": 0,
+      "last_sample": null
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import asyncio
 import json
 import logging
+import time
 import websockets
 import urllib.request
 from urllib.error import HTTPError
@@ -27,6 +28,8 @@ class DerivClient:
         self._tick_callback = None
         self._closing = False
         self._reconnects = 0
+        self.contract_streams = {}
+        self.contract_stream_times = {}
         
     async def _get_auth_url(self):
         # 1. Fetch accounts to find the specified account
@@ -135,6 +138,23 @@ class DerivClient:
                     data = json.loads(message)
                     req_id = data.get("req_id")
                     msg_type = data.get("msg_type")
+
+                    if msg_type == "proposal_open_contract":
+                        poc = data.get("proposal_open_contract")
+                        if isinstance(poc, dict):
+                            cid = poc.get("contract_id")
+                            if cid is not None:
+                                now_ts = time.monotonic()
+                                self.contract_streams[cid] = poc
+                                self.contract_streams[str(cid)] = poc
+                                self.contract_stream_times[cid] = now_ts
+                                self.contract_stream_times[str(cid)] = now_ts
+                                if "proposal_open_contract" in self.callbacks:
+                                    cb = self.callbacks["proposal_open_contract"]
+                                    if asyncio.iscoroutinefunction(cb):
+                                        await cb(poc)
+                                    else:
+                                        cb(poc)
 
                     if req_id and req_id in self.callbacks:
                         future = self.callbacks.pop(req_id)

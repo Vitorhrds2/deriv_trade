@@ -95,7 +95,8 @@ def fetch_options(currency):
 
         bid = float(opt.get("bid_price", 0) or 0)
         ask = float(opt.get("ask_price", 0) or 0)
-        mid = (bid + ask) / 2 if bid > 0 and ask > 0 else 0
+        mark_price = float(opt.get("mark_price", 0) or 0)
+        mid = (bid + ask) / 2 if (bid > 0 and ask > 0) else mark_price
         iv = float(opt.get("mark_iv", 0) or 0)
         oi = float(opt.get("open_interest", 0) or 0)
         volume = float(opt.get("volume", 0) or 0)
@@ -282,39 +283,54 @@ def run_bot():
                     fair_iv = pos["fair_iv"]
                     deviation_now = current_iv - fair_iv
 
-                    # Check if anomaly reverted (deviation < 1 vol point)
+                    # Calculate current mark and PnL
+                    S = current_opt["underlying_price"]
+                    exit_price_crypto = current_opt["mid"] if current_opt["mid"] > 0 else current_opt["iv"] # fallback
+                    exit_price_usd = exit_price_crypto * S
+                    entry_price_usd = pos["entry_price"] * pos.get("entry_underlying", S)
+                    quantity = pos["quantity"]
+
+                    if pos["direction"] == "BUY":
+                        pnl = (exit_price_usd - entry_price_usd) * quantity
+                    else:
+                        pnl = (entry_price_usd - exit_price_usd) * quantity
+
+                    notional = entry_price_usd * quantity
+                    fees = notional * FEE_PCT / 100 * 2
+                    pnl -= fees
+                    pnl_pct = pnl / notional * 100 if notional > 0 else 0
+
+                    # Exit conditions:
+                    # 1. Anomaly reverted (deviation < 1 vol point)
+                    # 2. Profit target reached (+10.0% PnL)
+                    # 3. Stop loss reached (-20.0% PnL)
+                    should_exit = False
+                    exit_reason = ""
                     if abs(deviation_now) < 1.0:
-                        # Settle: P&L based on actual price difference
-                        # Deribit prices are in crypto, convert to USD
-                        S = current_opt["underlying_price"]
-                        exit_price_crypto = current_opt["mid"]
-                        exit_price_usd = exit_price_crypto * S
-                        entry_price_usd = pos["entry_price"] * pos.get("entry_underlying", S)
-                        quantity = pos["quantity"]
+                        should_exit = True
+                        exit_reason = "anomaly_reverted"
+                    elif pnl_pct >= 10.0:
+                        should_exit = True
+                        exit_reason = f"take_profit_{pnl_pct:.1f}%"
+                    elif pnl_pct <= -20.0:
+                        should_exit = True
+                        exit_reason = f"stop_loss_{pnl_pct:.1f}%"
 
-                        if pos["direction"] == "BUY":
-                            pnl = (exit_price_usd - entry_price_usd) * quantity
-                        else:
-                            pnl = (entry_price_usd - exit_price_usd) * quantity
-
-                        # Subtract fees (0.03% each side on notional)
-                        notional = entry_price_usd * quantity
-                        fees = notional * FEE_PCT / 100 * 2
-                        pnl -= fees
-
+                    if should_exit:
                         pos["status"] = "settled"
                         pos["exit_time"] = now.isoformat()
                         pos["exit_iv"] = current_iv
                         pos["exit_price"] = exit_price_crypto
                         pos["exit_price_usd"] = exit_price_usd
                         pos["deviation_now"] = deviation_now
+                        pos["exit_reason"] = exit_reason
                         pos["pnl_usd"] = pnl
-                        pos["pnl_pct"] = pnl / notional * 100 if notional > 0 else 0
+                        pos["pnl_pct"] = pnl_pct
 
                         emoji = "WIN" if pnl > 0 else "LOSS"
-                        print(f"  [{emoji}] SETTLED {pos['instrument']} | "
+                        print(f"  [{emoji}] SETTLED {pos['instrument']} ({exit_reason}) | "
                               f"Entry IV: {entry_iv:.1f} → Exit IV: {current_iv:.1f} | "
-                              f"P&L: ${pnl:+.4f}")
+                              f"P&L: ${pnl:+.4f} ({pnl_pct:+.2f}%)")
 
             except Exception as e:
                 print(f"  ERROR checking settlements for {currency}: {e}")

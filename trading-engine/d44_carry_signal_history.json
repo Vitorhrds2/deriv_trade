@@ -1,0 +1,362 @@
+[
+  {
+    "ts": "2026-10-30T08:13:10.637222+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.0673126603167317,
+    "price": 282.41,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "BCHUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.639266+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 8.409e-05,
+    "basis_pct": -0.04153859572003921,
+    "price": 1.2514,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "XRPUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.640547+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": -4.435e-05,
+    "basis_pct": -0.11290924793718714,
+    "price": 7.25993164,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "INJUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.641640+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.030460089745576638,
+    "price": 55.82593137,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "LTCUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.642952+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": -4.366e-05,
+    "basis_pct": -0.06323069112707025,
+    "price": 2229.99,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "ETHUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.644650+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.052192866056109025,
+    "price": 11.053,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "LINKUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.646307+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 1.995e-05,
+    "basis_pct": -0.027063719456738005,
+    "price": 4.293,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "NEARUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.647746+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 5.56e-05,
+    "basis_pct": -0.037388143217216674,
+    "price": 0.8838,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "SUIUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.649161+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": 0.00486363636362763,
+    "price": 0.19800963,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "MATICUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.650408+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 4.1e-05,
+    "basis_pct": -0.04525238050182948,
+    "price": 78062.4,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "BTCUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.652403+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0,
+    "basis_pct": -0.012345315810541085,
+    "price": 706.50498044,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "BNBUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.653966+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.04439833138250388,
+    "price": 0.07578,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "DOGEUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.655750+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 3.648e-05,
+    "basis_pct": -0.06806626313994155,
+    "price": 97.11,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "SOLUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.657597+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.04163354822443902,
+    "price": 8.493,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "AVAXUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.659417+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.05916019995565971,
+    "price": 0.9456,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "DOTUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.661544+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": -5.058e-05,
+    "basis_pct": -0.154911613927552,
+    "price": 1.51986476,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "ATOMUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.663284+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 0.0001,
+    "basis_pct": -0.007453989793486206,
+    "price": 0.1925,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "ADAUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.664901+00:00",
+    "signal": "LONG_FUT",
+    "direction": 1,
+    "funding_rate": -0.00031304,
+    "basis_pct": -0.07349989754235724,
+    "price": 0.10304,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "OPUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.667014+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 7.11e-06,
+    "basis_pct": -0.05235939748400556,
+    "price": 0.61990775,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "APTUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  },
+  {
+    "ts": "2026-10-30T08:13:10.668919+00:00",
+    "signal": "NONE",
+    "direction": 0,
+    "funding_rate": 7.367e-05,
+    "basis_pct": -0.08090319442547796,
+    "price": 0.16417455,
+    "roundtrip_fee_pct": 0.12,
+    "meta": {
+      "symbol": "ARBUSDT"
+    },
+    "horizons_s": [
+      28800,
+      86400,
+      259200
+    ],
+    "resolved": {}
+  }
+]

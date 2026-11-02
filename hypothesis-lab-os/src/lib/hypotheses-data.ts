@@ -1399,38 +1399,28 @@ export const realHypotheses: RealHypothesis[] = [
       "ganha basis convergence + recebe funding. Quando perp < spot E funding positivo, " +
       "short perp é carry grátis. O 'disconnect' é quando ambos componentes favorevem o mesmo lado. " +
       "Scan: 19 pares analisados, roundtrip fees 0.14% (spot 0.1% + futures 0.04%).",
-    confidence: 40,
+    confidence: 45,
     status: "validating",
-    tags: ["binance", "futures", "funding-rate", "basis", "carry-trade", "arbitrage"],
+    tags: ["binance", "futures", "funding-rate", "basis", "carry-trade", "arbitrage", "significant"],
     trigger: "Basis > 0 E funding < 0 (long carry) ou basis < 0 E funding > 0 (short carry). " +
       "Profit per 8h = |basis%| + funding% - 0.14% fees > 0.",
     invalidation: "WR real cair pra perto de 50% ou EV/trade ficar negativo com N maior (amostra atual N=24 ainda pequena).",
     createdAt: "2026-07-05",
     author: "basis_paper_bot.py",
     verdict:
-      "VALIDANDO — scan inicial (basis_funding_disconnect_scan.py, N=19 pares) achou só " +
-      "sinal fraco (2/19 profitable). Promovido a paper bot dedicado rodando na AWS desde " +
-      "2026-07-05. ATUALIZADO 2026-07-07: N=24 trades settled, WR=70.8%, EV=+0.329%/trade, " +
-      "total=+7.91% (best +10.33%, worst -4.46%), duração média 1.29h. " +
-      "ATUALIZADO 2026-07-08 (bot ainda rodando ao vivo — reverificar antes de reusar): " +
-      "N=33 trades settled, WR SUBIU para 72.7%, EV=+0.2635%/trade, total=+8.6958%, " +
-      "duração média 1.2h. Trajetória WR 68.4%(N19)→70.8%(N24)→72.7%(N33) — estável/melhorando " +
-      "conforme N cresce, oposto do padrão de decaimento visto no D36. Capital real exigiria as " +
-      "DUAS pernas (spot + margem do perp), não só um lado. ATUALIZADO 2026-07-08 (parte 2): " +
-      "IC95% formal implementado no basis_paper_bot.py (Wilson no WR + bootstrap no EV). " +
-      "UPDATE 2026-07-13: N=43, WR=69.8% IC95%[54.9%, 81.4%] — exclui 50%, estatisticamente " +
-      "significativo. EV=+0.33% IC95%[-0.50%, +1.22%] — CRUZA ZERO, ainda INCONCLUSIVO. " +
-      "O WR é real (não é sorte), mas o EV ainda não é estatisticamente positivo: as losses " +
-      "(worst -5.96%) são grandes o suficiente pra offsetar os wins. Precisa de mais amostra " +
-      "(N~60-80 estimado) pra o IC do EV convergir. Melhor lead operacional ativo, mas NÃO é " +
-      "edge confirmado ainda.",
-    evPerTrade: 0.33,
-    ci95: [-0.5, 1.22],
-    ci95Label: "N=43: WR=69.8% IC95%[54.9%,81.4%] (exclui 50%) | EV=+0.33% IC95%[-0.50%,+1.22%] (cruza zero, INCONCLUSIVO) — 2026-07-13",
+      "VALIDANDO (2026-07-17). N=52 trades settled, WR=69.2%, EV=+0.29%/trade, " +
+      "Total PnL=+14.98%. WR IC95% [55.7%, 80.1%] exclui 50% (sinal direcional " +
+      "real confirmado). EV IC95%[-0.39%, +1.05%] ainda cruza zero — losses " +
+      "grandes (worst -5.96%) offsetam wins. Precisa N~60-80 para o IC do EV " +
+      "convergir. **Único sinal promissor restante** (D37 refutado). Capital " +
+      "real exigiria as DUAS pernas (spot + margem do perp), não só um lado.",
+    evPerTrade: 0.29,
+    ci95: [-0.39, 1.05],
+    ci95Label: "N=52: WR=69.2% IC95%[55.7%,80.1%] (exclui 50%) | EV=+0.29% IC95%[-0.39%,+1.05%] (cruza zero) — 2026-07-17",
     tools: ["basis_funding_disconnect_scan.py", "basis_paper_bot.py"],
     reportFile: "basis_paper_stats.json",
-    pnl: 14.3,
-    trades: 43,
+    pnl: 14.98,
+    trades: 52,
     sampleUnit: "trades settled ao vivo (retorno % por trade, não $ — ver verdict)",
   },
   {
@@ -1685,34 +1675,28 @@ export const realHypotheses: RealHypothesis[] = [
       "Saídas grandes de BTC/ETH de exchanges = holders movendo para cold storage = " +
       "redução de supply vendável = bullish. Se detectarmos outflows > $5M em tempo real, " +
       "compramos antes do mercado precificar a redução de supply.",
-    confidence: 8,
-    status: "validating",
-    tags: ["crypto", "on-chain", "whale", "exchange-flow", "aggressive"],
+    confidence: 0,
+    status: "refuted",
+    tags: ["crypto", "on-chain", "whale", "exchange-flow", "refuted", "false-positive"],
     trigger: "Net exchange outflow > $5M in 1h → LONG BTC",
     invalidation: "Outflows não predizem preço em 1h/4h/24h após sinal",
     createdAt: "2026-07-04",
     author: "exchange_outflow_scan.py",
     verdict:
-      "SCAN FUNCIONANDO — Whale Alert API key configurada. " +
-      "0 outflows >$1M na última 1h (mercado calmo). " +
-      "Blockchain.com fallback sem dados. " +
-      "Preço BTC: $63,302. API funcional, necessário rodar continuamente. " +
-      "ATUALIZADO 2026-07-08: ~1000 snapshots horários acumulados, maioria NO SIGNAL/WEAK LONG, " +
-      "nenhum outflow >$1M ainda. Achado estrutural: o script nunca correlaciona o signal score " +
-      "com retorno de preço subsequente — não há caminho para EV/win-rate/veredito no design " +
-      "atual, precisaria de lógica de forward-return nova, não mais tempo rodando. CORRIGIDO " +
-      "2026-07-08: `forward_return_tracker.py` criado e integrado (grava preço+sinal a cada " +
-      "ciclo, resolve retorno em 1h/4h/24h, reporta com o mesmo Wilson/bootstrap do resto do " +
-      "repo); redeployado e reiniciado na AWS às ~15h UTC. A partir de agora o processo PODE " +
-      "produzir um veredito real — só falta tempo/amostra (0 resolvidos ainda no restart).",
-    evPerTrade: 0,
-    ci95: [0, 0],
-    ci95Label: "~1000 snapshots pré-fix. Forward-return tracking ativo desde 2026-07-08 15h UTC.",
-    tools: ["exchange_outflow_scan.py"],
-    reportFile: "exchange_outflow_scan_results.json",
+      "REFUTADO (2026-07-17) — FALSO POSITIVO DESMASCARADO. Arquivo antigo (Jul 8-12, " +
+      "N=72 @24h): WR=73.6%, parecia significante. Arquivo novo (Jul 12-17, N=201 @24h): " +
+      "WR=31.8%, EV=-0.36%. COMBINADO: N=273, WR=42.9%, EV=-0.07%, IC95% [37.1%, 48.8%] " +
+      "— EXCLUI 50% POR BAIXO. O sinal é ANTI-preditivo (pior que aleatório). O 'sinal " +
+      "significante' era viés de amostra pequena durante regime bullish onde BTC subiu " +
+      "independentemente do sinal. @1h: WR=50.0% (aleatório). @4h: WR=51.1% (aleatório).",
+    evPerTrade: -0.07,
+    ci95: [0.371, 0.488],
+    ci95Label: "@24h combinado: WR=42.9% IC95%[37.1%, 48.8%] (exclui 50% por baixo) | EV=-0.07% | N=273 — 2026-07-17",
+    tools: ["exchange_outflow_scan.py", "forward_return_tracker.py"],
+    reportFile: "d37_preregistered_signal_history.json",
     pnl: 0,
-    trades: 1000,
-    sampleUnit: "scan com API key (~1000 snapshots horários, atualizado 2026-07-08)",
+    trades: 273,
+    sampleUnit: "273 sinais direcionais @24h (308 LONG, 0 SHORT), 659 snapshots Jul 12-17 + 88 Jul 8-12",
   },
   {
     id: "HYP-ANNOUNCE-01",
@@ -2172,22 +2156,26 @@ export const realHypotheses: RealHypothesis[] = [
     createdAt: "2026-07-06",
     author: "deal_cancellation_edge_scan.py + deal_cancellation_live_probe.py",
     verdict:
-      "REFUTADO (2026-07-09, N=120 trades reais). O 'quase-edge' de N=20 (EV=+$0.147) era viés " +
-      "de amostra pequena. Com N=120: EV/trade caiu para +$0.08, IC95%[-$0.04,+$0.08] — cruza " +
-      "zero e o lower bound ficou MAIS negativo que em N=20. Trajetória monotônica decrescente: " +
-      "EV $0.14(N20)→$0.14(N76)→$0.08(N120), IC95% lower -$0.03→-$0.04. WR(net>0) caiu de " +
-      "39.5%→37.5%. Cancel rate estável em ~57%. Fee=$0.44/trade é corretamente precificado — " +
-      "o modelo teórico de Monte Carlo que sugeria 8-12% de mispricing estava errado. Mesmo " +
-      "padrão de decaimento que matou o early-sell (D14) e o D36. PROCESSO PARADO 2026-07-09: " +
-      "tmux d52_live killado. Deriv ecossistema 100% fechado para mispricing de produtos.",
-    evPerTrade: 0.08,
-    ci95: [-0.04, 0.08],
-    ci95Label: "EV líquido (valor_realizado - fee) $/trade, N=120 trades reais. IC95% cruza zero, EV encolhendo monotonicamente.",
-    tools: ["deal_cancellation_edge_scan.py", "deal_cancellation_live_probe.py"],
-    reportFile: "docs/state_of_research.md",
-    pnl: 9.69,
-    trades: 120,
-    sampleUnit: "trades reais (Multiplier + Deal Cancellation, N=120, alternando MULTUP/MULTDOWN)",
+      "REFUTADO (2026-07-15, N=344 trades válidos). EV=-$0.26/trade, bootstrap " +
+      "IC95%=[-$0.29, -$0.17] — INTEIRAMENTE NEGATIVO, não cruza zero. Cancelados=" +
+      "69/344 (20%), expirados=275. O sinal preliminar de N=20 (+$0.147) era " +
+      "falso-positivo de amostra pequena — regrediu monotonicamente com N grande. " +
+      "Fee=$0.44/trade é corretamente precificado. Mesmo padrão de decaimento " +
+      "que matou o early-sell (D14) e o D36. Deriv ecossistema 100% fechado. " +
+      "UPDATE 2026-07-15 22:45 UTC: N=344 (up from 297), net=-$88.87 (fees $151.36, " +
+      "realized $62.49). Bot travado com 'cannot hold more than 100 contracts' — " +
+      "224 posições 'expired_unsellable' ficaram abertas como perpétuos (expiry 2126). " +
+      "PARADO: bot não consegue comprar novos contratos. As 71+ posições abertas " +
+      "geraram a descoberta de perpetual winner holding (+$1,317 unrealized) — " +
+      "movida para estudo dedicado em nova sessão.",
+    evPerTrade: -0.26,
+    ci95: [-0.29, -0.17],
+    ci95Label: "EV líquido $/trade, N=344. IC95% inteiramente negativo — 2026-07-15",
+    tools: ["deal_cancellation_edge_scan.py", "deal_cancellation_live_probe.py", "d52_continuous.py"],
+    reportFile: "deal_cancellation_live_results.jsonl",
+    pnl: -88.87,
+    trades: 344,
+    sampleUnit: "trades reais (N=344 válidos de 868 tentativas, 524 erros de rate limit/contract limit)",
   },
   {
     id: "D53",
@@ -2307,8 +2295,12 @@ export const realHypotheses: RealHypothesis[] = [
       "Cycle 1: −2.38 bps, Cycle 2: +5.28 bps, Cycle 3: −4.51 bps. Total: −11.11 bps (−$1.11). " +
       "Funding coletado líquido: +1.45 bps. Mark P&L: −3.05 bps. Custo de entrada (−9.5 bps) " +
       "ainda não recuperado. WR 33% (1/3). Posição OPEN. Precisa ~10+ ciclos para o funding " +
-      "acumulado superar custo de entrada + mark divergence.",
-    ci95Label: "3 ciclos v2: total −11.11 bps (−$1.11). Walk-forward histórico: LINK +96.3 [+71.6,+121.6]. OOS em coleta.",
+      "acumulado superar custo de entrada + mark divergence. " +
+      "UPDATE 2026-07-15 22:45 UTC: 9 ciclos v2 completados. Total funding coletado: +3.023 bps. " +
+      "Entry cost: 9.5 bps. Net: −6.477 bps (−$0.65). Custo de entrada ainda não recuperado. " +
+      "Ciclos recentes (4-9) mostram funding coletado estável em ~0.125 bps/ciclo (BN funding " +
+      "estabilizou em −1.000 bps). Precisa ~50+ ciclos para break-even no custo de entrada.",
+    ci95Label: "9 ciclos v2: total −6.477 bps (−$0.65). Walk-forward histórico: LINK +96.3 [+71.6,+121.6]. OOS em coleta.",
     tools: ["hyperliquid_probe.py", "stats_utils.py"],
     reportFile: "docs/hyperliquid_report.md",
     pnl: 0,
@@ -3223,28 +3215,30 @@ export const realHypotheses: RealHypothesis[] = [
     thesis:
       "A venda real em contratos de 15 minutos ou 1 hora poderia superar hold-to-expiry com " +
       "threshold fixo e comparação A/B alternada.",
-    confidence: 0,
-    status: "refuted",
-    tags: ["deriv", "early-sell", "resale", "long-duration", "ab-test"],
+    confidence: 15,
+    status: "validating",
+    tags: ["deriv", "early-sell", "resale", "long-duration", "ab-test", "inconclusive"],
     trigger: "IC95% bootstrap de sell_profit - hold_profit totalmente acima de zero.",
     invalidation: "IC95% cruza zero ou fica abaixo de zero nas durações testadas.",
     createdAt: "2026-07-12",
     author: "d90_long_duration_early_sell.py",
     verdict:
-      "REFUTADO (2026-07-13, N=40 pares A/B completos). 15m: sell EV +$0.309, hold EV +$0.536, " +
-      "diff −$0.227 IC95%[−$0.65, +$0.22]. 1h: sell EV +$0.019, hold EV +$0.344, diff −$0.326 " +
-      "IC95%[−$0.84, +$0.20]. Point estimate NEGATIVO em ambas durações (sell < hold). " +
-      "IC95% cruza zero estatisticamente, mas padrão consistente: hold supera sell em ambas " +
-      "durações — mesmo resultado do early_sell_multi N=1870. Early-sell optionality não tem " +
-      "valor em nenhuma duração testada (5t/10t/25t/50t N=1870, 15m/1h N=40). Processo " +
-      "completou e parou naturalmente.",
-    ci95: [-0.84, 0.22],
-    ci95Label: "Diff sell-hold: 15m −$0.227 IC95%[−$0.65, +$0.22] | 1h −$0.326 IC95%[−$0.84, +$0.20]. N=40 pares.",
-    tools: ["d90_long_duration_early_sell.py", "stats_utils.py"],
-    reportFile: "d90_live_20260712_stats.json",
-    pnl: 0,
-    trades: 80,
-    sampleUnit: "40 pares A/B DEMO completos (20 × 15m + 20 × 1h), threshold 1.5, 1HZ10V",
+      "INCONCLUSIVO — TENDÊNCIA POSITIVA (2026-07-15, N=71 trials, 21 sold). " +
+      "Sell: WR=58.6%, EV=+$0.03. Hold: WR=34.5%, EV=-$0.34. Paired diff=+$0.37, " +
+      "IC95%=[-$0.03, +$0.74] — cruza zero mas marginalmente. Sell strategy vende " +
+      "a 1.5x buy price; hold segura até expiry. 71 trials totais (21 sold, 50 hold/terminal). " +
+      "Total buy=$71.00, total sell=$30.07, net(sell-buy)=-$40.93, strategy_profit=$9.07. " +
+      "Tendência sugere sell > hold (oposto do teste anterior N=40), mas precisa " +
+      "mais N para veredito. Wrapper contínuo rodando na AWS. " +
+      "UPDATE 2026-07-15 22:45 UTC: bot limitado por 'cannot hold more than 100 contracts' " +
+      "— D52/D95 consumiram o limite de contratos da conta Demo.",
+    ci95: [-0.03, 0.74],
+    ci95Label: "Paired diff (sell-hold): +$0.37 IC95%[-$0.03, +$0.74] — cruza zero marginalmente. N=29 pares, 15m — 2026-07-15",
+    tools: ["d90_long_duration_early_sell.py", "stats_utils.py", "d90_continuous.sh"],
+    reportFile: "d90_live_20260712_results.jsonl",
+    pnl: -40.93,
+    trades: 71,
+    sampleUnit: "71 trials (21 sold, 50 hold/terminal, 15m, 1HZ10V), threshold 1.5",
   },
   {
     id: "D91",
@@ -3362,24 +3356,29 @@ export const realHypotheses: RealHypothesis[] = [
       "o fee cobrado (cancellation ask_price) pode ser menor que o valor justo de uma put europeia " +
       "(stake × multiplier, vencimento = duração da cancellation). 1HZ100V é 100x mais volátil por tick que 1HZ10V, " +
       "mas o fee parece não escalonar com a volatilidade do símbolo.",
-    confidence: 20,
-    status: "paused",
-    tags: ["deriv", "multiplier", "deal-cancellation", "1hz100v", "r100", "1hz50v", "inconclusive"],
+    confidence: 0,
+    status: "refuted",
+    tags: ["deriv", "multiplier", "deal-cancellation", "1hz100v", "r100", "1hz50v", "refuted"],
     trigger: "fair_value_MC (IC95% lo) > cancellation_fee em múltiplas células (multiplier × duration × direction).",
     invalidation: "EV líquido ao vivo (valor_realizado − fee) IC95% cruzar zero ou ser negativo.",
     createdAt: "2026-07-12",
     author: "d95_deal_cancellation_1hz100v.py",
     verdict:
-      "CORRIGIDO: read-only anterior nao capava payoff em stake; 400x60m refutado em 3 símbolos. " +
-      "Live 5m 400x (N=20): EV -$0.04, IC95% cruza zero. Live 5m 100x (N=20): valor realizado medio $0.1705, " +
-      "fee $0.1100, EV +$0.0605, IC95% [-$0.0130, +$0.1510]. Nenhum trial confirmou edge; pausado.",
-    ci95: [-0.013, 0.151],
-    ci95Label: "DEMO 1HZ100V 100x/5m, N=20: EV líquido +$0.0605; IC95% cruza zero",
-    tools: ["d95_deal_cancellation_1hz100v.py", "d95_deal_cancellation_r100.py", "d95_deal_cancellation_1hz50v.py", "d95_deal_cancellation_live_1hz100v.py"],
+      "REFUTADO (2026-07-15, N=253 trades válidos). EV=-$0.34/trade, bootstrap " +
+      "IC95%=[-$0.38, -$0.31] — inteiramente negativo. Cancelados=18/253 (7%). " +
+      "Confirma D52: deal cancellation não tem edge em nenhum símbolo testado. " +
+      "818 tentativas totais, 565 erros de rate limit/contract limit. " +
+      "UPDATE 2026-07-15 22:45 UTC: N=253 (up from 218), net=-$86.79 (fees $103.73, " +
+      "realized $16.94). Bot travado com 'cannot hold more than 100 contracts' — " +
+      "235 posições 'expired_unsellable_at_loss' ficaram abertas. PARADO: não consegue " +
+      "comprar novos contratos. Posições abertas contribuíram para descoberta de perpetual winner holding (estudo movido para nova sessão).",
+    ci95: [-0.38, -0.31],
+    ci95Label: "EV líquido $/trade, N=253. IC95% inteiramente negativo — 2026-07-15",
+    tools: ["d95_deal_cancellation_1hz100v.py", "d95_deal_cancellation_r100.py", "d95_deal_cancellation_1hz50v.py", "d95_deal_cancellation_live_1hz100v.py", "d95_continuous.py"],
     reportFile: "d95_deal_cancellation_live_results.jsonl",
-    pnl: 1.21,
-    trades: 20,
-    sampleUnit: "20 live DEMO trades 100x/5m + trial 400x N=20 + scans capped read-only",
+    pnl: -86.79,
+    trades: 253,
+    sampleUnit: "253 trades válidos de 818 tentativas (565 erros), multi-símbolo 1HZ100V/R_100/1HZ50V",
   },
   {
     id: "D96",
@@ -3753,6 +3752,92 @@ export const realHypotheses: RealHypothesis[] = [
     pnl: 0,
     trades: 0,
     sampleUnit: "60k ticks × 2 símbolos × 5 multipliers × 3 cancellations × 2 directions = 60 células MC",
+  },
+  {
+    id: "H84",
+    title: "Hyperliquid Gossip Protocol Market Making — split_client_blocks toxic flow avoidance",
+    market: "Hyperliquid perps (BTC, ETH, SOL) — non-validator node gossip feed",
+    thesis:
+      "Rodar non-validator node com split_client_blocks:true para ver txs do mempool " +
+      "70-150ms antes da finalidade. Cancelar ordens maker quando detectar fluxo tóxico " +
+      "(liquidações). Maker rebate 0.1bps + spread capture vs adverse selection.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["hyperliquid", "gossip", "market-making", "infrastructure", "refuted"],
+    trigger: "Gossip preview de 70-150ms permite reduzir adverse selection <50%",
+    invalidation: "Instância AWS us-east-2 tem 2 vCPUs/7.6GB RAM vs requisito 32 cores/128GB RAM. Gap 16x CPU, 17x RAM. Sem gossip, adverse selection garantida vs MMs que têm o edge.",
+    createdAt: "2026-07-14",
+    author: "h84_hyperliquid_gossip_feasibility.py",
+    verdict:
+      "REFUTADA POR INFRAESTRUTURA (2026-07-14). Latência medida: REST median=152ms, " +
+      "WebSocket trade median=285ms (outliers até 9.5s). Hardware gap: 16x CPU, 17x RAM. " +
+      "Custo de instância adequada (c7i.32xlarge): ~$2,700/mo. Sem gossip edge, MM compete " +
+      "contra players que TÊM o edge = adverse selection garantida. " +
+      "Update 2026-07-15: arquivos deletados da instância us-east-2. Hipótese encerrada.",
+    evPerTrade: 0,
+    tools: ["h84_hyperliquid_gossip_feasibility.py"],
+    reportFile: "h84_hyperliquid_gossip_feasibility.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "3 coins × (10 REST pings + 120s WS trades + 300s MM sim) = 21min total",
+  },
+  {
+    id: "H85",
+    title: "Velocity Exchange SWIFT API Maker Rebate — taker intent preview 100-500ms",
+    market: "Velocity Exchange / Drift (Solana) — SOL-PERP, BTC-PERP, ETH-PERP, HYPE-PERP — SWIFT feed",
+    thesis:
+      "SWIFT API envia intenções de takers a makers via WebSocket 100-500ms antes do " +
+      "on-chain. Maker fee=0bps. Preencher ordens não-tóxicas (vs Coinbase oracle), " +
+      "rejeitar fluxo tóxico. Edge = spread × (1 - adverse_rate) com adverse_rate reduzido " +
+      "pelo preview SWIFT. Migração Drift→Velocity SDK 2026-07-14.",
+    confidence: 25,
+    status: "validating",
+    tags: ["velocity", "drift", "solana", "swift", "maker-rebate", "market-making", "collecting"],
+    trigger: "SWIFT WebSocket conecta e recebe taker order messages",
+    invalidation: "Volume SWIFT extremamente baixo (~0.5 ordens/min em SOL-PERP). Ordens vistas têm desvio extremo vs Coinbase (possível artefato de escala de preço).",
+    createdAt: "2026-07-14",
+    author: "h85_drift/h85_swift_subscriber.ts",
+    verdict:
+      "COLETANDO DADOS (2026-07-15). SWIFT FEED ATIVO via @velocity-exchange/sdk@0.6.1 " +
+      "SwiftOrderSubscriber. Scan inicial us-east-2 (2h, 4 mercados): 53 msgs em SOL-PERP, " +
+      "0 em BTC/ETH/HYPE. Todas classificadas como tóxicas (>20bps desvio). Movido para " +
+      "eu-central-1b: Node.js 20 + Velocity SDK instalado, wrapper contínuo no tmux h85_swift, " +
+      "adicionado ao aggressive_supervisor. 17 msgs em ~47min no SOL-PERP.",
+    evPerTrade: 0,
+    tools: ["h85_drift/h85_swift_subscriber.ts", "h85_continuous.sh"],
+    reportFile: "h85_drift/h85_drift_swift_results.json",
+    pnl: 0,
+    trades: 53,
+    sampleUnit: "4 markets × 2h SWIFT listen + 30s Coinbase poll = 8min per batch",
+  },
+  {
+    id: "H86",
+    title: "Sui DeepBookV3 Flash Loan Atomic Arbitrage — zero leg risk via Hot Potato PTB",
+    market: "Sui DeepBookV3 + Cetus/Kriya AMMs — SUI/USDC, SUI/USDT, BTC/USDC, ETH/USDC",
+    thesis:
+      "Hot Potato flash loan pattern do Sui permite arbitragem triangular atômica. " +
+      "Se spread não materializar, PTB inteiro reverte a custo ~$0.02. Elimina leg risk " +
+      "que matou D8 (triangular arb Binance, 0/120 positivos). Flash loan fee=0bps.",
+    confidence: 0,
+    status: "refuted",
+    tags: ["sui", "deepbook", "flash-loan", "atomic-arb", "zero-leg-risk", "refuted"],
+    trigger: "Spread on-chain vs off-chain > 10bps após flash loan fee",
+    invalidation: "Pool SUI/WUSDC on-chain tem spread de 110% (bid=1.68, ask=5.8) — completamente ilíquido. O arb de 3670bps era artefato de comparar Gecko Terminal com pool ilíquido.",
+    createdAt: "2026-07-14",
+    author: "h86_sui/h86_onchain_orderbook.py",
+    verdict:
+      "REFUTADO (2026-07-15). Scan on-chain revelou que o pool SUI/WUSDC (20bps fee) tem " +
+      "bid=1.68 ask=5.8 (spread=11016bps) — pool completamente ilíquido com ordens absurdas " +
+      "(bids $0.001-$1.68, asks $5.8-$1312.69). Coinbase SUI=$0.73. O arb de 3670bps era " +
+      "artefato de comparar Gecko Terminal com pool DeepBook ilíquido. Pools stablecoin " +
+      "(WUSDC/USDC 0bps, USDT/WUSDC 10bps) têm 97 e 10829 contas mas orderbook não acessível " +
+      "via RPC direto. Sem pool líquido, não há arb executável.",
+    evPerTrade: 0,
+    tools: ["h86_sui/h86_onchain_orderbook.py", "h86_sui/h86_deepbook_execute.ts"],
+    reportFile: "h86_sui/h86_deepbook_onchain_results.json",
+    pnl: 0,
+    trades: 0,
+    sampleUnit: "16 pools discovered, 111 samples on SUI/WUSDC pool (all illiquid)",
   },
 ];
 

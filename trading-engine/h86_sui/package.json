@@ -1,0 +1,19 @@
+{
+  "name": "h86-sui-deepbook-arb",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "scan": "npx tsx h86_deepbook_scan.ts",
+    "execute": "npx tsx h86_deepbook_execute.ts",
+    "setup-wallet": "npx tsx h86_setup_wallet.ts"
+  },
+  "dependencies": {
+    "@mysten/sui": "^1.20.0",
+    "@mysten/deepbook-v3": "^1.5.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  }
+}

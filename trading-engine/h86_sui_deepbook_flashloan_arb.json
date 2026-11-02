@@ -1,0 +1,32 @@
+{
+  "ts": "2026-07-14T06:35:16.774860+00:00",
+  "hypothesis": "H86",
+  "platform": "Sui DeepBookV3",
+  "flash_loan_fee_bps": 0.0,
+  "results": {
+    "SUI/USDC": {
+      "n_samples": 40,
+      "spread_mean": 3653.8242392679063,
+      "spread_median": 3650.627517097693,
+      "opportunities_gt_10bps": 40
+    },
+    "SUI/USDT": {
+      "n_samples": 40,
+      "spread_mean": 3685.671672843595,
+      "spread_median": 3688.637283623531,
+      "opportunities_gt_10bps": 40
+    },
+    "BTC/USDC": {
+      "n_samples": 40,
+      "spread_mean": null,
+      "spread_median": null,
+      "opportunities_gt_10bps": 0
+    },
+    "ETH/USDC": {
+      "n_samples": 40,
+      "spread_mean": null,
+      "spread_median": null,
+      "opportunities_gt_10bps": 0
+    }
+  }
+}

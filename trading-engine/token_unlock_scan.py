@@ -308,6 +308,20 @@ KNOWN_UNLOCKS = [
     ("AXSUSDT", "2026-07-01", 50.0, 2.0, "TokenUnlocksApp"),
     ("AXSUSDT", "2026-08-01", 50.0, 2.0, "TokenUnlocksApp"),
     ("AXSUSDT", "2026-09-01", 50.0, 2.0, "TokenUnlocksApp"),
+    # Q4 2026 Unlocks (Confirmed Calendar)
+    ("SUIUSDT", "2026-11-01", 64.0, 2.80, "CryptoRank"),
+    ("AVAXUSDT", "2026-11-08", 15.0, 0.40, "CryptoRank"),
+    ("APTUSDT", "2026-11-12", 52.0, 1.88, "Tokenomist"),
+    ("SEIUSDT", "2026-11-15", 11.0, 1.14, "CryptoRank"),
+    ("STRKUSDT", "2026-11-15", 18.0, 3.10, "CryptoRank"),
+    ("ARBUSDT", "2026-11-16", 45.0, 2.01, "Tokenomist"),
+    ("OPUSDT", "2026-11-28", 22.0, 1.70, "Tokenomics"),
+    ("SUIUSDT", "2026-12-01", 64.0, 2.80, "CryptoRank"),
+    ("APTUSDT", "2026-12-12", 52.0, 1.88, "Tokenomist"),
+    ("SEIUSDT", "2026-12-15", 11.0, 1.14, "CryptoRank"),
+    ("STRKUSDT", "2026-12-15", 18.0, 3.10, "CryptoRank"),
+    ("ARBUSDT", "2026-12-16", 45.0, 2.01, "Tokenomist"),
+    ("OPUSDT", "2026-12-28", 22.0, 1.70, "Tokenomics"),
 ]
 
 

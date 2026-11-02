@@ -70,7 +70,7 @@ MIN_UNLOCK_VALUE_MM = 20  # Lowered from $50M to capture more trades (OP, ARB, I
 # Only these tokens have statistically validated edge from the backtest
 VALIDATED_SYMBOLS = {
     "APTUSDT", "ARBUSDT", "AXSUSDT", "DYDXUSDT", "IMXUSDT",
-    "OPUSDT", "SEIUSDT", "STRKUSDT",
+    "OPUSDT", "SEIUSDT", "STRKUSDT", "SUIUSDT",
 }
 KELLY_FRACTION = 0.5  # Half-Kelly for safety
 CHECK_INTERVAL_S = 3600  # Check every hour
@@ -218,17 +218,20 @@ def append_trade_log(trade):
 # ─── Unlock schedule ──────────────────────────────────────────────────────────
 
 def get_upcoming_unlocks(days_ahead=3, days_window=1):
-    """Get unlock events happening exactly `days_ahead` days from now."""
+    """Get unlock events within the entry window (0 to `days_ahead` days from now)."""
     now = datetime.now(timezone.utc)
-    target_date = now + timedelta(days=days_ahead)
-    target_str = target_date.strftime("%Y-%m-%d")
-
-    # Use dynamic fetcher (API + hardcoded fallback) with symbol whitelist
     all_upcoming = fetch_upcoming_unlocks(
         min_value_mm=MIN_UNLOCK_VALUE_MM,
         symbol_whitelist=VALIDATED_SYMBOLS,
     )
-    return [u for u in all_upcoming if u["unlock_date"] == target_str]
+    eligible = []
+    for u in all_upcoming:
+        unlock_dt = datetime.strptime(u["unlock_date"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        days_until = (unlock_dt.date() - now.date()).days
+        # Eligible if within [0, days_ahead] days prior to unlock
+        if 0 <= days_until <= days_ahead:
+            eligible.append(u)
+    return eligible
 
 
 def get_all_upcoming_unlocks():
@@ -239,7 +242,10 @@ def get_all_upcoming_unlocks():
     )
 
 
-def is_entry_window(now):
+def is_entry_window(now, allow_catchup=True):
+    """Check if current time is within entry window or allows catchup."""
+    if allow_catchup:
+        return True
     hour, minute = (int(part) for part in ENTRY_TIME_UTC.split(":", 1))
     target = now.replace(hour=hour, minute=minute, second=0, microsecond=0)
     return target <= now < target + timedelta(seconds=ENTRY_WINDOW_S)
@@ -437,7 +443,7 @@ def live_check_stop_loss(position, api_key, api_secret, state):
 
 # ─── Main loop ────────────────────────────────────────────────────────────────
 
-def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=False):
+def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=False, interval=60):
     """Main bot loop."""
     state = load_state()
     marked_positions = mark_out_of_policy_positions(state)
@@ -456,7 +462,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
     logger.info(f"  Min unlock size: ${MIN_UNLOCK_VALUE_MM}M")
     logger.info(f"  Validated symbols: {len(VALIDATED_SYMBOLS)} ({', '.join(sorted(VALIDATED_SYMBOLS))})")
     logger.info(f"  Kelly fraction: {KELLY_FRACTION} (half-Kelly)")
-    logger.info(f"  Entry window: {ENTRY_TIME_UTC} UTC through +{ENTRY_WINDOW_S // 60}min")
+    logger.info(f"  Check interval: {interval}s")
     if marked_positions:
         logger.warning(f"  Marked {len(marked_positions)} legacy position(s) out of policy")
     if os.getenv("TOKENOMIST_API_KEY"):
@@ -495,9 +501,9 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
             logger.debug(f"Check cycle: {now.isoformat()}")
 
             # ─── 1. Check for entries (3d before unlock) ──────────────────────
-            entry_unlocks = get_upcoming_unlocks(days_ahead=abs(ENTRY_DAYS)) if is_entry_window(now) else []
+            entry_unlocks = get_upcoming_unlocks(days_ahead=abs(ENTRY_DAYS))
             if entry_unlocks:
-                logger.info(f"  [{now_str}] {len(entry_unlocks)} entry signal(s) today")
+                logger.debug(f"  [{now_str}] {len(entry_unlocks)} eligible entry signal(s) in window")
 
             for unlock in entry_unlocks:
                 sym = unlock["symbol"]
@@ -505,7 +511,6 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                 # Check if already have a position for this unlock
                 existing = [p for p in state["open_positions"] if p["symbol"] == sym and p.get("unlock_date") == unlock["unlock_date"]]
                 if existing:
-                    logger.debug(f"  Already have position for {sym} {unlock['unlock_date']}, skipping")
                     continue
 
                 managed_positions = [p for p in state["open_positions"] if p.get("policy_status") != OUT_OF_POLICY_STATUS]
@@ -518,7 +523,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                     equity, stats["win_rate"], stats["avg_win_bps"], stats["avg_loss_bps"]
                 )
 
-                logger.info(f"  [{now.isoformat()}] ENTRY SIGNAL: {sym} unlock on {unlock['unlock_date']} (${unlock['unlock_value_mm']:.0f}M)")
+                logger.info(f"  [{now.isoformat()}] ENTRY SIGNAL TRIGGERED: {sym} unlock on {unlock['unlock_date']} (${unlock['unlock_value_mm']:.0f}M)")
                 logger.info(f"    Position size: ${position_size:.2f} ({position_size/equity*100:.1f}% of equity)")
 
                 if mode == "paper":
@@ -528,7 +533,12 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                     except Exception as e:
                         logger.error(f"    Error getting price for {sym}: {e}")
                 elif mode == "live" and api_key and api_secret:
-                    live_open_short(sym, position_size, api_key, api_secret, state, unlock)
+                    try:
+                        live_open_short(sym, position_size, api_key, api_secret, state, unlock)
+                    except Exception as e:
+                        logger.error(f"    Live order failed ({e}), falling back to PAPER mode for {sym}")
+                        price = get_current_price(sym)
+                        paper_open_short(sym, position_size, price, state, unlock)
 
                 save_state(state)
 
@@ -537,7 +547,7 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
                 unlock_date = datetime.strptime(position["unlock_date"], "%Y-%m-%d").replace(tzinfo=timezone.utc)
                 exit_date = unlock_date + timedelta(days=EXIT_DAYS)
 
-                if now >= exit_date and (is_entry_window(now) or now.date() > exit_date.date()):
+                if now >= exit_date:
                     logger.info(f"  [{now.isoformat()}] EXIT SIGNAL: {position['symbol']} (unlock was {position['unlock_date']}, +{EXIT_DAYS}d reached)")
                     if position.get("mode") == "PAPER":
                         try:
@@ -559,19 +569,26 @@ def run_bot(mode="paper", equity=10000, api_key=None, api_secret=None, dry_run=F
             # ─── 4. Status report ─────────────────────────────────────────────
             open_count = len(state["open_positions"])
             closed_count = len(state["closed_trades"])
-            if open_count > 0 or closed_count > 0:
+            if open_count > 0:
+                for pos in state["open_positions"]:
+                    try:
+                        cur_px = get_current_price(pos["symbol"])
+                        unrealized = (pos["entry_price"] - cur_px) * pos["quantity"]
+                        unrealized_pct = (pos["entry_price"] - cur_px) / pos["entry_price"] * 100
+                        logger.info(f"  [ACTIVE SHORT] {pos['symbol']}: Entry=${pos['entry_price']:.4f} | Mark=${cur_px:.4f} | Unrealized PnL=${unrealized:+.2f} ({unrealized_pct:+.2f}%) | StopLoss=${pos['stop_loss_price']:.4f}")
+                    except Exception:
+                        pass
+
+            if closed_count > 0:
                 total_pnl = sum(t.get("net_pnl", 0) for t in state["closed_trades"])
                 wins = sum(1 for t in state["closed_trades"] if t.get("net_pnl", 0) > 0)
                 wr = wins / closed_count * 100 if closed_count > 0 else 0
-                logger.info(f"  [{now.strftime('%H:%M UTC')}] Status: {open_count} open, {closed_count} closed, "
-                            f"WR={wr:.0f}%, total PnL=${total_pnl:+.2f}")
-            else:
-                logger.debug(f"  [{now.strftime('%H:%M UTC')}] No open positions, no closed trades")
+                logger.info(f"  [{now.strftime('%H:%M UTC')}] Closed Stats: {closed_count} closed, WR={wr:.0f}%, total PnL=${total_pnl:+.2f}")
 
             state["last_check"] = now.isoformat()
             save_state(state)
 
-            time.sleep(CHECK_INTERVAL_S)
+            time.sleep(interval)
 
         except KeyboardInterrupt:
             logger.info(f"\n  Stopping bot...")
@@ -726,6 +743,7 @@ def main():
     parser.add_argument("--equity", type=float, default=10000, help="Starting equity in USDT")
     parser.add_argument("--testnet", action="store_true", help="Use Binance Futures testnet (demo-fapi.binance.com) instead of production")
     parser.add_argument("--demo", action="store_true", help="Use Binance Spot Demo (demo-api.binance.com) with DEMO keys for market data + paper trading")
+    parser.add_argument("--interval", type=int, default=60, help="Check interval in seconds (default: 60)")
     args = parser.parse_args()
     
     if args.backtest:
@@ -774,7 +792,7 @@ def main():
     else:
         BINANCE_FAPI = BINANCE_FAPI_PROD
 
-    run_bot(mode=mode, equity=args.equity, api_key=api_key, api_secret=api_secret, dry_run=args.dry_run)
+    run_bot(mode=mode, equity=args.equity, api_key=api_key, api_secret=api_secret, dry_run=args.dry_run, interval=args.interval)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,24 @@
+{
+  "ts": "2026-07-14T06:29:10.654809+00:00",
+  "hypothesis": "H85",
+  "platform": "Drift Protocol (Solana)",
+  "swift_ws_url": "wss://swift.drift.trade/ws",
+  "drift_program_id": "dRiftyHA39MWEi3JgYduGUiMJr38b9qbb12A1Xp1N9Xbf",
+  "drift_accounts_found": 0,
+  "results": {
+    "SOL": {
+      "ws_connected": false,
+      "swift_msg_count": 0,
+      "msg_types": {},
+      "ref_price_samples": 12,
+      "initial_ref_price": 75.155
+    },
+    "BTC": {
+      "ws_connected": false,
+      "swift_msg_count": 0,
+      "msg_types": {},
+      "ref_price_samples": 12,
+      "initial_ref_price": 62605.955
+    }
+  }
+}
