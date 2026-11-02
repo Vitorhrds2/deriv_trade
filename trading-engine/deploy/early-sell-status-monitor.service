@@ -1,0 +1,37 @@
+[Unit]
+Description=Early Sell and parallel OOS read-only status monitor
+After=parallel-oos-monitor.service
+
+[Service]
+Type=oneshot
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/early_sell
+ExecStart=/usr/bin/python3 /home/ec2-user/early_sell/early_sell_status_monitor.py --campaign-dir /home/ec2-user/early_sell/campaign_20260712T0632Z --ab-dir /home/ec2-user/early_sell/logs/paired_ab_20260712T0710Z --oos-current-file /var/lib/parallel-oos-monitor/current.json --current-file /var/lib/early-sell-status-monitor/current.json --history-file /var/lib/early-sell-status-monitor/history.jsonl --fail-on-degraded
+StateDirectory=early-sell-status-monitor
+StateDirectoryMode=0700
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHostname=true
+RestrictSUIDSGID=true
+RestrictRealtime=true
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX
+SystemCallArchitectures=native
+UMask=0077
+MemoryMax=64M
+CPUQuota=10%
+
+[Install]
+WantedBy=multi-user.target

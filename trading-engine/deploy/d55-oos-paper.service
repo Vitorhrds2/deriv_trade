@@ -1,0 +1,21 @@
+[Unit]
+Description=D55 LINK cross-venue OOS paper runner
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/parallel-strategy-oos/d55
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /home/ec2-user/parallel-strategy-oos/d55/hyperliquid_oos_runner.py --position-usd 1000 --target-cycles 30 --poll-s 60 --max-observation-delay-s 900 --state-file /home/ec2-user/parallel-strategy-oos/d55/state.json --stats-file /home/ec2-user/parallel-strategy-oos/d55/stats.json
+Restart=on-failure
+RestartSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+MemoryMax=128M
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+[Unit]
+Description=Parallel OOS paper strategies read-only monitor
+After=d55-oos-paper.service d36-oos-paper.service d34-cascade-live.service
+
+[Service]
+Type=oneshot
+User=ec2-user
+Group=ec2-user
+WorkingDirectory=/home/ec2-user/parallel-strategy-oos
+ExecStart=/usr/bin/python3 /home/ec2-user/parallel-strategy-oos/parallel_oos_monitor.py --base-dir /home/ec2-user/parallel-strategy-oos --current-file /var/lib/parallel-oos-monitor/current.json --history-file /var/lib/parallel-oos-monitor/history.jsonl --fail-on-degraded
+StateDirectory=parallel-oos-monitor
+StateDirectoryMode=0700
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_UNIX
+UMask=0077
+MemoryMax=64M
+CPUQuota=10%
+
+[Install]
+WantedBy=multi-user.target

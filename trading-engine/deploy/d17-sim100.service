@@ -1,0 +1,19 @@
+[Unit]
+Description=D17 Token Unlock Short Bot - paper sim $100 (Discord notify)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ec2-user
+WorkingDirectory=/home/ec2-user/d17
+Environment=UNLOCK_BOT_TAG=sim100
+EnvironmentFile=/home/ec2-user/d17/sim100.env
+ExecStart=/usr/bin/python3 /home/ec2-user/d17/unlock_short_bot.py --paper --equity 100
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
