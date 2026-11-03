@@ -951,6 +951,41 @@ class TestD107RuntimeSafety(unittest.TestCase):
             self.assertTrue(should_sell)
             self.assertEqual(reason, "winner_time_stop")
 
+    def test_winner_time_stop_disabled_when_none_or_zero(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            # 1. Test None (default unlimited perpetual holding)
+            config = replace(test_config(tmpdir), auto_sell_winners=True, winner_max_hold_seconds=None)
+            client = FakeClient()
+            bot = D107Bot(client, config)
+            record = {
+                "contract_id": "winner-unlimited",
+                "buy_price": 1.0,
+                "peak_unrealized_pnl": 0.10,
+                "held_at": "2026-10-30T10:00:00+00:00",
+            }
+            raw = {"bid_price": 1.05, "buy_price": 1.0}
+            evidence = PnlEvidence(
+                decision=PnlDecision("validated_winner", "api", 0.05, 0.05, 0.05, "test"),
+                entry_spot=100.0,
+                current_spot=100.05,
+                bid_price=1.05,
+                is_valid_to_cancel=False,
+                is_valid_to_sell=True,
+                contract_id="winner-unlimited",
+                raw=raw,
+            )
+            fake_now = datetime.fromisoformat("2026-10-30T14:00:00+00:00").timestamp()  # 4 hours later
+            should_sell, reason = bot.evaluate_winner_exit(record, raw, evidence, now=fake_now)
+            self.assertFalse(should_sell)
+            self.assertEqual(reason, "holding")
+
+            # 2. Test 0.0 (disabled)
+            config_zero = replace(test_config(tmpdir), auto_sell_winners=True, winner_max_hold_seconds=0.0)
+            bot_zero = D107Bot(client, config_zero)
+            should_sell_0, reason_0 = bot_zero.evaluate_winner_exit(record, raw, evidence, now=fake_now)
+            self.assertFalse(should_sell_0)
+            self.assertEqual(reason_0, "holding")
+
     def test_open_contract_uses_push_stream_cache(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             config = test_config(tmpdir)

@@ -214,6 +214,24 @@ def _env_float(env: Mapping[str, str], key: str, default: float) -> float:
     return value
 
 
+def _env_optional_float(
+    env: Mapping[str, str], key: str, default: Optional[float] = None
+) -> Optional[float]:
+    raw = env.get(key)
+    if raw is None:
+        return default
+    normalized = str(raw).strip().lower()
+    if normalized in {"", "none", "null", "0", "0.0", "disabled", "off", "-1"}:
+        return None
+    try:
+        value = float(raw)
+    except (TypeError, ValueError) as exc:
+        raise ConfigError(f"{key} must be numeric or 0/none/disabled to release") from exc
+    if not math.isfinite(value):
+        raise ConfigError(f"{key} must be finite")
+    return value
+
+
 def _env_int(env: Mapping[str, str], key: str, default: int) -> int:
     raw = env.get(key)
     if raw is None:
@@ -263,7 +281,7 @@ class D107Config:
     winner_exit_multiple: float = 8.0
     winner_trailing_stop_pct: float = 0.50
     winner_min_profit_to_trail: float = 1.0
-    winner_max_hold_seconds: float = 900.0
+    winner_max_hold_seconds: Optional[float] = None
     winner_capital_preservation_loss: float = 0.35
     check_regime_supervisor: bool = False
     regime_policy_file: str = "market_regime_policy.json"
@@ -322,8 +340,8 @@ class D107Config:
             winner_min_profit_to_trail=_env_float(
                 source, "D107_WINNER_MIN_PROFIT_TO_TRAIL", 1.0
             ),
-            winner_max_hold_seconds=_env_float(
-                source, "D107_WINNER_MAX_HOLD_SECONDS", 900.0
+            winner_max_hold_seconds=_env_optional_float(
+                source, "D107_WINNER_MAX_HOLD_SECONDS", None
             ),
             winner_capital_preservation_loss=_env_float(
                 source, "D107_WINNER_CAPITAL_PRESERVATION_LOSS", 0.35
@@ -420,8 +438,9 @@ class D107Config:
             errors.append("winner_trailing_stop_pct must be in (0, 1.0]")
         if self.winner_min_profit_to_trail < 0.0:
             errors.append("winner_min_profit_to_trail must be non-negative")
-        if self.winner_max_hold_seconds <= 0.0:
-            errors.append("winner_max_hold_seconds must be positive")
+        if self.winner_max_hold_seconds is not None:
+            if not math.isfinite(self.winner_max_hold_seconds) or self.winner_max_hold_seconds < 0.0:
+                errors.append("winner_max_hold_seconds must be non-negative or None")
         if self.winner_capital_preservation_loss < 0.0:
             errors.append("winner_capital_preservation_loss must be non-negative")
         if self.unresolved_loss_action not in {"sell", "pause"}:
@@ -1353,15 +1372,21 @@ class D107Bot:
         return balance
 
     async def fetch_portfolio(self) -> list[Mapping[str, Any]]:
-        response = await self.request({"portfolio": 1})
-        error = _api_error(response)
-        if error:
-            raise ReconciliationRequired(f"portfolio request failed: {error['message']}")
-        portfolio = response.get("portfolio")
-        contracts = portfolio.get("contracts") if isinstance(portfolio, Mapping) else None
-        if not isinstance(contracts, list):
-            raise ReconciliationRequired("portfolio contracts could not be verified")
-        return [contract for contract in contracts if isinstance(contract, Mapping)]
+        for attempt in range(5):
+            response = await self.request({"portfolio": 1})
+            error = _api_error(response)
+            if error:
+                if "rate limit" in str(error.get("message", "")).lower() and attempt < 4:
+                    backoff = 3.0 * (attempt + 1)
+                    await asyncio.sleep(backoff)
+                    continue
+                raise ReconciliationRequired(f"portfolio request failed: {error['message']}")
+            portfolio = response.get("portfolio")
+            contracts = portfolio.get("contracts") if isinstance(portfolio, Mapping) else None
+            if not isinstance(contracts, list):
+                raise ReconciliationRequired("portfolio contracts could not be verified")
+            return [contract for contract in contracts if isinstance(contract, Mapping)]
+        raise ReconciliationRequired("portfolio request failed after rate limit retries")
 
     async def reconcile_missing_contract(
         self,
@@ -2684,8 +2709,12 @@ class D107Bot:
             if peak_net_pnl < 1.0 * stake and time_held >= 30.0 and net_pnl <= -loss_cap:
                 return True, "winner_capital_preservation"
 
-        # 3. Time-based exit: max hold time exceeded
-        if self.config.winner_max_hold_seconds and time_held >= self.config.winner_max_hold_seconds:
+        # 3. Time-based exit: max hold time exceeded (if configured and > 0)
+        if (
+            self.config.winner_max_hold_seconds is not None
+            and self.config.winner_max_hold_seconds > 0.0
+            and time_held >= self.config.winner_max_hold_seconds
+        ):
             return True, "winner_time_stop"
 
         return False, "holding"
