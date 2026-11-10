@@ -325,13 +325,25 @@ class SuiBotRunner:
 
         # 2. Query live market prices and spreads across 4 pairs
         market_spreads = await self.poll_market_spreads()
+        sui_spot = market_spreads.get("SUI/USDC", {}).get("cetus_price", 2.0)
 
         # 3. Iterate through 4 configured pairs
         for pair_name in ACTIVE_PAIRS:
             if self.shutdown_event.is_set():
                 break
 
-            borrow_amount = self.scaling_engine.get_current_borrow_amount(pair_name)
+            pair_market = market_spreads.get(pair_name, {})
+            spread_bps = float(pair_market.get("spread_bps", 0.0))
+            base_price = pair_market.get("cetus_price")
+            deepbook_price = pair_market.get("deepbook_price", base_price)
+            bid_depth_quote = pair_market.get("bid_depth_quote")
+
+            # Dynamic Depth-Aware borrow sizing: caps borrow to 85% of L1 book depth to eliminate depth slippage
+            borrow_amount = self.scaling_engine.get_current_borrow_amount(
+                pair_name=pair_name,
+                sui_spot_price=sui_spot,
+                max_depth_quote=bid_depth_quote,
+            )
             
             # 4. Structural validation of 8-step atomic PTB
             ptb_validation = self.validator.validate_atomic_ptb_generation(
@@ -343,11 +355,6 @@ class SuiBotRunner:
                 errors = ptb_validation.get("errors") if isinstance(ptb_validation, dict) else getattr(ptb_validation, "errors", [])
                 logger.error(f"PTB generation invalid for {pair_name}: {errors}")
                 continue
-
-            pair_market = market_spreads.get(pair_name, {})
-            spread_bps = float(pair_market.get("spread_bps", 0.0))
-            base_price = pair_market.get("cetus_price")
-            deepbook_price = pair_market.get("deepbook_price", base_price)
 
             # 5. Move VM simulation with live spread and price
             dry_run = self.validator.simulate_ptb_dry_run(

@@ -362,16 +362,23 @@ class DynamicCapitalScalingEngine:
                 self._evaluate_tier_promotions()
 
     def get_current_borrow_amount(
-        self, pair_name: str, sui_spot_price: Optional[float] = None
+        self,
+        pair_name: str,
+        sui_spot_price: Optional[float] = None,
+        max_depth_quote: Optional[float] = None,
     ) -> int:
         """Resolves dynamic borrow amount in native atomic units for a given trading pair.
 
         For USDC quote pairs (SUI/USDC, DEEP/USDC):
           Returns current tier value: 1k (1_000_000_000), 5k (5_000_000_000), or 10k (10_000_000_000) micro-USDC.
+          When max_depth_quote is provided, caps borrow amount to 85% of available top-of-book depth
+          (subject to a $25 USDC minimum floor) to prevent orderbook depth slippage.
 
         For SUI quote pairs (DEEP/SUI, CETUS/SUI):
           Converts current tier USDC value to equivalent SUI amount in MIST (9 decimals)
           based on sui_spot_price.
+          When max_depth_quote is provided, caps borrow amount to 85% of available top-of-book depth
+          (subject to a 25 SUI minimum floor).
         """
         pair_clean = pair_name.upper().strip().replace("_", "/")
         tier_usdc_units = self.state.current_tier.value
@@ -395,9 +402,17 @@ class DynamicCapitalScalingEngine:
                 price = 2.0
 
             sui_amount = tier_usd / price
+            if max_depth_quote is not None and max_depth_quote > 0:
+                depth_cap_sui = max_depth_quote * 0.85
+                sui_amount = min(sui_amount, max(25.0, depth_cap_sui))
+
             sui_mist = int(round(sui_amount * 1_000_000_000))
             return sui_mist
         else:
+            if max_depth_quote is not None and max_depth_quote > 0:
+                depth_cap_usd = max_depth_quote * 0.85
+                target_usd = min(tier_usd, max(25.0, depth_cap_usd))
+                return int(round(target_usd * 1_000_000))
             return int(tier_usdc_units)
 
     def unlock_emergency(self, force: bool = False) -> bool:

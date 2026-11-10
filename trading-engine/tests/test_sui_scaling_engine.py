@@ -558,3 +558,28 @@ async def test_sui_balance_tracker_updates_scaling_engine():
     assert engine.state.accumulated_net_profit_usdc == 150.0
     # Promoted to Tier 2 because $150 >= $100 and 10 trades >= 10
     assert engine.current_tier == ScalingTier.TIER_2
+
+
+def test_depth_aware_borrow_sizing():
+    """Validates that borrow amounts are dynamically capped by top-of-book depth."""
+    engine = DynamicCapitalScalingEngine()
+
+    # Tier 1 defaults to 1,000 USDC
+    assert engine.get_current_borrow_amount("DEEP/USDC") == 1_000_000_000
+
+    # When orderbook depth is $500, borrow is capped to 85% of depth ($425 USDC)
+    capped_amount = engine.get_current_borrow_amount("DEEP/USDC", max_depth_quote=500.0)
+    assert capped_amount == 425_000_000  # $425 USDC
+
+    # When orderbook depth is large ($2,500), borrow remains at Tier 1 ceiling ($1,000 USDC)
+    large_depth_amount = engine.get_current_borrow_amount("SUI/USDC", max_depth_quote=2500.0)
+    assert large_depth_amount == 1_000_000_000
+
+    # When depth is shallow, minimum $25 floor applies
+    shallow_depth = engine.get_current_borrow_amount("DEEP/USDC", max_depth_quote=20.0)
+    assert shallow_depth == 25_000_000  # $25 USDC
+
+    # For SUI quote pairs:
+    # 50 SUI depth -> 85% is 42.5 SUI (42_500_000_000 MIST)
+    sui_quote_amount = engine.get_current_borrow_amount("DEEP/SUI", sui_spot_price=1.0, max_depth_quote=50.0)
+    assert sui_quote_amount == 42_500_000_000
