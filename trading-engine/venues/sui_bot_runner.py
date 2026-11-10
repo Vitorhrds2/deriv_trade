@@ -214,6 +214,10 @@ class SuiBotRunner:
             scaling_engine=self.scaling_engine,
         )
 
+        # Propagate private key to venue for live on-chain execution if available
+        if self.config.sui_private_key and not getattr(self.validator.venue, "private_key", None):
+            self.validator.venue.private_key = self.config.sui_private_key
+
         self.shutdown_event = asyncio.Event()
         self.is_running = False
         self.completed_cycles: int = 0
@@ -378,6 +382,10 @@ class SuiBotRunner:
                             "price": dry_run.get("deepbook_bid_px", deepbook_price),
                             "amm_price": dry_run.get("amm_swap_out_px", base_price),
                             "is_arb_ptb": True,
+                            "live_onchain": bool(
+                                self.config.sui_private_key
+                                and self.config.sui_private_key.startswith("suiprivkey1")
+                            ),
                         }
                         exec_res = await self.validator.venue.submit_order(order_params)
                         if exec_res.status == "FILLED":
