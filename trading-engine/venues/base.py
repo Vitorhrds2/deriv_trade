@@ -19,7 +19,7 @@ Duas camadas, de proposito:
 """
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Awaitable, Callable, Optional
+from typing import Any, Awaitable, Callable, Dict, List, Optional
 
 
 @dataclass
@@ -29,6 +29,67 @@ class PriceUpdate:
     price: float
     ts: float
     raw: Optional[dict] = None
+
+
+@dataclass
+class MarketUpdate:
+    venue: str
+    symbol: str
+    bid_px: float
+    bid_sz: float
+    ask_px: float
+    ask_sz: float
+    timestamp_ns: int
+    raw: Optional[Dict[str, Any]] = None
+
+
+@dataclass
+class OrderExecutionResult:
+    venue: str
+    order_id: str
+    symbol: str
+    side: str  # "BUY" or "SELL"
+    price: float
+    size: float
+    fee_bps: float
+    rebate_bps: float
+    is_maker: bool
+    status: str  # "FILLED", "CANCELLED", "REJECTED"
+    latency_ms: float
+    timestamp_ns: int
+
+
+class UnifiedVenue(ABC):
+    """Unified interface for execution venues across modern market microstructure vectors."""
+
+    name: str = "unified_venue"
+
+    @abstractmethod
+    async def connect(self) -> bool:
+        """Establishes connection to the venue (REST/WS/RPC/FIX). Returns True if successful."""
+        ...
+
+    @abstractmethod
+    async def disconnect(self) -> None:
+        """Gracefully shuts down connection and background streaming tasks."""
+        ...
+
+    @abstractmethod
+    async def subscribe_market_data(
+        self, symbol: str, callback: Callable[[MarketUpdate], Awaitable[None]]
+    ) -> None:
+        """Subscribes to market updates (orderbook/ticker) and invokes callback on each update."""
+        ...
+
+    @abstractmethod
+    async def submit_order(self, order_params: Dict[str, Any]) -> OrderExecutionResult:
+        """Submits an order according to venue protocol rules."""
+        ...
+
+    @abstractmethod
+    async def cancel_order(self, order_id: str, symbol: str) -> bool:
+        """Cancels an existing resting order."""
+        ...
 
 
 class PriceFeedVenue(ABC):
@@ -70,3 +131,4 @@ class ExecutionVenue(PriceFeedVenue):
         ...
 
     # Deliberadamente NAO ha `place_order()` generico aqui -- ver docstring do modulo.
+
