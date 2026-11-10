@@ -583,3 +583,62 @@ def test_depth_aware_borrow_sizing():
     # 50 SUI depth -> 85% is 42.5 SUI (42_500_000_000 MIST)
     sui_quote_amount = engine.get_current_borrow_amount("DEEP/SUI", sui_spot_price=1.0, max_depth_quote=50.0)
     assert sui_quote_amount == 42_500_000_000
+
+
+def test_depth_aggregation_and_usd_normalization():
+    """Validates depth aggregation across multi-level bids and USD profit normalization."""
+    import asyncio
+    from unittest.mock import AsyncMock, patch
+    from venues.sui_deepbook_venue import SuiGraphQLClient, SUI_GRAPHQL_MAINNET
+
+    async def _run():
+        client = SuiGraphQLClient(endpoint=SUI_GRAPHQL_MAINNET)
+        mock_indexer = {
+            "SUI_USDC": {},
+            "DEEP_SUI": {},
+            "DEEP_USDC": {
+                "bids": [
+                    ["0.01392", "720"],
+                    ["0.01391", "35500"],
+                ],
+                "asks": [["0.01395", "1000"]],
+            },
+        }
+
+        async def mock_fetch_orderbook(symbol):
+            return mock_indexer.get(symbol, {})
+
+        mock_data = {
+            "cetus_bids": {},  # activates is_live_graphql
+            "p_sui_usdc": {"asMoveObject": {"contents": {"json": {"current_sqrt_price": str(int(((0.83) ** 0.5) * (2**64)))}}}},
+            "p_deep_sui": {"asMoveObject": {"contents": {"json": {"current_sqrt_price": str(int(((0.016) ** 0.5) * (2**64)))}}}},
+            "p_cetus_sui": {"asMoveObject": {"contents": {"json": {"current_sqrt_price": str(int(((0.023) ** 0.5) * (2**64)))}}}},
+            "p_deep_usdc": {
+                "asMoveObject": {
+                    "contents": {
+                        "json": {
+                            # 0.01380 in sqrt_price Q64 format
+                            "current_sqrt_price": str(int(((0.01380) ** 0.5) * (2**64)))
+                        }
+                    }
+                }
+            },
+        }
+
+        with patch.object(client, "execute", new_callable=AsyncMock) as mock_exec, \
+             patch.object(client, "_fetch_deepbook_indexer_orderbook", side_effect=mock_fetch_orderbook):
+            mock_exec.return_value = {"data": mock_data}
+            res = await client.query_live_market_spreads()
+
+            assert "DEEP/USDC" in res
+            deep_usdc = res["DEEP/USDC"]
+            # Total quote depth should aggregate 720 * 0.01392 + 35500 * 0.01391 = 10.0224 + 493.805 = 503.8274
+            assert deep_usdc["bid_depth_quote"] > 500.0
+            assert deep_usdc["bid_size"] == 36220.0
+            # VWAP should be ~0.0139102
+            assert 0.01391 <= deep_usdc["deepbook_price"] <= 0.01392
+
+        await client.close()
+
+    asyncio.run(_run())
+

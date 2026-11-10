@@ -369,9 +369,14 @@ class SuiBotRunner:
             gas_cost_sui = dry_run.get("gas_cost_sui", 0.002) if isinstance(dry_run, dict) else getattr(dry_run, "gas_cost_sui", 0.002)
             zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
 
+            # Convert quote currency net profit to USD equivalent
+            is_sui_quote = pair_name.endswith("/SUI") or pair_name in ("DEEP/SUI", "CETUS/SUI")
+            net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
+
             # 6. Arbitrage Execution Handling (DRY_RUN_MODE vs Live)
-            # Require at least $0.25 expected net profit to buffer against pool price impact
-            is_profitable = (status == "SUCCESS" and net_profit >= 0.25)
+            # Require at least $0.05 expected net profit (~30x Sui gas cost of ~$0.0016)
+            # to buffer against pool price impact while executing viable micro-arbitrages
+            is_profitable = (status == "SUCCESS" and net_profit_usd >= 0.05)
             execution_status = "SIMULATED"
 
             if is_profitable:
@@ -379,7 +384,7 @@ class SuiBotRunner:
                 if not self.config.dry_run_mode:
                     logger.info(
                         f"LIVE ARBITRAGE TRIGGER: Executing PTB for {pair_name} | "
-                        f"Borrow: {borrow_amount} | Spread: {spread_bps:+.1f} bps | Expected Net Profit: ${net_profit:.2f}"
+                        f"Borrow: {borrow_amount} | Spread: {spread_bps:+.1f} bps | Expected Net Profit: ${net_profit_usd:.2f} (native: {net_profit:.4f})"
                     )
                     self.total_executions_attempted += 1
                     try:
@@ -399,7 +404,7 @@ class SuiBotRunner:
                         if exec_res.status == "FILLED":
                             execution_status = "EXECUTED"
                             logger.info(f"Live PTB executed successfully for {pair_name}: order_id={exec_res.order_id}")
-                            self.scaling_engine.record_trade_success(profit_usdc=net_profit)
+                            self.scaling_engine.record_trade_success(profit_usdc=net_profit_usd)
                         else:
                             execution_status = "REJECTED"
                             logger.info(f"Live PTB pre-flight simulation rejected for {pair_name} (0 gas cost): order_id={exec_res.order_id}")
@@ -413,7 +418,7 @@ class SuiBotRunner:
                 else:
                     logger.info(
                         f"[DRY_RUN_MODE=true] Arbitrage opportunity simulated on {pair_name} | "
-                        f"Spread: {spread_bps:+.1f} bps | Simulated Net Profit: ${net_profit:.2f} (Execution skipped)"
+                        f"Spread: {spread_bps:+.1f} bps | Simulated Net Profit: ${net_profit_usd:.2f} (Execution skipped)"
                     )
 
             result_entry = {
@@ -422,6 +427,7 @@ class SuiBotRunner:
                 "tier": self.scaling_engine.current_tier.name,
                 "status": status,
                 "net_profit": net_profit,
+                "net_profit_usd": net_profit_usd,
                 "gas_cost_sui": gas_cost_sui,
                 "zero_leg_risk_preserved": zero_leg_risk_preserved,
                 "spread_bps": spread_bps,

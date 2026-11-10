@@ -1141,12 +1141,32 @@ class SuiGraphQLClient:
                     asks = ob.get("asks", [])
                     if bids and len(bids[0]) >= 1:
                         try:
-                            parsed_bid = float(bids[0][0])
-                            if 0.1 * cetus_px <= parsed_bid <= 10.0 * cetus_px:
-                                deepbook_px = parsed_bid
-                            if len(bids[0]) >= 2:
-                                parsed_bid_size = float(bids[0][1])
-                                bid_depth_quote = deepbook_px * parsed_bid_size
+                            best_bid = float(bids[0][0])
+                            if 0.1 * cetus_px <= best_bid <= 10.0 * cetus_px:
+                                # Aggregate bid size and quote depth across depth levels where bid price
+                                # is profitable above Cetus spot price (min 6 bps above Cetus),
+                                # capped at max 50 bps slippage from best bid
+                                min_acceptable_bid = max(best_bid * 0.9950, cetus_px * 1.0006)
+                                total_base_size = 0.0
+                                total_quote_depth = 0.0
+                                for b in bids:
+                                    if len(b) >= 2:
+                                        b_px = float(b[0])
+                                        b_sz = float(b[1])
+                                        if b_px >= min_acceptable_bid:
+                                            total_base_size += b_sz
+                                            total_quote_depth += b_px * b_sz
+                                        else:
+                                            break
+                                if total_base_size > 0.0:
+                                    deepbook_px = total_quote_depth / total_base_size
+                                    parsed_bid_size = total_base_size
+                                    bid_depth_quote = total_quote_depth
+                                else:
+                                    deepbook_px = best_bid
+                                    if len(bids[0]) >= 2:
+                                        parsed_bid_size = float(bids[0][1])
+                                        bid_depth_quote = deepbook_px * parsed_bid_size
                         except (ValueError, TypeError):
                             pass
                     if asks and len(asks[0]) >= 1:
