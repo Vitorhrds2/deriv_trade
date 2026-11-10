@@ -1,7 +1,7 @@
-# BRIEFING — 2026-11-02T09:47:00Z
+# BRIEFING — 2026-11-10T20:21:00Z
 
 ## Mission
-Adversarial Verification of Trend Alignment Filter and Simulation Replay Integrity (Milestone 3).
+Empirically test and challenge the operational stability, gas runway safety, capital scaling transitions, and live bot runner deployment configuration of the Sui Arbitrage Bot (Requirements R2, R3, R5).
 
 ## 🔒 My Identity
 - Archetype: challenger (critic, specialist)
@@ -10,49 +10,58 @@ Adversarial Verification of Trend Alignment Filter and Simulation Replay Integri
 - Original parent: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
 - Milestone: Milestone 3
 - Instance: 2 of 2
+- Current Milestone: Milestone 4 (R2, R3, R5 Operational Stability & Gas Safety)
+- Current Parent: 3cb9f997-972a-4e6e-b964-690ae475cc91
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
 - Strictly empirical: tests, generators, oracles, and stress harnesses must be written and executed
 - All findings backed by executed python3 test scripts and reproduction code
+- 100% test pass rate required on test suite
 
 ## Current Parent
-- Conversation ID: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
-- Updated: 2026-11-02T09:32:30Z
+- Conversation ID: 3cb9f997-972a-4e6e-b964-690ae475cc91
+- Updated: 2026-11-10T20:09:07Z
 
 ## Review Scope
-- **Files to review**:
-  - `src/hypothesis/trend/trend_alignment.py` / `trading-engine/d107_rate_limit_winner_holding.py`
-  - `src/hypothesis/simulation/replay.py` / `trading-engine/d107_exact_historical_simulation.py`
-  - Related test files and modules
-- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md, Worker handoff.md
+- **Files reviewed**:
+  - `trading-engine/venues/sui_scaling_engine.py`
+  - `trading-engine/venues/sui_bot_runner.py`
+  - `trading-engine/venues/sui_health_server.py`
+  - `trading-engine/venues/sui_deepbook_venue.py`
+  - `trading-engine/tests/`
+- **Interface contracts**: PROJECT.md, ORIGINAL_REQUEST.md
 - **Review criteria**:
-  1. Trend Alignment Extreme Regimes (Brownian noise/chop, Runaway trend, V-shape reversal, edge cases like flatline, zero variance, nan/inf, tick gaps)
-  2. Simulation Replay Stress Testing (perturbed prices, lookahead / causality check, conservative accounting)
+  1. Gas Runway Safety Floors (5.419 SUI, <1.5 SUI warning/throttling, <0.5 SUI EMERGENCY_LOCKED, recovery on deposit >=1.5 SUI, 5-abort lock cannot be bypassed by gas deposit alone)
+  2. Consecutive Abort Circuit Breakers (3 aborts -> demote 1 tier + 60s cooldown, 5 aborts -> EMERGENCY_LOCKED, success -> reset counter & clear cooldown)
+  3. Bot Runner Lifecycle & Live Mode Verification (`DRY_RUN_MODE=false`, valid `SUI_PRIVATE_KEY` (`suiprivkey1...`), preflight simulation before executing, Ed25519/Blake2b signing, GraphQL `executeTransaction`, `/health`, `/live`, `/` endpoints 200 OK)
+  4. Full Test Suite Regression Check: 100% pass rate on `PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests -v`
 
 ## Attack Surface
 - **Hypotheses tested**:
-  - H1 (Pure chop / Brownian noise): Trend alignment pauses entries under Hurst ~0.50 and ADX < 15. Verified: 100% pause in persistent sub-15 ADX chop, 70% buy reduction in Brownian walk.
-  - H2 (Runaway trend): Strong monotonic trends strictly produce aligned entries with 0 counter-trend positions. Verified: 20/20 MULTUP in bull runaway, 20/20 MULTDOWN in bear runaway.
-  - H3 (V-shape reversal): Inflection clears old direction to NONE and pauses entries before establishing new trend. Verified: old direction purged immediately, transition zone paused, new direction confirmed before buying.
-  - H4 (Edge cases): Flatline and zero-variance price series produce 0 buys and handle div-by-zero cleanly. NaN/Inf cleaned safely.
-  - H5 (Simulation Causality): Replay engine does not leak future ticks into entry decisions. Verified: 100% bit-for-bit identical decisions up to divergence point across divergent futures.
-  - H6 (Conservative Accounting): All fees, commissions, and stopouts are strictly deducted; cash conservation invariant holds. Verified.
+  - H1: Starting at 5.419 SUI sets status to ACTIVE and permits trading without warning. Verified.
+  - H2: Stepping down below 1.5 SUI triggers `gas_warning = True`, throttling the scan interval to 3.0s while permitting trades. Verified.
+  - H3: Stepping down below 0.5 SUI immediately forces `EMERGENCY_LOCKED` and halts all trading. Verified.
+  - H4: Depositing funds back to >= 1.5 SUI restores `ACTIVE` status and clears gas warning. Verified.
+  - H5: A 5-abort circuit breaker lock cannot be bypassed by gas deposit alone. Verified.
+  - H6: 3 consecutive aborts demote tier by 1 (e.g. Tier 3 -> Tier 2, Tier 2 -> Tier 1) and activate 60s cooldown. Verified.
+  - H7: 5 consecutive aborts trigger `EMERGENCY_LOCKED`. Verified.
+  - H8: Trade success resets consecutive aborts to 0 and clears cooldown. Verified.
+  - H9: Bot runner under `DRY_RUN_MODE=false` requires valid `suiprivkey1...` and conducts preflight simulation before broadcasting. Preflight rejection aborts with 0 gas cost. Simulation success triggers Ed25519 Blake2b-256 signing and GraphQL `executeTransaction`. Verified.
+  - H10: HTTP health endpoints (`/health`, `/live`, `/`) return 200 OK with accurate JSON telemetry across healthy, degraded, and critical states. Verified.
 - **Vulnerabilities found**:
-  - Low-Severity: `calculate_adx_and_trend` assumes numeric price sequences. If non-numeric items (`str`, `None`) are passed without pre-cleaning via `_positive_float`, `math.isfinite()` raises `TypeError`. (Mitigated in live bot by `_positive_float` sanitization in `evaluate_market_trend`).
+  - No blocking vulnerabilities or regressions found. Implementation strictly conforms to all requirements and safety contracts.
 - **Untested angles**:
-  - Millisecond-frequency tick arrival jitter on live WebSocket feed (out of scope for discrete historical replay).
-
-## Loaded Skills
-- None specified by task
+  - Live on-chain mainnet validator fork reorgs (inherent to L1 consensus, out of bot runner execution scope).
 
 ## Key Decisions Made
-- Built and executed `trading-engine/stress_test_challenger_2.py` with 11 empirical test cases.
-- Executed mirror/inverted price replay across 86,395 real historical ticks to verify directional symmetry.
-- Formulated verdict: APPROVE.
+- Authored and executed dedicated operational test suite `trading-engine/tests/test_adversarial_challenger_2_operational.py` (19 test cases, all passed).
+- Executed full test suite regression check: 677/677 tests passing (100% pass rate).
+- Verdict: APPROVE.
 
 ## Artifact Index
-- `handoff.md` — Final challenge report and verdict
-- `progress.md` — Liveness heartbeat and activity log
-- `DISPATCH.md` — Task dispatch record
-- `trading-engine/stress_test_challenger_2.py` — Adversarial stress test suite
+- `BRIEFING.md` — Agent briefing & persistent working memory
+- `progress.md` — Liveness heartbeat & task progress
+- `DISPATCH.md` — Dispatch message history
+- `handoff.md` — Adversarial verification report and final verdict
+- `trading-engine/tests/test_adversarial_challenger_2_operational.py` — Adversarial operational stress test suite (19 test cases)

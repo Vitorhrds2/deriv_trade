@@ -1,79 +1,38 @@
 {
-  "timestamp": "2026-11-02T19:48:04.187238+00:00",
-  "epoch": 1793648884,
-  "deriv_primary_asset": "1HZ100V",
+  "timestamp": "2026-11-03T03:53:16.422014+00:00",
+  "epoch": 1793677996,
+  "deriv_primary_asset": "R_100",
   "deriv_primary_strategy": "MOMENTUM_BREAKOUT",
-  "recommended_direction": "MULTDOWN",
-  "convexity_score": 1.6803,
+  "recommended_direction": "MULTUP",
+  "convexity_score": -1.0,
   "deriv_optimal_take_profit": 0.2,
   "deriv_cancellation_duration": "5m",
-  "deriv_metrics": {
-    "R_100": {
-      "hurst": 0.5718,
-      "volatility_5m_pct": 0.2799,
-      "recommended_strategy": "MOMENTUM_BREAKOUT",
-      "recommended_direction": "MULTDOWN",
-      "convexity_score": 1.4552,
-      "edge_description": "Strong serial persistence; trend following",
-      "cancellation_fee": 0.11,
-      "target_take_profit": 0.2
-    },
-    "1HZ100V": {
-      "hurst": 0.6137,
-      "volatility_5m_pct": 0.3012,
-      "recommended_strategy": "MOMENTUM_BREAKOUT",
-      "recommended_direction": "MULTDOWN",
-      "convexity_score": 1.6803,
-      "edge_description": "Strong serial persistence; trend following",
-      "cancellation_fee": 0.11,
-      "target_take_profit": 0.2
-    },
-    "1HZ75V": {
-      "hurst": 0.5463,
-      "volatility_5m_pct": 0.2374,
-      "recommended_strategy": "UNCONDITIONAL_VOLATILITY_EXPANSION",
-      "recommended_direction": "MULTUP",
-      "convexity_score": 1.6213,
-      "edge_description": "Pure Brownian excursion with Deal Cancellation convexity",
-      "cancellation_fee": 0.08,
-      "target_take_profit": 0.2
-    },
-    "R_75": {
-      "hurst": 0.5811,
-      "volatility_5m_pct": 0.2251,
-      "recommended_strategy": "MOMENTUM_BREAKOUT",
-      "recommended_direction": "MULTDOWN",
-      "convexity_score": 1.6353,
-      "edge_description": "Strong serial persistence; trend following",
-      "cancellation_fee": 0.08,
-      "target_take_profit": 0.2
-    }
-  },
+  "deriv_metrics": {},
   "binance_funding_landscape": {
     "total_markets": 896,
-    "extreme_negative_count": 4,
+    "extreme_negative_count": 5,
     "top_squeeze_candidates": [
       {
-        "symbol": "HOTUSDT",
-        "rate": -0.02,
-        "rate_pct": -2.0
+        "symbol": "ERAUSDT",
+        "rate": -0.01289968,
+        "rate_pct": -1.289968
       },
       {
         "symbol": "1000CATUSDT",
-        "rate": -0.00691268,
-        "rate_pct": -0.691268
+        "rate": -0.01287055,
+        "rate_pct": -1.287055
       },
       {
-        "symbol": "CSOPSKHYNIX2LUSDT",
-        "rate": -0.00309723,
-        "rate_pct": -0.30972299999999997
+        "symbol": "AGPUUSDT",
+        "rate": -0.00373587,
+        "rate_pct": -0.373587
       }
     ],
-    "median_funding_rate_pct": 0.003815
+    "median_funding_rate_pct": 0.005
   },
   "active_hypotheses": {
-    "D107_D109": "Deal Cancellation on 1HZ100V 100x (MOMENTUM_BREAKOUT)",
-    "D110": "Binance Negative Funding Squeeze (4 candidates)",
+    "D107_D109": "Deal Cancellation on R_100 100x (None)",
+    "D110": "Binance Negative Funding Squeeze (5 candidates)",
     "D36": "Deribit IV Surface Smile Anomaly (Automated Take Profit +10%)",
     "D41": "Binance Token Unlock Overhang Short (SUI Nov 1)"
   }

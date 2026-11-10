@@ -49,10 +49,16 @@ try:
         DEEP_SUI_POOL_ID,
         DEEP_USDC_POOL_ID,
         DEEPBOOK_PACKAGE_ID,
+        MAX_SQRT_PRICE,
+        MIN_SQRT_PRICE,
+        SUI_CLOCK_OBJECT_ID,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
         SUI_PAIRS_CONFIG,
         SUI_USDC_POOL_ID,
+        TURBOS_PACKAGE_ID,
+        TURBOS_POOL_CONFIG_ID,
+        TURBOS_VERSIONED_ID,
         HotPotatoPTBParams,
         PairConfig,
         SuiDeepBookPTBBuilder,
@@ -84,10 +90,16 @@ except ImportError:
         DEEP_SUI_POOL_ID,
         DEEP_USDC_POOL_ID,
         DEEPBOOK_PACKAGE_ID,
+        MAX_SQRT_PRICE,
+        MIN_SQRT_PRICE,
+        SUI_CLOCK_OBJECT_ID,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
         SUI_PAIRS_CONFIG,
         SUI_USDC_POOL_ID,
+        TURBOS_PACKAGE_ID,
+        TURBOS_POOL_CONFIG_ID,
+        TURBOS_VERSIONED_ID,
         HotPotatoPTBParams,
         PairConfig,
         SuiDeepBookPTBBuilder,
@@ -171,6 +183,9 @@ class PTBValidationReport:
     balance_manager_verified: bool
     ptb: Dict[str, Any]
     errors: List[str] = field(default_factory=list)
+    route_direction: str = "FORWARD"
+    amm_target: str = "cetus"
+    turbos_pool_id_verified: bool = False
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -200,6 +215,9 @@ class PTBDryRunReport:
     hot_potato_aborted: bool
     error: Optional[str] = None
     shortfall_native: int = 0
+    route_direction: str = "FORWARD"
+    deepbook_ask_px: Optional[float] = None
+    amm_target: str = "cetus"
     timestamp: float = field(default_factory=time.time)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -425,19 +443,61 @@ class SuiPTBPreflightValidator:
         )
         return report.to_dict()
 
+    def validate_vault_balance(
+        self,
+        pair_name: str,
+        borrow_amount: int,
+        vault_balances: Optional[Dict[str, int]] = None,
+        is_base_borrow: bool = False,
+    ) -> Dict[str, Any]:
+        """Validates that borrow_amount does not exceed 90% of DeepBook vault balance (Requirement R3)."""
+        if vault_balances is None:
+            from venues.sui_scaling_engine import DEFAULT_DEEPBOOK_VAULT_BALANCES
+            pair_clean = pair_name.upper().strip().replace("_", "/")
+            vault_balances = DEFAULT_DEEPBOOK_VAULT_BALANCES.get(pair_clean, {})
+
+        balance_key = "base_balance" if is_base_borrow else "quote_balance"
+        vault_bal = vault_balances.get(balance_key, 0)
+        max_allowed = int(float(vault_bal) * 0.90)
+
+        is_safe = (borrow_amount <= max_allowed) and (max_allowed > 0)
+        return {
+            "valid": is_safe,
+            "borrow_amount": borrow_amount,
+            "vault_balance": vault_bal,
+            "max_allowed_borrow": max_allowed,
+            "asset_type": "base" if is_base_borrow else "quote",
+            "error": None if is_safe else f"EInsufficientVaultBalance (abort code 2): borrow_amount {borrow_amount} exceeds 90% vault balance {max_allowed}",
+        }
+
     def validate_atomic_ptb_generation(
-        self, pair_name: str, borrow_amount: Optional[int] = None
+        self,
+        pair_name: str,
+        borrow_amount: Optional[int] = None,
+        route_direction: str = "FORWARD",
+        vault_balances: Optional[Dict[str, int]] = None,
+        amm_target: str = "cetus",
     ) -> Dict[str, Any]:
         """Validates that an 8-command PTB is generated with strict command sequence,
         correct pool IDs, a2b flags, and Hot Potato borrowing/repayment links.
 
-        Sequence Requirements:
+        Sequence Requirements (FORWARD):
         - Command 0: borrow_flashloan_quote (produces borrowed_quote_coin, flash_loan_receipt)
-        - Command 1: swap on Cetus CLMM (consumes [0, 0], exact a2b flag)
+        - Command 1: swap on Cetus CLMM or Turbos CLMM (consumes [0, 0], exact a2b flag)
         - Command 2: deposit to balance_manager (consumes [1, 0])
         - Command 3: place_market_order on DeepBook (is_bid = False)
         - Command 4: withdraw_all from balance_manager (produces withdrawn_quote_coin)
         - Command 5: SplitCoins exact repayment principal (consumes [4, 0])
+        - Command 6: return_flashloan_quote (consumes [5, 0] and [0, 1] Hot Potato)
+        - Command 7: TransferObjects net profit to sender_address (consumes [4, 0])
+
+        Sequence Requirements (REVERSE):
+        - Command 0: borrow_flashloan_quote (produces borrowed_quote_coin, flash_loan_receipt)
+        - Command 1: deposit to balance_manager (consumes [0, 0] quote coin)
+        - Command 2: place_market_order on DeepBook (is_bid = True, lifting Ask)
+        - Command 3: withdraw_all base coin from balance_manager (produces withdrawn_base_coin)
+        - Command 4: swap on Cetus CLMM or Turbos CLMM (consumes [3, 0] base coin, opposite a2b flag)
+        - Command 5: SplitCoins exact repayment principal (consumes [4, 0] quote proceeds)
         - Command 6: return_flashloan_quote (consumes [5, 0] and [0, 1] Hot Potato)
         - Command 7: TransferObjects net profit to sender_address (consumes [4, 0])
         """
@@ -448,12 +508,24 @@ class SuiPTBPreflightValidator:
 
         cfg = SUI_PAIRS_CONFIG[pair_name]
         amt = borrow_amount if borrow_amount is not None else cfg.default_borrow_amount
+        is_reverse = route_direction == "REVERSE"
+
+        if vault_balances is not None:
+            v_check = self.validate_vault_balance(
+                pair_name=pair_name,
+                borrow_amount=amt,
+                vault_balances=vault_balances,
+            )
+            if not v_check["valid"]:
+                errors.append(v_check["error"])
 
         params = HotPotatoPTBParams.from_pair(
             pair_name=pair_name,
             flash_borrow_amount=amt,
             balance_manager_id=self.balance_manager_id,
             sender_address=self.operator_address,
+            route_direction=route_direction,
+            amm_target=amm_target,
         )
         ptb = self.ptb_builder.build_atomic_arb_ptb(params)
 
@@ -461,123 +533,320 @@ class SuiPTBPreflightValidator:
         if len(commands) != 8:
             errors.append(f"Expected exactly 8 commands in atomic PTB, found {len(commands)}")
 
-        # Verify Command 0: Borrow Flashloan Quote
-        c0 = commands[0] if len(commands) > 0 else {}
-        is_borrow_cmd = (
-            c0.get("type") == "MoveCall"
-            and c0.get("module") == "pool"
-            and c0.get("function") in ("borrow_flashloan_quote", "borrow_flashloan_base")
-        )
-        if not is_borrow_cmd:
-            errors.append(f"Command 0 must be borrow_flashloan_quote MoveCall, got {c0}")
+        cetus_pool_id_verified = False
+        turbos_pool_id_verified = False
 
-        borrow_outputs = c0.get("outputs", [])
-        if "flash_loan_receipt" not in borrow_outputs:
-            errors.append("Command 0 must output 'flash_loan_receipt' Hot Potato")
+        if is_reverse:
+            # Command 0: Borrow Flashloan Quote
+            c0 = commands[0] if len(commands) > 0 else {}
+            is_borrow_cmd = (
+                c0.get("type") == "MoveCall"
+                and c0.get("module") == "pool"
+                and c0.get("function") == "borrow_flashloan_quote"
+            )
+            if not is_borrow_cmd:
+                errors.append(f"Command 0 must be borrow_flashloan_quote MoveCall, got {c0}")
 
-        c0_args = c0.get("arguments", [])
-        pool_id_verified = (
-            len(c0_args) >= 1 and c0_args[0].get("Input") == cfg.deepbook_pool_id
-        )
-        if not pool_id_verified:
-            errors.append(f"Command 0 DeepBook pool ID mismatch for {pair_name}")
+            borrow_outputs = c0.get("outputs", [])
+            if "flash_loan_receipt" not in borrow_outputs:
+                errors.append("Command 0 must output 'flash_loan_receipt' Hot Potato")
 
-        # Verify Command 1: AMM Swap on Cetus
-        c1 = commands[1] if len(commands) > 1 else {}
-        is_swap_cmd = c1.get("type") == "MoveCall" and c1.get("function") == "swap"
-        if not is_swap_cmd:
-            errors.append(f"Command 1 must be Cetus swap MoveCall, got {c1}")
+            c0_args = c0.get("arguments", [])
+            pool_id_verified = (
+                len(c0_args) >= 1 and c0_args[0].get("Input") == cfg.deepbook_pool_id
+            )
+            if not pool_id_verified:
+                errors.append(f"Command 0 DeepBook pool ID mismatch for {pair_name}")
 
-        c1_args = c1.get("arguments", [])
-        cetus_pool_id_verified = (
-            len(c1_args) >= 2 and c1_args[1].get("Input") == cfg.cetus_pool_id
-        )
-        if not cetus_pool_id_verified:
-            errors.append(f"Command 1 Cetus pool ID mismatch for {pair_name}")
+            # Command 1: Deposit Quote to BalanceManager
+            c1 = commands[1] if len(commands) > 1 else {}
+            is_deposit_cmd = (
+                c1.get("type") == "MoveCall"
+                and c1.get("module") == "balance_manager"
+                and c1.get("function") == "deposit"
+            )
+            if not is_deposit_cmd:
+                errors.append(f"Command 1 must be balance_manager::deposit, got {c1}")
 
-        c1_nested_in = len(c1_args) >= 3 and c1_args[2].get("NestedResult") == [0, 0]
-        if not c1_nested_in:
-            errors.append("Command 1 must consume NestedResult [0, 0] (borrowed coin)")
+            c1_args = c1.get("arguments", [])
+            c1_bm_ok = len(c1_args) >= 1 and c1_args[0].get("Input") == self.balance_manager_id
+            c1_nested_ok = len(c1_args) >= 2 and c1_args[1].get("NestedResult") == [0, 0]
+            if not (c1_bm_ok and c1_nested_ok):
+                errors.append("Command 1 must consume borrowed quote coin [0, 0] into BalanceManager")
 
-        a2b_verified = len(c1_args) >= 4 and c1_args[3].get("Input") == cfg.a2b
-        if not a2b_verified:
-            errors.append(f"Command 1 a2b flag mismatch for {pair_name}: expected {cfg.a2b}")
+            # Command 2: Place Market Buy Order on DeepBook (is_bid = True, lifting Ask)
+            c2 = commands[2] if len(commands) > 2 else {}
+            is_order_cmd = (
+                c2.get("type") == "MoveCall"
+                and c2.get("module") == "pool"
+                and c2.get("function") == "place_market_order"
+            )
+            if not is_order_cmd:
+                errors.append(f"Command 2 must be pool::place_market_order, got {c2}")
 
-        # Verify Command 2: Deposit to BalanceManager
-        c2 = commands[2] if len(commands) > 2 else {}
-        is_deposit_cmd = (
-            c2.get("type") == "MoveCall"
-            and c2.get("module") == "balance_manager"
-            and c2.get("function") == "deposit"
-        )
-        if not is_deposit_cmd:
-            errors.append(f"Command 2 must be balance_manager::deposit, got {c2}")
+            c2_args = c2.get("arguments", [])
+            c2_pool_ok = len(c2_args) >= 1 and c2_args[0].get("Input") == cfg.deepbook_pool_id
+            c2_bid_ok = len(c2_args) >= 5 and c2_args[4].get("Input") is True  # Bid / Buy base lifting Ask
+            if not (c2_pool_ok and c2_bid_ok):
+                errors.append("Command 2 must place market buy (is_bid=True) on DeepBook pool")
 
-        c2_args = c2.get("arguments", [])
-        c2_bm_ok = len(c2_args) >= 1 and c2_args[0].get("Input") == self.balance_manager_id
-        c2_nested_ok = len(c2_args) >= 2 and c2_args[1].get("NestedResult") == [1, 0]
-        if not (c2_bm_ok and c2_nested_ok):
-            errors.append("Command 2 must consume swapped coin [1, 0] into BalanceManager")
+            # Command 3: Withdraw All Base Coin Proceeds
+            c3 = commands[3] if len(commands) > 3 else {}
+            is_withdraw_cmd = (
+                c3.get("type") == "MoveCall"
+                and c3.get("module") == "balance_manager"
+                and c3.get("function") == "withdraw_all"
+            )
+            if not is_withdraw_cmd:
+                errors.append(f"Command 3 must be balance_manager::withdraw_all, got {c3}")
+            c3_type_ok = c3.get("type_arguments") == [cfg.base_coin_type]
+            if not c3_type_ok:
+                errors.append(f"Command 3 must withdraw base coin type {cfg.base_coin_type}")
 
-        # Verify Command 3: Place Market Order
-        c3 = commands[3] if len(commands) > 3 else {}
-        is_order_cmd = (
-            c3.get("type") == "MoveCall"
-            and c3.get("module") == "pool"
-            and c3.get("function") == "place_market_order"
-        )
-        if not is_order_cmd:
-            errors.append(f"Command 3 must be pool::place_market_order, got {c3}")
+            # Command 4: AMM Swap Base for Quote on Cetus or Turbos
+            c4 = commands[4] if len(commands) > 4 else {}
+            c4_args = c4.get("arguments", [])
 
-        c3_args = c3.get("arguments", [])
-        c3_pool_ok = len(c3_args) >= 1 and c3_args[0].get("Input") == cfg.deepbook_pool_id
-        c3_bid_ok = len(c3_args) >= 5 and c3_args[4].get("Input") is False  # Ask / Sell base
-        if not (c3_pool_ok and c3_bid_ok):
-            errors.append("Command 3 must place market sell (is_bid=False) on DeepBook pool")
+            if amm_target == "turbos":
+                is_swap_cmd = (
+                    c4.get("type") == "MoveCall"
+                    and c4.get("package") == TURBOS_PACKAGE_ID
+                    and c4.get("module") == "swap_router"
+                    and c4.get("function") == "swap_a_b_with_return_"
+                )
+                if not is_swap_cmd:
+                    errors.append(f"Command 4 must be Turbos swap_router::swap_a_b_with_return_, got {c4}")
 
-        # Verify Command 4: Withdraw All Proceeds
-        c4 = commands[4] if len(commands) > 4 else {}
-        is_withdraw_cmd = (
-            c4.get("type") == "MoveCall"
-            and c4.get("module") == "balance_manager"
-            and c4.get("function") == "withdraw_all"
-        )
-        if not is_withdraw_cmd:
-            errors.append(f"Command 4 must be balance_manager::withdraw_all, got {c4}")
+                turbos_pool_id_verified = (
+                    len(c4_args) >= 1 and c4_args[0].get("Input") == cfg.turbos_pool_id
+                )
+                if not turbos_pool_id_verified:
+                    errors.append(f"Command 4 Turbos pool ID mismatch for {pair_name}")
 
-        # Verify Command 5: SplitCoins for Principal Repayment
-        c5 = commands[5] if len(commands) > 5 else {}
-        is_split_cmd = c5.get("type") == "SplitCoins"
-        c5_coin_ok = c5.get("coin", {}).get("NestedResult") == [4, 0]
-        c5_amt_ok = len(c5.get("amounts", [])) >= 1 and c5["amounts"][0].get("Input") == amt
-        if not (is_split_cmd and c5_coin_ok and c5_amt_ok):
-            errors.append(f"Command 5 must SplitCoins exactly {amt} from [4, 0]")
+                c4_vec = c4_args[1] if len(c4_args) >= 2 else {}
+                c4_has_vec = (
+                    c4_vec.get("type") == "MakeMoveVec"
+                    or "MakeMoveVec" in c4_vec
+                )
+                if not c4_has_vec:
+                    errors.append("Command 4 must wrap coins in MakeMoveVec")
 
-        # Verify Command 6: Return Flashloan Quote (Hot Potato Quench)
-        c6 = commands[6] if len(commands) > 6 else {}
-        is_repay_cmd = (
-            c6.get("type") == "MoveCall"
-            and c6.get("module") == "pool"
-            and c6.get("function") in ("return_flashloan_quote", "return_flashloan_base")
-        )
-        if not is_repay_cmd:
-            errors.append(f"Command 6 must be return_flashloan_quote, got {c6}")
+                c4_clock_ok = len(c4_args) >= 9 and c4_args[8].get("Input") == SUI_CLOCK_OBJECT_ID
+                c4_ver_ok = len(c4_args) >= 10 and c4_args[9].get("Input") == TURBOS_VERSIONED_ID
+                if not (c4_clock_ok and c4_ver_ok):
+                    errors.append("Command 4 must include Clock and Turbos Versioned object")
 
-        c6_args = c6.get("arguments", [])
-        c6_pool_ok = len(c6_args) >= 1 and c6_args[0].get("Input") == cfg.deepbook_pool_id
-        c6_coin_ok = len(c6_args) >= 2 and c6_args[1].get("NestedResult") == [5, 0]
-        c6_potato_ok = len(c6_args) >= 3 and c6_args[2].get("NestedResult") == [0, 1]
-        hot_potato_quenched = c6_potato_ok and c6_coin_ok and c6_pool_ok
-        if not hot_potato_quenched:
-            errors.append("Command 6 must consume repayment coin [5, 0] and Hot Potato receipt [0, 1]")
+                a2b_verified = True
+                cetus_pool_id_verified = True
+            else:
+                is_swap_cmd = c4.get("type") == "MoveCall" and c4.get("function") == "swap"
+                if not is_swap_cmd:
+                    errors.append(f"Command 4 must be Cetus swap MoveCall, got {c4}")
 
-        # Verify Command 7: Transfer Net Profit to Sender
-        c7 = commands[7] if len(commands) > 7 else {}
-        is_transfer_cmd = c7.get("type") == "TransferObjects"
-        c7_obj_ok = c7.get("objects", [{}])[0].get("NestedResult") == [4, 0]
-        c7_rcpt_ok = c7.get("recipient", {}).get("Input") == self.operator_address
-        if not (is_transfer_cmd and c7_obj_ok and c7_rcpt_ok):
-            errors.append(f"Command 7 must TransferObjects [4, 0] to {self.operator_address}")
+                cetus_pool_id_verified = (
+                    len(c4_args) >= 2 and c4_args[1].get("Input") == cfg.cetus_pool_id
+                )
+                if not cetus_pool_id_verified:
+                    errors.append(f"Command 4 Cetus pool ID mismatch for {pair_name}")
+
+                c4_nested_in = len(c4_args) >= 3 and c4_args[2].get("NestedResult") == [3, 0]
+                if not c4_nested_in:
+                    errors.append("Command 4 must consume NestedResult [3, 0] (withdrawn base coin)")
+
+                expected_rev_a2b = not cfg.cetus_a2b_for_quote_in
+                a2b_verified = len(c4_args) >= 4 and c4_args[3].get("Input") == expected_rev_a2b
+                if not a2b_verified:
+                    errors.append(f"Command 4 a2b flag mismatch for {pair_name}: expected {expected_rev_a2b}")
+
+            # Command 5: SplitCoins for Principal Repayment
+            c5 = commands[5] if len(commands) > 5 else {}
+            is_split_cmd = c5.get("type") == "SplitCoins"
+            c5_coin_ok = c5.get("coin", {}).get("NestedResult") == [4, 0]
+            c5_amt_ok = len(c5.get("amounts", [])) >= 1 and c5["amounts"][0].get("Input") == amt
+            if not (is_split_cmd and c5_coin_ok and c5_amt_ok):
+                errors.append(f"Command 5 must SplitCoins exactly {amt} from [4, 0]")
+
+            # Command 6: Return Flashloan Quote (Hot Potato Quench)
+            c6 = commands[6] if len(commands) > 6 else {}
+            is_repay_cmd = (
+                c6.get("type") == "MoveCall"
+                and c6.get("module") == "pool"
+                and c6.get("function") == "return_flashloan_quote"
+            )
+            if not is_repay_cmd:
+                errors.append(f"Command 6 must be return_flashloan_quote, got {c6}")
+
+            c6_args = c6.get("arguments", [])
+            c6_pool_ok = len(c6_args) >= 1 and c6_args[0].get("Input") == cfg.deepbook_pool_id
+            c6_coin_ok = len(c6_args) >= 2 and c6_args[1].get("NestedResult") == [5, 0]
+            c6_potato_ok = len(c6_args) >= 3 and c6_args[2].get("NestedResult") == [0, 1]
+            hot_potato_quenched = c6_potato_ok and c6_coin_ok and c6_pool_ok
+            if not hot_potato_quenched:
+                errors.append("Command 6 must consume repayment coin [5, 0] and Hot Potato receipt [0, 1]")
+
+            # Command 7: Transfer Net Profit to Sender
+            c7 = commands[7] if len(commands) > 7 else {}
+            is_transfer_cmd = c7.get("type") == "TransferObjects"
+            c7_obj_ok = c7.get("objects", [{}])[0].get("NestedResult") == [4, 0]
+            c7_rcpt_ok = c7.get("recipient", {}).get("Input") == self.operator_address
+            if not (is_transfer_cmd and c7_obj_ok and c7_rcpt_ok):
+                errors.append(f"Command 7 must TransferObjects [4, 0] to {self.operator_address}")
+
+            balance_manager_verified = c1_bm_ok
+
+        else:
+            # Verify Command 0: Borrow Flashloan Quote
+            c0 = commands[0] if len(commands) > 0 else {}
+            is_borrow_cmd = (
+                c0.get("type") == "MoveCall"
+                and c0.get("module") == "pool"
+                and c0.get("function") in ("borrow_flashloan_quote", "borrow_flashloan_base")
+            )
+            if not is_borrow_cmd:
+                errors.append(f"Command 0 must be borrow_flashloan_quote MoveCall, got {c0}")
+
+            borrow_outputs = c0.get("outputs", [])
+            if "flash_loan_receipt" not in borrow_outputs:
+                errors.append("Command 0 must output 'flash_loan_receipt' Hot Potato")
+
+            c0_args = c0.get("arguments", [])
+            pool_id_verified = (
+                len(c0_args) >= 1 and c0_args[0].get("Input") == cfg.deepbook_pool_id
+            )
+            if not pool_id_verified:
+                errors.append(f"Command 0 DeepBook pool ID mismatch for {pair_name}")
+
+            # Verify Command 1: AMM Swap on Cetus or Turbos
+            c1 = commands[1] if len(commands) > 1 else {}
+            c1_args = c1.get("arguments", [])
+
+            if amm_target == "turbos":
+                is_swap_cmd = (
+                    c1.get("type") == "MoveCall"
+                    and c1.get("package") == TURBOS_PACKAGE_ID
+                    and c1.get("module") == "swap_router"
+                    and c1.get("function") == "swap_b_a_with_return_"
+                )
+                if not is_swap_cmd:
+                    errors.append(f"Command 1 must be Turbos swap_router::swap_b_a_with_return_, got {c1}")
+
+                turbos_pool_id_verified = (
+                    len(c1_args) >= 1 and c1_args[0].get("Input") == cfg.turbos_pool_id
+                )
+                if not turbos_pool_id_verified:
+                    errors.append(f"Command 1 Turbos pool ID mismatch for {pair_name}")
+
+                c1_vec = c1_args[1] if len(c1_args) >= 2 else {}
+                c1_has_vec = (
+                    c1_vec.get("type") == "MakeMoveVec"
+                    or "MakeMoveVec" in c1_vec
+                )
+                if not c1_has_vec:
+                    errors.append("Command 1 must wrap coins in MakeMoveVec")
+
+                c1_clock_ok = len(c1_args) >= 9 and c1_args[8].get("Input") == SUI_CLOCK_OBJECT_ID
+                c1_ver_ok = len(c1_args) >= 10 and c1_args[9].get("Input") == TURBOS_VERSIONED_ID
+                if not (c1_clock_ok and c1_ver_ok):
+                    errors.append("Command 1 must include Clock and Turbos Versioned object")
+
+                a2b_verified = True
+                cetus_pool_id_verified = True
+            else:
+                is_swap_cmd = c1.get("type") == "MoveCall" and c1.get("function") == "swap"
+                if not is_swap_cmd:
+                    errors.append(f"Command 1 must be Cetus swap MoveCall, got {c1}")
+
+                cetus_pool_id_verified = (
+                    len(c1_args) >= 2 and c1_args[1].get("Input") == cfg.cetus_pool_id
+                )
+                if not cetus_pool_id_verified:
+                    errors.append(f"Command 1 Cetus pool ID mismatch for {pair_name}")
+
+                c1_nested_in = len(c1_args) >= 3 and c1_args[2].get("NestedResult") == [0, 0]
+                if not c1_nested_in:
+                    errors.append("Command 1 must consume NestedResult [0, 0] (borrowed coin)")
+
+                a2b_verified = len(c1_args) >= 4 and c1_args[3].get("Input") == cfg.a2b
+                if not a2b_verified:
+                    errors.append(f"Command 1 a2b flag mismatch for {pair_name}: expected {cfg.a2b}")
+
+            # Verify Command 2: Deposit to BalanceManager
+            c2 = commands[2] if len(commands) > 2 else {}
+            is_deposit_cmd = (
+                c2.get("type") == "MoveCall"
+                and c2.get("module") == "balance_manager"
+                and c2.get("function") == "deposit"
+            )
+            if not is_deposit_cmd:
+                errors.append(f"Command 2 must be balance_manager::deposit, got {c2}")
+
+            c2_args = c2.get("arguments", [])
+            c2_bm_ok = len(c2_args) >= 1 and c2_args[0].get("Input") == self.balance_manager_id
+            c2_nested_ok = len(c2_args) >= 2 and c2_args[1].get("NestedResult") == [1, 0]
+            if not (c2_bm_ok and c2_nested_ok):
+                errors.append("Command 2 must consume swapped coin [1, 0] into BalanceManager")
+
+            # Verify Command 3: Place Market Order
+            c3 = commands[3] if len(commands) > 3 else {}
+            is_order_cmd = (
+                c3.get("type") == "MoveCall"
+                and c3.get("module") == "pool"
+                and c3.get("function") == "place_market_order"
+            )
+            if not is_order_cmd:
+                errors.append(f"Command 3 must be pool::place_market_order, got {c3}")
+
+            c3_args = c3.get("arguments", [])
+            c3_pool_ok = len(c3_args) >= 1 and c3_args[0].get("Input") == cfg.deepbook_pool_id
+            c3_bid_ok = len(c3_args) >= 5 and c3_args[4].get("Input") is False  # Ask / Sell base
+            if not (c3_pool_ok and c3_bid_ok):
+                errors.append("Command 3 must place market sell (is_bid=False) on DeepBook pool")
+
+            # Verify Command 4: Withdraw All Proceeds
+            c4 = commands[4] if len(commands) > 4 else {}
+            is_withdraw_cmd = (
+                c4.get("type") == "MoveCall"
+                and c4.get("module") == "balance_manager"
+                and c4.get("function") == "withdraw_all"
+            )
+            if not is_withdraw_cmd:
+                errors.append(f"Command 4 must be balance_manager::withdraw_all, got {c4}")
+
+            # Verify Command 5: SplitCoins for Principal Repayment
+            c5 = commands[5] if len(commands) > 5 else {}
+            is_split_cmd = c5.get("type") == "SplitCoins"
+            c5_coin_ok = c5.get("coin", {}).get("NestedResult") == [4, 0]
+            c5_amt_ok = len(c5.get("amounts", [])) >= 1 and c5["amounts"][0].get("Input") == amt
+            if not (is_split_cmd and c5_coin_ok and c5_amt_ok):
+                errors.append(f"Command 5 must SplitCoins exactly {amt} from [4, 0]")
+
+            # Verify Command 6: Return Flashloan Quote (Hot Potato Quench)
+            c6 = commands[6] if len(commands) > 6 else {}
+            is_repay_cmd = (
+                c6.get("type") == "MoveCall"
+                and c6.get("module") == "pool"
+                and c6.get("function") in ("return_flashloan_quote", "return_flashloan_base")
+            )
+            if not is_repay_cmd:
+                errors.append(f"Command 6 must be return_flashloan_quote, got {c6}")
+
+            c6_args = c6.get("arguments", [])
+            c6_pool_ok = len(c6_args) >= 1 and c6_args[0].get("Input") == cfg.deepbook_pool_id
+            c6_coin_ok = len(c6_args) >= 2 and c6_args[1].get("NestedResult") == [5, 0]
+            c6_potato_ok = len(c6_args) >= 3 and c6_args[2].get("NestedResult") == [0, 1]
+            hot_potato_quenched = c6_potato_ok and c6_coin_ok and c6_pool_ok
+            if not hot_potato_quenched:
+                errors.append("Command 6 must consume repayment coin [5, 0] and Hot Potato receipt [0, 1]")
+
+            # Verify Command 7: Transfer Net Profit to Sender
+            c7 = commands[7] if len(commands) > 7 else {}
+            is_transfer_cmd = c7.get("type") == "TransferObjects"
+            c7_obj_ok = c7.get("objects", [{}])[0].get("NestedResult") == [4, 0]
+            c7_rcpt_ok = c7.get("recipient", {}).get("Input") == self.operator_address
+            if not (is_transfer_cmd and c7_obj_ok and c7_rcpt_ok):
+                errors.append(f"Command 7 must TransferObjects [4, 0] to {self.operator_address}")
+
+            balance_manager_verified = c2_bm_ok
 
         strict_seq = len(errors) == 0
 
@@ -593,9 +862,12 @@ class SuiPTBPreflightValidator:
             pool_id_verified=pool_id_verified,
             cetus_pool_id_verified=cetus_pool_id_verified,
             a2b_verified=a2b_verified,
-            balance_manager_verified=c2_bm_ok,
+            balance_manager_verified=balance_manager_verified,
             ptb=ptb,
             errors=errors,
+            route_direction=route_direction,
+            amm_target=amm_target,
+            turbos_pool_id_verified=turbos_pool_id_verified,
         )
         return report.to_dict()
 
@@ -606,6 +878,9 @@ class SuiPTBPreflightValidator:
         spread_bps: float = 0.0,
         base_price: Optional[float] = None,
         deduct_fees: bool = True,
+        route_direction: str = "FORWARD",
+        deepbook_ask_px: Optional[float] = None,
+        amm_target: str = "cetus",
     ) -> Dict[str, Any]:
         """Performs dry-run simulation of the 8-step PTB using Move VM semantics:
 
@@ -628,8 +903,14 @@ class SuiPTBPreflightValidator:
             if base_price is not None
             else DEFAULT_PAIR_BASE_PRICES.get(pair_name, 2.0)
         )
-        amm_swap_out_px = mid_px
-        deepbook_bid_px = mid_px * (1.0 + (spread_bps / 10000.0))
+        if route_direction == "REVERSE":
+            ask_px = deepbook_ask_px if deepbook_ask_px is not None else mid_px
+            amm_swap_out_px = ask_px * (1.0 + (spread_bps / 10000.0))
+            deepbook_bid_px = ask_px
+        else:
+            amm_swap_out_px = mid_px
+            deepbook_bid_px = mid_px * (1.0 + (spread_bps / 10000.0))
+            ask_px = deepbook_bid_px
 
         # Build PTB
         params = HotPotatoPTBParams.from_pair(
@@ -638,6 +919,8 @@ class SuiPTBPreflightValidator:
             balance_manager_id=self.balance_manager_id,
             sender_address=self.operator_address,
             deduct_fees=deduct_fees,
+            route_direction=route_direction,
+            amm_target=amm_target,
         )
         ptb = self.ptb_builder.build_atomic_arb_ptb(params)
 
@@ -649,6 +932,9 @@ class SuiPTBPreflightValidator:
             borrow_amount=amt,
             pair=pair_name,
             deduct_fees=deduct_fees,
+            route_direction=route_direction,
+            deepbook_ask_px=ask_px,
+            amm_target=amm_target,
         )
 
         status = sim.get("status", "ABORTED")
@@ -677,7 +963,11 @@ class SuiPTBPreflightValidator:
             hot_potato_aborted=not is_success,
             error=sim.get("error") if not is_success else None,
             shortfall_native=shortfall,
+            route_direction=route_direction,
+            deepbook_ask_px=ask_px if route_direction == "REVERSE" else None,
+            amm_target=amm_target,
         )
+        return report.to_dict()
         return report.to_dict()
 
     def simulate_capital_scaling_lifecycle(

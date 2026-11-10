@@ -1,7 +1,7 @@
-# BRIEFING — 2026-11-02T08:44:50Z
+# BRIEFING — 2026-11-10T18:34:00Z
 
 ## Mission
-Investigate Requirement R2 (Deriv Bot Curation & Trend Alignment): audit active bots in `trading-engine/`, diagnose counter-trend trading mechanisms, and formulate concrete trend-alignment recommendations.
+Investigate Sui DeepBook V3 & Cetus Arbitrage Bot in `trading-engine/`: audit test suite (run tests, count passing tests, detect framework & commands), map all bot components (scanner, PTB builder, executor, balance managers, pool configs, hot potato flash loans, GraphQL/RPC clients, bot runner scripts), and analyze exact code paths for R1 (Bidirectional reverse route DeepBook Ask -> Cetus), R4 (Turbos Finance integration), and existing Hot Potato flash loan borrowing and repayment logic.
 
 ## 🔒 My Identity
 - Archetype: teamwork_explorer
@@ -9,51 +9,45 @@ Investigate Requirement R2 (Deriv Bot Curation & Trend Alignment): audit active 
 - Working directory: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_2
 - Original parent: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
 - Milestone: Survey & Diagnosis (R2)
+- Re-assigned: 2026-11-10T18:21:39Z by parent 760ce50e-d120-477a-bddb-8fc4f4fa33d2
+- Current Milestone: Sui DeepBook V3 / Cetus / Turbos Arbitrage Architectural Survey (R1, R4, Tests)
 
 ## 🔒 Key Constraints
 - Read-only investigation — do NOT implement or modify any source code or data files.
 - Write full analysis and findings to handoff.md.
 - Maintain progress.md with timestamps.
 - Coordinate via send_message to parent orchestrator upon completion.
+- Re-assigned constraint: Read-only investigation of trading-engine Sui arbitrage codebase. Deliver structured handoff report in state folder.
 
 ## Current Parent
-- Conversation ID: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
-- Updated: not yet
+- Conversation ID: 760ce50e-d120-477a-bddb-8fc4f4fa33d2
+- Updated: 2026-11-10T18:34:00Z
 
 ## Investigation State
 - **Explored paths**:
-  - `trading-engine/d107_rate_limit_winner_holding.py`
-  - `trading-engine/ai_regime_supervisor.py`
-  - `trading-engine/market_regime_policy.json`
-  - `trading-engine/demo_tick_strategy_runner.py`
-  - `trading-engine/scalper_bot.py`
-  - `trading-engine/microtrader_bot.py`
-  - `trading-engine/touch_anomaly_bot.py`
-  - `trading-engine/d95_deal_cancellation_live_1hz100v.py`
-  - `trading-engine/straddle_multiplier_exploit.py`
-  - `trading-engine/forex_imbalance_exploit.py`
-  - `trading-engine/d107_rate_limit_winner_holding_results.jsonl`
-  - `trading-engine/d107_rate_limit_winner_holding_state.json`
-  - `trading-engine/historico_trades_maio.csv`
+  - `trading-engine/tests/` (all 15 test files)
+  - `trading-engine/venues/sui_deepbook_venue.py`
+  - `trading-engine/venues/sui_ptb_validator.py`
+  - `trading-engine/venues/sui_scaling_engine.py`
+  - `trading-engine/venues/sui_bot_runner.py`
+  - `trading-engine/venues/sui_health_server.py`
+  - `trading-engine/h86_sui/` (`h86_deepbook_execute.ts`, `h86_deepbook_scan.ts`, `h86_create_balance_manager.mjs`)
+  - `trading-engine/docs/sui_production_runbook.md`
 - **Key findings**:
-  1. D107 baseline fundamentally relies on mechanical 50/50 alternation (`alternation_after = "MULTDOWN" if direction == "MULTUP" else "MULTUP"`, line 1895, 1920), which forces exactly 50% of positions to trade counter-trend regardless of macro market direction.
-  2. When `trend_alignment_enabled` is active, the live micro-trend detector previously examined only 15 ticks (15s) with a 0.005% threshold, triggering on sub-second Brownian jitter. In the latest revision, when 180-tick anti-exhaustion trips or trend is flat, it falls back to `get_regime_recommendations()`.
-  3. In `ai_regime_supervisor.py`, assets with Hurst 0.45-0.55 (like 1HZ75V at Hurst=0.5387) are designated `UNCONDITIONAL_VOLATILITY_EXPANSION`, which causes `get_regime_recommendations()` to return `rec_dir = None`. Downstream D107 then falls back to `self.state.get("next_direction")`, reverting 100% to rigid blind alternation.
-  4. Across Trials #256-#316 (61 trades), the direction breakdown was exactly 31 MULTUP vs 30 MULTDOWN. During a persistent downtrend from 1348.35 down to 1329.43, Trials 310 and 312 blindly bought MULTUP into the selloff.
-  5. Winning positions in Trials #256-#316 suffered 17 premature micro-profit exits (+0.15 to +0.23 USD) due to `in_window_trailing_stop_pct = 0.30` firing inside the 5-minute cancellation window on tiny Brownian bounces.
-  6. Meanwhile, accidental unmanaged runner #19127889519 (held through the 5m cancellation window due to `legacy_external` classification) rode through a 49-minute drawdown (-0.85 USD) and captured the macro multi-hour trend down to 1306.71, yielding +150% (+1.65 USD).
-  7. There are ZERO standard higher-timeframe trend filters (ADX, Supertrend, MTF EMA, MACD, ATR) across the codebase.
-- **Unexplored areas**: None for R2 scope.
+  1. Entire test suite has 515 tests, 100% passing (pytest 9.2.0, Python 3.13.3 in `.venv`). Core Sui tests comprise exactly 85 tests in `test_sui_*.py` + 38 in `test_adversarial_challenger_2.py`.
+  2. Hot Potato flash loan borrowing (`borrow_flashloan_quote` / `borrow_flashloan_base`) creates receipt struct with 0 abilities. Zero leg risk is guaranteed by Move VM abort on SplitCoins repayment shortfall.
+  3. R1 reverse route (DeepBook Ask -> Cetus) requires additions in scanner (`reverse_spread_bps`), PTB builder (deposit Quote -> buy DB Ask -> withdraw Base -> swap AMM -> split repayment -> quench Hot Potato), and dry-run simulation.
+  4. R4 Turbos Finance integration requires Turbos package `0x91bfbc386a41afcfd9b2533058d7e915a1d3829089cc268ff4333d54d6339ca1`, pool IDs, GraphQL `sqrt_price` querying, and router call generation.
+  5. Vault protection (R3) requires querying DeepBook pool vault balances before executing flash loans to prevent `EInsufficientVaultBalance` (abort code 2).
+- **Unexplored areas**: None within survey_2 scope.
 
 ## Key Decisions Made
-- Fully documented all 8 Deriv bot scripts.
-- Formulated quantitative Multi-Timeframe Alignment Matrix (M15 tide + M5 trend + M1 momentum) and ADX regime filter to replace blind alternation and premature micro-scalping.
+- Executed full test suite to establish definitive baseline.
+- Traced complete Hot Potato Move call sequences and verified zero leg risk mechanics.
+- Delivered detailed architectural blueprints for R1, R4, and vault protection in `handoff.md`.
 
 ## Artifact Index
 - DISPATCH.md — Dispatch log from parent
 - BRIEFING.md — Persistent working memory
 - progress.md — Liveness heartbeat and progress tracking
-- audit_trials.py — Empirical audit script for Trials 256-316
-- audit_micro_wins.py — Empirical audit script for premature micro-profits
-- analyze_runner.py — Detailed lifecycle metrics of runner #19127889519
-- handoff.md — Final 5-component handoff report
+- handoff.md — 5-component architectural report

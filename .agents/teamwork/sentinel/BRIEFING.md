@@ -1,39 +1,46 @@
-# BRIEFING — 2026-11-02T10:09:15Z
+# BRIEFING — 2026-11-10T20:37:30Z
 
 ## Mission
-Supervise execution of D107 perpetual trading strategy restoration and bot curation via teamwork_orchestrator.
+Supervise execution of arbitrage enhancements (bidirectional arbitrage, optimal sizing Q*, DEEP/SUI route prioritization, Turbos integration).
 
 ## 🔒 My Identity
 - Archetype: sentinel
-- Working directory: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/sentinel
-- Orchestrator: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d (completed)
-- Victory Auditor: 1a8758a0-5177-492f-9f23-111aaa8e8fbb (completed)
+- Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+- State folder: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/sentinel
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
 - Victory Audit is MANDATORY before reporting completion
-- Restore D107 1x-8x perpetual gains based on historical trade analysis and contract #19127889519
-- Curate active Deriv bots to eliminate counter-trend trades
-- Prevent premature micro-profit exits inside the 5-minute cancellation window
-- Empirically validate using historical simulation
-- Generate learning_proposal.md with RequestFeedback=true
+- 100% of existing 85+ tests in trading-engine/tests must pass without regression
+- Preserve atomic Zero Leg Risk via Move VM Hot Potato PTB
+- Validate pre-flight simulations and gas integrity
+- Implement bidirectional reverse route (DeepBook Ask -> Cetus)
+- Implement Q* optimal sizing
+- Route prioritization & vault balance protection
+- Real-time quote and atomic execution for Turbos CLMM
+- Bot runner updated and ready for live execution
+
+## Active Orchestrator
+- Active orchestrator: None (cleaned up post-victory)
+- Orchestrator state folder: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator_gen1
+- Predecessor: 760ce50e-d120-477a-bddb-8fc4f4fa33d2 (Generation 0)
 
 ## User Context
-- **Last user request**: Approved task prompt received and recorded in ORIGINAL_REQUEST.md.
+- **Last user request**: Approved task prompt executed to completion.
 - **Pending clarifications**: none
-- **Delivered results**: Strategy restoration, bot curation audit, 4-tier perpetual ratchet, 105 passing tests, +499% E[PnL] simulation replay, learning_proposal.md artifact, and VICTORY CONFIRMED verdict.
+- **Delivered results**: All 4 requirements fully implemented in production and certified by independent Victory Auditor. 677/677 tests passing (100%).
 
 ## Project Status
 - **Phase**: complete
 
 ## Victory Audit Status
+- **Auditor**: 6e9011a2-3024-4621-ac08-e99a23b718a1 (teamwork_victory_auditor)
 - **Triggered**: yes
 - **Verdict**: VICTORY CONFIRMED
 - **Retry count**: 0
 
 ## Artifact Index
 - /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/ORIGINAL_REQUEST.md — Authoritative user request
-- /Users/vitorhrds/Documents/Github/hypothesis/learning_proposal.md — Delivered learning proposal artifact
-- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/handoff.md — Orchestrator handoff report
-- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_victory_auditor_1/handoff.md — Post-victory audit report
-- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/sentinel/handoff.md — Sentinel handoff report
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator_gen1/handoff.md — Gen 1 Master Handoff
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/victory_auditor/handoff.md — Victory Audit Report
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/sentinel/handoff.md — Sentinel Final Handoff

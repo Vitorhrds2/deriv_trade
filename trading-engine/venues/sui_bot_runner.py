@@ -41,6 +41,7 @@ try:
     from venues.sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from venues.sui_scaling_engine import (
         DEFAULT_CRITICAL_GAS_FLOOR,
+        DEFAULT_PAIR_FEE_HURDLE_BPS,
         DEFAULT_PAIR_MAX_BORROW_USD,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
@@ -50,6 +51,8 @@ try:
         DynamicCapitalScalingEngine,
         ScalingTier,
         SuiBalanceTracker,
+        prioritize_opportunities,
+        prioritize_pairs,
     )
 except ImportError:
     from .sui_deepbook_venue import (
@@ -63,6 +66,7 @@ except ImportError:
     from .sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from .sui_scaling_engine import (
         DEFAULT_CRITICAL_GAS_FLOOR,
+        DEFAULT_PAIR_FEE_HURDLE_BPS,
         DEFAULT_PAIR_MAX_BORROW_USD,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
@@ -72,6 +76,8 @@ except ImportError:
         DynamicCapitalScalingEngine,
         ScalingTier,
         SuiBalanceTracker,
+        prioritize_opportunities,
+        prioritize_pairs,
     )
 
 logger = logging.getLogger("sui_bot_runner")
@@ -95,6 +101,7 @@ class SuiBotConfig:
     critical_gas_floor: float = DEFAULT_CRITICAL_GAS_FLOOR
     max_scan_cycles: Optional[int] = None
     sui_private_key: Optional[str] = field(default=None, repr=False)
+    amm_target: str = "multi"
 
     @classmethod
     def from_env(cls) -> SuiBotConfig:
@@ -151,6 +158,10 @@ class SuiBotConfig:
             or os.getenv("SUI_SECRET_KEY")
         )
 
+        amm_target = os.getenv("AMM_TARGET", "multi").lower()
+        if amm_target not in ("cetus", "turbos", "multi"):
+            amm_target = "multi"
+
         return cls(
             graphql_url=graphql_url,
             operator_address=operator_address,
@@ -166,6 +177,7 @@ class SuiBotConfig:
             critical_gas_floor=critical_floor,
             max_scan_cycles=max_scan_cycles,
             sui_private_key=sui_private_key,
+            amm_target=amm_target,
         )
 
     def to_safe_dict(self) -> Dict[str, Any]:
@@ -183,6 +195,7 @@ class SuiBotConfig:
             "throttled_scan_interval_seconds": self.throttled_scan_interval_seconds,
             "warning_gas_floor": self.warning_gas_floor,
             "critical_gas_floor": self.critical_gas_floor,
+            "amm_target": self.amm_target,
             "has_private_key": self.sui_private_key is not None and len(self.sui_private_key) > 0,
         }
 
@@ -299,7 +312,12 @@ class SuiBotRunner:
             pair: {
                 "cetus_price": DEFAULT_PAIR_BASE_PRICES.get(pair, 2.0),
                 "deepbook_price": DEFAULT_PAIR_BASE_PRICES.get(pair, 2.0),
+                "deepbook_ask": DEFAULT_PAIR_BASE_PRICES.get(pair, 2.0),
                 "spread_bps": 0.0,
+                "forward_spread_bps": 0.0,
+                "reverse_spread_bps": 0.0,
+                "best_route": "FORWARD",
+                "optimal_spread_bps": 0.0,
                 "source": "fallback",
             }
             for pair in ACTIVE_PAIRS
@@ -347,63 +365,180 @@ class SuiBotRunner:
         sui_spot = market_spreads.get("SUI/USDC", {}).get("cetus_price", 2.0)
 
         # 3. Iterate through 4 configured pairs
+        pair_candidates: List[Dict[str, Any]] = []
+        pair_results_map: Dict[str, Dict[str, Any]] = {}
+
         for pair_name in ACTIVE_PAIRS:
             if self.shutdown_event.is_set():
                 break
 
             pair_market = market_spreads.get(pair_name, {})
-            spread_bps = float(pair_market.get("spread_bps", 0.0))
+            forward_spread = float(pair_market.get("forward_spread_bps", pair_market.get("spread_bps", 0.0)))
+            reverse_spread = float(pair_market.get("reverse_spread_bps", 0.0))
             base_price = pair_market.get("cetus_price")
             deepbook_price = pair_market.get("deepbook_price", base_price)
+            deepbook_ask = pair_market.get("deepbook_ask", deepbook_price)
             bid_depth_quote = pair_market.get("bid_depth_quote")
+            cetus_liq = pair_market.get("cetus_liquidity")
+            cetus_sqrt_p = pair_market.get("cetus_sqrt_price")
 
-            # Dynamic Depth-Aware borrow sizing: caps borrow to 85% of L1 book depth to eliminate depth slippage
-            borrow_amount = self.scaling_engine.get_current_borrow_amount(
-                pair_name=pair_name,
-                sui_spot_price=sui_spot,
-                max_depth_quote=bid_depth_quote,
-            )
-            
-            # 4. Structural validation of 8-step atomic PTB
-            ptb_validation = self.validator.validate_atomic_ptb_generation(
-                pair_name=pair_name,
-                borrow_amount=borrow_amount,
-            )
-            is_valid = ptb_validation.get("valid", False) if isinstance(ptb_validation, dict) else getattr(ptb_validation, "valid", False)
-            if not is_valid:
-                errors = ptb_validation.get("errors") if isinstance(ptb_validation, dict) else getattr(ptb_validation, "errors", [])
-                logger.error(f"PTB generation invalid for {pair_name}: {errors}")
-                continue
+            # Check both forward and reverse spreads; set route_direction = "REVERSE" when profitable and better than forward
+            if reverse_spread > forward_spread and reverse_spread > 0.0:
+                route_dir = "REVERSE"
+                eval_spread_bps = reverse_spread
+            else:
+                route_dir = "FORWARD"
+                eval_spread_bps = forward_spread
 
-            # 5. Move VM simulation with live spread and price
-            dry_run = self.validator.simulate_ptb_dry_run(
-                pair_name=pair_name,
-                borrow_amount=borrow_amount,
-                spread_bps=spread_bps,
-                base_price=base_price,
-            )
+            # DeepBook Vault Balance Check (Requirement R3):
+            vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
+            vault_quote_balance = vault_balances.get("quote_balance", 0)
 
-            status = dry_run.get("status") if isinstance(dry_run, dict) else getattr(dry_run, "status", "ABORTED")
-            net_profit = dry_run.get("net_profit", 0.0) if isinstance(dry_run, dict) else getattr(dry_run, "net_profit", 0.0)
-            gas_cost_sui = dry_run.get("gas_cost_sui", 0.002) if isinstance(dry_run, dict) else getattr(dry_run, "gas_cost_sui", 0.002)
-            zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
+            # Requirement R2: Analytical Q* Optimal Sizing & Dynamic Tranches
+            fee_hurdle = DEFAULT_PAIR_FEE_HURDLE_BPS.get(pair_name, 10.0)
+            if eval_spread_bps > fee_hurdle:
+                borrow_amount = self.scaling_engine.get_current_borrow_amount(
+                    pair_name=pair_name,
+                    sui_spot_price=sui_spot,
+                    max_depth_quote=bid_depth_quote,
+                    spread_bps=eval_spread_bps,
+                    liquidity=cetus_liq,
+                    sqrt_price=cetus_sqrt_p,
+                    vault_balance=vault_quote_balance,
+                )
+            else:
+                borrow_amount = self.scaling_engine.get_current_borrow_amount(
+                    pair_name=pair_name,
+                    sui_spot_price=sui_spot,
+                    max_depth_quote=bid_depth_quote,
+                    spread_bps=None,
+                    vault_balance=vault_quote_balance,
+                )
 
-            # Convert quote currency net profit to USD equivalent
+            # Preflight Vault Balance Protection check (Requirement R3):
+            # Enforce borrow_amount <= 0.90 * vault_balance
+            vault_cap = int(float(vault_quote_balance) * 0.90)
+            vault_protection_triggered = False
+
+            # Multi-DEX target selection (Cetus vs Turbos)
+            if self.config.amm_target in ("cetus", "turbos"):
+                target_amm = self.config.amm_target
+            else:
+                target_amm = pair_market.get("best_amm", pair_market.get("amm_target", "cetus"))
+
             is_sui_quote = pair_name.endswith("/SUI") or pair_name in ("DEEP/SUI", "CETUS/SUI")
-            net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
+            min_floor_units = int(round((25.0 / sui_spot) * 1_000_000_000)) if is_sui_quote else 25_000_000
 
-            # 6. Arbitrage Execution Handling (DRY_RUN_MODE vs Live)
-            # Require at least $0.05 expected net profit (~30x Sui gas cost of ~$0.0016)
-            # to buffer against pool price impact while executing viable micro-arbitrages
-            is_profitable = (status == "SUCCESS" and net_profit_usd >= 0.05)
-            execution_status = "SIMULATED"
+            if eval_spread_bps > fee_hurdle and (vault_cap < min_floor_units or borrow_amount > vault_cap or borrow_amount <= 0):
+                vault_protection_triggered = True
+                logger.warning(
+                    f"VAULT PROTECTION TRIGGERED for {pair_name}: borrow_amount {borrow_amount} "
+                    f"or vault_cap {vault_cap} below minimum floor {min_floor_units} "
+                    f"(vault quote balance={vault_quote_balance}). "
+                    f"Cleanly skipping execution to eliminate Move abort code 2 (EInsufficientVaultBalance)."
+                )
 
+            if vault_protection_triggered:
+                status = "SKIPPED_VAULT_PROTECTED"
+                net_profit = 0.0
+                gas_cost_sui = 0.002
+                zero_leg_risk_preserved = True
+                net_profit_usd = 0.0
+                is_profitable = False
+                dry_run = {}
+            else:
+                # 4. Structural validation of 8-step atomic PTB
+                ptb_validation = self.validator.validate_atomic_ptb_generation(
+                    pair_name=pair_name,
+                    borrow_amount=borrow_amount if borrow_amount > 0 else None,
+                    route_direction=route_dir,
+                    vault_balances=vault_balances,
+                    amm_target=target_amm,
+                )
+                is_valid = ptb_validation.get("valid", False) if isinstance(ptb_validation, dict) else getattr(ptb_validation, "valid", False)
+                if not is_valid:
+                    errors = ptb_validation.get("errors") if isinstance(ptb_validation, dict) else getattr(ptb_validation, "errors", [])
+                    logger.error(f"PTB generation invalid for {pair_name}: {errors}")
+                    status = "ABORTED"
+                    net_profit = 0.0
+                    gas_cost_sui = 0.002
+                    zero_leg_risk_preserved = True
+                    net_profit_usd = 0.0
+                    is_profitable = False
+                    dry_run = {}
+                else:
+                    # 5. Move VM simulation with live spread and price
+                    dry_run = self.validator.simulate_ptb_dry_run(
+                        pair_name=pair_name,
+                        borrow_amount=borrow_amount if borrow_amount > 0 else None,
+                        spread_bps=eval_spread_bps,
+                        base_price=base_price,
+                        route_direction=route_dir,
+                        deepbook_ask_px=deepbook_ask,
+                        amm_target=target_amm,
+                    )
+                    status = dry_run.get("status") if isinstance(dry_run, dict) else getattr(dry_run, "status", "ABORTED")
+                    net_profit = dry_run.get("net_profit", 0.0) if isinstance(dry_run, dict) else getattr(dry_run, "net_profit", 0.0)
+                    gas_cost_sui = dry_run.get("gas_cost_sui", 0.002) if isinstance(dry_run, dict) else getattr(dry_run, "gas_cost_sui", 0.002)
+                    zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
+
+                    # Convert quote currency net profit to USD equivalent
+                    net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
+
+                    is_profitable = (
+                        status == "SUCCESS"
+                        and net_profit_usd >= 0.05
+                        and borrow_amount > 0
+                    )
+
+            execution_status = "SKIPPED_VAULT_PROTECTED" if vault_protection_triggered else "SIMULATED"
+
+            candidate_info = {
+                "pair": pair_name,
+                "route_direction": route_dir,
+                "borrow_amount": borrow_amount,
+                "amm_target": target_amm,
+                "tier": self.scaling_engine.current_tier.name,
+                "status": status,
+                "net_profit": net_profit,
+                "net_profit_usd": net_profit_usd,
+                "gas_cost_sui": gas_cost_sui,
+                "zero_leg_risk_preserved": zero_leg_risk_preserved,
+                "spread_bps": eval_spread_bps,
+                "forward_spread_bps": forward_spread,
+                "reverse_spread_bps": reverse_spread,
+                "cetus_price": base_price if base_price is not None else 0.0,
+                "deepbook_price": deepbook_price if deepbook_price is not None else 0.0,
+                "deepbook_ask": deepbook_ask,
+                "execution_status": execution_status,
+                "is_profitable": is_profitable,
+                "dry_run": dry_run,
+            }
+            pair_results_map[pair_name] = candidate_info
             if is_profitable:
+                pair_candidates.append(candidate_info)
+
+        # Route Prioritization (Requirement R3):
+        # When multiple pair opportunities exceed profit thresholds, strictly prioritize DEEP/SUI over DEEP/USDC
+        if pair_candidates:
+            prioritized_candidates = prioritize_opportunities(pair_candidates)
+            for opp in prioritized_candidates:
+                pair_name = opp["pair"]
+                route_dir = opp["route_direction"]
+                borrow_amount = opp["borrow_amount"]
+                eval_spread_bps = opp["spread_bps"]
+                net_profit_usd = opp["net_profit_usd"]
+                net_profit = opp["net_profit"]
+                deepbook_ask = opp["deepbook_ask"]
+                deepbook_price = opp["deepbook_price"]
+                base_price = opp["cetus_price"]
+                dry_run = opp["dry_run"]
+
                 self.total_opportunities_found += 1
                 if not self.config.dry_run_mode:
                     logger.info(
-                        f"LIVE ARBITRAGE TRIGGER: Executing PTB for {pair_name} | "
-                        f"Borrow: {borrow_amount} | Spread: {spread_bps:+.1f} bps | Expected Net Profit: ${net_profit_usd:.2f} (native: {net_profit:.4f})"
+                        f"LIVE ARBITRAGE TRIGGER: Executing PTB for {pair_name} ({route_dir}) | "
+                        f"Borrow: {borrow_amount} | Spread: {eval_spread_bps:+.1f} bps | Expected Net Profit: ${net_profit_usd:.2f} (native: {net_profit:.4f})"
                     )
                     self.total_executions_attempted += 1
                     try:
@@ -411,9 +546,12 @@ class SuiBotRunner:
                             "symbol": pair_name,
                             "side": "BUY",
                             "size": borrow_amount,
-                            "price": dry_run.get("deepbook_bid_px", deepbook_price),
+                            "price": dry_run.get("deepbook_ask_px" if route_dir == "REVERSE" else "deepbook_bid_px", deepbook_price),
+                            "deepbook_ask_px": deepbook_ask,
                             "amm_price": dry_run.get("amm_swap_out_px", base_price),
                             "is_arb_ptb": True,
+                            "route_direction": route_dir,
+                            "amm_target": opp.get("amm_target", "cetus"),
                             "live_onchain": bool(
                                 self.config.sui_private_key
                                 and self.config.sui_private_key.startswith("suiprivkey1")
@@ -421,40 +559,28 @@ class SuiBotRunner:
                         }
                         exec_res = await self.validator.venue.submit_order(order_params)
                         if exec_res.status == "FILLED":
-                            execution_status = "EXECUTED"
+                            opp["execution_status"] = "EXECUTED"
+                            pair_results_map[pair_name]["execution_status"] = "EXECUTED"
                             logger.info(f"Live PTB executed successfully for {pair_name}: order_id={exec_res.order_id}")
                             self.scaling_engine.record_trade_success(profit_usdc=net_profit_usd)
                         else:
-                            execution_status = "REJECTED"
+                            opp["execution_status"] = "REJECTED"
+                            pair_results_map[pair_name]["execution_status"] = "REJECTED"
                             logger.info(f"Live PTB pre-flight simulation rejected for {pair_name} (0 gas cost): order_id={exec_res.order_id}")
-                            # Only penalize circuit breaker if an actual on-chain broadcast failed or unexpected rejection occurred
                             if not exec_res.order_id.startswith("PTB-SIM-REVERT"):
                                 self.scaling_engine.record_trade_abort()
                     except Exception as e:
-                        execution_status = "ERROR"
+                        opp["execution_status"] = "ERROR"
+                        pair_results_map[pair_name]["execution_status"] = "ERROR"
                         logger.error(f"Live PTB execution error for {pair_name}: {e}")
                         self.scaling_engine.record_trade_abort()
                 else:
                     logger.info(
-                        f"[DRY_RUN_MODE=true] Arbitrage opportunity simulated on {pair_name} | "
-                        f"Spread: {spread_bps:+.1f} bps | Simulated Net Profit: ${net_profit_usd:.2f} (Execution skipped)"
+                        f"[DRY_RUN_MODE=true] Arbitrage opportunity simulated on {pair_name} ({route_dir}) | "
+                        f"Spread: {eval_spread_bps:+.1f} bps | Simulated Net Profit: ${net_profit_usd:.2f} (Execution skipped)"
                     )
 
-            result_entry = {
-                "pair": pair_name,
-                "borrow_amount": borrow_amount,
-                "tier": self.scaling_engine.current_tier.name,
-                "status": status,
-                "net_profit": net_profit,
-                "net_profit_usd": net_profit_usd,
-                "gas_cost_sui": gas_cost_sui,
-                "zero_leg_risk_preserved": zero_leg_risk_preserved,
-                "spread_bps": spread_bps,
-                "cetus_price": base_price if base_price is not None else 0.0,
-                "deepbook_price": deepbook_price if deepbook_price is not None else 0.0,
-                "execution_status": execution_status,
-            }
-            results.append(result_entry)
+        results = [pair_results_map[p] for p in ACTIVE_PAIRS if p in pair_results_map]
 
         # 7. Informative cycle summary line for Railway runtime logs
         logger.info(

@@ -1,19 +1,20 @@
-# BRIEFING — 2026-11-02T10:00:00Z
+# BRIEFING — 2026-11-10T20:30:00Z
 
 ## Mission
-Restore D107's core premise of capturing 1x-8x daily perpetual gains by investigating regressions, studying accidental perpetual runner #19127889519 & historical May trades, curating Deriv bots against trends, redesigning opening/closing logic, and validating via simulation and learning proposal.
+Implement in production four high-profitability enhancements to the Sui arbitrage bot: bidirectional reverse route (DeepBook <-> Cetus), analytical optimal borrow sizing (Q* Optimal Sizing), route prioritization and DeepBook vault balance protection (DEEP/SUI vs DEEP/USDC), and Turbos Finance CLMM atomic integration & continuous quote scanning.
 
 ## 🔒 My Identity
 - Archetype: teamwork_orchestrator
 - Roles: orchestrator, user_liaison, human_reporter, successor
-- Working directory: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator
-- Original parent: Sentinel
-- Original parent conversation ID: 429d4ffb-1039-437b-95e1-21d1da3b6437
+- Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+- State folder: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator
+- Original parent: caller agent
+- Original parent conversation ID: b1fac333-5b30-4da2-976f-8cf9f0eb2aec
 
 ## 🔒 My Workflow
 - **Pattern**: Project Pattern
 - **Scope document**: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/PROJECT.md
-1. **Decompose**: Survey full scope with 3 Explorers, merge findings into PROJECT.md, define milestones and interface contracts.
+1. **Decompose**: Survey full scope with 3 parallel Explorers / Spec Miners, synthesize findings into PROJECT.md, define milestones and interface contracts. [COMPLETED]
 2. **Dispatch & Execute**:
    - Implementation Track: Delegate milestones or run iteration loop (Explorer -> Worker -> Reviewer -> Challenger -> Auditor -> Gate).
    - E2E Testing Track: Parallel track for test infra and 4-tier requirement-driven test suite, creating TEST_READY.md.
@@ -25,16 +26,15 @@ Restore D107's core premise of capturing 1x-8x daily perpetual gains by investig
    - Redistribute: split stuck agent's remaining work
    - Redesign: re-partition decomposition
    - Escalate: report to parent (Project Orchestrator redesigns)
-4. **Succession**: At 16 spawns, write handoff.md, spawn successor
+4. **Succession**: At 16 cumulative spawns, write handoff.md, spawn successor
 - **Work items**:
-  1. Survey & Architecture [done]
-  2. M1: Historical Trade & Accidental Runner Study (R1) [done]
-  3. M2: Deriv Bot Curation & Trend Alignment Audit (R2) [done]
-  4. M3: Redesign Opening/Closing Logic & Historical Simulation (R3, R4) [done]
-  5. M4: E2E Verification, Adversarial Testing & Forensic Audit [done - Gate PASS]
-  6. M5: Learning Proposal Artifact Generation (R5) [done]
+  1. Phase 0 Survey & Requirements Mapping [done]
+  2. M1: Bidirectional Arbitrage Reverse Route (DeepBook Ask -> Cetus) [done - 34 tests]
+  3. M2: Q* Optimal Sizing & DeepBook Vault Balance Protection [done - 19 tests]
+  4. M3: Turbos Finance CLMM Multi-DEX Integration [done - 15 tests]
+  5. M4: End-to-End Testing, Hot Potato Integrity & Bot Runner Live Deploy [done - Gate PASS, 677/677 tests passing]
 - **Current phase**: Complete
-- **Current focus**: Project Synthesis, Orchestrator Handoff, and Sentinel Reporting
+- **Current focus**: Final Synthesis, Parent Reporting, and User Delivery
 
 ## 🔒 Key Constraints
 - NEVER write, modify, or create source code files directly.
@@ -46,35 +46,34 @@ Restore D107's core premise of capturing 1x-8x daily perpetual gains by investig
 - Always include path to ORIGINAL_REQUEST.md in subagent dispatches.
 
 ## Current Parent
-- Conversation ID: 429d4ffb-1039-437b-95e1-21d1da3b6437
-- Updated: not yet
+- Conversation ID: b1fac333-5b30-4da2-976f-8cf9f0eb2aec
+- Updated: 2026-11-10T18:19:56Z
 
 ## Key Decisions Made
-- All milestones M1-M5 successfully completed and verified.
-- Milestone 4 Gate PASSED unanimously: 94 tests passing, Reviewers APPROVE, Challengers APPROVE, Auditor CLEAN.
-- Artifact Worker generated comprehensive `learning_proposal.md` with `RequestFeedback=true`.
-- All background tasks and timers cancelled.
+- All milestones M1-M4 completed 100% across Gen 0 and Gen 1 orchestrators.
+- 677 tests passing cleanly with 100% pass rate in 34.57s across all 20 test files in `trading-engine/tests/`.
+- Reviewers: APPROVE (unanimous).
+- Challengers: APPROVE (75 adversarial zero-leg-risk tests + 19 operational lifecycle tests).
+- Forensic Auditor: CLEAN (0 violations, 0 cheat patterns, genuine cryptography and logic).
+- All acceptance criteria satisfied in production code.
 
 ## Team Roster
 | Agent | Type | Work Item | Status | Conv ID |
 |-------|------|-----------|--------|---------|
-| survey_1 | teamwork_explorer | R1 Historical Trade & Accidental Runner Study | completed | 8ce1e463-996d-4dc8-847a-5783358b3e9c |
-| survey_2 | teamwork_explorer | R2 Deriv Bot Curation & Trend Alignment | completed | 6a9c065f-6685-4511-a5db-3c20b45e1fb8 |
-| survey_3 | teamwork_explorer | R3/R4 Execution Engine & Simulation Analysis | completed | ae52c0db-be5f-42af-b55a-45d5f52c77ae |
-| worker_m3 | teamwork_worker | M3 Strategy Implementation & Historical Simulation | completed | 49bf1e91-3136-413e-9b20-bd30fdd065d8 |
-| reviewer_1 | teamwork_reviewer | Code Correctness Review | completed | 42454696-6d4d-4fa0-bfe7-7cebd0a051bb |
-| reviewer_2 | teamwork_reviewer | Simulation & Architecture Review | completed | ea7ea377-0ca6-49e8-9c09-25f66db12419 |
-| challenger_1 | teamwork_challenger | Ratchet & Boundary Adversarial Challenge | completed | 05982e93-d766-4c2d-8168-5367c960b06a |
-| challenger_2 | teamwork_challenger | Trend & Replay Adversarial Challenge | completed | 80b55ba2-1f43-40f6-81f8-8bc8701b5077 |
-| auditor_1 | teamwork_auditor | Forensic Integrity Audit | completed | 56aba3a7-9f49-45aa-a08c-26bc54a59c1d |
-| worker_art | teamwork_worker | M5 Learning Proposal Artifact Generation | completed | 06c37774-92ca-4476-bd61-5bca2197d37e |
+| survey_1 | teamwork_spec_miner | Turbos CLMM & Cetus Reverse Route Specs | completed | 9bc485b6-042e-4e4d-a79b-7d70fa78e41b |
+| survey_2 | teamwork_explorer | Codebase Architecture & 85+ Test Suite Audit | completed | f8401a4d-2cdf-4189-aec7-61795450435d |
+| survey_3 | teamwork_explorer | Q* Sizing, Vault Protection & Bot Runner | completed | dd294d1a-08d5-4a10-8321-f6b96028ce07 |
+| worker_m1 | teamwork_worker | M1 Reverse Route Implementation & Tests | completed | e4481659-3510-4678-9414-8ab24b10382b |
+| successor_gen1 | self | M2-M4 Execution & Final Delivery | completed | 3cb9f997-972a-4e6e-b964-690ae475cc91 |
 
 ## Succession Status
 - Succession required: no (project complete)
-- Spawn count: 10 / 16
+- Spawn count: 16 / 16
 - Pending subagents: none
 - Predecessor: none
-- Successor: none (completed)
+- Successor spawned: 3cb9f997-972a-4e6e-b964-690ae475cc91
+- Successor generation: gen1
+- Successor state folder: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator_gen1
 
 ## Active Timers
 - Heartbeat cron: cancelled
@@ -82,9 +81,9 @@ Restore D107's core premise of capturing 1x-8x daily perpetual gains by investig
 
 ## Artifact Index
 - /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/ORIGINAL_REQUEST.md — Original User Request
-- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/DISPATCH.md — Incoming Dispatch Record
 - /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/PROJECT.md — Global Project Decomposition
-- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/GATE_STATUS.md — Gate Verdict Matrix
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/GATE_STATUS.md — Gen 0 Gate Status Tracker
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator_gen1/GATE_STATUS.md — Gen 1 Gate Status Tracker (All PASS)
+- /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator_gen1/handoff.md — Master Handoff Report
 - /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/BRIEFING.md — Working memory and status
 - /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/orchestrator/progress.md — Liveness and execution progress
-- /Users/vitorhrds/Documents/Github/hypothesis/learning_proposal.md — Final Deliverable Artifact

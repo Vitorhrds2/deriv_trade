@@ -45,6 +45,7 @@ if str(BASE_DIR) not in sys.path:
 try:
     from .sui_deepbook_venue import (
         CIRCLE_USDC_TYPE,
+        DEFAULT_DEEPBOOK_VAULT_BALANCES,
         SUI_COIN_TYPE,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
@@ -52,6 +53,7 @@ try:
 except ImportError:
     from venues.sui_deepbook_venue import (
         CIRCLE_USDC_TYPE,
+        DEFAULT_DEEPBOOK_VAULT_BALANCES,
         SUI_COIN_TYPE,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
@@ -88,6 +90,161 @@ DEFAULT_PAIR_MAX_BORROW_USD: Dict[str, float] = {
     "DEEP/USDC": 1000.0,
     "CETUS/SUI": 2500.0,
 }
+
+# Dynamic Tranche Bounds in USD (Requirement R2):
+# - DEEP/USDC: $100 - $150 USDC (thin pool, L ~= 2.40e11, TVL quote ~10k USDC) to eliminate Move VM slippage / repayment aborts.
+# - DEEP/SUI: $1,000 - $4,000 USD (~1,200 - 4,900 SUI) because L ~= 9.84e14 and 0 bps DeepBook taker fee.
+# - SUI/USDC: $1,000 - $10,000 USDC based on capital tier.
+# - CETUS/SUI: $100 - $250 USD (~50 - 120 SUI).
+DEFAULT_DYNAMIC_TRANCHE_BOUNDS_USD: Dict[str, Tuple[float, float]] = {
+    "DEEP/USDC": (100.0, 150.0),
+    "DEEP/SUI": (1000.0, 4000.0),
+    "SUI/USDC": (1000.0, 10000.0),
+    "CETUS/SUI": (100.0, 250.0),
+}
+
+# Empirical Cetus CLMM Pool Liquidities on Sui Mainnet:
+DEFAULT_CETUS_POOL_LIQUIDITY: Dict[str, float] = {
+    "SUI/USDC": 7.1189e13,    # ~7.12e13
+    "DEEP/SUI": 9.8371e14,    # ~9.84e14
+    "DEEP/USDC": 2.4023e11,   # ~2.40e11
+    "CETUS/SUI": 1.2890e16,   # ~1.29e16
+}
+
+# Default Fee Hurdles in BPS (Cetus fee + DeepBook fee + slippage buffer):
+DEFAULT_PAIR_FEE_HURDLE_BPS: Dict[str, float] = {
+    "SUI/USDC": 16.0,   # 5 bps Cetus + 10 bps DB + 1 bps buffer
+    "DEEP/SUI": 6.0,    # 5 bps Cetus + 0 bps DB + 1 bps buffer
+    "DEEP/USDC": 6.0,   # 5 bps Cetus + 0 bps DB + 1 bps buffer
+    "CETUS/SUI": 36.0,  # 25 bps Cetus + 10 bps DB + 1 bps buffer
+}
+
+# Default Sqrt Prices (normalized or sqrt(spot_price)):
+DEFAULT_PAIR_SQRT_PRICES: Dict[str, float] = {
+    "SUI/USDC": (2.0) ** 0.5,
+    "DEEP/SUI": (0.05) ** 0.5,
+    "DEEP/USDC": (0.10) ** 0.5,
+    "CETUS/SUI": (0.16) ** 0.5,
+}
+
+# Pair Route Prioritization Weights (Requirement R3):
+# DEEP/SUI has 0 bps taker fee, 4,000x deeper liquidity than DEEP/USDC
+PAIR_PRIORITY_WEIGHTS: Dict[str, int] = {
+    "DEEP/SUI": 100,
+    "SUI/USDC": 80,
+    "CETUS/SUI": 60,
+    "DEEP/USDC": 40,
+}
+
+
+def calculate_optimal_borrow_q_star(
+    spread_bps: float,
+    liquidity: float,
+    sqrt_price: Union[int, float],
+    fee_bps: float = 0.0,
+    min_tranche: int = 0,
+    max_tranche: Optional[int] = None,
+    vault_balance: Optional[int] = None,
+    depth_cap: Optional[int] = None,
+    is_base_borrow: bool = False,
+    decimals: int = 6,
+) -> int:
+    """Calculates analytical closed-form optimal borrow sizing Q* (Requirement R2).
+
+    Formula:
+        Q* = 0.5 * (Delta_P - fees) * L * sqrt(P0)  (for quote borrow)
+        Q* = 0.5 * (Delta_P - fees) * L / sqrt(P0)  (for base borrow)
+    where:
+        Delta_P is raw gross spread (spread_bps / 10000.0)
+        fees is total fee hurdle (fee_bps / 10000.0)
+        L is pool liquidity
+        sqrt(P0) is sqrt_price (decoded from Q64.64 or direct float)
+
+    Clamps:
+        Q_exec = clamp(Q*, min_tranche, max_tranche, 0.85 * depth_cap, 0.90 * vault_balance)
+    Returns 0 if net spread <= 0 or if upper bounds cannot satisfy min_tranche.
+    """
+    delta_p = float(spread_bps) / 10000.0
+    fees = float(fee_bps) / 10000.0
+    net_spread = delta_p - fees
+    if net_spread <= 0:
+        return 0
+
+    if isinstance(sqrt_price, int) and sqrt_price > (1 << 32):
+        # Q64.64 fixed point representation from Cetus current_sqrt_price
+        sqrt_p = float(sqrt_price) / float(1 << 64)
+    else:
+        sqrt_p = float(sqrt_price)
+
+    if sqrt_p <= 0:
+        return 0
+
+    if is_base_borrow:
+        q_star_raw = 0.5 * net_spread * float(liquidity) / sqrt_p
+    else:
+        q_star_raw = 0.5 * net_spread * float(liquidity) * sqrt_p
+
+    q_exec = int(round(q_star_raw))
+
+    # Apply upper bounds: max_tranche, depth_cap (0.85), vault_balance (0.90)
+    if max_tranche is not None and max_tranche > 0:
+        q_exec = min(q_exec, int(max_tranche))
+
+    if depth_cap is not None and depth_cap > 0:
+        q_depth = int(round(float(depth_cap) * 0.85))
+        q_exec = min(q_exec, q_depth)
+
+    if vault_balance is not None and vault_balance > 0:
+        q_vault = int(round(float(vault_balance) * 0.90))
+        q_exec = min(q_exec, q_vault)
+
+    # Check minimum tranche
+    if min_tranche > 0:
+        if (max_tranche is not None and max_tranche < min_tranche) or \
+           (depth_cap is not None and int(round(float(depth_cap) * 0.85)) < min_tranche) or \
+           (vault_balance is not None and int(round(float(vault_balance) * 0.90)) < min_tranche):
+            return 0
+        q_exec = max(min_tranche, q_exec)
+
+    return max(0, q_exec)
+
+
+async def check_deepbook_vault_balance(
+    pool_id: str, client: Optional[SuiGraphQLClient] = None
+) -> Dict[str, int]:
+    """Queries and validates DeepBook V3 pool vault balances (Requirement R3)."""
+    close_client = False
+    if client is None:
+        client = SuiGraphQLClient()
+        close_client = True
+    try:
+        return await client.get_deepbook_vault_balances(pool_id)
+    finally:
+        if close_client:
+            await client.close()
+
+
+def prioritize_pairs(pairs: List[str]) -> List[str]:
+    """Sorts trading pairs according to Requirement R3 prioritization (DEEP/SUI > DEEP/USDC)."""
+    return sorted(
+        pairs,
+        key=lambda p: PAIR_PRIORITY_WEIGHTS.get(p.upper().strip().replace("_", "/"), 0),
+        reverse=True,
+    )
+
+
+def prioritize_opportunities(opportunities: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """Prioritizes arbitrage opportunities (Requirement R3).
+
+    Strictly prioritizes DEEP/SUI over DEEP/USDC due to 0.0 bps taker fee and 4,000x deeper Cetus liquidity.
+    """
+    def sort_key(opp: Dict[str, Any]) -> Tuple[int, float]:
+        p = opp.get("pair", "").upper().strip().replace("_", "/")
+        tier = PAIR_PRIORITY_WEIGHTS.get(p, 0)
+        profit = float(opp.get("net_profit_usd", opp.get("net_profit", 0.0)))
+        return (tier, profit)
+
+    return sorted(opportunities, key=sort_key, reverse=True)
 
 
 class ScalingTier(IntEnum):
@@ -383,27 +540,37 @@ class DynamicCapitalScalingEngine:
         pair_name: str,
         sui_spot_price: Optional[float] = None,
         max_depth_quote: Optional[float] = None,
+        spread_bps: Optional[float] = None,
+        liquidity: Optional[float] = None,
+        sqrt_price: Optional[Union[int, float]] = None,
+        fee_bps: Optional[float] = None,
+        vault_balance: Optional[int] = None,
+        is_base_borrow: bool = False,
+        base_spot_price: Optional[float] = None,
     ) -> int:
         """Resolves dynamic borrow amount in native atomic units for a given trading pair.
 
-        For USDC quote pairs (SUI/USDC, DEEP/USDC):
-          Returns current tier value: 1k (1_000_000_000), 5k (5_000_000_000), or 10k (10_000_000_000) micro-USDC.
-          When max_depth_quote is provided, caps borrow amount to 85% of available top-of-book depth
-          (subject to a $25 USDC minimum floor) to prevent orderbook depth slippage.
+        When spread_bps is provided (Requirement R2 - Analytical Q* Sizing):
+          Computes closed-form analytical optimal borrow sizing:
+            Q* = 0.5 * (Delta_P - fees) * L * sqrt(P0)  (for quote borrow)
+            Q* = 0.5 * (Delta_P - fees) * L / sqrt(P0)  (for base borrow)
+          and clamps to dynamic tranche bounds adapted to pool liquidity:
+            - DEEP/USDC: $100 - $150 USDC (thin pool, L ~= 2.40e11, TVL quote ~10k USDC)
+            - DEEP/SUI: $1,000 - $4,000 USD (~1,200 - 4,900 SUI)
+            - SUI/USDC: $1,000 - $10,000 USDC based on capital tier
+            - CETUS/SUI: $100 - $250 USD (~50 - 120 SUI)
+          further bounded by:
+            - Q_min floor: $25.0 USD
+            - Q_depth_cap: 85% of orderbook depth
+            - Q_vault_cap: 90% of DeepBook vault balance (Requirement R3)
+          Returns 0 if net spread <= 0 or if caps cannot satisfy minimum floor.
 
-        For SUI quote pairs (DEEP/SUI, CETUS/SUI):
-          Converts current tier USDC value to equivalent SUI amount in MIST (9 decimals)
-          based on sui_spot_price.
-          When max_depth_quote is provided, caps borrow amount to 85% of available top-of-book depth
-          (subject to a 25 SUI minimum floor).
+        When spread_bps is None (Discrete Capital Tier Baseline):
+          Returns 1k/5k/10k USDC for USDC quote pairs, or SUI-equivalent for SUI quote pairs,
+          subject to per-pair max borrow ceilings, 85% depth cap ($25 min floor),
+          and 90% vault balance cap.
         """
         pair_clean = pair_name.upper().strip().replace("_", "/")
-        tier_usdc_units = self.state.current_tier.value
-        tier_usd = tier_usdc_units / 1_000_000.0  # 1000.0, 5000.0, 10000.0
-
-        # Apply per-pair maximum ceiling if configured (liquidity-aware protection)
-        if self.pair_max_borrow_usd and pair_clean in self.pair_max_borrow_usd:
-            tier_usd = min(tier_usd, float(self.pair_max_borrow_usd[pair_clean]))
 
         # Determine quote asset
         is_sui_quote = False
@@ -414,27 +581,137 @@ class DynamicCapitalScalingEngine:
         elif pair_clean in SUI_PAIRS_CONFIG:
             is_sui_quote = SUI_PAIRS_CONFIG[pair_clean].quote_symbol == "SUI"
 
-        if is_sui_quote:
-            if sui_spot_price is not None:
-                if sui_spot_price <= 0:
-                    raise ValueError(f"sui_spot_price must be positive, got {sui_spot_price}")
-                price = float(sui_spot_price)
-            else:
-                price = 2.0
+        # Validate SUI spot price
+        if sui_spot_price is not None:
+            if sui_spot_price <= 0:
+                raise ValueError(f"sui_spot_price must be positive, got {sui_spot_price}")
+            price = float(sui_spot_price)
+        else:
+            price = 2.0
 
+        # Branch 1: Analytical Q* Optimal Sizing
+        if spread_bps is not None:
+            fee = float(fee_bps) if fee_bps is not None else DEFAULT_PAIR_FEE_HURDLE_BPS.get(pair_clean, 10.0)
+            if float(spread_bps) <= fee:
+                return 0
+            net_spread_bps = float(spread_bps) - fee
+
+            pool_l = (
+                float(liquidity)
+                if liquidity is not None and float(liquidity) > 0
+                else DEFAULT_CETUS_POOL_LIQUIDITY.get(pair_clean, 1e12)
+            )
+
+            if sqrt_price is not None:
+                if isinstance(sqrt_price, int) and sqrt_price > (1 << 32):
+                    sqrt_p = float(sqrt_price) / float(1 << 64)
+                else:
+                    sqrt_p = float(sqrt_price)
+            else:
+                sqrt_p = DEFAULT_PAIR_SQRT_PRICES.get(pair_clean, 1.0)
+
+            if sqrt_p <= 0:
+                sqrt_p = 1.0
+
+            net_spread_frac = net_spread_bps / 10000.0
+            if is_base_borrow:
+                q_star_raw = 0.5 * net_spread_frac * pool_l / sqrt_p
+            else:
+                q_star_raw = 0.5 * net_spread_frac * pool_l * sqrt_p
+
+            # Resolve Dynamic Tranche Bounds in USD
+            bounds_usd = DEFAULT_DYNAMIC_TRANCHE_BOUNDS_USD.get(pair_clean, (25.0, 1000.0))
+            min_usd, max_usd = bounds_usd
+            if pair_clean == "SUI/USDC":
+                tier_usd = self.state.current_tier.value / 1_000_000.0
+                max_usd = min(max_usd, tier_usd)
+
+            # Convert USD bounds and absolute floor to native atomic units
+            if not is_base_borrow:
+                if is_sui_quote:
+                    min_units = int(round((min_usd / price) * 1_000_000_000))
+                    max_units = int(round((max_usd / price) * 1_000_000_000))
+                    floor_units = int(round((25.0 / price) * 1_000_000_000))
+                else:
+                    min_units = int(round(min_usd * 1_000_000))
+                    max_units = int(round(max_usd * 1_000_000))
+                    floor_units = 25_000_000
+            else:
+                if pair_clean == "SUI/USDC":
+                    base_px = price
+                    base_decimals = 9
+                elif pair_clean in ("DEEP/SUI", "DEEP/USDC"):
+                    if base_spot_price and base_spot_price > 0:
+                        base_px = float(base_spot_price)
+                    else:
+                        base_px = (0.05 * price) if pair_clean == "DEEP/SUI" else 0.10
+                    base_decimals = 6
+                elif pair_clean == "CETUS/SUI":
+                    if base_spot_price and base_spot_price > 0:
+                        base_px = float(base_spot_price)
+                    else:
+                        base_px = 0.16 * price
+                    base_decimals = 9
+                else:
+                    base_px = 1.0
+                    base_decimals = 6
+
+                min_units = int(round((min_usd / base_px) * (10 ** base_decimals)))
+                max_units = int(round((max_usd / base_px) * (10 ** base_decimals)))
+                floor_units = int(round((25.0 / base_px) * (10 ** base_decimals)))
+
+            q_clamped = max(min_units, min(int(round(q_star_raw)), max_units))
+
+            # Apply Depth Cap (85% of orderbook depth)
+            if max_depth_quote is not None and max_depth_quote > 0:
+                if not is_base_borrow:
+                    depth_scale = 1_000_000_000 if is_sui_quote else 1_000_000
+                    depth_units = int(float(max_depth_quote) * 0.85 * depth_scale)
+                else:
+                    depth_units = int((float(max_depth_quote) / base_px) * 0.85 * (10 ** base_decimals))
+                q_clamped = min(q_clamped, depth_units)
+
+            # Apply Vault Cap (90% of DeepBook pool vault balance)
+            if vault_balance is not None and vault_balance > 0:
+                vault_units = int(float(vault_balance) * 0.90)
+                q_clamped = min(q_clamped, vault_units)
+
+            # Strict Minimum Floor Enforcement
+            if q_clamped < floor_units:
+                return 0
+
+            return q_clamped
+
+        # Branch 2: Discrete Capital Tier Baseline (spread_bps is None)
+        tier_usdc_units = self.state.current_tier.value
+        tier_usd = tier_usdc_units / 1_000_000.0  # 1000.0, 5000.0, 10000.0
+
+        # Apply per-pair maximum ceiling if configured (liquidity-aware protection)
+        if self.pair_max_borrow_usd and pair_clean in self.pair_max_borrow_usd:
+            tier_usd = min(tier_usd, float(self.pair_max_borrow_usd[pair_clean]))
+
+        if is_sui_quote:
             sui_amount = tier_usd / price
             if max_depth_quote is not None and max_depth_quote > 0:
                 depth_cap_sui = max_depth_quote * 0.85
                 sui_amount = min(sui_amount, max(25.0, depth_cap_sui))
 
             sui_mist = int(round(sui_amount * 1_000_000_000))
+            if vault_balance is not None and vault_balance > 0:
+                vault_cap = int(float(vault_balance) * 0.90)
+                sui_mist = min(sui_mist, vault_cap)
             return sui_mist
         else:
             if max_depth_quote is not None and max_depth_quote > 0:
                 depth_cap_usd = max_depth_quote * 0.85
                 target_usd = min(tier_usd, max(25.0, depth_cap_usd))
-                return int(round(target_usd * 1_000_000))
-            return int(round(tier_usd * 1_000_000))
+                amt = int(round(target_usd * 1_000_000))
+            else:
+                amt = int(round(tier_usd * 1_000_000))
+            if vault_balance is not None and vault_balance > 0:
+                vault_cap = int(float(vault_balance) * 0.90)
+                amt = min(amt, vault_cap)
+            return amt
 
     def unlock_emergency(self, force: bool = False) -> bool:
         """Allows manual operator reset of EMERGENCY_LOCKED status."""

@@ -16,3 +16,26 @@ Rules:
 - Write your full analysis and findings to `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_2/handoff.md`.
 - Maintain `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_2/progress.md` with timestamps.
 - When finished, send a brief completion message with key findings to your parent orchestrator.
+
+
+## 2026-11-10T18:21:39Z
+[Message] timestamp=2026-11-10T18:21:39Z sender=760ce50e-d120-477a-bddb-8fc4f4fa33d2 priority=MESSAGE_PRIORITY_HIGH
+content=You are survey_2 (teamwork_explorer).
+Your state folder is: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_2
+Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+
+You MUST read /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/ORIGINAL_REQUEST.md before starting.
+
+Your task:
+Investigate the existing codebase in `/Users/vitorhrds/Documents/Github/hypothesis/trading-engine`:
+1. Audit all files related to the Sui DeepBook V3 and Cetus arbitrage bot (scanner, PTB builder, executor, balance managers, pool configs, hot potato flash loans, GraphQL/RPC clients, and bot runner scripts).
+2. Audit the existing test suite: run tests in `trading-engine/tests/` (confirm how many tests currently pass, what framework/commands are used, and identify all tests).
+3. Analyze the exact code paths where:
+   - R1 (Bidirectional reverse route DeepBook Ask -> Cetus) needs to be integrated into scanner, PTB builder, and executor.
+   - R4 (Turbos Finance integration) needs to hook into scanner quote polling and PTB execution.
+   - Existing Hot Potato flash loan borrowing and repayment logic is implemented.
+
+Deliver a structured architectural report in:
+`/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_2/handoff.md`
+Follow the Handoff Protocol (Observation, Logic Chain, Caveats, Conclusion, Verification Method).
+When finished, send a message to your parent with the report summary.

@@ -10,58 +10,42 @@
       "annualized_rate": -652.783155,
       "quantity": 10.302791999451355,
       "notional": 1000.0,
-      "current_price": 96.75,
-      "unrealized_pnl_usd": -3.2048740530813813,
-      "unrealized_pnl_pct": -0.3204874053081382
+      "current_price": 96.29,
+      "unrealized_pnl_usd": -7.94415837282894,
+      "unrealized_pnl_pct": -0.7944158372828941
     },
     {
-      "symbol": "POWRUSDT",
-      "entry_time": 1793630306.974368,
-      "entry_time_iso": "2026-11-02T14:38:26.974368+00:00",
-      "entry_price": 0.05428728,
-      "entry_funding_rate": -0.00409695,
-      "entry_funding_rate_pct": -0.40969500000000003,
-      "annualized_rate": -448.61602500000004,
-      "quantity": 18420.521344963312,
+      "symbol": "ZHONGJIUSDT",
+      "entry_time": 1793651604.366825,
+      "entry_time_iso": "2026-11-02T20:33:24.366825+00:00",
+      "entry_price": 84.41496849,
+      "entry_funding_rate": -0.0028187,
+      "entry_funding_rate_pct": -0.28187,
+      "annualized_rate": -308.64765,
+      "quantity": 11.846240280460004,
       "notional": 1000.0,
-      "current_price": 0.05345179,
-      "unrealized_pnl_usd": -15.39016137850342,
-      "unrealized_pnl_pct": -1.539016137850342
+      "current_price": 82.64332402,
+      "unrealized_pnl_usd": -20.987326083168362,
+      "unrealized_pnl_pct": -2.098732608316836
     },
     {
-      "symbol": "HOTUSDT",
-      "entry_time": 1793644765.140609,
-      "entry_time_iso": "2026-11-02T18:39:25.140609+00:00",
-      "entry_price": 0.0004265,
-      "entry_funding_rate": -0.02,
-      "entry_funding_rate_pct": -2.0,
-      "annualized_rate": -2190.0,
-      "quantity": 2344665.8851113715,
+      "symbol": "ERAUSDT",
+      "entry_time": 1793676578.918276,
+      "entry_time_iso": "2026-11-03T03:29:38.918276+00:00",
+      "entry_price": 0.06725546,
+      "entry_funding_rate": -0.01409509,
+      "entry_funding_rate_pct": -1.409509,
+      "annualized_rate": -1543.4123550000002,
+      "quantity": 14868.681293682326,
       "notional": 1000.0,
-      "current_price": 0.00043783,
-      "unrealized_pnl_usd": 26.56506447831181,
-      "unrealized_pnl_pct": 2.6565064478311813
+      "current_price": 0.06584,
+      "unrealized_pnl_usd": -21.046023623955694,
+      "unrealized_pnl_pct": -2.1046023623955694
     }
   ],
-  "total_pnl": -330.1970471918718,
-  "realized_trades": 27,
+  "total_pnl": -297.715627822747,
+  "realized_trades": 29,
   "cooldowns": {
-    "FLOCKUSDT": {
-      "symbol": "FLOCKUSDT",
-      "exit_time": 1793584363.106314,
-      "exit_time_iso": "2026-11-02T01:52:43.106314+00:00",
-      "exit_price": 0.03771018,
-      "exit_reason": "stop_loss_-5.72%",
-      "base_duration": 21600
-    },
-    "AKEUSDT": {
-      "symbol": "AKEUSDT",
-      "exit_time": 1793587228.179264,
-      "exit_time_iso": "2026-11-02T02:40:28.179264+00:00",
-      "exit_price": 0.008211,
-      "exit_reason": "stop_loss_-8.36%",
-      "base_duration": 21600
-    },
     "LSKUSDT": {
       "symbol": "LSKUSDT",
       "exit_time": 1793623900.869559,
@@ -75,6 +59,22 @@
       "exit_time": 1793641593.108645,
       "exit_time_iso": "2026-11-02T17:46:33.108645+00:00",
       "exit_price": 0.001698,
+      "exit_reason": "stop_loss_-5.02%",
+      "base_duration": 21600
+    },
+    "HOTUSDT": {
+      "symbol": "HOTUSDT",
+      "exit_time": 1793651604.366825,
+      "exit_time_iso": "2026-11-02T20:33:24.366825+00:00",
+      "exit_price": 0.00046176,
+      "exit_reason": "take_profit_+8.27%",
+      "base_duration": 14400
+    },
+    "POWRUSDT": {
+      "symbol": "POWRUSDT",
+      "exit_time": 1793676578.918276,
+      "exit_time_iso": "2026-11-03T03:29:38.918276+00:00",
+      "exit_price": 0.05156252,
       "exit_reason": "stop_loss_-5.02%",
       "base_duration": 21600
     }

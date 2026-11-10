@@ -1,55 +1,60 @@
-# BRIEFING — 2026-11-02T09:40:00Z
+# BRIEFING — 2026-11-10T20:18:30Z
 
 ## Mission
-Independently review and stress-test the Milestone 3 discrete-event historical simulation mechanics (`trading-engine/d107_exact_historical_simulation.py` and test suite `trading-engine/test_d107_exact_historical_simulation.py`), checking integrity, friction modeling, trend alignment filtering, and metric claims.
+Independent, rigorous code quality, edge-case, adversarial, and compliance review of the Sui Arbitrage Bot codebase across Milestones 1-4 (Requirements R1-R5).
 
 ## 🔒 My Identity
-- Archetype: reviewer_and_critic
+- Archetype: reviewer
 - Roles: reviewer, critic
-- Working directory: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2
-- Original parent: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
-- Milestone: Milestone 3 (Historical Replay Simulation)
-- Instance: Reviewer 2
+- Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+- State folder: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2
+- Original parent: 3cb9f997-972a-4e6e-b964-690ae475cc91
+- Milestone: Milestones 1-4 (R1-R5) Independent Review
+- Instance: 2 of 2
 
 ## 🔒 Key Constraints
 - Review-only — do NOT modify implementation code
-- Actively check for integrity violations (hardcoded test outputs, dummy implementations, shortcuts, fabricated metrics)
-- Verify claims independently by inspecting code and running execution commands
-- Write self-contained handoff to `.agents/teamwork/teamwork_reviewer_2/handoff.md`
+- Check for integrity violations (hardcoded test results, facade implementations, shortcuts, fabricated verification, self-certifying work)
+- If integrity violation detected: verdict MUST be REQUEST_CHANGES with Critical finding tagged as INTEGRITY VIOLATION
 
 ## Current Parent
-- Conversation ID: b88574b4-e7fe-4def-af10-a3a9d9c2bf6d
-- Updated: 2026-11-02T09:32:00Z
+- Conversation ID: 3cb9f997-972a-4e6e-b964-690ae475cc91
+- Updated: 2026-11-10T20:18:30Z
 
 ## Review Scope
-- **Files to review**: `trading-engine/d107_exact_historical_simulation.py`, `trading-engine/test_d107_exact_historical_simulation.py`, `trading-engine/d107_simulation_1hz10v_ticks.json`
-- **Interface contracts**: `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/PROJECT.md`
-- **Review criteria**: correctness, integrity, lack of lookahead, friction realism, test execution, metric validation (+499% E[PnL], PF > 2.0, runners >= 1.0x stake)
-
-## Key Decisions Made
-- [Initial]: Commenced independent review of Worker M3 implementation and simulation mechanics.
-- [Verification]: Verified all 75 unit tests pass cleanly in 2.55s.
-- [Validation]: Confirmed empirical simulation replay on 86,395 ticks matches claims (+499% to +564% E[PnL], PF 2.11, 10 runners >= 1.0x and >= 2.0x stake).
-- [Adversarial Stress Testing]: Discovered friction hurdle rate sensitivity (`mark >= 2 * cancellation_fee`) and confirmed trend alignment + progressive ratchet synergy.
-- [Verdict]: APPROVE. Zero integrity violations, solid discrete-event simulation mechanics, full interface conformance.
-
-## Artifact Index
-- `.agents/teamwork/teamwork_reviewer_2/DISPATCH.md` — Dispatch message
-- `.agents/teamwork/teamwork_reviewer_2/BRIEFING.md` — Working memory
-- `.agents/teamwork/teamwork_reviewer_2/progress.md` — Liveness heartbeat
-- `.agents/teamwork/teamwork_reviewer_2/handoff.md` — Review and Challenge report
+- **Files reviewed**: `trading-engine/venues/sui_deepbook_venue.py`, `trading-engine/venues/sui_scaling_engine.py`, `trading-engine/venues/sui_ptb_validator.py`, `trading-engine/venues/sui_bot_runner.py`, `trading-engine/venues/sui_health_server.py`, `trading-engine/tests/`.
+- **Interface contracts**: `ORIGINAL_REQUEST.md`, `PROJECT.md`.
+- **Review criteria**: Move VM Invariants & Hot Potato Compliance, Zero Leg Risk via SplitCoins, Math & Sizing Robustness, Vault Protection & Exception Safety, Multi-DEX Turbos CLMM Integration, Live Bot Runner Configuration, Integrity & Test suite verification.
 
 ## Review Checklist
-- **Items reviewed**: `d107_exact_historical_simulation.py`, `test_d107_exact_historical_simulation.py`, `d107_simulation_1hz10v_ticks.json`, `d107_rate_limit_winner_holding.py`
+- **Items reviewed**:
+  - Hot Potato borrowing and repayment lifecycle across Cetus and Turbos (Forward & Reverse)
+  - Zero Leg Risk Move VM abort semantics via SplitCoins
+  - Analytical Q* sizing formula $Q^* = 0.5 \cdot (\Delta P - \text{fees}) \cdot L \cdot \sqrt{P_0}$
+  - Q64.64 sqrt_price fixed-point decoding and sub-hurdle spread handling
+  - Dynamic tranche bounds for DEEP/USDC ($100-$150) and DEEP/SUI ($1k-$4k USD)
+  - Vault balance preflight query and protection ($Q \le 0.90 \times \text{vault\_balance}$)
+  - Multi-DEX Turbos CLMM package, Versioned, PoolConfig, Clock, and MakeMoveVec
+  - Live runner environment parsing (`DRY_RUN_MODE=false`), gas runways (1.5 / 0.5 SUI), and HTTP /health server (port 8080)
 - **Verdict**: APPROVE
-- **Unverified claims**: None. All core claims verified empirically and mathematically.
+- **Unverified claims**: None. All core claims verified empirically.
 
 ## Attack Surface
 - **Hypotheses tested**:
-  * Lookahead bias in tick processing: REJECTED (slices up to index only).
-  * Hardcoded metric results / integrity violations: REJECTED (all dynamic aggregations).
-  * Ratchet floor math and boundary cancellation fee: VERIFIED (exact mark-to-market).
-  * Decoupling trend alignment from ratchet: Proved PF drops from 2.11 to 1.20 without trend filter.
-  * Fee sensitivity: Discovered hurdle rate sensitivity where fees >= 6% turn strategy negative due to cancellation churn.
-- **Vulnerabilities found**: Hurdle rate dependency on low cancellation fees (< 5%).
-- **Untested angles**: Replay on higher volatility indexes (e.g., 1HZ100V) where tick gap and fee structure differ.
+  - Hot Potato breach under negative/insufficient proceeds: PASS (SplitCoins aborts, 0 state mutations)
+  - Q* overflow/underflow on extreme liquidity or sub-hurdle spread: PASS (returns 0 or clamped)
+  - Vault exhaustion Move abort code 2: PASS (cleanly skipped before execution)
+  - Turbos vector Move argument requirement: PASS (MakeMoveVec properly formatted)
+  - Gas exhaustion under low SUI balance: PASS (throttles at 1.5, halts at 0.5 SUI)
+- **Vulnerabilities found**:
+  - Two parallel challenger test files (`test_adversarial_m4_challenger_e2e.py` and `test_adversarial_challenger_2_operational.py`) introduced test mock/signature discrepancies (`use_bcs` parameter and string mock for gas coin). Documented as non-blocking test authoring finding.
+- **Untested angles**: None within reviewed scope.
+
+## Key Decisions Made
+- Confirmed zero integrity violations in source code.
+- Confirmed 583/583 passing tests in core test suite.
+- Issued APPROVE verdict.
+
+## Artifact Index
+- handoff.md — Complete 5-component handoff review report
+- progress.md — Liveness heartbeat

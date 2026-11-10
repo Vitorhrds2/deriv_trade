@@ -1,23 +1,20 @@
-# Progress Tracking — teamwork_explorer_survey_3
+# Progress Tracking - survey_3 (teamwork_explorer)
 
-Last visited: 2026-11-02T08:48:00Z
+Last visited: 2026-11-10T18:33:00Z
 
 ## Status
-- [x] Initialized DISPATCH.md and BRIEFING.md
-- [x] Read ORIGINAL_REQUEST.md
-- [x] Inspect trading-engine directory structure and locate relevant files
-- [x] Deep analysis of `d107_rate_limit_winner_holding.py` (R3)
-  - Opening execution, position tracking, rate limiting, and 5-minute cancellation window handling analyzed
-  - Micro-scalping early exit root cause identified (`in_window_trailing_stop` and `in_window_take_profit` in `evaluate_winner_exit` lines 2337-2361)
-  - Contract #19127889519 unmanaged runner turnaround examined (reached +155% / +1.55 USD because unmanaged as `legacy_external`)
-  - Empirical verification of trials #256-#316 (16/26 sells were `in_window_trailing_stop` at +0.15 to +0.23)
-  - Upgraded session analysis (70/101 target sells were `in_window_trailing_stop`, 0 held winners running perpetuals, net return -$0.97 USD)
-- [x] Deep analysis of `d107_exact_historical_simulation.py` and replay/backtest harness (R4)
-  - Tick collection, pagination, deduplication, and quote profiles analyzed
-  - Simulation loop, mark-to-market calculations, boundary cancellations, and exit policies evaluated
-  - Pre-recorded datasets identified (`d107_simulation_1hz10v_ticks.json` with 86,395 ticks, `d107_exact_7d_simulation.json.gz`)
-  - Test suites executed (`test_d107_exact_historical_simulation.py`, `test_d107_validation_report.py`, `test_d107_rate_limit_winner_holding.py`)
-- [x] Formulate R3 architecture/interface modifications and R4 validation plan
-- [x] Compile comprehensive handoff.md
-- [x] Update BRIEFING.md
-- [x] Notify parent orchestrator
+Completed comprehensive investigation of R2 (Q* Optimal Sizing), R3 (Route prioritization and DeepBook Vault protection), and R5 (Preflight simulation, gas validation, live bot runner). Compiling handoff report.
+
+## Completed Tasks
+- [x] Initialized DISPATCH.md, BRIEFING.md, and progress.md
+- [x] Reviewed ORIGINAL_REQUEST.md and PROJECT.md
+- [x] Verified existing test suite (515 tests passing in 22.51s via `trading-engine/.venv/bin/pytest`)
+- [x] Investigated current borrow sizing logic in `sui_scaling_engine.py` and `sui_bot_runner.py`
+- [x] Investigated Cetus CLMM price impact mechanics, liquidity curve slope ($dP/dQ$), and live pool states via Sui GraphQL
+- [x] Formulated analytical derivation for optimal borrow volume $Q^*$ maximizing $\Pi(Q) = Q \cdot (\Delta P - \text{impact}(Q) - \text{fees})$
+- [x] Analyzed pair selection and route prioritization: DEEP/SUI ($L \approx 9.84 \times 10^{14}$, 0 bps DB taker fee) vs DEEP/USDC ($L \approx 2.40 \times 10^{11}$)
+- [x] Investigated DeepBook V3 pool vault mechanics, reproduced `EInsufficientVaultBalance` (abort code 2) via live simulateTransaction, and discovered exact GraphQL query method for `vault_balances`
+- [x] Examined preflight simulation (`dryRunTransactionBlock` / `simulateTransaction`), gas runway (5.419 SUI, 0.5 SUI hard stop, 1.5 SUI warning), and live runner execution flow
+
+## Current Task
+- Writing comprehensive 5-component handoff report to `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_explorer_survey_3/handoff.md`.

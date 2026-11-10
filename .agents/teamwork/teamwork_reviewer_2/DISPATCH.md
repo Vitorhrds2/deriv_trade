@@ -1,26 +1,33 @@
-## 2026-11-02T09:32:00Z
-You are Reviewer 2 (teamwork_reviewer).
-Your working directory is: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2
+## 2026-11-10T20:08:43Z
+You are reviewer_2 (teamwork_reviewer). Your mission is to perform an independent, rigorous code quality, edge-case, and compliance review of the Sui Arbitrage Bot codebase across Milestones 1, 2, 3, and 4 (Requirements R1 through R5).
 
-Read the original request at: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/ORIGINAL_REQUEST.md
-Read the project specifications at: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/PROJECT.md
-Read the Worker's handoff report at: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_worker_m3/handoff.md
+MANDATORY FIRST STEPS:
+1. Read ORIGINAL_REQUEST.md at: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/ORIGINAL_REQUEST.md
+2. Read PROJECT.md at: /Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/PROJECT.md
 
-Review Scope:
-Inspect `trading-engine/d107_exact_historical_simulation.py` and `trading-engine/test_d107_exact_historical_simulation.py`:
-1. Verify the discrete-event simulation mechanics for `perpetual_ladder_1x_8x` scenario vs `micro_scalp_baseline`:
-   - Does `perpetual_ladder_1x_8x` correctly model the 4-tier progressive ratchet and abolition of in-window exits?
-   - Are cancellation fees, spread friction, and mark-to-market valuations computed realistically without lookahead?
-   - Does trend alignment filtering properly reject entries during unaligned/choppy periods?
-2. Verify test suites and validation tools:
-   - Run: `PYTHONPATH=trading-engine python3 -m unittest discover -s trading-engine -p "test_d107_*.py"`
-   - Run the simulation replay command on `trading-engine/d107_simulation_1hz10v_ticks.json` and verify the output metrics:
-     * Check if E[PnL] per trade improved (+499% boost claimed)
-     * Check if Profit Factor is > 2.0
-     * Check if runners >= 1.0x stake were successfully captured
-3. Verify interface contracts with `PROJECT.md`.
+FOCUS AREAS:
+1. Move VM Invariants & Hot Potato Compliance:
+   - Verify that flash loan borrowing (`borrow_flashloan_quote` / `borrow_flashloan_base`) and repayment (`return_flashloan_quote` / `return_flashloan_base`) form an unbreakable Hot Potato lifecycle in both forward and reverse routes across both Cetus and Turbos AMMs.
+   - Verify that all PTBs enforce Zero Leg Risk: if swap output is less than borrowed principal, `SplitCoins` aborts, leaving the Hot Potato unquenched and atomically reverting all state mutations.
+2. Math & Sizing Robustness:
+   - Audit $Q^* = 0.5 \cdot (\Delta P - \text{fees}) \cdot L \cdot \sqrt{P_0}$ implementation in `sui_scaling_engine.py` for numerical stability, float-to-int rounding, Q64.64 sqrt_price fixed-point decoding, sub-hurdle handling (returns 0), and multi-constraint clamping ($Q_{\min}, Q_{\max}, Q_{\text{depth}}, Q_{\text{vault}}$).
+   - Check dynamic tranche boundaries for `DEEP/USDC` ($100-$150 USDC) and `DEEP/SUI` ($1k-$4k USD).
+3. Vault Protection & Exception Safety:
+   - Audit `0xdee9::pool::vault_balances` preflight check. Does it reliably prevent Move abort code 2 (`EInsufficientVaultBalance`)?
+   - Verify fallback handling if live GraphQL simulation fails.
+4. Multi-DEX Turbos CLMM Integration:
+   - Verify package ID `0xa5a0c25c...`, Versioned `0xf1cf...` (initialSharedVersion 1621135), PoolConfig `0xc294...`, Clock `0x6`, and verified pools.
+   - Verify `MakeMoveVec` wrapping of coin inputs in Turbos router calls.
+5. Live Bot Runner Configuration:
+   - Verify `sui_bot_runner.py` configuration parameters: `DRY_RUN_MODE=false` readiness, gas runways (1.5 SUI warning, 0.5 SUI stop), and `/health` HTTP endpoint on port 8080.
 
-Deliverables:
-- Write full review report to `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2/handoff.md`.
-- Explicitly state your verdict at the top and conclusion: APPROVE or REQUEST_CHANGES.
-- Send a completion message to the parent orchestrator with your verdict and key findings.
+MANDATORY TEST EXECUTION:
+Run the complete test suite:
+`PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests -v`
+Record total passed tests, time, and confirm 0 failures / 0 errors.
+
+DELIVERABLE:
+- State directory: `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2`
+- Handoff report: `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_reviewer_2/handoff.md`
+- Report your explicit verdict: `APPROVE` or `REQUEST_CHANGES` with concrete reasoning.
+- Send a message to parent orchestrator upon completion.

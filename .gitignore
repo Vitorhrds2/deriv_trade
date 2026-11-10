@@ -24,3 +24,4 @@ trading-engine/*_stats.json
 trading-engine/*_trades.json
 trading-engine/.d107-state-*
 
+node_modules/

@@ -40,3 +40,87 @@ Persist all findings, comparative metrics, and the finalized strategy architectu
 
 ### Learning Proposal
 - [ ] `learning_proposal.md` artifact is created with `RequestFeedback=true` summarizing the investigation, code modifications, simulation results, and operational guidelines.
+
+
+## 2026-11-03T04:18:38Z
+Sender: 8c5a1d4e-2890-4358-80b7-7213a59ccb29
+
+Realizar uma auditoria técnica profunda de cada seção do Relatório de Inteligência Quantitativa (Microestrutura de Mercado e Latência), verificando documentações, APIs e o estado atual do repositório para construir software de ponta a ponta e comprovar empiricamente em simulação o edge de todos os vetores arquitetônicos apresentados (Hyperliquid H84, Drift SWIFT H85, Sui DeepBookV3 H86, Kalshi FIX H87, dYdX v4 L3 e GMX v2 / CEXs Tier-2).
+
+Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+Integrity mode: development
+
+## Requirements
+
+### R1. Auditoria Técnica das Seções e Checagem de Documentação
+Estudar todas as seções do Relatório de Inteligência Quantitativa e consultar as documentações oficiais, blogs técnicos e timestamps recentes de cada protocolo e ferramenta (Hyperliquid, Drift Protocol SWIFT, Sui DeepBookV3 Move, Kalshi FIX/AWS PrivateLink, dYdX v4 CometBFT/L3, GMX v2 Data Streams e CEXs Tier-2 MEXC/Gate.io), avaliando modularidade, especificidades técnicas, veracidade e viabilidade de implementação.
+
+### R2. Auditoria do Repositório e Mensuração do Estado Atual
+Analisar os artefatos existentes no repositório local (incluindo `docs/state_of_research.md` e códigos em `agentic-conversation/`, `docs/`, etc.) para identificar o que já foi implementado, mensurando o funcionamento atual das integrações e o alinhamento com as hipóteses quantitativas testadas.
+
+### R3. Verificação de Conectividade, Credenciais e Navegador
+Verificar endpoints de APIs e interfaces web no navegador para cada plataforma alvo; criar credenciais e contas de teste sem bloqueios via navegador ou crawling quando não houver exigência de KYC, armazenando os acessos em local seguro do workspace. Se houver impedimento técnico ou exigência de KYC/acesso pago restrito (como Kalshi CFTC ou AWS PrivateLink), notificar o usuário para tomada de decisão e utilizar emulação/mock para manter o pipeline executável.
+
+### R4. Construção de Software de Ponta a Ponta
+Desenvolver conectores e módulos de execução de ponta a ponta para os vetores de exploração analisados (Hyperliquid mempool/gossip H84, Drift SWIFT WebSocket H85, Sui DeepBookV3 PTB/Hot Potato H86, Kalshi FIX H87, dYdX v4 L3 e oráculos GMX/CEX Tier-2), integrando a lógica de tratamento de latência, mitigação de risco de perna, rebates de liquidez e prevenção de fluxo tóxico.
+
+### R5. Teste Empírico e Validação de Edge em Simulação
+Executar baterias de teste e simulação orientadas a dados (ticks, WebSockets, traces de mempool ou redes de teste), livres de vieses de retrospectiva e sem ignorar custos transacionais, medindo matematicamente se cada hipótese gera Valor Esperado positivo líquido, e consolidar as conclusões em relatório técnico detalhado com ênfase nas hipóteses favoráveis comprovadas e nas limitações das demais.
+
+## Acceptance Criteria
+
+### Auditoria e Validação Documental
+- [ ] Relatório de auditoria documentado com análise técnica de viabilidade e timestamps de atualização das fontes oficiais para todas as ferramentas e seções do relatório.
+- [ ] Mapeamento comparativo e detalhado do que já está implementado no repositório versus o que é demandado pelas hipóteses H84 a H87.
+
+### Gestão de APIs e Acessos
+- [ ] Endpoints e fluxos de dados de cada serviço testados e documentados (com scripts ou chamadas de teste reprodutíveis).
+- [ ] Credenciais obtidas preservadas em local seguro do workspace, acompanhadas de relatório de impedimentos técnicos e bloqueios de KYC para decisão do usuário.
+
+### Software e Conectores Ponta a Ponta
+- [ ] Módulos executáveis construídos de ponta a ponta para cada vetor (H84, H85, H86, H87, dYdX v4, GMX/CEX), com validação de tipagem e integridade estrutural.
+- [ ] Implementação explícita dos mecanismos de proteção mecânica (reversão atômica em PTB/Hot Potato na Sui, flags post-only/ALO na Hyperliquid, deduplicação SWIFT na Drift, e tratamento de latência de índice CEX).
+
+### Prova Empírica de Edge
+- [ ] Testes ou simulações empíricas executadas para cada hipótese com métricas quantitativas auditáveis (latência de ida e volta, slippage, taxas líquidas, fill rate e PnL simulado).
+- [ ] Relatório conclusivo demonstrando os resultados objetivos obtidos, destacando formalmente as conclusões favoráveis com dados concretos e apontando as hipóteses refutadas ou inviáveis.
+
+
+## 2026-11-10T18:19:56Z
+Sender: b1fac333-5b30-4da2-976f-8cf9f0eb2aec priority=MESSAGE_PRIORITY_HIGH
+
+Implementar em produção quatro melhorias de alta rentabilidade no bot de arbitragem: rota reversa bidirecional DeepBook <-> Cetus, dimensionamento analítico ótimo de empréstimo (Q* Optimal Sizing), priorização de rotas e proteção de cofre (DEEP/SUI vs DEEP/USDC), e integração de cotação e execução atômica com a Turbos Finance CLMM.
+
+Working directory: /Users/vitorhrds/Documents/Github/hypothesis
+Integrity mode: development
+
+## Requirements
+
+### R1. Arbitragem Bidirecional (DeepBook <-> Cetus)
+Implementar a rota reversa de arbitragem para captura de spreads negativos (Cetus Price > DeepBook Ask): tomar flashloan atômico no DeepBook determinando dinamicamente o ativo de empréstimo conforme o par e liquidez, comprar a mercado no DeepBook (Ask) e vender na Cetus, quitando o empréstimo no mesmo PTB e retendo o lucro líquido.
+
+### R2. Dimensionamento Analítico Ótimo de Empréstimo (Q* Optimal Sizing)
+Implementar o cálculo analítico do volume ótimo de borrow (Q*) baseado na inclinação de impacto da pool Cetus e no spread disponível, substituindo o dimensionamento estático pelo livro do DeepBook por tranches dinâmicas ajustadas (ex: $100 - $150 USDC) que passem com lucro líquido positivo na Move VM sem rejeições pré-voo por slippage excessivo.
+
+### R3. Priorização de Rotas e Proteção de Vault
+Priorizar oportunidades de arbitragem no par DEEP/SUI (maior liquidez na Cetus e taxa zero de taker) sobre DEEP/USDC e verificar programaticamente a disponibilidade de saldo em caixa no cofre do DeepBook antes de disparar transações, prevenindo abortos por `EInsufficientVaultBalance` (abort code 2).
+
+### R4. Suporte Multi-DEX com Turbos Finance
+Integrar a Turbos Finance CLMM com suporte tanto para consulta contínua de cotações em tempo real no scanner (`params.amm_target = "turbos"`) quanto para a construção e execução atômica de transações PTB de arbitragem DeepBook <-> Turbos, além das rotas existentes com Cetus.
+
+### R5. Suíte de Testes, Integridade Hot Potato e Deploy do Bot Runner
+Garantir que todos os 85+ testes existentes em `trading-engine/tests` continuem passando 100%, preservar a atomicidade e garantia de Zero Leg Risk via Move VM Hot Potato PTB, validar simulações pré-voo e integridade de gas, e atualizar o bot runner configurado para execução real direta (live execution).
+
+## Acceptance Criteria
+
+### Testes e Integridade Atômica
+- [ ] 100% dos testes existentes em `trading-engine/tests` passam com sucesso sem regressões.
+- [ ] Todas as novas rotas e fluxos preservam a estrutura atômica de Hot Potato na Move VM com Zero Leg Risk.
+- [ ] Simulações pré-voo e estimativas de gas são validadas antes do envio de transações.
+
+### Execução e Estratégias de Arbitragem
+- [ ] A rota reversa DeepBook Ask -> Cetus é executada com sucesso com flashloan dinâmico quando Cetus Price > DeepBook Ask.
+- [ ] O algoritmo Q* calcula tranches ótimas de volume de empréstimo adaptadas ao impacto de preço na Cetus.
+- [ ] O mecanismo de checagem de saldo do cofre do DeepBook impede disparos quando o cofre estiver sem saldo suficiente.
+- [ ] O scanner e executor realizam arbitragem em tempo real com a Turbos Finance CLMM de forma atômica.
+- [ ] O bot runner está atualizado e operacional em modo de execução real direta (live execution).

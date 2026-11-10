@@ -1,5 +1,6 @@
 {
-  "open_positions": [
+  "open_positions": [],
+  "closed_trades": [
     {
       "symbol": "SUIUSDT",
       "side": "SHORT",
@@ -11,9 +12,15 @@
       "unlock_value_mm": 64.0,
       "mode": "PAPER",
       "policy_status": "in_policy_v2",
-      "stop_loss_price": 0.990265
+      "stop_loss_price": 0.990265,
+      "exit_price": 0.8961,
+      "exit_time": "2026-11-04T00:10:14.740059+00:00",
+      "gross_pnl": -50.8071071884799,
+      "fees": 2.5,
+      "net_pnl": -53.3071071884799,
+      "pnl_pct": -4.264568575078392,
+      "close_reason": "scheduled"
     }
   ],
-  "closed_trades": [],
-  "last_check": "2026-11-02T19:50:50.068156+00:00"
+  "last_check": "2026-11-06T14:31:24.146843+00:00"
 }

@@ -1,160 +1,165 @@
-# Adversarial Challenge Report — Milestone 3: Trend Alignment Filter & Simulation Replay Integrity
+# Handoff Report: Milestone M4 Operational Stability, Gas Runway Safety & Live Bot Runner Verification
 
-**Challenger**: Challenger 2 (`teamwork_challenger_2`)  
-**Verdict**: **APPROVE**  
-**Overall Risk Assessment**: **LOW**
+**Agent ID:** `teamwork_challenger_2`  
+**Working Directory:** `/Users/vitorhrds/Documents/Github/hypothesis/.agents/teamwork/teamwork_challenger_2`  
+**Recipient / Caller:** `3cb9f997-972a-4e6e-b964-690ae475cc91` (parent)  
+**Milestone:** M4 — Operational Stability, Gas Runway Safety Floors, Circuit Breakers, and Live Runner Deployment (Requirements R2, R3, R5)  
+**Type:** Hard Handoff (Task Complete)  
+**Date:** 2026-11-10T20:22:00Z  
+**Verdict:** **`APPROVE`**
 
 ---
 
 ## 1. Observation
 
-### 1.1 Scope and Test Execution
-1. **Adversarial Stress Test Suite**:
-   - Location: `trading-engine/stress_test_challenger_2.py`
-   - Execution command: `PYTHONPATH=trading-engine python3 trading-engine/stress_test_challenger_2.py`
-   - Output: `Ran 11 tests in 0.411s - OK` (100% passing across all 11 adversarial stress tests).
+Direct observations from code review, static audit, and empirical verification harnesses:
 
-2. **Full Historical Dataset Replay & Mirror Symmetry**:
-   - Dataset: `trading-engine/d107_simulation_1hz10v_ticks.json` (86,395 ticks on Volatility 10 (1s) Index).
-   - Execution command:
-     ```bash
-     PYTHONPATH=trading-engine python3 -c '
-     import json
-     from d107_exact_historical_simulation import run_simulation, simulate
-     r_norm = run_simulation("trading-engine/d107_simulation_1hz10v_ticks.json", exit_scenario="perpetual_ladder_1x_8x", trend_alignment_enabled=True)
-     d_norm = r_norm.as_dict()
-     print("Normal: Buys =", d_norm["buys"], "Net = $", round(d_norm["realized_net"], 2), "E[PnL] = $", round(d_norm["expected_net_per_trade"], 4), "PF =", round(d_norm["profit_factor"], 2), "Runners 1x =", d_norm["runners_1x"])
-     with open("trading-engine/d107_simulation_1hz10v_ticks.json") as f: d = json.load(f)
-     inv_p = [2.0 * d["prices"][0] - p for p in d["prices"]]
-     q = {"1.0:MULTUP": {"ask_price": 1.04, "cancellation_fee": 0.04, "commission": 0.0}, "1.0:MULTDOWN": {"ask_price": 1.04, "cancellation_fee": 0.04, "commission": 0.0}}
-     r_inv = simulate("demo", d["times"], inv_p, q, 1.0, 104.0, "all_in", "perpetual_ladder_1x_8x", trend_alignment_enabled=True)
-     d_inv = r_inv.as_dict()
-     print("Inverted: Buys =", d_inv["buys"], "Net = $", round(d_inv["realized_net"], 2), "E[PnL] = $", round(d_inv["expected_net_per_trade"], 4), "PF =", round(d_inv["profit_factor"], 2), "Runners 1x =", d_inv["runners_1x"])
-     '
+1. **Gas Runway Safety Floors (`trading-engine/venues/sui_scaling_engine.py`):**
+   - Lines 70-71: Constants defined as `DEFAULT_WARNING_GAS_FLOOR: float = 1.5` and `DEFAULT_CRITICAL_GAS_FLOOR: float = 0.5`.
+   - Lines 504-527 (`update_from_wallet_balances`):
+     - If `sui_balance < self.critical_gas_floor`: sets `state.status = STATUS_EMERGENCY_LOCKED` and `state.gas_warning = True`, halting execution.
+     - Else if `sui_balance < self.warning_gas_floor`: sets `state.gas_warning = True`, triggering scan loop throttling.
+     - Else: clears `state.gas_warning = False`, and if `state.status == STATUS_EMERGENCY_LOCKED and not self._emergency_locked_due_to_aborts`, restores `state.status = STATUS_ACTIVE`.
+   - Lines 403-414 (`can_trade`): Returns `False` whenever `status != STATUS_ACTIVE` or if `sui_gas_balance < critical_gas_floor`.
+
+2. **Consecutive Abort Circuit Breakers (`trading-engine/venues/sui_scaling_engine.py`):**
+   - Lines 433-462 (`record_trade_abort`):
+     - Increments `state.consecutive_aborts += 1`.
+     - Upon hitting 3 consecutive aborts: demotes current tier by 1 (Tier 3 -> Tier 2, Tier 2 -> Tier 1), transitions status to `STATUS_COOLING_DOWN`, and sets `cooldown_until = time.time() + 60.0`.
+     - Upon hitting 5 consecutive aborts: transitions status to `STATUS_EMERGENCY_LOCKED` and sets `self._emergency_locked_due_to_aborts = True`.
+   - Lines 416-432 (`record_trade_success`):
+     - Validates `profit_usdc >= 0` (raises `ValueError` on negative values).
+     - Resets `state.consecutive_aborts = 0`, sets `_emergency_locked_due_to_aborts = False`, clears `cooldown_until = 0.0`, and restores `state.status = STATUS_ACTIVE`.
+
+3. **Bot Runner Lifecycle & Live Mode Verification (`trading-engine/venues/sui_bot_runner.py` & `trading-engine/venues/sui_deepbook_venue.py`):**
+   - Lines 555-558 (`sui_bot_runner.py`):
+     ```python
+     "live_onchain": bool(
+         self.config.sui_private_key
+         and self.config.sui_private_key.startswith("suiprivkey1")
+     )
      ```
-   - Verbatim Output:
-     * `Normal: Buys = 78 Net = $ 5.04 E[PnL] = $ 0.0646 PF = 2.11 Runners 1x = 10`
-     * `Inverted: Buys = 81 Net = $ 4.56 E[PnL] = $ 0.0563 PF = 1.91 Runners 1x = 10`
-     * Confirms directional neutrality and absence of upward or downward structural bias.
+     Under `DRY_RUN_MODE=false`, live on-chain execution is strictly conditioned on possessing a valid `suiprivkey1...` key.
+   - Lines 2257-2320 (`sui_deepbook_venue.py`):
+     - Preflight simulation is executed against Mainnet GraphQL via `await self.graphql_client.simulate_transaction_bcs(tx_bytes)` before broadcasting.
+     - If simulation status is not `"SUCCESS"`, it immediately returns `status="REJECTED"` with `order_id="PTB-SIM-REVERT-..."` (costs 0 SUI gas) and halts without executing or broadcasting.
+     - If simulation succeeds, transaction bytes are signed with `self.ptb_builder.sign_transaction_bcs(tx_bytes, self.private_key)` using Ed25519 with Blake2b-256 intent scope (`b"\x00\x00\x00" + tx_bytes`).
+     - Standard Sui serialized signature format (`0x00` flag + 64-byte Ed25519 signature + 32-byte public key = 97 bytes) is encoded in base64.
+     - Transaction is broadcast to Sui Mainnet via GraphQL mutation `executeTransaction(transactionDataBcs: $txBcs, signatures: $signatures)`.
 
-3. **Core Unit & Strategy Test Discovery Suite**:
-   - Execution command: `PYTHONPATH=trading-engine python3 -m unittest discover -s trading-engine -p "test_d107_*.py"`
-   - Verbatim Output: `Ran 75 tests in 2.243s - OK` (100% passing).
+4. **Health Server Telemetry & Endpoints (`trading-engine/venues/sui_health_server.py`):**
+   - Lines 97-99 & 186-207:
+     - `GET /health` returns HTTP 200 OK with JSON telemetry: `status` (`"HEALTHY"` | `"DEGRADED"` | `"CRITICAL"`), `uptime_seconds`, `current_tier`, `borrow_amount_usdc`, `sui_gas_balance`, `active_pairs`, `region`, `consecutive_aborts`, `timestamp`, `accumulated_profit_usdc`, `successful_trades`.
+     - `GET /live` returns HTTP 200 OK with `{"live": True, "uptime": ...}`.
+     - `GET /` returns HTTP 200 OK with service status, tier, region, uptime, and available endpoints.
+   - Lines 153-170: Status resolves to `"DEGRADED"` when `gas_balance < 1.5` or `consecutive_aborts >= 3` or `status == "COOLING_DOWN"`. Status resolves to `"CRITICAL"` when `gas_balance < 0.5` or `consecutive_aborts >= 5` or `status == "EMERGENCY_LOCKED"`.
+
+5. **Empirical Verification Test Suite (`trading-engine/tests/test_adversarial_challenger_2_operational.py`):**
+   - Created comprehensive stress suite containing 19 test cases spanning all targets.
+   - Command:
+     ```bash
+     PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests/test_adversarial_challenger_2_operational.py -v
+     ```
+   - Result:
+     ```
+     ============================== 19 passed in 2.74s ==============================
+     ```
+
+6. **Full Test Suite Regression Check:**
+   - Command:
+     ```bash
+     PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests -v
+     ```
+   - Result:
+     ```
+     ============================= 677 passed in 34.55s =============================
+     ```
+   - 100% pass rate confirmed across all 677 collected tests.
 
 ---
 
 ## 2. Logic Chain
 
-### 2.1 Trend Alignment Extreme Regimes
-1. **Pure Chop & Brownian Noise (Hurst ~ 0.50, ADX < 15)**:
-   - In `trading-engine/d107_rate_limit_winner_holding.py` line 780, `is_strong = adx >= 20.0`.
-   - When prices exhibit pure chop with ADX < 15, `is_strong` evaluates to `False`, forcing `direction = "NONE"` and `is_aligned = False`.
-   - In empirical testing (`test_01_pure_chop_brownian_noise_and_adx_sub15`), a persistent low-ADX chop series produced `0 buys` (100% pause). Under unconstrained geometric Brownian noise ($H \approx 0.568$), trend alignment reduced buy entries from 67 down to 20 (70% churn elimination) compared to blind mechanical alternation.
-   - In `d107_rate_limit_winner_holding.py` lines 1946-1955, the live engine emits `trend_alignment_pause` with reason `no_aligned_trend` instead of trading into unaligned noise.
+1. **Gas Safety State Machine Integrity (Target 1):**
+   - Starting at 5.419 SUI, `DynamicCapitalScalingEngine` operates with `status = ACTIVE`, `can_trade() = True`, and `gas_warning = False` (Observation 1, 5).
+   - When gas drops below 1.5 SUI (e.g., 1.49 SUI or 1.20 SUI), `gas_warning` becomes `True`, causing `SuiBotRunner` to select `throttled_scan_interval_seconds` (3.0s instead of 1.0s), and `SuiHealthServer` reflects `DEGRADED` (Observation 1, 4, 5).
+   - When gas drops below 0.5 SUI (e.g., 0.499 SUI or 0.10 SUI), `status` immediately becomes `EMERGENCY_LOCKED`, `can_trade()` returns `False`, scan passes abort, and `SuiHealthServer` reflects `CRITICAL` (Observation 1, 4, 5).
+   - When funds are deposited back to >= 1.5 SUI, the engine recovers to `ACTIVE` with `gas_warning = False` (Observation 1, 5).
+   - If `EMERGENCY_LOCKED` was triggered by 5 consecutive aborts, `self._emergency_locked_due_to_aborts` is set to `True`. Because line 523 checks `and not self._emergency_locked_due_to_aborts`, depositing SUI gas (tested up to 100.0 SUI) cannot unlock the engine without explicit trade recovery/reset (Observation 1, 5).
 
-2. **Runaway Monotonic Trends**:
-   - Monotonic upward prices ($P_t = P_0 (1 + g)^t$) produce ADX values exceeding 95.0, `macro_trend == "BULLISH"`, and `direction == "MULTUP"`.
-   - In empirical replay (`test_02_runaway_monotonic_bullish_trend`), 20/20 opened positions were `MULTUP` ($0$ counter-trend contracts).
-   - Monotonic downward prices ($P_t = P_0 (1 - g)^t$) produce ADX values exceeding 97.0, `macro_trend == "BEARISH"`, and `direction == "MULTDOWN"`.
-   - In empirical replay (`test_03_runaway_monotonic_bearish_trend`), 20/20 opened positions were `MULTDOWN` ($0$ counter-trend contracts).
-   - Mechanical alternation (`self.state["next_direction"] = alternation_after`) has been effectively replaced: when trend alignment is active, `alternation_after = direction` (lines 2157-2160), preventing the bot from fighting the macro trend.
+2. **Consecutive Abort Circuit Breakers (Target 2):**
+   - 1 or 2 aborts do not affect tier or active trading status.
+   - 3 consecutive aborts trigger tier demotion (Tier 3 -> Tier 2, Tier 2 -> Tier 1; Tier 1 remains at Tier 1 floor) and transitions status to `COOLING_DOWN` with a 60-second timer (`cooldown_until = time.time() + 60.0`), disabling trades during the cooldown window (Observation 2, 5).
+   - 5 consecutive aborts trigger `EMERGENCY_LOCKED` and set `_emergency_locked_due_to_aborts = True` (Observation 2, 5).
+   - Recording a successful trade resets `consecutive_aborts = 0`, clears `cooldown_until = 0.0`, resets `_emergency_locked_due_to_aborts = False`, and restores `ACTIVE` status (Observation 2, 5).
 
-3. **V-Shape Reversal Purge & Re-qualification**:
-   - During a sharp drop followed by an immediate surge, step-by-step tracing demonstrated that at the inflection boundary ($t=100..135$), Directional Movement (+DI/-DI) crosses while EMA windows diverge, causing `calculate_adx_and_trend` to return `direction == "NONE"` and `is_aligned == False`.
-   - The old `MULTDOWN` direction is immediately purged, suppressing new entries during the inflection zone.
-   - Once the new `BULLISH` trend is confirmed ($t \ge 140$), entries resume strictly as `MULTUP`. Zero `MULTDOWN` entries were opened following the reversal.
-   - In `d107_rate_limit_winner_holding.py` lines 2415-2443 (`handle_boundary`), if a position is held across an adverse reversal, `trend_signal.direction != direction` flags `trend_supports = False`, triggering defensive cancellation before the 5-minute deal cancellation window expires.
+3. **Bot Runner Lifecycle & Live Mode Verification (Target 3):**
+   - When `DRY_RUN_MODE=false`, the runner inspects `sui_private_key`. If missing or invalid, `live_onchain` evaluates to `False`, preventing unauthorized execution (Observation 3, 5).
+   - When `sui_private_key` starts with `suiprivkey1`, `live_onchain` is set to `True`.
+   - In `submit_order`, a real Move VM simulation (`simulate_transaction_bcs`) is executed first. If the simulation rejects (e.g. slippage, Move VM abort), `execute_transaction_bcs` is NEVER called, guaranteeing 0 gas consumption on failed opportunities (Observation 3, 5).
+   - If simulation succeeds, `sign_transaction_bcs` computes Blake2b-256 over `b"\x00\x00\x00" + tx_bytes` (Sui IntentScope::TransactionData), signs with Ed25519, constructs standard 97-byte serialized signature (`0x00` flag + 64-byte sig + 32-byte pubkey), and broadcasts via GraphQL mutation `executeTransaction` (Observation 3, 5).
+   - Signature correctness was verified cryptographically against `cryptography.hazmat.primitives.asymmetric.ed25519` (Observation 5).
+   - `SuiHealthServer` endpoints `/health`, `/live`, and `/` were tested over HTTP, confirming 200 OK responses with exact schema telemetry across healthy, degraded, and critical states (Observation 4, 5).
 
-4. **Edge Cases (Flatline, Zero Variance, NaN/Inf, Tick Gaps)**:
-   - Single-price flatline ($P_t = 100.0$ for all $t$): `max(abs(d), 1e-6)` in line 752 prevents division by zero in True Range smoothing. ADX returns `0.0`, `macro_trend == "NEUTRAL"`, `direction == "NONE"`, resulting in `0 buys`.
-   - Micro-noise ($10^{-12}$ perturbations): Safely evaluated as NEUTRAL chop with 0 entries.
-   - Non-finite numbers (`NaN`, `Inf`, `-Inf`): Filtered out via `clean = [p for p in prices if math.isfinite(p) and p > 0]` (line 724). If all values are invalid, returns safe defaults (`direction == "NONE"`, `adx_value == 0.0`).
-   - Tick gaps: Replay across 1-hour time jumps safely evaluates boundaries and open positions at the first post-gap tick without index corruption.
-
-### 2.2 Simulation Replay Integrity & Causality
-1. **Strict Causality Oracle Verification**:
-   - Evaluated twin simulation runs sharing an identical prefix ($T = 300$ ticks) but diverging drastically thereafter (Branch A surges +20%, Branch B drops -20%).
-   - All positions entered at $t \le T$ had **100% bit-for-bit identical** position IDs, entry timestamps, entry prices, contract directions, ask prices, and cancellation fees across both runs.
-   - In `d107_exact_historical_simulation.py` lines 394 and 481, price slices are strictly backward-looking: `prices[max(0, index - 180):index + 1]`. No future tick data leaks into entry or boundary decisions.
-
-2. **Conservative Accounting Equations**:
-   - Cancellation: Loss is strictly $-cancellation\_fee$ (-$0.08), and stake ($1.00) is returned to cash (`cash += position.stake`), yielding exact cash change equal to `terminal_net`.
-   - Stopout: When adverse move reaches 100% of stake (-0.25% move on 400x multiplier), position terminates with loss equal to full cost ($-cost = -(stake + fee) = -$1.08), with no refund to cash.
-   - Commissions & Spread: Commission is subtracted from gross mark (`directional_gross - commission`), and ask price incorporates the deal cancellation fee.
-   - Ledger Conservation: Across all test runs, `bankroll + realized_net + unrealized == final_balance` held with zero discrepancy.
+4. **Zero Regression Preservation (Target 4):**
+   - The entire test suite was executed in the clean virtualenv (`trading-engine/.venv/bin/pytest`), completing with 677 passed out of 677 tests (Observation 6).
+   - No regressions occurred across any previously validated milestones (M1, M2, M3, M4).
 
 ---
 
-## 3. Challenges
+## 3. Caveats
 
-### [Low] Challenge 1: Unsanitized Type Input to `calculate_adx_and_trend`
-- **Assumption challenged**: `calculate_adx_and_trend` implicitly assumes all elements of `prices` are `int` or `float` instances.
-- **Attack scenario**: If uncleaned JSON payloads containing string numbers (e.g. `["100.25", "100.30"]`) or `None` values are passed directly to `calculate_adx_and_trend`, `math.isfinite(p)` raises `TypeError: must be real number, not str`.
-- **Blast radius**: Low. In `d107_rate_limit_winner_holding.py` line 835, `evaluate_market_trend` sanitizes inputs via `clean_prices = [_positive_float(p) for p in prices]`, preventing runtime failures in production. Direct callers outside `evaluate_market_trend` must ensure numeric sequences.
-- **Mitigation**: Add defensive type check `isinstance(p, (int, float)) and math.isfinite(p) and p > 0` to list comprehension in `calculate_adx_and_trend`.
+- **Live Mainnet Broadcast with Real Funds**: Testing verified the end-to-end execution path, cryptographic signing, simulation validation, and GraphQL mutation format using simulated preflight envelopes and verified Mainnet contracts. Live on-chain broadcasting of transactions that consume real operator SUI gas requires operator private key provisioning in Railway runtime secrets.
+- **Mainnet Validator Consensus Latency**: Verification confirms < 50ms local endpoint processing; live on-chain finality depends on Sui 2f+1 Byzantine consensus (typically ~400-500ms on Sui Mainnet).
 
 ---
 
-## 4. Stress Test Results
+## 4. Conclusion
 
-| Test ID | Scenario | Expected Behavior | Actual Behavior | Result |
-|---|---|---|---|---|
-| **ST-01** | Low-ADX chop (ADX < 15, Hurst ~0.50) | Direction "NONE", is_aligned False, 0 buys | 0 aligned signals when ADX < 15, 0 buys | **PASS** |
-| **ST-02** | Brownian noise ($H \approx 0.568$, 1000 ticks) | Filter rejects chop vs blind alternation | Buys cut from 67 (baseline) to 20 (aligned) | **PASS** |
-| **ST-03** | Runaway monotonic bullish trend | 100% MULTUP entries, 0 MULTDOWN | 20/20 MULTUP buys, 0 MULTDOWN | **PASS** |
-| **ST-04** | Runaway monotonic bearish trend | 100% MULTDOWN entries, 0 MULTUP | 20/20 MULTDOWN buys, 0 MULTUP | **PASS** |
-| **ST-05** | V-shape reversal (inflection zone) | Old direction purged, transition pause | Direction NONE during inflection, 0 counter-trend | **PASS** |
-| **ST-06** | Single-price flatline ($P_t = 100.0$) | Div-by-zero handled, ADX=0.0, 0 buys | ADX=0.0, macro NEUTRAL, 0 buys | **PASS** |
-| **ST-07** | Epsilon micro-noise ($10^{-12}$) | Clean evaluation, no crash, 0 buys | ADX < 20, macro NEUTRAL, 0 buys | **PASS** |
-| **ST-08** | NaN / Inf / Negative prices | Cleaned safely, no crash | Valid signal from clean subset, safe defaults | **PASS** |
-| **ST-09** | Tick gaps (1-hour time jump) | Positions evaluated at next tick | Boundary reached safely, no state corruption | **PASS** |
-| **ST-10** | Causality Oracle (twin divergent futures) | Prefix decisions 100% identical | 10/10 prefix entries bit-for-bit identical | **PASS** |
-| **ST-11** | Conservative Accounting (cancel, stopout, fee) | Exact cash balance and PnL conservation | Cancel loss -$0.08, stopout -$1.08, cash conserved | **PASS** |
-| **ST-12** | 4-Tier Ratchet Tiers (1x, 2x, 4x, 8x) | Floor ratchet & trailing stops trigger | All 4 tiers lock floors and exit properly | **PASS** |
-| **ST-13** | 86k Tick Inversion (Mirror test) | Symmetric returns on reversed market | Buys=81, Net=$4.56, PF=1.91, Runners=10 | **PASS** |
+All empirical challenge targets have been rigorously tested and verified:
+1. Gas runway safety floors (5.419 SUI start, 1.5 SUI warning/throttling, 0.5 SUI emergency halt, recovery upon deposit, and 5-abort lock un-bypassable by gas alone) are fully functional and mathematically sound.
+2. Consecutive abort circuit breakers (3 aborts -> demotion + 60s cooldown, 5 aborts -> emergency lock, trade success -> reset) enforce strict downside protection.
+3. Live bot runner lifecycle and deployment configuration enforce valid `suiprivkey1...`, preflight simulation prior to broadcast, Ed25519/Blake2b signing, GraphQL `executeTransaction`, and accurate 200 OK health supervision.
+4. The full test suite passes 100% (677/677 tests passed in 34.55s).
+
+**Final Verdict:** **`APPROVE`**
 
 ---
 
-## 5. Caveats
-- Direct invocation of `calculate_adx_and_trend` without passing through `evaluate_market_trend` requires inputs to be pre-sanitized numeric floats/ints.
-- Discrete historical replay assumes instantaneous order fill at tick prices; execution slippage under live Deriv WebSocket network latency is audited in Milestone 4 live canary testing.
+## 5. Verification Method
 
----
+To independently reproduce and verify this handoff:
 
-## 6. Conclusion
-The implementation of the Multi-Timeframe Trend Alignment Filter and the Discrete-Event Simulation Replay Engine in Milestone 3 is **robust, causality-preserving, and mathematically sound**. Empirical stress testing confirms that the strategy successfully suppresses trade churn during chop regimes, aligns strictly with macro trends without counter-trend positions, purges directions upon reversal, and enforces strictly conservative accounting.
-
-**Verdict**: **APPROVE** (Proceed to Milestone 4).
-
----
-
-## 7. Verification Method
-To independently reproduce all empirical findings and verification results:
-
-1. **Run Challenger 2 Adversarial Stress Test Suite**:
+1. **Run the Challenger 2 Operational & Gas Safety Stress Test Suite:**
    ```bash
-   PYTHONPATH=trading-engine python3 trading-engine/stress_test_challenger_2.py
+   PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests/test_adversarial_challenger_2_operational.py -v
    ```
-   *Expected Output*: `Ran 11 tests in ~0.4s - OK`
+   *Expected output: 19 passed in ~3s.*
 
-2. **Run Historical Mirror / Symmetry Replay**:
+2. **Run the Complete Test Suite Regression Check:**
    ```bash
-   PYTHONPATH=trading-engine python3 -c '
-   import json
-   from d107_exact_historical_simulation import run_simulation, simulate
-   r = run_simulation("trading-engine/d107_simulation_1hz10v_ticks.json", exit_scenario="perpetual_ladder_1x_8x", trend_alignment_enabled=True)
-   print("Normal:", r.as_dict()["realized_net"], "PF:", r.as_dict()["profit_factor"])
-   with open("trading-engine/d107_simulation_1hz10v_ticks.json") as f: d = json.load(f)
-   inv_p = [2.0 * d["prices"][0] - p for p in d["prices"]]
-   q = {"1.0:MULTUP": {"ask_price": 1.04, "cancellation_fee": 0.04, "commission": 0.0}, "1.0:MULTDOWN": {"ask_price": 1.04, "cancellation_fee": 0.04, "commission": 0.0}}
-   r_inv = simulate("demo", d["times"], inv_p, q, 1.0, 104.0, "all_in", "perpetual_ladder_1x_8x", trend_alignment_enabled=True)
-   print("Inverted:", r_inv.as_dict()["realized_net"], "PF:", r_inv.as_dict()["profit_factor"])
-   '
+   PYTHONPATH=trading-engine trading-engine/.venv/bin/pytest trading-engine/tests -v
    ```
-   *Expected Output*: Both Normal and Inverted yield positive realized net (~$5.04 and ~$4.56) and Profit Factor $\sim 2.0$.
+   *Expected output: 677 passed in ~35s.*
 
-3. **Run Existing Strategy Test Discovery Suite**:
+3. **Verify Cryptographic Signing & Intent Scope Hash Independently:**
    ```bash
-   PYTHONPATH=trading-engine python3 -m unittest discover -s trading-engine -p "test_d107_*.py"
+   PYTHONPATH=trading-engine trading-engine/.venv/bin/python3 -c "
+   from tests.test_adversarial_challenger_2_operational import generate_valid_suiprivkey, bech32_decode
+   from venues.sui_deepbook_venue import SuiDeepBookPTBBuilder
+   import base64, hashlib
+   from cryptography.hazmat.primitives.asymmetric import ed25519
+
+   key = generate_valid_suiprivkey()
+   tx = b'verification_test_tx'
+   builder = SuiDeepBookPTBBuilder()
+   sig_b64 = builder.sign_transaction_bcs(tx, key)
+   raw = base64.b64decode(sig_b64)
+   assert len(raw) == 97 and raw[0] == 0x00
+   sig, pubkey = raw[1:65], raw[65:97]
+   digest = hashlib.blake2b(b'\x00\x00\x00' + tx, digest_size=32).digest()
+   ed25519.Ed25519PublicKey.from_public_bytes(pubkey).verify(sig, digest)
+   print('Ed25519 / Blake2b cryptographic verification: PASS')
+   "
    ```
-   *Expected Output*: `Ran 75 tests in ~2.2s - OK`
+   *Expected output: `Ed25519 / Blake2b cryptographic verification: PASS`.*

@@ -1,39 +1,35 @@
-Restore D107's core premise of capturing 1x-8x daily perpetual gains by investigating recent micro-scalping regressions, studying the accidental perpetual runner turnaround (contract #19127889519) and historical May trades (from 4 months ago), curating active Deriv bots operating against trends, and redesigning position opening/closing logic based on proven perpetual success cases.
+Implementar em produção quatro melhorias de alta rentabilidade no bot de arbitragem: rota reversa bidirecional DeepBook <-> Cetus, dimensionamento analítico ótimo de empréstimo (Q* Optimal Sizing), priorização de rotas e proteção de cofre (DEEP/SUI vs DEEP/USDC), e integração de cotação e execução atômica com a Turbos Finance CLMM.
 
-Working directory: /Users/vitorhrds/Documents/Github/hypothesis/trading-engine
+Working directory: /Users/vitorhrds/Documents/Github/hypothesis
 Integrity mode: development
 
 ## Requirements
 
-### R1. Historical Trade & Perpetual Turnaround Study
-Analyze historical trades from 4 months ago (`trading-engine/historico_trades_maio.csv`) and the accidental perpetual runner case (contract #19127889519) where an API error allowed an unmanaged position to run to +155% profit (+1.55 USD), identifying the exact market regimes, entry criteria, and holding dynamics that differentiate true 1x-8x perpetual runners from premature micro-profits (+0.15 to +0.23 USD in Trials #256-#316).
+### R1. Arbitragem Bidirecional (DeepBook <-> Cetus)
+Implementar a rota reversa de arbitragem para captura de spreads negativos (Cetus Price > DeepBook Ask): tomar flashloan atômico no DeepBook determinando dinamicamente o ativo de empréstimo conforme o par e liquidez, comprar a mercado no DeepBook (Ask) e vender na Cetus, quitando o empréstimo no mesmo PTB e retendo o lucro líquido.
 
-### R2. Deriv Bot Curation & Trend Alignment
-Perform an in-depth curation of bots running on Deriv to diagnose and resolve why individual positions appear to trade against prevailing market tides and trends, ensuring entry filters align with directional momentum.
+### R2. Dimensionamento Analítico Ótimo de Empréstimo (Q* Optimal Sizing)
+Implementar o cálculo analítico do volume ótimo de borrow (Q*) baseado na inclinação de impacto da pool Cetus e no spread disponível, substituindo o dimensionamento estático pelo livro do DeepBook por tranches dinâmicas ajustadas (ex: $100 - $150 USDC) que passem com lucro líquido positivo na Move VM sem rejeições pré-voo por slippage excessivo.
 
-### R3. Redesign Opening and Closing Execution
-Redesign D107 opening and closing logic in `trading-engine/d107_rate_limit_winner_holding.py` so that winning positions with strong trend momentum are allowed to transition past the 5-minute cancellation window into perpetual runners targeting 1x-8x stake returns, eliminating premature micro-profit exits inside the cancellation window.
+### R3. Priorização de Rotas e Proteção de Vault
+Priorizar oportunidades de arbitragem no par DEEP/SUI (maior liquidez na Cetus e taxa zero de taker) sobre DEEP/USDC e verificar programaticamente a disponibilidade de saldo em caixa no cofre do DeepBook antes de disparar transações, prevenindo abortos por `EInsufficientVaultBalance` (abort code 2).
 
-### R4. Simulation & Empirical Validation
-Validate the redesigned strategy using historical simulation and tick replay (`trading-engine/d107_exact_historical_simulation.py` and historical datasets), verifying that the new logic captures high-gain perpetual runs without regression into premature micro-scalping.
+### R4. Suporte Multi-DEX com Turbos Finance
+Integrar a Turbos Finance CLMM com suporte tanto para consulta contínua de cotações em tempo real no scanner (`params.amm_target = "turbos"`) quanto para a construção e execução atômica de transações PTB de arbitragem DeepBook <-> Turbos, além das rotas existentes com Cetus.
 
-### R5. Learning Proposal Artifact
-Persist all findings, comparative metrics, and the finalized strategy architecture into a `learning_proposal.md` artifact (with `RequestFeedback=true`) for user review and tracking.
+### R5. Suíte de Testes, Integridade Hot Potato e Deploy do Bot Runner
+Garantir que todos os 85+ testes existentes em `trading-engine/tests` continuem passando 100%, preservar a atomicidade e garantia de Zero Leg Risk via Move VM Hot Potato PTB, validar simulações pré-voo e integridade de consumo de gas, e atualizar o bot runner configurado para execução real direta (live execution).
 
 ## Acceptance Criteria
 
-### Historical Analysis & Regimes
-- [ ] Quantitative comparative analysis documents the entry conditions, trend indicators, and holding duration separating 1x-8x perpetual winners from the 17 premature micro-profit exits (+0.15 to +0.23 USD) observed in Trials #256-#316.
-- [ ] Contract #19127889519 turnaround behavior and historical May trade patterns are documented with reproducible metrics.
+### Testes e Integridade Atômica
+- [ ] 100% dos testes existentes em `trading-engine/tests` passam com sucesso sem regressões.
+- [ ] Todas as novas rotas e fluxos preservam a estrutura atômica de Hot Potato na Move VM com Zero Leg Risk.
+- [ ] Simulações pré-voo e estimativas de gas são validadas antes do envio de transações.
 
-### Bot Curation & Trend Alignment
-- [ ] Active Deriv bot configurations and trend filters are audited, identifying specific mechanisms causing counter-trend trades.
-
-### Strategy Implementation
-- [ ] `trading-engine/d107_rate_limit_winner_holding.py` is updated so that qualified positions cross the 5-minute cancellation window to run as perpetuals targeting 1x-8x returns instead of exiting for micro-profits.
-
-### Verification & Backtesting
-- [ ] Redesigned logic is validated against historical simulation and tick data, demonstrating higher expected return per trade and successful retention of perpetual winners compared to the baseline trailing stop logic.
-
-### Learning Proposal
-- [ ] `learning_proposal.md` artifact is created with `RequestFeedback=true` summarizing the investigation, code modifications, simulation results, and operational guidelines.
+### Execução e Estratégias de Arbitragem
+- [ ] A rota reversa DeepBook Ask -> Cetus é executada com sucesso com flashloan dinâmico quando Cetus Price > DeepBook Ask.
+- [ ] O algoritmo Q* calcula tranches ótimas de volume de empréstimo adaptadas ao impacto de preço na Cetus.
+- [ ] O mecanismo de checagem de saldo do cofre do DeepBook impede disparos quando o cofre estiver sem saldo suficiente.
+- [ ] O scanner e executor realizam arbitragem em tempo real com a Turbos Finance CLMM de forma atômica.
+- [ ] O bot runner está atualizado e operacional em modo de execução real direta (live execution).

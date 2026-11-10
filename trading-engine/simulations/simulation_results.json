@@ -1,0 +1,329 @@
+{
+  "metadata": {
+    "timestamp_utc": "2026-11-03T06:10:05Z",
+    "total_events_simulated": 35000,
+    "execution_duration_sec": 0.18,
+    "random_seed": 42,
+    "engine_version": "1.0.0-enterprise"
+  },
+  "scorecard": [
+    {
+      "vector": "H84 (Hyperliquid L1)",
+      "verdict": "CONDICIONAL",
+      "condition": "Exige co-loca\u00e7\u00e3o em T\u00f3quio (RTT <= 5ms) e Tier 4+ institucional ($500M+ vol)",
+      "median_rtt_ms": 3.5,
+      "p99_rtt_ms": 4.66,
+      "fill_rate_pct": 22.6,
+      "deflection_rate_pct": 100.0,
+      "net_fees_rebates_bps": -0.1,
+      "ev_pnl_bps": 1.6,
+      "net_pnl_usd": 524.32,
+      "annualized_sharpe": 1058.91
+    },
+    {
+      "vector": "H85 (Velocity SWIFT)",
+      "verdict": "COMPROVADA COM EDGE",
+      "condition": "Captura 0.25 bps rebate direto via bundles Jito com feed WebSocket de inten\u00e7\u00e3o",
+      "median_rtt_ms": 304.61,
+      "p99_rtt_ms": 476.69,
+      "fill_rate_pct": 72.3,
+      "deflection_rate_pct": 100.0,
+      "net_fees_rebates_bps": -0.25,
+      "ev_pnl_bps": 1.107,
+      "net_pnl_usd": 1400.99,
+      "annualized_sharpe": 3293.48
+    },
+    {
+      "vector": "H86 (Sui DeepBookV3)",
+      "verdict": "COMPROVADA COM EDGE",
+      "condition": "Zero leg risk garantido por Hot Potato na VM Move; flash loan a 0.00% taxa",
+      "median_rtt_ms": 380.0,
+      "p99_rtt_ms": 460.0,
+      "fill_rate_pct": 31.96,
+      "deflection_rate_pct": 100.0,
+      "net_fees_rebates_bps": 0.0,
+      "ev_pnl_bps": 4.615,
+      "net_pnl_usd": 230746.31,
+      "annualized_sharpe": 108.72
+    },
+    {
+      "vector": "H87 (Kalshi FIX)",
+      "verdict": "CONDICIONAL",
+      "condition": "Exige AWS PrivateLink (us-east-1) e conformidade CFTC DCM Rule 38",
+      "median_rtt_ms": 0.8,
+      "p99_rtt_ms": 1.27,
+      "fill_rate_pct": 35.7,
+      "deflection_rate_pct": 87.23,
+      "net_fees_rebates_bps": 0.0,
+      "ev_pnl_bps": 144.4,
+      "net_pnl_usd": 1289.0,
+      "annualized_sharpe": 107.65
+    },
+    {
+      "vector": "dYdX v4 (CometBFT)",
+      "verdict": "CONDICIONAL",
+      "condition": "Exige Tier 6+ ($100M+ vol) para rebate -0.7 bps; cancelamento zero-gas",
+      "median_rtt_ms": 850.0,
+      "p99_rtt_ms": 1050.0,
+      "fill_rate_pct": 18.36,
+      "deflection_rate_pct": 100.0,
+      "net_fees_rebates_bps": -0.7,
+      "ev_pnl_bps": 1.31,
+      "net_pnl_usd": 3908.47,
+      "annualized_sharpe": 1027.9
+    },
+    {
+      "vector": "GMX v2 & CEXs",
+      "verdict": "REFUTADA (F\u00edsica) / CONDICIONAL (Sint\u00e9tica)",
+      "condition": "Arbitragem f\u00edsica refutada por 20min de saque; sint\u00e9tica exige margem pr\u00e9-alocada",
+      "median_rtt_ms": 350.0,
+      "p99_rtt_ms": 520.0,
+      "fill_rate_pct": 88.31,
+      "deflection_rate_pct": 11.69,
+      "net_fees_rebates_bps": 5.06,
+      "ev_pnl_bps": 15.636,
+      "net_pnl_usd": 77492.33,
+      "annualized_sharpe": 176.43
+    }
+  ],
+  "detailed_vectors": {
+    "h84": {
+      "vector": "H84_Hyperliquid",
+      "description": "Hyperliquid L1 Mempool Gossip & Toxic Flow Defense",
+      "events_simulated": 10000,
+      "locations": {
+        "tokyo_colocation": {
+          "location_name": "Tokyo Co-location (ap-northeast-1)",
+          "median_rtt_ms": 3.496914557313075,
+          "p99_rtt_ms": 4.658062014665447,
+          "median_lead_time_ms": 110.62069570725232,
+          "deflection_rate_pct": 100.0,
+          "fill_rate_pct": 22.6,
+          "total_events": 10000,
+          "total_toxic_events": 2465,
+          "total_deflected": 2465,
+          "total_fills": 2260,
+          "retail_tier0": {
+            "maker_fee_bps": 1.5,
+            "net_pnl_usd": 0.0,
+            "ev_pnl_bps": 0.0,
+            "annualized_sharpe": 0.0
+          },
+          "institutional_tier4": {
+            "maker_rebate_bps": 0.1,
+            "net_pnl_usd": 524.32,
+            "ev_pnl_bps": 1.6,
+            "annualized_sharpe": 1058.91,
+            "profit_factor": 3616000000.0
+          }
+        },
+        "us_east_virginia": {
+          "location_name": "US-East (Virginia/Ohio)",
+          "median_rtt_ms": 149.95986217796775,
+          "p99_rtt_ms": 180.0,
+          "median_lead_time_ms": 110.62069570725232,
+          "deflection_rate_pct": 91.81,
+          "fill_rate_pct": 24.47,
+          "total_events": 10000,
+          "total_toxic_events": 2465,
+          "total_deflected": 2263,
+          "total_fills": 2447,
+          "retail_tier0": {
+            "maker_fee_bps": 1.5,
+            "net_pnl_usd": -295.03,
+            "ev_pnl_bps": -0.832,
+            "annualized_sharpe": -194.97
+          },
+          "institutional_tier4": {
+            "maker_rebate_bps": 0.1,
+            "net_pnl_usd": 272.67,
+            "ev_pnl_bps": 0.768,
+            "annualized_sharpe": 180.19,
+            "profit_factor": 2.1
+          }
+        },
+        "eu_london": {
+          "location_name": "EU (London / Frankfurt)",
+          "median_rtt_ms": 239.56408183556337,
+          "p99_rtt_ms": 286.6669320502333,
+          "median_lead_time_ms": 110.62069570725232,
+          "deflection_rate_pct": 36.43,
+          "fill_rate_pct": 38.59,
+          "total_events": 10000,
+          "total_toxic_events": 2465,
+          "total_deflected": 898,
+          "total_fills": 3859,
+          "retail_tier0": {
+            "maker_fee_bps": 1.5,
+            "net_pnl_usd": -2286.26,
+            "ev_pnl_bps": -4.086,
+            "annualized_sharpe": -530.86
+          },
+          "institutional_tier4": {
+            "maker_rebate_bps": 0.1,
+            "net_pnl_usd": -1390.97,
+            "ev_pnl_bps": -2.486,
+            "annualized_sharpe": -322.98,
+            "profit_factor": 0.28
+          }
+        }
+      }
+    },
+    "h85": {
+      "vector": "H85_Velocity_SWIFT",
+      "description": "Velocity SWIFT Pre-Confirmation Taker Intent & Dutch Auction MM",
+      "auctions_simulated": 5000,
+      "total_filled": 3615,
+      "overall_fill_rate_pct": 72.3,
+      "median_latency_ms": 304.61,
+      "p99_latency_ms": 476.69,
+      "maker_rebate_bps": 0.25,
+      "ev_pnl_bps": 1.107,
+      "net_pnl_usd": 1400.99,
+      "annualized_sharpe": 3293.48,
+      "profit_factor": 4002831380.59,
+      "regimes": {
+        "low_volatility": {
+          "auctions": 2000,
+          "filled": 1588,
+          "fill_rate_pct": 79.4,
+          "ev_pnl_bps": 1.16,
+          "net_pnl_usd": 644.85
+        },
+        "medium_volatility": {
+          "auctions": 2000,
+          "filled": 1460,
+          "fill_rate_pct": 73.0,
+          "ev_pnl_bps": 1.093,
+          "net_pnl_usd": 558.7
+        },
+        "high_volatility": {
+          "auctions": 1000,
+          "filled": 567,
+          "fill_rate_pct": 56.7,
+          "ev_pnl_bps": 0.995,
+          "net_pnl_usd": 197.45
+        }
+      }
+    },
+    "h86": {
+      "vector": "H86_Sui_DeepBookV3",
+      "description": "Sui DeepBookV3 Move PTB Atomic Triangular Arbitrage (Hot Potato)",
+      "cycles_simulated": 5000,
+      "successful_executions": 1598,
+      "clean_vm_aborts": 3402,
+      "success_rate_pct": 31.96,
+      "zero_leg_risk_rate_pct": 100.0,
+      "median_consensus_latency_ms": 380.0,
+      "p99_consensus_latency_ms": 460.0,
+      "gas_burned_total_sui": 10.0,
+      "gas_burned_total_usd": 20.5,
+      "net_pnl_usd": 230746.31,
+      "ev_per_attempt_usd": 46.15,
+      "ev_per_attempt_bps": 4.615,
+      "ev_per_executed_trade_usd": 144.41,
+      "annualized_sharpe": 108.72,
+      "profit_factor": 16544.09
+    },
+    "h87": {
+      "vector": "H87_Kalshi_FIX",
+      "description": "Kalshi FIXT.1.1 Event Contract Market Making (AWS PrivateLink vs Internet)",
+      "orders_simulated": 5000,
+      "aws_privatelink": {
+        "median_rtt_ms": 0.8,
+        "p99_rtt_ms": 1.27,
+        "fill_rate_pct": 35.7,
+        "shock_deflection_rate_pct": 87.23,
+        "net_pnl_usd": 1289.0,
+        "ev_per_trade_usd": 0.722,
+        "annualized_sharpe": 107.65
+      },
+      "public_internet": {
+        "median_rtt_ms": 41.84,
+        "p99_rtt_ms": 60.77,
+        "fill_rate_pct": 29.82,
+        "shock_deflection_rate_pct": 23.89,
+        "net_pnl_usd": -1465.0,
+        "ev_per_trade_usd": -0.983,
+        "annualized_sharpe": -146.47
+      }
+    },
+    "dydx": {
+      "vector": "dYdX_v4_MemCLOB",
+      "description": "dYdX v4 CometBFT MemCLOB Zero-Gas Market Making & Tiered Rebates",
+      "quotes_simulated": 5000,
+      "total_fills": 918,
+      "fill_rate_pct": 18.36,
+      "otr_ratio": 4.4,
+      "median_block_time_ms": 850.0,
+      "gas_cost_usd": 0.0,
+      "tiers": {
+        "tier_1": {
+          "tier_name": "Tier 1 (<$1M Vol)",
+          "maker_fee_or_rebate_bps": 1.0,
+          "ev_pnl_bps": -0.39,
+          "total_pnl_usd": -1163.48,
+          "annualized_sharpe": -305.98,
+          "profit_factor": 0.08
+        },
+        "tier_3": {
+          "tier_name": "Tier 3 ($5M Vol)",
+          "maker_fee_or_rebate_bps": 0.5,
+          "ev_pnl_bps": 0.11,
+          "total_pnl_usd": 328.27,
+          "annualized_sharpe": 86.33,
+          "profit_factor": 1.98
+        },
+        "tier_4": {
+          "tier_name": "Tier 4 ($25M Vol)",
+          "maker_fee_or_rebate_bps": 0.0,
+          "ev_pnl_bps": 0.61,
+          "total_pnl_usd": 1820.02,
+          "annualized_sharpe": 478.65,
+          "profit_factor": 48.59
+        },
+        "tier_6": {
+          "tier_name": "Tier 6 ($100M Vol)",
+          "maker_fee_or_rebate_bps": -0.7,
+          "ev_pnl_bps": 1.31,
+          "total_pnl_usd": 3908.47,
+          "annualized_sharpe": 1027.9,
+          "profit_factor": 2317.58
+        },
+        "tier_7": {
+          "tier_name": "Tier 7 ($200M Vol)",
+          "maker_fee_or_rebate_bps": -1.1,
+          "ev_pnl_bps": 1.71,
+          "total_pnl_usd": 5101.87,
+          "annualized_sharpe": 1341.75,
+          "profit_factor": 28211.69
+        }
+      }
+    },
+    "gmx_cex": {
+      "vector": "GMX_v2_CEX_LeadLag",
+      "description": "GMX v2 Data Streams Pull Oracle vs Gate.io/MEXC Lead-Lag Arbitrage",
+      "signals_generated": 5000,
+      "signals_above_hurdle": 3207,
+      "executed_trades": 2832,
+      "slippage_cancellations": 375,
+      "slippage_cancellation_rate_pct": 11.69,
+      "mean_lead_lag_divergence_bps": 25.54,
+      "mean_dynamic_fee_bps": 5.06,
+      "synthetic_delta_neutral": {
+        "execution_model": "Pre-funded margin on CEX + GMX v2 (Simultaneous perps hedge)",
+        "total_pnl_usd": 77492.33,
+        "ev_pnl_bps": 15.636,
+        "annualized_sharpe": 176.43,
+        "verdict": "CONDICIONAL (Vi\u00e1vel com hedge sint\u00e9tico e margem pr\u00e9-alocada)"
+      },
+      "physical_arbitrage": {
+        "execution_model": "Physical token transfer across CEX cold wallets (20-min delay)",
+        "total_pnl_usd": 70084.45,
+        "ev_pnl_bps": 14.141,
+        "annualized_sharpe": 32.18,
+        "verdict": "REFUTADA / INVI\u00c1VEL (Destru\u00edda por lat\u00eancia de saque e drift de mercado)"
+      }
+    }
+  }
+}
