@@ -363,7 +363,8 @@ class SuiBotRunner:
             zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
 
             # 6. Arbitrage Execution Handling (DRY_RUN_MODE vs Live)
-            is_profitable = (status == "SUCCESS" and net_profit > 0)
+            # Require at least $0.25 expected net profit to buffer against pool price impact
+            is_profitable = (status == "SUCCESS" and net_profit >= 0.25)
             execution_status = "SIMULATED"
 
             if is_profitable:
@@ -393,9 +394,11 @@ class SuiBotRunner:
                             logger.info(f"Live PTB executed successfully for {pair_name}: order_id={exec_res.order_id}")
                             self.scaling_engine.record_trade_success(profit_usdc=net_profit)
                         else:
-                            execution_status = "FAILED"
-                            logger.warning(f"Live PTB aborted/rejected for {pair_name}: {exec_res.status}")
-                            self.scaling_engine.record_trade_abort()
+                            execution_status = "REJECTED"
+                            logger.info(f"Live PTB pre-flight simulation rejected for {pair_name} (0 gas cost): order_id={exec_res.order_id}")
+                            # Only penalize circuit breaker if an actual on-chain broadcast failed or unexpected rejection occurred
+                            if not exec_res.order_id.startswith("PTB-SIM-REVERT"):
+                                self.scaling_engine.record_trade_abort()
                     except Exception as e:
                         execution_status = "ERROR"
                         logger.error(f"Live PTB execution error for {pair_name}: {e}")
