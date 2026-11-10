@@ -642,3 +642,31 @@ def test_depth_aggregation_and_usd_normalization():
 
     asyncio.run(_run())
 
+
+def test_optimized_tier3_per_pair_scaling():
+    """Validates Tier 3 pair-differentiated borrow ceilings protecting thin pools while scaling SUI/USDC."""
+    from venues.sui_scaling_engine import DEFAULT_PAIR_MAX_BORROW_USD
+
+    engine = DynamicCapitalScalingEngine(
+        initial_tier=ScalingTier.TIER_3,
+        pair_max_borrow_usd=DEFAULT_PAIR_MAX_BORROW_USD,
+    )
+    assert engine.current_tier == ScalingTier.TIER_3
+
+    # 1. SUI/USDC allows full Tier 3 ($10,000 USDC)
+    sui_usdc_amt = engine.get_current_borrow_amount("SUI/USDC")
+    assert sui_usdc_amt == 10_000_000_000  # $10k USDC
+
+    # 2. DEEP/USDC is capped at $1,000 USD to protect Cetus $241k pool
+    deep_usdc_amt = engine.get_current_borrow_amount("DEEP/USDC")
+    assert deep_usdc_amt == 1_000_000_000  # $1k USDC (not $10k)
+
+    # 3. DEEP/SUI is capped at $4,000 USD equivalent (at $2.00 / SUI => 2,000 SUI)
+    deep_sui_amt = engine.get_current_borrow_amount("DEEP/SUI", sui_spot_price=2.0)
+    assert deep_sui_amt == 2_000_000_000_000  # 2,000 SUI
+
+    # 4. CETUS/SUI is capped at $2,500 USD equivalent (at $2.00 / SUI => 1,250 SUI)
+    cetus_sui_amt = engine.get_current_borrow_amount("CETUS/SUI", sui_spot_price=2.0)
+    assert cetus_sui_amt == 1_250_000_000_000  # 1,250 SUI
+
+

@@ -76,6 +76,19 @@ OPERATOR_WALLET_ADDRESS: str = (
     "0x5621a8e7199680512ee829565b96febea2587e534fd69b33f04004298d7e5ce9"
 )
 
+# Default Per-Pair Maximum Borrow Tranches in USD:
+# Calibrated against Cetus pool TVL and DeepBook orderbook depth:
+# - SUI/USDC: $10,000 (deepest pool on Sui, $18.5M TVL, <0.2 bps impact)
+# - DEEP/SUI: $4,000 (~4,900 SUI at ~$0.81; captures Level 2 wall of 8,950 SUI with controlled impact)
+# - DEEP/USDC: $1,000 (pool TVL is $241k; keeps price impact under ~25 bps)
+# - CETUS/SUI: $2,500 (~3,000 SUI; balances Cetus pool depth and fees)
+DEFAULT_PAIR_MAX_BORROW_USD: Dict[str, float] = {
+    "SUI/USDC": 10000.0,
+    "DEEP/SUI": 4000.0,
+    "DEEP/USDC": 1000.0,
+    "CETUS/SUI": 2500.0,
+}
+
 
 class ScalingTier(IntEnum):
     """Capital scaling tiers defining flash borrow tranche sizes in native micro-units (6 decimals)."""
@@ -174,6 +187,7 @@ class DynamicCapitalScalingEngine:
         critical_gas_floor: float = DEFAULT_CRITICAL_GAS_FLOOR,
         cooldown_duration_seconds: float = DEFAULT_COOLDOWN_SECONDS,
         initial_baseline_usdc: Optional[float] = None,
+        pair_max_borrow_usd: Optional[Dict[str, float]] = None,
     ) -> None:
         self.balance_tracker = balance_tracker
         self.tier1_profit_threshold = float(tier1_profit_threshold)
@@ -185,6 +199,9 @@ class DynamicCapitalScalingEngine:
         self.cooldown_duration_seconds = float(cooldown_duration_seconds)
         self.baseline_usdc_balance: Optional[float] = (
             float(initial_baseline_usdc) if initial_baseline_usdc is not None else None
+        )
+        self.pair_max_borrow_usd = (
+            dict(pair_max_borrow_usd) if pair_max_borrow_usd is not None else None
         )
 
         self.state = ScalingState(
@@ -384,6 +401,10 @@ class DynamicCapitalScalingEngine:
         tier_usdc_units = self.state.current_tier.value
         tier_usd = tier_usdc_units / 1_000_000.0  # 1000.0, 5000.0, 10000.0
 
+        # Apply per-pair maximum ceiling if configured (liquidity-aware protection)
+        if self.pair_max_borrow_usd and pair_clean in self.pair_max_borrow_usd:
+            tier_usd = min(tier_usd, float(self.pair_max_borrow_usd[pair_clean]))
+
         # Determine quote asset
         is_sui_quote = False
         if pair_clean.endswith("/SUI") or pair_clean in ("DEEP/SUI", "CETUS/SUI"):
@@ -413,7 +434,7 @@ class DynamicCapitalScalingEngine:
                 depth_cap_usd = max_depth_quote * 0.85
                 target_usd = min(tier_usd, max(25.0, depth_cap_usd))
                 return int(round(target_usd * 1_000_000))
-            return int(tier_usdc_units)
+            return int(round(tier_usd * 1_000_000))
 
     def unlock_emergency(self, force: bool = False) -> bool:
         """Allows manual operator reset of EMERGENCY_LOCKED status."""

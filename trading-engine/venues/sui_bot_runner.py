@@ -41,6 +41,7 @@ try:
     from venues.sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from venues.sui_scaling_engine import (
         DEFAULT_CRITICAL_GAS_FLOOR,
+        DEFAULT_PAIR_MAX_BORROW_USD,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
         STATUS_ACTIVE,
@@ -62,6 +63,7 @@ except ImportError:
     from .sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from .sui_scaling_engine import (
         DEFAULT_CRITICAL_GAS_FLOOR,
+        DEFAULT_PAIR_MAX_BORROW_USD,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
         STATUS_ACTIVE,
@@ -196,9 +198,26 @@ class SuiBotRunner:
         health_server: Optional[SuiHealthServer] = None,
     ) -> None:
         self.config = config or SuiBotConfig.from_env()
+
+        # Resolve initial tier from config/env:
+        initial_tier = ScalingTier.TIER_1
+        tier_env = os.getenv("INITIAL_TIER", "").upper().strip()
+        if tier_env in ("TIER_3", "3", "10000"):
+            initial_tier = ScalingTier.TIER_3
+        elif tier_env in ("TIER_2", "2", "5000"):
+            initial_tier = ScalingTier.TIER_2
+        elif tier_env in ("TIER_1", "1", "1000"):
+            initial_tier = ScalingTier.TIER_1
+        elif self.config.initial_borrow_amount >= 10_000_000_000:
+            initial_tier = ScalingTier.TIER_3
+        elif self.config.initial_borrow_amount >= 5_000_000_000:
+            initial_tier = ScalingTier.TIER_2
+
         self.scaling_engine = scaling_engine or DynamicCapitalScalingEngine(
+            initial_tier=initial_tier,
             warning_gas_floor=self.config.warning_gas_floor,
             critical_gas_floor=self.config.critical_gas_floor,
+            pair_max_borrow_usd=DEFAULT_PAIR_MAX_BORROW_USD,
         )
         self.validator = validator or SuiPTBPreflightValidator(
             graphql_url=self.config.graphql_url,
