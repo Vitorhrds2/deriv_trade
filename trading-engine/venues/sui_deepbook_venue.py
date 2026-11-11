@@ -1006,15 +1006,25 @@ class SuiDeepBookPTBBuilder:
         gas_coin: Dict[str, Any],
         ref_gas_price: int = 100,
         gas_budget: int = 50_000_000,
+        route_direction: str = "FORWARD",
     ) -> bytes:
         """Constructs and serializes a 100% verified pure Move PTB TransactionData V1 into BCS bytes.
 
         Execution architecture:
-        - DeepBook V3 0-fee flashloan: borrow_flashloan_quote<Base, Quote>
-        - Cetus CLMM swap: flash_swap<CoinA, CoinB> + repay_flash_swap<CoinA, CoinB>
-        - DeepBook V3 CLOB swap: swap_exact_base_for_quote<Base, Quote>
-        - Hot Potato repayment: SplitCoins + return_flashloan_quote<Base, Quote>
-        - Transfer objects: base_out and net quote profit transferred to sender
+        - FORWARD:
+          - DeepBook V3 0-fee flashloan: borrow_flashloan_quote<Base, Quote>
+          - Cetus CLMM swap: flash_swap<CoinA, CoinB> + repay_flash_swap<CoinA, CoinB>
+          - DeepBook V3 CLOB swap: swap_exact_base_for_quote<Base, Quote>
+          - Hot Potato repayment: SplitCoins + return_flashloan_quote<Base, Quote>
+          - Transfer objects: base_out and net quote profit transferred to sender
+        - REVERSE:
+          - DeepBook V3 0-fee flashloan: borrow_flashloan_quote<Base, Quote>
+          - DeepBook V3 CLOB swap: swap_exact_quote_for_base<Base, Quote>
+          - Extract base value: coin::value<Base>(base_out) -> base_amount
+          - Cetus CLMM swap (Base -> Quote): flash_swap<CoinA, CoinB> + repay_flash_swap
+          - Merge leftover quote from DeepBook: coin::join<Quote>
+          - Hot Potato repayment: SplitCoins + return_flashloan_quote<Base, Quote>
+          - Transfer objects: net quote profit + deep_out transferred to sender
         """
         cfg = SUI_PAIRS_CONFIG[pair_name]
         tag_base = parse_type_tag(cfg.base_coin_type)
@@ -1023,64 +1033,122 @@ class SuiDeepBookPTBBuilder:
         tag_coin_b = parse_type_tag(cfg.cetus_coin_b_type)
         tag_deep = parse_type_tag(DEEP_COIN_TYPE)
 
-        a2b = cfg.cetus_a2b_for_quote_in
-        sqrt_limit = cfg.cetus_sqrt_price_limit_quote_in
         db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
         cetus_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.cetus_pool_id, 376543995)
 
-        inputs = [
-            bcs_input_shared(cfg.deepbook_pool_id, db_ver, True),                     # 0: db_pool
-            bcs_input_pure(bcs_u64(borrow_amount)),                                    # 1: borrow_amount
-            bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, 1574190, False),                 # 2: cetus_config
-            bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True),                     # 3: cetus_pool
-            bcs_input_pure(bcs_bool(a2b)),                                             # 4: a2b
-            bcs_input_pure(bcs_bool(True)),                                            # 5: by_amount_in
-            bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 6: sqrt_price_limit
-            bcs_input_shared(SUI_CLOCK_OBJECT_ID, 1, False),                           # 7: clock
-            bcs_input_pure(bcs_u64(0)),                                                # 8: min_quote_out (0 for slippage protection handled by SplitCoins)
-            bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
-        ]
+        if str(route_direction).upper() == "REVERSE":
+            rev_a2b = not cfg.cetus_a2b_for_quote_in
+            sqrt_limit = MIN_SQRT_PRICE if rev_a2b else MAX_SQRT_PRICE
+            zero_tag = tag_coin_b if rev_a2b else tag_coin_a
+            destroy_tag = tag_coin_a if rev_a2b else tag_coin_b
 
-        borrow_tag = tag_coin_a if a2b else tag_coin_b
-        zero_other_tag = tag_coin_b if a2b else tag_coin_a
-        destroy_other_tag = tag_coin_a if a2b else tag_coin_b
-        swapped_tag = tag_coin_b if a2b else tag_coin_a
+            inputs = [
+                bcs_input_shared(cfg.deepbook_pool_id, db_ver, True),                     # 0: db_pool
+                bcs_input_pure(bcs_u64(borrow_amount)),                                    # 1: borrow_amount
+                bcs_input_shared(SUI_CLOCK_OBJECT_ID, 1, False),                           # 2: clock
+                bcs_input_pure(bcs_u64(0)),                                                # 3: min_base_out
+                bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, 1574190, False),                 # 4: cetus_config
+                bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True),                     # 5: cetus_pool
+                bcs_input_pure(bcs_bool(rev_a2b)),                                         # 6: a2b
+                bcs_input_pure(bcs_bool(True)),                                            # 7: by_amount_in
+                bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 8: sqrt_price_limit
+                bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
+            ]
 
-        res_borrow = arg_result(1)
-        res_zero = arg_result(2)
-        repay_bal_a = res_borrow if a2b else res_zero
-        repay_bal_b = res_zero if a2b else res_borrow
-        res_swapped_bal = arg_nested(3, 1 if a2b else 0)
-        res_zero_bal = arg_nested(3, 0 if a2b else 1)
+            res_base_bal = arg_result(4)
+            res_zero_bal = arg_result(5)
+            repay_bal_a = res_base_bal if rev_a2b else res_zero_bal
+            repay_bal_b = res_zero_bal if rev_a2b else res_base_bal
+            res_zero_receive = arg_nested(6, 0 if rev_a2b else 1)
+            res_swapped_bal = arg_nested(6, 1 if rev_a2b else 0)
 
-        commands = [
-            # 0: borrow_flashloan_quote<Base, Quote>(db_pool, borrow_amount) -> (quote_coin, flash_loan_receipt)
-            cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "borrow_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_input(1)]),
-            # 1: coin::into_balance<BorrowCoin>(quote_coin) -> quote_balance
-            cmd_move_call("0x2", "coin", "into_balance", [borrow_tag], [arg_nested(0, 0)]),
-            # 2: balance::zero<ZeroCoin>() -> zero_balance
-            cmd_move_call("0x2", "balance", "zero", [zero_other_tag], []),
-            # 3: cetus::pool::flash_swap<CoinA, CoinB>(cfg, pool, a2b, by_amount_in, amount, sqrt_limit, clock)
-            cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "flash_swap", [tag_coin_a, tag_coin_b], [arg_input(2), arg_input(3), arg_input(4), arg_input(5), arg_input(1), arg_input(6), arg_input(7)]),
-            # 4: balance::destroy_zero<ZeroCoin>(zero_receive_bal)
-            cmd_move_call("0x2", "balance", "destroy_zero", [destroy_other_tag], [res_zero_bal]),
-            # 5: cetus::pool::repay_flash_swap<CoinA, CoinB>(cfg, pool, repay_bal_a, repay_bal_b, receipt)
-            cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "repay_flash_swap", [tag_coin_a, tag_coin_b], [arg_input(2), arg_input(3), repay_bal_a, repay_bal_b, arg_nested(3, 2)]),
-            # 6: coin::from_balance<SwappedCoin>(swapped_bal) -> swapped_base_coin
-            cmd_move_call("0x2", "coin", "from_balance", [swapped_tag], [res_swapped_bal]),
-            # 7: coin::zero<DEEP>() -> zero_deep_coin (DeepBook fee rebate input)
-            cmd_move_call("0x2", "coin", "zero", [tag_deep], []),
-            # 8: db::pool::swap_exact_base_for_quote<Base, Quote>(db_pool, swapped_base_coin, zero_deep_coin, min_quote_out, clock) -> (base_out, quote_out, deep_out)
-            cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_base_for_quote", [tag_base, tag_quote], [arg_input(0), arg_result(6), arg_result(7), arg_input(8), arg_input(7)]),
-            # 9: coin::destroy_zero<DEEP>(deep_out)
-            cmd_move_call("0x2", "coin", "destroy_zero", [tag_deep], [arg_nested(8, 2)]),
-            # 10: SplitCoins(quote_out, [borrow_amount]) -> repay_quote_coin
-            cmd_split_coins(arg_nested(8, 1), [arg_input(1)]),
-            # 11: return_flashloan_quote<Base, Quote>(db_pool, repay_quote_coin, flash_loan_receipt) -> Hot Potato quenched
-            cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "return_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_nested(10, 0), arg_nested(0, 1)]),
-            # 12: TransferObjects([base_out, quote_out], sender) -> profit deposited to wallet
-            cmd_transfer_objects([arg_nested(8, 0), arg_nested(8, 1)], arg_input(9)),
-        ]
+            commands = [
+                # 0: borrow_flashloan_quote(db_pool, borrow_amount) -> (quote_coin, flash_loan_receipt)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "borrow_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_input(1)]),
+                # 1: coin::zero<DEEP>() -> zero_deep
+                cmd_move_call("0x2", "coin", "zero", [tag_deep], []),
+                # 2: db::pool::swap_exact_quote_for_base(db_pool, quote_coin, zero_deep, min_base_out, clock) -> (base_out, leftover_quote, deep_out)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_quote_for_base", [tag_base, tag_quote], [arg_input(0), arg_nested(0, 0), arg_result(1), arg_input(3), arg_input(2)]),
+                # 3: coin::value<Base>(base_out) -> base_amount
+                cmd_move_call("0x2", "coin", "value", [tag_base], [arg_nested(2, 0)]),
+                # 4: coin::into_balance<Base>(base_out) -> base_bal
+                cmd_move_call("0x2", "coin", "into_balance", [tag_base], [arg_nested(2, 0)]),
+                # 5: balance::zero<ZeroCoin>() -> zero_balance
+                cmd_move_call("0x2", "balance", "zero", [zero_tag], []),
+                # 6: cetus::pool::flash_swap(cfg, pool, a2b, by_amount_in, amount=base_amount, sqrt_limit, clock)
+                cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "flash_swap", [tag_coin_a, tag_coin_b], [arg_input(4), arg_input(5), arg_input(6), arg_input(7), arg_result(3), arg_input(8), arg_input(2)]),
+                # 7: balance::destroy_zero<DestroyCoin>(zero_receive_bal)
+                cmd_move_call("0x2", "balance", "destroy_zero", [destroy_tag], [res_zero_receive]),
+                # 8: cetus::pool::repay_flash_swap(cfg, pool, repay_bal_a, repay_bal_b, receipt)
+                cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "repay_flash_swap", [tag_coin_a, tag_coin_b], [arg_input(4), arg_input(5), repay_bal_a, repay_bal_b, arg_nested(6, 2)]),
+                # 9: coin::from_balance<Quote>(swapped_bal) -> swapped_quote_coin
+                cmd_move_call("0x2", "coin", "from_balance", [tag_quote], [res_swapped_bal]),
+                # 10: coin::join<Quote>(swapped_quote_coin, leftover_quote) -> merge leftover quote from DeepBook
+                cmd_move_call("0x2", "coin", "join", [tag_quote], [arg_result(9), arg_nested(2, 1)]),
+                # 11: SplitCoins(swapped_quote_coin, [borrow_amount]) -> repay_quote_coin
+                cmd_split_coins(arg_result(9), [arg_input(1)]),
+                # 12: return_flashloan_quote(db_pool, repay_quote_coin, flash_loan_receipt) -> Hot Potato quenched
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "return_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_nested(11, 0), arg_nested(0, 1)]),
+                # 13: TransferObjects([swapped_quote_coin, deep_out], sender) -> net profit transferred to sender
+                cmd_transfer_objects([arg_result(9), arg_nested(2, 2)], arg_input(9)),
+            ]
+        else:
+            a2b = cfg.cetus_a2b_for_quote_in
+            sqrt_limit = cfg.cetus_sqrt_price_limit_quote_in
+
+            inputs = [
+                bcs_input_shared(cfg.deepbook_pool_id, db_ver, True),                     # 0: db_pool
+                bcs_input_pure(bcs_u64(borrow_amount)),                                    # 1: borrow_amount
+                bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, 1574190, False),                 # 2: cetus_config
+                bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True),                     # 3: cetus_pool
+                bcs_input_pure(bcs_bool(a2b)),                                             # 4: a2b
+                bcs_input_pure(bcs_bool(True)),                                            # 5: by_amount_in
+                bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 6: sqrt_price_limit
+                bcs_input_shared(SUI_CLOCK_OBJECT_ID, 1, False),                           # 7: clock
+                bcs_input_pure(bcs_u64(0)),                                                # 8: min_quote_out (0 for slippage protection handled by SplitCoins)
+                bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
+            ]
+
+            borrow_tag = tag_coin_a if a2b else tag_coin_b
+            zero_other_tag = tag_coin_b if a2b else tag_coin_a
+            destroy_other_tag = tag_coin_a if a2b else tag_coin_b
+            swapped_tag = tag_coin_b if a2b else tag_coin_a
+
+            res_borrow = arg_result(1)
+            res_zero = arg_result(2)
+            repay_bal_a = res_borrow if a2b else res_zero
+            repay_bal_b = res_zero if a2b else res_borrow
+            res_swapped_bal = arg_nested(3, 1 if a2b else 0)
+            res_zero_bal = arg_nested(3, 0 if a2b else 1)
+
+            commands = [
+                # 0: borrow_flashloan_quote<Base, Quote>(db_pool, borrow_amount) -> (quote_coin, flash_loan_receipt)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "borrow_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_input(1)]),
+                # 1: coin::into_balance<BorrowCoin>(quote_coin) -> quote_balance
+                cmd_move_call("0x2", "coin", "into_balance", [borrow_tag], [arg_nested(0, 0)]),
+                # 2: balance::zero<ZeroCoin>() -> zero_balance
+                cmd_move_call("0x2", "balance", "zero", [zero_other_tag], []),
+                # 3: cetus::pool::flash_swap<CoinA, CoinB>(cfg, pool, a2b, by_amount_in, amount, sqrt_limit, clock)
+                cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "flash_swap", [tag_coin_a, tag_coin_b], [arg_input(2), arg_input(3), arg_input(4), arg_input(5), arg_input(1), arg_input(6), arg_input(7)]),
+                # 4: balance::destroy_zero<ZeroCoin>(zero_receive_bal)
+                cmd_move_call("0x2", "balance", "destroy_zero", [destroy_other_tag], [res_zero_bal]),
+                # 5: cetus::pool::repay_flash_swap<CoinA, CoinB>(cfg, pool, repay_bal_a, repay_bal_b, receipt)
+                cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "repay_flash_swap", [tag_coin_a, tag_coin_b], [arg_input(2), arg_input(3), repay_bal_a, repay_bal_b, arg_nested(3, 2)]),
+                # 6: coin::from_balance<SwappedCoin>(swapped_bal) -> swapped_base_coin
+                cmd_move_call("0x2", "coin", "from_balance", [swapped_tag], [res_swapped_bal]),
+                # 7: coin::zero<DEEP>() -> zero_deep_coin (DeepBook fee rebate input)
+                cmd_move_call("0x2", "coin", "zero", [tag_deep], []),
+                # 8: db::pool::swap_exact_base_for_quote<Base, Quote>(db_pool, swapped_base_coin, zero_deep_coin, min_quote_out, clock) -> (base_out, quote_out, deep_out)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_base_for_quote", [tag_base, tag_quote], [arg_input(0), arg_result(6), arg_result(7), arg_input(8), arg_input(7)]),
+                # 9: coin::destroy_zero<DEEP>(deep_out)
+                cmd_move_call("0x2", "coin", "destroy_zero", [tag_deep], [arg_nested(8, 2)]),
+                # 10: SplitCoins(quote_out, [borrow_amount]) -> repay_quote_coin
+                cmd_split_coins(arg_nested(8, 1), [arg_input(1)]),
+                # 11: return_flashloan_quote<Base, Quote>(db_pool, repay_quote_coin, flash_loan_receipt) -> Hot Potato quenched
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "return_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_nested(10, 0), arg_nested(0, 1)]),
+                # 12: TransferObjects([base_out, quote_out], sender) -> profit deposited to wallet
+                cmd_transfer_objects([arg_nested(8, 0), arg_nested(8, 1)], arg_input(9)),
+            ]
 
         # Assemble TransactionData::V1 BCS bytes
         ptb = bytearray(b"\x00\x00")  # TransactionData::V1 (0) + TransactionKind::ProgrammableTransaction (0)
@@ -2278,6 +2346,7 @@ class SuiDeepBookVenue(UnifiedVenue):
                         sender_address=self.active_address,
                         gas_coin=gas_coin,
                         ref_gas_price=ref_gas,
+                        route_direction=route_direction,
                     )
                     # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
                     sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)

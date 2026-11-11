@@ -401,7 +401,10 @@ class SuiBotRunner:
                 eval_spread_bps = forward_spread
 
             # Use Ask depth for REVERSE routes (market buying on DeepBook) and Bid depth for FORWARD routes
-            depth_to_use = ask_depth_quote if (route_dir == "REVERSE" and ask_depth_quote and ask_depth_quote > 0) else bid_depth_quote
+            if route_dir == "REVERSE":
+                depth_to_use = ask_depth_quote if "ask_depth_quote" in pair_market else None
+            else:
+                depth_to_use = bid_depth_quote if "bid_depth_quote" in pair_market else None
 
             # DeepBook Vault Balance Check (Requirement R3):
             vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
@@ -498,10 +501,16 @@ class SuiBotRunner:
                     # Convert quote currency net profit to USD equivalent
                     net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
 
+                    if route_dir == "REVERSE":
+                        has_deepbook_depth = (ask_depth_quote > 0) if "ask_depth_quote" in pair_market and ask_depth_quote is not None else True
+                    else:
+                        has_deepbook_depth = (bid_depth_quote > 0) if "bid_depth_quote" in pair_market and bid_depth_quote is not None else True
+
                     is_profitable = (
                         status == "SUCCESS"
                         and net_profit_usd >= self.config.min_profit_usd
                         and borrow_amount > 0
+                        and has_deepbook_depth
                     )
 
             execution_status = "SKIPPED_VAULT_PROTECTED" if vault_protection_triggered else "SIMULATED"

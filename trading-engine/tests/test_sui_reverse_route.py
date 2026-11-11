@@ -159,6 +159,28 @@ class TestReverseRoutePTBConstruction:
         assert c7["objects"] == [{"NestedResult": [4, 0]}]  # remaining profit
         assert c7["recipient"] == {"Input": params.sender_address}
 
+    @pytest.mark.parametrize("pair_name", ["SUI/USDC", "DEEP/SUI", "DEEP/USDC"])
+    def test_build_atomic_arb_ptb_bcs_reverse_direction(self, pair_name: str):
+        """Validates that build_atomic_arb_ptb_bcs serializes valid Move PTB BCS bytes for REVERSE route."""
+        builder = SuiDeepBookPTBBuilder()
+        borrow_amt = 100_000_000
+        gas_coin = {
+            "address": "0x7100dfd8b3ffaafebef435a4850278ee636e5867987b647fa371a90baf9c0f54",
+            "version": 1078982184,
+            "digest": "2wStav1wbDi9DrcVXmoU2ASLdmDGnLR76c3PzNAfyjsn",
+        }
+        bcs_bytes = builder.build_atomic_arb_ptb_bcs(
+            pair_name=pair_name,
+            borrow_amount=borrow_amt,
+            sender_address=OPERATOR_WALLET_ADDRESS,
+            gas_coin=gas_coin,
+            ref_gas_price=100,
+            gas_budget=50_000_000,
+            route_direction="REVERSE",
+        )
+        assert isinstance(bcs_bytes, bytes)
+        assert len(bcs_bytes) > 200
+
 
 # ============================================================================
 # Section 2: Preflight PTB Validator for Reverse Route
