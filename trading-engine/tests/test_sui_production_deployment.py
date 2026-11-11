@@ -32,6 +32,7 @@ from typing import Any, Dict
 
 import aiohttp
 import pytest
+from unittest.mock import AsyncMock, patch
 
 # Ensure trading-engine root is in sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -444,6 +445,93 @@ async def test_sui_bot_runner_graceful_shutdown_lifecycle() -> None:
     assert runner.is_running is False
     assert runner.completed_cycles >= 1
     assert runner.health_server.is_running is False
+
+
+@pytest.mark.asyncio
+async def test_sui_bot_runner_sub_slippage_spread_skips_deep_usdc() -> None:
+    """Verifies that when DEEP/USDC has a spread of +10 bps (exceeds 6 bps fee hurdle
+    but below ~76.6 bps effective hurdle with Cetus CLMM slippage), execution is cleanly skipped.
+    """
+    config = SuiBotConfig(port=18091, dry_run_mode=False)
+    runner = SuiBotRunner(config=config)
+    runner.update_gas_balance(5.419)
+
+    mock_spreads = {
+        "DEEP/USDC": {
+            "cetus_price": 0.0139,
+            "deepbook_price": 0.0139,
+            "deepbook_ask": 0.0139,
+            "spread_bps": 10.0,
+            "forward_spread_bps": 0.0,
+            "reverse_spread_bps": 10.0,
+            "best_route": "REVERSE",
+            "cetus_liquidity": 2.4023e11,
+            "cetus_sqrt_price": int(round((0.0139 ** 0.5) * (1 << 64))),
+            "ask_depth_quote": 5000.0,
+            "bid_depth_quote": 5000.0,
+        }
+    }
+
+    with patch.object(runner, "poll_market_spreads", return_value=mock_spreads), \
+         patch.object(runner.validator.venue, "submit_order", new_callable=AsyncMock) as mock_submit:
+        results = await runner.scan_once()
+
+        deep_res = next(r for r in results if r["pair"] == "DEEP/USDC")
+        assert deep_res["is_profitable"] is False
+        assert deep_res["effective_hurdle_bps"] > 70.0
+        assert deep_res["execution_status"] == "SIMULATED"
+        assert mock_submit.call_count == 0
+
+
+@pytest.mark.asyncio
+async def test_sui_bot_runner_super_slippage_spread_triggers_deep_usdc() -> None:
+    """Verifies that when DEEP/USDC has a wide spread of +120 bps (exceeds effective hurdle of ~76.6 bps),
+    execution is triggered.
+    """
+    config = SuiBotConfig(port=18092, dry_run_mode=False)
+    runner = SuiBotRunner(config=config)
+    runner.update_gas_balance(5.419)
+
+    mock_spreads = {
+        "DEEP/USDC": {
+            "cetus_price": 0.0139,
+            "deepbook_price": 0.0139,
+            "deepbook_ask": 0.0139,
+            "spread_bps": 120.0,
+            "forward_spread_bps": 0.0,
+            "reverse_spread_bps": 120.0,
+            "best_route": "REVERSE",
+            "cetus_liquidity": 2.4023e11,
+            "cetus_sqrt_price": int(round((0.0139 ** 0.5) * (1 << 64))),
+            "ask_depth_quote": 5000.0,
+            "bid_depth_quote": 5000.0,
+        }
+    }
+
+    from venues.sui_deepbook_venue import OrderExecutionResult
+    mock_fill = OrderExecutionResult(
+        venue="sui_deepbook",
+        order_id="PTB-LIVE-DEEP-USDC-123",
+        symbol="DEEP/USDC",
+        side="BUY",
+        price=0.0139,
+        size=100_000_000,
+        fee_bps=0.0,
+        rebate_bps=0.0,
+        is_maker=False,
+        status="FILLED",
+        latency_ms=10.0,
+        timestamp_ns=1000000,
+    )
+
+    with patch.object(runner, "poll_market_spreads", return_value=mock_spreads), \
+         patch.object(runner.validator.venue, "submit_order", new_callable=AsyncMock, return_value=mock_fill) as mock_submit:
+        results = await runner.scan_once()
+
+        deep_res = next(r for r in results if r["pair"] == "DEEP/USDC")
+        assert deep_res["is_profitable"] is True
+        assert deep_res["execution_status"] == "EXECUTED"
+        assert mock_submit.call_count == 1
 
 
 # ==============================================================================

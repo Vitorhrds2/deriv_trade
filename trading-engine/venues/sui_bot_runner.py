@@ -40,9 +40,11 @@ try:
     from venues.sui_health_server import DEFAULT_PORT, DEFAULT_REGION, ACTIVE_PAIRS, SuiHealthServer
     from venues.sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from venues.sui_scaling_engine import (
+        DEFAULT_CETUS_POOL_LIQUIDITY,
         DEFAULT_CRITICAL_GAS_FLOOR,
         DEFAULT_PAIR_FEE_HURDLE_BPS,
         DEFAULT_PAIR_MAX_BORROW_USD,
+        DEFAULT_PAIR_SQRT_PRICES,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
         STATUS_ACTIVE,
@@ -65,9 +67,11 @@ except ImportError:
     from .sui_health_server import DEFAULT_PORT, DEFAULT_REGION, ACTIVE_PAIRS, SuiHealthServer
     from .sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
     from .sui_scaling_engine import (
+        DEFAULT_CETUS_POOL_LIQUIDITY,
         DEFAULT_CRITICAL_GAS_FLOOR,
         DEFAULT_PAIR_FEE_HURDLE_BPS,
         DEFAULT_PAIR_MAX_BORROW_USD,
+        DEFAULT_PAIR_SQRT_PRICES,
         DEFAULT_WARNING_GAS_FLOOR,
         OPERATOR_WALLET_ADDRESS,
         STATUS_ACTIVE,
@@ -431,6 +435,33 @@ class SuiBotRunner:
                     vault_balance=vault_quote_balance,
                 )
 
+            # Requirement R2/R4: Dynamic Slippage-Aware Hurdle Protection
+            # Computes marginal AMM price impact across the borrowed tranche Q.
+            # If gross spread does not overcome fee hurdle + AMM slippage, execution is safely skipped.
+            pool_l = (
+                float(cetus_liq)
+                if cetus_liq is not None and float(cetus_liq) > 0
+                else DEFAULT_CETUS_POOL_LIQUIDITY.get(pair_name, 1e12)
+            )
+            if cetus_sqrt_p is not None:
+                if isinstance(cetus_sqrt_p, int) and cetus_sqrt_p > (1 << 32):
+                    sqrt_p = float(cetus_sqrt_p) / float(1 << 64)
+                else:
+                    sqrt_p = float(cetus_sqrt_p)
+            else:
+                sqrt_p = DEFAULT_PAIR_SQRT_PRICES.get(pair_name, 1.0)
+            if sqrt_p <= 0:
+                sqrt_p = 1.0
+
+            denom = pool_l * sqrt_p
+            if denom > 0 and borrow_amount > 0:
+                # 2 * Q / (L * sqrt(P0)) in bps represents full marginal price movement
+                amm_slippage_bps = (2.0 * float(borrow_amount) / denom) * 10000.0
+            else:
+                amm_slippage_bps = 0.0
+
+            effective_hurdle_bps = fee_hurdle + amm_slippage_bps
+
             # Preflight Vault Balance Protection check (Requirement R3):
             # Enforce borrow_amount <= 0.90 * vault_balance
             vault_cap = int(float(vault_quote_balance) * 0.90)
@@ -511,7 +542,15 @@ class SuiBotRunner:
                         and net_profit_usd >= self.config.min_profit_usd
                         and borrow_amount > 0
                         and has_deepbook_depth
+                        and eval_spread_bps > effective_hurdle_bps
                     )
+
+                    if status == "SUCCESS" and eval_spread_bps <= effective_hurdle_bps and eval_spread_bps > fee_hurdle:
+                        logger.info(
+                            f"Sub-slippage spread on {pair_name} ({route_dir}): spread {eval_spread_bps:+.1f} bps "
+                            f"<= effective hurdle {effective_hurdle_bps:.1f} bps (fee {fee_hurdle:.1f} + slippage {amm_slippage_bps:.1f} bps). "
+                            f"Execution safely skipped to eliminate Move VM abort."
+                        )
 
             execution_status = "SKIPPED_VAULT_PROTECTED" if vault_protection_triggered else "SIMULATED"
 
@@ -529,6 +568,8 @@ class SuiBotRunner:
                 "spread_bps": eval_spread_bps,
                 "forward_spread_bps": forward_spread,
                 "reverse_spread_bps": reverse_spread,
+                "effective_hurdle_bps": effective_hurdle_bps,
+                "amm_slippage_bps": amm_slippage_bps,
                 "cetus_price": base_price if base_price is not None else 0.0,
                 "deepbook_price": deepbook_price if deepbook_price is not None else 0.0,
                 "deepbook_ask": deepbook_ask,
