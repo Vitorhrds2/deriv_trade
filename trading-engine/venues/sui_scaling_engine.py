@@ -614,10 +614,11 @@ class DynamicCapitalScalingEngine:
                 sqrt_p = 1.0
 
             net_spread_frac = net_spread_bps / 10000.0
-            if is_base_borrow:
-                q_star_raw = 0.5 * net_spread_frac * pool_l / sqrt_p
-            else:
-                q_star_raw = 0.5 * net_spread_frac * pool_l * sqrt_p
+            cfg = SUI_PAIRS_CONFIG.get(pair_clean)
+            quote_is_coin_a = bool(cfg and cfg.cetus_a2b_for_quote_in)
+            borrow_is_coin_a = (not quote_is_coin_a) if is_base_borrow else quote_is_coin_a
+            denom = (pool_l / sqrt_p) if borrow_is_coin_a else (pool_l * sqrt_p)
+            q_star_raw = 0.5 * net_spread_frac * denom
 
             # Resolve Dynamic Tranche Bounds in USD
             bounds_usd = DEFAULT_DYNAMIC_TRANCHE_BOUNDS_USD.get(pair_clean, (25.0, 1000.0))

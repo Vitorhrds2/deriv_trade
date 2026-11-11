@@ -450,7 +450,7 @@ async def test_sui_bot_runner_graceful_shutdown_lifecycle() -> None:
 @pytest.mark.asyncio
 async def test_sui_bot_runner_sub_slippage_spread_skips_deep_usdc() -> None:
     """Verifies that when DEEP/USDC has a spread of +10 bps (exceeds 6 bps fee hurdle
-    but below ~76.6 bps effective hurdle with Cetus CLMM slippage), execution is cleanly skipped.
+    but below ~41.3 bps effective hurdle with average Cetus CLMM slippage), execution is cleanly skipped.
     """
     config = SuiBotConfig(port=18091, dry_run_mode=False)
     runner = SuiBotRunner(config=config)
@@ -478,7 +478,7 @@ async def test_sui_bot_runner_sub_slippage_spread_skips_deep_usdc() -> None:
 
         deep_res = next(r for r in results if r["pair"] == "DEEP/USDC")
         assert deep_res["is_profitable"] is False
-        assert deep_res["effective_hurdle_bps"] > 70.0
+        assert deep_res["effective_hurdle_bps"] > 40.0
         assert deep_res["execution_status"] == "SIMULATED"
         assert mock_submit.call_count == 0
 

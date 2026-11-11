@@ -881,6 +881,7 @@ class SuiPTBPreflightValidator:
         route_direction: str = "FORWARD",
         deepbook_ask_px: Optional[float] = None,
         amm_target: str = "cetus",
+        deepbook_fee_bps: Optional[float] = None,
     ) -> Dict[str, Any]:
         """Performs dry-run simulation of the 8-step PTB using Move VM semantics:
 
@@ -935,6 +936,7 @@ class SuiPTBPreflightValidator:
             route_direction=route_direction,
             deepbook_ask_px=ask_px,
             amm_target=amm_target,
+            deepbook_fee_bps=deepbook_fee_bps,
         )
 
         status = sim.get("status", "ABORTED")

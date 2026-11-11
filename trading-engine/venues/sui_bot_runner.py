@@ -22,7 +22,7 @@ import sys
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # Ensure trading-engine root is in sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -271,6 +271,10 @@ class SuiBotRunner:
         self.latest_preflight_report: Optional[Dict[str, Any]] = None
         self._cached_market_spreads: Optional[Dict[str, Dict[str, Any]]] = None
         self._last_spread_poll_time: float = 0.0
+        self._cached_deep_coin: Optional[Dict[str, Any]] = None
+        self._last_deep_check_ts: float = 0.0
+        self._cached_live_fees: Dict[str, Dict[str, Any]] = {}
+        self._last_fee_check_ts: float = 0.0
 
     def setup_signal_handlers(self) -> None:
         """Installs SIGINT and SIGTERM handlers for graceful shutdown."""
@@ -363,6 +367,171 @@ class SuiBotRunner:
         self._last_spread_poll_time = now
         return fallback_spreads
 
+    async def _refresh_live_fee_and_deep_context(
+        self, market_spreads: Dict[str, Dict[str, Any]]
+    ) -> Tuple[Dict[str, Dict[str, Any]], Optional[Dict[str, Any]]]:
+        """Refreshes cached DeepBook V3 fee tiers and wallet Coin<DEEP> when scanning live Mainnet."""
+        has_live_source = any(
+            isinstance(pm, dict) and pm.get("source") == "live_graphql"
+            for pm in market_spreads.values()
+        )
+        graphql_client = getattr(self.validator, "graphql_client", None)
+        if not has_live_source or graphql_client is None:
+            return {}, None
+
+        now_ts = time.time()
+        if (now_ts - self._last_fee_check_ts) >= 300.0 or not self._cached_live_fees:
+            try:
+                fetched_fees = await graphql_client.get_live_deepbook_fee_params()
+                if isinstance(fetched_fees, dict) and fetched_fees:
+                    self._cached_live_fees = fetched_fees
+                    self._last_fee_check_ts = now_ts
+            except Exception as e:
+                logger.debug(f"Live fee parameter refresh failed: {e}")
+
+        if (now_ts - self._last_deep_check_ts) >= 30.0:
+            try:
+                op_addr = getattr(self.validator.venue, "active_address", None) or getattr(
+                    graphql_client, "operator_address", ""
+                )
+                fetched_deep = await graphql_client.get_deep_coin(op_addr)
+                if (
+                    isinstance(fetched_deep, dict)
+                    and fetched_deep.get("address")
+                    and fetched_deep.get("digest")
+                    and int(fetched_deep.get("balance", 0) or 0) > 0
+                ):
+                    self._cached_deep_coin = fetched_deep
+                else:
+                    self._cached_deep_coin = None
+                self._last_deep_check_ts = now_ts
+            except Exception as e:
+                logger.debug(f"Coin<DEEP> balance check failed: {e}")
+
+        live_fees = self._cached_live_fees if isinstance(self._cached_live_fees, dict) else {}
+        return live_fees, self._cached_deep_coin
+
+    def _resolve_pair_fee_and_borrow(
+        self,
+        pair_name: str,
+        target_amm: str,
+        eval_spread_bps: float,
+        sui_spot: float,
+        base_price: Optional[float],
+        depth_to_use: Optional[float],
+        cetus_liq: Any,
+        cetus_sqrt_p: Any,
+        vault_quote_balance: int,
+        live_fee_map: Dict[str, Dict[str, Any]],
+        pair_deep_coin: Optional[Dict[str, Any]],
+        pair_market: Dict[str, Any],
+    ) -> Tuple[float, Optional[float], int, Optional[Dict[str, Any]], int]:
+        """Resolves dynamic DeepBook/AMM fee hurdles, Coin<DEEP> eligibility, and optimal Q*."""
+        def _calc_borrow(spread_arg: Optional[float], hurdle_arg: float) -> int:
+            return self.scaling_engine.get_current_borrow_amount(
+                pair_name=pair_name,
+                sui_spot_price=sui_spot,
+                max_depth_quote=depth_to_use,
+                spread_bps=spread_arg,
+                liquidity=cetus_liq,
+                sqrt_price=cetus_sqrt_p,
+                vault_balance=vault_quote_balance,
+                fee_bps=hurdle_arg,
+            )
+
+        pair_cfg = SUI_PAIRS_CONFIG.get(pair_name)
+        live_fee_info = live_fee_map.get(pair_name)
+        amm_fee_bps = (
+            (pair_cfg.turbos_fee_rate if target_amm == "turbos" else pair_cfg.cetus_fee_rate) * 10000.0
+            if pair_cfg is not None
+            else 5.0
+        )
+
+        if isinstance(live_fee_info, dict):
+            taker_raw = int(live_fee_info.get("taker_fee_raw", 0) or 0)
+            is_wl = bool(live_fee_info.get("whitelisted", False))
+            db_deep_bps = float(live_fee_info.get("taker_fee_bps_deep", 0.0))
+            db_no_deep_bps = float(live_fee_info.get("taker_fee_bps_no_deep", 0.0))
+            deep_per_asset = int(live_fee_info.get("deep_per_asset", 0) or 0)
+            asset_is_base = bool(live_fee_info.get("asset_is_base", False))
+
+            if is_wl or taker_raw == 0:
+                fee_hurdle = amm_fee_bps + 1.0
+                borrow_amount = _calc_borrow(
+                    eval_spread_bps if eval_spread_bps > fee_hurdle else None, fee_hurdle
+                )
+                return fee_hurdle, 0.0, borrow_amount, None, 0
+
+            opt_hurdle = amm_fee_bps + db_deep_bps + 1.0
+            if pair_deep_coin is not None and eval_spread_bps > opt_hurdle:
+                opt_borrow = _calc_borrow(eval_spread_bps, opt_hurdle)
+                req_deep = SuiGraphQLClient.estimate_required_deep_raw(
+                    borrow_amount_quote_raw=opt_borrow,
+                    taker_fee_raw=taker_raw,
+                    deep_per_asset=deep_per_asset,
+                    asset_is_base=asset_is_base,
+                    spot_price_quote_per_base=float(base_price or 0.0),
+                    base_decimals=pair_cfg.base_decimals if pair_cfg else 9,
+                    quote_decimals=pair_cfg.quote_decimals if pair_cfg else 6,
+                )
+                if req_deep > 0 and opt_borrow > 0 and int(pair_deep_coin.get("balance", 0) or 0) >= req_deep:
+                    return opt_hurdle, db_deep_bps, opt_borrow, pair_deep_coin, req_deep
+
+            fee_hurdle = amm_fee_bps + db_no_deep_bps + 1.0
+            borrow_amount = _calc_borrow(
+                eval_spread_bps if eval_spread_bps > fee_hurdle else None, fee_hurdle
+            )
+            return fee_hurdle, db_no_deep_bps, borrow_amount, None, 0
+
+        # Offline / unit-test deterministic fee defaults (with optional explicit deep_coin override)
+        fee_hurdle = DEFAULT_PAIR_FEE_HURDLE_BPS.get(pair_name, 10.0)
+        db_fee_bps: Optional[float] = None
+        active_deep_coin: Optional[Dict[str, Any]] = None
+        deep_fee_amount = 0
+        if pair_deep_coin is not None and pair_cfg is not None and pair_cfg.deepbook_taker_fee_bps > 0:
+            discounted_db = pair_cfg.deepbook_taker_fee_bps * 0.8
+            fee_hurdle = fee_hurdle - (pair_cfg.deepbook_taker_fee_bps - discounted_db)
+            db_fee_bps = discounted_db
+            active_deep_coin = pair_deep_coin
+            deep_fee_amount = int(pair_market.get("deep_fee_amount", 0) or 0)
+
+        borrow_amount = _calc_borrow(
+            eval_spread_bps if eval_spread_bps > fee_hurdle else None, fee_hurdle
+        )
+        return fee_hurdle, db_fee_bps, borrow_amount, active_deep_coin, deep_fee_amount
+
+    @staticmethod
+    def _compute_amm_slippage_bps(
+        pair_name: str,
+        borrow_amount: int,
+        cetus_liq: Any,
+        cetus_sqrt_p: Any,
+    ) -> float:
+        """Computes average CLMM execution slippage (Q / virtual_quote_reserve) in bps."""
+        if borrow_amount <= 0:
+            return 0.0
+        pool_l = (
+            float(cetus_liq)
+            if cetus_liq is not None and float(cetus_liq) > 0
+            else DEFAULT_CETUS_POOL_LIQUIDITY.get(pair_name, 1e12)
+        )
+        if cetus_sqrt_p is not None:
+            if isinstance(cetus_sqrt_p, int) and cetus_sqrt_p > (1 << 32):
+                sqrt_p = float(cetus_sqrt_p) / float(1 << 64)
+            else:
+                sqrt_p = float(cetus_sqrt_p)
+        else:
+            sqrt_p = DEFAULT_PAIR_SQRT_PRICES.get(pair_name, 1.0)
+        if sqrt_p <= 0:
+            sqrt_p = 1.0
+
+        pair_cfg = SUI_PAIRS_CONFIG.get(pair_name)
+        quote_is_coin_a = bool(pair_cfg and pair_cfg.cetus_a2b_for_quote_in)
+        denom = (pool_l / sqrt_p) if quote_is_coin_a else (pool_l * sqrt_p)
+        if denom <= 0:
+            return 0.0
+        return (float(borrow_amount) / denom) * 10000.0
+
     async def scan_once(self) -> List[Dict[str, Any]]:
         """Executes a single scanning pass across all 4 configured trading pairs."""
         results: List[Dict[str, Any]] = []
@@ -376,6 +545,7 @@ class SuiBotRunner:
         # 2. Query live market prices and spreads across 4 pairs
         market_spreads = await self.poll_market_spreads()
         sui_spot = market_spreads.get("SUI/USDC", {}).get("cetus_price", 2.0)
+        live_fee_map, deep_coin_info = await self._refresh_live_fee_and_deep_context(market_spreads)
 
         # 3. Iterate through 4 configured pairs
         pair_candidates: List[Dict[str, Any]] = []
@@ -410,73 +580,66 @@ class SuiBotRunner:
             else:
                 depth_to_use = bid_depth_quote if "bid_depth_quote" in pair_market else None
 
-            # DeepBook Vault Balance Check (Requirement R3):
-            vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
-            vault_quote_balance = vault_balances.get("quote_balance", 0)
-
-            # Requirement R2: Analytical Q* Optimal Sizing & Dynamic Tranches
-            fee_hurdle = DEFAULT_PAIR_FEE_HURDLE_BPS.get(pair_name, 10.0)
-            if eval_spread_bps > fee_hurdle:
-                borrow_amount = self.scaling_engine.get_current_borrow_amount(
-                    pair_name=pair_name,
-                    sui_spot_price=sui_spot,
-                    max_depth_quote=depth_to_use,
-                    spread_bps=eval_spread_bps,
-                    liquidity=cetus_liq,
-                    sqrt_price=cetus_sqrt_p,
-                    vault_balance=vault_quote_balance,
-                )
-            else:
-                borrow_amount = self.scaling_engine.get_current_borrow_amount(
-                    pair_name=pair_name,
-                    sui_spot_price=sui_spot,
-                    max_depth_quote=depth_to_use,
-                    spread_bps=None,
-                    vault_balance=vault_quote_balance,
-                )
-
-            # Requirement R2/R4: Dynamic Slippage-Aware Hurdle Protection
-            # Computes marginal AMM price impact across the borrowed tranche Q.
-            # If gross spread does not overcome fee hurdle + AMM slippage, execution is safely skipped.
-            pool_l = (
-                float(cetus_liq)
-                if cetus_liq is not None and float(cetus_liq) > 0
-                else DEFAULT_CETUS_POOL_LIQUIDITY.get(pair_name, 1e12)
-            )
-            if cetus_sqrt_p is not None:
-                if isinstance(cetus_sqrt_p, int) and cetus_sqrt_p > (1 << 32):
-                    sqrt_p = float(cetus_sqrt_p) / float(1 << 64)
-                else:
-                    sqrt_p = float(cetus_sqrt_p)
-            else:
-                sqrt_p = DEFAULT_PAIR_SQRT_PRICES.get(pair_name, 1.0)
-            if sqrt_p <= 0:
-                sqrt_p = 1.0
-
-            denom = pool_l * sqrt_p
-            if denom > 0 and borrow_amount > 0:
-                # 2 * Q / (L * sqrt(P0)) in bps represents full marginal price movement
-                amm_slippage_bps = (2.0 * float(borrow_amount) / denom) * 10000.0
-            else:
-                amm_slippage_bps = 0.0
-
-            effective_hurdle_bps = fee_hurdle + amm_slippage_bps
-
-            # Preflight Vault Balance Protection check (Requirement R3):
-            # Enforce borrow_amount <= 0.90 * vault_balance
-            vault_cap = int(float(vault_quote_balance) * 0.90)
-            vault_protection_triggered = False
-
             # Multi-DEX target selection (Cetus vs Turbos)
             if self.config.amm_target in ("cetus", "turbos"):
                 target_amm = self.config.amm_target
             else:
                 target_amm = pair_market.get("best_amm", pair_market.get("amm_target", "cetus"))
 
+            # DeepBook Vault Balance Check (Requirement R3):
+            vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
+            vault_quote_balance = vault_balances.get("quote_balance", 0)
+
+            explicit_deep_coin = pair_market.get("deep_coin")
+            pair_deep_coin = (
+                explicit_deep_coin
+                if isinstance(explicit_deep_coin, dict)
+                and explicit_deep_coin.get("address")
+                and explicit_deep_coin.get("digest")
+                else deep_coin_info
+            )
+
+            # Requirement R2: Analytical Q* Optimal Sizing, Live Fee Detection & Dynamic Tranches
+            (
+                fee_hurdle,
+                db_fee_bps_override,
+                borrow_amount,
+                active_deep_coin,
+                deep_fee_amount,
+            ) = self._resolve_pair_fee_and_borrow(
+                pair_name=pair_name,
+                target_amm=target_amm,
+                eval_spread_bps=eval_spread_bps,
+                sui_spot=sui_spot,
+                base_price=base_price,
+                depth_to_use=depth_to_use,
+                cetus_liq=cetus_liq,
+                cetus_sqrt_p=cetus_sqrt_p,
+                vault_quote_balance=vault_quote_balance,
+                live_fee_map=live_fee_map,
+                pair_deep_coin=pair_deep_coin,
+                pair_market=pair_market,
+            )
+
+            # Requirement R2/R4: Dynamic Average Execution Slippage Protection
+            amm_slippage_bps = self._compute_amm_slippage_bps(
+                pair_name=pair_name,
+                borrow_amount=borrow_amount,
+                cetus_liq=cetus_liq,
+                cetus_sqrt_p=cetus_sqrt_p,
+            )
+            effective_hurdle_bps = fee_hurdle + amm_slippage_bps
+
+            # Preflight Vault Balance Protection vs Shallow Orderbook Depth check
+            vault_cap = int(float(vault_quote_balance) * 0.90)
+            vault_protection_triggered = False
+            shallow_depth_triggered = False
+
             is_sui_quote = pair_name.endswith("/SUI") or pair_name in ("DEEP/SUI", "CETUS/SUI")
             min_floor_units = int(round((25.0 / sui_spot) * 1_000_000_000)) if is_sui_quote else 25_000_000
 
-            if eval_spread_bps > fee_hurdle and (vault_cap < min_floor_units or borrow_amount > vault_cap or borrow_amount <= 0):
+            vault_insufficient = vault_cap < min_floor_units or borrow_amount > vault_cap
+            if eval_spread_bps > fee_hurdle and vault_insufficient:
                 vault_protection_triggered = True
                 logger.warning(
                     f"VAULT PROTECTION TRIGGERED for {pair_name}: borrow_amount {borrow_amount} "
@@ -484,9 +647,17 @@ class SuiBotRunner:
                     f"(vault quote balance={vault_quote_balance}). "
                     f"Cleanly skipping execution to eliminate Move abort code 2 (EInsufficientVaultBalance)."
                 )
+            elif eval_spread_bps > fee_hurdle and borrow_amount <= 0:
+                shallow_depth_triggered = True
+                logger.info(
+                    f"Shallow orderbook depth for {pair_name} ({route_dir}): "
+                    f"spread {eval_spread_bps:+.1f} bps > fee hurdle {fee_hurdle:.1f} bps, "
+                    f"usable depth_quote={depth_to_use} yields borrow <= 0 below floor {min_floor_units}. "
+                    f"Cleanly skipping execution."
+                )
 
-            if vault_protection_triggered:
-                status = "SKIPPED_VAULT_PROTECTED"
+            if vault_protection_triggered or shallow_depth_triggered:
+                status = "SKIPPED_VAULT_PROTECTED" if vault_protection_triggered else "SKIPPED_SHALLOW_DEPTH"
                 net_profit = 0.0
                 gas_cost_sui = 0.002
                 zero_leg_risk_preserved = True
@@ -514,7 +685,7 @@ class SuiBotRunner:
                     is_profitable = False
                     dry_run = {}
                 else:
-                    # 5. Move VM simulation with live spread and price
+                    # 5. Move VM simulation with live spread, price, and fee tier
                     dry_run = self.validator.simulate_ptb_dry_run(
                         pair_name=pair_name,
                         borrow_amount=borrow_amount if borrow_amount > 0 else None,
@@ -523,14 +694,28 @@ class SuiBotRunner:
                         route_direction=route_dir,
                         deepbook_ask_px=deepbook_ask,
                         amm_target=target_amm,
+                        deepbook_fee_bps=db_fee_bps_override,
                     )
                     status = dry_run.get("status") if isinstance(dry_run, dict) else getattr(dry_run, "status", "ABORTED")
                     net_profit = dry_run.get("net_profit", 0.0) if isinstance(dry_run, dict) else getattr(dry_run, "net_profit", 0.0)
                     gas_cost_sui = dry_run.get("gas_cost_sui", 0.002) if isinstance(dry_run, dict) else getattr(dry_run, "gas_cost_sui", 0.002)
                     zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
 
-                    # Convert quote currency net profit to USD equivalent
-                    net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
+                    # Convert quote currency net profit to USD equivalent and deduct expected AMM slippage + gas
+                    raw_net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
+                    if status == "SUCCESS" and borrow_amount > 0:
+                        borrow_usd = (
+                            (float(borrow_amount) / 1_000_000_000.0) * sui_spot
+                            if is_sui_quote
+                            else (float(borrow_amount) / 1_000_000.0)
+                        )
+                        slippage_cost_usd = borrow_usd * (amm_slippage_bps / 10000.0)
+                        gas_cost_usd = float(gas_cost_sui) * sui_spot
+                        expected_net_after_slippage = raw_net_profit_usd - slippage_cost_usd - gas_cost_usd
+                        net_profit_usd = expected_net_after_slippage
+                    else:
+                        expected_net_after_slippage = 0.0
+                        net_profit_usd = raw_net_profit_usd
 
                     if route_dir == "REVERSE":
                         has_deepbook_depth = (ask_depth_quote > 0) if "ask_depth_quote" in pair_market and ask_depth_quote is not None else True
@@ -539,7 +724,7 @@ class SuiBotRunner:
 
                     is_profitable = (
                         status == "SUCCESS"
-                        and net_profit_usd >= self.config.min_profit_usd
+                        and expected_net_after_slippage >= self.config.min_profit_usd
                         and borrow_amount > 0
                         and has_deepbook_depth
                         and eval_spread_bps > effective_hurdle_bps
@@ -551,8 +736,19 @@ class SuiBotRunner:
                             f"<= effective hurdle {effective_hurdle_bps:.1f} bps (fee {fee_hurdle:.1f} + slippage {amm_slippage_bps:.1f} bps). "
                             f"Execution safely skipped to eliminate Move VM abort."
                         )
+                    elif status == "SUCCESS" and eval_spread_bps > effective_hurdle_bps and expected_net_after_slippage < self.config.min_profit_usd:
+                        logger.info(
+                            f"Sub-min-profit spread on {pair_name} ({route_dir}): "
+                            f"expected net ${expected_net_after_slippage:.4f} < min ${self.config.min_profit_usd:.4f}. "
+                            f"Cleanly skipping execution."
+                        )
 
-            execution_status = "SKIPPED_VAULT_PROTECTED" if vault_protection_triggered else "SIMULATED"
+            if vault_protection_triggered:
+                execution_status = "SKIPPED_VAULT_PROTECTED"
+            elif shallow_depth_triggered:
+                execution_status = "SKIPPED_SHALLOW_DEPTH"
+            else:
+                execution_status = "SIMULATED"
 
             candidate_info = {
                 "pair": pair_name,
@@ -568,6 +764,8 @@ class SuiBotRunner:
                 "spread_bps": eval_spread_bps,
                 "forward_spread_bps": forward_spread,
                 "reverse_spread_bps": reverse_spread,
+                "fee_hurdle_bps": fee_hurdle,
+                "deepbook_fee_bps": db_fee_bps_override,
                 "effective_hurdle_bps": effective_hurdle_bps,
                 "amm_slippage_bps": amm_slippage_bps,
                 "cetus_price": base_price if base_price is not None else 0.0,
@@ -576,6 +774,9 @@ class SuiBotRunner:
                 "execution_status": execution_status,
                 "is_profitable": is_profitable,
                 "dry_run": dry_run,
+                "min_floor_units": min_floor_units,
+                "deep_coin": active_deep_coin,
+                "deep_fee_amount": deep_fee_amount,
             }
             pair_results_map[pair_name] = candidate_info
             if is_profitable:
@@ -615,12 +816,21 @@ class SuiBotRunner:
                             "is_arb_ptb": True,
                             "route_direction": route_dir,
                             "amm_target": opp.get("amm_target", "cetus"),
+                            "deepbook_fee_bps": opp.get("deepbook_fee_bps"),
+                            "enable_tranche_fallback": True,
+                            "min_borrow_units": opp.get("min_floor_units", 0),
+                            "deep_coin": opp.get("deep_coin"),
+                            "deep_fee_amount": opp.get("deep_fee_amount", 0),
                             "live_onchain": bool(
                                 self.config.sui_private_key
                                 and self.config.sui_private_key.startswith("suiprivkey1")
                             ),
                         }
                         exec_res = await self.validator.venue.submit_order(order_params)
+                        if order_params.get("live_onchain") and order_params.get("deep_coin") is not None and (
+                            exec_res.status == "FILLED" or not exec_res.order_id.startswith("PTB-SIM-REVERT")
+                        ):
+                            self._last_deep_check_ts = 0.0
                         if exec_res.status == "FILLED":
                             opp["execution_status"] = "EXECUTED"
                             pair_results_map[pair_name]["execution_status"] = "EXECUTED"

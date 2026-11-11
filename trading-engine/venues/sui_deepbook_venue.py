@@ -21,6 +21,7 @@ import base64
 import hashlib
 import json
 import logging
+import math
 import os
 import struct
 import time
@@ -557,6 +558,18 @@ def bcs_input_shared(obj_id: str, init_ver: int, mutable: bool) -> bytes:
     return b"\x01\x01" + bcs_addr(obj_id) + bcs_u64(init_ver) + bcs_bool(mutable)
 
 
+def bcs_input_owned(obj_id: str, version: int, digest_b58: str) -> bytes:
+    """CallArg::Object(ObjectArg::ImmOrOwnedObject((id, version, digest)))"""
+    digest_bytes = b58decode(digest_b58)
+    return (
+        b"\x01\x00"
+        + bcs_addr(obj_id)
+        + bcs_u64(int(version))
+        + uleb128(len(digest_bytes))
+        + digest_bytes
+    )
+
+
 def arg_input(idx: int) -> bytes:
     return b"\x01" + bcs_u16(idx)
 
@@ -1007,6 +1020,8 @@ class SuiDeepBookPTBBuilder:
         ref_gas_price: int = 100,
         gas_budget: int = 50_000_000,
         route_direction: str = "FORWARD",
+        deep_coin: Optional[Dict[str, Any]] = None,
+        deep_fee_amount: int = 0,
     ) -> bytes:
         """Constructs and serializes a 100% verified pure Move PTB TransactionData V1 into BCS bytes.
 
@@ -1035,6 +1050,14 @@ class SuiDeepBookPTBBuilder:
 
         db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
         cetus_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.cetus_pool_id, 376543995)
+        use_deep_coin = bool(
+            deep_coin
+            and isinstance(deep_coin, dict)
+            and deep_coin.get("address")
+            and deep_coin.get("digest")
+            and int(deep_fee_amount or 0) > 0
+            and int(deep_coin.get("balance", 0) or 0) >= int(deep_fee_amount or 0)
+        )
 
         if str(route_direction).upper() == "REVERSE":
             rev_a2b = not cfg.cetus_a2b_for_quote_in
@@ -1054,6 +1077,11 @@ class SuiDeepBookPTBBuilder:
                 bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 8: sqrt_price_limit
                 bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
             ]
+            if use_deep_coin:
+                inputs.extend([
+                    bcs_input_owned(deep_coin["address"], int(deep_coin["version"]), deep_coin["digest"]),  # 10: deep_coin
+                    bcs_input_pure(bcs_u64(int(deep_fee_amount))),                                           # 11: deep_fee_amount
+                ])
 
             res_base_bal = arg_result(4)
             res_zero_bal = arg_result(5)
@@ -1061,14 +1089,20 @@ class SuiDeepBookPTBBuilder:
             repay_bal_b = res_zero_bal if rev_a2b else res_base_bal
             res_zero_receive = arg_nested(6, 0 if rev_a2b else 1)
             res_swapped_bal = arg_nested(6, 1 if rev_a2b else 0)
+            cmd_deep_prep = (
+                cmd_split_coins(arg_input(10), [arg_input(11)])
+                if use_deep_coin
+                else cmd_move_call("0x2", "coin", "zero", [tag_deep], [])
+            )
+            deep_in_arg = arg_nested(1, 0) if use_deep_coin else arg_result(1)
 
             commands = [
                 # 0: borrow_flashloan_quote(db_pool, borrow_amount) -> (quote_coin, flash_loan_receipt)
                 cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "borrow_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_input(1)]),
-                # 1: coin::zero<DEEP>() -> zero_deep
-                cmd_move_call("0x2", "coin", "zero", [tag_deep], []),
-                # 2: db::pool::swap_exact_quote_for_base(db_pool, quote_coin, zero_deep, min_base_out, clock) -> (base_out, leftover_quote, deep_out)
-                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_quote_for_base", [tag_base, tag_quote], [arg_input(0), arg_nested(0, 0), arg_result(1), arg_input(3), arg_input(2)]),
+                # 1: SplitCoins(deep_coin, [deep_fee_amount]) or coin::zero<DEEP>()
+                cmd_deep_prep,
+                # 2: db::pool::swap_exact_quote_for_base(db_pool, quote_coin, deep_in, min_base_out, clock) -> (base_out, leftover_quote, deep_out)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_quote_for_base", [tag_base, tag_quote], [arg_input(0), arg_nested(0, 0), deep_in_arg, arg_input(3), arg_input(2)]),
                 # 3: coin::value<Base>(base_out) -> base_amount
                 cmd_move_call("0x2", "coin", "value", [tag_base], [arg_nested(2, 0)]),
                 # 4: coin::into_balance<Base>(base_out) -> base_bal
@@ -1089,9 +1123,19 @@ class SuiDeepBookPTBBuilder:
                 cmd_split_coins(arg_result(9), [arg_input(1)]),
                 # 12: return_flashloan_quote(db_pool, repay_quote_coin, flash_loan_receipt) -> Hot Potato quenched
                 cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "return_flashloan_quote", [tag_base, tag_quote], [arg_input(0), arg_nested(11, 0), arg_nested(0, 1)]),
-                # 13: TransferObjects([swapped_quote_coin, deep_out], sender) -> net profit transferred to sender
-                cmd_transfer_objects([arg_result(9), arg_nested(2, 2)], arg_input(9)),
             ]
+            if use_deep_coin:
+                commands.extend([
+                    # 13: coin::join<DEEP>(deep_coin, deep_out) -> refund unspent DEEP into operator coin
+                    cmd_move_call("0x2", "coin", "join", [tag_deep], [arg_input(10), arg_nested(2, 2)]),
+                    # 14: TransferObjects([swapped_quote_coin], sender)
+                    cmd_transfer_objects([arg_result(9)], arg_input(9)),
+                ])
+            else:
+                commands.append(
+                    # 13: TransferObjects([swapped_quote_coin, deep_out], sender) -> net profit transferred to sender
+                    cmd_transfer_objects([arg_result(9), arg_nested(2, 2)], arg_input(9)),
+                )
         else:
             a2b = cfg.cetus_a2b_for_quote_in
             sqrt_limit = cfg.cetus_sqrt_price_limit_quote_in
@@ -1108,6 +1152,11 @@ class SuiDeepBookPTBBuilder:
                 bcs_input_pure(bcs_u64(0)),                                                # 8: min_quote_out (0 for slippage protection handled by SplitCoins)
                 bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
             ]
+            if use_deep_coin:
+                inputs.extend([
+                    bcs_input_owned(deep_coin["address"], int(deep_coin["version"]), deep_coin["digest"]),  # 10: deep_coin
+                    bcs_input_pure(bcs_u64(int(deep_fee_amount))),                                           # 11: deep_fee_amount
+                ])
 
             borrow_tag = tag_coin_a if a2b else tag_coin_b
             zero_other_tag = tag_coin_b if a2b else tag_coin_a
@@ -1120,6 +1169,17 @@ class SuiDeepBookPTBBuilder:
             repay_bal_b = res_zero if a2b else res_borrow
             res_swapped_bal = arg_nested(3, 1 if a2b else 0)
             res_zero_bal = arg_nested(3, 0 if a2b else 1)
+            cmd_deep_prep = (
+                cmd_split_coins(arg_input(10), [arg_input(11)])
+                if use_deep_coin
+                else cmd_move_call("0x2", "coin", "zero", [tag_deep], [])
+            )
+            deep_in_arg = arg_nested(7, 0) if use_deep_coin else arg_result(7)
+            cmd_deep_cleanup = (
+                cmd_move_call("0x2", "coin", "join", [tag_deep], [arg_input(10), arg_nested(8, 2)])
+                if use_deep_coin
+                else cmd_move_call("0x2", "coin", "destroy_zero", [tag_deep], [arg_nested(8, 2)])
+            )
 
             commands = [
                 # 0: borrow_flashloan_quote<Base, Quote>(db_pool, borrow_amount) -> (quote_coin, flash_loan_receipt)
@@ -1136,12 +1196,12 @@ class SuiDeepBookPTBBuilder:
                 cmd_move_call(CETUS_CLMM_LATEST_PKG_ID, "pool", "repay_flash_swap", [tag_coin_a, tag_coin_b], [arg_input(2), arg_input(3), repay_bal_a, repay_bal_b, arg_nested(3, 2)]),
                 # 6: coin::from_balance<SwappedCoin>(swapped_bal) -> swapped_base_coin
                 cmd_move_call("0x2", "coin", "from_balance", [swapped_tag], [res_swapped_bal]),
-                # 7: coin::zero<DEEP>() -> zero_deep_coin (DeepBook fee rebate input)
-                cmd_move_call("0x2", "coin", "zero", [tag_deep], []),
-                # 8: db::pool::swap_exact_base_for_quote<Base, Quote>(db_pool, swapped_base_coin, zero_deep_coin, min_quote_out, clock) -> (base_out, quote_out, deep_out)
-                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_base_for_quote", [tag_base, tag_quote], [arg_input(0), arg_result(6), arg_result(7), arg_input(8), arg_input(7)]),
-                # 9: coin::destroy_zero<DEEP>(deep_out)
-                cmd_move_call("0x2", "coin", "destroy_zero", [tag_deep], [arg_nested(8, 2)]),
+                # 7: SplitCoins(deep_coin, [deep_fee_amount]) or coin::zero<DEEP>()
+                cmd_deep_prep,
+                # 8: db::pool::swap_exact_base_for_quote<Base, Quote>(db_pool, swapped_base_coin, deep_in, min_quote_out, clock) -> (base_out, quote_out, deep_out)
+                cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "swap_exact_base_for_quote", [tag_base, tag_quote], [arg_input(0), arg_result(6), deep_in_arg, arg_input(8), arg_input(7)]),
+                # 9: coin::join<DEEP>(deep_coin, deep_out) or coin::destroy_zero<DEEP>(deep_out)
+                cmd_deep_cleanup,
                 # 10: SplitCoins(quote_out, [borrow_amount]) -> repay_quote_coin
                 cmd_split_coins(arg_nested(8, 1), [arg_input(1)]),
                 # 11: return_flashloan_quote<Base, Quote>(db_pool, repay_quote_coin, flash_loan_receipt) -> Hot Potato quenched
@@ -1229,6 +1289,8 @@ class SuiGraphQLClient:
             or "0x5621a8e7199680512ee829565b96febea2587e534fd69b33f04004298d7e5ce9"
         )
         self._session: Optional[aiohttp.ClientSession] = None
+        self._fee_params_cache: Dict[str, Dict[str, Any]] = {}
+        self._fee_params_cache_ts: float = 0.0
 
     async def _get_session(self) -> aiohttp.ClientSession:
         if self._session is None or self._session.closed:
@@ -1301,6 +1363,168 @@ class SuiGraphQLClient:
             "usdc_raw": usdc_raw,
             "usdc": usdc_raw / 1e6,
         }
+
+    async def get_deep_coin(self, address: str) -> Optional[Dict[str, Any]]:
+        """Fetches the largest owned Coin<DEEP> object for DEEP fee payment."""
+        query = f"""
+        query GetDeepCoins {{
+          address(address: "{address}") {{
+            objects(first: 10, filter: {{ type: "0x2::coin::Coin<{DEEP_COIN_TYPE}>" }}) {{
+              nodes {{
+                address
+                version
+                digest
+                contents {{
+                  json
+                }}
+              }}
+            }}
+          }}
+        }}
+        """
+        try:
+            res = await self.execute(query)
+        except Exception as e:
+            logger.debug(f"Failed to query Coin<DEEP> objects for {address}: {e}")
+            return None
+
+        if not isinstance(res, dict):
+            return None
+        nodes = (
+            ((res.get("data") or {}).get("address") or {}).get("objects") or {}
+        ).get("nodes") or []
+        best_coin: Optional[Dict[str, Any]] = None
+        total_balance = 0
+        for node in nodes:
+            if not isinstance(node, dict):
+                continue
+            addr = node.get("address")
+            digest = node.get("digest")
+            ver = node.get("version")
+            contents_json = ((node.get("contents") or {}).get("json")) or {}
+            try:
+                bal = int(contents_json.get("balance", 0) or 0)
+            except (TypeError, ValueError):
+                bal = 0
+            if bal <= 0 or not addr or not digest or ver is None:
+                continue
+            total_balance += bal
+            if best_coin is None or bal > best_coin["balance"]:
+                best_coin = {
+                    "address": addr,
+                    "version": int(ver),
+                    "digest": digest,
+                    "balance": bal,
+                }
+        if best_coin is not None:
+            best_coin["total_balance"] = total_balance
+        return best_coin
+
+    @staticmethod
+    def estimate_required_deep_raw(
+        borrow_amount_quote_raw: int,
+        taker_fee_raw: int,
+        deep_per_asset: int,
+        asset_is_base: bool = False,
+        spot_price_quote_per_base: float = 0.0,
+        base_decimals: int = 9,
+        quote_decimals: int = 6,
+        safety_multiplier: float = 1.10,
+    ) -> int:
+        """Estimates raw micro-DEEP (6 decimals) needed to cover DeepBook V3 taker fees with a refund-safe buffer."""
+        if borrow_amount_quote_raw <= 0 or taker_fee_raw <= 0 or deep_per_asset <= 0:
+            return 0
+        if asset_is_base:
+            if spot_price_quote_per_base <= 0:
+                return 0
+            quote_human = float(borrow_amount_quote_raw) / (10 ** quote_decimals)
+            base_raw = (quote_human / spot_price_quote_per_base) * (10 ** base_decimals)
+            asset_fee_raw = (base_raw * float(taker_fee_raw)) / 1_000_000_000.0
+        else:
+            asset_fee_raw = (float(borrow_amount_quote_raw) * float(taker_fee_raw)) / 1_000_000_000.0
+        raw_deep = (asset_fee_raw * float(deep_per_asset)) / 1_000_000_000.0
+        return int(math.ceil(raw_deep * safety_multiplier))
+
+    async def get_live_deepbook_fee_params(
+        self, ttl_seconds: float = 300.0
+    ) -> Dict[str, Dict[str, Any]]:
+        """Queries live DeepBook V3 taker/maker fees, whitelist status, and order_deep_price via a single 0-gas simulateTransaction."""
+        now = time.time()
+        if self._fee_params_cache and (now - self._fee_params_cache_ts) < ttl_seconds:
+            return self._fee_params_cache
+
+        pair_names = list(SUI_PAIRS_CONFIG.keys())
+        try:
+            gas_coin, ref_gas = await self.get_gas_coin_and_price(self.operator_address)
+            inputs: List[bytes] = []
+            commands: List[bytes] = []
+            for idx, pair_name in enumerate(pair_names):
+                cfg = SUI_PAIRS_CONFIG[pair_name]
+                db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
+                inputs.append(bcs_input_shared(cfg.deepbook_pool_id, db_ver, False))
+                t_base = parse_type_tag(cfg.base_coin_type)
+                t_quote = parse_type_tag(cfg.quote_coin_type)
+                pool_arg = arg_input(idx)
+                commands.append(cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "pool_trade_params", [t_base, t_quote], [pool_arg]))
+                commands.append(cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "whitelisted", [t_base, t_quote], [pool_arg]))
+                commands.append(cmd_move_call(DEEPBOOK_V3_LATEST_PKG_ID, "pool", "get_order_deep_price", [t_base, t_quote], [pool_arg]))
+
+            ptb = bytearray(b"\x00\x00") + uleb128(len(inputs))
+            for inp in inputs:
+                ptb += inp
+            ptb += uleb128(len(commands))
+            for cmd in commands:
+                ptb += cmd
+            ptb += bcs_addr(self.operator_address)
+            gd = b58decode(gas_coin["digest"])
+            ptb += uleb128(1) + bcs_addr(gas_coin["address"]) + bcs_u64(int(gas_coin["version"])) + uleb128(len(gd)) + gd
+            ptb += bcs_addr(self.operator_address) + bcs_u64(ref_gas) + bcs_u64(50_000_000) + b"\x00"
+            tx_b64 = base64.b64encode(bytes(ptb)).decode("utf-8")
+
+            query = """
+            query SimLiveFees($bcs: Base64!) {
+              simulateTransaction(transaction: { bcs: { value: $bcs } }) {
+                effects { status }
+                outputs {
+                  returnValues {
+                    value { ... on MoveValue { json } }
+                  }
+                }
+              }
+            }
+            """
+            res = await self.execute(query, {"bcs": tx_b64})
+            sim = (res.get("data") or {}).get("simulateTransaction") or {} if isinstance(res, dict) else {}
+            outputs = sim.get("outputs") or []
+            if len(outputs) != 3 * len(pair_names):
+                return self._fee_params_cache
+
+            parsed: Dict[str, Dict[str, Any]] = {}
+            for idx, pair_name in enumerate(pair_names):
+                rv_trade = outputs[3 * idx].get("returnValues") or []
+                rv_wl = outputs[3 * idx + 1].get("returnValues") or []
+                rv_deep = outputs[3 * idx + 2].get("returnValues") or []
+                taker_raw = int(((rv_trade[0].get("value") or {}).get("json", 0)) or 0) if len(rv_trade) > 0 else 0
+                maker_raw = int(((rv_trade[1].get("value") or {}).get("json", 0)) or 0) if len(rv_trade) > 1 else 0
+                is_wl = bool((rv_wl[0].get("value") or {}).get("json", False)) if rv_wl else False
+                deep_json = ((rv_deep[0].get("value") or {}).get("json")) or {} if rv_deep else {}
+                taker_bps_deep = 0.0 if is_wl else (taker_raw / 100_000.0)
+                taker_bps_no_deep = 0.0 if is_wl else (taker_bps_deep * 1.25)
+                parsed[pair_name] = {
+                    "taker_fee_raw": taker_raw,
+                    "maker_fee_raw": maker_raw,
+                    "whitelisted": is_wl,
+                    "taker_fee_bps_deep": taker_bps_deep,
+                    "taker_fee_bps_no_deep": taker_bps_no_deep,
+                    "asset_is_base": bool(deep_json.get("asset_is_base", False)),
+                    "deep_per_asset": int(deep_json.get("deep_per_asset", 0) or 0),
+                }
+            self._fee_params_cache = parsed
+            self._fee_params_cache_ts = now
+            return parsed
+        except Exception as e:
+            logger.debug(f"Failed to fetch live DeepBook fee params: {e}")
+            return self._fee_params_cache
 
     async def get_cetus_pool_spot_price(
         self, pool_id: str, dec_a: int, dec_b: int
@@ -2311,6 +2535,8 @@ class SuiDeepBookVenue(UnifiedVenue):
                 pair=symbol,
                 route_direction=route_direction,
                 deepbook_ask_px=deepbook_ask_px,
+                deepbook_fee_bps=order_params.get("deepbook_fee_bps"),
+                amm_target=order_params.get("amm_target"),
             )
 
             if sim_result["status"] == "ABORTED":
@@ -2340,32 +2566,91 @@ class SuiDeepBookVenue(UnifiedVenue):
             if live_onchain and can_sign_live:
                 try:
                     gas_coin, ref_gas = await self.graphql_client.get_gas_coin_and_price(self.active_address)
-                    tx_bytes = self.ptb_builder.build_atomic_arb_ptb_bcs(
-                        pair_name=symbol,
-                        borrow_amount=borrow_amount,
-                        sender_address=self.active_address,
-                        gas_coin=gas_coin,
-                        ref_gas_price=ref_gas,
-                        route_direction=route_direction,
+                    enable_tranche_fallback = bool(order_params.get("enable_tranche_fallback", False))
+                    min_borrow_units = int(order_params.get("min_borrow_units", 0) or 0)
+                    deep_coin_param = order_params.get("deep_coin")
+                    deep_coin = (
+                        deep_coin_param
+                        if isinstance(deep_coin_param, dict)
+                        and deep_coin_param.get("address")
+                        and deep_coin_param.get("digest")
+                        else None
                     )
-                    # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
-                    sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
-                    sim_effects = (
-                        sim_resp.get("data", {})
-                        .get("simulateTransaction", {})
-                        .get("effects", {})
-                        or {}
-                    )
-                    sim_status = sim_effects.get("status")
-                    if sim_status != "SUCCESS":
-                        err_msg = (
+                    base_deep_fee = int(order_params.get("deep_fee_amount", 0) or 0) if deep_coin else 0
+
+                    scales = (1.0, 0.5, 0.25) if enable_tranche_fallback else (1.0,)
+                    candidate_amounts: List[int] = []
+                    for idx, scale in enumerate(scales):
+                        scaled = int(borrow_amount * scale)
+                        if scaled <= 0:
+                            continue
+                        if idx > 0 and min_borrow_units > 0 and scaled < min_borrow_units:
+                            continue
+                        if scaled not in candidate_amounts:
+                            candidate_amounts.append(scaled)
+                    if not candidate_amounts and borrow_amount > 0:
+                        candidate_amounts = [borrow_amount]
+
+                    effective_tx_bytes: Optional[bytes] = None
+                    effective_borrow = borrow_amount
+                    last_err_msg = "Move VM aborted"
+
+                    for attempt_idx, attempt_borrow in enumerate(candidate_amounts):
+                        attempt_deep_fee = (
+                            int(math.ceil(base_deep_fee * (attempt_borrow / float(borrow_amount))))
+                            if deep_coin and base_deep_fee > 0 and borrow_amount > 0
+                            else 0
+                        )
+                        if (
+                            deep_coin
+                            and attempt_deep_fee > 0
+                            and int(deep_coin.get("balance", 0) or 0) >= attempt_deep_fee
+                        ):
+                            attempt_deep_coin = deep_coin
+                        else:
+                            attempt_deep_coin = None
+                            attempt_deep_fee = 0
+
+                        tx_bytes = self.ptb_builder.build_atomic_arb_ptb_bcs(
+                            pair_name=symbol,
+                            borrow_amount=attempt_borrow,
+                            sender_address=self.active_address,
+                            gas_coin=gas_coin,
+                            ref_gas_price=ref_gas,
+                            route_direction=route_direction,
+                            deep_coin=attempt_deep_coin,
+                            deep_fee_amount=attempt_deep_fee,
+                        )
+                        # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
+                        sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
+                        sim_effects = (
+                            sim_resp.get("data", {})
+                            .get("simulateTransaction", {})
+                            .get("effects", {})
+                            or {}
+                        )
+                        sim_status = sim_effects.get("status")
+                        if sim_status == "SUCCESS":
+                            effective_tx_bytes = tx_bytes
+                            effective_borrow = attempt_borrow
+                            if attempt_idx > 0:
+                                logger.info(
+                                    f"Multi-tranche simulation succeeded for {symbol}: "
+                                    f"borrow_amount={attempt_borrow} (shrunk from {borrow_amount})"
+                                )
+                            break
+
+                        last_err_msg = (
                             sim_effects.get("executionError", {}).get("message")
                             if sim_effects.get("executionError")
                             else "Move VM aborted"
                         )
                         logger.warning(
-                            f"Live Move VM simulateTransaction aborted for {symbol} (0 gas cost): {err_msg}"
+                            f"Live Move VM simulateTransaction aborted for {symbol} "
+                            f"(borrow_amount={attempt_borrow}, 0 gas cost): {last_err_msg}"
                         )
+
+                    if effective_tx_bytes is None:
                         return OrderExecutionResult(
                             venue=self.name,
                             order_id=f"PTB-SIM-REVERT-{uuid4().hex[:8]}",
@@ -2382,8 +2667,8 @@ class SuiDeepBookVenue(UnifiedVenue):
                         )
 
                     # 2. Simulate succeeded! Sign with SUI_PRIVATE_KEY and broadcast executeTransaction
-                    sig_b64 = self.ptb_builder.sign_transaction_bcs(tx_bytes, self.private_key)
-                    exec_resp = await self.graphql_client.execute_transaction_bcs(tx_bytes, [sig_b64])
+                    sig_b64 = self.ptb_builder.sign_transaction_bcs(effective_tx_bytes, self.private_key)
+                    exec_resp = await self.graphql_client.execute_transaction_bcs(effective_tx_bytes, [sig_b64])
                     exec_effects = (
                         exec_resp.get("data", {})
                         .get("executeTransaction", {})
@@ -2393,6 +2678,11 @@ class SuiDeepBookVenue(UnifiedVenue):
                     digest = exec_effects.get("digest") or f"PTB-EXEC-{uuid4().hex[:8]}"
                     exec_status = exec_effects.get("status")
                     is_filled = exec_status == "SUCCESS"
+                    executed_size = (
+                        size * (effective_borrow / float(borrow_amount))
+                        if borrow_amount > 0 and effective_borrow != borrow_amount
+                        else size
+                    )
                     logger.info(
                         f"Live Sui Mainnet PTB broadcast completed for {symbol}: "
                         f"status={exec_status}, digest={digest}"
@@ -2403,7 +2693,7 @@ class SuiDeepBookVenue(UnifiedVenue):
                         symbol=symbol,
                         side=side,
                         price=price,
-                        size=size,
+                        size=executed_size,
                         fee_bps=0.0,
                         rebate_bps=0.0,
                         is_maker=False,
