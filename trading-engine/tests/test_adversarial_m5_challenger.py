@@ -475,7 +475,13 @@ class TestRunbookIntegrityAdversarial:
     async def test_health_server_schema_matches_runbook(self) -> None:
         """Verifies that GET /health output adheres strictly to runbook JSON schema."""
         test_port = 18992
-        server = SuiHealthServer(host="127.0.0.1", port=test_port)
+        server = SuiHealthServer(
+            host="127.0.0.1",
+            port=test_port,
+            sui_gas_balance=3.5,
+            usdc_balance=0.0,
+            deep_balance=100.0,
+        )
         await server.start()
 
         try:

@@ -156,6 +156,8 @@ class PreflightHealthReport:
     all_checks_passed: bool
     timestamp: float = field(default_factory=time.time)
     error_message: Optional[str] = None
+    deep_balance: float = 0.0
+    deep_raw: int = 0
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -309,7 +311,7 @@ class SuiPTBPreflightValidator:
         """Performs comprehensive pre-flight healthcheck:
 
         1. Tests GraphQL RPC connectivity.
-        2. Verifies operator wallet (0x5621a8e7...) has >= 0.5 SUI gas reserve (reporting actual 5.419 SUI balance).
+        2. Verifies operator wallet (0x5621a8e7...) has >= 0.5 SUI gas reserve against live balance.
         3. Verifies pool object accessibility for all 4 pairs (SUI/USDC, DEEP/SUI, DEEP/USDC, CETUS/SUI).
         4. Checks BalanceManager configuration.
         """
@@ -318,6 +320,8 @@ class SuiPTBPreflightValidator:
         sui_balance = 0.0
         usdc_raw = 0
         usdc_balance = 0.0
+        deep_raw = 0
+        deep_balance = 0.0
         error_msg = None
         pools_result: Dict[str, Dict[str, Any]] = {}
         all_pools_accessible = True
@@ -325,10 +329,19 @@ class SuiPTBPreflightValidator:
         # 1. RPC & Wallet Balance Query
         if mock_data is not None:
             rpc_connected = bool(mock_data.get("rpc_connected", True))
-            sui_mist = int(mock_data.get("sui_mist", 5_419_245_048))
-            sui_balance = float(mock_data.get("sui_balance", sui_mist / 1e9))
+            if "sui_mist" in mock_data:
+                sui_mist = int(mock_data["sui_mist"])
+                sui_balance = float(mock_data.get("sui_balance", sui_mist / 1e9))
+            elif "sui_balance" in mock_data:
+                sui_balance = float(mock_data["sui_balance"])
+                sui_mist = int(round(sui_balance * 1e9))
+            else:
+                sui_mist = 0
+                sui_balance = 0.0
             usdc_raw = int(mock_data.get("usdc_raw", 0))
             usdc_balance = float(mock_data.get("usdc_balance", usdc_raw / 1e6))
+            deep_raw = int(mock_data.get("deep_raw", 0))
+            deep_balance = float(mock_data.get("deep_balance", deep_raw / 1e6))
             if "pools" in mock_data:
                 pools_result = mock_data["pools"]
                 all_pools_accessible = all(p.get("accessible", False) for p in pools_result.values())
@@ -347,6 +360,8 @@ class SuiPTBPreflightValidator:
                 sui_balance = float(wallet_data.get("sui", sui_mist / 1e9))
                 usdc_raw = int(wallet_data.get("usdc_raw", 0))
                 usdc_balance = float(wallet_data.get("usdc", usdc_raw / 1e6))
+                deep_raw = int(wallet_data.get("deep_raw", 0))
+                deep_balance = float(wallet_data.get("deep", deep_raw / 1e6))
                 rpc_connected = True
 
                 # Query snapshot of all configured DeepBook and Cetus pools
@@ -423,6 +438,8 @@ class SuiPTBPreflightValidator:
             sui_mist=sui_mist,
             usdc_balance=usdc_balance,
             usdc_raw=usdc_raw,
+            deep_balance=deep_balance,
+            deep_raw=deep_raw,
             gas_reserve_sufficient=gas_sufficient,
             gas_reserve_healthy=gas_healthy,
             gas_status=gas_status,

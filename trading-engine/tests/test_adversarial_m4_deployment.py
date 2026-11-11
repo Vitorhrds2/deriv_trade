@@ -53,7 +53,6 @@ from venues.sui_health_server import (
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_REGION,
-    DEFAULT_VERIFIED_SUI_BALANCE,
     SuiHealthServer,
 )
 from venues.sui_bot_runner import SuiBotConfig, SuiBotRunner
@@ -86,7 +85,7 @@ class TestBurstHTTPStress:
         - Zero latency spikes (all complete in < 500ms under 100-request simultaneous queue).
         """
         test_port = 19101
-        server = SuiHealthServer(host="127.0.0.1", port=test_port)
+        server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
         await server.start()
 
         try:
@@ -294,7 +293,7 @@ class TestMalformedHTTPAndInvalidPaths:
     async def test_adversarial_unexpected_and_oversized_headers(self) -> None:
         """Tests server handling of corrupt, oversized, or malicious header values."""
         test_port = 19107
-        server = SuiHealthServer(host="127.0.0.1", port=test_port)
+        server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
         await server.start()
 
         try:
@@ -321,7 +320,7 @@ class TestMalformedHTTPAndInvalidPaths:
     async def test_adversarial_unexpected_body_in_get_request(self) -> None:
         """Tests server handling of GET requests containing unexpected body payloads."""
         test_port = 19108
-        server = SuiHealthServer(host="127.0.0.1", port=test_port)
+        server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
         await server.start()
 
         try:
@@ -342,7 +341,7 @@ class TestMalformedHTTPAndInvalidPaths:
     async def test_adversarial_server_health_recovery_after_abuse(self) -> None:
         """Verifies that server remains healthy and operational after receiving abusive traffic."""
         test_port = 19109
-        server = SuiHealthServer(host="127.0.0.1", port=test_port)
+        server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
         await server.start()
 
         try:

@@ -44,7 +44,6 @@ from venues.sui_health_server import (
     DEFAULT_HOST,
     DEFAULT_PORT,
     DEFAULT_REGION,
-    DEFAULT_VERIFIED_SUI_BALANCE,
     SuiHealthServer,
 )
 from venues.sui_bot_runner import SuiBotConfig, SuiBotRunner
@@ -65,9 +64,15 @@ from venues.sui_scaling_engine import (
 
 @pytest.mark.asyncio
 async def test_health_server_schema_healthy() -> None:
-    """Verifies that GET /health returns 200 OK and conforms to M4 JSON schema."""
+    """Verifies that GET /health returns 200 OK and conforms to JSON schema with synced balances."""
     test_port = 18081
-    server = SuiHealthServer(host="127.0.0.1", port=test_port)
+    server = SuiHealthServer(
+        host="127.0.0.1",
+        port=test_port,
+        sui_gas_balance=3.5,
+        usdc_balance=12.3456,
+        deep_balance=119.1576,
+    )
     await server.start()
 
     try:
@@ -77,7 +82,7 @@ async def test_health_server_schema_healthy() -> None:
                 assert resp.status == 200
                 data = await resp.json()
 
-                # Verify all required fields from M4 specification
+                # Verify all required fields
                 assert data["status"] == "HEALTHY"
                 assert isinstance(data["uptime_seconds"], (int, float))
                 assert data["uptime_seconds"] >= 0.0
@@ -85,7 +90,12 @@ async def test_health_server_schema_healthy() -> None:
                 assert data["current_tier"] == "TIER_1"
                 assert data["borrow_amount_usdc"] == 1_000_000_000
                 assert isinstance(data["sui_gas_balance"], (int, float))
-                assert data["sui_gas_balance"] == pytest.approx(DEFAULT_VERIFIED_SUI_BALANCE, abs=0.01)
+                assert data["sui_gas_balance"] == pytest.approx(3.5, abs=0.01)
+                assert data["usdc_balance"] == pytest.approx(12.3456, abs=0.0001)
+                assert data["deep_balance"] == pytest.approx(119.1576, abs=0.0001)
+                assert data["balances_synced"] is True
+                assert data["balances_source"] == "manual"
+                assert isinstance(data["balances_updated_at"], (int, float))
                 assert data["active_pairs"] == list(ACTIVE_PAIRS)
                 assert data["region"] == "europe-west3"
                 assert data["consecutive_aborts"] == 0
@@ -99,7 +109,7 @@ async def test_health_server_schema_healthy() -> None:
 async def test_health_server_latency_under_50ms() -> None:
     """Verifies that GET /health responds within acceptable latency (< 50ms)."""
     test_port = 18082
-    server = SuiHealthServer(host="127.0.0.1", port=test_port)
+    server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
     await server.start()
 
     try:
@@ -121,6 +131,7 @@ async def test_health_server_degraded_state_handling() -> None:
     """Verifies that gas balance < 1.5 SUI or 3 aborts transitions status to DEGRADED."""
     test_port = 18083
     engine = DynamicCapitalScalingEngine()
+    engine.update_from_wallet_balances(usdc_balance=0.0, sui_balance=3.5)
     server = SuiHealthServer(host="127.0.0.1", port=test_port, scaling_engine=engine)
     await server.start()
 
@@ -241,7 +252,7 @@ async def test_health_server_dynamic_scaling_tier_reflection() -> None:
 async def test_health_server_root_and_live_endpoints() -> None:
     """Verifies that GET / and GET /live return valid payloads."""
     test_port = 18086
-    server = SuiHealthServer(host="127.0.0.1", port=test_port)
+    server = SuiHealthServer(host="127.0.0.1", port=test_port, sui_gas_balance=3.5)
     await server.start()
 
     try:
@@ -569,3 +580,191 @@ def test_dockerfile_hardened_specifications() -> None:
     # 6. Healthcheck definition
     assert "HEALTHCHECK" in content, "Must define container HEALTHCHECK"
     assert "/health" in content, "Healthcheck must probe /health endpoint"
+
+
+# ==============================================================================
+# 4. Live Balance Sync & Zero-Hardcoding Regression Tests
+# ==============================================================================
+
+@pytest.mark.asyncio
+async def test_health_server_uninitialized_has_no_hardcoded_fallback() -> None:
+    """Uninitialized /health must report None balances and DEGRADED status, never hardcoded SUI."""
+    test_port = 18091
+    server = SuiHealthServer(host="127.0.0.1", port=test_port)
+    await server.start()
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f"http://127.0.0.1:{test_port}/health") as resp:
+                assert resp.status == 200
+                data = await resp.json()
+                assert data["status"] == "DEGRADED"
+                assert data["sui_gas_balance"] is None
+                assert data["usdc_balance"] is None
+                assert data["deep_balance"] is None
+                assert data["balances_synced"] is False
+                assert data["balances_source"] == "uninitialized"
+                assert data["balances_updated_at"] is None
+    finally:
+        await server.stop()
+
+
+@pytest.mark.asyncio
+async def test_health_server_synced_zero_sui_is_critical_not_fallback() -> None:
+    """Synced 0.0 SUI balance must lock trading and report CRITICAL without falling back."""
+    test_port = 18092
+    engine = DynamicCapitalScalingEngine()
+    engine.update_from_wallet_balances(usdc_balance=0.0, sui_balance=0.0, deep_balance=119.1576)
+    assert engine.can_trade() is False
+    assert engine.status == STATUS_EMERGENCY_LOCKED
+
+    server = SuiHealthServer(host="127.0.0.1", port=test_port, scaling_engine=engine)
+    await server.start()
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f"http://127.0.0.1:{test_port}/health") as resp:
+                assert resp.status == 200
+                data = await resp.json()
+                assert data["status"] == "CRITICAL"
+                assert data["sui_gas_balance"] == 0.0
+                assert data["usdc_balance"] == 0.0
+                assert data["deep_balance"] == pytest.approx(119.1576, abs=0.0001)
+                assert data["balances_synced"] is True
+    finally:
+        await server.stop()
+
+
+@pytest.mark.asyncio
+async def test_health_server_on_demand_refresh_endpoint() -> None:
+    """GET /health?refresh=1 triggers balance_refresher while plain GET /health stays in-memory."""
+    test_port = 18093
+    mock_refresher = AsyncMock(
+        return_value={
+            "sui": 3.4158,
+            "usdc": 0.0,
+            "deep": 119.1576,
+            "source": "onchain_graphql_refresh",
+        }
+    )
+    server = SuiHealthServer(host="127.0.0.1", port=test_port, balance_refresher=mock_refresher)
+    await server.start()
+
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(f"http://127.0.0.1:{test_port}/health") as resp:
+                data = await resp.json()
+                assert data["status"] == "DEGRADED"
+                assert data["balances_synced"] is False
+                assert mock_refresher.call_count == 0
+
+            async with session.get(f"http://127.0.0.1:{test_port}/health?refresh=1") as resp:
+                data = await resp.json()
+                assert data["status"] == "HEALTHY"
+                assert data["sui_gas_balance"] == pytest.approx(3.4158, abs=0.0001)
+                assert data["usdc_balance"] == 0.0
+                assert data["deep_balance"] == pytest.approx(119.1576, abs=0.0001)
+                assert data["balances_synced"] is True
+                assert data["balances_source"] == "onchain_graphql_refresh"
+                assert mock_refresher.call_count == 1
+
+            async with session.get(f"http://127.0.0.1:{test_port}/health") as resp:
+                data = await resp.json()
+                assert data["status"] == "HEALTHY"
+                assert data["sui_gas_balance"] == pytest.approx(3.4158, abs=0.0001)
+                assert mock_refresher.call_count == 1
+    finally:
+        await server.stop()
+
+
+@pytest.mark.asyncio
+async def test_bot_runner_live_balance_sync_preserves_usdc_and_deep() -> None:
+    """Periodic runner sync propagates SUI/USDC/DEEP to /health and update_gas_balance preserves them."""
+    runner = SuiBotRunner(config=SuiBotConfig(port=18094))
+    runner.validator.graphql_client.operator_address = "0x5621a8e7"
+
+    try:
+        with patch.object(
+            runner.validator.graphql_client,
+            "get_live_deepbook_fee_params",
+            new_callable=AsyncMock,
+            return_value={},
+        ), patch.object(
+            runner.validator.graphql_client,
+            "get_deep_coin",
+            new_callable=AsyncMock,
+            return_value=None,
+        ), patch.object(
+            runner.validator.graphql_client,
+            "get_wallet_balances",
+            new_callable=AsyncMock,
+            return_value={
+                "sui_mist": 3_415_753_299,
+                "sui": 3.415753299,
+                "usdc_raw": 25_500_000,
+                "usdc": 25.5,
+                "deep_raw": 119_157_562,
+                "deep": 119.157562,
+            },
+        ):
+            await runner._refresh_live_fee_and_deep_context({"SUI/USDC": {"source": "live_graphql"}})
+
+        health = runner.health_server.get_health_data()
+        assert health["status"] == "HEALTHY"
+        assert health["sui_gas_balance"] == pytest.approx(3.4158, abs=0.0001)
+        assert health["usdc_balance"] == pytest.approx(25.5, abs=0.0001)
+        assert health["deep_balance"] == pytest.approx(119.1576, abs=0.0001)
+        assert health["balances_synced"] is True
+        assert health["balances_source"] == "onchain_graphql_periodic"
+
+        # update_gas_balance must NOT overwrite tracked USDC/DEEP with hardcoded 0.0
+        runner.update_gas_balance(2.9)
+        updated_health = runner.health_server.get_health_data()
+        assert updated_health["sui_gas_balance"] == pytest.approx(2.9, abs=0.0001)
+        assert updated_health["usdc_balance"] == pytest.approx(25.5, abs=0.0001)
+        assert updated_health["deep_balance"] == pytest.approx(119.1576, abs=0.0001)
+    finally:
+        await runner.stop()
+
+
+@pytest.mark.asyncio
+async def test_graphql_client_get_wallet_balances_includes_deep() -> None:
+    """SuiGraphQLClient.get_wallet_balances retrieves atomic SUI, USDC, and DEEP in one query."""
+    from venues.sui_deepbook_venue import SuiGraphQLClient
+
+    mock_app = aiohttp.web.Application()
+
+    async def handle_gql(request: aiohttp.web.Request) -> aiohttp.web.Response:
+        return aiohttp.web.json_response(
+            {
+                "data": {
+                    "address": {
+                        "sui": {"totalBalance": "3415753299"},
+                        "usdc": {"totalBalance": "1250000"},
+                        "deep": {"totalBalance": "119157562"},
+                    }
+                }
+            }
+        )
+
+    mock_app.router.add_post("/graphql", handle_gql)
+    app_runner = aiohttp.web.AppRunner(mock_app)
+    await app_runner.setup()
+    site = aiohttp.web.TCPSite(app_runner, "127.0.0.1", 0)
+    await site.start()
+    port = site._server.sockets[0].getsockname()[1]
+
+    client = SuiGraphQLClient(endpoint=f"http://127.0.0.1:{port}/graphql")
+    try:
+        balances = await client.get_wallet_balances("0x5621a8e7")
+        assert balances == {
+            "sui_mist": 3_415_753_299,
+            "sui": pytest.approx(3.415753299, abs=1e-9),
+            "usdc_raw": 1_250_000,
+            "usdc": pytest.approx(1.25, abs=1e-6),
+            "deep_raw": 119_157_562,
+            "deep": pytest.approx(119.157562, abs=1e-6),
+        }
+    finally:
+        await client.close()
+        await app_runner.cleanup()

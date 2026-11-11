@@ -257,7 +257,10 @@ class SuiBotRunner:
             port=self.config.port,
             region=self.config.region,
             scaling_engine=self.scaling_engine,
+            balance_refresher=self.refresh_wallet_balances,
         )
+        if health_server is not None and hasattr(self.health_server, "set_balance_refresher"):
+            self.health_server.set_balance_refresher(self.refresh_wallet_balances)
 
         # Propagate private key to venue for live on-chain execution if available
         if self.config.sui_private_key and not getattr(self.validator.venue, "private_key", None):
@@ -275,6 +278,8 @@ class SuiBotRunner:
         self._last_deep_check_ts: float = 0.0
         self._cached_live_fees: Dict[str, Dict[str, Any]] = {}
         self._last_fee_check_ts: float = 0.0
+        self._last_wallet_balance_check_ts: float = 0.0
+        self._wallet_balance_refresh_interval: float = 15.0
 
     def setup_signal_handlers(self) -> None:
         """Installs SIGINT and SIGTERM handlers for graceful shutdown."""
@@ -291,10 +296,83 @@ class SuiBotRunner:
         logger.info(f"Received termination signal {sig_name}. Initiating graceful shutdown...")
         self.shutdown_event.set()
 
+    def update_wallet_balances(
+        self,
+        sui_balance: float,
+        usdc_balance: Optional[float] = None,
+        deep_balance: Optional[float] = None,
+        source: str = "onchain_graphql",
+    ) -> None:
+        """Updates live SUI, USDC, and DEEP balances across scaling engine and health server."""
+        effective_usdc = (
+            float(usdc_balance)
+            if usdc_balance is not None
+            else float(getattr(self.scaling_engine.state, "usdc_balance", 0.0))
+        )
+        effective_deep = (
+            float(deep_balance)
+            if deep_balance is not None
+            else (
+                float(self.scaling_engine.state.deep_balance)
+                if getattr(self.scaling_engine.state, "balances_synced", False)
+                else None
+            )
+        )
+        self.scaling_engine.update_from_wallet_balances(
+            usdc_balance=effective_usdc,
+            sui_balance=float(sui_balance),
+            deep_balance=effective_deep,
+        )
+        self.health_server.update_wallet_balances(
+            sui_balance=float(sui_balance),
+            usdc_balance=effective_usdc,
+            deep_balance=effective_deep,
+            source=source,
+            updated_at=self.scaling_engine.state.balances_updated_at,
+        )
+
     def update_gas_balance(self, sui_balance: float) -> None:
-        """Updates gas balance across engine and health server."""
-        self.scaling_engine.update_from_wallet_balances(usdc_balance=0.0, sui_balance=sui_balance)
-        self.health_server.set_gas_balance(sui_balance)
+        """Updates gas balance across engine and health server while preserving known token balances."""
+        self.update_wallet_balances(sui_balance=float(sui_balance), source="manual")
+
+    async def refresh_wallet_balances(self, source: str = "onchain_graphql") -> Optional[Dict[str, Any]]:
+        """Fetches live on-chain SUI, USDC, and DEEP balances and syncs engine + /health."""
+        graphql_client = getattr(self.validator, "graphql_client", None)
+        if graphql_client is None:
+            return None
+        venue = getattr(self.validator, "venue", None)
+        op_addr = getattr(venue, "active_address", None) or getattr(
+            graphql_client, "operator_address", ""
+        )
+        if not op_addr:
+            return None
+        balances = await graphql_client.get_wallet_balances(op_addr)
+        if not isinstance(balances, dict):
+            return None
+        if "sui" not in balances and "sui_mist" not in balances and "usdc" not in balances and "deep" not in balances:
+            return None
+
+        sui_bal = float(balances.get("sui", int(balances.get("sui_mist", 0) or 0) / 1e9))
+        usdc_bal = float(balances.get("usdc", int(balances.get("usdc_raw", 0) or 0) / 1e6))
+        deep_bal: Optional[float] = None
+        if "deep" in balances or "deep_raw" in balances:
+            deep_bal = float(balances.get("deep", int(balances.get("deep_raw", 0) or 0) / 1e6))
+        elif isinstance(self._cached_deep_coin, dict) and self._cached_deep_coin.get("balance") is not None:
+            deep_bal = int(self._cached_deep_coin.get("balance", 0) or 0) / 1e6
+
+        self.update_wallet_balances(
+            sui_balance=sui_bal,
+            usdc_balance=usdc_bal,
+            deep_balance=deep_bal,
+            source=source,
+        )
+        self._last_wallet_balance_check_ts = time.time()
+        return {
+            "sui": sui_bal,
+            "usdc": usdc_bal,
+            "deep": deep_bal,
+            "source": source,
+        }
 
     async def run_preflight(self, mock_data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """Executes pre-flight healthcheck validating GraphQL RPC and wallet gas runway."""
@@ -302,18 +380,45 @@ class SuiBotRunner:
         report = await self.validator.validate_preflight_health(mock_data=mock_data)
         self.latest_preflight_report = report
 
-        sui_balance = float(report.get("sui_balance", 0.0) if isinstance(report, dict) else getattr(report, "sui_balance", 0.0))
-        status = report.get("status") if isinstance(report, dict) else getattr(report, "status", "UNKNOWN")
-        pools_ok = report.get("all_pools_accessible") if isinstance(report, dict) else getattr(report, "all_pools_accessible", False)
-        gas_status = report.get("gas_status") if isinstance(report, dict) else getattr(report, "gas_status", "UNKNOWN")
+        def _rep_val(key: str, default: Any = None) -> Any:
+            return report.get(key, default) if isinstance(report, dict) else getattr(report, key, default)
 
-        # Update scaling engine gas balance from preflight check
-        if sui_balance > 0:
-            self.update_gas_balance(sui_balance)
+        sui_balance = float(_rep_val("sui_balance", 0.0))
+        usdc_balance = float(_rep_val("usdc_balance", 0.0))
+        deep_raw = _rep_val("deep_raw", None)
+        deep_bal_val = _rep_val("deep_balance", None)
+        deep_balance: Optional[float] = (
+            float(deep_bal_val)
+            if deep_bal_val is not None
+            else (int(deep_raw) / 1e6 if deep_raw is not None else None)
+        )
+        rpc_connected = bool(_rep_val("rpc_connected", False))
+        status = _rep_val("status", "UNKNOWN")
+        pools_ok = _rep_val("all_pools_accessible", False)
+        gas_status = _rep_val("gas_status", "UNKNOWN")
+
+        if mock_data is not None:
+            if deep_balance is None and ("deep" in mock_data or "deep_raw" in mock_data):
+                deep_balance = float(mock_data.get("deep", int(mock_data.get("deep_raw", 0) or 0) / 1e6))
+            balance_source = "preflight_mock"
+        else:
+            balance_source = "preflight_onchain"
+
+        # Update scaling engine & /health balances whenever RPC succeeded or mock_data was provided (even 0.0 SUI)
+        if rpc_connected or mock_data is not None:
+            self.update_wallet_balances(
+                sui_balance=sui_balance,
+                usdc_balance=usdc_balance,
+                deep_balance=deep_balance,
+                source=balance_source,
+            )
+            self._last_wallet_balance_check_ts = time.time()
 
         logger.info(
             f"Pre-flight health result: status={status}, "
             f"SUI balance={sui_balance:.4f} SUI, "
+            f"USDC balance={usdc_balance:.4f} USDC, "
+            f"DEEP balance={(f'{deep_balance:.4f}' if deep_balance is not None else 'n/a')} DEEP, "
             f"all_pools_accessible={pools_ok}, "
             f"gas_status={gas_status}"
         )
@@ -407,6 +512,12 @@ class SuiBotRunner:
                 self._last_deep_check_ts = now_ts
             except Exception as e:
                 logger.debug(f"Coin<DEEP> balance check failed: {e}")
+
+        if (now_ts - self._last_wallet_balance_check_ts) >= self._wallet_balance_refresh_interval:
+            try:
+                await self.refresh_wallet_balances(source="onchain_graphql_periodic")
+            except Exception as e:
+                logger.debug(f"Live wallet balance refresh failed: {e}")
 
         live_fees = self._cached_live_fees if isinstance(self._cached_live_fees, dict) else {}
         return live_fees, self._cached_deep_coin
@@ -888,10 +999,12 @@ class SuiBotRunner:
                             ),
                         }
                         exec_res = await self.validator.venue.submit_order(order_params)
-                        if order_params.get("live_onchain") and order_params.get("deep_coin") is not None and (
+                        if order_params.get("live_onchain") and (
                             exec_res.status == "FILLED" or not exec_res.order_id.startswith("PTB-SIM-REVERT")
                         ):
-                            self._last_deep_check_ts = 0.0
+                            if order_params.get("deep_coin") is not None:
+                                self._last_deep_check_ts = 0.0
+                            self._last_wallet_balance_check_ts = 0.0
                         if exec_res.status == "FILLED":
                             opp["execution_status"] = "EXECUTED"
                             pair_results_map[pair_name]["execution_status"] = "EXECUTED"

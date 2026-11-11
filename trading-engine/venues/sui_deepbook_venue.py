@@ -1570,24 +1570,28 @@ class SuiGraphQLClient:
             raise last_error
 
     async def get_wallet_balances(self, address: str) -> Dict[str, Any]:
-        """Queries atomic SUI and native USDC balances for an address."""
-        query = """
-        query GetBalances($address: SuiAddress!) {
-          address(address: $address) {
-            sui: balance(coinType: "0x2::sui::SUI") { totalBalance }
-            usdc: balance(coinType: "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC") { totalBalance }
-          }
-        }
+        """Queries atomic SUI, native USDC, and DEEP balances for an address."""
+        query = f"""
+        query GetBalances($address: SuiAddress!) {{
+          address(address: $address) {{
+            sui: balance(coinType: "0x2::sui::SUI") {{ totalBalance }}
+            usdc: balance(coinType: "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC") {{ totalBalance }}
+            deep: balance(coinType: "{DEEP_COIN_TYPE}") {{ totalBalance }}
+          }}
+        }}
         """
         res = await self.execute(query, {"address": address})
         addr_data = res.get("data", {}).get("address", {}) or {}
         sui_raw = int(addr_data.get("sui", {}).get("totalBalance", 0) or 0)
         usdc_raw = int(addr_data.get("usdc", {}).get("totalBalance", 0) or 0)
+        deep_raw = int((addr_data.get("deep") or {}).get("totalBalance", 0) or 0)
         return {
             "sui_mist": sui_raw,
             "sui": sui_raw / 1e9,
             "usdc_raw": usdc_raw,
             "usdc": usdc_raw / 1e6,
+            "deep_raw": deep_raw,
+            "deep": deep_raw / 1e6,
         }
 
     async def get_deep_coin(self, address: str) -> Optional[Dict[str, Any]]:

@@ -299,6 +299,10 @@ class ScalingState:
     successful_trades: int = 0
     consecutive_aborts: int = 0
     sui_gas_balance: float = 0.0
+    usdc_balance: float = 0.0
+    deep_balance: float = 0.0
+    balances_synced: bool = False
+    balances_updated_at: Optional[float] = None
     status: str = STATUS_ACTIVE  # "ACTIVE" | "COOLING_DOWN" | "EMERGENCY_LOCKED"
     cooldown_until: float = 0.0
     gas_warning: bool = False
@@ -311,12 +315,14 @@ class ScalingState:
 
 @dataclass
 class WalletBalanceSnapshot:
-    """Atomic snapshot of SUI and USDC balances retrieved from on-chain GraphQL."""
+    """Atomic snapshot of SUI, USDC, and DEEP balances retrieved from on-chain GraphQL."""
 
     sui_mist: int
     sui_balance: float  # SUI float (sui_mist / 1e9)
     usdc_raw: int
     usdc_balance: float  # USDC float (usdc_raw / 1e6)
+    deep_raw: int = 0
+    deep_balance: float = 0.0
     timestamp: float = field(default_factory=time.time)
     is_gas_warning: bool = False
     is_gas_critical: bool = False
@@ -422,7 +428,7 @@ class DynamicCapitalScalingEngine:
         if self.state.status == STATUS_COOLING_DOWN:
             if time.time() >= self.state.cooldown_until:
                 if (
-                    self.state.sui_gas_balance > 0
+                    (self.state.balances_synced or self.state.sui_gas_balance > 0)
                     and self.state.sui_gas_balance < self.critical_gas_floor
                 ):
                     self.state.status = STATUS_EMERGENCY_LOCKED
@@ -436,7 +442,7 @@ class DynamicCapitalScalingEngine:
         if self.state.status != STATUS_ACTIVE:
             return False
         if (
-            self.state.sui_gas_balance > 0
+            (self.state.balances_synced or self.state.sui_gas_balance > 0)
             and self.state.sui_gas_balance < self.critical_gas_floor
         ):
             self.state.status = STATUS_EMERGENCY_LOCKED
@@ -526,10 +532,18 @@ class DynamicCapitalScalingEngine:
                 )
 
     def update_from_wallet_balances(
-        self, usdc_balance: float, sui_balance: float
+        self,
+        usdc_balance: float,
+        sui_balance: float,
+        deep_balance: Optional[float] = None,
     ) -> None:
-        """Updates gas balance, checks safety floors, and reconciles USDC profit from wallet."""
+        """Updates gas, USDC, and DEEP balances, checks safety floors, and reconciles USDC profit."""
         self.state.sui_gas_balance = float(sui_balance)
+        self.state.usdc_balance = float(usdc_balance)
+        if deep_balance is not None:
+            self.state.deep_balance = float(deep_balance)
+        self.state.balances_synced = True
+        self.state.balances_updated_at = time.time()
 
         # 1. Evaluate Gas Safety Floors
         if sui_balance < self.critical_gas_floor:

@@ -455,17 +455,17 @@ class TestSuiM1ChallengerStructuralInvariantsAndResilience:
         # 1. Uninitialized wallet (address is None) -> clean 0 balances
         curr_idx = 0
         b1 = await client.get_wallet_balances("0x123")
-        assert b1 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0}
+        assert b1 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0, "deep_raw": 0, "deep": 0.0}
 
         # 2. Empty data dictionary -> clean 0 balances
         curr_idx = 1
         b2 = await client.get_wallet_balances("0x123")
-        assert b2 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0}
+        assert b2 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0, "deep_raw": 0, "deep": 0.0}
 
         # 3. Explicit zero balance strings -> clean 0 balances
         curr_idx = 2
         b3 = await client.get_wallet_balances("0x123")
-        assert b3 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0}
+        assert b3 == {"sui_mist": 0, "sui": 0.0, "usdc_raw": 0, "usdc": 0.0, "deep_raw": 0, "deep": 0.0}
 
         await client.close()
         await runner.cleanup()
