@@ -46,6 +46,7 @@ try:
     from .sui_deepbook_venue import (
         CIRCLE_USDC_TYPE,
         DEFAULT_DEEPBOOK_VAULT_BALANCES,
+        DEFAULT_PAIR_SPOT_PRICES,
         SUI_COIN_TYPE,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
@@ -54,6 +55,7 @@ except ImportError:
     from venues.sui_deepbook_venue import (
         CIRCLE_USDC_TYPE,
         DEFAULT_DEEPBOOK_VAULT_BALANCES,
+        DEFAULT_PAIR_SPOT_PRICES,
         SUI_COIN_TYPE,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
@@ -80,60 +82,88 @@ OPERATOR_WALLET_ADDRESS: str = (
 
 # Default Per-Pair Maximum Borrow Tranches in USD:
 # Calibrated against Cetus pool TVL and DeepBook orderbook depth:
-# - SUI/USDC: $10,000 (deepest pool on Sui, $18.5M TVL, <0.2 bps impact)
-# - DEEP/SUI: $4,000 (~4,900 SUI at ~$0.81; captures Level 2 wall of 8,950 SUI with controlled impact)
-# - DEEP/USDC: $1,000 (pool TVL is $241k; keeps price impact under ~25 bps)
-# - CETUS/SUI: $2,500 (~3,000 SUI; balances Cetus pool depth and fees)
 DEFAULT_PAIR_MAX_BORROW_USD: Dict[str, float] = {
     "SUI/USDC": 10000.0,
     "DEEP/SUI": 4000.0,
     "DEEP/USDC": 1000.0,
     "CETUS/SUI": 2500.0,
+    "USDSUI/USDC": 10000.0,
+    "LZWBTC/USDC": 2000.0,
+    "NS/SUI": 500.0,
+    "WAL/USDC": 250.0,
+    "XBTC/USDC": 250.0,
+    "NS/USDC": 250.0,
 }
 
 # Dynamic Tranche Bounds in USD (Requirement R2):
-# - DEEP/USDC: $100 - $150 USDC (thin pool, L ~= 2.40e11, TVL quote ~10k USDC) to eliminate Move VM slippage / repayment aborts.
-# - DEEP/SUI: $1,000 - $4,000 USD (~1,200 - 4,900 SUI) because L ~= 9.84e14 and 0 bps DeepBook taker fee.
-# - SUI/USDC: $1,000 - $10,000 USDC based on capital tier.
-# - CETUS/SUI: $100 - $250 USD (~50 - 120 SUI).
 DEFAULT_DYNAMIC_TRANCHE_BOUNDS_USD: Dict[str, Tuple[float, float]] = {
     "DEEP/USDC": (100.0, 150.0),
     "DEEP/SUI": (1000.0, 4000.0),
     "SUI/USDC": (1000.0, 10000.0),
     "CETUS/SUI": (100.0, 250.0),
+    "USDSUI/USDC": (25.0, 10000.0),
+    "LZWBTC/USDC": (25.0, 2000.0),
+    "NS/SUI": (25.0, 500.0),
+    "WAL/USDC": (25.0, 250.0),
+    "XBTC/USDC": (25.0, 250.0),
+    "NS/USDC": (25.0, 250.0),
 }
 
 # Empirical Cetus CLMM Pool Liquidities on Sui Mainnet:
 DEFAULT_CETUS_POOL_LIQUIDITY: Dict[str, float] = {
-    "SUI/USDC": 7.1189e13,    # ~7.12e13
-    "DEEP/SUI": 9.8371e14,    # ~9.84e14
-    "DEEP/USDC": 2.4023e11,   # ~2.40e11
-    "CETUS/SUI": 1.2890e16,   # ~1.29e16
+    "SUI/USDC": 7.1189e13,      # ~7.12e13
+    "DEEP/SUI": 9.8371e14,      # ~9.84e14
+    "DEEP/USDC": 2.4023e11,     # ~2.40e11
+    "CETUS/SUI": 1.2890e16,     # ~1.29e16
+    "USDSUI/USDC": 5.6440e14,   # ~5.64e14
+    "WAL/USDC": 2.6322e12,      # ~2.63e12
+    "LZWBTC/USDC": 3.9127e10,   # ~3.91e10
+    "NS/SUI": 2.1029e13,        # ~2.10e13
+    "XBTC/USDC": 7.5996e7,      # ~7.60e7
+    "NS/USDC": 2.4903e8,        # ~2.49e8
 }
 
 # Default Fee Hurdles in BPS (Cetus fee + DeepBook fee + slippage buffer):
 DEFAULT_PAIR_FEE_HURDLE_BPS: Dict[str, float] = {
-    "SUI/USDC": 16.0,   # 5 bps Cetus + 10 bps DB + 1 bps buffer
-    "DEEP/SUI": 6.0,    # 5 bps Cetus + 0 bps DB + 1 bps buffer
-    "DEEP/USDC": 6.0,   # 5 bps Cetus + 0 bps DB + 1 bps buffer
-    "CETUS/SUI": 36.0,  # 25 bps Cetus + 10 bps DB + 1 bps buffer
+    "SUI/USDC": 16.0,     # 5 bps Cetus + 10 bps DB + 1 bps buffer
+    "DEEP/SUI": 6.0,      # 5 bps Cetus + 0 bps DB + 1 bps buffer
+    "DEEP/USDC": 6.0,     # 5 bps Cetus + 0 bps DB + 1 bps buffer
+    "CETUS/SUI": 36.0,    # 25 bps Cetus + 10 bps DB + 1 bps buffer
+    "USDSUI/USDC": 2.2,   # 1 bps Cetus + ~0.125 bps DB + 1 bps buffer
+    "WAL/USDC": 8.5,      # 5 bps Cetus + 2.5 bps DB + 1 bps buffer
+    "LZWBTC/USDC": 23.5,  # 20 bps Cetus + 2.5 bps DB + 1 bps buffer
+    "NS/SUI": 38.5,       # 25 bps Cetus + 12.5 bps DB + 1 bps buffer
+    "XBTC/USDC": 28.5,    # 25 bps Cetus + 2.5 bps DB + 1 bps buffer
+    "NS/USDC": 113.5,     # 100 bps Cetus + 12.5 bps DB + 1 bps buffer
 }
 
-# Default Sqrt Prices (normalized or sqrt(spot_price)):
+# Default Sqrt Prices (normalized or Cetus sqrt(CoinB/CoinA) adjusted for decimals):
 DEFAULT_PAIR_SQRT_PRICES: Dict[str, float] = {
     "SUI/USDC": (2.0) ** 0.5,
     "DEEP/SUI": (0.05) ** 0.5,
     "DEEP/USDC": (0.10) ** 0.5,
     "CETUS/SUI": (0.16) ** 0.5,
+    "USDSUI/USDC": 1.0,
+    "WAL/USDC": 188.28,
+    "LZWBTC/USDC": 0.03672,
+    "NS/SUI": 3.2418,
+    "XBTC/USDC": 0.03670,
+    "NS/USDC": 10.60,
 }
 
 # Pair Route Prioritization Weights (Requirement R3):
 # DEEP/SUI has 0 bps taker fee, 4,000x deeper liquidity than DEEP/USDC
 PAIR_PRIORITY_WEIGHTS: Dict[str, int] = {
     "DEEP/SUI": 100,
+    "USDSUI/USDC": 90,
     "SUI/USDC": 80,
+    "LZWBTC/USDC": 70,
     "CETUS/SUI": 60,
+    "NS/SUI": 50,
+    "WAL/USDC": 45,
     "DEEP/USDC": 40,
+    "XBTC/USDC": 20,
+    "NS/USDC": 10,
 }
 
 
@@ -657,24 +687,14 @@ class DynamicCapitalScalingEngine:
                     max_units = int(round(max_usd * 1_000_000))
                     floor_units = 25_000_000
             else:
+                base_decimals = cfg.base_decimals if cfg else 6
                 if pair_clean == "SUI/USDC":
                     base_px = price
-                    base_decimals = 9
-                elif pair_clean in ("DEEP/SUI", "DEEP/USDC"):
-                    if base_spot_price and base_spot_price > 0:
-                        base_px = float(base_spot_price)
-                    else:
-                        base_px = (0.05 * price) if pair_clean == "DEEP/SUI" else 0.10
-                    base_decimals = 6
-                elif pair_clean == "CETUS/SUI":
-                    if base_spot_price and base_spot_price > 0:
-                        base_px = float(base_spot_price)
-                    else:
-                        base_px = 0.16 * price
-                    base_decimals = 9
+                elif base_spot_price and base_spot_price > 0:
+                    base_px = float(base_spot_price)
                 else:
-                    base_px = 1.0
-                    base_decimals = 6
+                    raw_spot = DEFAULT_PAIR_SPOT_PRICES.get(pair_clean, 1.0)
+                    base_px = raw_spot * price if is_sui_quote else raw_spot
 
                 min_units = int(round((min_usd / base_px) * (10 ** base_decimals)))
                 max_units = int(round((max_usd / base_px) * (10 ** base_decimals)))

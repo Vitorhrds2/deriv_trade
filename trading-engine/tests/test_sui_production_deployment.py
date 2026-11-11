@@ -86,7 +86,7 @@ async def test_health_server_schema_healthy() -> None:
                 assert data["borrow_amount_usdc"] == 1_000_000_000
                 assert isinstance(data["sui_gas_balance"], (int, float))
                 assert data["sui_gas_balance"] == pytest.approx(DEFAULT_VERIFIED_SUI_BALANCE, abs=0.01)
-                assert data["active_pairs"] == ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+                assert data["active_pairs"] == list(ACTIVE_PAIRS)
                 assert data["region"] == "europe-west3"
                 assert data["consecutive_aborts"] == 0
                 assert isinstance(data["timestamp"], (int, float))
@@ -379,10 +379,10 @@ async def test_sui_bot_runner_multi_pair_scan_cycle() -> None:
 
     results = await runner.scan_once()
 
-    # Must evaluate all 4 active pairs
-    assert len(results) == 4
+    # Must evaluate all active pairs
+    assert len(results) == len(ACTIVE_PAIRS)
     pairs_evaluated = [r["pair"] for r in results]
-    assert pairs_evaluated == ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+    assert pairs_evaluated == list(ACTIVE_PAIRS)
 
     for entry in results:
         assert entry["zero_leg_risk_preserved"] is True

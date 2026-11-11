@@ -366,7 +366,7 @@ class TestZeroLegRiskFallbackAndScanOnce:
         runner = SuiBotRunner(config=config, validator=validator)
 
         results = await runner.scan_once()
-        assert len(results) == 4
+        assert len(results) == len(ACTIVE_PAIRS)
         pairs_scanned = [r["pair"] for r in results]
         assert pairs_scanned == list(ACTIVE_PAIRS)
 
@@ -397,7 +397,7 @@ class TestZeroLegRiskFallbackAndScanOnce:
         runner = SuiBotRunner(config=config, validator=validator)
 
         results = await runner.scan_once()
-        assert len(results) == 4
+        assert len(results) == len(ACTIVE_PAIRS)
         for r in results:
             assert r["pair"] in ACTIVE_PAIRS
             assert r["cetus_price"] > 0

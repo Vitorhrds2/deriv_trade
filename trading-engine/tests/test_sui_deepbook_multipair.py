@@ -32,9 +32,20 @@ from venues.sui_deepbook_venue import (
 # 1. PAIR REGISTRY & METADATA VERIFICATION
 # ==============================================================================
 
-def test_pair_registry_coverage_all_4_pairs():
-    """Validates that all 4 required pairs exist with exact decimals, fees, and pool IDs."""
-    expected_pairs = ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+def test_pair_registry_coverage_all_10_pairs():
+    """Validates that all 10 required pairs exist with exact decimals, fees, and pool IDs."""
+    expected_pairs = [
+        "SUI/USDC",
+        "DEEP/SUI",
+        "DEEP/USDC",
+        "CETUS/SUI",
+        "USDSUI/USDC",
+        "WAL/USDC",
+        "LZWBTC/USDC",
+        "NS/SUI",
+        "XBTC/USDC",
+        "NS/USDC",
+    ]
     assert set(SUPPORTED_PAIRS.keys()) == set(expected_pairs)
     assert set(SUI_PAIRS_CONFIG.keys()) == set(expected_pairs)
 
@@ -301,3 +312,160 @@ async def test_venue_submit_order_all_pairs():
         assert res_abort.fee_bps == 0.0
 
     await venue.disconnect()
+
+
+_NEW_SIX_PAIRS = (
+    "USDSUI/USDC",
+    "WAL/USDC",
+    "LZWBTC/USDC",
+    "NS/SUI",
+    "XBTC/USDC",
+    "NS/USDC",
+)
+
+
+def test_new_six_pairs_ptb_params_and_bcs_generation():
+    """Verify HotPotatoPTBParams and FORWARD/REVERSE BCS PTBs for all 6 newly activated pairs."""
+    from venues.sui_deepbook_venue import (
+        HotPotatoPTBParams,
+        SuiDeepBookPTBBuilder,
+    )
+    from venues.sui_health_server import ACTIVE_PAIRS
+
+    assert len(ACTIVE_PAIRS) == 10
+    assert set(ACTIVE_PAIRS) == set(SUI_PAIRS_CONFIG.keys())
+    for pair in _NEW_SIX_PAIRS:
+        assert pair in ACTIVE_PAIRS
+
+    dummy_gas = {
+        "address": "0x" + "11" * 32,
+        "version": 123,
+        "digest": "11111111111111111111111111111111",
+    }
+    sender = "0x" + "22" * 32
+    builder = SuiDeepBookPTBBuilder()
+
+    for pair in _NEW_SIX_PAIRS:
+        cfg = SUI_PAIRS_CONFIG[pair]
+        assert cfg.turbos_pool_id is None
+        expected_a2b = cfg.cetus_coin_a_type == cfg.quote_coin_type
+        assert cfg.cetus_a2b_for_quote_in is expected_a2b
+
+        for direction in ("FORWARD", "REVERSE"):
+            params = HotPotatoPTBParams.from_pair(pair, route_direction=direction)
+            assert params.pair_name == pair
+            assert params.pool_id == cfg.deepbook_pool_id
+            assert params.cetus_pool_id == cfg.cetus_pool_id
+            assert params.turbos_pool_id is None
+            assert params.route_direction == direction
+            assert params.a2b == (cfg.cetus_a2b_for_quote_in if direction == "FORWARD" else not cfg.cetus_a2b_for_quote_in)
+
+            raw_bcs = builder.build_atomic_arb_ptb_bcs(
+                pair_name=pair,
+                borrow_amount=cfg.default_borrow_amount,
+                sender_address=sender,
+                gas_coin=dummy_gas,
+                route_direction=direction,
+            )
+            assert isinstance(raw_bcs, bytes)
+            assert len(raw_bcs) > 500
+
+
+def test_new_pairs_virtual_reserve_orientation_scaling_and_slippage():
+    """Verify L/sqrt_p (quote-in-CoinA) vs L*sqrt_p (base-in-CoinA) reserve math."""
+    from venues.sui_bot_runner import SuiBotRunner
+    from venues.sui_scaling_engine import (
+        DEFAULT_PAIR_SQRT_PRICES,
+        DynamicCapitalScalingEngine,
+    )
+
+    eng = DynamicCapitalScalingEngine()
+    liq_hi = 1e16
+    liq_lo = 1e12
+
+    for pair in _NEW_SIX_PAIRS:
+        cfg = SUI_PAIRS_CONFIG[pair]
+        sqrt_p = DEFAULT_PAIR_SQRT_PRICES[pair]
+        slip_hi = SuiBotRunner._compute_amm_slippage_bps(pair, cfg.default_borrow_amount, liq_hi, sqrt_p)
+        slip_lo = SuiBotRunner._compute_amm_slippage_bps(pair, cfg.default_borrow_amount, liq_lo, sqrt_p)
+        assert slip_lo > slip_hi
+
+        # Doubling sqrt_p shrinks virtual quote reserve L/sqrt_p (2x slippage) when quote is CoinA,
+        # and grows virtual quote reserve L*sqrt_p (0.5x slippage) when base is CoinA (NS/SUI).
+        slip_1x = SuiBotRunner._compute_amm_slippage_bps(pair, cfg.default_borrow_amount, 1e14, sqrt_p)
+        slip_2x = SuiBotRunner._compute_amm_slippage_bps(pair, cfg.default_borrow_amount, 1e14, sqrt_p * 2.0)
+        expected_ratio = 2.0 if cfg.cetus_a2b_for_quote_in else 0.5
+        assert slip_2x / slip_1x == pytest.approx(expected_ratio, rel=1e-6)
+
+        borrow_hi = eng.get_current_borrow_amount(pair, spread_bps=200.0, liquidity=liq_hi, sqrt_price=sqrt_p)
+        borrow_lo = eng.get_current_borrow_amount(pair, spread_bps=200.0, liquidity=liq_lo, sqrt_price=sqrt_p)
+        assert borrow_hi >= borrow_lo > 0
+
+
+@pytest.mark.asyncio
+async def test_query_live_market_spreads_asymmetric_decimals_new_pairs():
+    """Verify Q64.64 spot price decoding across asymmetric decimal configs for all 6 new pairs."""
+    import math
+    from unittest.mock import AsyncMock, patch
+    from venues.sui_deepbook_venue import (
+        PAIR_GRAPHQL_ALIASES,
+        SuiGraphQLClient,
+    )
+
+    targets = {
+        "USDSUI/USDC": 1.0005,
+        "WAL/USDC": 0.08,
+        "LZWBTC/USDC": 70000.0,
+        "NS/SUI": 0.025,
+        "XBTC/USDC": 70000.0,
+        "NS/USDC": 0.02,
+    }
+    gql_data = {"cetus_bids": {}}
+    db_books = {}
+
+    for pair, spot in targets.items():
+        cfg = SUI_PAIRS_CONFIG[pair]
+        c_key, _, d_key, _pf, indexer_name = PAIR_GRAPHQL_ALIASES[pair]
+        if cfg.cetus_coin_a_type == cfg.quote_coin_type:
+            raw_p = (1.0 / spot) * (10 ** (cfg.base_decimals - cfg.quote_decimals))
+        else:
+            raw_p = spot * (10 ** (cfg.quote_decimals - cfg.base_decimals))
+        sqrt_q64 = int(round(math.sqrt(raw_p) * (2 ** 64)))
+        gql_data[c_key] = {
+            "asMoveObject": {
+                "contents": {
+                    "json": {
+                        "current_sqrt_price": str(sqrt_q64),
+                        "liquidity": "1000000000000000",
+                    }
+                }
+            }
+        }
+        gql_data[d_key] = {"asMoveObject": {"contents": {"json": {"id": cfg.deepbook_pool_id}}}}
+        db_books[indexer_name] = {
+            "bids": [[str(spot * 1.005), "100.0"]],
+            "asks": [[str(spot * 1.006), "100.0"]],
+        }
+
+    client = SuiGraphQLClient()
+
+    async def mock_fetch(sym: str):
+        return db_books.get(sym, {})
+
+    try:
+        with patch.object(client, "execute", AsyncMock(return_value={"data": gql_data})), patch.object(
+            client, "_fetch_deepbook_indexer_orderbook", side_effect=mock_fetch
+        ):
+            spreads = await client.query_live_market_spreads()
+    finally:
+        await client.close()
+
+    assert len(spreads) == 10
+    for pair, spot in targets.items():
+        row = spreads[pair]
+        assert row["cetus_price"] == pytest.approx(spot, rel=1e-6)
+        assert row["deepbook_price"] == pytest.approx(spot * 1.005, rel=1e-6)
+        assert row["deepbook_ask"] == pytest.approx(spot * 1.006, rel=1e-6)
+        assert row["best_amm"] == "cetus"
+        assert row["turbos_price"] == 0.0
+        assert row["forward_spread_bps"] == pytest.approx(50.0, abs=0.05)

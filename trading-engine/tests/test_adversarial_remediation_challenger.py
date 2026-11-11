@@ -177,7 +177,7 @@ def test_query_live_market_spreads_corrupt_or_zero_sqrt_price():
         with patch.object(client, "execute", new_callable=AsyncMock) as mock_exec:
             mock_exec.return_value = corrupted_data
             spreads = await client.query_live_market_spreads()
-            assert len(spreads) == 4
+            assert len(spreads) == len(ACTIVE_PAIRS)
             for pair in ACTIVE_PAIRS:
                 assert pair in spreads
                 # Prices should fallback to default values without throwing exceptions
@@ -268,7 +268,7 @@ def test_poll_market_spreads_http_500_and_connection_error():
             side_effect=RuntimeError("500 Internal Server Error"),
         ):
             spreads = await runner.poll_market_spreads()
-            assert len(spreads) == 4
+            assert len(spreads) == len(ACTIVE_PAIRS)
             for pair in ACTIVE_PAIRS:
                 assert spreads[pair]["spread_bps"] == 0.0
                 assert spreads[pair]["source"] == "fallback"
@@ -284,7 +284,7 @@ def test_poll_market_spreads_http_500_and_connection_error():
             side_effect=ConnectionRefusedError("Connection refused by host"),
         ):
             spreads2 = await runner.poll_market_spreads()
-            assert len(spreads2) == 4
+            assert len(spreads2) == len(ACTIVE_PAIRS)
             for pair in ACTIVE_PAIRS:
                 assert spreads2[pair]["spread_bps"] == 0.0
                 assert spreads2[pair]["source"] == "fallback"
@@ -299,7 +299,7 @@ def test_poll_market_spreads_none_graphql_client():
         runner = SuiBotRunner(config=SuiBotConfig(dry_run_mode=True))
         runner.validator.graphql_client = None
         spreads = await runner.poll_market_spreads()
-        assert len(spreads) == 4
+        assert len(spreads) == len(ACTIVE_PAIRS)
         for pair in ACTIVE_PAIRS:
             assert spreads[pair]["spread_bps"] == 0.0
             assert spreads[pair]["source"] == "fallback"
@@ -367,7 +367,7 @@ def test_scan_once_fallback_guarantees_zero_leg_risk():
         ):
             results = await runner.scan_once()
             
-            assert len(results) == 4
+            assert len(results) == len(ACTIVE_PAIRS)
             for r in results:
                 assert r["spread_bps"] == 0.0
                 assert r["status"] == "ABORTED"
@@ -397,9 +397,9 @@ def test_scan_once_all_4_pairs_summary_format():
         ):
             with patch("venues.sui_bot_runner.logger.info") as mock_info:
                 results = await runner.scan_once()
-                assert len(results) == 4
+                assert len(results) == len(ACTIVE_PAIRS)
                 
-                # Check that summary logger.info was called with all 4 pairs
+                # Check that summary logger.info was called with all pairs
                 summary_calls = [
                     str(call_args) for call_args in mock_info.call_args_list
                     if "Scan pass completed" in str(call_args)

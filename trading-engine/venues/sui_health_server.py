@@ -61,7 +61,18 @@ DEFAULT_PORT: int = 8080
 DEFAULT_HOST: str = "0.0.0.0"
 DEFAULT_REGION: str = "europe-west3"
 DEFAULT_VERIFIED_SUI_BALANCE: float = 5.419245048
-ACTIVE_PAIRS: List[str] = ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+ACTIVE_PAIRS: List[str] = [
+    "SUI/USDC",
+    "DEEP/SUI",
+    "DEEP/USDC",
+    "CETUS/SUI",
+    "USDSUI/USDC",
+    "WAL/USDC",
+    "LZWBTC/USDC",
+    "NS/SUI",
+    "XBTC/USDC",
+    "NS/USDC",
+]
 
 
 class SuiHealthServer:

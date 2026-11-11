@@ -498,7 +498,7 @@ class TestBotRunnerLifecycleAndLiveMode:
                     assert data["current_tier"] == "TIER_2"
                     assert data["borrow_amount_usdc"] == 5_000_000_000
                     assert data["sui_gas_balance"] == pytest.approx(5.419, rel=1e-3)
-                    assert data["active_pairs"] == ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+                    assert data["active_pairs"] == list(ACTIVE_PAIRS)
                     assert data["region"] == "europe-west3"
                     assert data["consecutive_aborts"] == 0
                     assert data["accumulated_profit_usdc"] == 125.0

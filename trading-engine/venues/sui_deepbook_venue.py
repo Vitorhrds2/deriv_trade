@@ -54,6 +54,11 @@ SUI_COIN_TYPE = "0x2::sui::SUI"
 SUI_COIN_LONG_TYPE = "0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI"
 DEEP_COIN_TYPE = "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP"
 CETUS_COIN_TYPE = "0x06864a6f921804860930db6ddbe2e16acdf8504495ea7481637a1c8b9a8fe54b::cetus::CETUS"
+USDSUI_COIN_TYPE = "0x44f838219cf67b058f3b37907b655f226153c18e33dfcd0da559a844fea9b1c1::usdsui::USDSUI"
+WAL_COIN_TYPE = "0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL"
+LZWBTC_COIN_TYPE = "0x0041f9f9344cac094454cd574e333c4fdb132d7bcc9379bcd4aab485b2a63942::wbtc::WBTC"
+NS_COIN_TYPE = "0x5145494a5f5100e645e4b0aa950fa6b68f614e8c59e17bc5ded3495123a79178::ns::NS"
+XBTC_COIN_TYPE = "0x876a4b7bce8aeaef60464c11f4026903e9afacab79b9b142686158aa86560b50::xbtc::XBTC"
 
 # Cetus Protocols & Price Bounds
 CETUS_GLOBAL_CONFIG_ID = "0xdaa46292632c3c4d8f31f23ea0f9b36a28ff3677e9684980e4438403a67a3d8f"
@@ -82,6 +87,12 @@ SUI_USDC_POOL_ID = "0xe05dafb5133bcffb8d59f4e12465dc0e9faeaa05e3e342a08fe135800e
 DEEP_SUI_POOL_ID = "0xb663828d6217467c8a1838a03793da896cbe745b150ebd57d82f814ca579fc22"
 DEEP_USDC_POOL_ID = "0xf948981b806057580f91622417534f491da5f61aeaf33d0ed8e69fd5691c95ce"
 CETUS_SUI_POOL_ID = "0xcf8d0d98dd3c2ceaf40845f5260c620fa62b3a15380bc100053aecd6df8e5e7c"
+USDSUI_USDC_POOL_ID = "0xa374264d43e6baa5aa8b35ff18ff24fdba7443b4bcb884cb4c2f568d32cdac36"
+WAL_USDC_POOL_ID = "0x56a1c985c1f1123181d6b881714793689321ba24301b3585eec427436eb1c76d"
+LZWBTC_USDC_POOL_ID = "0xf5142aafa24866107df628bf92d0358c7da6acc46c2f10951690fd2b8570f117"
+NS_SUI_POOL_ID = "0x27c4fdb3b846aa3ae4a65ef5127a309aa3c1f466671471a806d8912a18b253e8"
+XBTC_USDC_POOL_ID = "0x20b9a3ec7a02d4f344aa1ebc5774b7b0ccafa9a5d76230662fdc0300bb215307"
+NS_USDC_POOL_ID = "0x0c0fdd4008740d81a8a7d4281322aee71a1b62c449eb5b142656753d89ebc060"
 CETUS_SUI_BIDS_TABLE_ID = "0x94c7958ca9929b60c1e91ec9148cd987ba1387a5476cc62ae418bee525196944"
 CETUS_SUI_ASKS_TABLE_ID = "0xde64e75bf991f9c01cb95aca45acac94e80e909369654879392087bf291dbdf2"
 
@@ -91,6 +102,12 @@ CETUS_POOL_SUI_USDC_25 = "0xb8d7d9e66a60c239e7a60110efcf8de6c705580ed924d0dde141
 CETUS_POOL_DEEP_SUI = "0xd978d331772a5b90d5a4781e1232d18afd12019d0c35db79e3674beeda8f9126"  # 0.05%
 CETUS_POOL_DEEP_USDC = "0xa2f4e24dc234cf024bae1bd5b1275ab5bdc7c28dd1ec84dd98c2d012bbd315f0"  # 0.05%
 CETUS_POOL_CETUS_SUI = "0x2e041f3fd93646dcc877f783c1f2b7fa62d30271bdef1f21ef002cebf857bded"  # 0.25%
+CETUS_POOL_USDSUI_USDC = "0xa7417fb5f59e23b0a7826d78f025653823c49265be07bbf6dd9e553ba4249a56"  # 0.01%
+CETUS_POOL_WAL_USDC = "0x4f665396e49a6a9f233580eed6dfdeff9b5e1054094f27dbb2bd568bdc4e75d5"  # 0.05%
+CETUS_POOL_LZWBTC_USDC = "0xe92ee9996c49057cf2449c8c9f8d7fe52040db8229f6eb01be7d7f6bbc4fc2f3"  # 0.20%
+CETUS_POOL_NS_SUI = "0x763f63cbada3a932c46972c6c6dcf1abd8a9a73331908a1d7ef24c2232d85520"  # 0.25%
+CETUS_POOL_XBTC_USDC = "0x3775d3268f0184b84a5bcaa5669ff3a1f40781bcb9cf3f1c6efe85670189f31a"  # 0.25%
+CETUS_POOL_NS_USDC = "0x39a5f5bae62b3876fdd16cda76eebcd334e9da6f69b549ac2f48c384770136ee"  # 1.00%
 
 # Verified initialSharedVersion registry for Sui Mainnet shared objects
 SHARED_OBJECT_INITIAL_VERSIONS: Dict[str, int] = {
@@ -100,10 +117,22 @@ SHARED_OBJECT_INITIAL_VERSIONS: Dict[str, int] = {
     DEEP_SUI_POOL_ID: 389750321,
     DEEP_USDC_POOL_ID: 389750321,
     CETUS_SUI_POOL_ID: 572964692,
+    USDSUI_USDC_POOL_ID: 804805725,
+    WAL_USDC_POOL_ID: 414947427,
+    LZWBTC_USDC_POOL_ID: 734637383,
+    NS_SUI_POOL_ID: 414947421,
+    XBTC_USDC_POOL_ID: 556438674,
+    NS_USDC_POOL_ID: 414947421,
     CETUS_POOL_SUI_USDC: 376543995,
     CETUS_POOL_DEEP_SUI: 389638435,
     CETUS_POOL_DEEP_USDC: 572943477,
     CETUS_POOL_CETUS_SUI: 1964496,
+    CETUS_POOL_USDSUI_USDC: 808620267,
+    CETUS_POOL_WAL_USDC: 532325894,
+    CETUS_POOL_LZWBTC_USDC: 704005945,
+    CETUS_POOL_NS_SUI: 416502635,
+    CETUS_POOL_XBTC_USDC: 560578146,
+    CETUS_POOL_NS_USDC: 416580624,
     TURBOS_VERSIONED_ID: 1621135,
     TURBOS_POOL_SUI_USDC: 426673878,
     TURBOS_POOL_DEEP_SUI: 389633758,
@@ -185,7 +214,7 @@ class PairConfig:
             return default
 
 
-# Canonical static registry for all 4 pairs
+# Canonical static registry for all 10 pairs
 SUI_PAIRS_CONFIG: Dict[str, PairConfig] = {
     "SUI/USDC": PairConfig(
         pair_name="SUI/USDC",
@@ -295,17 +324,156 @@ SUI_PAIRS_CONFIG: Dict[str, PairConfig] = {
         turbos_a2b=False,
         turbos_fee_type=TURBOS_FEE_30BPS_TYPE,
     ),
+    "USDSUI/USDC": PairConfig(
+        pair_name="USDSUI/USDC",
+        base_symbol="USDSUI",
+        quote_symbol="USDC",
+        base_coin_type=USDSUI_COIN_TYPE,
+        quote_coin_type=CIRCLE_USDC_TYPE,
+        base_decimals=6,
+        quote_decimals=6,
+        deepbook_pool_id=USDSUI_USDC_POOL_ID,
+        cetus_pool_id=CETUS_POOL_USDSUI_USDC,
+        cetus_coin_a_type=CIRCLE_USDC_TYPE,
+        cetus_coin_b_type=USDSUI_COIN_TYPE,
+        cetus_a2b_for_quote_in=True,
+        cetus_sqrt_price_limit_quote_in=MIN_SQRT_PRICE,
+        deepbook_tick_size=1_000,
+        deepbook_lot_size=100_000,
+        deepbook_min_size=100_000,
+        deepbook_taker_fee_bps=0.1,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=1.0,
+        default_borrow_amount=1_000_000_000,  # 1,000 USDC
+        price_factor=1_000_000_000,
+        turbos_pool_id=None,
+    ),
+    "WAL/USDC": PairConfig(
+        pair_name="WAL/USDC",
+        base_symbol="WAL",
+        quote_symbol="USDC",
+        base_coin_type=WAL_COIN_TYPE,
+        quote_coin_type=CIRCLE_USDC_TYPE,
+        base_decimals=9,
+        quote_decimals=6,
+        deepbook_pool_id=WAL_USDC_POOL_ID,
+        cetus_pool_id=CETUS_POOL_WAL_USDC,
+        cetus_coin_a_type=CIRCLE_USDC_TYPE,
+        cetus_coin_b_type=WAL_COIN_TYPE,
+        cetus_a2b_for_quote_in=True,
+        cetus_sqrt_price_limit_quote_in=MIN_SQRT_PRICE,
+        deepbook_tick_size=1,
+        deepbook_lot_size=100_000_000,
+        deepbook_min_size=1_000_000_000,
+        deepbook_taker_fee_bps=2.0,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=5.0,
+        default_borrow_amount=250_000_000,  # 250 USDC
+        price_factor=1_000_000,
+        turbos_pool_id=None,
+    ),
+    "LZWBTC/USDC": PairConfig(
+        pair_name="LZWBTC/USDC",
+        base_symbol="WBTC",
+        quote_symbol="USDC",
+        base_coin_type=LZWBTC_COIN_TYPE,
+        quote_coin_type=CIRCLE_USDC_TYPE,
+        base_decimals=8,
+        quote_decimals=6,
+        deepbook_pool_id=LZWBTC_USDC_POOL_ID,
+        cetus_pool_id=CETUS_POOL_LZWBTC_USDC,
+        cetus_coin_a_type=CIRCLE_USDC_TYPE,
+        cetus_coin_b_type=LZWBTC_COIN_TYPE,
+        cetus_a2b_for_quote_in=True,
+        cetus_sqrt_price_limit_quote_in=MIN_SQRT_PRICE,
+        deepbook_tick_size=10_000_000,
+        deepbook_lot_size=1_000,
+        deepbook_min_size=1_000,
+        deepbook_taker_fee_bps=2.0,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=20.0,
+        default_borrow_amount=1_000_000_000,  # 1,000 USDC
+        price_factor=10_000_000,
+        turbos_pool_id=None,
+    ),
+    "NS/SUI": PairConfig(
+        pair_name="NS/SUI",
+        base_symbol="NS",
+        quote_symbol="SUI",
+        base_coin_type=NS_COIN_TYPE,
+        quote_coin_type=SUI_COIN_TYPE,
+        base_decimals=6,
+        quote_decimals=9,
+        deepbook_pool_id=NS_SUI_POOL_ID,
+        cetus_pool_id=CETUS_POOL_NS_SUI,
+        cetus_coin_a_type=NS_COIN_TYPE,
+        cetus_coin_b_type=SUI_COIN_TYPE,
+        cetus_a2b_for_quote_in=False,
+        cetus_sqrt_price_limit_quote_in=MAX_SQRT_PRICE,
+        deepbook_tick_size=10_000_000,
+        deepbook_lot_size=100_000,
+        deepbook_min_size=1_000_000,
+        deepbook_taker_fee_bps=10.0,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=25.0,
+        default_borrow_amount=200_000_000_000,  # 200 SUI
+        price_factor=1_000_000_000_000,
+        turbos_pool_id=None,
+    ),
+    "XBTC/USDC": PairConfig(
+        pair_name="XBTC/USDC",
+        base_symbol="XBTC",
+        quote_symbol="USDC",
+        base_coin_type=XBTC_COIN_TYPE,
+        quote_coin_type=CIRCLE_USDC_TYPE,
+        base_decimals=8,
+        quote_decimals=6,
+        deepbook_pool_id=XBTC_USDC_POOL_ID,
+        cetus_pool_id=CETUS_POOL_XBTC_USDC,
+        cetus_coin_a_type=CIRCLE_USDC_TYPE,
+        cetus_coin_b_type=XBTC_COIN_TYPE,
+        cetus_a2b_for_quote_in=True,
+        cetus_sqrt_price_limit_quote_in=MIN_SQRT_PRICE,
+        deepbook_tick_size=10_000_000,
+        deepbook_lot_size=1_000,
+        deepbook_min_size=1_000,
+        deepbook_taker_fee_bps=2.0,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=25.0,
+        default_borrow_amount=100_000_000,  # 100 USDC
+        price_factor=10_000_000,
+        turbos_pool_id=None,
+    ),
+    "NS/USDC": PairConfig(
+        pair_name="NS/USDC",
+        base_symbol="NS",
+        quote_symbol="USDC",
+        base_coin_type=NS_COIN_TYPE,
+        quote_coin_type=CIRCLE_USDC_TYPE,
+        base_decimals=6,
+        quote_decimals=6,
+        deepbook_pool_id=NS_USDC_POOL_ID,
+        cetus_pool_id=CETUS_POOL_NS_USDC,
+        cetus_coin_a_type=CIRCLE_USDC_TYPE,
+        cetus_coin_b_type=NS_COIN_TYPE,
+        cetus_a2b_for_quote_in=True,
+        cetus_sqrt_price_limit_quote_in=MIN_SQRT_PRICE,
+        deepbook_tick_size=10_000,
+        deepbook_lot_size=100_000,
+        deepbook_min_size=1_000_000,
+        deepbook_taker_fee_bps=10.0,
+        deepbook_whitelisted=False,
+        cetus_fee_bps=100.0,
+        default_borrow_amount=100_000_000,  # 100 USDC
+        price_factor=1_000_000_000,
+        turbos_pool_id=None,
+    ),
 }
 
 # Supported pairs alias
 SUPPORTED_PAIRS = SUI_PAIRS_CONFIG
 
 # Default DeepBook V3 Pool Vault Balances on Sui Mainnet (Requirement R3):
-# Verified empirical balances:
-# - SUI/USDC: ~414k SUI base, ~484k USDC quote, ~3.37M DEEP
-# - DEEP/SUI: ~3.13M DEEP base, ~85.9k SUI quote, ~3.33k DEEP
-# - DEEP/USDC: ~5.54M DEEP base, ~60.4k USDC quote, ~49 DEEP
-# - CETUS/SUI: ~1.00k CETUS base, ~135.80 SUI quote, ~70 DEEP
 DEFAULT_DEEPBOOK_VAULT_BALANCES: Dict[str, Dict[str, int]] = {
     "SUI/USDC": {
         "base_balance": 414_767_840_000_000,
@@ -327,6 +495,64 @@ DEFAULT_DEEPBOOK_VAULT_BALANCES: Dict[str, Dict[str, int]] = {
         "quote_balance": 135_800_000_000,
         "deep_balance": 70_000,
     },
+    "USDSUI/USDC": {
+        "base_balance": 315_569_574_843,
+        "quote_balance": 630_179_919_792,
+        "deep_balance": 35_907_498_194,
+    },
+    "WAL/USDC": {
+        "base_balance": 2_659_815_329_450_040,
+        "quote_balance": 69_399_290_764,
+        "deep_balance": 352_035_414_189,
+    },
+    "LZWBTC/USDC": {
+        "base_balance": 204_491_162,
+        "quote_balance": 240_829_024_584,
+        "deep_balance": 134_158_415_605,
+    },
+    "NS/SUI": {
+        "base_balance": 607_063_879_672,
+        "quote_balance": 6_238_103_306_554,
+        "deep_balance": 299_496_998_944,
+    },
+    "XBTC/USDC": {
+        "base_balance": 59_596_175,
+        "quote_balance": 154_839_348_746,
+        "deep_balance": 372_833_661_402,
+    },
+    "NS/USDC": {
+        "base_balance": 696_716_411_264,
+        "quote_balance": 8_312_736_677,
+        "deep_balance": 244_817_776_620,
+    },
+}
+
+DEFAULT_PAIR_SPOT_PRICES: Dict[str, float] = {
+    "SUI/USDC": 2.0,
+    "DEEP/SUI": 0.05,
+    "DEEP/USDC": 0.10,
+    "CETUS/SUI": 0.16,
+    "USDSUI/USDC": 1.0,
+    "WAL/USDC": 0.028,
+    "LZWBTC/USDC": 74200.0,
+    "NS/SUI": 0.0105,
+    "XBTC/USDC": 74300.0,
+    "NS/USDC": 0.0089,
+}
+
+# Canonical GraphQL alias table shared across snapshot, live spread polling, and preflight health:
+# (cetus_alias, turbos_alias, deepbook_alias, db_ewma_scale, indexer_symbol)
+PAIR_GRAPHQL_ALIASES: Dict[str, Tuple[str, Optional[str], str, float, Optional[str]]] = {
+    "SUI/USDC": ("p_sui_usdc", "t_sui_usdc", "d_sui_usdc", 1e11, "SUI_USDC"),
+    "DEEP/SUI": ("p_deep_sui", "t_deep_sui", "d_deep_sui", 1e13, "DEEP_SUI"),
+    "DEEP/USDC": ("p_deep_usdc", "t_deep_usdc", "d_deep_usdc", 1e13, "DEEP_USDC"),
+    "CETUS/SUI": ("p_cetus_sui", "t_cetus_sui", "d_cetus_sui", 1e13, None),
+    "USDSUI/USDC": ("p_usdsui_usdc", None, "d_usdsui_usdc", 1e13, "USDSUI_USDC"),
+    "WAL/USDC": ("p_wal_usdc", None, "d_wal_usdc", 1e11, "WAL_USDC"),
+    "LZWBTC/USDC": ("p_lzwbtc_usdc", None, "d_lzwbtc_usdc", 1e12, "LZWBTC_USDC"),
+    "NS/SUI": ("p_ns_sui", None, "d_ns_sui", 1e13, "NS_SUI"),
+    "XBTC/USDC": ("p_xbtc_usdc", None, "d_xbtc_usdc", 1e12, "XBTC_USDC"),
+    "NS/USDC": ("p_ns_usdc", None, "d_ns_usdc", 1e13, "NS_USDC"),
 }
 
 
@@ -1605,25 +1831,24 @@ class SuiGraphQLClient:
     async def get_market_snapshot(
         self, wallet_address: Optional[str] = None
     ) -> Dict[str, Any]:
-        """Batch queries all 4 Cetus pools and DeepBook pools plus wallet balance."""
+        """Batch queries all configured Cetus pools and DeepBook pools plus wallet balance."""
         wallet = (
             wallet_address
             or "0x5621a8e7199680512ee829565b96febea2587e534fd69b33f04004298d7e5ce9"
         )
+        pool_fields: List[str] = []
+        for pair_name, cfg in SUI_PAIRS_CONFIG.items():
+            p_key, _, d_key, _, _ = PAIR_GRAPHQL_ALIASES[pair_name]
+            pool_fields.append(f'{p_key}: object(address: "{cfg.cetus_pool_id}") {{ asMoveObject {{ contents {{ json }} }} }}')
+            pool_fields.append(f'{d_key}: object(address: "{cfg.deepbook_pool_id}") {{ asMoveObject {{ contents {{ type {{ repr }} }} }} }}')
+        pools_block = "\n          ".join(pool_fields)
         query = f"""
         query GetSnapshot {{
           wallet: address(address: "{wallet}") {{
             sui: balance(coinType: "0x2::sui::SUI") {{ totalBalance }}
             usdc: balance(coinType: "{CIRCLE_USDC_TYPE}") {{ totalBalance }}
           }}
-          p_sui_usdc: object(address: "{CETUS_POOL_SUI_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_deep_sui: object(address: "{CETUS_POOL_DEEP_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_deep_usdc: object(address: "{CETUS_POOL_DEEP_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_cetus_sui: object(address: "{CETUS_POOL_CETUS_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          d_sui_usdc: object(address: "{SUI_USDC_POOL_ID}") {{ asMoveObject {{ contents {{ type {{ repr }} }} }} }}
-          d_deep_sui: object(address: "{DEEP_SUI_POOL_ID}") {{ asMoveObject {{ contents {{ type {{ repr }} }} }} }}
-          d_deep_usdc: object(address: "{DEEP_USDC_POOL_ID}") {{ asMoveObject {{ contents {{ type {{ repr }} }} }} }}
-          d_cetus_sui: object(address: "{CETUS_SUI_POOL_ID}") {{ asMoveObject {{ contents {{ type {{ repr }} }} }} }}
+          {pools_block}
         }}
         """
         return await self.execute(query)
@@ -1873,28 +2098,25 @@ class SuiGraphQLClient:
         self, amm_target: Optional[str] = None
     ) -> Dict[str, Dict[str, Any]]:
         """Batch queries Cetus and Turbos CLMM pools and DeepBook V3 orderbooks, computing real spot prices, spreads, and multi-DEX selection."""
+        query_lines: List[str] = []
+        for pair_name, cfg in SUI_PAIRS_CONFIG.items():
+            p_key, t_key, _, _, _ = PAIR_GRAPHQL_ALIASES[pair_name]
+            query_lines.append(f'{p_key}: object(address: "{cfg.cetus_pool_id}") {{ asMoveObject {{ contents {{ json }} }} }}')
+            if t_key and cfg.turbos_pool_id:
+                query_lines.append(f'{t_key}: object(address: "{cfg.turbos_pool_id}") {{ asMoveObject {{ contents {{ json }} }} }}')
+        for pair_name, cfg in SUI_PAIRS_CONFIG.items():
+            _, t_key, d_key, _, _ = PAIR_GRAPHQL_ALIASES[pair_name]
+            # Keep dynamicFields query on pools with active on-chain/EWMA fallback inspection
+            if t_key is not None:
+                query_lines.append(
+                    f'{d_key}: object(address: "{cfg.deepbook_pool_id}") {{\n'
+                    f'            dynamicFields(first: 5) {{ nodes {{ name {{ json }} value {{ ... on MoveValue {{ json }} }} }} }}\n'
+                    f'          }}'
+                )
+        fields_block = "\n          ".join(query_lines)
         query = f"""
         query GetMarketPrices {{
-          p_sui_usdc: object(address: "{CETUS_POOL_SUI_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_deep_sui: object(address: "{CETUS_POOL_DEEP_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_deep_usdc: object(address: "{CETUS_POOL_DEEP_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          p_cetus_sui: object(address: "{CETUS_POOL_CETUS_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          t_sui_usdc: object(address: "{TURBOS_POOL_SUI_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          t_deep_sui: object(address: "{TURBOS_POOL_DEEP_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          t_deep_usdc: object(address: "{TURBOS_POOL_DEEP_USDC}") {{ asMoveObject {{ contents {{ json }} }} }}
-          t_cetus_sui: object(address: "{TURBOS_POOL_CETUS_SUI}") {{ asMoveObject {{ contents {{ json }} }} }}
-          d_sui_usdc: object(address: "{SUI_USDC_POOL_ID}") {{
-            dynamicFields(first: 5) {{ nodes {{ name {{ json }} value {{ ... on MoveValue {{ json }} }} }} }}
-          }}
-          d_deep_sui: object(address: "{DEEP_SUI_POOL_ID}") {{
-            dynamicFields(first: 5) {{ nodes {{ name {{ json }} value {{ ... on MoveValue {{ json }} }} }} }}
-          }}
-          d_deep_usdc: object(address: "{DEEP_USDC_POOL_ID}") {{
-            dynamicFields(first: 5) {{ nodes {{ name {{ json }} value {{ ... on MoveValue {{ json }} }} }} }}
-          }}
-          d_cetus_sui: object(address: "{CETUS_SUI_POOL_ID}") {{
-            dynamicFields(first: 5) {{ nodes {{ name {{ json }} value {{ ... on MoveValue {{ json }} }} }} }}
-          }}
+          {fields_block}
           cetus_bids: address(address: "{CETUS_SUI_BIDS_TABLE_ID}") {{
             dynamicFields(first: 5) {{ nodes {{ value {{ ... on MoveValue {{ json }} }} }} }}
           }}
@@ -1912,35 +2134,25 @@ class SuiGraphQLClient:
         is_live_graphql = "cetus_bids" in data
         indexer_books: Dict[str, Dict[str, Any]] = {}
         if is_live_graphql:
-            ob_sui_usdc, ob_deep_sui, ob_deep_usdc = await asyncio.gather(
-                self._fetch_deepbook_indexer_orderbook("SUI_USDC"),
-                self._fetch_deepbook_indexer_orderbook("DEEP_SUI"),
-                self._fetch_deepbook_indexer_orderbook("DEEP_USDC"),
+            indexer_targets = [
+                (pair_name, PAIR_GRAPHQL_ALIASES[pair_name][4])
+                for pair_name in SUI_PAIRS_CONFIG
+                if PAIR_GRAPHQL_ALIASES.get(pair_name, (None, None, None, 1e13, None))[4]
+            ]
+            fetched_books = await asyncio.gather(
+                *(self._fetch_deepbook_indexer_orderbook(sym) for _, sym in indexer_targets),
                 return_exceptions=True,
             )
-            indexer_books["SUI/USDC"] = ob_sui_usdc if isinstance(ob_sui_usdc, dict) else {}
-            indexer_books["DEEP/SUI"] = ob_deep_sui if isinstance(ob_deep_sui, dict) else {}
-            indexer_books["DEEP/USDC"] = ob_deep_usdc if isinstance(ob_deep_usdc, dict) else {}
+            for (pair_name, _), ob_res in zip(indexer_targets, fetched_books):
+                indexer_books[pair_name] = ob_res if isinstance(ob_res, dict) else {}
 
         results: Dict[str, Dict[str, Any]] = {}
-        pair_mapping = {
-            "SUI/USDC": ("p_sui_usdc", "t_sui_usdc", "d_sui_usdc", 6, 9, True, 1e11),
-            "DEEP/SUI": ("p_deep_sui", "t_deep_sui", "d_deep_sui", 6, 9, False, 1e13),
-            "DEEP/USDC": ("p_deep_usdc", "t_deep_usdc", "d_deep_usdc", 6, 6, False, 1e13),
-            "CETUS/SUI": ("p_cetus_sui", "t_cetus_sui", "d_cetus_sui", 9, 9, False, 1e13),
-        }
-
-        for pair_name, (p_key, t_key, d_key, dec_a, dec_b, a2b, db_scale) in pair_mapping.items():
-            cfg = SUI_PAIRS_CONFIG.get(pair_name)
-            cetus_px = (
-                2.0
-                if pair_name == "SUI/USDC"
-                else (
-                    0.05
-                    if pair_name == "DEEP/SUI"
-                    else (0.1 if pair_name == "DEEP/USDC" else 0.16)
-                )
-            )
+        for pair_name, cfg in SUI_PAIRS_CONFIG.items():
+            p_key, t_key, d_key, db_scale, _ = PAIR_GRAPHQL_ALIASES[pair_name]
+            a2b = cfg.cetus_a2b_for_quote_in
+            dec_a = cfg.quote_decimals if a2b else cfg.base_decimals
+            dec_b = cfg.base_decimals if a2b else cfg.quote_decimals
+            cetus_px = DEFAULT_PAIR_SPOT_PRICES.get(pair_name, 1.0)
             deepbook_px = cetus_px
             deepbook_ask_px = cetus_px
 
@@ -1968,7 +2180,7 @@ class SuiGraphQLClient:
                         deepbook_ask_px = cetus_px
 
             # 1b. Parse Turbos CLMM spot price from sqrt_price and liquidity (Requirement R4)
-            t_obj = data.get(t_key, {})
+            t_obj = data.get(t_key, {}) if t_key else {}
             turbos_liquidity = 0.0
             turbos_sqrt_p = 0
             turbos_px = 0.0
@@ -2236,9 +2448,9 @@ class SuiDeepBookVenue(UnifiedVenue):
         self.is_connected = True
         self._running = True
 
-        # Initialize mock/baseline market books for all 4 pairs
+        # Initialize mock/baseline market books for all configured pairs
         for sym, cfg in SUI_PAIRS_CONFIG.items():
-            base_px = 2.0 if sym == "SUI/USDC" else (0.05 if sym == "DEEP/SUI" else (0.1 if sym == "DEEP/USDC" else 0.16))
+            base_px = DEFAULT_PAIR_SPOT_PRICES.get(sym, 1.0)
             self.update_book_state(
                 symbol=sym,
                 bid_px=base_px,

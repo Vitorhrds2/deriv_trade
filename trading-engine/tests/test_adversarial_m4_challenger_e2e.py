@@ -524,8 +524,8 @@ class TestTarget3DeepBookVaultBalanceDepletion:
                 results = await runner.scan_once()
 
                 # Execution was safely skipped without throwing an unhandled exception
-                # Results contains 4 pair status summaries
-                assert len(results) == 4
+                # Results contains status summaries for all configured active pairs
+                assert len(results) == len(ACTIVE_PAIRS)
                 deep_sui_res = next(r for r in results if r["pair"] == "DEEP/SUI")
                 assert deep_sui_res["execution_status"] == "SKIPPED_VAULT_PROTECTED"
                 assert deep_sui_res["status"] == "SKIPPED_VAULT_PROTECTED"

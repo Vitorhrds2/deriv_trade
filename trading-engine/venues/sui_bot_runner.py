@@ -442,7 +442,12 @@ class SuiBotRunner:
         pair_cfg = SUI_PAIRS_CONFIG.get(pair_name)
         live_fee_info = live_fee_map.get(pair_name)
         amm_fee_bps = (
-            (pair_cfg.turbos_fee_rate if target_amm == "turbos" else pair_cfg.cetus_fee_rate) * 10000.0
+            (
+                pair_cfg.turbos_fee_rate
+                if (target_amm == "turbos" and pair_cfg.turbos_pool_id)
+                else pair_cfg.cetus_fee_rate
+            )
+            * 10000.0
             if pair_cfg is not None
             else 5.0
         )
@@ -532,8 +537,40 @@ class SuiBotRunner:
             return 0.0
         return (float(borrow_amount) / denom) * 10000.0
 
+    async def _await_or_shutdown(self, awaitable: Any) -> Optional[Any]:
+        """Awaits ``awaitable`` unless ``self.shutdown_event`` fires first, cancelling cleanly on shutdown."""
+        if self.shutdown_event.is_set():
+            close = getattr(awaitable, "close", None)
+            if callable(close):
+                close()
+            elif asyncio.isfuture(awaitable) and not awaitable.done():
+                awaitable.cancel()
+            return None
+        work_task = asyncio.ensure_future(awaitable)
+        stop_task = asyncio.create_task(self.shutdown_event.wait())
+        try:
+            done, _ = await asyncio.wait(
+                {work_task, stop_task},
+                return_when=asyncio.FIRST_COMPLETED,
+            )
+            if work_task in done:
+                return await work_task
+            work_task.cancel()
+            try:
+                await work_task
+            except (asyncio.CancelledError, Exception):
+                pass
+            return None
+        finally:
+            if not stop_task.done():
+                stop_task.cancel()
+                try:
+                    await stop_task
+                except asyncio.CancelledError:
+                    pass
+
     async def scan_once(self) -> List[Dict[str, Any]]:
-        """Executes a single scanning pass across all 4 configured trading pairs."""
+        """Executes a single scanning pass across all configured trading pairs."""
         results: List[Dict[str, Any]] = []
 
         # 1. Check if trading is allowed by safety guardrails
@@ -542,12 +579,36 @@ class SuiBotRunner:
             logger.warning(f"Scan cycle skipped: Engine status is {status} (can_trade=False)")
             return results
 
-        # 2. Query live market prices and spreads across 4 pairs
-        market_spreads = await self.poll_market_spreads()
-        sui_spot = market_spreads.get("SUI/USDC", {}).get("cetus_price", 2.0)
-        live_fee_map, deep_coin_info = await self._refresh_live_fee_and_deep_context(market_spreads)
+        # 2. Query live market prices and spreads across all active pairs
+        market_spreads = await self._await_or_shutdown(self.poll_market_spreads())
+        if market_spreads is None or self.shutdown_event.is_set():
+            return results
 
-        # 3. Iterate through 4 configured pairs
+        sui_spot = market_spreads.get("SUI/USDC", {}).get("cetus_price", 2.0)
+
+        # Fetch live fee/DEEP context and DeepBook Vault Balances concurrently (cancels cleanly on shutdown)
+        async def _fetch_ctx_and_vaults() -> Any:
+            return await asyncio.gather(
+                self._refresh_live_fee_and_deep_context(market_spreads),
+                asyncio.gather(
+                    *(self.validator.graphql_client.get_deepbook_vault_balances(p) for p in ACTIVE_PAIRS),
+                    return_exceptions=True,
+                ),
+            )
+
+        ctx_bundle = await self._await_or_shutdown(_fetch_ctx_and_vaults())
+        if ctx_bundle is None or self.shutdown_event.is_set():
+            return results
+
+        (live_fee_map, deep_coin_info), vault_results = ctx_bundle
+        vault_balances_map: Dict[str, Dict[str, int]] = {}
+        for p_name, v_res in zip(ACTIVE_PAIRS, vault_results):
+            if isinstance(v_res, dict):
+                vault_balances_map[p_name] = v_res
+            else:
+                vault_balances_map[p_name] = {"base_balance": 0, "quote_balance": 0, "deep_balance": 0}
+
+        # 3. Iterate through all configured pairs
         pair_candidates: List[Dict[str, Any]] = []
         pair_results_map: Dict[str, Dict[str, Any]] = {}
 
@@ -587,7 +648,7 @@ class SuiBotRunner:
                 target_amm = pair_market.get("best_amm", pair_market.get("amm_target", "cetus"))
 
             # DeepBook Vault Balance Check (Requirement R3):
-            vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
+            vault_balances = vault_balances_map.get(pair_name) or await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
             vault_quote_balance = vault_balances.get("quote_balance", 0)
 
             explicit_deep_coin = pair_market.get("deep_coin")

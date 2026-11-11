@@ -530,7 +530,7 @@ async def test_bot_runner_turbos_scanning_and_execution():
 
     # Perform single scan pass
     results = await runner.scan_once()
-    assert len(results) == 4
+    assert len(results) == len(SUI_PAIRS_CONFIG)
 
     for r in results:
         assert r["amm_target"] == "turbos"

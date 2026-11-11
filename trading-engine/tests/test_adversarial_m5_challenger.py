@@ -109,10 +109,13 @@ class TestZeroLegRiskAdversarial:
         params = HotPotatoPTBParams.from_pair(pair_name=pair_name, deduct_fees=True)
         ptb = self.builder.build_atomic_arb_ptb(params)
 
+        cfg = SUI_PAIRS_CONFIG[pair_name]
         base_px = 2.0 if "USDC" in pair_name else 0.05
         amm_swap_out_px = base_px
-        # DeepBook bid is +2 bps higher (looks profitable before fees)
-        deepbook_bid_px = base_px * 1.0002
+        # Marginally positive gross spread strictly below this pool's combined fee hurdle
+        total_fee_bps = cfg.cetus_fee_bps + cfg.deepbook_taker_fee_bps
+        sub_hurdle_frac = min(0.0002, (0.5 * total_fee_bps) / 10000.0)
+        deepbook_bid_px = base_px * (1.0 + sub_hurdle_frac)
 
         sim = self.venue.simulate_dry_run(
             ptb=ptb,
@@ -497,7 +500,7 @@ class TestRunbookIntegrityAdversarial:
                         assert key in data, f"Missing key '{key}' in health payload"
 
                     assert data["status"] in ("HEALTHY", "DEGRADED", "CRITICAL")
-                    assert data["active_pairs"] == ["SUI/USDC", "DEEP/SUI", "DEEP/USDC", "CETUS/SUI"]
+                    assert data["active_pairs"] == list(ACTIVE_PAIRS)
                     assert data["region"] == "europe-west3"
                     assert isinstance(data["borrow_amount_usdc"], int)
                     assert isinstance(data["sui_gas_balance"], float)

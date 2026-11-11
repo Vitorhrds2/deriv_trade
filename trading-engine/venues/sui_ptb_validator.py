@@ -49,8 +49,10 @@ try:
         DEEP_SUI_POOL_ID,
         DEEP_USDC_POOL_ID,
         DEEPBOOK_PACKAGE_ID,
+        DEFAULT_PAIR_SPOT_PRICES,
         MAX_SQRT_PRICE,
         MIN_SQRT_PRICE,
+        PAIR_GRAPHQL_ALIASES,
         SUI_CLOCK_OBJECT_ID,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
@@ -90,8 +92,10 @@ except ImportError:
         DEEP_SUI_POOL_ID,
         DEEP_USDC_POOL_ID,
         DEEPBOOK_PACKAGE_ID,
+        DEFAULT_PAIR_SPOT_PRICES,
         MAX_SQRT_PRICE,
         MIN_SQRT_PRICE,
+        PAIR_GRAPHQL_ALIASES,
         SUI_CLOCK_OBJECT_ID,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
@@ -127,12 +131,7 @@ SIMULATED_GAS_MIST: int = 2_000_000
 SIMULATED_GAS_SUI: float = 0.002
 
 # Default Base Mid-Prices for Spread Simulation
-DEFAULT_PAIR_BASE_PRICES: Dict[str, float] = {
-    "SUI/USDC": 2.0,
-    "DEEP/SUI": 0.05,
-    "DEEP/USDC": 0.10,
-    "CETUS/SUI": 0.16,
-}
+DEFAULT_PAIR_BASE_PRICES: Dict[str, float] = dict(DEFAULT_PAIR_SPOT_PRICES)
 
 
 @dataclass
@@ -350,19 +349,12 @@ class SuiPTBPreflightValidator:
                 usdc_balance = float(wallet_data.get("usdc", usdc_raw / 1e6))
                 rpc_connected = True
 
-                # Query snapshot of all 4 DeepBook and Cetus pools
+                # Query snapshot of all configured DeepBook and Cetus pools
                 snapshot_data = await self.graphql_client.get_market_snapshot(self.operator_address)
                 data_dict = snapshot_data.get("data", {}) if snapshot_data else {}
 
-                pool_key_map = {
-                    "SUI/USDC": ("d_sui_usdc", "p_sui_usdc"),
-                    "DEEP/SUI": ("d_deep_sui", "p_deep_sui"),
-                    "DEEP/USDC": ("d_deep_usdc", "p_deep_usdc"),
-                    "CETUS/SUI": ("d_cetus_sui", "p_cetus_sui"),
-                }
-
                 for pair_name, cfg in SUI_PAIRS_CONFIG.items():
-                    d_key, p_key = pool_key_map[pair_name]
+                    p_key, _, d_key, _, _ = PAIR_GRAPHQL_ALIASES[pair_name]
                     d_obj = data_dict.get(d_key)
                     p_obj = data_dict.get(p_key)
                     d_ok = d_obj is not None and "asMoveObject" in d_obj
@@ -1163,11 +1155,12 @@ class SuiPTBPreflightValidator:
 
         # 3. Dry-Run Simulations
         dry_run_checks: Dict[str, Any] = {}
-        for pair_name in SUI_PAIRS_CONFIG:
+        for pair_name, cfg in SUI_PAIRS_CONFIG.items():
             # Sub-hurdle (0 bps spread) -> must ABORT cleanly with ~0.002 SUI gas
             abort_sim = self.simulate_ptb_dry_run(pair_name, spread_bps=0.0)
-            # Profitable (100 bps spread) -> must SUCCEED with net profit > 0
-            success_sim = self.simulate_ptb_dry_run(pair_name, spread_bps=100.0)
+            # Profitable spread clearly above this pool's combined Cetus + DeepBook fee hurdle -> must SUCCEED with net profit > 0
+            profitable_spread = max(100.0, cfg.cetus_fee_bps + cfg.deepbook_taker_fee_bps + 25.0)
+            success_sim = self.simulate_ptb_dry_run(pair_name, spread_bps=profitable_spread)
 
             dry_run_checks[pair_name] = {
                 "abort_test": abort_sim,
