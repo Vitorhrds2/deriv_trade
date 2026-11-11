@@ -624,7 +624,26 @@ class DynamicCapitalScalingEngine:
             min_usd, max_usd = bounds_usd
             if pair_clean == "SUI/USDC":
                 tier_usd = self.state.current_tier.value / 1_000_000.0
-                max_usd = min(max_usd, tier_usd)
+                # Dynamic tranche scaling for SUI/USDC based on net margin:
+                # Under tight spreads (16.0 < spread <= 22.0 bps, net margin <= 6.0 bps):
+                #   Cap max_usd to $2,500 USDC to ensure CLMM + CLOB slippage (< 1.0 bps) does not exceed net margin.
+                # Under intermediate spreads (22.0 < spread <= 28.0 bps, net margin <= 12.0 bps):
+                #   Cap max_usd to $5,000 USDC.
+                # Under wide spreads (spread > 28.0 bps):
+                #   Allow full tier_usd (up to $10,000 USDC at Tier 3).
+                if float(spread_bps) <= 22.0:
+                    spread_cap_usd = 2500.0
+                elif float(spread_bps) <= 28.0:
+                    spread_cap_usd = 5000.0
+                else:
+                    spread_cap_usd = 10000.0
+
+                if spread_cap_usd < tier_usd:
+                    logger.info(
+                        f"Dynamic tranche scaled for {pair_clean} ({float(spread_bps):.1f} bps spread): "
+                        f"capped at ${spread_cap_usd:.0f} USDC to minimize slippage (tier max was ${tier_usd:.0f} USDC)."
+                    )
+                max_usd = min(max_usd, tier_usd, spread_cap_usd)
 
             # Convert USD bounds and absolute floor to native atomic units
             if not is_base_borrow:

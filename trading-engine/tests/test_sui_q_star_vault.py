@@ -266,6 +266,45 @@ def test_dynamic_tranche_sui_usdc_scales_by_tier():
     assert amt_tier3 == 10_000_000_000  # $10,000 USDC
 
 
+def test_dynamic_tranche_sui_usdc_spread_aware_sizing():
+    """Validates that SUI/USDC dynamically clamps tranche size based on spread to prevent slippage shortfall:
+    - Spreads in [16.0, 22.0] bps (tight margin) clamp to $2,500 USDC
+    - Spreads in (22.0, 28.0] bps (medium margin) clamp to $5,000 USDC
+    - Spreads > 28.0 bps clamp up to Tier 3 max ($10,000 USDC)
+    """
+    engine = DynamicCapitalScalingEngine(initial_tier=ScalingTier.TIER_3)
+
+    # Tight spread (20.6 bps, net margin 4.6 bps) -> Clamped to $2,500 USDC
+    amt_tight = engine.get_current_borrow_amount(
+        "SUI/USDC",
+        spread_bps=20.6,
+        liquidity=7.1189e13,
+        sqrt_price=2.0 ** 0.5,
+        fee_bps=16.0,
+    )
+    assert amt_tight == 2_500_000_000  # $2,500 USDC
+
+    # Medium spread (25.0 bps, net margin 9.0 bps) -> Clamped to $5,000 USDC
+    amt_med = engine.get_current_borrow_amount(
+        "SUI/USDC",
+        spread_bps=25.0,
+        liquidity=7.1189e13,
+        sqrt_price=2.0 ** 0.5,
+        fee_bps=16.0,
+    )
+    assert amt_med == 5_000_000_000  # $5,000 USDC
+
+    # Wide spread (40.0 bps, net margin 24.0 bps) -> Clamped to $10,000 USDC (Tier 3 max)
+    amt_wide = engine.get_current_borrow_amount(
+        "SUI/USDC",
+        spread_bps=40.0,
+        liquidity=7.1189e13,
+        sqrt_price=2.0 ** 0.5,
+        fee_bps=16.0,
+    )
+    assert amt_wide == 10_000_000_000  # $10,000 USDC
+
+
 def test_dynamic_tranche_cetus_sui_clamped_100_to_250_usd():
     """Validates that CETUS/SUI is clamped to $100 - $250 USD (~50 - 120 SUI)."""
     engine = DynamicCapitalScalingEngine()
