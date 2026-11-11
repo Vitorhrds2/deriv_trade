@@ -102,6 +102,7 @@ class SuiBotConfig:
     max_scan_cycles: Optional[int] = None
     sui_private_key: Optional[str] = field(default=None, repr=False)
     amm_target: str = "multi"
+    min_profit_usd: float = 0.035
 
     @classmethod
     def from_env(cls) -> SuiBotConfig:
@@ -162,6 +163,12 @@ class SuiBotConfig:
         if amm_target not in ("cetus", "turbos", "multi"):
             amm_target = "multi"
 
+        raw_min_profit = os.getenv("MIN_PROFIT_USD", "0.035")
+        try:
+            min_profit_usd = float(raw_min_profit)
+        except ValueError:
+            min_profit_usd = 0.035
+
         return cls(
             graphql_url=graphql_url,
             operator_address=operator_address,
@@ -178,6 +185,7 @@ class SuiBotConfig:
             max_scan_cycles=max_scan_cycles,
             sui_private_key=sui_private_key,
             amm_target=amm_target,
+            min_profit_usd=min_profit_usd,
         )
 
     def to_safe_dict(self) -> Dict[str, Any]:
@@ -196,6 +204,7 @@ class SuiBotConfig:
             "warning_gas_floor": self.warning_gas_floor,
             "critical_gas_floor": self.critical_gas_floor,
             "amm_target": self.amm_target,
+            "min_profit_usd": self.min_profit_usd,
             "has_private_key": self.sui_private_key is not None and len(self.sui_private_key) > 0,
         }
 
@@ -379,6 +388,7 @@ class SuiBotRunner:
             deepbook_price = pair_market.get("deepbook_price", base_price)
             deepbook_ask = pair_market.get("deepbook_ask", deepbook_price)
             bid_depth_quote = pair_market.get("bid_depth_quote")
+            ask_depth_quote = pair_market.get("ask_depth_quote")
             cetus_liq = pair_market.get("cetus_liquidity")
             cetus_sqrt_p = pair_market.get("cetus_sqrt_price")
 
@@ -390,6 +400,9 @@ class SuiBotRunner:
                 route_dir = "FORWARD"
                 eval_spread_bps = forward_spread
 
+            # Use Ask depth for REVERSE routes (market buying on DeepBook) and Bid depth for FORWARD routes
+            depth_to_use = ask_depth_quote if (route_dir == "REVERSE" and ask_depth_quote and ask_depth_quote > 0) else bid_depth_quote
+
             # DeepBook Vault Balance Check (Requirement R3):
             vault_balances = await self.validator.graphql_client.get_deepbook_vault_balances(pair_name)
             vault_quote_balance = vault_balances.get("quote_balance", 0)
@@ -400,7 +413,7 @@ class SuiBotRunner:
                 borrow_amount = self.scaling_engine.get_current_borrow_amount(
                     pair_name=pair_name,
                     sui_spot_price=sui_spot,
-                    max_depth_quote=bid_depth_quote,
+                    max_depth_quote=depth_to_use,
                     spread_bps=eval_spread_bps,
                     liquidity=cetus_liq,
                     sqrt_price=cetus_sqrt_p,
@@ -410,7 +423,7 @@ class SuiBotRunner:
                 borrow_amount = self.scaling_engine.get_current_borrow_amount(
                     pair_name=pair_name,
                     sui_spot_price=sui_spot,
-                    max_depth_quote=bid_depth_quote,
+                    max_depth_quote=depth_to_use,
                     spread_bps=None,
                     vault_balance=vault_quote_balance,
                 )
@@ -487,7 +500,7 @@ class SuiBotRunner:
 
                     is_profitable = (
                         status == "SUCCESS"
-                        and net_profit_usd >= 0.05
+                        and net_profit_usd >= self.config.min_profit_usd
                         and borrow_amount > 0
                     )
 

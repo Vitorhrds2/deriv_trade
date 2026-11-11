@@ -1698,6 +1698,8 @@ class SuiGraphQLClient:
 
             parsed_bid_size = 0.0
             bid_depth_quote = 0.0
+            parsed_ask_size = 0.0
+            ask_depth_quote = 0.0
 
             # 2. Parse real DeepBook V3 Orderbook Best Bid / Best Ask when running against live Mainnet
             if is_live_graphql:
@@ -1740,6 +1742,9 @@ class SuiGraphQLClient:
                             parsed_ask = float(asks[0][0])
                             if 0.1 * cetus_px <= parsed_ask <= 10.0 * cetus_px:
                                 deepbook_ask_px = parsed_ask
+                                if len(asks[0]) >= 2:
+                                    parsed_ask_size = float(asks[0][1])
+                                    ask_depth_quote = deepbook_ask_px * parsed_ask_size
                         except (ValueError, TypeError):
                             pass
                 elif pair_name == "CETUS/SUI":
@@ -1879,6 +1884,8 @@ class SuiGraphQLClient:
                 "turbos_net_profit_bps": best_turbos_net,
                 "bid_size": parsed_bid_size,
                 "bid_depth_quote": bid_depth_quote,
+                "ask_size": parsed_ask_size,
+                "ask_depth_quote": ask_depth_quote,
                 "cetus_liquidity": cetus_liquidity,
                 "cetus_sqrt_price": cetus_sqrt_p,
                 "turbos_liquidity": turbos_liquidity,
