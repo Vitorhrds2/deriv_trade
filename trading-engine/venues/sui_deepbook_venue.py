@@ -2075,6 +2075,66 @@ class SuiGraphQLClient:
 
         return {"base_balance": 0, "quote_balance": 0, "deep_balance": 0}
 
+    @staticmethod
+    def _aggregate_orderbook_side(
+        levels: list,
+        reference_px: float,
+        is_bid: bool,
+        sanity_px: Optional[float] = None,
+        max_slippage_frac: float = 0.0050,
+        min_edge_frac: float = 0.0006,
+    ) -> Optional[Tuple[float, Optional[float], Optional[float]]]:
+        """Aggregates VWAP price, total base size, and quote depth across profitable levels.
+
+        For bids (FORWARD: buy AMM -> sell DeepBook bid), includes levels down to
+        max(best_bid * (1 - max_slippage_frac), reference_px * (1 + min_edge_frac)).
+        For asks (REVERSE: buy DeepBook ask -> sell AMM), includes levels up to
+        min(best_ask * (1 + max_slippage_frac), reference_px * (1 - min_edge_frac)).
+        Returns None if empty, unparseable, or outside the [0.1x, 10x] sanity band.
+        """
+        if not levels or len(levels[0]) < 1:
+            return None
+        try:
+            best_px = float(levels[0][0])
+        except (ValueError, TypeError):
+            return None
+
+        band_px = sanity_px if (sanity_px and sanity_px > 0) else reference_px
+        if not (0.1 * band_px <= best_px <= 10.0 * band_px):
+            return None
+
+        if is_bid:
+            limit_px = max(best_px * (1.0 - max_slippage_frac), reference_px * (1.0 + min_edge_frac))
+        else:
+            limit_px = min(best_px * (1.0 + max_slippage_frac), reference_px * (1.0 - min_edge_frac))
+
+        total_base_size = 0.0
+        total_quote_depth = 0.0
+        for lvl in levels:
+            if len(lvl) < 2:
+                continue
+            try:
+                lvl_px = float(lvl[0])
+                lvl_sz = float(lvl[1])
+            except (ValueError, TypeError):
+                continue
+            if (lvl_px >= limit_px) if is_bid else (lvl_px <= limit_px):
+                total_base_size += lvl_sz
+                total_quote_depth += lvl_px * lvl_sz
+            else:
+                break
+
+        if total_base_size > 0.0:
+            return (total_quote_depth / total_base_size, total_base_size, total_quote_depth)
+
+        if len(levels[0]) >= 2:
+            try:
+                best_sz = float(levels[0][1])
+                return (best_px, best_sz, best_px * best_sz)
+            except (ValueError, TypeError):
+                pass
+        return (best_px, None, None)
+
     async def _fetch_deepbook_indexer_orderbook(self, indexer_symbol: str) -> Dict[str, Any]:
         """Fetches real-time top-of-book bids and asks from official Mysten Labs DeepBookV3 Mainnet Indexer."""
         url = f"{DEEPBOOK_INDEXER_ORDERBOOK_URL}/{indexer_symbol}?level=2&depth=10"
@@ -2210,51 +2270,30 @@ class SuiGraphQLClient:
             ask_depth_quote = 0.0
 
             # 2. Parse real DeepBook V3 Orderbook Best Bid / Best Ask when running against live Mainnet
+            turbos_valid = turbos_px > 0 and turbos_liquidity > 0
             if is_live_graphql:
                 if pair_name in indexer_books and indexer_books[pair_name]:
                     ob = indexer_books[pair_name]
-                    bids = ob.get("bids", [])
-                    asks = ob.get("asks", [])
-                    if bids and len(bids[0]) >= 1:
-                        try:
-                            best_bid = float(bids[0][0])
-                            if 0.1 * cetus_px <= best_bid <= 10.0 * cetus_px:
-                                # Aggregate bid size and quote depth across depth levels where bid price
-                                # is profitable above Cetus spot price (min 6 bps above Cetus),
-                                # capped at max 50 bps slippage from best bid
-                                min_acceptable_bid = max(best_bid * 0.9950, cetus_px * 1.0006)
-                                total_base_size = 0.0
-                                total_quote_depth = 0.0
-                                for b in bids:
-                                    if len(b) >= 2:
-                                        b_px = float(b[0])
-                                        b_sz = float(b[1])
-                                        if b_px >= min_acceptable_bid:
-                                            total_base_size += b_sz
-                                            total_quote_depth += b_px * b_sz
-                                        else:
-                                            break
-                                if total_base_size > 0.0:
-                                    deepbook_px = total_quote_depth / total_base_size
-                                    parsed_bid_size = total_base_size
-                                    bid_depth_quote = total_quote_depth
-                                else:
-                                    deepbook_px = best_bid
-                                    if len(bids[0]) >= 2:
-                                        parsed_bid_size = float(bids[0][1])
-                                        bid_depth_quote = deepbook_px * parsed_bid_size
-                        except (ValueError, TypeError):
-                            pass
-                    if asks and len(asks[0]) >= 1:
-                        try:
-                            parsed_ask = float(asks[0][0])
-                            if 0.1 * cetus_px <= parsed_ask <= 10.0 * cetus_px:
-                                deepbook_ask_px = parsed_ask
-                                if len(asks[0]) >= 2:
-                                    parsed_ask_size = float(asks[0][1])
-                                    ask_depth_quote = deepbook_ask_px * parsed_ask_size
-                        except (ValueError, TypeError):
-                            pass
+                    ref_fwd = min(cetus_px, turbos_px) if turbos_valid else cetus_px
+                    ref_rev = max(cetus_px, turbos_px) if turbos_valid else cetus_px
+
+                    bid_agg = self._aggregate_orderbook_side(
+                        ob.get("bids", []), ref_fwd, is_bid=True, sanity_px=cetus_px
+                    )
+                    if bid_agg is not None:
+                        deepbook_px = bid_agg[0]
+                        if bid_agg[1] is not None and bid_agg[2] is not None:
+                            parsed_bid_size = bid_agg[1]
+                            bid_depth_quote = bid_agg[2]
+
+                    ask_agg = self._aggregate_orderbook_side(
+                        ob.get("asks", []), ref_rev, is_bid=False, sanity_px=cetus_px
+                    )
+                    if ask_agg is not None:
+                        deepbook_ask_px = ask_agg[0]
+                        if ask_agg[1] is not None and ask_agg[2] is not None:
+                            parsed_ask_size = ask_agg[1]
+                            ask_depth_quote = ask_agg[2]
                 elif pair_name == "CETUS/SUI":
                     # Decode on-chain BigVector<Order> slice keys for CETUS/SUI
                     cetus_bids_obj = data.get("cetus_bids") or {}
@@ -2332,15 +2371,19 @@ class SuiGraphQLClient:
             cetus_net_rev = reverse_spread_bps - (c_fee_bps + db_fee_bps)
             best_cetus_net = max(cetus_net_fwd, cetus_net_rev)
 
-            turbos_net_fwd = turbos_forward_spread_bps - (t_fee_bps + db_fee_bps) if turbos_px > 0 else -999999.0
-            turbos_net_rev = turbos_reverse_spread_bps - (t_fee_bps + db_fee_bps) if turbos_px > 0 else -999999.0
-            best_turbos_net = max(turbos_net_fwd, turbos_net_rev) if turbos_px > 0 else -999999.0
+            # Exclude empty/zero-liquidity Turbos pools (e.g. CETUS/SUI with frozen stale sqrt_price)
+            if not turbos_valid:
+                turbos_forward_spread_bps = 0.0
+                turbos_reverse_spread_bps = 0.0
+            turbos_net_fwd = turbos_forward_spread_bps - (t_fee_bps + db_fee_bps) if turbos_valid else -999999.0
+            turbos_net_rev = turbos_reverse_spread_bps - (t_fee_bps + db_fee_bps) if turbos_valid else -999999.0
+            best_turbos_net = max(turbos_net_fwd, turbos_net_rev) if turbos_valid else -999999.0
 
-            if amm_target == "turbos" and turbos_px > 0:
+            if amm_target == "turbos" and turbos_valid:
                 selected_amm = "turbos"
             elif amm_target == "cetus":
                 selected_amm = "cetus"
-            elif turbos_px > 0 and best_turbos_net > best_cetus_net and best_turbos_net > 0:
+            elif turbos_valid and best_turbos_net > best_cetus_net and best_turbos_net > 0:
                 selected_amm = "turbos"
             else:
                 selected_amm = "cetus"
@@ -2726,8 +2769,11 @@ class SuiDeepBookVenue(UnifiedVenue):
 
         if is_arb_ptb:
             cfg = SUI_PAIRS_CONFIG.get(symbol, SUI_PAIRS_CONFIG["SUI/USDC"])
-            # Handle size: human units (< 100M) vs raw mist (>= 100M)
-            if size >= 100_000_000:
+            # Explicit size_is_raw avoids re-multiplying $25-$99.99 atomic amounts (< 100M) by 10**quote_decimals;
+            # retain < 100M heuristic only for legacy callers passing human float units.
+            if order_params.get("size_is_raw"):
+                borrow_amount = int(size)
+            elif size >= 100_000_000:
                 borrow_amount = int(size)
             else:
                 borrow_amount = int(size * (10 ** cfg.quote_decimals))
@@ -2793,6 +2839,9 @@ class SuiDeepBookVenue(UnifiedVenue):
                         else None
                     )
                     base_deep_fee = int(order_params.get("deep_fee_amount", 0) or 0) if deep_coin else 0
+                    expected_net_usd = order_params.get("expected_net_profit_usd")
+                    min_profit_usd = float(order_params.get("min_profit_usd", 0.0) or 0.0)
+                    est_gas_usd = float(order_params.get("gas_cost_usd", 0.0) or 0.0)
 
                     scales = (1.0, 0.5, 0.25) if enable_tranche_fallback else (1.0,)
                     candidate_amounts: List[int] = []
@@ -2802,6 +2851,14 @@ class SuiDeepBookVenue(UnifiedVenue):
                             continue
                         if idx > 0 and min_borrow_units > 0 and scaled < min_borrow_units:
                             continue
+                        if idx > 0 and min_profit_usd > 0.0 and expected_net_usd is not None:
+                            scaled_net_usd = (float(expected_net_usd) + est_gas_usd) * scale - est_gas_usd
+                            if scaled_net_usd < min_profit_usd:
+                                logger.debug(
+                                    f"Skipping shrunk {scale:.2f}x fallback for {symbol}: "
+                                    f"scaled net ${scaled_net_usd:.4f} < min_profit_usd ${min_profit_usd:.4f}"
+                                )
+                                continue
                         if scaled not in candidate_amounts:
                             candidate_amounts.append(scaled)
                     if not candidate_amounts and borrow_amount > 0:

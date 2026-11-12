@@ -301,7 +301,7 @@ class SuiHealthServer:
             "region": self.region,
             "consecutive_aborts": consecutive_aborts,
             "timestamp": now,
-            "accumulated_profit_usdc": round(accumulated_profit, 2),
+            "accumulated_profit_usdc": round(accumulated_profit, 6),
             "successful_trades": successful_trades,
         }
 

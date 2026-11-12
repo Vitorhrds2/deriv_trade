@@ -873,7 +873,7 @@ class SuiBotRunner:
                     gas_cost_sui = dry_run.get("gas_cost_sui", 0.002) if isinstance(dry_run, dict) else getattr(dry_run, "gas_cost_sui", 0.002)
                     zero_leg_risk_preserved = dry_run.get("zero_leg_risk_preserved", True) if isinstance(dry_run, dict) else getattr(dry_run, "zero_leg_risk_preserved", True)
 
-                    # Convert quote currency net profit to USD equivalent and deduct expected AMM slippage + gas
+                    # Convert quote currency net profit to USD equivalent and deduct expected AMM slippage + realistic Sui gas
                     raw_net_profit_usd = (net_profit * sui_spot) if is_sui_quote else net_profit
                     if status == "SUCCESS" and borrow_amount > 0:
                         borrow_usd = (
@@ -882,10 +882,12 @@ class SuiBotRunner:
                             else (float(borrow_amount) / 1_000_000.0)
                         )
                         slippage_cost_usd = borrow_usd * (amm_slippage_bps / 10000.0)
-                        gas_cost_usd = float(gas_cost_sui) * sui_spot
+                        effective_gas_sui = max(float(gas_cost_sui), 0.005)
+                        gas_cost_usd = effective_gas_sui * sui_spot
                         expected_net_after_slippage = raw_net_profit_usd - slippage_cost_usd - gas_cost_usd
                         net_profit_usd = expected_net_after_slippage
                     else:
+                        gas_cost_usd = 0.0
                         expected_net_after_slippage = 0.0
                         net_profit_usd = raw_net_profit_usd
 
@@ -932,6 +934,7 @@ class SuiBotRunner:
                 "net_profit": net_profit,
                 "net_profit_usd": net_profit_usd,
                 "gas_cost_sui": gas_cost_sui,
+                "gas_cost_usd": gas_cost_usd,
                 "zero_leg_risk_preserved": zero_leg_risk_preserved,
                 "spread_bps": eval_spread_bps,
                 "forward_spread_bps": forward_spread,
@@ -964,6 +967,7 @@ class SuiBotRunner:
                 borrow_amount = opp["borrow_amount"]
                 eval_spread_bps = opp["spread_bps"]
                 net_profit_usd = opp["net_profit_usd"]
+                opp_gas_cost_usd = float(opp.get("gas_cost_usd", 0.0) or 0.0)
                 net_profit = opp["net_profit"]
                 deepbook_ask = opp["deepbook_ask"]
                 deepbook_price = opp["deepbook_price"]
@@ -982,6 +986,7 @@ class SuiBotRunner:
                             "symbol": pair_name,
                             "side": "BUY",
                             "size": borrow_amount,
+                            "size_is_raw": True,
                             "price": dry_run.get("deepbook_ask_px" if route_dir == "REVERSE" else "deepbook_bid_px", deepbook_price),
                             "deepbook_ask_px": deepbook_ask,
                             "amm_price": dry_run.get("amm_swap_out_px", base_price),
@@ -991,6 +996,9 @@ class SuiBotRunner:
                             "deepbook_fee_bps": opp.get("deepbook_fee_bps"),
                             "enable_tranche_fallback": True,
                             "min_borrow_units": opp.get("min_floor_units", 0),
+                            "expected_net_profit_usd": net_profit_usd,
+                            "gas_cost_usd": opp_gas_cost_usd,
+                            "min_profit_usd": self.config.min_profit_usd,
                             "deep_coin": opp.get("deep_coin"),
                             "deep_fee_amount": opp.get("deep_fee_amount", 0),
                             "live_onchain": bool(
@@ -1006,10 +1014,28 @@ class SuiBotRunner:
                                 self._last_deep_check_ts = 0.0
                             self._last_wallet_balance_check_ts = 0.0
                         if exec_res.status == "FILLED":
+                            fill_scale = (
+                                float(exec_res.size) / float(borrow_amount)
+                                if borrow_amount > 0 and 0 < float(exec_res.size) < float(borrow_amount)
+                                else 1.0
+                            )
+                            realized_profit_usd = (
+                                (net_profit_usd + opp_gas_cost_usd) * fill_scale - opp_gas_cost_usd
+                                if fill_scale < 1.0
+                                else net_profit_usd
+                            )
                             opp["execution_status"] = "EXECUTED"
+                            opp["net_profit_usd"] = realized_profit_usd
+                            opp["executed_borrow_amount"] = (
+                                int(exec_res.size) if fill_scale < 1.0 else borrow_amount
+                            )
                             pair_results_map[pair_name]["execution_status"] = "EXECUTED"
-                            logger.info(f"Live PTB executed successfully for {pair_name}: order_id={exec_res.order_id}")
-                            self.scaling_engine.record_trade_success(profit_usdc=net_profit_usd)
+                            pair_results_map[pair_name]["net_profit_usd"] = realized_profit_usd
+                            logger.info(
+                                f"Live PTB executed successfully for {pair_name}: order_id={exec_res.order_id} "
+                                f"(fill_scale={fill_scale:.2%}, realized_net=${realized_profit_usd:.4f})"
+                            )
+                            self.scaling_engine.record_trade_success(profit_usdc=realized_profit_usd)
                         else:
                             opp["execution_status"] = "REJECTED"
                             pair_results_map[pair_name]["execution_status"] = "REJECTED"
