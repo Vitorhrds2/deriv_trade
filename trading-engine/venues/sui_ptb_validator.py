@@ -277,8 +277,10 @@ class SuiPTBPreflightValidator:
         venue: Optional[SuiDeepBookVenue] = None,
         ptb_builder: Optional[SuiDeepBookPTBBuilder] = None,
         scaling_engine: Optional[DynamicCapitalScalingEngine] = None,
+        rpc_url: Optional[str] = None,
     ) -> None:
         self.endpoint = graphql_url or SUI_GRAPHQL_MAINNET
+        self.rpc_url = rpc_url
         self.operator_address = operator_address
         self.balance_manager_id = (
             balance_manager_id
@@ -291,14 +293,15 @@ class SuiPTBPreflightValidator:
         if graphql_client is not None:
             self.graphql_client = graphql_client
         elif graphql_url is not None:
-            self.graphql_client = SuiGraphQLClient(endpoint=graphql_url)
+            self.graphql_client = SuiGraphQLClient(endpoint=graphql_url, rpc_endpoint=rpc_url)
         else:
-            self.graphql_client = SuiGraphQLClient(endpoint=self.endpoint)
+            self.graphql_client = SuiGraphQLClient(endpoint=self.endpoint, rpc_endpoint=rpc_url)
 
         self.ptb_builder = ptb_builder or SuiDeepBookPTBBuilder()
         self.venue = venue or SuiDeepBookVenue(
             graphql_url=self.endpoint,
             active_address=self.operator_address,
+            rpc_url=rpc_url,
         )
         self.scaling_engine = scaling_engine or DynamicCapitalScalingEngine(
             warning_gas_floor=self.warning_gas_floor,

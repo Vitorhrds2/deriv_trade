@@ -34,6 +34,7 @@ try:
         CIRCLE_USDC_TYPE,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
+        SUI_GRPC_MAINNET,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
     )
@@ -61,6 +62,7 @@ except ImportError:
         CIRCLE_USDC_TYPE,
         SUI_COIN_TYPE,
         SUI_GRAPHQL_MAINNET,
+        SUI_GRPC_MAINNET,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
     )
@@ -107,14 +109,21 @@ class SuiBotConfig:
     sui_private_key: Optional[str] = field(default=None, repr=False)
     amm_target: str = "multi"
     min_profit_usd: float = 0.035
+    rpc_url: str = SUI_GRPC_MAINNET
+    slippage_safety_buffer_bps: float = 2.0
 
     @classmethod
     def from_env(cls) -> SuiBotConfig:
         """Constructs configuration from environment variables with safe defaults."""
+        env_rpc = (os.getenv("SUI_GRPC_URL") or os.getenv("SUI_RPC_URL") or "").strip() or None
         graphql_url = (
             os.getenv("SUI_GRAPHQL_URL")
-            or os.getenv("SUI_RPC_URL")
+            or (env_rpc if (env_rpc and "/graphql" in env_rpc) else None)
             or SUI_GRAPHQL_MAINNET
+        )
+        rpc_url = (
+            (env_rpc if (env_rpc and "/graphql" not in env_rpc) else None)
+            or SUI_GRPC_MAINNET
         )
         operator_address = (
             os.getenv("OPERATOR_ADDRESS")
@@ -173,6 +182,16 @@ class SuiBotConfig:
         except ValueError:
             min_profit_usd = 0.035
 
+        raw_buf = (
+            os.getenv("SLIPPAGE_SAFETY_BUFFER_BPS")
+            or os.getenv("SUI_SLIPPAGE_BUFFER_BPS")
+            or "2.0"
+        )
+        try:
+            slippage_safety_buffer_bps = max(0.0, min(50.0, float(raw_buf)))
+        except ValueError:
+            slippage_safety_buffer_bps = 2.0
+
         return cls(
             graphql_url=graphql_url,
             operator_address=operator_address,
@@ -190,12 +209,15 @@ class SuiBotConfig:
             sui_private_key=sui_private_key,
             amm_target=amm_target,
             min_profit_usd=min_profit_usd,
+            rpc_url=rpc_url,
+            slippage_safety_buffer_bps=slippage_safety_buffer_bps,
         )
 
     def to_safe_dict(self) -> Dict[str, Any]:
         """Returns non-sensitive configuration parameters for logging and inspection."""
         return {
             "graphql_url": self.graphql_url,
+            "rpc_url": self.rpc_url,
             "operator_address": self.operator_address,
             "initial_borrow_amount": self.initial_borrow_amount,
             "port": self.port,
@@ -209,6 +231,7 @@ class SuiBotConfig:
             "critical_gas_floor": self.critical_gas_floor,
             "amm_target": self.amm_target,
             "min_profit_usd": self.min_profit_usd,
+            "slippage_safety_buffer_bps": self.slippage_safety_buffer_bps,
             "has_private_key": self.sui_private_key is not None and len(self.sui_private_key) > 0,
         }
 
@@ -252,6 +275,7 @@ class SuiBotRunner:
             warning_gas_floor=self.config.warning_gas_floor,
             critical_gas_floor=self.config.critical_gas_floor,
             scaling_engine=self.scaling_engine,
+            rpc_url=self.config.rpc_url,
         )
         self.health_server = health_server or SuiHealthServer(
             port=self.config.port,
@@ -648,6 +672,19 @@ class SuiBotRunner:
             return 0.0
         return (float(borrow_amount) / denom) * 10000.0
 
+    @staticmethod
+    def _compute_dynamic_slippage_buffer_bps(
+        base_buffer_bps: float, amm_slippage_bps: float
+    ) -> float:
+        """Computes dynamic 2.0-3.0 bps safety buffer to absorb intra-block price drift."""
+        base = max(0.0, float(base_buffer_bps))
+        if base <= 0.0:
+            return 0.0
+        extra = min(1.0, max(0.0, float(amm_slippage_bps) * 0.05))
+        if base <= 3.0:
+            return min(3.0, base + extra)
+        return base + extra
+
     async def _await_or_shutdown(self, awaitable: Any) -> Optional[Any]:
         """Awaits ``awaitable`` unless ``self.shutdown_event`` fires first, cancelling cleanly on shutdown."""
         if self.shutdown_event.is_set():
@@ -793,7 +830,7 @@ class SuiBotRunner:
                 pair_market=pair_market,
             )
 
-            # Requirement R2/R4: Dynamic Average Execution Slippage Protection
+            # Requirement R2/R4: Dynamic Average Execution Slippage + Intra-block Drift Buffer (2-3 bps)
             amm_slippage_bps = self._compute_amm_slippage_bps(
                 pair_name=pair_name,
                 borrow_amount=borrow_amount,
@@ -801,6 +838,11 @@ class SuiBotRunner:
                 cetus_sqrt_p=cetus_sqrt_p,
             )
             effective_hurdle_bps = fee_hurdle + amm_slippage_bps
+            slippage_buffer_bps = self._compute_dynamic_slippage_buffer_bps(
+                self.config.slippage_safety_buffer_bps,
+                amm_slippage_bps,
+            )
+            execution_hurdle_bps = effective_hurdle_bps + slippage_buffer_bps
 
             # Preflight Vault Balance Protection vs Shallow Orderbook Depth check
             vault_cap = int(float(vault_quote_balance) * 0.90)
@@ -882,13 +924,16 @@ class SuiBotRunner:
                             else (float(borrow_amount) / 1_000_000.0)
                         )
                         slippage_cost_usd = borrow_usd * (amm_slippage_bps / 10000.0)
+                        buffer_cost_usd = borrow_usd * (slippage_buffer_bps / 10000.0)
                         effective_gas_sui = max(float(gas_cost_sui), 0.005)
                         gas_cost_usd = effective_gas_sui * sui_spot
                         expected_net_after_slippage = raw_net_profit_usd - slippage_cost_usd - gas_cost_usd
+                        worst_case_net_after_buffer = expected_net_after_slippage - buffer_cost_usd
                         net_profit_usd = expected_net_after_slippage
                     else:
                         gas_cost_usd = 0.0
                         expected_net_after_slippage = 0.0
+                        worst_case_net_after_buffer = 0.0
                         net_profit_usd = raw_net_profit_usd
 
                     if route_dir == "REVERSE":
@@ -899,18 +944,20 @@ class SuiBotRunner:
                     is_profitable = (
                         status == "SUCCESS"
                         and expected_net_after_slippage >= self.config.min_profit_usd
+                        and worst_case_net_after_buffer > 0.0
                         and borrow_amount > 0
                         and has_deepbook_depth
-                        and eval_spread_bps > effective_hurdle_bps
+                        and eval_spread_bps > execution_hurdle_bps
                     )
 
-                    if status == "SUCCESS" and eval_spread_bps <= effective_hurdle_bps and eval_spread_bps > fee_hurdle:
+                    if status == "SUCCESS" and eval_spread_bps <= execution_hurdle_bps and eval_spread_bps > fee_hurdle:
                         logger.info(
                             f"Sub-slippage spread on {pair_name} ({route_dir}): spread {eval_spread_bps:+.1f} bps "
-                            f"<= effective hurdle {effective_hurdle_bps:.1f} bps (fee {fee_hurdle:.1f} + slippage {amm_slippage_bps:.1f} bps). "
+                            f"<= execution hurdle {execution_hurdle_bps:.1f} bps "
+                            f"(fee {fee_hurdle:.1f} + slippage {amm_slippage_bps:.1f} + buffer {slippage_buffer_bps:.2f} bps). "
                             f"Execution safely skipped to eliminate Move VM abort."
                         )
-                    elif status == "SUCCESS" and eval_spread_bps > effective_hurdle_bps and expected_net_after_slippage < self.config.min_profit_usd:
+                    elif status == "SUCCESS" and eval_spread_bps > execution_hurdle_bps and expected_net_after_slippage < self.config.min_profit_usd:
                         logger.info(
                             f"Sub-min-profit spread on {pair_name} ({route_dir}): "
                             f"expected net ${expected_net_after_slippage:.4f} < min ${self.config.min_profit_usd:.4f}. "
@@ -943,6 +990,8 @@ class SuiBotRunner:
                 "deepbook_fee_bps": db_fee_bps_override,
                 "effective_hurdle_bps": effective_hurdle_bps,
                 "amm_slippage_bps": amm_slippage_bps,
+                "slippage_buffer_bps": slippage_buffer_bps,
+                "execution_hurdle_bps": execution_hurdle_bps,
                 "cetus_price": base_price if base_price is not None else 0.0,
                 "deepbook_price": deepbook_price if deepbook_price is not None else 0.0,
                 "deepbook_ask": deepbook_ask,
@@ -1134,11 +1183,15 @@ class SuiBotRunner:
         if self.health_server.is_running:
             await self.health_server.stop()
 
-        # Close GraphQL client sessions
+        # Close GraphQL / gRPC client sessions
         try:
             await self.validator.graphql_client.close()
         except Exception as e:
-            logger.debug(f"Error closing GraphQL client session: {e}")
+            logger.debug(f"Error closing validator GraphQL client session: {e}")
+        try:
+            await self.validator.venue.graphql_client.close()
+        except Exception as e:
+            logger.debug(f"Error closing venue GraphQL client session: {e}")
 
         logger.info(
             f"SuiBotRunner stopped cleanly. Total cycles executed: {self.completed_cycles}, "

@@ -27,6 +27,7 @@ import struct
 import time
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple
+from urllib.parse import unquote
 from uuid import uuid4
 
 import aiohttp
@@ -39,6 +40,8 @@ logger = logging.getLogger(__name__)
 # Official Sui Network Mainnet & Testnet endpoints
 SUI_GRAPHQL_MAINNET = "https://graphql.mainnet.sui.io/graphql"
 SUI_GRAPHQL_TESTNET = "https://graphql.testnet.sui.io/graphql"
+SUI_GRPC_MAINNET = "https://fullnode.mainnet.sui.io:443"
+SUI_GRPC_TESTNET = "https://fullnode.testnet.sui.io:443"
 DEEPBOOK_INDEXER_ORDERBOOK_URL = "https://deepbook-indexer.mainnet.mystenlabs.com/orderbook"
 
 # Package IDs
@@ -1499,16 +1502,148 @@ def calculate_turbos_spot_price(
     return float(p_ratio * (10 ** (decimals_a - decimals_b)))
 
 
-class SuiGraphQLClient:
-    """High-performance asynchronous Sui GraphQL RPC Client interfacing official Sui endpoints."""
+def _pb_encode_varint(value: int) -> bytes:
+    """Encodes a non-negative integer in base-128 protobuf varint format."""
+    out = bytearray()
+    v = int(value)
+    while v >= 0x80:
+        out.append((v & 0x7F) | 0x80)
+        v >>= 7
+    out.append(v)
+    return bytes(out)
 
-    def __init__(self, endpoint: Optional[str] = None):
+
+def _pb_encode_bytes_field(field_no: int, payload: bytes) -> bytes:
+    """Encodes a length-delimited (wire type 2) protobuf field."""
+    return _pb_encode_varint((field_no << 3) | 2) + _pb_encode_varint(len(payload)) + payload
+
+
+def _pb_read_varint(buf: bytes, offset: int) -> Tuple[int, int]:
+    """Decodes an unsigned varint from ``buf`` starting at ``offset``."""
+    val = 0
+    shift = 0
+    while offset < len(buf):
+        b = buf[offset]
+        offset += 1
+        val |= (b & 0x7F) << shift
+        if (b & 0x80) == 0:
+            return val, offset
+        shift += 7
+    raise ValueError("Truncated protobuf varint")
+
+
+def _pb_decode_fields(buf: bytes) -> Dict[int, List[Any]]:
+    """Parses protobuf wire fields (varint, fixed32/64, length-delimited) into field_no -> values."""
+    idx = 0
+    fields: Dict[int, List[Any]] = {}
+    while idx < len(buf):
+        key, idx = _pb_read_varint(buf, idx)
+        field_no, wire_type = key >> 3, key & 0x07
+        if wire_type == 0:
+            val, idx = _pb_read_varint(buf, idx)
+            fields.setdefault(field_no, []).append(val)
+        elif wire_type == 1:
+            fields.setdefault(field_no, []).append(buf[idx : idx + 8])
+            idx += 8
+        elif wire_type == 2:
+            ln, idx = _pb_read_varint(buf, idx)
+            fields.setdefault(field_no, []).append(buf[idx : idx + ln])
+            idx += ln
+        elif wire_type == 5:
+            fields.setdefault(field_no, []).append(buf[idx : idx + 4])
+            idx += 4
+        else:
+            break
+    return fields
+
+
+def _grpc_web_frame(payload: bytes) -> bytes:
+    """Wraps a serialized protobuf request into a single uncompressed gRPC-Web frame."""
+    return b"\x00" + struct.pack(">I", len(payload)) + payload
+
+
+def _grpc_web_unframe(body: bytes) -> Tuple[List[bytes], Dict[str, str]]:
+    """Splits a gRPC-Web HTTP response body into data frames and HTTP/2 trailers."""
+    messages: List[bytes] = []
+    trailers: Dict[str, str] = {}
+    offset = 0
+    while offset + 5 <= len(body):
+        flag = body[offset]
+        length = struct.unpack(">I", body[offset + 1 : offset + 5])[0]
+        end = offset + 5 + length
+        if end > len(body):
+            break
+        frame = body[offset + 5 : end]
+        offset = end
+        if flag == 0x00:
+            messages.append(frame)
+        elif flag & 0x80:
+            for line in frame.decode("utf-8", errors="replace").splitlines():
+                if ":" in line:
+                    k, v = line.split(":", 1)
+                    trailers[k.strip().lower()] = v.strip()
+    return messages, trailers
+
+
+def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
+    """Decodes sui.rpc.v2.ExecutedTransaction into normalized effects fields."""
+    etx = _pb_decode_fields(executed_tx_bytes)
+    digest_raw = etx.get(1, [b""])[0]
+    digest = digest_raw.decode("utf-8", errors="replace") if isinstance(digest_raw, bytes) else ""
+
+    eff_bytes = etx.get(4, [b""])[0]
+    eff = _pb_decode_fields(eff_bytes) if eff_bytes else {}
+    status_bytes = eff.get(4, [b""])[0]
+    status_msg = _pb_decode_fields(status_bytes) if status_bytes else {}
+    success = bool(status_msg.get(1, [0])[0])
+
+    err_msg = ""
+    if not success and 2 in status_msg and status_msg[2]:
+        err_fields = _pb_decode_fields(status_msg[2][0])
+        desc_raw = err_fields.get(1, [b""])[0]
+        err_msg = desc_raw.decode("utf-8", errors="replace") if isinstance(desc_raw, bytes) else ""
+
+    gas_bytes = eff.get(6, [b""])[0]
+    gas_fields = _pb_decode_fields(gas_bytes) if gas_bytes else {}
+    return {
+        "digest": digest,
+        "success": success,
+        "error": err_msg,
+        "gasSummary": {
+            "computationCost": int(gas_fields.get(1, [0])[0] or 0),
+            "storageCost": int(gas_fields.get(2, [0])[0] or 0),
+            "storageRebate": int(gas_fields.get(3, [0])[0] or 0),
+        },
+    }
+
+
+class SuiGraphQLClient:
+    """High-performance asynchronous Sui GraphQL + gRPC-Web RPC Client."""
+
+    def __init__(
+        self,
+        endpoint: Optional[str] = None,
+        rpc_endpoint: Optional[str] = None,
+    ):
+        env_rpc = (os.getenv("SUI_GRPC_URL") or os.getenv("SUI_RPC_URL") or "").strip() or None
         self.endpoint = (
             endpoint
             or os.getenv("SUI_GRAPHQL_URL")
-            or os.getenv("SUI_RPC_URL")
+            or (env_rpc if (env_rpc and "/graphql" in env_rpc) else None)
             or SUI_GRAPHQL_MAINNET
         )
+        if rpc_endpoint is not None:
+            self.rpc_endpoint = rpc_endpoint
+        elif env_rpc and "/graphql" not in env_rpc:
+            self.rpc_endpoint = env_rpc
+        elif endpoint is None or endpoint in (SUI_GRAPHQL_MAINNET, SUI_GRAPHQL_TESTNET):
+            self.rpc_endpoint = (
+                SUI_GRPC_TESTNET if "testnet" in self.endpoint else SUI_GRPC_MAINNET
+            )
+        else:
+            # Explicit custom/local GraphQL endpoint (e.g. unit test mocks): keep RPC isolated
+            self.rpc_endpoint = ""
+        self.rpc_protocol = os.getenv("SUI_RPC_PROTOCOL", "auto").strip().lower()
         self.operator_address = (
             os.getenv("OPERATOR_ADDRESS")
             or os.getenv("SUI_WALLET_ADDRESS")
@@ -1530,15 +1665,19 @@ class SuiGraphQLClient:
             await self._session.close()
 
     async def execute(
-        self, query: str, variables: Optional[Dict[str, Any]] = None
+        self,
+        query: str,
+        variables: Optional[Dict[str, Any]] = None,
+        max_attempts: int = 3,
     ) -> Dict[str, Any]:
         """Executes a GraphQL query against the Sui node with exponential backoff."""
         session = await self._get_session()
         payload = {"query": query, "variables": variables or {}}
         headers = {"Content-Type": "application/json"}
 
+        attempts = max(1, int(max_attempts))
         last_error = None
-        for attempt in range(3):
+        for attempt in range(attempts):
             try:
                 async with session.post(self.endpoint, json=payload, headers=headers) as resp:
                     resp.raise_for_status()
@@ -1548,7 +1687,7 @@ class SuiGraphQLClient:
                     return data
             except Exception as e:
                 last_error = e
-                if attempt == 2:
+                if attempt >= attempts - 1:
                     break
                 await asyncio.sleep(0.1 * (2 ** attempt))
 
@@ -1901,8 +2040,131 @@ class SuiGraphQLClient:
             raise RuntimeError(f"No SUI gas coins found for address {address}")
         return coins[0], ref_gas
 
+    @staticmethod
+    def _normalize_effects_payload(
+        *,
+        success: bool,
+        digest: str = "",
+        error_message: str = "",
+        gas_summary: Optional[Dict[str, int]] = None,
+    ) -> Dict[str, Any]:
+        """Normalizes gRPC-Web and JSON-RPC execution/dry-run results into unified GraphQL effects shape."""
+        effects: Dict[str, Any] = {
+            "status": "SUCCESS" if success else "FAILURE",
+        }
+        if digest:
+            effects["digest"] = digest
+        if not success and error_message:
+            effects["executionError"] = {"message": error_message}
+        if gas_summary is not None:
+            effects["gasEffects"] = {"gasSummary": gas_summary}
+        return {"effects": effects}
+
+    async def _post_grpc_web(
+        self, service_path: str, req_bytes: bytes, timeout_s: float = 8.0
+    ) -> bytes:
+        """Executes a single low-latency sui.rpc.v2 unary call over gRPC-Web HTTP/1.1 keep-alive."""
+        session = await self._get_session()
+        url = f"{self.rpc_endpoint.rstrip('/')}{service_path}"
+        headers = {
+            "Content-Type": "application/grpc-web+proto",
+            "Accept": "application/grpc-web+proto",
+            "X-Grpc-Web": "1",
+        }
+        async with session.post(
+            url,
+            data=_grpc_web_frame(req_bytes),
+            headers=headers,
+            timeout=aiohttp.ClientTimeout(total=timeout_s, connect=3.0),
+        ) as resp:
+            raw = await resp.read()
+            if resp.status >= 400:
+                raise RuntimeError(f"gRPC-Web HTTP {resp.status} from {url}")
+            msgs, trailers = _grpc_web_unframe(raw)
+            grpc_status = trailers.get("grpc-status") or resp.headers.get("grpc-status") or "0"
+            if grpc_status != "0":
+                grpc_msg = unquote(
+                    trailers.get("grpc-message") or resp.headers.get("grpc-message") or "unknown error"
+                )
+                raise RuntimeError(f"gRPC status {grpc_status}: {grpc_msg}")
+            if not msgs:
+                raise RuntimeError(f"Empty gRPC-Web response frame from {service_path}")
+            return msgs[0]
+
+    async def _post_json_rpc(
+        self, method: str, params: List[Any], timeout_s: float = 8.0
+    ) -> Dict[str, Any]:
+        """Executes a single JSON-RPC call against a custom compatible fullnode gateway."""
+        session = await self._get_session()
+        payload = {"jsonrpc": "2.0", "id": 1, "method": method, "params": params}
+        async with session.post(
+            self.rpc_endpoint,
+            json=payload,
+            headers={"Content-Type": "application/json"},
+            timeout=aiohttp.ClientTimeout(total=timeout_s, connect=3.0),
+        ) as resp:
+            resp.raise_for_status()
+            data = await resp.json()
+            if "error" in data:
+                raise RuntimeError(f"JSON-RPC error: {data['error']}")
+            result = data.get("result")
+            if not isinstance(result, dict):
+                raise RuntimeError(f"Unexpected JSON-RPC result for {method}: {data}")
+            return result
+
+    @staticmethod
+    def _parse_json_rpc_effects(result: Dict[str, Any]) -> Dict[str, Any]:
+        effects = result.get("effects", {}) or {}
+        st = effects.get("status", {}) or {}
+        status_str = str(st.get("status", "")).lower()
+        success = status_str == "success"
+        gas_used = effects.get("gasUsed", {}) or {}
+        gas_summary = {
+            "computationCost": int(gas_used.get("computationCost", 0) or 0),
+            "storageCost": int(gas_used.get("storageCost", 0) or 0),
+            "storageRebate": int(gas_used.get("storageRebate", 0) or 0),
+        }
+        return SuiGraphQLClient._normalize_effects_payload(
+            success=success,
+            digest=str(result.get("digest") or effects.get("transactionDigest") or ""),
+            error_message=str(st.get("error") or ""),
+            gas_summary=gas_summary if gas_used else None,
+        )
+
     async def simulate_transaction_bcs(self, tx_bytes: bytes) -> Dict[str, Any]:
-        """Simulates BCS transaction on Sui Mainnet Move VM via GraphQL simulateTransaction."""
+        """Simulates BCS transaction on Sui Mainnet via low-latency gRPC-Web with GraphQL fallback."""
+        if self.rpc_endpoint and self.rpc_protocol != "graphql":
+            try:
+                if self.rpc_protocol == "jsonrpc":
+                    tx_b64 = base64.b64encode(tx_bytes).decode("utf-8")
+                    res = await self._post_json_rpc("sui_dryRunTransactionBlock", [tx_b64], timeout_s=5.0)
+                    return {"data": {"simulateTransaction": self._parse_json_rpc_effects(res)}}
+
+                tx_msg = _pb_encode_bytes_field(1, _pb_encode_bytes_field(2, tx_bytes))
+                read_mask = (
+                    _pb_encode_bytes_field(1, b"transaction.digest")
+                    + _pb_encode_bytes_field(1, b"transaction.effects.status")
+                    + _pb_encode_bytes_field(1, b"transaction.effects.gas_used")
+                )
+                req_bytes = _pb_encode_bytes_field(1, tx_msg) + _pb_encode_bytes_field(2, read_mask)
+                resp_bytes = await self._post_grpc_web(
+                    "/sui.rpc.v2.TransactionExecutionService/SimulateTransaction",
+                    req_bytes,
+                    timeout_s=5.0,
+                )
+                top = _pb_decode_fields(resp_bytes)
+                parsed = _decode_grpc_executed_tx(top[1][0]) if 1 in top and top[1] else {}
+                norm = self._normalize_effects_payload(
+                    success=bool(parsed.get("success", False)),
+                    error_message=str(parsed.get("error") or ""),
+                    gas_summary=parsed.get("gasSummary"),
+                )
+                return {"data": {"simulateTransaction": norm}}
+            except Exception as exc:
+                logger.warning(
+                    f"Fast RPC simulate fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                )
+
         tx_b64 = base64.b64encode(tx_bytes).decode("utf-8")
         query = """
         query SimPTB($bcs: Base64!) {
@@ -1928,8 +2190,72 @@ class SuiGraphQLClient:
     async def execute_transaction_bcs(
         self, tx_bytes: bytes, signatures: List[str]
     ) -> Dict[str, Any]:
-        """Broadcasts signed BCS transaction to Sui Mainnet via GraphQL executeTransaction mutation."""
+        """Broadcasts signed BCS transaction via low-latency gRPC-Web / WaitForEffectsCert, with GraphQL fallback."""
         tx_b64 = base64.b64encode(tx_bytes).decode("utf-8")
+        if self.rpc_endpoint and self.rpc_protocol != "graphql":
+            if self.rpc_protocol == "jsonrpc":
+                try:
+                    res = await self._post_json_rpc(
+                        "sui_executeTransactionBlock",
+                        [tx_b64, signatures, {"showEffects": True}, "WaitForEffectsCert"],
+                        timeout_s=10.0,
+                    )
+                    return {"data": {"executeTransaction": self._parse_json_rpc_effects(res)}}
+                except Exception as exc:
+                    logger.warning(
+                        f"JSON-RPC WaitForEffectsCert fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                    )
+            else:
+                try:
+                    tx_msg = _pb_encode_bytes_field(1, _pb_encode_bytes_field(2, tx_bytes))
+                    sig_msgs = b"".join(
+                        _pb_encode_bytes_field(
+                            2,
+                            _pb_encode_bytes_field(1, _pb_encode_bytes_field(2, base64.b64decode(sig))),
+                        )
+                        for sig in signatures
+                    )
+                    read_mask = (
+                        _pb_encode_bytes_field(1, b"digest")
+                        + _pb_encode_bytes_field(1, b"effects.status")
+                        + _pb_encode_bytes_field(1, b"effects.gas_used")
+                    )
+                    req_bytes = (
+                        _pb_encode_bytes_field(1, tx_msg)
+                        + sig_msgs
+                        + _pb_encode_bytes_field(3, read_mask)
+                    )
+                    resp_bytes = await self._post_grpc_web(
+                        "/sui.rpc.v2.TransactionExecutionService/ExecuteTransaction",
+                        req_bytes,
+                        timeout_s=10.0,
+                    )
+                    top = _pb_decode_fields(resp_bytes)
+                    parsed = _decode_grpc_executed_tx(top[1][0]) if 1 in top and top[1] else {}
+                    norm = self._normalize_effects_payload(
+                        success=bool(parsed.get("success", False)),
+                        digest=str(parsed.get("digest") or ""),
+                        error_message=str(parsed.get("error") or ""),
+                        gas_summary=parsed.get("gasSummary"),
+                    )
+                    return {"data": {"executeTransaction": norm}}
+                except Exception as exc:
+                    if self.rpc_protocol == "auto" and ("HTTP 404" in str(exc) or "HTTP 415" in str(exc)):
+                        try:
+                            res = await self._post_json_rpc(
+                                "sui_executeTransactionBlock",
+                                [tx_b64, signatures, {"showEffects": True}, "WaitForEffectsCert"],
+                                timeout_s=10.0,
+                            )
+                            return {"data": {"executeTransaction": self._parse_json_rpc_effects(res)}}
+                        except Exception as jrpc_exc:
+                            logger.warning(
+                                f"Custom RPC JSON-RPC fallback failed ({self.rpc_endpoint}): {jrpc_exc}"
+                            )
+                    logger.warning(
+                        f"gRPC-Web ExecuteTransaction fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                    )
+
         mutation = """
         mutation ExecPTB($txBcs: Base64!, $signatures: [Base64!]!) {
           executeTransaction(transactionDataBcs: $txBcs, signatures: $signatures) {
@@ -1943,7 +2269,9 @@ class SuiGraphQLClient:
           }
         }
         """
-        return await self.execute(mutation, {"txBcs": tx_b64, "signatures": signatures})
+        return await self.execute(
+            mutation, {"txBcs": tx_b64, "signatures": signatures}, max_attempts=1
+        )
 
     async def get_deepbook_vault_balances(self, pool_id: str) -> Dict[str, int]:
         """Queries on-chain vault balances for a DeepBook V3 pool (Requirement R3).
@@ -2458,11 +2786,13 @@ class SuiDeepBookVenue(UnifiedVenue):
         active_address: Optional[str] = None,
         private_key: Optional[str] = None,
         pool_id: str = SUI_USDC_POOL_ID,
+        rpc_url: Optional[str] = None,
     ) -> None:
         self.env = env.lower()
         self.graphql_url = graphql_url or (
             SUI_GRAPHQL_MAINNET if self.env == "mainnet" else SUI_GRAPHQL_TESTNET
         )
+        self.rpc_url = rpc_url
         self.active_address = (
             active_address
             or os.getenv("OPERATOR_ADDRESS")
@@ -2476,7 +2806,9 @@ class SuiDeepBookVenue(UnifiedVenue):
         )
         self.pool_id = pool_id
         self.ptb_builder = SuiDeepBookPTBBuilder()
-        self.graphql_client = SuiGraphQLClient(endpoint=self.graphql_url)
+        self.graphql_client = SuiGraphQLClient(
+            endpoint=self.graphql_url, rpc_endpoint=self.rpc_url
+        )
         self.client = self.graphql_client
 
         self.is_connected = False
