@@ -41,6 +41,7 @@ logger = logging.getLogger(__name__)
 SUI_GRAPHQL_MAINNET = "https://graphql.mainnet.sui.io/graphql"
 SUI_GRAPHQL_TESTNET = "https://graphql.testnet.sui.io/graphql"
 SUI_GRPC_MAINNET = "https://fullnode.mainnet.sui.io:443"
+SUI_GRPC_PUBLICNODE = "https://sui-grpc.publicnode.com:443"
 SUI_GRPC_TESTNET = "https://fullnode.testnet.sui.io:443"
 DEEPBOOK_INDEXER_ORDERBOOK_URL = "https://deepbook-indexer.mainnet.mystenlabs.com/orderbook"
 
@@ -115,6 +116,7 @@ CETUS_POOL_NS_USDC = "0x39a5f5bae62b3876fdd16cda76eebcd334e9da6f69b549ac2f48c384
 # Verified initialSharedVersion registry for Sui Mainnet shared objects
 SHARED_OBJECT_INITIAL_VERSIONS: Dict[str, int] = {
     SUI_CLOCK_OBJECT_ID: 1,
+    "0x6": 1,
     CETUS_GLOBAL_CONFIG_ID: 1574190,
     SUI_USDC_POOL_ID: 389750322,
     DEEP_SUI_POOL_ID: 389750321,
@@ -127,6 +129,7 @@ SHARED_OBJECT_INITIAL_VERSIONS: Dict[str, int] = {
     XBTC_USDC_POOL_ID: 556438674,
     NS_USDC_POOL_ID: 414947421,
     CETUS_POOL_SUI_USDC: 376543995,
+    CETUS_POOL_SUI_USDC_25: 1964495,
     CETUS_POOL_DEEP_SUI: 389638435,
     CETUS_POOL_DEEP_USDC: 572943477,
     CETUS_POOL_CETUS_SUI: 1964496,
@@ -143,6 +146,17 @@ SHARED_OBJECT_INITIAL_VERSIONS: Dict[str, int] = {
     TURBOS_POOL_CETUS_SUI: 561404948,
     "0x0c03cf4f6c841d0e7d4a939004d1a8c8a8102251d2daeaf45df2f48ba5be271c": 1078982184,
 }
+
+# Read-only shared objects that MUST be passed with mutable=False in PTBs to avoid
+# consuming Sui per-object shared congestion budget and Move VM mutability errors:
+IMMUTABLE_SHARED_OBJECTS = frozenset(
+    {
+        SUI_CLOCK_OBJECT_ID.lower(),
+        "0x6",
+        CETUS_GLOBAL_CONFIG_ID.lower(),
+        TURBOS_POOL_CONFIG_ID.lower(),
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -716,6 +730,331 @@ def b58decode(s: str) -> bytes:
     return (b"\x00" * pad + h)[-32:]
 
 
+def b58encode(data: bytes) -> str:
+    """Encodes raw bytes into a Base58 string (e.g. Sui TransactionDigest / ObjectDigest)."""
+    alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
+    n = int.from_bytes(data, "big")
+    chars: List[str] = []
+    while n > 0:
+        n, rem = divmod(n, 58)
+        chars.append(alphabet[rem])
+    pad = 0
+    for b in data:
+        if b == 0:
+            pad += 1
+        else:
+            break
+    return "1" * pad + "".join(reversed(chars))
+
+
+def compute_tx_digest(tx_bytes: bytes) -> str:
+    """Computes the canonical Sui TransactionDigest (Base58 Blake2b-256 of 'TransactionData::' + tx_bytes)."""
+    raw = hashlib.blake2b(b"TransactionData::" + tx_bytes, digest_size=32).digest()
+    return b58encode(raw)
+
+
+def normalize_sui_object_id(obj_id: str) -> str:
+    """Normalizes a Sui ObjectID to lowercase 0x-prefixed 64-hex canonical format (preserving 0x6 alias lookup)."""
+    s = str(obj_id or "").strip().lower()
+    if s.startswith("0x"):
+        s = s[2:]
+    if not s:
+        return "0x" + ("0" * 64)
+    return "0x" + s.zfill(64)
+
+
+def _format_exc_detail(exc: BaseException) -> str:
+    """Formats an exception with both class name and non-empty detail string."""
+    detail = str(exc).strip() or repr(exc)
+    exc_type = type(exc).__name__
+    if detail.startswith(exc_type):
+        return detail
+    return f"{exc_type}: {detail}"
+
+
+def get_grpc_auth_headers(
+    api_key: Optional[str] = None,
+    provider: Optional[str] = None,
+    auth_header: Optional[str] = None,
+) -> Dict[str, str]:
+    """Builds provider-aware authentication headers for dedicated Sui gRPC / gRPC-Web endpoints (P1).
+
+    Supported providers:
+    - chainstack: {"x-token": api_key}
+    - dwellir: {"x-api-key": api_key}
+    - onfinality: {"api-key": api_key}
+    - custom/fallback: {SUI_GRPC_AUTH_HEADER (default "x-api-key"): api_key}
+    """
+    key = (api_key if api_key is not None else os.getenv("SUI_GRPC_API_KEY", "")).strip()
+    if not key:
+        return {}
+    prov = (provider if provider is not None else os.getenv("SUI_GRPC_PROVIDER", "")).strip().lower()
+    if prov == "chainstack":
+        return {"x-token": key}
+    if prov == "dwellir":
+        return {"x-api-key": key}
+    if prov == "onfinality":
+        return {"api-key": key}
+    hdr = (auth_header if auth_header is not None else os.getenv("SUI_GRPC_AUTH_HEADER", "x-api-key")).strip()
+    return {hdr or "x-api-key": key}
+
+
+def compute_priority_gas_price(
+    base_rgp: int,
+    net_profit_usd: Optional[float] = None,
+    min_profit_usd: float = 0.0,
+    sui_spot_price: float = 2.0,
+    est_computation_units: int = 3_000,
+) -> int:
+    """Computes SIP-45 anti-congestion priority gas price scaled by expected net profit (P2).
+
+    Scaling tiers:
+    - net_profit_usd >= 20.0 -> int(base_rgp * 12)
+    - net_profit_usd >= 5.0  -> int(base_rgp * 5)
+    - net_profit_usd >= 0.50 -> int(base_rgp * 2)
+    - 0 < net_profit_usd < 0.50 -> int(base_rgp * 1.15)
+    - net_profit_usd is None or <= 0 -> base_rgp
+
+    Safety cap:
+    Caps the priority multiplier so the extra computation gas cost never reduces expected net
+    profit below ``min_profit_usd``.
+    """
+    base = max(1, int(base_rgp or 100))
+    if net_profit_usd is None or float(net_profit_usd) <= 0.0:
+        return base
+
+    profit = float(net_profit_usd)
+    if profit >= 20.0:
+        target = int(base * 12)
+    elif profit >= 5.0:
+        target = int(base * 5)
+    elif profit >= 0.50:
+        target = int(base * 2)
+    else:
+        target = int(base * 1.15)
+
+    target = max(base, target)
+
+    # Cap extra computation cost so net profit after priority gas remains >= min_profit_usd
+    if min_profit_usd > 0.0 and sui_spot_price > 0.0 and est_computation_units > 0:
+        surplus_usd = profit - float(min_profit_usd)
+        if surplus_usd <= 0.0:
+            return base
+        max_extra_mist = int((surplus_usd / float(sui_spot_price)) * 1_000_000_000)
+        max_extra_rgp = max_extra_mist // max(1, int(est_computation_units))
+        capped = base + max(0, max_extra_rgp)
+        target = min(target, max(base, capped))
+
+    return max(base, int(target))
+
+
+def compute_safe_gas_budget(
+    gas_price: int,
+    base_gas_budget: int = 50_000_000,
+    est_computation_units: int = 3_000,
+    storage_buffer_mist: int = 25_000_000,
+    max_budget_mist: int = 500_000_000,
+) -> int:
+    """Ensures gas_budget >= ComputationUnits * GasPrice + StorageUnits * StoragePrice (P2)."""
+    gp = max(1, int(gas_price or 100))
+    comp_mist = int(est_computation_units) * gp
+    required_mist = comp_mist + int(storage_buffer_mist)
+    return min(int(max_budget_mist), max(int(base_gas_budget), required_mist))
+
+
+class SuiLocalPTBCache:
+    """Zero-RTT local RAM cache for PTB construction (P0).
+
+    Strictly separates:
+    1. ``shared_object_registry``: static BCS metadata (object_id -> initial_shared_version)
+       and ``shared_object_mutability`` (object_id -> default mutable flag).
+    2. ``pool_state_cache``: mutable economic state (spot prices, liquidity, sqrt_price, spreads).
+    3. Owned object references (``gas_coin_ref``, ``deep_coin_ref``) + ``reference_gas_price``
+       with TTL and ``asyncio.Lock`` synchronization + TransactionEffects roll-forward.
+    """
+
+    def __init__(self, rgp_ttl_seconds: float = 1200.0) -> None:
+        self.rgp_ttl_seconds = float(rgp_ttl_seconds)
+        self.tx_lock = asyncio.Lock()
+
+        # 1. Static BCS Shared Object Registry (object_id -> initial_shared_version)
+        self.shared_object_registry: Dict[str, int] = {}
+        self.shared_object_mutability: Dict[str, bool] = {}
+        for obj_id, init_ver in SHARED_OBJECT_INITIAL_VERSIONS.items():
+            norm_id = normalize_sui_object_id(obj_id)
+            is_imm = (obj_id.lower() in IMMUTABLE_SHARED_OBJECTS) or (norm_id in IMMUTABLE_SHARED_OBJECTS)
+            self.shared_object_registry[norm_id] = int(init_ver)
+            self.shared_object_registry[obj_id] = int(init_ver)
+            self.shared_object_mutability[norm_id] = not is_imm
+            self.shared_object_mutability[obj_id] = not is_imm
+
+        # 2. Mutable Economic Pool State Cache (strictly separated from BCS shared metadata)
+        self.pool_state_cache: Dict[str, Dict[str, Any]] = {}
+
+        # 3. Owned Object References & Reference Gas Price (RGP) with TTL
+        self.gas_coin_ref: Optional[Dict[str, Any]] = None
+        self.gas_coin_owner: Optional[str] = None
+        self.deep_coin_ref: Optional[Dict[str, Any]] = None
+        self.reference_gas_price: Optional[int] = None
+        self.rgp_updated_at: float = 0.0
+
+    def register_shared_object(
+        self, obj_id: str, initial_shared_version: int, mutable: Optional[bool] = None
+    ) -> None:
+        """Registers or updates a shared object's static initial_shared_version and mutability."""
+        norm_id = normalize_sui_object_id(obj_id)
+        ver = int(initial_shared_version)
+        self.shared_object_registry[norm_id] = ver
+        self.shared_object_registry[obj_id] = ver
+        if mutable is None:
+            is_imm = (obj_id.lower() in IMMUTABLE_SHARED_OBJECTS) or (norm_id in IMMUTABLE_SHARED_OBJECTS)
+            mutable = not is_imm
+        self.shared_object_mutability[norm_id] = bool(mutable)
+        self.shared_object_mutability[obj_id] = bool(mutable)
+
+    def get_shared_version(self, obj_id: str, default: int = 1) -> int:
+        norm_id = normalize_sui_object_id(obj_id)
+        if obj_id in self.shared_object_registry:
+            return self.shared_object_registry[obj_id]
+        return self.shared_object_registry.get(norm_id, int(default))
+
+    def is_shared_mutable(self, obj_id: str, default: bool = True) -> bool:
+        norm_id = normalize_sui_object_id(obj_id)
+        if obj_id.lower() in IMMUTABLE_SHARED_OBJECTS or norm_id in IMMUTABLE_SHARED_OBJECTS:
+            return False
+        if obj_id in self.shared_object_mutability:
+            return self.shared_object_mutability[obj_id]
+        return self.shared_object_mutability.get(norm_id, bool(default))
+
+    def get_shared_input_bcs(
+        self, obj_id: str, mutable: Optional[bool] = None, default_ver: int = 1
+    ) -> bytes:
+        """Serializes a shared object input using cached initial_shared_version and safe mutability."""
+        init_ver = self.get_shared_version(obj_id, default=default_ver)
+        use_mut = self.is_shared_mutable(obj_id) if mutable is None else bool(mutable)
+        if obj_id.lower() in IMMUTABLE_SHARED_OBJECTS or normalize_sui_object_id(obj_id) in IMMUTABLE_SHARED_OBJECTS:
+            use_mut = False
+        return bcs_input_shared(obj_id, init_ver, use_mut)
+
+    def update_pool_state(self, key: str, state: Dict[str, Any]) -> None:
+        """Updates mutable economic pool state without touching shared_object_registry."""
+        self.pool_state_cache[key] = dict(state)
+
+    def get_pool_state(self, key: str) -> Optional[Dict[str, Any]]:
+        return self.pool_state_cache.get(key)
+
+    def set_gas_coin(self, coin: Dict[str, Any], owner: Optional[str] = None) -> None:
+        if coin and coin.get("address") and coin.get("digest") and coin.get("version") is not None:
+            self.gas_coin_ref = {
+                "address": str(coin["address"]),
+                "version": int(coin["version"]),
+                "digest": str(coin["digest"]),
+            }
+            if owner:
+                self.gas_coin_owner = normalize_sui_object_id(owner)
+
+    def set_deep_coin(self, coin: Optional[Dict[str, Any]]) -> None:
+        if coin and coin.get("address") and coin.get("digest") and coin.get("version") is not None:
+            self.deep_coin_ref = dict(coin)
+            self.deep_coin_ref["version"] = int(coin["version"])
+        else:
+            self.deep_coin_ref = None
+
+    def set_reference_gas_price(self, rgp: int, now: Optional[float] = None) -> None:
+        self.reference_gas_price = max(1, int(rgp))
+        self.rgp_updated_at = time.time() if now is None else float(now)
+
+    def set_gas_and_rgp(
+        self, coin: Dict[str, Any], rgp: int, owner: Optional[str] = None, now: Optional[float] = None
+    ) -> None:
+        self.set_gas_coin(coin, owner=owner)
+        self.set_reference_gas_price(rgp, now=now)
+
+    def get_cached_rgp(self, now: Optional[float] = None) -> Optional[int]:
+        if self.reference_gas_price is None:
+            return None
+        ts = time.time() if now is None else float(now)
+        if (ts - self.rgp_updated_at) > self.rgp_ttl_seconds:
+            return None
+        return self.reference_gas_price
+
+    def get_cached_gas_and_rgp(
+        self, owner: Optional[str] = None, now: Optional[float] = None
+    ) -> Optional[Tuple[Dict[str, Any], int]]:
+        if self.gas_coin_ref is None:
+            return None
+        if owner and self.gas_coin_owner and normalize_sui_object_id(owner) != self.gas_coin_owner:
+            return None
+        rgp = self.get_cached_rgp(now=now)
+        if rgp is None:
+            return None
+        return dict(self.gas_coin_ref), int(rgp)
+
+    def invalidate_gas_coin(self) -> None:
+        self.gas_coin_ref = None
+
+    def roll_forward_from_effects(self, effects: Dict[str, Any]) -> bool:
+        """Rolls gas_coin_ref (and deep_coin_ref if present) forward from TransactionEffects."""
+        if not isinstance(effects, dict):
+            self.invalidate_gas_coin()
+            return False
+
+        gas_obj = (
+            effects.get("gasObject")
+            or (effects.get("gasEffects") or {}).get("gasObject")
+        )
+        rolled = False
+        if isinstance(gas_obj, dict):
+            addr = gas_obj.get("address") or gas_obj.get("objectId") or gas_obj.get("object_id")
+            ver = gas_obj.get("version") or gas_obj.get("outputVersion") or gas_obj.get("output_version")
+            dig = gas_obj.get("digest") or gas_obj.get("outputDigest") or gas_obj.get("output_digest")
+            if addr and ver is not None and dig:
+                self.gas_coin_ref = {
+                    "address": str(addr),
+                    "version": int(ver),
+                    "digest": str(dig),
+                }
+                rolled = True
+
+        # Also roll forward deep_coin_ref if present in changedObjects
+        changed_objs = effects.get("changedObjects") or effects.get("changed_objects") or []
+        if isinstance(changed_objs, list) and changed_objs:
+            deep_addr_norm = (
+                normalize_sui_object_id(self.deep_coin_ref["address"])
+                if self.deep_coin_ref and self.deep_coin_ref.get("address")
+                else None
+            )
+            gas_addr_norm = (
+                normalize_sui_object_id(self.gas_coin_ref["address"])
+                if self.gas_coin_ref and self.gas_coin_ref.get("address")
+                else None
+            )
+            for ch in changed_objs:
+                if not isinstance(ch, dict):
+                    continue
+                c_addr = ch.get("address") or ch.get("objectId") or ch.get("object_id")
+                c_ver = ch.get("version") or ch.get("outputVersion") or ch.get("output_version")
+                c_dig = ch.get("digest") or ch.get("outputDigest") or ch.get("output_digest")
+                if not c_addr or c_ver is None or not c_dig:
+                    continue
+                c_norm = normalize_sui_object_id(c_addr)
+                if not rolled and gas_addr_norm and c_norm == gas_addr_norm:
+                    self.gas_coin_ref = {
+                        "address": str(c_addr),
+                        "version": int(c_ver),
+                        "digest": str(c_dig),
+                    }
+                    rolled = True
+                if deep_addr_norm and c_norm == deep_addr_norm and self.deep_coin_ref is not None:
+                    self.deep_coin_ref["version"] = int(c_ver)
+                    self.deep_coin_ref["digest"] = str(c_dig)
+
+        if not rolled:
+            # Invalidate when effects payload did not include updated gasObject reference
+            self.invalidate_gas_coin()
+        return rolled
+
+
 def uleb128(val: int) -> bytes:
     """Encodes an integer into unsigned LEB128 format used by BCS."""
     out = bytearray()
@@ -1251,6 +1590,7 @@ class SuiDeepBookPTBBuilder:
         route_direction: str = "FORWARD",
         deep_coin: Optional[Dict[str, Any]] = None,
         deep_fee_amount: int = 0,
+        local_cache: Optional[SuiLocalPTBCache] = None,
     ) -> bytes:
         """Constructs and serializes a 100% verified pure Move PTB TransactionData V1 into BCS bytes.
 
@@ -1277,8 +1617,37 @@ class SuiDeepBookPTBBuilder:
         tag_coin_b = parse_type_tag(cfg.cetus_coin_b_type)
         tag_deep = parse_type_tag(DEEP_COIN_TYPE)
 
-        db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
-        cetus_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.cetus_pool_id, 376543995)
+        if local_cache is not None:
+            db_input = local_cache.get_shared_input_bcs(
+                cfg.deepbook_pool_id,
+                mutable=True,
+                default_ver=SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321),
+            )
+            cetus_input = local_cache.get_shared_input_bcs(
+                cfg.cetus_pool_id,
+                mutable=True,
+                default_ver=SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.cetus_pool_id, 376543995),
+            )
+            clock_input = local_cache.get_shared_input_bcs(
+                SUI_CLOCK_OBJECT_ID,
+                mutable=False,
+                default_ver=1,
+            )
+            cetus_cfg_input = local_cache.get_shared_input_bcs(
+                CETUS_GLOBAL_CONFIG_ID,
+                mutable=False,
+                default_ver=SHARED_OBJECT_INITIAL_VERSIONS.get(CETUS_GLOBAL_CONFIG_ID, 1574190),
+            )
+        else:
+            db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
+            cetus_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.cetus_pool_id, 376543995)
+            clock_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(SUI_CLOCK_OBJECT_ID, 1)
+            cetus_cfg_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(CETUS_GLOBAL_CONFIG_ID, 1574190)
+            db_input = bcs_input_shared(cfg.deepbook_pool_id, db_ver, True)
+            cetus_input = bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True)
+            clock_input = bcs_input_shared(SUI_CLOCK_OBJECT_ID, clock_ver, False)
+            cetus_cfg_input = bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, cetus_cfg_ver, False)
+
         use_deep_coin = bool(
             deep_coin
             and isinstance(deep_coin, dict)
@@ -1295,12 +1664,12 @@ class SuiDeepBookPTBBuilder:
             destroy_tag = tag_coin_a if rev_a2b else tag_coin_b
 
             inputs = [
-                bcs_input_shared(cfg.deepbook_pool_id, db_ver, True),                     # 0: db_pool
+                db_input,                                                                  # 0: db_pool (mutable=True)
                 bcs_input_pure(bcs_u64(borrow_amount)),                                    # 1: borrow_amount
-                bcs_input_shared(SUI_CLOCK_OBJECT_ID, 1, False),                           # 2: clock
+                clock_input,                                                               # 2: clock (mutable=False)
                 bcs_input_pure(bcs_u64(0)),                                                # 3: min_base_out
-                bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, 1574190, False),                 # 4: cetus_config
-                bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True),                     # 5: cetus_pool
+                cetus_cfg_input,                                                           # 4: cetus_config (mutable=False)
+                cetus_input,                                                               # 5: cetus_pool (mutable=True)
                 bcs_input_pure(bcs_bool(rev_a2b)),                                         # 6: a2b
                 bcs_input_pure(bcs_bool(True)),                                            # 7: by_amount_in
                 bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 8: sqrt_price_limit
@@ -1370,14 +1739,14 @@ class SuiDeepBookPTBBuilder:
             sqrt_limit = cfg.cetus_sqrt_price_limit_quote_in
 
             inputs = [
-                bcs_input_shared(cfg.deepbook_pool_id, db_ver, True),                     # 0: db_pool
+                db_input,                                                                  # 0: db_pool (mutable=True)
                 bcs_input_pure(bcs_u64(borrow_amount)),                                    # 1: borrow_amount
-                bcs_input_shared(CETUS_GLOBAL_CONFIG_ID, 1574190, False),                 # 2: cetus_config
-                bcs_input_shared(cfg.cetus_pool_id, cetus_ver, True),                     # 3: cetus_pool
+                cetus_cfg_input,                                                           # 2: cetus_config (mutable=False)
+                cetus_input,                                                               # 3: cetus_pool (mutable=True)
                 bcs_input_pure(bcs_bool(a2b)),                                             # 4: a2b
                 bcs_input_pure(bcs_bool(True)),                                            # 5: by_amount_in
                 bcs_input_pure(bcs_u128(sqrt_limit)),                                      # 6: sqrt_price_limit
-                bcs_input_shared(SUI_CLOCK_OBJECT_ID, 1, False),                           # 7: clock
+                clock_input,                                                               # 7: clock (mutable=False)
                 bcs_input_pure(bcs_u64(0)),                                                # 8: min_quote_out (0 for slippage protection handled by SplitCoins)
                 bcs_input_pure(bcs_addr(sender_address)),                                  # 9: recipient
             ]
@@ -1452,12 +1821,13 @@ class SuiDeepBookPTBBuilder:
         ptb += bcs_addr(sender_address)
 
         # GasData
+        safe_gas_budget = compute_safe_gas_budget(int(ref_gas_price), int(gas_budget))
         gas_digest_bytes = b58decode(gas_coin["digest"])
         ptb += uleb128(1)  # vector length 1
         ptb += bcs_addr(gas_coin["address"]) + bcs_u64(int(gas_coin["version"])) + uleb128(len(gas_digest_bytes)) + gas_digest_bytes
         ptb += bcs_addr(sender_address)  # gas owner
-        ptb += bcs_u64(ref_gas_price)
-        ptb += bcs_u64(gas_budget)
+        ptb += bcs_u64(int(ref_gas_price))
+        ptb += bcs_u64(int(safe_gas_budget))
 
         # Expiration: None (b"\x00")
         ptb += b"\x00"
@@ -1585,8 +1955,66 @@ def _grpc_web_unframe(body: bytes) -> Tuple[List[bytes], Dict[str, str]]:
     return messages, trailers
 
 
+def _decode_grpc_changed_object(ch_bytes: bytes) -> Optional[Dict[str, Any]]:
+    """Decodes sui.rpc.v2.ChangedObject (field 1: object_id, field 7: output_version, field 8: output_digest)."""
+    if not ch_bytes:
+        return None
+    ch = _pb_decode_fields(ch_bytes)
+    obj_id_raw = ch.get(1, [b""])[0]
+    obj_id = obj_id_raw.decode("utf-8", errors="replace") if isinstance(obj_id_raw, bytes) else ""
+    out_ver = ch.get(7, [None])[0]
+    out_dig_raw = ch.get(8, [b""])[0]
+    out_dig = out_dig_raw.decode("utf-8", errors="replace") if isinstance(out_dig_raw, bytes) else ""
+    if not obj_id or out_ver is None or not out_dig:
+        return None
+    return {
+        "address": obj_id,
+        "version": int(out_ver),
+        "digest": out_dig,
+    }
+
+
+def _decode_grpc_object(obj_bytes: bytes) -> Dict[str, Any]:
+    """Decodes sui.rpc.v2.Object from BatchGetObjects / GetObject."""
+    if not obj_bytes:
+        return {}
+    obj = _pb_decode_fields(obj_bytes)
+    obj_id_raw = obj.get(2, [b""])[0]
+    obj_id = obj_id_raw.decode("utf-8", errors="replace") if isinstance(obj_id_raw, bytes) else ""
+    version = int(obj.get(3, [0])[0] or 0)
+    digest_raw = obj.get(4, [b""])[0]
+    digest = digest_raw.decode("utf-8", errors="replace") if isinstance(digest_raw, bytes) else ""
+    owner_bytes = obj.get(5, [b""])[0]
+    owner_fields = _pb_decode_fields(owner_bytes) if owner_bytes else {}
+    owner_kind_int = int(owner_fields.get(1, [0])[0] or 0)
+    # sui.rpc.v2.Owner.OwnerKind: 1=ADDRESS, 2=OBJECT, 3=SHARED, 4=IMMUTABLE, 5=CONSENSUS_ADDRESS
+    owner_kind_map = {
+        1: "ADDRESS",
+        2: "OBJECT",
+        3: "SHARED",
+        4: "IMMUTABLE",
+        5: "CONSENSUS_ADDRESS",
+    }
+    owner_kind = owner_kind_map.get(owner_kind_int, "UNKNOWN")
+    owner_addr_raw = owner_fields.get(2, [b""])[0]
+    owner_address = (
+        owner_addr_raw.decode("utf-8", errors="replace")
+        if isinstance(owner_addr_raw, bytes)
+        else ""
+    )
+    init_shared_ver = owner_fields.get(3, [None])[0]
+    return {
+        "object_id": obj_id,
+        "version": version,
+        "digest": digest,
+        "owner_kind": owner_kind,
+        "owner_address": owner_address,
+        "initial_shared_version": int(init_shared_ver) if init_shared_ver is not None else None,
+    }
+
+
 def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
-    """Decodes sui.rpc.v2.ExecutedTransaction into normalized effects fields."""
+    """Decodes sui.rpc.v2.ExecutedTransaction into normalized effects fields (including gas_object & changed_objects)."""
     etx = _pb_decode_fields(executed_tx_bytes)
     digest_raw = etx.get(1, [b""])[0]
     digest = digest_raw.decode("utf-8", errors="replace") if isinstance(digest_raw, bytes) else ""
@@ -1605,7 +2033,22 @@ def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
 
     gas_bytes = eff.get(6, [b""])[0]
     gas_fields = _pb_decode_fields(gas_bytes) if gas_bytes else {}
-    return {
+
+    gas_obj_bytes = eff.get(8, [b""])[0] if 8 in eff else b""
+    gas_object = _decode_grpc_changed_object(gas_obj_bytes)
+
+    changed_objects: List[Dict[str, Any]] = []
+    for ch_raw in eff.get(7, []):
+        if isinstance(ch_raw, bytes):
+            parsed_ch = _decode_grpc_changed_object(ch_raw)
+            if parsed_ch is not None:
+                changed_objects.append(parsed_ch)
+
+    if gas_object is None and changed_objects:
+        # Fallback if gas_object was only present inside changed_objects
+        gas_object = changed_objects[0]
+
+    result: Dict[str, Any] = {
         "digest": digest,
         "success": success,
         "error": err_msg,
@@ -1615,20 +2058,36 @@ def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
             "storageRebate": int(gas_fields.get(3, [0])[0] or 0),
         },
     }
+    if gas_object is not None:
+        result["gasObject"] = gas_object
+    if changed_objects:
+        result["changedObjects"] = changed_objects
+    return result
 
 
 class SuiGraphQLClient:
-    """High-performance asynchronous Sui GraphQL + gRPC-Web RPC Client."""
+    """High-performance Split-Horizon asynchronous Sui GraphQL + gRPC-Web RPC Client."""
 
     def __init__(
         self,
         endpoint: Optional[str] = None,
         rpc_endpoint: Optional[str] = None,
+        local_cache: Optional[SuiLocalPTBCache] = None,
     ):
-        env_rpc = (os.getenv("SUI_GRPC_URL") or os.getenv("SUI_RPC_URL") or "").strip() or None
+        env_rpc = (
+            os.getenv("SUI_GRPC_ENDPOINT")
+            or os.getenv("SUI_GRPC_URL")
+            or os.getenv("SUI_RPC_URL")
+            or ""
+        ).strip() or None
+        env_gql = (
+            os.getenv("SUI_GRAPHQL_URL")
+            or os.getenv("SUI_GRAPHQL_ENDPOINT")
+            or ""
+        ).strip() or None
         self.endpoint = (
             endpoint
-            or os.getenv("SUI_GRAPHQL_URL")
+            or env_gql
             or (env_rpc if (env_rpc and "/graphql" in env_rpc) else None)
             or SUI_GRAPHQL_MAINNET
         )
@@ -1643,15 +2102,46 @@ class SuiGraphQLClient:
         else:
             # Explicit custom/local GraphQL endpoint (e.g. unit test mocks): keep RPC isolated
             self.rpc_endpoint = ""
+
+        # Build ordered hot-path gRPC failover list (P1)
+        raw_endpoints: List[str] = []
+        if self.rpc_endpoint:
+            for item in str(self.rpc_endpoint).split(","):
+                cleaned = item.strip()
+                if cleaned and cleaned not in raw_endpoints:
+                    raw_endpoints.append(cleaned)
+        fallback_env = os.getenv("SUI_GRPC_FALLBACK_ENDPOINTS", "").strip()
+        if fallback_env:
+            for item in fallback_env.split(","):
+                cleaned = item.strip()
+                if cleaned and cleaned not in raw_endpoints:
+                    raw_endpoints.append(cleaned)
+        if raw_endpoints:
+            self.rpc_endpoint = raw_endpoints[0]
+            # Auto-append Mainnet fullnode fallback when primary is a remote private/public Mainnet node
+            primary_lower = self.rpc_endpoint.lower()
+            is_local = "127.0.0.1" in primary_lower or "localhost" in primary_lower
+            if not is_local and "testnet" not in primary_lower:
+                if SUI_GRPC_MAINNET not in raw_endpoints:
+                    raw_endpoints.append(SUI_GRPC_MAINNET)
+        self.rpc_endpoints: List[str] = raw_endpoints
+
         self.rpc_protocol = os.getenv("SUI_RPC_PROTOCOL", "auto").strip().lower()
         self.operator_address = (
             os.getenv("OPERATOR_ADDRESS")
             or os.getenv("SUI_WALLET_ADDRESS")
             or "0x5621a8e7199680512ee829565b96febea2587e534fd69b33f04004298d7e5ce9"
         )
+        self.local_cache: SuiLocalPTBCache = (
+            local_cache if local_cache is not None else SuiLocalPTBCache()
+        )
         self._session: Optional[aiohttp.ClientSession] = None
         self._fee_params_cache: Dict[str, Dict[str, Any]] = {}
         self._fee_params_cache_ts: float = 0.0
+
+    def get_grpc_auth_headers(self) -> Dict[str, str]:
+        """Returns configured provider-specific authentication headers for gRPC calls (P1)."""
+        return get_grpc_auth_headers()
 
     async def _get_session(self) -> aiohttp.ClientSession:
         if self._session is None or self._session.closed:
@@ -1787,6 +2277,7 @@ class SuiGraphQLClient:
                 }
         if best_coin is not None:
             best_coin["total_balance"] = total_balance
+            self.local_cache.set_deep_coin(best_coin)
         return best_coin
 
     @staticmethod
@@ -2020,8 +2511,15 @@ class SuiGraphQLClient:
             query, {"tx": transaction_data, "doGasSelection": do_gas_selection}
         )
 
-    async def get_gas_coin_and_price(self, address: str) -> Tuple[Dict[str, Any], int]:
-        """Queries the active reference gas price and available gas coin for an address."""
+    async def get_gas_coin_and_price(
+        self, address: str, force_refresh: bool = False
+    ) -> Tuple[Dict[str, Any], int]:
+        """Queries the active reference gas price and available gas coin for an address (Zero-RTT when cached)."""
+        if not force_refresh:
+            cached = self.local_cache.get_cached_gas_and_rgp(owner=address)
+            if cached is not None:
+                return cached
+
         query = f"""
         query GetGasInfo {{
           epoch {{ referenceGasPrice }}
@@ -2038,7 +2536,9 @@ class SuiGraphQLClient:
         coins = d.get("address", {}).get("objects", {}).get("nodes", []) or []
         if not coins:
             raise RuntimeError(f"No SUI gas coins found for address {address}")
-        return coins[0], ref_gas
+        coin = coins[0]
+        self.local_cache.set_gas_and_rgp(coin, ref_gas, owner=address)
+        return coin, ref_gas
 
     @staticmethod
     def _normalize_effects_payload(
@@ -2047,6 +2547,8 @@ class SuiGraphQLClient:
         digest: str = "",
         error_message: str = "",
         gas_summary: Optional[Dict[str, int]] = None,
+        gas_object: Optional[Dict[str, Any]] = None,
+        changed_objects: Optional[List[Dict[str, Any]]] = None,
     ) -> Dict[str, Any]:
         """Normalizes gRPC-Web and JSON-RPC execution/dry-run results into unified GraphQL effects shape."""
         effects: Dict[str, Any] = {
@@ -2056,40 +2558,191 @@ class SuiGraphQLClient:
             effects["digest"] = digest
         if not success and error_message:
             effects["executionError"] = {"message": error_message}
-        if gas_summary is not None:
-            effects["gasEffects"] = {"gasSummary": gas_summary}
+        if gas_summary is not None or gas_object is not None:
+            gas_effects: Dict[str, Any] = {}
+            if gas_summary is not None:
+                gas_effects["gasSummary"] = gas_summary
+            if gas_object is not None:
+                gas_effects["gasObject"] = gas_object
+            effects["gasEffects"] = gas_effects
+        if gas_object is not None:
+            effects["gasObject"] = gas_object
+        if changed_objects:
+            effects["changedObjects"] = changed_objects
         return {"effects": effects}
 
     async def _post_grpc_web(
         self, service_path: str, req_bytes: bytes, timeout_s: float = 8.0
     ) -> bytes:
-        """Executes a single low-latency sui.rpc.v2 unary call over gRPC-Web HTTP/1.1 keep-alive."""
+        """Executes a low-latency sui.rpc.v2 unary call over gRPC-Web HTTP/1.1 keep-alive with auth + endpoint failover."""
         session = await self._get_session()
-        url = f"{self.rpc_endpoint.rstrip('/')}{service_path}"
         headers = {
             "Content-Type": "application/grpc-web+proto",
             "Accept": "application/grpc-web+proto",
             "X-Grpc-Web": "1",
         }
-        async with session.post(
-            url,
-            data=_grpc_web_frame(req_bytes),
-            headers=headers,
-            timeout=aiohttp.ClientTimeout(total=timeout_s, connect=3.0),
-        ) as resp:
-            raw = await resp.read()
-            if resp.status >= 400:
-                raise RuntimeError(f"gRPC-Web HTTP {resp.status} from {url}")
-            msgs, trailers = _grpc_web_unframe(raw)
-            grpc_status = trailers.get("grpc-status") or resp.headers.get("grpc-status") or "0"
-            if grpc_status != "0":
-                grpc_msg = unquote(
-                    trailers.get("grpc-message") or resp.headers.get("grpc-message") or "unknown error"
+        headers.update(self.get_grpc_auth_headers())
+
+        endpoints = self.rpc_endpoints if self.rpc_endpoints else ([self.rpc_endpoint] if self.rpc_endpoint else [])
+        if not endpoints:
+            raise RuntimeError("No gRPC endpoint configured")
+
+        framed_payload = _grpc_web_frame(req_bytes)
+        last_exc: Optional[BaseException] = None
+        for idx, base_ep in enumerate(endpoints):
+            url = f"{base_ep.rstrip('/')}{service_path}"
+            try:
+                async with session.post(
+                    url,
+                    data=framed_payload,
+                    headers=headers,
+                    timeout=aiohttp.ClientTimeout(total=timeout_s, connect=3.0),
+                ) as resp:
+                    raw = await resp.read()
+                    if resp.status >= 400:
+                        raise RuntimeError(f"gRPC-Web HTTP {resp.status} from {url}")
+                    msgs, trailers = _grpc_web_unframe(raw)
+                    grpc_status = trailers.get("grpc-status") or resp.headers.get("grpc-status") or "0"
+                    if grpc_status != "0":
+                        grpc_msg = unquote(
+                            trailers.get("grpc-message") or resp.headers.get("grpc-message") or "unknown error"
+                        )
+                        raise RuntimeError(f"gRPC status {grpc_status}: {grpc_msg}")
+                    if not msgs:
+                        raise RuntimeError(f"Empty gRPC-Web response frame from {service_path}")
+                    return msgs[0]
+            except Exception as exc:
+                last_exc = exc
+                if idx + 1 < len(endpoints):
+                    logger.warning(
+                        f"gRPC-Web endpoint failover ({base_ep} -> {endpoints[idx + 1]}): {_format_exc_detail(exc)}"
+                    )
+        assert last_exc is not None
+        raise last_exc
+
+    async def batch_get_objects_grpc(
+        self, object_ids: List[str], timeout_s: float = 6.0
+    ) -> Dict[str, Dict[str, Any]]:
+        """Fetches multiple objects in a single unary gRPC v2 LedgerService/BatchGetObjects call (P0).
+
+        Replaces deprecated JSON-RPC ``sui_multiGetObjects`` and populates ``local_cache.shared_object_registry``
+        while preserving read-only vs mutable flags per object.
+        """
+        if not object_ids or not self.rpc_endpoint:
+            return {}
+        req_items: List[bytes] = []
+        for oid in object_ids:
+            norm_oid = "0x6" if normalize_sui_object_id(oid) == normalize_sui_object_id(SUI_CLOCK_OBJECT_ID) else normalize_sui_object_id(oid)
+            req_items.append(
+                _pb_encode_bytes_field(1, _pb_encode_bytes_field(1, norm_oid.encode("utf-8")))
+            )
+        read_mask = (
+            _pb_encode_bytes_field(1, b"object_id")
+            + _pb_encode_bytes_field(1, b"version")
+            + _pb_encode_bytes_field(1, b"digest")
+            + _pb_encode_bytes_field(1, b"owner")
+        )
+        req_bytes = b"".join(req_items) + _pb_encode_bytes_field(2, read_mask)
+        resp_bytes = await self._post_grpc_web(
+            "/sui.rpc.v2.LedgerService/BatchGetObjects",
+            req_bytes,
+            timeout_s=timeout_s,
+        )
+        top = _pb_decode_fields(resp_bytes)
+        out: Dict[str, Dict[str, Any]] = {}
+        for res_raw in top.get(1, []):
+            if not isinstance(res_raw, bytes):
+                continue
+            res_fields = _pb_decode_fields(res_raw)
+            if 1 not in res_fields or not res_fields[1]:
+                continue
+            parsed_obj = _decode_grpc_object(res_fields[1][0])
+            oid = parsed_obj.get("object_id")
+            if not oid:
+                continue
+            norm_oid = normalize_sui_object_id(oid)
+            out[norm_oid] = parsed_obj
+            out[oid] = parsed_obj
+            if parsed_obj.get("owner_kind") == "SHARED" and parsed_obj.get("initial_shared_version") is not None:
+                is_imm = (oid.lower() in IMMUTABLE_SHARED_OBJECTS) or (norm_oid in IMMUTABLE_SHARED_OBJECTS)
+                self.local_cache.register_shared_object(
+                    oid,
+                    int(parsed_obj["initial_shared_version"]),
+                    mutable=not is_imm,
                 )
-                raise RuntimeError(f"gRPC status {grpc_status}: {grpc_msg}")
-            if not msgs:
-                raise RuntimeError(f"Empty gRPC-Web response frame from {service_path}")
-            return msgs[0]
+        return out
+
+    async def get_transaction_grpc(
+        self, digest: str, timeout_s: float = 5.0
+    ) -> Optional[Dict[str, Any]]:
+        """Queries a transaction by digest via gRPC v2 LedgerService/GetTransaction to reconcile gas_coin_ref on timeout."""
+        if not digest or not self.rpc_endpoint:
+            return None
+        read_mask = (
+            _pb_encode_bytes_field(1, b"digest")
+            + _pb_encode_bytes_field(1, b"effects.status")
+            + _pb_encode_bytes_field(1, b"effects.gas_used")
+            + _pb_encode_bytes_field(1, b"effects.gas_object")
+            + _pb_encode_bytes_field(1, b"effects.changed_objects")
+        )
+        req_bytes = (
+            _pb_encode_bytes_field(1, str(digest).encode("utf-8"))
+            + _pb_encode_bytes_field(2, read_mask)
+        )
+        try:
+            resp_bytes = await self._post_grpc_web(
+                "/sui.rpc.v2.LedgerService/GetTransaction",
+                req_bytes,
+                timeout_s=timeout_s,
+            )
+            top = _pb_decode_fields(resp_bytes)
+            if 1 not in top or not top[1]:
+                return None
+            parsed = _decode_grpc_executed_tx(top[1][0])
+            norm = self._normalize_effects_payload(
+                success=bool(parsed.get("success", False)),
+                digest=str(parsed.get("digest") or digest),
+                error_message=str(parsed.get("error") or ""),
+                gas_summary=parsed.get("gasSummary"),
+                gas_object=parsed.get("gasObject"),
+                changed_objects=parsed.get("changedObjects"),
+            )
+            self.local_cache.roll_forward_from_effects(norm.get("effects", {}))
+            return norm
+        except Exception as exc:
+            logger.debug(f"GetTransaction reconciliation for {digest} failed: {_format_exc_detail(exc)}")
+            return None
+
+    async def warmup_local_ptb_cache(self, address: Optional[str] = None) -> Dict[str, Any]:
+        """Pre-loads shared object initial_shared_versions via BatchGetObjects and caches gas_coin_ref + RGP (P0)."""
+        addr = address or self.operator_address
+        shared_ids: List[str] = [
+            SUI_CLOCK_OBJECT_ID,
+            CETUS_GLOBAL_CONFIG_ID,
+            TURBOS_VERSIONED_ID,
+            TURBOS_POOL_CONFIG_ID,
+        ]
+        for cfg in SUI_PAIRS_CONFIG.values():
+            for pid in (cfg.deepbook_pool_id, cfg.cetus_pool_id, cfg.turbos_pool_id):
+                if pid and pid not in shared_ids:
+                    shared_ids.append(pid)
+
+        batch_objs: Dict[str, Dict[str, Any]] = {}
+        if self.rpc_endpoint and self.rpc_protocol != "graphql":
+            try:
+                batch_objs = await self.batch_get_objects_grpc(shared_ids)
+            except Exception as exc:
+                logger.warning(
+                    f"gRPC BatchGetObjects warmup fallback to static registry ({self.rpc_endpoint}): {_format_exc_detail(exc)}"
+                )
+
+        gas_coin, rgp = await self.get_gas_coin_and_price(addr, force_refresh=True)
+        return {
+            "shared_objects_loaded": len(self.local_cache.shared_object_registry),
+            "batch_fetched": len(batch_objs) // 2,
+            "gas_coin": gas_coin,
+            "reference_gas_price": rgp,
+        }
 
     async def _post_json_rpc(
         self, method: str, params: List[Any], timeout_s: float = 8.0
@@ -2124,11 +2777,20 @@ class SuiGraphQLClient:
             "storageCost": int(gas_used.get("storageCost", 0) or 0),
             "storageRebate": int(gas_used.get("storageRebate", 0) or 0),
         }
+        gas_obj_raw = (effects.get("gasObject") or {}).get("reference") or {}
+        gas_object = None
+        if isinstance(gas_obj_raw, dict) and gas_obj_raw.get("objectId") and gas_obj_raw.get("digest"):
+            gas_object = {
+                "address": str(gas_obj_raw["objectId"]),
+                "version": int(gas_obj_raw.get("version", 0) or 0),
+                "digest": str(gas_obj_raw["digest"]),
+            }
         return SuiGraphQLClient._normalize_effects_payload(
             success=success,
             digest=str(result.get("digest") or effects.get("transactionDigest") or ""),
             error_message=str(st.get("error") or ""),
             gas_summary=gas_summary if gas_used else None,
+            gas_object=gas_object,
         )
 
     async def simulate_transaction_bcs(self, tx_bytes: bytes) -> Dict[str, Any]:
@@ -2162,7 +2824,7 @@ class SuiGraphQLClient:
                 return {"data": {"simulateTransaction": norm}}
             except Exception as exc:
                 logger.warning(
-                    f"Fast RPC simulate fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                    f"Fast RPC simulate fallback to GraphQL ({self.rpc_endpoint}): {_format_exc_detail(exc)}"
                 )
 
         tx_b64 = base64.b64encode(tx_bytes).decode("utf-8")
@@ -2200,10 +2862,12 @@ class SuiGraphQLClient:
                         [tx_b64, signatures, {"showEffects": True}, "WaitForEffectsCert"],
                         timeout_s=10.0,
                     )
-                    return {"data": {"executeTransaction": self._parse_json_rpc_effects(res)}}
+                    norm = self._parse_json_rpc_effects(res)
+                    self.local_cache.roll_forward_from_effects(norm.get("effects", {}))
+                    return {"data": {"executeTransaction": norm}}
                 except Exception as exc:
                     logger.warning(
-                        f"JSON-RPC WaitForEffectsCert fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                        f"JSON-RPC WaitForEffectsCert fallback to GraphQL ({self.rpc_endpoint}): {_format_exc_detail(exc)}"
                     )
             else:
                 try:
@@ -2219,6 +2883,8 @@ class SuiGraphQLClient:
                         _pb_encode_bytes_field(1, b"digest")
                         + _pb_encode_bytes_field(1, b"effects.status")
                         + _pb_encode_bytes_field(1, b"effects.gas_used")
+                        + _pb_encode_bytes_field(1, b"effects.gas_object")
+                        + _pb_encode_bytes_field(1, b"effects.changed_objects")
                     )
                     req_bytes = (
                         _pb_encode_bytes_field(1, tx_msg)
@@ -2237,7 +2903,10 @@ class SuiGraphQLClient:
                         digest=str(parsed.get("digest") or ""),
                         error_message=str(parsed.get("error") or ""),
                         gas_summary=parsed.get("gasSummary"),
+                        gas_object=parsed.get("gasObject"),
+                        changed_objects=parsed.get("changedObjects"),
                     )
+                    self.local_cache.roll_forward_from_effects(norm.get("effects", {}))
                     return {"data": {"executeTransaction": norm}}
                 except Exception as exc:
                     if self.rpc_protocol == "auto" and ("HTTP 404" in str(exc) or "HTTP 415" in str(exc)):
@@ -2247,13 +2916,15 @@ class SuiGraphQLClient:
                                 [tx_b64, signatures, {"showEffects": True}, "WaitForEffectsCert"],
                                 timeout_s=10.0,
                             )
-                            return {"data": {"executeTransaction": self._parse_json_rpc_effects(res)}}
+                            norm = self._parse_json_rpc_effects(res)
+                            self.local_cache.roll_forward_from_effects(norm.get("effects", {}))
+                            return {"data": {"executeTransaction": norm}}
                         except Exception as jrpc_exc:
                             logger.warning(
-                                f"Custom RPC JSON-RPC fallback failed ({self.rpc_endpoint}): {jrpc_exc}"
+                                f"Custom RPC JSON-RPC fallback failed ({self.rpc_endpoint}): {_format_exc_detail(jrpc_exc)}"
                             )
                     logger.warning(
-                        f"gRPC-Web ExecuteTransaction fallback to GraphQL ({self.rpc_endpoint}): {exc}"
+                        f"gRPC-Web ExecuteTransaction fallback to GraphQL ({self.rpc_endpoint}): {_format_exc_detail(exc)}"
                     )
 
         mutation = """
@@ -2265,13 +2936,28 @@ class SuiGraphQLClient:
               executionError {
                 message
               }
+              gasEffects {
+                gasObject {
+                  address
+                  version
+                  digest
+                }
+              }
             }
           }
         }
         """
-        return await self.execute(
+        gql_res = await self.execute(
             mutation, {"txBcs": tx_b64, "signatures": signatures}, max_attempts=1
         )
+        gql_effects = (
+            ((gql_res.get("data") or {}).get("executeTransaction") or {}).get("effects")
+            if isinstance(gql_res, dict)
+            else None
+        )
+        if isinstance(gql_effects, dict):
+            self.local_cache.roll_forward_from_effects(gql_effects)
+        return gql_res
 
     async def get_deepbook_vault_balances(self, pool_id: str) -> Dict[str, int]:
         """Queries on-chain vault balances for a DeepBook V3 pool (Requirement R3).
@@ -2771,6 +3457,7 @@ class SuiGraphQLClient:
                 "turbos_sqrt_price": turbos_sqrt_p,
                 "source": "live_graphql",
             }
+            self.local_cache.update_pool_state(pair_name, results[pair_name])
 
         return results
 
@@ -2787,6 +3474,7 @@ class SuiDeepBookVenue(UnifiedVenue):
         private_key: Optional[str] = None,
         pool_id: str = SUI_USDC_POOL_ID,
         rpc_url: Optional[str] = None,
+        local_cache: Optional[SuiLocalPTBCache] = None,
     ) -> None:
         self.env = env.lower()
         self.graphql_url = graphql_url or (
@@ -2807,9 +3495,12 @@ class SuiDeepBookVenue(UnifiedVenue):
         self.pool_id = pool_id
         self.ptb_builder = SuiDeepBookPTBBuilder()
         self.graphql_client = SuiGraphQLClient(
-            endpoint=self.graphql_url, rpc_endpoint=self.rpc_url
+            endpoint=self.graphql_url,
+            rpc_endpoint=self.rpc_url,
+            local_cache=local_cache,
         )
         self.client = self.graphql_client
+        self.local_cache = self.graphql_client.local_cache
 
         self.is_connected = False
         self._running = False
@@ -3158,156 +3849,248 @@ class SuiDeepBookVenue(UnifiedVenue):
             )
 
             if live_onchain and can_sign_live:
+                effective_tx_bytes: Optional[bytes] = None
                 try:
-                    gas_coin, ref_gas = await self.graphql_client.get_gas_coin_and_price(self.active_address)
-                    enable_tranche_fallback = bool(order_params.get("enable_tranche_fallback", False))
-                    min_borrow_units = int(order_params.get("min_borrow_units", 0) or 0)
-                    deep_coin_param = order_params.get("deep_coin")
-                    deep_coin = (
-                        deep_coin_param
-                        if isinstance(deep_coin_param, dict)
-                        and deep_coin_param.get("address")
-                        and deep_coin_param.get("digest")
-                        else None
-                    )
-                    base_deep_fee = int(order_params.get("deep_fee_amount", 0) or 0) if deep_coin else 0
-                    expected_net_usd = order_params.get("expected_net_profit_usd")
-                    min_profit_usd = float(order_params.get("min_profit_usd", 0.0) or 0.0)
-                    est_gas_usd = float(order_params.get("gas_cost_usd", 0.0) or 0.0)
+                    async with self.local_cache.tx_lock:
+                        gas_coin, base_rgp = await self.graphql_client.get_gas_coin_and_price(
+                            self.active_address
+                        )
+                        enable_tranche_fallback = bool(order_params.get("enable_tranche_fallback", False))
+                        min_borrow_units = int(order_params.get("min_borrow_units", 0) or 0)
+                        deep_coin_param = order_params.get("deep_coin") or self.local_cache.deep_coin_ref
+                        deep_coin = (
+                            deep_coin_param
+                            if isinstance(deep_coin_param, dict)
+                            and deep_coin_param.get("address")
+                            and deep_coin_param.get("digest")
+                            else None
+                        )
+                        base_deep_fee = int(order_params.get("deep_fee_amount", 0) or 0) if deep_coin else 0
+                        expected_net_usd = order_params.get("expected_net_profit_usd")
+                        min_profit_usd = float(order_params.get("min_profit_usd", 0.0) or 0.0)
+                        est_gas_usd = float(order_params.get("gas_cost_usd", 0.0) or 0.0)
+                        sui_spot_px = float(
+                            order_params.get("sui_spot_price")
+                            or (price if symbol == "SUI/USDC" else DEFAULT_PAIR_SPOT_PRICES.get("SUI/USDC", 2.0))
+                            or 2.0
+                        )
 
-                    scales = (1.0, 0.5, 0.25) if enable_tranche_fallback else (1.0,)
-                    candidate_amounts: List[int] = []
-                    for idx, scale in enumerate(scales):
-                        scaled = int(borrow_amount * scale)
-                        if scaled <= 0:
-                            continue
-                        if idx > 0 and min_borrow_units > 0 and scaled < min_borrow_units:
-                            continue
-                        if idx > 0 and min_profit_usd > 0.0 and expected_net_usd is not None:
-                            scaled_net_usd = (float(expected_net_usd) + est_gas_usd) * scale - est_gas_usd
-                            if scaled_net_usd < min_profit_usd:
-                                logger.debug(
-                                    f"Skipping shrunk {scale:.2f}x fallback for {symbol}: "
-                                    f"scaled net ${scaled_net_usd:.4f} < min_profit_usd ${min_profit_usd:.4f}"
-                                )
+                        scales = (1.0, 0.5, 0.25) if enable_tranche_fallback else (1.0,)
+                        candidate_amounts: List[int] = []
+                        for idx, scale in enumerate(scales):
+                            scaled = int(borrow_amount * scale)
+                            if scaled <= 0:
                                 continue
-                        if scaled not in candidate_amounts:
-                            candidate_amounts.append(scaled)
-                    if not candidate_amounts and borrow_amount > 0:
-                        candidate_amounts = [borrow_amount]
+                            if idx > 0 and min_borrow_units > 0 and scaled < min_borrow_units:
+                                continue
+                            if idx > 0 and min_profit_usd > 0.0 and expected_net_usd is not None:
+                                scaled_net_usd = (float(expected_net_usd) + est_gas_usd) * scale - est_gas_usd
+                                if scaled_net_usd < min_profit_usd:
+                                    logger.debug(
+                                        f"Skipping shrunk {scale:.2f}x fallback for {symbol}: "
+                                        f"scaled net ${scaled_net_usd:.4f} < min_profit_usd ${min_profit_usd:.4f}"
+                                    )
+                                    continue
+                            if scaled not in candidate_amounts:
+                                candidate_amounts.append(scaled)
+                        if not candidate_amounts and borrow_amount > 0:
+                            candidate_amounts = [borrow_amount]
 
-                    effective_tx_bytes: Optional[bytes] = None
-                    effective_borrow = borrow_amount
-                    last_err_msg = "Move VM aborted"
+                        effective_borrow = borrow_amount
+                        last_err_msg = "Move VM aborted"
 
-                    for attempt_idx, attempt_borrow in enumerate(candidate_amounts):
-                        attempt_deep_fee = (
-                            int(math.ceil(base_deep_fee * (attempt_borrow / float(borrow_amount))))
-                            if deep_coin and base_deep_fee > 0 and borrow_amount > 0
-                            else 0
+                        for attempt_idx, attempt_borrow in enumerate(candidate_amounts):
+                            attempt_scale = (
+                                (attempt_borrow / float(borrow_amount))
+                                if borrow_amount > 0
+                                else 1.0
+                            )
+                            attempt_net_usd = (
+                                ((float(expected_net_usd) + est_gas_usd) * attempt_scale - est_gas_usd)
+                                if expected_net_usd is not None
+                                else None
+                            )
+                            priority_rgp = compute_priority_gas_price(
+                                base_rgp=base_rgp,
+                                net_profit_usd=attempt_net_usd,
+                                min_profit_usd=min_profit_usd,
+                                sui_spot_price=sui_spot_px,
+                            )
+                            safe_gas_budget = compute_safe_gas_budget(priority_rgp)
+
+                            attempt_deep_fee = (
+                                int(math.ceil(base_deep_fee * attempt_scale))
+                                if deep_coin and base_deep_fee > 0 and borrow_amount > 0
+                                else 0
+                            )
+                            if (
+                                deep_coin
+                                and attempt_deep_fee > 0
+                                and int(deep_coin.get("balance", 0) or 0) >= attempt_deep_fee
+                            ):
+                                attempt_deep_coin = deep_coin
+                            else:
+                                attempt_deep_coin = None
+                                attempt_deep_fee = 0
+
+                            tx_bytes = self.ptb_builder.build_atomic_arb_ptb_bcs(
+                                pair_name=symbol,
+                                borrow_amount=attempt_borrow,
+                                sender_address=self.active_address,
+                                gas_coin=gas_coin,
+                                ref_gas_price=priority_rgp,
+                                gas_budget=safe_gas_budget,
+                                route_direction=route_direction,
+                                deep_coin=attempt_deep_coin,
+                                deep_fee_amount=attempt_deep_fee,
+                                local_cache=self.local_cache,
+                            )
+                            # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
+                            sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
+                            sim_effects = (
+                                sim_resp.get("data", {})
+                                .get("simulateTransaction", {})
+                                .get("effects", {})
+                                or {}
+                            )
+                            sim_status = sim_effects.get("status")
+                            err_text = (
+                                sim_effects.get("executionError", {}).get("message")
+                                if sim_effects.get("executionError")
+                                else ""
+                            ) or ""
+
+                            # Auto-refresh stale cached gas coin reference and retry once cleanly (P0)
+                            if sim_status != "SUCCESS" and (
+                                "ObjectVersionUnavailableForConsumption" in err_text
+                                or "not available for consumption" in err_text
+                                or "Object version" in err_text
+                            ):
+                                logger.info(
+                                    f"Cached gas_coin_ref stale in pre-flight simulation for {symbol}; "
+                                    f"refreshing coin reference and retrying once: {err_text}"
+                                )
+                                self.local_cache.invalidate_gas_coin()
+                                gas_coin, base_rgp = await self.graphql_client.get_gas_coin_and_price(
+                                    self.active_address, force_refresh=True
+                                )
+                                priority_rgp = compute_priority_gas_price(
+                                    base_rgp=base_rgp,
+                                    net_profit_usd=attempt_net_usd,
+                                    min_profit_usd=min_profit_usd,
+                                    sui_spot_price=sui_spot_px,
+                                )
+                                safe_gas_budget = compute_safe_gas_budget(priority_rgp)
+                                tx_bytes = self.ptb_builder.build_atomic_arb_ptb_bcs(
+                                    pair_name=symbol,
+                                    borrow_amount=attempt_borrow,
+                                    sender_address=self.active_address,
+                                    gas_coin=gas_coin,
+                                    ref_gas_price=priority_rgp,
+                                    gas_budget=safe_gas_budget,
+                                    route_direction=route_direction,
+                                    deep_coin=attempt_deep_coin,
+                                    deep_fee_amount=attempt_deep_fee,
+                                    local_cache=self.local_cache,
+                                )
+                                sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
+                                sim_effects = (
+                                    sim_resp.get("data", {})
+                                    .get("simulateTransaction", {})
+                                    .get("effects", {})
+                                    or {}
+                                )
+                                sim_status = sim_effects.get("status")
+                                err_text = (
+                                    sim_effects.get("executionError", {}).get("message")
+                                    if sim_effects.get("executionError")
+                                    else ""
+                                ) or ""
+
+                            if sim_status == "SUCCESS":
+                                effective_tx_bytes = tx_bytes
+                                effective_borrow = attempt_borrow
+                                if attempt_idx > 0:
+                                    logger.info(
+                                        f"Multi-tranche simulation succeeded for {symbol}: "
+                                        f"borrow_amount={attempt_borrow} (shrunk from {borrow_amount})"
+                                    )
+                                break
+
+                            last_err_msg = err_text or "Move VM aborted"
+                            logger.warning(
+                                f"Live Move VM simulateTransaction aborted for {symbol} "
+                                f"(borrow_amount={attempt_borrow}, 0 gas cost): {last_err_msg}"
+                            )
+
+                        if effective_tx_bytes is None:
+                            return OrderExecutionResult(
+                                venue=self.name,
+                                order_id=f"PTB-SIM-REVERT-{uuid4().hex[:8]}",
+                                symbol=symbol,
+                                side=side,
+                                price=price,
+                                size=size,
+                                fee_bps=0.0,
+                                rebate_bps=0.0,
+                                is_maker=False,
+                                status="REJECTED",
+                                latency_ms=latency_ms,
+                                timestamp_ns=ts_ns,
+                            )
+
+                        # 2. Simulate succeeded! Sign with SUI_PRIVATE_KEY and broadcast executeTransaction
+                        sig_b64 = self.ptb_builder.sign_transaction_bcs(effective_tx_bytes, self.private_key)
+                        exec_resp = await self.graphql_client.execute_transaction_bcs(
+                            effective_tx_bytes, [sig_b64]
                         )
-                        if (
-                            deep_coin
-                            and attempt_deep_fee > 0
-                            and int(deep_coin.get("balance", 0) or 0) >= attempt_deep_fee
-                        ):
-                            attempt_deep_coin = deep_coin
-                        else:
-                            attempt_deep_coin = None
-                            attempt_deep_fee = 0
-
-                        tx_bytes = self.ptb_builder.build_atomic_arb_ptb_bcs(
-                            pair_name=symbol,
-                            borrow_amount=attempt_borrow,
-                            sender_address=self.active_address,
-                            gas_coin=gas_coin,
-                            ref_gas_price=ref_gas,
-                            route_direction=route_direction,
-                            deep_coin=attempt_deep_coin,
-                            deep_fee_amount=attempt_deep_fee,
-                        )
-                        # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
-                        sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
-                        sim_effects = (
-                            sim_resp.get("data", {})
-                            .get("simulateTransaction", {})
+                        exec_effects = (
+                            exec_resp.get("data", {})
+                            .get("executeTransaction", {})
                             .get("effects", {})
                             or {}
                         )
-                        sim_status = sim_effects.get("status")
-                        if sim_status == "SUCCESS":
-                            effective_tx_bytes = tx_bytes
-                            effective_borrow = attempt_borrow
-                            if attempt_idx > 0:
-                                logger.info(
-                                    f"Multi-tranche simulation succeeded for {symbol}: "
-                                    f"borrow_amount={attempt_borrow} (shrunk from {borrow_amount})"
-                                )
-                            break
-
-                        last_err_msg = (
-                            sim_effects.get("executionError", {}).get("message")
-                            if sim_effects.get("executionError")
-                            else "Move VM aborted"
+                        # Roll gas_coin_ref forward from TransactionEffects (or invalidate if mocked without gasObject)
+                        self.local_cache.roll_forward_from_effects(exec_effects)
+                        digest = exec_effects.get("digest") or f"PTB-EXEC-{uuid4().hex[:8]}"
+                        exec_status = exec_effects.get("status")
+                        is_filled = exec_status == "SUCCESS"
+                        executed_size = (
+                            size * (effective_borrow / float(borrow_amount))
+                            if borrow_amount > 0 and effective_borrow != borrow_amount
+                            else size
                         )
-                        logger.warning(
-                            f"Live Move VM simulateTransaction aborted for {symbol} "
-                            f"(borrow_amount={attempt_borrow}, 0 gas cost): {last_err_msg}"
+                        logger.info(
+                            f"Live Sui Mainnet PTB broadcast completed for {symbol}: "
+                            f"status={exec_status}, digest={digest}"
                         )
-
-                    if effective_tx_bytes is None:
                         return OrderExecutionResult(
                             venue=self.name,
-                            order_id=f"PTB-SIM-REVERT-{uuid4().hex[:8]}",
+                            order_id=digest,
                             symbol=symbol,
                             side=side,
                             price=price,
-                            size=size,
+                            size=executed_size,
                             fee_bps=0.0,
                             rebate_bps=0.0,
                             is_maker=False,
-                            status="REJECTED",
-                            latency_ms=latency_ms,
-                            timestamp_ns=ts_ns,
+                            status="FILLED" if is_filled else "REJECTED",
+                            latency_ms=(time.perf_counter() - t0) * 1000.0,
+                            timestamp_ns=time.time_ns(),
                         )
-
-                    # 2. Simulate succeeded! Sign with SUI_PRIVATE_KEY and broadcast executeTransaction
-                    sig_b64 = self.ptb_builder.sign_transaction_bcs(effective_tx_bytes, self.private_key)
-                    exec_resp = await self.graphql_client.execute_transaction_bcs(effective_tx_bytes, [sig_b64])
-                    exec_effects = (
-                        exec_resp.get("data", {})
-                        .get("executeTransaction", {})
-                        .get("effects", {})
-                        or {}
-                    )
-                    digest = exec_effects.get("digest") or f"PTB-EXEC-{uuid4().hex[:8]}"
-                    exec_status = exec_effects.get("status")
-                    is_filled = exec_status == "SUCCESS"
-                    executed_size = (
-                        size * (effective_borrow / float(borrow_amount))
-                        if borrow_amount > 0 and effective_borrow != borrow_amount
-                        else size
-                    )
-                    logger.info(
-                        f"Live Sui Mainnet PTB broadcast completed for {symbol}: "
-                        f"status={exec_status}, digest={digest}"
-                    )
-                    return OrderExecutionResult(
-                        venue=self.name,
-                        order_id=digest,
-                        symbol=symbol,
-                        side=side,
-                        price=price,
-                        size=executed_size,
-                        fee_bps=0.0,
-                        rebate_bps=0.0,
-                        is_maker=False,
-                        status="FILLED" if is_filled else "REJECTED",
-                        latency_ms=(time.perf_counter() - t0) * 1000.0,
-                        timestamp_ns=time.time_ns(),
-                    )
                 except Exception as e:
-                    logger.error(f"Live on-chain execution exception for {symbol}: {e}", exc_info=True)
+                    # Reconcile via GetTransaction if broadcast timed out ambiguously after signing
+                    if effective_tx_bytes is not None:
+                        try:
+                            tx_dig = compute_tx_digest(effective_tx_bytes)
+                            reconciled = await self.graphql_client.get_transaction_grpc(tx_dig)
+                            if reconciled is None:
+                                self.local_cache.invalidate_gas_coin()
+                        except Exception:
+                            self.local_cache.invalidate_gas_coin()
+                    else:
+                        self.local_cache.invalidate_gas_coin()
+                    logger.error(f"Live on-chain execution exception for {symbol}: {_format_exc_detail(e)}", exc_info=True)
                     return OrderExecutionResult(
                         venue=self.name,
                         order_id=f"PTB-ERROR-{uuid4().hex[:8]}",

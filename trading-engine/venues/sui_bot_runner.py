@@ -114,10 +114,20 @@ class SuiBotConfig:
 
     @classmethod
     def from_env(cls) -> SuiBotConfig:
-        """Constructs configuration from environment variables with safe defaults."""
-        env_rpc = (os.getenv("SUI_GRPC_URL") or os.getenv("SUI_RPC_URL") or "").strip() or None
-        graphql_url = (
+        """Constructs configuration from environment variables with safe defaults (Split-Horizon supported)."""
+        env_rpc = (
+            os.getenv("SUI_GRPC_ENDPOINT")
+            or os.getenv("SUI_GRPC_URL")
+            or os.getenv("SUI_RPC_URL")
+            or ""
+        ).strip() or None
+        env_gql = (
             os.getenv("SUI_GRAPHQL_URL")
+            or os.getenv("SUI_GRAPHQL_ENDPOINT")
+            or ""
+        ).strip() or None
+        graphql_url = (
+            env_gql
             or (env_rpc if (env_rpc and "/graphql" in env_rpc) else None)
             or SUI_GRAPHQL_MAINNET
         )
@@ -290,6 +300,17 @@ class SuiBotRunner:
         if self.config.sui_private_key and not getattr(self.validator.venue, "private_key", None):
             self.validator.venue.private_key = self.config.sui_private_key
 
+        # Share Zero-RTT local PTB cache across validator client and venue client (P0)
+        val_client = getattr(self.validator, "graphql_client", None)
+        ven_obj = getattr(self.validator, "venue", None)
+        if val_client is not None and ven_obj is not None:
+            shared_cache = getattr(val_client, "local_cache", None) or getattr(ven_obj, "local_cache", None)
+            if shared_cache is not None:
+                val_client.local_cache = shared_cache
+                ven_obj.local_cache = shared_cache
+                if getattr(ven_obj, "graphql_client", None) is not None:
+                    ven_obj.graphql_client.local_cache = shared_cache
+
         self.shutdown_event = asyncio.Event()
         self.is_running = False
         self.completed_cycles: int = 0
@@ -438,6 +459,21 @@ class SuiBotRunner:
             )
             self._last_wallet_balance_check_ts = time.time()
 
+        # Warm up Zero-RTT local PTB cache (shared object registry via gRPC BatchGetObjects + gas_coin_ref + RGP)
+        if mock_data is None and rpc_connected:
+            graphql_client = getattr(self.validator, "graphql_client", None)
+            warmup_fn = getattr(graphql_client, "warmup_local_ptb_cache", None)
+            if callable(warmup_fn):
+                try:
+                    warm_info = await warmup_fn(self.config.operator_address)
+                    logger.info(
+                        f"Zero-RTT local PTB cache warmed up: "
+                        f"batch_fetched={warm_info.get('batch_fetched', 0)}, "
+                        f"rgp={warm_info.get('reference_gas_price', 0)}"
+                    )
+                except Exception as exc:
+                    logger.debug(f"Zero-RTT local PTB cache warmup skipped: {exc}")
+
         logger.info(
             f"Pre-flight health result: status={status}, "
             f"SUI balance={sui_balance:.4f} SUI, "
@@ -533,6 +569,9 @@ class SuiBotRunner:
                     self._cached_deep_coin = fetched_deep
                 else:
                     self._cached_deep_coin = None
+                local_cache = getattr(graphql_client, "local_cache", None)
+                if local_cache is not None and hasattr(local_cache, "set_deep_coin"):
+                    local_cache.set_deep_coin(self._cached_deep_coin)
                 self._last_deep_check_ts = now_ts
             except Exception as e:
                 logger.debug(f"Coin<DEEP> balance check failed: {e}")
@@ -1048,6 +1087,7 @@ class SuiBotRunner:
                             "expected_net_profit_usd": net_profit_usd,
                             "gas_cost_usd": opp_gas_cost_usd,
                             "min_profit_usd": self.config.min_profit_usd,
+                            "sui_spot_price": sui_spot,
                             "deep_coin": opp.get("deep_coin"),
                             "deep_fee_amount": opp.get("deep_fee_amount", 0),
                             "live_onchain": bool(
@@ -1057,7 +1097,7 @@ class SuiBotRunner:
                         }
                         exec_res = await self.validator.venue.submit_order(order_params)
                         if order_params.get("live_onchain") and (
-                            exec_res.status == "FILLED" or not exec_res.order_id.startswith("PTB-SIM-REVERT")
+                            exec_res.status == "FILLED" or not str(exec_res.order_id).startswith("PTB-SIM-REVERT")
                         ):
                             if order_params.get("deep_coin") is not None:
                                 self._last_deep_check_ts = 0.0
@@ -1088,8 +1128,16 @@ class SuiBotRunner:
                         else:
                             opp["execution_status"] = "REJECTED"
                             pair_results_map[pair_name]["execution_status"] = "REJECTED"
-                            logger.info(f"Live PTB pre-flight simulation rejected for {pair_name} (0 gas cost): order_id={exec_res.order_id}")
-                            if not exec_res.order_id.startswith("PTB-SIM-REVERT"):
+                            if str(exec_res.order_id).startswith("PTB-SIM-REVERT"):
+                                logger.info(
+                                    f"Live PTB pre-flight simulation rejected for {pair_name} (0 gas cost): "
+                                    f"order_id={exec_res.order_id}"
+                                )
+                            else:
+                                logger.warning(
+                                    f"On-chain PTB reverted atomically on {pair_name} "
+                                    f"(principal safe, ~0.0001 SUI gas spent): tx_digest={exec_res.order_id}"
+                                )
                                 self.scaling_engine.record_trade_abort()
                     except Exception as e:
                         opp["execution_status"] = "ERROR"
