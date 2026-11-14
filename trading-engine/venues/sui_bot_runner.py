@@ -315,6 +315,9 @@ class SuiBotRunner:
                 ven_obj.local_cache = shared_cache
                 if getattr(ven_obj, "graphql_client", None) is not None:
                     ven_obj.graphql_client.local_cache = shared_cache
+            if getattr(val_client, "rpc_endpoint", None):
+                self.config.rpc_url = val_client.rpc_endpoint
+                ven_obj.rpc_url = val_client.rpc_endpoint
 
         self.shutdown_event = asyncio.Event()
         self.is_running = False
@@ -476,6 +479,8 @@ class SuiBotRunner:
                     if graphql_client is not None and ven_client is not None:
                         ven_client.rpc_endpoints = list(getattr(graphql_client, "rpc_endpoints", []))
                         ven_client.rpc_endpoint = getattr(graphql_client, "rpc_endpoint", ven_client.rpc_endpoint)
+                        if hasattr(graphql_client, "_h2_endpoints") and hasattr(ven_client, "_h2_endpoints"):
+                            ven_client._h2_endpoints = set(graphql_client._h2_endpoints)
                         ven_obj.rpc_url = ven_client.rpc_endpoint
                         self.config.rpc_url = ven_client.rpc_endpoint
                     logger.info(

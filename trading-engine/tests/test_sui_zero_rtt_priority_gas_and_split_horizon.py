@@ -466,6 +466,7 @@ def test_p1_split_horizon_and_multi_provider_auth_headers(monkeypatch: pytest.Mo
     assert client.rpc_endpoint == "https://sui-mainnet.core.chainstack.com:443"
     assert client.endpoint == "https://graphql.mainnet.sui.io/graphql"
     assert client.get_grpc_auth_headers() == {"x-token": "secret-token-123"}
+    assert client.get_grpc_auth_headers(client.rpc_endpoint) == {"x-token": "secret-token-123"}
 
     assert get_grpc_auth_headers("k1", "dwellir") == {"x-api-key": "k1"}
     assert get_grpc_auth_headers("k2", "onfinality") == {"api-key": "k2"}
@@ -1116,6 +1117,17 @@ async def test_p1_per_endpoint_auth_switching_and_h2_transport_fallback(
             # HTTP 426 triggered _post_grpc_h2 with Dwellir's auth headers
             assert len(h2_calls) == 1
             assert h2_calls[0][1] == {"x-api-key": "dw-key-222"}
+
+            # Failover promoted dw_ep to primary rpc_endpoint and cached it in _h2_endpoints
+            assert client.rpc_endpoint == dw_ep
+            assert client.rpc_endpoints[0] == dw_ep
+            assert dw_ep in client._h2_endpoints
+
+            # Subsequent call goes directly to dw_ep over HTTP/2 with zero wasted HTTP/1.1 or failed-primary RTTs
+            sim_res2 = await client.simulate_transaction_bcs(b"\x00\x00")
+            assert sim_res2["data"]["simulateTransaction"]["effects"]["status"] == "SUCCESS"
+            assert len(seen_requests) == 2  # Neither cs nor dw_h1 was hit again!
+            assert len(h2_calls) == 2
         finally:
             await client.close()
     finally:
@@ -1170,6 +1182,76 @@ async def test_p1_benchmark_grpc_endpoints_reorders_by_lowest_warm_latency() -> 
             "https://sui.api.onfinality.io:443",
             "https://sui-mainnet.core.chainstack.com:443",
         ]
+    finally:
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_p1_benchmark_grpc_endpoints_demotes_stalled_checkpoint_and_rejects_invalid_service_info() -> None:
+    """Verifies benchmark_grpc_endpoints demotes stalled/lagging nodes and rejects missing checkpoint_height or wrong chain."""
+    from venues.sui_deepbook_venue import _pb_encode_bytes_field, _pb_encode_varint
+
+    def _mk_service_info(chain: bytes, ckpt: int) -> bytes:
+        out = _pb_encode_bytes_field(1, b"35834a8a")
+        if chain:
+            out += _pb_encode_bytes_field(2, chain)
+        out += _pb_encode_varint((3 << 3) | 0) + _pb_encode_varint(1140)
+        if ckpt > 0:
+            out += _pb_encode_varint((4 << 3) | 0) + _pb_encode_varint(ckpt)
+        return out
+
+    ep_stalled_fast = "https://sui-mainnet.core.chainstack.com:443"
+    ep_synced = "https://api-sui-mainnet-full.n.dwellir.com:443"
+    ep_zero_ckpt = "https://sui.api.onfinality.io:443"
+    ep_wrong_chain = "https://fullnode.mainnet.sui.io:443"
+
+    client = SuiGraphQLClient(
+        endpoint="https://graphql.mainnet.sui.io/graphql",
+        rpc_endpoint=f"{ep_stalled_fast},{ep_synced},{ep_zero_ckpt},{ep_wrong_chain}",
+    )
+    try:
+        payloads = {
+            # Fast (2ms) but stalled 500 checkpoints behind tip (lag=500 > max_checkpoint_lag=50)
+            ep_stalled_fast: (0.002, _mk_service_info(b"mainnet", 345_089_000)),
+            # Synced tip (12ms)
+            ep_synced: (0.012, _mk_service_info(b"mainnet", 345_089_500)),
+            # Invalid: checkpoint_height=0
+            ep_zero_ckpt: (0.001, _mk_service_info(b"mainnet", 0)),
+            # Invalid on mainnet client: chain="testnet"
+            ep_wrong_chain: (0.001, _mk_service_info(b"testnet", 345_089_500)),
+        }
+
+        async def mock_post(
+            service_path: str,
+            req_bytes: bytes,
+            timeout_s: float = 8.0,
+            target_endpoints: Optional[List[str]] = None,
+        ) -> bytes:
+            ep = target_endpoints[0] if target_endpoints else ""
+            delay, body = payloads[ep]
+            await asyncio.sleep(delay)
+            return body
+
+        client._post_grpc_web = mock_post  # type: ignore[method-assign]
+        results = await client.benchmark_grpc_endpoints(samples=2, max_checkpoint_lag=50)
+        assert len(results) == 4
+
+        # Synced Dwellir node is ranked #1 ahead of faster but stalled Chainstack node
+        assert results[0]["endpoint"] == ep_synced
+        assert results[0]["healthy"] is True
+        assert results[0]["lagging"] is False
+        assert results[0]["checkpoint_lag"] == 0
+
+        # Stalled Chainstack node is ranked #2 (healthy=True, lagging=True, checkpoint_lag=500)
+        assert results[1]["endpoint"] == ep_stalled_fast
+        assert results[1]["healthy"] is True
+        assert results[1]["lagging"] is True
+        assert results[1]["checkpoint_lag"] == 500
+
+        # Invalid nodes (zero checkpoint or wrong chain) are marked unhealthy at the end
+        assert results[2]["healthy"] is False
+        assert results[3]["healthy"] is False
+        assert client.rpc_endpoint == ep_synced
     finally:
         await client.close()
 
