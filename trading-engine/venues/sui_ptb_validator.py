@@ -302,6 +302,7 @@ class SuiPTBPreflightValidator:
             graphql_url=self.endpoint,
             active_address=self.operator_address,
             rpc_url=rpc_url,
+            local_cache=getattr(self.graphql_client, "local_cache", None),
         )
         self.scaling_engine = scaling_engine or DynamicCapitalScalingEngine(
             warning_gas_floor=self.warning_gas_floor,

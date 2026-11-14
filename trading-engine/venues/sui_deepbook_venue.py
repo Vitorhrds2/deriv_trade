@@ -2038,15 +2038,13 @@ def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
     gas_object = _decode_grpc_changed_object(gas_obj_bytes)
 
     changed_objects: List[Dict[str, Any]] = []
-    for ch_raw in eff.get(7, []):
+    # In sui.rpc.v2.TransactionEffects, field 12 is `repeated ChangedObject changed_objects = 12;`
+    # (field 7 is `string transaction_digest = 7;`, though synthetic unit-test payloads may use field 7).
+    for ch_raw in list(eff.get(12, [])) + list(eff.get(7, [])):
         if isinstance(ch_raw, bytes):
             parsed_ch = _decode_grpc_changed_object(ch_raw)
-            if parsed_ch is not None:
+            if parsed_ch is not None and str(parsed_ch.get("address", "")).startswith("0x"):
                 changed_objects.append(parsed_ch)
-
-    if gas_object is None and changed_objects:
-        # Fallback if gas_object was only present inside changed_objects
-        gas_object = changed_objects[0]
 
     result: Dict[str, Any] = {
         "digest": digest,
@@ -2321,7 +2319,11 @@ class SuiGraphQLClient:
             for idx, pair_name in enumerate(pair_names):
                 cfg = SUI_PAIRS_CONFIG[pair_name]
                 db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
-                inputs.append(bcs_input_shared(cfg.deepbook_pool_id, db_ver, False))
+                inputs.append(
+                    self.local_cache.get_shared_input_bcs(
+                        cfg.deepbook_pool_id, mutable=False, default_ver=db_ver
+                    )
+                )
                 t_base = parse_type_tag(cfg.base_coin_type)
                 t_quote = parse_type_tag(cfg.quote_coin_type)
                 pool_arg = arg_input(idx)
@@ -2613,6 +2615,10 @@ class SuiGraphQLClient:
                     return msgs[0]
             except Exception as exc:
                 last_exc = exc
+                # Deterministic gRPC INVALID_ARGUMENT (status 3, e.g. stale input object version)
+                # is an application-level validation result, not a node outage; do not failover.
+                if "gRPC status 3:" in str(exc):
+                    raise
                 if idx + 1 < len(endpoints):
                     logger.warning(
                         f"gRPC-Web endpoint failover ({base_ep} -> {endpoints[idx + 1]}): {_format_exc_detail(exc)}"
@@ -2823,8 +2829,21 @@ class SuiGraphQLClient:
                 )
                 return {"data": {"simulateTransaction": norm}}
             except Exception as exc:
+                err_str = _format_exc_detail(exc)
+                # Deterministic input object validation errors (e.g. stale gas_coin / deep_coin version)
+                # should be returned immediately as simulation FAILURE so submit_order can refresh & retry in 0 extra RTTs.
+                if (
+                    "unavailable for consumption" in err_str
+                    or "ObjectVersionUnavailableForConsumption" in err_str
+                    or "Error checking transaction input objects" in err_str
+                ):
+                    norm = self._normalize_effects_payload(
+                        success=False,
+                        error_message=err_str,
+                    )
+                    return {"data": {"simulateTransaction": norm}}
                 logger.warning(
-                    f"Fast RPC simulate fallback to GraphQL ({self.rpc_endpoint}): {_format_exc_detail(exc)}"
+                    f"Fast RPC simulate fallback to GraphQL ({self.rpc_endpoint}): {err_str}"
                 )
 
         tx_b64 = base64.b64encode(tx_bytes).decode("utf-8")
@@ -2847,7 +2866,28 @@ class SuiGraphQLClient:
           }
         }
         """
-        return await self.execute(query, {"bcs": tx_b64})
+        try:
+            gql_res = await self.execute(query, {"bcs": tx_b64})
+        except Exception as gql_exc:
+            norm = self._normalize_effects_payload(
+                success=False,
+                error_message=_format_exc_detail(gql_exc),
+            )
+            return {"data": {"simulateTransaction": norm}}
+
+        if isinstance(gql_res, dict) and gql_res.get("data") is None and gql_res.get("errors"):
+            errs = gql_res.get("errors") or []
+            first_msg = (
+                errs[0].get("message")
+                if isinstance(errs, list) and errs and isinstance(errs[0], dict)
+                else str(errs)
+            )
+            norm = self._normalize_effects_payload(
+                success=False,
+                error_message=str(first_msg or "GraphQL simulateTransaction error"),
+            )
+            return {"data": {"simulateTransaction": norm}}
+        return gql_res
 
     async def execute_transaction_bcs(
         self, tx_bytes: bytes, signatures: List[str]
@@ -2947,9 +2987,18 @@ class SuiGraphQLClient:
           }
         }
         """
-        gql_res = await self.execute(
-            mutation, {"txBcs": tx_b64, "signatures": signatures}, max_attempts=1
-        )
+        try:
+            gql_res = await self.execute(
+                mutation, {"txBcs": tx_b64, "signatures": signatures}, max_attempts=1
+            )
+        except Exception:
+            # If gRPC-Web timed out after on-chain execution and GraphQL failed because the gas coin
+            # was already consumed by this tx, reconcile via GetTransaction before propagating.
+            if self.rpc_endpoint and self.rpc_protocol != "graphql":
+                reconciled = await self.get_transaction_grpc(compute_tx_digest(tx_bytes))
+                if reconciled is not None:
+                    return {"data": {"executeTransaction": reconciled}}
+            raise
         gql_effects = (
             ((gql_res.get("data") or {}).get("executeTransaction") or {}).get("effects")
             if isinstance(gql_res, dict)
@@ -2989,7 +3038,11 @@ class SuiGraphQLClient:
             try:
                 gas_coin, ref_gas = await self.get_gas_coin_and_price(self.operator_address)
                 db_ver = SHARED_OBJECT_INITIAL_VERSIONS.get(cfg.deepbook_pool_id, 389750321)
-                inputs = [bcs_input_shared(cfg.deepbook_pool_id, db_ver, False)]
+                inputs = [
+                    self.local_cache.get_shared_input_bcs(
+                        cfg.deepbook_pool_id, mutable=False, default_ver=db_ver
+                    )
+                ]
                 commands = [
                     cmd_move_call(
                         DEEPBOOK_V3_LATEST_PKG_ID,
@@ -3857,7 +3910,23 @@ class SuiDeepBookVenue(UnifiedVenue):
                         )
                         enable_tranche_fallback = bool(order_params.get("enable_tranche_fallback", False))
                         min_borrow_units = int(order_params.get("min_borrow_units", 0) or 0)
-                        deep_coin_param = order_params.get("deep_coin") or self.local_cache.deep_coin_ref
+                        raw_deep_param = order_params.get("deep_coin")
+                        cached_deep = self.local_cache.deep_coin_ref
+                        if (
+                            isinstance(raw_deep_param, dict)
+                            and isinstance(cached_deep, dict)
+                            and raw_deep_param.get("address")
+                            and cached_deep.get("address")
+                            and normalize_sui_object_id(raw_deep_param["address"])
+                            == normalize_sui_object_id(cached_deep["address"])
+                            and int(cached_deep.get("version", 0) or 0)
+                            > int(raw_deep_param.get("version", 0) or 0)
+                        ):
+                            deep_coin_param: Any = dict(raw_deep_param)
+                            deep_coin_param["version"] = int(cached_deep["version"])
+                            deep_coin_param["digest"] = str(cached_deep["digest"])
+                        else:
+                            deep_coin_param = raw_deep_param or cached_deep
                         deep_coin = (
                             deep_coin_param
                             if isinstance(deep_coin_param, dict)
@@ -3948,9 +4017,7 @@ class SuiDeepBookVenue(UnifiedVenue):
                             # 1. Run real Move VM simulation on Sui Mainnet (costs 0 SUI gas)
                             sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
                             sim_effects = (
-                                sim_resp.get("data", {})
-                                .get("simulateTransaction", {})
-                                .get("effects", {})
+                                (((sim_resp or {}).get("data") or {}).get("simulateTransaction") or {}).get("effects")
                                 or {}
                             )
                             sim_status = sim_effects.get("status")
@@ -3960,10 +4027,11 @@ class SuiDeepBookVenue(UnifiedVenue):
                                 else ""
                             ) or ""
 
-                            # Auto-refresh stale cached gas coin reference and retry once cleanly (P0)
+                            # Auto-refresh stale cached gas coin (and deep_coin if used) reference and retry once cleanly (P0)
                             if sim_status != "SUCCESS" and (
                                 "ObjectVersionUnavailableForConsumption" in err_text
-                                or "not available for consumption" in err_text
+                                or "unavailable for consumption" in err_text
+                                or "Error checking transaction input objects" in err_text
                                 or "Object version" in err_text
                             ):
                                 logger.info(
@@ -3974,6 +4042,16 @@ class SuiDeepBookVenue(UnifiedVenue):
                                 gas_coin, base_rgp = await self.graphql_client.get_gas_coin_and_price(
                                     self.active_address, force_refresh=True
                                 )
+                                if attempt_deep_coin is not None:
+                                    refreshed_deep = await self.graphql_client.get_deep_coin(self.active_address)
+                                    if (
+                                        isinstance(refreshed_deep, dict)
+                                        and refreshed_deep.get("address")
+                                        and refreshed_deep.get("digest")
+                                        and int(refreshed_deep.get("balance", 0) or 0) >= attempt_deep_fee
+                                    ):
+                                        deep_coin = refreshed_deep
+                                        attempt_deep_coin = refreshed_deep
                                 priority_rgp = compute_priority_gas_price(
                                     base_rgp=base_rgp,
                                     net_profit_usd=attempt_net_usd,
@@ -3995,9 +4073,7 @@ class SuiDeepBookVenue(UnifiedVenue):
                                 )
                                 sim_resp = await self.graphql_client.simulate_transaction_bcs(tx_bytes)
                                 sim_effects = (
-                                    sim_resp.get("data", {})
-                                    .get("simulateTransaction", {})
-                                    .get("effects", {})
+                                    (((sim_resp or {}).get("data") or {}).get("simulateTransaction") or {}).get("effects")
                                     or {}
                                 )
                                 sim_status = sim_effects.get("status")
@@ -4045,9 +4121,7 @@ class SuiDeepBookVenue(UnifiedVenue):
                             effective_tx_bytes, [sig_b64]
                         )
                         exec_effects = (
-                            exec_resp.get("data", {})
-                            .get("executeTransaction", {})
-                            .get("effects", {})
+                            (((exec_resp or {}).get("data") or {}).get("executeTransaction") or {}).get("effects")
                             or {}
                         )
                         # Roll gas_coin_ref forward from TransactionEffects (or invalidate if mocked without gasObject)

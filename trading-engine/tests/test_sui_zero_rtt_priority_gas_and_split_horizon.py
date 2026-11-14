@@ -81,13 +81,11 @@ def _encode_grpc_executed_tx(
         + _pb_encode_varint((3 << 3) | 0)
         + _pb_encode_varint(storage_rebate)
     )
-    effects_payload = _pb_encode_bytes_field(4, status_payload) + _pb_encode_bytes_field(6, gas_payload)
-    if changed_objects:
-        for ch in changed_objects:
-            effects_payload += _pb_encode_bytes_field(
-                7,
-                _encode_grpc_changed_object(ch["address"], int(ch["version"]), ch["digest"]),
-            )
+    effects_payload = (
+        _pb_encode_bytes_field(4, status_payload)
+        + _pb_encode_bytes_field(6, gas_payload)
+        + _pb_encode_bytes_field(7, digest.encode("utf-8"))
+    )
     if gas_object:
         effects_payload += _pb_encode_bytes_field(
             8,
@@ -95,6 +93,12 @@ def _encode_grpc_executed_tx(
                 gas_object["address"], int(gas_object["version"]), gas_object["digest"]
             ),
         )
+    if changed_objects:
+        for ch in changed_objects:
+            effects_payload += _pb_encode_bytes_field(
+                12,
+                _encode_grpc_changed_object(ch["address"], int(ch["version"]), ch["digest"]),
+            )
     executed_tx = _pb_encode_bytes_field(1, digest.encode("utf-8")) + _pb_encode_bytes_field(4, effects_payload)
     return _pb_encode_bytes_field(1, executed_tx)
 
@@ -711,4 +715,270 @@ async def test_p0_ambiguous_timeout_reconciles_via_get_transaction_and_tx_lock_s
         "version": 201,
         "digest": DIGEST_V101,
     }
+
+
+@pytest.mark.asyncio
+async def test_p0_grpc_status_3_stale_gas_and_deep_coin_refresh_without_graphql_crash() -> None:
+    """Verifies gRPC status 3 (unavailable for consumption) and GraphQL data=None errors refresh gas+deep coins and retry cleanly."""
+    gas_addr = "0x" + "11" * 32
+    deep_addr = "0x" + "dd" * 32
+    calls = {"sim_grpc": 0, "exec_grpc": 0, "gql_gas": 0, "gql_deep": 0, "gql_sim": 0}
+
+    async def handle_simulate(request: web.Request) -> web.Response:
+        calls["sim_grpc"] += 1
+        raw_req = await request.read()
+        if calls["sim_grpc"] == 1:
+            # Real Sui Mainnet returns grpc-status: 3 when input object version is stale
+            msg = (
+                f"Error checking transaction input objects: Transaction needs to be rebuilt because "
+                f"object {gas_addr} version 0x64 ({DIGEST_V100}) is unavailable for consumption, current version: 0x69"
+            )
+            return web.Response(
+                body=f"\x80\x00\x00\x00\x00grpc-status: 3\r\ngrpc-message: {msg}\r\n".encode("utf-8"),
+                headers={"grpc-status": "3", "grpc-message": msg},
+                content_type="application/grpc-web+proto",
+            )
+        # Verify the retry PTB contains both refreshed gas_coin (v105, DIGEST_V101) and refreshed deep_coin (v61, DIGEST_V102)
+        from venues.sui_deepbook_venue import bcs_input_owned
+
+        assert bcs_input_owned(deep_addr, 61, DIGEST_V102) in raw_req
+        payload = _encode_grpc_executed_tx("SimDigestRetryOk", True)
+        return web.Response(
+            body=_grpc_web_frame(payload) + b"\x80\x00\x00\x00\x0fgrpc-status: 0\r\n",
+            content_type="application/grpc-web+proto",
+        )
+
+    async def handle_execute(request: web.Request) -> web.Response:
+        calls["exec_grpc"] += 1
+        await request.read()
+        payload = _encode_grpc_executed_tx(
+            "OnChainRecoveredTx",
+            True,
+            gas_object={"address": gas_addr, "version": 106, "digest": DIGEST_V102},
+        )
+        return web.Response(
+            body=_grpc_web_frame(payload) + b"\x80\x00\x00\x00\x0fgrpc-status: 0\r\n",
+            content_type="application/grpc-web+proto",
+        )
+
+    async def handle_graphql(request: web.Request) -> web.Response:
+        body = await request.json()
+        q = body.get("query", "")
+        if "GetGasInfo" in q:
+            calls["gql_gas"] += 1
+            return web.json_response(
+                {
+                    "data": {
+                        "epoch": {"referenceGasPrice": "505"},
+                        "address": {
+                            "objects": {
+                                "nodes": [
+                                    {"address": gas_addr, "version": 105, "digest": DIGEST_V101}
+                                ]
+                            }
+                        },
+                    }
+                }
+            )
+        if "GetDeepCoins" in q:
+            calls["gql_deep"] += 1
+            return web.json_response(
+                {
+                    "data": {
+                        "address": {
+                            "objects": {
+                                "nodes": [
+                                    {
+                                        "address": deep_addr,
+                                        "version": 61,
+                                        "digest": DIGEST_V102,
+                                        "contents": {"json": {"balance": "50000000"}},
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            )
+        if "SimPTB" in q:
+            calls["gql_sim"] += 1
+        return web.json_response({"data": None, "errors": [{"message": "unavailable for consumption"}]})
+
+    app = web.Application()
+    app.router.add_post("/sui.rpc.v2.TransactionExecutionService/SimulateTransaction", handle_simulate)
+    app.router.add_post("/sui.rpc.v2.TransactionExecutionService/ExecuteTransaction", handle_execute)
+    app.router.add_post("/graphql", handle_graphql)
+
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "127.0.0.1", 0)
+    await site.start()
+    port = site._server.sockets[0].getsockname()[1]
+    base_url = f"http://127.0.0.1:{port}"
+
+    try:
+        venue = SuiDeepBookVenue(
+            graphql_url=f"{base_url}/graphql",
+            rpc_url=base_url,
+            active_address=TEST_SENDER,
+            private_key=TEST_PRIVATE_KEY,
+        )
+        try:
+            # Seed stale gas_coin (v100) and stale deep_coin (v60)
+            venue.local_cache.set_gas_and_rgp(
+                {"address": gas_addr, "version": 100, "digest": DIGEST_V100},
+                rgp=505,
+                owner=TEST_SENDER,
+            )
+            stale_deep = {"address": deep_addr, "version": 60, "digest": DIGEST_V100, "balance": 50_000_000}
+            venue.local_cache.set_deep_coin(stale_deep)
+
+            res = await venue.submit_order(
+                {
+                    "symbol": "SUI/USDC",
+                    "side": "BUY",
+                    "size": 1_000_000_000,
+                    "size_is_raw": True,
+                    "price": 2.02,
+                    "amm_price": 2.00,
+                    "is_arb_ptb": True,
+                    "live_onchain": True,
+                    "deep_coin": stale_deep,
+                    "deep_fee_amount": 500_000,
+                }
+            )
+            assert res.status == "FILLED"
+            assert res.order_id == "OnChainRecoveredTx"
+            assert calls["sim_grpc"] == 2
+            assert calls["gql_sim"] == 0  # Did NOT waste time falling back to GraphQL on gRPC status 3!
+            assert calls["gql_gas"] == 1
+            assert calls["gql_deep"] == 1
+            assert venue.local_cache.gas_coin_ref["version"] == 106
+            assert venue.local_cache.deep_coin_ref["version"] == 61
+        finally:
+            await venue.disconnect()
+    finally:
+        await runner.cleanup()
+
+
+def test_p0_decode_grpc_executed_tx_field_12_changed_objects_and_no_corrupt_gas_fallback() -> None:
+    """Verifies field 12 changed_objects decoding and ensures gasObject is never corrupted with changed_objects[0]."""
+    from venues.sui_deepbook_venue import _pb_decode_fields
+
+    pool_addr = SUI_USDC_POOL_ID
+    deep_addr = "0x" + "dd" * 32
+    gas_addr = "0x" + "aa" * 32
+
+    # Build a TransactionEffects payload where field 8 (gas_object) is omitted and changed_objects[0] is a pool!
+    raw = _encode_grpc_executed_tx(
+        digest="9eXQRYHDzeEW8wAAhEEG8pwTdRQqB4pAi2rtw8bk1YkW",
+        success=True,
+        gas_object=None,
+        changed_objects=[
+            {"address": pool_addr, "version": 500, "digest": DIGEST_V100},
+            {"address": deep_addr, "version": 61, "digest": DIGEST_V101},
+            {"address": gas_addr, "version": 102, "digest": DIGEST_V102},
+        ],
+    )
+    parsed = _decode_grpc_executed_tx(_pb_decode_fields(raw)[1][0])
+    assert "gasObject" not in parsed  # Must NOT blindly pick changed_objects[0] (pool_addr)!
+    assert len(parsed["changedObjects"]) == 3
+
+    cache = SuiLocalPTBCache()
+    cache.set_gas_and_rgp({"address": gas_addr, "version": 101, "digest": DIGEST_V100}, rgp=100, owner=TEST_SENDER)
+    cache.set_deep_coin({"address": deep_addr, "version": 60, "digest": DIGEST_V100, "balance": 10_000_000})
+
+    norm = SuiGraphQLClient._normalize_effects_payload(
+        success=True,
+        digest=parsed["digest"],
+        changed_objects=parsed["changedObjects"],
+    )
+    rolled = cache.roll_forward_from_effects(norm["effects"])
+    assert rolled is True
+    # gas_coin_ref matched gas_addr (index 2), NOT pool_addr (index 0)!
+    assert cache.gas_coin_ref == {"address": gas_addr, "version": 102, "digest": DIGEST_V102}
+    assert cache.deep_coin_ref["version"] == 61
+    assert cache.deep_coin_ref["digest"] == DIGEST_V101
+
+
+@pytest.mark.asyncio
+async def test_p0_submit_order_prefers_newer_cached_deep_coin_and_validator_shares_cache() -> None:
+    """Verifies submit_order uses higher-version local_cache.deep_coin_ref over stale order_params['deep_coin']."""
+    from venues.sui_ptb_validator import SuiPTBPreflightValidator
+    from venues.sui_deepbook_venue import bcs_input_owned
+
+    validator = SuiPTBPreflightValidator(graphql_url="http://127.0.0.1:9/graphql", rpc_url="")
+    assert validator.venue.local_cache is validator.graphql_client.local_cache
+
+    gas_addr = "0x" + "11" * 32
+    deep_addr = "0x" + "dd" * 32
+    venue = validator.venue
+    venue.private_key = TEST_PRIVATE_KEY
+
+    venue.local_cache.set_gas_and_rgp(
+        {"address": gas_addr, "version": 100, "digest": DIGEST_V100},
+        rgp=500,
+        owner=venue.active_address,
+    )
+    # local_cache has rolled-forward deep_coin version 55 (DIGEST_V102), while caller passes stale version 50 (DIGEST_V100)
+    venue.local_cache.set_deep_coin(
+        {"address": deep_addr, "version": 55, "digest": DIGEST_V102, "balance": 20_000_000}
+    )
+
+    captured_tx_bytes: List[bytes] = []
+
+    async def mock_sim(tx_bytes: bytes) -> Dict[str, Any]:
+        captured_tx_bytes.append(tx_bytes)
+        return {"data": {"simulateTransaction": {"effects": {"status": "FAILURE"}}}}
+
+    venue.graphql_client.simulate_transaction_bcs = mock_sim  # type: ignore[assignment]
+
+    res = await venue.submit_order(
+        {
+            "symbol": "SUI/USDC",
+            "side": "BUY",
+            "size": 1_000_000_000,
+            "size_is_raw": True,
+            "price": 2.02,
+            "amm_price": 2.00,
+            "is_arb_ptb": True,
+            "live_onchain": True,
+            "deep_coin": {"address": deep_addr, "version": 50, "digest": DIGEST_V100, "balance": 20_000_000},
+            "deep_fee_amount": 500_000,
+        }
+    )
+    assert res.status == "REJECTED"
+    assert len(captured_tx_bytes) == 1
+    assert bcs_input_owned(deep_addr, 55, DIGEST_V102) in captured_tx_bytes[0]
+    assert bcs_input_owned(deep_addr, 50, DIGEST_V100) not in captured_tx_bytes[0]
+
+
+@pytest.mark.asyncio
+async def test_p0_execute_transaction_bcs_reconciles_via_get_transaction_when_graphql_fallback_fails() -> None:
+    """Verifies execute_transaction_bcs reconciles via GetTransaction if gRPC times out after tx landed and GraphQL fails."""
+    gas_addr = "0x" + "11" * 32
+    client = SuiGraphQLClient(endpoint="http://127.0.0.1:9/graphql", rpc_endpoint="http://127.0.0.1:9")
+    client._post_grpc_web = AsyncMock(side_effect=asyncio.TimeoutError())  # type: ignore[method-assign]
+    client.execute = AsyncMock(side_effect=RuntimeError("GraphQL Errors: Object already consumed"))  # type: ignore[method-assign]
+
+    expected_tx_bytes = b"sample_signed_tx_data"
+    expected_digest = compute_tx_digest(expected_tx_bytes)
+
+    async def mock_get_tx(digest: str, timeout_s: float = 5.0) -> Dict[str, Any]:
+        assert digest == expected_digest
+        norm = client._normalize_effects_payload(
+            success=True,
+            digest=digest,
+            gas_object={"address": gas_addr, "version": 301, "digest": DIGEST_V101},
+        )
+        client.local_cache.roll_forward_from_effects(norm["effects"])
+        return norm
+
+    client.get_transaction_grpc = mock_get_tx  # type: ignore[method-assign]
+    res = await client.execute_transaction_bcs(expected_tx_bytes, [base64.b64encode(b"sig").decode("utf-8")])
+    eff = res["data"]["executeTransaction"]["effects"]
+    assert eff["status"] == "SUCCESS"
+    assert eff["digest"] == expected_digest
+    assert client.local_cache.gas_coin_ref == {"address": gas_addr, "version": 301, "digest": DIGEST_V101}
+
 
