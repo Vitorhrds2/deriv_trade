@@ -37,6 +37,8 @@ try:
         SUI_GRPC_MAINNET,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
+        _autoload_sui_dotenv,
+        normalize_grpc_endpoint_url,
     )
     from venues.sui_health_server import DEFAULT_PORT, DEFAULT_REGION, ACTIVE_PAIRS, SuiHealthServer
     from venues.sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
@@ -65,6 +67,8 @@ except ImportError:
         SUI_GRPC_MAINNET,
         SUI_PAIRS_CONFIG,
         SuiGraphQLClient,
+        _autoload_sui_dotenv,
+        normalize_grpc_endpoint_url,
     )
     from .sui_health_server import DEFAULT_PORT, DEFAULT_REGION, ACTIVE_PAIRS, SuiHealthServer
     from .sui_ptb_validator import DEFAULT_PAIR_BASE_PRICES, SuiPTBPreflightValidator
@@ -86,6 +90,7 @@ except ImportError:
         prioritize_pairs,
     )
 
+_autoload_sui_dotenv()
 logger = logging.getLogger("sui_bot_runner")
 
 
@@ -132,7 +137,7 @@ class SuiBotConfig:
             or SUI_GRAPHQL_MAINNET
         )
         rpc_url = (
-            (env_rpc if (env_rpc and "/graphql" not in env_rpc) else None)
+            (normalize_grpc_endpoint_url(env_rpc) if (env_rpc and "/graphql" not in env_rpc) else None)
             or SUI_GRPC_MAINNET
         )
         operator_address = (
@@ -466,10 +471,18 @@ class SuiBotRunner:
             if callable(warmup_fn):
                 try:
                     warm_info = await warmup_fn(self.config.operator_address)
+                    ven_obj = getattr(self.validator, "venue", None)
+                    ven_client = getattr(ven_obj, "graphql_client", None) if ven_obj is not None else None
+                    if graphql_client is not None and ven_client is not None:
+                        ven_client.rpc_endpoints = list(getattr(graphql_client, "rpc_endpoints", []))
+                        ven_client.rpc_endpoint = getattr(graphql_client, "rpc_endpoint", ven_client.rpc_endpoint)
+                        ven_obj.rpc_url = ven_client.rpc_endpoint
+                        self.config.rpc_url = ven_client.rpc_endpoint
                     logger.info(
                         f"Zero-RTT local PTB cache warmed up: "
                         f"batch_fetched={warm_info.get('batch_fetched', 0)}, "
-                        f"rgp={warm_info.get('reference_gas_price', 0)}"
+                        f"rgp={warm_info.get('reference_gas_price', 0)}, "
+                        f"selected_rpc={warm_info.get('selected_rpc_endpoint', getattr(graphql_client, 'rpc_endpoint', ''))}"
                     )
                 except Exception as exc:
                     logger.debug(f"Zero-RTT local PTB cache warmup skipped: {exc}")

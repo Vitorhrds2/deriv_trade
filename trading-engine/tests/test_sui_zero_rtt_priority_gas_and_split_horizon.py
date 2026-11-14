@@ -982,3 +982,224 @@ async def test_p0_execute_transaction_bcs_reconciles_via_get_transaction_when_gr
     assert client.local_cache.gas_coin_ref == {"address": gas_addr, "version": 301, "digest": DIGEST_V101}
 
 
+def test_p1_normalize_url_and_per_endpoint_provider_discovery_and_auth(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Verifies bare host:443 URL normalization, provider endpoint discovery, and per-endpoint auth headers."""
+    from venues.sui_deepbook_venue import (
+        classify_grpc_provider,
+        discover_configured_grpc_endpoints,
+        get_grpc_auth_headers_for_endpoint,
+        normalize_grpc_endpoint_url,
+    )
+
+    assert normalize_grpc_endpoint_url("sui-mainnet.core.chainstack.com:443") == (
+        "https://sui-mainnet.core.chainstack.com:443"
+    )
+    assert normalize_grpc_endpoint_url("api-sui-mainnet-full.n.dwellir.com:443") == (
+        "https://api-sui-mainnet-full.n.dwellir.com:443"
+    )
+    assert normalize_grpc_endpoint_url("sui.api.onfinality.io:443") == (
+        "https://sui.api.onfinality.io:443"
+    )
+    assert normalize_grpc_endpoint_url("127.0.0.1:9000/") == "http://127.0.0.1:9000"
+    assert normalize_grpc_endpoint_url("localhost:9000") == "http://localhost:9000"
+    assert normalize_grpc_endpoint_url("") == ""
+
+    monkeypatch.setenv("SUI_CHAINSTACK_GRPC_URL", "sui-mainnet.core.chainstack.com:443")
+    monkeypatch.setenv("SUI_CHAINSTACK_GRPC_API_KEY", "cs-secret-token")
+    monkeypatch.setenv("SUI_DWELLIR_GRPC_URL", "api-sui-mainnet-full.n.dwellir.com:443")
+    monkeypatch.setenv("SUI_DWELLIR_GRPC_API_KEY", "dw-secret-key")
+    monkeypatch.setenv("SUI_ONFINALITY_GRPC_URL", "sui.api.onfinality.io:443")
+    monkeypatch.setenv("SUI_ONFINALITY_GRPC_API_KEY", "of-secret-key")
+
+    discovered = discover_configured_grpc_endpoints()
+    assert discovered == [
+        "https://sui-mainnet.core.chainstack.com:443",
+        "https://api-sui-mainnet-full.n.dwellir.com:443",
+        "https://sui.api.onfinality.io:443",
+    ]
+
+    assert classify_grpc_provider("sui-mainnet.core.chainstack.com:443") == "chainstack"
+    assert classify_grpc_provider("api-sui-mainnet-full.n.dwellir.com:443") == "dwellir"
+    assert classify_grpc_provider("sui.api.onfinality.io:443") == "onfinality"
+    assert classify_grpc_provider("https://fullnode.mainnet.sui.io:443") == "sui_foundation"
+
+    assert get_grpc_auth_headers_for_endpoint("https://sui-mainnet.core.chainstack.com:443") == {
+        "x-token": "cs-secret-token"
+    }
+    assert get_grpc_auth_headers_for_endpoint("https://api-sui-mainnet-full.n.dwellir.com:443") == {
+        "x-api-key": "dw-secret-key"
+    }
+    assert get_grpc_auth_headers_for_endpoint("https://sui.api.onfinality.io:443") == {
+        "x-api-key": "of-secret-key",
+        "apikey": "of-secret-key",
+        "api-key": "of-secret-key",
+    }
+    assert get_grpc_auth_headers_for_endpoint("https://fullnode.mainnet.sui.io:443") == {}
+
+
+@pytest.mark.asyncio
+async def test_p1_per_endpoint_auth_switching_and_h2_transport_fallback(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """Verifies _post_grpc_web resolves per-endpoint headers during failover and upgrades to HTTP/2 on HTTP 426."""
+    monkeypatch.setenv("SUI_CHAINSTACK_GRPC_URL", "http://127.0.0.1:19001")
+    monkeypatch.setenv("SUI_CHAINSTACK_GRPC_API_KEY", "cs-token-111")
+    monkeypatch.setenv("SUI_DWELLIR_GRPC_URL", "http://127.0.0.1:19002")
+    monkeypatch.setenv("SUI_DWELLIR_GRPC_API_KEY", "dw-key-222")
+
+    seen_requests: List[Tuple[str, Dict[str, str]]] = []
+
+    async def handle_cs_503(request: web.Request) -> web.Response:
+        seen_requests.append(("cs", dict(request.headers)))
+        return web.Response(status=503, text="Chainstack maintenance")
+
+    async def handle_dw_426(request: web.Request) -> web.Response:
+        seen_requests.append(("dw_h1", dict(request.headers)))
+        return web.Response(status=426, text="Please use HTTP2 protocol")
+
+    app1 = web.Application()
+    app1.router.add_post("/sui.rpc.v2.TransactionExecutionService/SimulateTransaction", handle_cs_503)
+    r1 = web.AppRunner(app1)
+    await r1.setup()
+    s1 = web.TCPSite(r1, "127.0.0.1", 0)
+    await s1.start()
+    p1 = s1._server.sockets[0].getsockname()[1]
+
+    app2 = web.Application()
+    app2.router.add_post("/sui.rpc.v2.TransactionExecutionService/SimulateTransaction", handle_dw_426)
+    r2 = web.AppRunner(app2)
+    await r2.setup()
+    s2 = web.TCPSite(r2, "127.0.0.1", 0)
+    await s2.start()
+    p2 = s2._server.sockets[0].getsockname()[1]
+
+    cs_ep = f"http://127.0.0.1:{p1}"
+    dw_ep = f"http://127.0.0.1:{p2}"
+    monkeypatch.setenv("SUI_CHAINSTACK_GRPC_URL", cs_ep)
+    monkeypatch.setenv("SUI_DWELLIR_GRPC_URL", dw_ep)
+
+    try:
+        client = SuiGraphQLClient(
+            endpoint="http://127.0.0.1:9/graphql",
+            rpc_endpoint=f"{cs_ep},{dw_ep}",
+        )
+        try:
+            h2_calls: List[Tuple[str, Dict[str, str]]] = []
+
+            async def mock_post_h2(
+                url: str,
+                framed_payload: bytes,
+                auth_headers: Dict[str, str],
+                timeout_s: float = 8.0,
+                service_path: str = "",
+            ) -> bytes:
+                h2_calls.append((url, dict(auth_headers)))
+                return _encode_grpc_executed_tx("H2UpgradeOkDigest", True)
+
+            client._post_grpc_h2 = mock_post_h2  # type: ignore[method-assign]
+            sim_res = await client.simulate_transaction_bcs(b"\x00\x00")
+            eff = sim_res["data"]["simulateTransaction"]["effects"]
+            assert eff["status"] == "SUCCESS"
+
+            # First endpoint received Chainstack's x-token (and NOT Dwellir's x-api-key)
+            assert seen_requests[0][0] == "cs"
+            assert seen_requests[0][1].get("x-token") == "cs-token-111"
+            assert "x-api-key" not in seen_requests[0][1]
+
+            # Second endpoint received Dwellir's x-api-key (and NOT Chainstack's x-token)
+            assert seen_requests[1][0] == "dw_h1"
+            assert seen_requests[1][1].get("x-api-key") == "dw-key-222"
+            assert "x-token" not in seen_requests[1][1]
+
+            # HTTP 426 triggered _post_grpc_h2 with Dwellir's auth headers
+            assert len(h2_calls) == 1
+            assert h2_calls[0][1] == {"x-api-key": "dw-key-222"}
+        finally:
+            await client.close()
+    finally:
+        await r1.cleanup()
+        await r2.cleanup()
+
+
+@pytest.mark.asyncio
+async def test_p1_benchmark_grpc_endpoints_reorders_by_lowest_warm_latency() -> None:
+    """Verifies benchmark_grpc_endpoints probes all endpoints and promotes the lowest-RTT healthy node."""
+    from venues.sui_deepbook_venue import _pb_encode_bytes_field, _pb_encode_varint
+
+    service_info_bytes = (
+        _pb_encode_bytes_field(1, b"35834a8a")
+        + _pb_encode_bytes_field(2, b"mainnet")
+        + (_pb_encode_varint((3 << 3) | 0) + _pb_encode_varint(1140))
+        + (_pb_encode_varint((4 << 3) | 0) + _pb_encode_varint(262_800_000))
+        + _pb_encode_bytes_field(8, b"1.69.1-fast")
+    )
+
+    client = SuiGraphQLClient(
+        endpoint="http://127.0.0.1:9/graphql",
+        rpc_endpoint="https://sui-mainnet.core.chainstack.com:443,https://api-sui-mainnet-full.n.dwellir.com:443,https://sui.api.onfinality.io:443",
+    )
+    try:
+        simulated_delays = {
+            "https://sui-mainnet.core.chainstack.com:443": 0.035,
+            "https://api-sui-mainnet-full.n.dwellir.com:443": 0.004,
+            "https://sui.api.onfinality.io:443": 0.015,
+        }
+
+        async def mock_post(
+            service_path: str,
+            req_bytes: bytes,
+            timeout_s: float = 8.0,
+            target_endpoints: Optional[List[str]] = None,
+        ) -> bytes:
+            assert service_path == "/sui.rpc.v2.LedgerService/GetServiceInfo"
+            ep = target_endpoints[0] if target_endpoints else ""
+            await asyncio.sleep(simulated_delays.get(ep, 0.02))
+            return service_info_bytes
+
+        client._post_grpc_web = mock_post  # type: ignore[method-assign]
+        results = await client.benchmark_grpc_endpoints(samples=2)
+        assert len(results) == 3
+        assert results[0]["provider"] == "dwellir"
+        assert results[0]["ok"] is True
+        assert results[0]["checkpoint_height"] == 262_800_000
+        assert client.rpc_endpoint == "https://api-sui-mainnet-full.n.dwellir.com:443"
+        assert client.rpc_endpoints == [
+            "https://api-sui-mainnet-full.n.dwellir.com:443",
+            "https://sui.api.onfinality.io:443",
+            "https://sui-mainnet.core.chainstack.com:443",
+        ]
+    finally:
+        await client.close()
+
+
+@pytest.mark.asyncio
+async def test_live_multi_provider_grpc_benchmark_mainnet() -> None:
+    """Live integration benchmark across configured Chainstack, Dwellir, OnFinality, and Sui Foundation gRPC nodes."""
+    import os
+
+    if not (
+        os.getenv("SUI_CHAINSTACK_GRPC_API_KEY")
+        and os.getenv("SUI_DWELLIR_GRPC_API_KEY")
+        and os.getenv("SUI_ONFINALITY_GRPC_API_KEY")
+    ):
+        pytest.skip("Dedicated Sui gRPC provider API keys not present in environment")
+
+    client = SuiGraphQLClient()
+    try:
+        assert len(client.rpc_endpoints) >= 4
+        results = await client.benchmark_grpc_endpoints(samples=2)
+        ok_results = [r for r in results if r.get("ok")]
+        assert len(ok_results) >= 3
+        for r in ok_results:
+            assert r["chain"] == "mainnet"
+            assert int(r["checkpoint_height"]) > 200_000_000
+            assert float(r["warm_ms"]) > 0.0
+        # Ensure rpc_endpoint was updated to the fastest healthy provider
+        assert client.rpc_endpoint == ok_results[0]["endpoint"]
+    finally:
+        await client.close()
+
+
+

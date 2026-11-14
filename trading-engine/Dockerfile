@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install python dependencies
 COPY requirements.txt /app/
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt aiohttp
+    pip install --no-cache-dir -r requirements.txt aiohttp "httpx[http2]>=0.27.0"
 
 # Copy application source code
 COPY . /app/

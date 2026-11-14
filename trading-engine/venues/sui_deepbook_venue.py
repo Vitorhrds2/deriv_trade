@@ -26,6 +26,7 @@ import os
 import struct
 import time
 from dataclasses import dataclass, field
+from pathlib import Path
 from typing import Any, Awaitable, Callable, Dict, List, Optional, Tuple
 from urllib.parse import unquote
 from uuid import uuid4
@@ -37,12 +38,37 @@ from .registry import register
 
 logger = logging.getLogger(__name__)
 
+
+def _autoload_sui_dotenv() -> None:
+    """Automatically loads trading-engine/.env, trading-engine/h86_sui/.env, and .env without overriding os.environ."""
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        return
+    base_dir = Path(__file__).resolve().parent.parent
+    for env_path in (
+        base_dir / ".env",
+        base_dir / "h86_sui" / ".env",
+        Path(".env"),
+    ):
+        try:
+            if env_path.is_file():
+                load_dotenv(dotenv_path=env_path, override=False)
+        except Exception:
+            pass
+
+
+_autoload_sui_dotenv()
+
 # Official Sui Network Mainnet & Testnet endpoints
 SUI_GRAPHQL_MAINNET = "https://graphql.mainnet.sui.io/graphql"
 SUI_GRAPHQL_TESTNET = "https://graphql.testnet.sui.io/graphql"
 SUI_GRPC_MAINNET = "https://fullnode.mainnet.sui.io:443"
 SUI_GRPC_PUBLICNODE = "https://sui-grpc.publicnode.com:443"
 SUI_GRPC_TESTNET = "https://fullnode.testnet.sui.io:443"
+SUI_CHAINSTACK_DEFAULT_GRPC = "https://sui-mainnet.core.chainstack.com:443"
+SUI_DWELLIR_DEFAULT_GRPC = "https://api-sui-mainnet-full.n.dwellir.com:443"
+SUI_ONFINALITY_DEFAULT_GRPC = "https://sui.api.onfinality.io:443"
 DEEPBOOK_INDEXER_ORDERBOOK_URL = "https://deepbook-indexer.mainnet.mystenlabs.com/orderbook"
 
 # Package IDs
@@ -772,6 +798,58 @@ def _format_exc_detail(exc: BaseException) -> str:
     return f"{exc_type}: {detail}"
 
 
+def normalize_grpc_endpoint_url(url: Optional[str]) -> str:
+    """Normalizes a Sui gRPC endpoint URL, adding https:// (or http:// for localhost) if bare host:port is provided."""
+    raw = str(url or "").strip()
+    if not raw:
+        return ""
+    if raw.startswith("http://") or raw.startswith("https://"):
+        return raw.rstrip("/") if not raw.endswith("://") else raw
+    lower = raw.lower()
+    if lower.startswith("localhost") or lower.startswith("127.0.0.1") or lower.startswith("[::1]"):
+        return f"http://{raw.rstrip('/')}"
+    return f"https://{raw.rstrip('/')}"
+
+
+def classify_grpc_provider(endpoint_url: Optional[str]) -> str:
+    """Identifies the gRPC provider name from an endpoint URL or environment configuration."""
+    norm = normalize_grpc_endpoint_url(endpoint_url).lower()
+    if not norm:
+        return (os.getenv("SUI_GRPC_PROVIDER", "") or "custom").strip().lower() or "custom"
+    cs_norm = normalize_grpc_endpoint_url(os.getenv("SUI_CHAINSTACK_GRPC_URL", "")).lower()
+    dw_norm = normalize_grpc_endpoint_url(os.getenv("SUI_DWELLIR_GRPC_URL", "")).lower()
+    of_norm = normalize_grpc_endpoint_url(os.getenv("SUI_ONFINALITY_GRPC_URL", "")).lower()
+    if "chainstack" in norm or (cs_norm and norm == cs_norm):
+        return "chainstack"
+    if "dwellir" in norm or (dw_norm and norm == dw_norm):
+        return "dwellir"
+    if "onfinality" in norm or (of_norm and norm == of_norm):
+        return "onfinality"
+    if "publicnode" in norm:
+        return "publicnode"
+    if "fullnode.mainnet.sui.io" in norm or "fullnode.testnet.sui.io" in norm:
+        return "sui_foundation"
+    return (os.getenv("SUI_GRPC_PROVIDER", "") or "custom").strip().lower() or "custom"
+
+
+def discover_configured_grpc_endpoints() -> List[str]:
+    """Discovers dedicated Sui gRPC endpoints configured via provider-specific environment variables."""
+    endpoints: List[str] = []
+    provider_specs = (
+        ("SUI_CHAINSTACK_GRPC_URL", "SUI_CHAINSTACK_GRPC_API_KEY", SUI_CHAINSTACK_DEFAULT_GRPC),
+        ("SUI_DWELLIR_GRPC_URL", "SUI_DWELLIR_GRPC_API_KEY", SUI_DWELLIR_DEFAULT_GRPC),
+        ("SUI_ONFINALITY_GRPC_URL", "SUI_ONFINALITY_GRPC_API_KEY", SUI_ONFINALITY_DEFAULT_GRPC),
+    )
+    for url_var, key_var, default_url in provider_specs:
+        raw_url = os.getenv(url_var, "").strip()
+        raw_key = os.getenv(key_var, "").strip()
+        if raw_url or raw_key:
+            norm = normalize_grpc_endpoint_url(raw_url or default_url)
+            if norm and norm not in endpoints:
+                endpoints.append(norm)
+    return endpoints
+
+
 def get_grpc_auth_headers(
     api_key: Optional[str] = None,
     provider: Optional[str] = None,
@@ -797,6 +875,29 @@ def get_grpc_auth_headers(
         return {"api-key": key}
     hdr = (auth_header if auth_header is not None else os.getenv("SUI_GRPC_AUTH_HEADER", "x-api-key")).strip()
     return {hdr or "x-api-key": key}
+
+
+def get_grpc_auth_headers_for_endpoint(endpoint_url: Optional[str] = None) -> Dict[str, str]:
+    """Resolves per-endpoint authentication metadata headers for Chainstack, Dwellir, OnFinality, or custom nodes."""
+    if not endpoint_url:
+        return get_grpc_auth_headers()
+    norm = normalize_grpc_endpoint_url(endpoint_url).lower()
+    cs_norm = normalize_grpc_endpoint_url(os.getenv("SUI_CHAINSTACK_GRPC_URL", "")).lower()
+    dw_norm = normalize_grpc_endpoint_url(os.getenv("SUI_DWELLIR_GRPC_URL", "")).lower()
+    of_norm = normalize_grpc_endpoint_url(os.getenv("SUI_ONFINALITY_GRPC_URL", "")).lower()
+
+    if "chainstack" in norm or (cs_norm and norm == cs_norm):
+        key = (os.getenv("SUI_CHAINSTACK_GRPC_API_KEY") or os.getenv("SUI_GRPC_API_KEY") or "").strip()
+        return {"x-token": key} if key else {}
+    if "dwellir" in norm or (dw_norm and norm == dw_norm):
+        key = (os.getenv("SUI_DWELLIR_GRPC_API_KEY") or os.getenv("SUI_GRPC_API_KEY") or "").strip()
+        return {"x-api-key": key} if key else {}
+    if "onfinality" in norm or (of_norm and norm == of_norm):
+        key = (os.getenv("SUI_ONFINALITY_GRPC_API_KEY") or os.getenv("SUI_GRPC_API_KEY") or "").strip()
+        return {"x-api-key": key, "apikey": key, "api-key": key} if key else {}
+    if "fullnode.mainnet.sui.io" in norm or "fullnode.testnet.sui.io" in norm or "publicnode" in norm:
+        return {}
+    return get_grpc_auth_headers()
 
 
 def compute_priority_gas_price(
@@ -2063,8 +2164,39 @@ def _decode_grpc_executed_tx(executed_tx_bytes: bytes) -> Dict[str, Any]:
     return result
 
 
+def _decode_grpc_service_info(resp_bytes: bytes) -> Dict[str, Any]:
+    """Decodes sui.rpc.v2.GetServiceInfoResponse (chain_id, chain, epoch, checkpoint_height, server)."""
+    if not resp_bytes:
+        return {}
+    fields = _pb_decode_fields(resp_bytes)
+    chain_id_raw = fields.get(1, [b""])[0]
+    chain_raw = fields.get(2, [b""])[0]
+    epoch = int(fields.get(3, [0])[0] or 0)
+    checkpoint_height = int(fields.get(4, [0])[0] or 0)
+    server_raw = fields.get(8, [b""])[0]
+    return {
+        "chain_id": (
+            chain_id_raw.decode("utf-8", errors="replace")
+            if isinstance(chain_id_raw, bytes)
+            else str(chain_id_raw)
+        ),
+        "chain": (
+            chain_raw.decode("utf-8", errors="replace")
+            if isinstance(chain_raw, bytes)
+            else str(chain_raw)
+        ),
+        "epoch": epoch,
+        "checkpoint_height": checkpoint_height,
+        "server": (
+            server_raw.decode("utf-8", errors="replace")
+            if isinstance(server_raw, bytes)
+            else str(server_raw)
+        ),
+    }
+
+
 class SuiGraphQLClient:
-    """High-performance Split-Horizon asynchronous Sui GraphQL + gRPC-Web RPC Client."""
+    """High-performance Split-Horizon asynchronous Sui GraphQL + Dual-Transport gRPC Client."""
 
     def __init__(
         self,
@@ -2090,9 +2222,9 @@ class SuiGraphQLClient:
             or SUI_GRAPHQL_MAINNET
         )
         if rpc_endpoint is not None:
-            self.rpc_endpoint = rpc_endpoint
+            self.rpc_endpoint = normalize_grpc_endpoint_url(rpc_endpoint) if rpc_endpoint else ""
         elif env_rpc and "/graphql" not in env_rpc:
-            self.rpc_endpoint = env_rpc
+            self.rpc_endpoint = normalize_grpc_endpoint_url(env_rpc)
         elif endpoint is None or endpoint in (SUI_GRAPHQL_MAINNET, SUI_GRAPHQL_TESTNET):
             self.rpc_endpoint = (
                 SUI_GRPC_TESTNET if "testnet" in self.endpoint else SUI_GRPC_MAINNET
@@ -2104,24 +2236,48 @@ class SuiGraphQLClient:
         # Build ordered hot-path gRPC failover list (P1)
         raw_endpoints: List[str] = []
         if self.rpc_endpoint:
-            for item in str(self.rpc_endpoint).split(","):
-                cleaned = item.strip()
+            for item in str(rpc_endpoint if rpc_endpoint is not None else self.rpc_endpoint).split(","):
+                cleaned = normalize_grpc_endpoint_url(item)
                 if cleaned and cleaned not in raw_endpoints:
                     raw_endpoints.append(cleaned)
+
+        primary_lower = raw_endpoints[0].lower() if raw_endpoints else ""
+        gql_lower = str(self.endpoint or "").lower()
+        is_local = (
+            "127.0.0.1" in primary_lower
+            or "localhost" in primary_lower
+            or "[::1]" in primary_lower
+            or "127.0.0.1" in gql_lower
+            or "localhost" in gql_lower
+        )
+        is_testnet = "testnet" in primary_lower or "testnet" in gql_lower
+
+        if raw_endpoints and not is_local and not is_testnet:
+            only_default_mainnet = (
+                len(raw_endpoints) == 1
+                and raw_endpoints[0] == normalize_grpc_endpoint_url(SUI_GRPC_MAINNET)
+                and not (env_rpc and "/graphql" not in env_rpc)
+            )
+            if only_default_mainnet:
+                raw_endpoints = []
+            for prov_ep in discover_configured_grpc_endpoints():
+                if prov_ep and prov_ep not in raw_endpoints:
+                    raw_endpoints.append(prov_ep)
+
         fallback_env = os.getenv("SUI_GRPC_FALLBACK_ENDPOINTS", "").strip()
-        if fallback_env:
+        if fallback_env and (raw_endpoints or not is_local):
             for item in fallback_env.split(","):
-                cleaned = item.strip()
+                cleaned = normalize_grpc_endpoint_url(item)
                 if cleaned and cleaned not in raw_endpoints:
                     raw_endpoints.append(cleaned)
+
+        if (raw_endpoints or (self.rpc_endpoint and not is_local and not is_testnet)) and not is_local and not is_testnet:
+            mainnet_norm = normalize_grpc_endpoint_url(SUI_GRPC_MAINNET)
+            if mainnet_norm not in raw_endpoints:
+                raw_endpoints.append(mainnet_norm)
+
         if raw_endpoints:
             self.rpc_endpoint = raw_endpoints[0]
-            # Auto-append Mainnet fullnode fallback when primary is a remote private/public Mainnet node
-            primary_lower = self.rpc_endpoint.lower()
-            is_local = "127.0.0.1" in primary_lower or "localhost" in primary_lower
-            if not is_local and "testnet" not in primary_lower:
-                if SUI_GRPC_MAINNET not in raw_endpoints:
-                    raw_endpoints.append(SUI_GRPC_MAINNET)
         self.rpc_endpoints: List[str] = raw_endpoints
 
         self.rpc_protocol = os.getenv("SUI_RPC_PROTOCOL", "auto").strip().lower()
@@ -2134,12 +2290,19 @@ class SuiGraphQLClient:
             local_cache if local_cache is not None else SuiLocalPTBCache()
         )
         self._session: Optional[aiohttp.ClientSession] = None
+        self._h2_client: Optional[Any] = None
+        self.last_grpc_benchmark: List[Dict[str, Any]] = []
         self._fee_params_cache: Dict[str, Dict[str, Any]] = {}
         self._fee_params_cache_ts: float = 0.0
 
-    def get_grpc_auth_headers(self) -> Dict[str, str]:
-        """Returns configured provider-specific authentication headers for gRPC calls (P1)."""
-        return get_grpc_auth_headers()
+    def get_grpc_auth_headers(self, endpoint_url: Optional[str] = None) -> Dict[str, str]:
+        """Returns provider-specific authentication headers for the given gRPC endpoint (or primary rpc_endpoint)."""
+        if endpoint_url is not None:
+            return get_grpc_auth_headers_for_endpoint(endpoint_url)
+        generic = get_grpc_auth_headers()
+        if generic:
+            return generic
+        return get_grpc_auth_headers_for_endpoint(self.rpc_endpoint)
 
     async def _get_session(self) -> aiohttp.ClientSession:
         if self._session is None or self._session.closed:
@@ -2148,9 +2311,22 @@ class SuiGraphQLClient:
             self._session = aiohttp.ClientSession(timeout=timeout, connector=connector)
         return self._session
 
+    async def _get_h2_client(self) -> Any:
+        if self._h2_client is None or getattr(self._h2_client, "is_closed", False):
+            import httpx
+
+            self._h2_client = httpx.AsyncClient(
+                http2=True,
+                timeout=httpx.Timeout(10.0, connect=5.0),
+                limits=httpx.Limits(max_connections=50, max_keepalive_connections=20),
+            )
+        return self._h2_client
+
     async def close(self) -> None:
         if self._session and not self._session.closed:
             await self._session.close()
+        if self._h2_client is not None and not getattr(self._h2_client, "is_closed", True):
+            await self._h2_client.aclose()
 
     async def execute(
         self,
@@ -2573,27 +2749,104 @@ class SuiGraphQLClient:
             effects["changedObjects"] = changed_objects
         return {"effects": effects}
 
-    async def _post_grpc_web(
-        self, service_path: str, req_bytes: bytes, timeout_s: float = 8.0
+    async def _post_grpc_h2(
+        self,
+        url: str,
+        framed_payload: bytes,
+        auth_headers: Dict[str, str],
+        timeout_s: float = 8.0,
+        service_path: str = "",
     ) -> bytes:
-        """Executes a low-latency sui.rpc.v2 unary call over gRPC-Web HTTP/1.1 keep-alive with auth + endpoint failover."""
-        session = await self._get_session()
+        """Executes a unary gRPC call over native HTTP/2 using httpx.AsyncClient(http2=True)."""
+        h2_client = await self._get_h2_client()
         headers = {
-            "Content-Type": "application/grpc-web+proto",
-            "Accept": "application/grpc-web+proto",
-            "X-Grpc-Web": "1",
+            "Content-Type": "application/grpc",
+            "te": "trailers",
+            "User-Agent": "grpc-python-sui/1.0",
         }
-        headers.update(self.get_grpc_auth_headers())
+        headers.update(auth_headers)
+        resp = await h2_client.post(url, content=framed_payload, headers=headers, timeout=timeout_s)
+        if resp.status_code >= 400:
+            raise RuntimeError(f"gRPC HTTP/2 {resp.status_code} from {url}")
+        raw = resp.content
+        msgs, body_trailers = _grpc_web_unframe(raw)
+        ext_trailers_raw = (
+            resp.extensions.get("trailers")
+            if hasattr(resp, "extensions") and isinstance(resp.extensions, dict)
+            else None
+        )
+        ext_trailers: Dict[str, str] = {}
+        if isinstance(ext_trailers_raw, dict):
+            for k, v in ext_trailers_raw.items():
+                ks = k.decode("utf-8", errors="replace") if isinstance(k, bytes) else str(k)
+                vs = v.decode("utf-8", errors="replace") if isinstance(v, bytes) else str(v)
+                ext_trailers[ks.strip().lower()] = vs.strip()
+        elif isinstance(ext_trailers_raw, (list, tuple)):
+            for item in ext_trailers_raw:
+                if isinstance(item, (list, tuple)) and len(item) >= 2:
+                    ks = item[0].decode("utf-8", errors="replace") if isinstance(item[0], bytes) else str(item[0])
+                    vs = item[1].decode("utf-8", errors="replace") if isinstance(item[1], bytes) else str(item[1])
+                    ext_trailers[ks.strip().lower()] = vs.strip()
 
-        endpoints = self.rpc_endpoints if self.rpc_endpoints else ([self.rpc_endpoint] if self.rpc_endpoint else [])
+        grpc_status = (
+            body_trailers.get("grpc-status")
+            or ext_trailers.get("grpc-status")
+            or resp.headers.get("grpc-status")
+            or "0"
+        )
+        if grpc_status != "0":
+            grpc_msg = unquote(
+                body_trailers.get("grpc-message")
+                or ext_trailers.get("grpc-message")
+                or resp.headers.get("grpc-message")
+                or "unknown error"
+            )
+            raise RuntimeError(f"gRPC status {grpc_status}: {grpc_msg}")
+        if not msgs:
+            raise RuntimeError(f"Empty gRPC HTTP/2 response frame from {service_path or url}")
+        return msgs[0]
+
+    async def _post_grpc_web(
+        self,
+        service_path: str,
+        req_bytes: bytes,
+        timeout_s: float = 8.0,
+        target_endpoints: Optional[List[str]] = None,
+    ) -> bytes:
+        """Executes a low-latency sui.rpc.v2 unary call over gRPC-Web (HTTP/1.1) or native HTTP/2 gRPC with per-endpoint auth + failover."""
+        session = await self._get_session()
+        endpoints = (
+            target_endpoints
+            if target_endpoints is not None
+            else (self.rpc_endpoints if self.rpc_endpoints else ([self.rpc_endpoint] if self.rpc_endpoint else []))
+        )
         if not endpoints:
             raise RuntimeError("No gRPC endpoint configured")
 
         framed_payload = _grpc_web_frame(req_bytes)
         last_exc: Optional[BaseException] = None
         for idx, base_ep in enumerate(endpoints):
-            url = f"{base_ep.rstrip('/')}{service_path}"
+            norm_ep = normalize_grpc_endpoint_url(base_ep)
+            url = f"{norm_ep.rstrip('/')}{service_path}"
+            auth_headers = self.get_grpc_auth_headers(norm_ep)
+            ep_lower = norm_ep.lower()
+            prefers_h2 = "onfinality" in ep_lower or "publicnode" in ep_lower
             try:
+                if prefers_h2:
+                    return await self._post_grpc_h2(
+                        url,
+                        framed_payload,
+                        auth_headers,
+                        timeout_s=timeout_s,
+                        service_path=service_path,
+                    )
+
+                headers = {
+                    "Content-Type": "application/grpc-web+proto",
+                    "Accept": "application/grpc-web+proto",
+                    "X-Grpc-Web": "1",
+                }
+                headers.update(auth_headers)
                 async with session.post(
                     url,
                     data=framed_payload,
@@ -2601,6 +2854,14 @@ class SuiGraphQLClient:
                     timeout=aiohttp.ClientTimeout(total=timeout_s, connect=3.0),
                 ) as resp:
                     raw = await resp.read()
+                    if resp.status in (415, 426):
+                        return await self._post_grpc_h2(
+                            url,
+                            framed_payload,
+                            auth_headers,
+                            timeout_s=timeout_s,
+                            service_path=service_path,
+                        )
                     if resp.status >= 400:
                         raise RuntimeError(f"gRPC-Web HTTP {resp.status} from {url}")
                     msgs, trailers = _grpc_web_unframe(raw)
@@ -2621,10 +2882,98 @@ class SuiGraphQLClient:
                     raise
                 if idx + 1 < len(endpoints):
                     logger.warning(
-                        f"gRPC-Web endpoint failover ({base_ep} -> {endpoints[idx + 1]}): {_format_exc_detail(exc)}"
+                        f"gRPC-Web endpoint failover ({norm_ep} -> {normalize_grpc_endpoint_url(endpoints[idx + 1])}): {_format_exc_detail(exc)}"
                     )
         assert last_exc is not None
         raise last_exc
+
+    async def _probe_single_grpc_endpoint(
+        self, endpoint_url: str, samples: int = 2, timeout_s: float = 4.0
+    ) -> Dict[str, Any]:
+        """Probes a single Sui gRPC endpoint via LedgerService/GetServiceInfo and measures warm RTT."""
+        norm_ep = normalize_grpc_endpoint_url(endpoint_url)
+        provider_name = classify_grpc_provider(norm_ep)
+        transport = "h2" if ("onfinality" in norm_ep.lower() or "publicnode" in norm_ep.lower()) else "grpc-web"
+        num_samples = max(1, int(samples))
+        latencies_ms: List[float] = []
+        last_info: Dict[str, Any] = {}
+        try:
+            for _ in range(num_samples):
+                t0 = time.perf_counter()
+                resp_bytes = await self._post_grpc_web(
+                    "/sui.rpc.v2.LedgerService/GetServiceInfo",
+                    b"",
+                    timeout_s=timeout_s,
+                    target_endpoints=[norm_ep],
+                )
+                dt_ms = (time.perf_counter() - t0) * 1000.0
+                latencies_ms.append(dt_ms)
+                last_info = _decode_grpc_service_info(resp_bytes)
+            cold_ms = latencies_ms[0]
+            warm_ms = min(latencies_ms[1:]) if len(latencies_ms) > 1 else cold_ms
+            healthy = bool(last_info.get("checkpoint_height", 0) > 0 or last_info.get("chain"))
+            if not healthy:
+                raise RuntimeError("Invalid GetServiceInfoResponse (missing chain/checkpoint_height)")
+            return {
+                "endpoint": norm_ep,
+                "provider": provider_name,
+                "transport": transport,
+                "healthy": True,
+                "ok": True,
+                "latency_ms": round(warm_ms, 2),
+                "warm_ms": round(warm_ms, 2),
+                "cold_ms": round(cold_ms, 2),
+                "chain": last_info.get("chain", ""),
+                "epoch": last_info.get("epoch", 0),
+                "checkpoint_height": last_info.get("checkpoint_height", 0),
+                "server": last_info.get("server", ""),
+            }
+        except Exception as exc:
+            return {
+                "endpoint": norm_ep,
+                "provider": provider_name,
+                "transport": transport,
+                "healthy": False,
+                "ok": False,
+                "latency_ms": float("inf"),
+                "warm_ms": float("inf"),
+                "cold_ms": float("inf"),
+                "error": _format_exc_detail(exc),
+            }
+
+    async def benchmark_grpc_endpoints(
+        self, samples: int = 2, timeout_s: float = 4.0
+    ) -> List[Dict[str, Any]]:
+        """Benchmarks all configured gRPC endpoints via LedgerService/GetServiceInfo and sorts by lowest warm latency."""
+        endpoints = list(
+            self.rpc_endpoints if self.rpc_endpoints else ([self.rpc_endpoint] if self.rpc_endpoint else [])
+        )
+        if not endpoints:
+            return []
+
+        results = await asyncio.gather(
+            *(self._probe_single_grpc_endpoint(ep, samples=samples, timeout_s=timeout_s) for ep in endpoints)
+        )
+        sorted_results = sorted(
+            results,
+            key=lambda r: (0 if r.get("healthy") else 1, float(r.get("latency_ms", float("inf")))),
+        )
+        self.last_grpc_benchmark = list(sorted_results)
+        reordered = [r["endpoint"] for r in sorted_results if r.get("endpoint")]
+        if reordered:
+            self.rpc_endpoints = reordered
+            self.rpc_endpoint = reordered[0]
+
+        ranking_str = " | ".join(
+            f"#{i + 1} {r['provider']} ({r['endpoint']})={r['latency_ms']:.1f}ms [ckpt={r.get('checkpoint_height', 0)}, {r.get('transport', 'grpc')}]"
+            if r.get("healthy")
+            else f"#{i + 1} {r['provider']} ({r['endpoint']})=UNHEALTHY ({r.get('error', 'failed')})"
+            for i, r in enumerate(sorted_results)
+        )
+        logger.info(
+            f"Sui gRPC endpoint latency benchmark completed (selected primary={self.rpc_endpoint}): {ranking_str}"
+        )
+        return list(sorted_results)
 
     async def batch_get_objects_grpc(
         self, object_ids: List[str], timeout_s: float = 6.0
@@ -2722,6 +3071,17 @@ class SuiGraphQLClient:
     async def warmup_local_ptb_cache(self, address: Optional[str] = None) -> Dict[str, Any]:
         """Pre-loads shared object initial_shared_versions via BatchGetObjects and caches gas_coin_ref + RGP (P0)."""
         addr = address or self.operator_address
+        benchmark_results: List[Dict[str, Any]] = []
+        if (
+            len(self.rpc_endpoints) > 1
+            and self.rpc_protocol != "graphql"
+            and not any("127.0.0.1" in ep.lower() or "localhost" in ep.lower() for ep in self.rpc_endpoints)
+        ):
+            try:
+                benchmark_results = await self.benchmark_grpc_endpoints(samples=2)
+            except Exception as exc:
+                logger.warning(f"gRPC endpoint latency benchmark skipped: {_format_exc_detail(exc)}")
+
         shared_ids: List[str] = [
             SUI_CLOCK_OBJECT_ID,
             CETUS_GLOBAL_CONFIG_ID,
@@ -2748,6 +3108,8 @@ class SuiGraphQLClient:
             "batch_fetched": len(batch_objs) // 2,
             "gas_coin": gas_coin,
             "reference_gas_price": rgp,
+            "selected_rpc_endpoint": self.rpc_endpoint,
+            "grpc_benchmark": benchmark_results,
         }
 
     async def _post_json_rpc(
